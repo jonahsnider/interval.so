@@ -1,0 +1,27 @@
+{
+	"name": "hours.frc.sh",
+	"private": true,
+	"workspaces": [
+		"apps/*"
+	],
+	"scripts": {
+		"build": "turbo run build",
+		"format": "prettier --check .",
+		"format:write": "yarn format --write",
+		"lint": "biome check .",
+		"lint:fix": "biome check . --apply-unsafe",
+		"test": "yarn lint && yarn format && turbo run build type-check",
+		"type-check": "turbo run type-check"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.6.1",
+		"prettier": "3.2.5",
+		"prettier-plugin-packagejson": "2.5.0",
+		"turbo": "1.13.3",
+		"vercel": "33.7.1"
+	},
+	"trustedDependencies": [
+		"@biomejs/biome"
+	],
+	"packageManager": "yarn@4.2.2"
+}
