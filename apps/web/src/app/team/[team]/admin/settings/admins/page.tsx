@@ -1,6 +1,7 @@
 import { AdminInviteLinkCard } from '@/src/components/admin/settings/admins/admin-invite-link-card';
 import { AdminsTable } from '@/src/components/admin/settings/admins/admins-table-card';
 
+// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default function AdminSettingsAdminsPage() {
 	return (
 		<div className='flex flex-col gap-4'>

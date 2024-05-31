@@ -156,7 +156,7 @@ export const columns: ColumnDef<Meeting>[] = [
 	},
 	{
 		id: 'actions',
-		cell: ({ row }) => {
+		cell: () => {
 			return (
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild={true}>

@@ -24,6 +24,7 @@ const loggerConfig = defineConfig({
 	},
 });
 
+// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default loggerConfig;
 
 /**
@@ -31,5 +32,6 @@ export default loggerConfig;
  * in your application.
  */
 declare module '@adonisjs/core/types' {
+	// biome-ignore lint/correctness/noUndeclaredVariables: This doesn't need to be imported
 	export interface LoggersList extends InferLoggers<typeof loggerConfig> {}
 }

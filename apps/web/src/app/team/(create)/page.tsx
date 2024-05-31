@@ -3,6 +3,7 @@ import { CreateTeamNameCard } from '@/src/components/create-team/form/create-tea
 import { CreateTeamPasswordCard } from '@/src/components/create-team/form/create-team-password';
 import { CreateTeamUrlCard } from '@/src/components/create-team/form/create-team-url-card';
 
+// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default function CreateTeamPage() {
 	return (
 		<div className='flex flex-col gap-4'>

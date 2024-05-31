@@ -4,6 +4,7 @@ import { TeamDisplayNameCard } from '@/src/components/admin/settings/general/tea
 import { TeamPasswordCard } from '@/src/components/admin/settings/general/team-password';
 import { TeamUrlCard } from '@/src/components/admin/settings/general/team-url-card';
 
+// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default function AdminSettingsGeneralPage() {
 	return (
 		<div className='flex flex-col gap-4'>

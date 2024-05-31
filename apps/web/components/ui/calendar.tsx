@@ -18,16 +18,22 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
 				months: 'flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0',
 				month: 'space-y-4',
 				caption: 'flex justify-center pt-1 relative items-center',
+				// biome-ignore lint/style/useNamingConvention: This can't be renamed
 				caption_label: 'text-sm font-medium',
 				nav: 'space-x-1 flex items-center',
+				// biome-ignore lint/style/useNamingConvention: This can't be renamed
 				nav_button: cn(
 					buttonVariants({ variant: 'outline' }),
 					'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100',
 				),
+				// biome-ignore lint/style/useNamingConvention: This can't be renamed
 				nav_button_previous: 'absolute left-1',
+				// biome-ignore lint/style/useNamingConvention: This can't be renamed
 				nav_button_next: 'absolute right-1',
 				table: 'w-full border-collapse space-y-1',
+				// biome-ignore lint/style/useNamingConvention: This can't be renamed
 				head_row: 'flex',
+				// biome-ignore lint/style/useNamingConvention: This can't be renamed
 				head_cell: 'text-muted-foreground rounded-md w-8 font-normal text-[0.8rem]',
 				row: 'flex w-full mt-2',
 				cell: cn(
@@ -37,21 +43,31 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
 						: '[&:has([aria-selected])]:rounded-md',
 				),
 				day: cn(buttonVariants({ variant: 'ghost' }), 'h-8 w-8 p-0 font-normal aria-selected:opacity-100'),
+				// biome-ignore lint/style/useNamingConvention: This can't be renamed
 				day_range_start: 'day-range-start',
+				// biome-ignore lint/style/useNamingConvention: This can't be renamed
 				day_range_end: 'day-range-end',
+				// biome-ignore lint/style/useNamingConvention: This can't be renamed
 				day_selected:
 					'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground',
+				// biome-ignore lint/style/useNamingConvention: This can't be renamed
 				day_today: 'bg-accent text-accent-foreground',
+				// biome-ignore lint/style/useNamingConvention: This can't be renamed
 				day_outside:
 					'day-outside text-muted-foreground opacity-50  aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30',
+				// biome-ignore lint/style/useNamingConvention: This can't be renamed
 				day_disabled: 'text-muted-foreground opacity-50',
+				// biome-ignore lint/style/useNamingConvention: This can't be renamed
 				day_range_middle: 'aria-selected:bg-accent aria-selected:text-accent-foreground',
+				// biome-ignore lint/style/useNamingConvention: This can't be renamed
 				day_hidden: 'invisible',
 				...classNames,
 			}}
 			components={{
-				IconLeft: ({ ...props }) => <ChevronLeftIcon className='h-4 w-4' />,
-				IconRight: ({ ...props }) => <ChevronRightIcon className='h-4 w-4' />,
+				// biome-ignore lint/style/useNamingConvention: This can't be renamed
+				IconLeft: () => <ChevronLeftIcon className='h-4 w-4' />,
+				// biome-ignore lint/style/useNamingConvention: This can't be renamed
+				IconRight: () => <ChevronRightIcon className='h-4 w-4' />,
 			}}
 			{...props}
 		/>
