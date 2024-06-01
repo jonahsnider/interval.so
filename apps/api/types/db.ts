@@ -1,1 +1,1 @@
-export interface DB {}
+export type DB = {};

@@ -6,6 +6,7 @@ import { FileMigrationProvider, Migrator } from 'kysely';
 import { db } from '#services/db';
 import DbIntrospect from './db_introspect.js';
 
+// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default class DbRollback extends BaseCommand {
 	static readonly commandName = 'db:rollback';
 	static readonly description = 'Rollback the database by running down method on the migration files';

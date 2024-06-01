@@ -5,7 +5,6 @@ import type { CommandOptions } from '@adonisjs/core/types/ace';
 import { FileMigrationProvider, Migrator } from 'kysely';
 import { db } from '#services/db';
 import DbIntrospect from './db_introspect.js';
-import ace from '@adonisjs/core/services/ace';
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export
 export default class DbMigrate extends BaseCommand {
