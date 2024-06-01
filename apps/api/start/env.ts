@@ -14,7 +14,7 @@ import { Env } from '@adonisjs/core/env';
 // biome-ignore lint/style/noDefaultExport: This must be a default export
 export default await Env.create(new URL('../../../', import.meta.url), {
 	// biome-ignore lint/style/useNamingConvention: These are environment variables
-	NODE_ENV: Env.schema.enum(['development', 'production', 'test'] as const),
+	NODE_ENV: Env.schema.enum(['development', 'production', 'staging'] as const),
 	// biome-ignore lint/style/useNamingConvention: These are environment variables
 	PORT: Env.schema.number.optional(),
 	// biome-ignore lint/style/useNamingConvention: These are environment variables
