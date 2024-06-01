@@ -23,4 +23,6 @@ export default await Env.create(new URL('../../../', import.meta.url), {
 	HOST: Env.schema.string.optional({ format: 'host' }),
 	// biome-ignore lint/style/useNamingConvention: These are environment variables
 	LOG_LEVEL: Env.schema.enum.optional(['fatal', 'error', 'warn', 'info', 'debug', 'trace']),
+	// biome-ignore lint/style/useNamingConvention: These are environment variables
+	POSTGRES_URL: Env.schema.string(),
 });
