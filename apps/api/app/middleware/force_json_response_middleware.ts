@@ -8,7 +8,7 @@ import type { NextFn } from '@adonisjs/core/types/http';
  */
 // biome-ignore lint/style/noDefaultExport: This must be a default export
 export default class ForceJsonResponseMiddleware {
-	async handle({ request }: HttpContext, next: NextFn) {
+	handle({ request }: HttpContext, next: NextFn) {
 		const headers = request.headers();
 		headers.accept = 'application/json';
 
