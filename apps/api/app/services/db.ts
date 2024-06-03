@@ -1,12 +1,10 @@
-import { Kysely, PostgresDialect } from 'kysely';
-import pg from 'pg';
+import { drizzle } from 'drizzle-orm/postgres-js';
+import postgres from 'postgres';
 import { postgresUrl } from '#config/db';
-import type { DB } from '../../types/db.js';
+import * as relations from '../../database/relations.js';
+import * as schema from '../../database/schema.js';
 
-const dialect = new PostgresDialect({
-	pool: new pg.Pool({ connectionString: postgresUrl.release() }),
-});
-
-export const db = new Kysely<DB>({
-	dialect,
+const connection = postgres(postgresUrl.release());
+export const db = drizzle(connection, {
+	schema: { ...schema, ...relations },
 });
