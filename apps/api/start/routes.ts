@@ -9,8 +9,6 @@
 
 import router from '@adonisjs/core/services/router';
 
-router.get('/', async () => {
-	return {
-		hello: 'world',
-	};
-});
+const TrpcController = () => import('../app/controllers/trpc_controller.js');
+
+router.any('/trpc/*', [TrpcController, 'index']);

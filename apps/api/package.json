@@ -46,6 +46,7 @@
     "@adonisjs/core": "^6.9.0",
     "@adonisjs/cors": "^2.2.1",
     "@adonisjs/lucid": "^20.6.0",
+    "@trpc/server": "11.0.0-rc.382",
     "@vinejs/vine": "^2.0.0",
     "kysely": "0.27.3",
     "pg": "8.11.5",
@@ -54,6 +55,7 @@
   "hotHook": {
     "boundaries": [
       "./app/controllers/**/*.ts",
+      "./app/routers/**/*.ts",
       "./app/middleware/*.ts"
     ]
   }

@@ -632,6 +632,7 @@ __metadata:
     "@adonisjs/lucid": "npm:^20.6.0"
     "@adonisjs/tsconfig": "npm:^1.3.0"
     "@swc/core": "npm:^1.5.7"
+    "@trpc/server": "npm:11.0.0-rc.382"
     "@types/node": "npm:^20.12.12"
     "@types/pg": "npm:^8"
     "@vinejs/vine": "npm:^2.0.0"
@@ -2181,6 +2182,13 @@ __metadata:
     react: ">=18.2.0"
     react-dom: ">=18.2.0"
   checksum: 10c0/f32aa019fbf00c9e5a37fd837f1d7820567fbc9ff1729ff85019953354cc0ee640b0c4d43b1c7d1a875edd50fa8c00d951f496e4613ec63b52e483ad075b29ae
+  languageName: node
+  linkType: hard
+
+"@trpc/server@npm:11.0.0-rc.382":
+  version: 11.0.0-rc.382
+  resolution: "@trpc/server@npm:11.0.0-rc.382"
+  checksum: 10c0/75c3519650adbb8713b16280a455b490487ef78e7247ba66d5470180a6c4f5496826300f552f37254f3619b97029339213acc53176398821d7ad8ba2a9bf5342
   languageName: node
   linkType: hard
 

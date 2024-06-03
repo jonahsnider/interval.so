@@ -1,6 +1,7 @@
 import { BaseCommand, args } from '@adonisjs/core/ace';
 import type { CommandOptions } from '@adonisjs/core/types/ace';
 
+// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default class MakeMigration extends BaseCommand {
 	static readonly commandName = 'make:migration';
 	static readonly description = 'Create a new Kysely migration file';
