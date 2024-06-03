@@ -12,14 +12,14 @@ export default class MakeMigration extends BaseCommand {
 
 	async run() {
 		const entity = this.app.generators.createEntity(this.name);
-		const tableName = this.app.generators.tableName(entity.name);
-		const fileName = `${new Date().getTime()}_create_${tableName}_table.ts`;
+		const migrationName = this.app.generators.commandFileName(entity.name).slice(0, -'.ts'.length);
+		const fileName = `${new Date().getTime()}_${migrationName}.ts`;
 
 		const codemods = await this.createCodemods();
 		await codemods.makeUsingStub(this.app.commandsPath('stubs'), 'make/migration.stub', {
 			entity,
 			migration: {
-				tableName,
+				tableName: migrationName,
 				fileName,
 			},
 		});
