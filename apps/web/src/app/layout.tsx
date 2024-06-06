@@ -1,3 +1,4 @@
+import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Analytics } from '@vercel/analytics/react';
 import type { Metadata, Viewport } from 'next';
@@ -54,6 +55,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 							</TooltipProvider>
 						</TrpcProvider>
 					</ThemeProvider>
+
+					<Toaster />
 
 					<Analytics />
 				</body>
