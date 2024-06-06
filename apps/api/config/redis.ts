@@ -19,7 +19,7 @@ const redisConfig = defineConfig({
     |
     */
 		main: {
-			host: url.host,
+			host: url.hostname,
 			port: url.port,
 			password: url.password,
 			db: 0,
