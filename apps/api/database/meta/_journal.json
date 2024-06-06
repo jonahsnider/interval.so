@@ -22,6 +22,13 @@
 			"when": 1717652560476,
 			"tag": "0002_tricky_menace",
 			"breakpoints": true
+		},
+		{
+			"idx": 3,
+			"version": "7",
+			"when": 1717672891055,
+			"tag": "0003_known_iron_lad",
+			"breakpoints": true
 		}
 	]
 }
