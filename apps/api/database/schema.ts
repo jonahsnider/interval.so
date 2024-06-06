@@ -1,4 +1,25 @@
-import { boolean, index, pgEnum, pgTable, primaryKey, text, timestamp, unique, uuid } from 'drizzle-orm/pg-core';
+import {
+	boolean,
+	customType,
+	index,
+	integer,
+	jsonb,
+	pgEnum,
+	pgTable,
+	primaryKey,
+	text,
+	timestamp,
+	unique,
+	uuid,
+} from 'drizzle-orm/pg-core';
+
+export const teamUserRole = pgEnum('team_user_role', ['owner', 'admin']);
+
+const bytea = customType<{ data: Buffer; notNull: false; default: false }>({
+	dataType() {
+		return 'bytea';
+	},
+});
 
 export const users = pgTable('users', {
 	id: uuid('id').primaryKey().defaultRandom(),
@@ -6,7 +27,23 @@ export const users = pgTable('users', {
 	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
 });
 
-export const teamUserRole = pgEnum('team_user_role', ['owner', 'admin']);
+export const credentials = pgTable(
+	'credentials',
+	{
+		id: text('id').primaryKey().notNull(),
+		publicKey: bytea('public_key').notNull(),
+		userId: uuid('user_id').references(() => users.id),
+		webauthnUserId: text('webauthn_user_id').notNull(),
+		counter: integer('counter').notNull().default(0),
+		deviceType: text('device_type').notNull(),
+		backedUp: boolean('backed_up').notNull().default(false),
+		transports: jsonb('transports').notNull().default([]),
+	},
+	(credentials) => ({
+		index: index().on(credentials.webauthnUserId),
+		unique: unique().on(credentials.userId, credentials.webauthnUserId),
+	}),
+);
 
 export const teams = pgTable('teams', {
 	slug: text('slug').primaryKey().notNull(),

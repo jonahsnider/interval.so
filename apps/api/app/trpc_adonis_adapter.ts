@@ -58,6 +58,7 @@ export function createTrpcHandlerAdonis<TRouter extends AnyTRPCRouter>(options: 
 			error: null,
 		});
 
+		// @ts-expect-error Not sure why the types have stopped acting like iterables are a thing, but this works
 		for (const [headerKey, headerValue] of trpcResponse.headers) {
 			response.header(headerKey, headerValue);
 		}
@@ -65,6 +66,7 @@ export function createTrpcHandlerAdonis<TRouter extends AnyTRPCRouter>(options: 
 		response.status(trpcResponse.status);
 
 		if (trpcResponse.body !== null) {
+			// @ts-expect-error Not sure why the types have stopped acting like iterables are a thing, but this works
 			response.stream(Readable.fromWeb(trpcResponse.body));
 		}
 	};

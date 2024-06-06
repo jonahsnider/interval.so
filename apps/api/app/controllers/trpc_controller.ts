@@ -3,6 +3,7 @@ import type { HttpContext } from '@adonisjs/core/http';
 import { injectHelper } from '../../util/inject_helper.js';
 import { AppRouter } from '../routers/app_router.js';
 import { type TrpcHandlerAdonis, createTrpcHandlerAdonis } from '../trpc_adonis_adapter.js';
+import { createContext } from '../trpc_context.js';
 
 @inject()
 @injectHelper(AppRouter)
@@ -14,9 +15,7 @@ export default class TrpcController {
 		this.handler = createTrpcHandlerAdonis({
 			router: appRouter.getRouter(),
 			prefix: '/trpc',
-			createContext() {
-				return {};
-			},
+			createContext,
 		});
 	}
 

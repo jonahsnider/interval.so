@@ -1,24 +1,20 @@
 import { relations } from 'drizzle-orm/relations';
-import { memberMeetings, teamMembers, teamUsers, teams, users } from './schema.js';
+import { credentials, memberMeetings, teamMembers, teamUsers, teams, users } from './schema.js';
 
-export const teamMembersRelations = relations(teamMembers, ({ one, many }) => ({
-	team: one(teams, {
-		fields: [teamMembers.teamSlug],
-		references: [teams.slug],
+export const usersRelations = relations(users, ({ many }) => ({
+	teamUsers: many(teamUsers),
+}));
+
+export const credentialsRelations = relations(credentials, ({ one }) => ({
+	user: one(users, {
+		fields: [credentials.userId],
+		references: [users.id],
 	}),
-	meetings: many(memberMeetings),
 }));
 
 export const teamsRelations = relations(teams, ({ many }) => ({
 	members: many(teamMembers),
 	users: many(teamUsers),
-}));
-
-export const memberMeetingsRelations = relations(memberMeetings, ({ one }) => ({
-	member: one(teamMembers, {
-		fields: [memberMeetings.memberId],
-		references: [teamMembers.id],
-	}),
 }));
 
 export const teamUsersRelations = relations(teamUsers, ({ one }) => ({
@@ -32,6 +28,17 @@ export const teamUsersRelations = relations(teamUsers, ({ one }) => ({
 	}),
 }));
 
-export const usersRelations = relations(users, ({ many }) => ({
-	teamUsers: many(teamUsers),
+export const memberMeetingsRelations = relations(memberMeetings, ({ one }) => ({
+	member: one(teamMembers, {
+		fields: [memberMeetings.memberId],
+		references: [teamMembers.id],
+	}),
+}));
+
+export const teamMembersRelations = relations(teamMembers, ({ one, many }) => ({
+	team: one(teams, {
+		fields: [teamMembers.teamSlug],
+		references: [teams.slug],
+	}),
+	meetings: many(memberMeetings),
 }));
