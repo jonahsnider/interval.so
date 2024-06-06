@@ -8,6 +8,7 @@ import { trpc } from '@/src/trpc/trpc-client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UserSchema } from '@hours.frc.sh/api/app/user/schemas/user_schema';
 import { startRegistration } from '@simplewebauthn/browser';
+import { revalidatePath } from 'next/cache';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import type { z } from 'zod';
@@ -37,6 +38,8 @@ export default function SignupPage() {
 			const registration = await startRegistration(registrationOptions);
 
 			await finishRegistration.mutateAsync({ user: values, body: registration });
+
+			revalidatePath('/signup');
 		} catch (error) {
 			console.error(error);
 		} finally {
@@ -70,7 +73,7 @@ export default function SignupPage() {
 						</CardContent>
 
 						<CardFooter>
-							<Button type='submit' loading={isPending}>
+							<Button type='submit' disabled={isPending}>
 								Sign up
 							</Button>
 						</CardFooter>

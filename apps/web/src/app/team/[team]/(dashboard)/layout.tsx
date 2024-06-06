@@ -1,4 +1,5 @@
 import { MainContent } from '@/src/components/main-content';
+import { NeedsSignedInScreen } from '@/src/components/needs-signed-in-screen';
 import { TeamPageNavbar } from '@/src/components/team-dashboard/navbar/team-page-navbar';
 import type { PropsWithChildren } from 'react';
 
@@ -8,7 +9,9 @@ export default function TeamLayout({ children }: PropsWithChildren) {
 		<>
 			<TeamPageNavbar />
 
-			<MainContent>{children}</MainContent>
+			<MainContent>
+				<NeedsSignedInScreen>{children}</NeedsSignedInScreen>
+			</MainContent>
 		</>
 	);
 }

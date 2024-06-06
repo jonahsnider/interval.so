@@ -10,7 +10,9 @@ export function NotFoundPageContent() {
 				You are logged in as <strong>USERNAME</strong>
 			</p>
 
-			<Button>Sign in as a different user</Button>
+			<Button asChild>
+				<Link href='/login'>Sign in as a different user</Link>
+			</Button>
 
 			<div className='text-center flex'>
 				<p>

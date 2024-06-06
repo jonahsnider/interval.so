@@ -49,7 +49,7 @@ export function DeleteAccountCard() {
 					</CardHeader>
 					<CardFooter className='border-t px-6 py-4 bg-destructive-muted border-destructive-muted'>
 						<AlertDialogTrigger asChild={true}>
-							<Button variant='destructive' loading={deleteAccount.isPending}>
+							<Button variant='destructive' disabled={deleteAccount.isPending}>
 								Delete account
 							</Button>
 						</AlertDialogTrigger>
