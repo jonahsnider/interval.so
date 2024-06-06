@@ -1,6 +1,6 @@
 {
-	"id": "dce5a1da-9fcb-436f-97e1-718bbca4e7ff",
-	"prevId": "83655504-c012-487c-81c0-769d9514f552",
+	"id": "01f24a8c-07c2-4735-9421-95a868af9f98",
+	"prevId": "dce5a1da-9fcb-436f-97e1-718bbca4e7ff",
 	"version": "7",
 	"dialect": "postgresql",
 	"tables": {
@@ -84,7 +84,7 @@
 					"tableTo": "users",
 					"columnsFrom": ["user_id"],
 					"columnsTo": ["id"],
-					"onDelete": "no action",
+					"onDelete": "cascade",
 					"onUpdate": "no action"
 				}
 			},

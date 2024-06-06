@@ -1,7 +1,4 @@
-'use client';
-
 import { cn } from '@/lib/utils';
-import {} from '@radix-ui/react-portal';
 import { Link } from 'next-view-transitions';
 import type { PropsWithChildren } from 'react';
 import { ProfileMenu } from './profile-menu';

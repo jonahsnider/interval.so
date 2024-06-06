@@ -260,3 +260,6 @@ service-account-key.json
 **/*.json
 **/*.jsonc
 !**/package.json
+
+# AdonisJS build
+apps/api/build

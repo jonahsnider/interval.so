@@ -7,8 +7,10 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { trpcServer } from '@/src/trpc/trpc-server';
 import { UserCircleIcon } from '@heroicons/react/20/solid';
 import { Link } from 'next-view-transitions';
+import { Suspense } from 'react';
 
 function MenuContentUnauthed() {
 	return (
@@ -29,13 +31,12 @@ function MenuContentUnauthed() {
 	);
 }
 
-function MenuContentAuthed() {
-	const userName = 'Jonah Snider';
+function MenuContentAuthed({ displayName }: { displayName: string }) {
 	const currentTeamSlug = 'team581';
 
 	return (
 		<>
-			<DropdownMenuLabel>{userName}</DropdownMenuLabel>
+			<DropdownMenuLabel>{displayName}</DropdownMenuLabel>
 			<DropdownMenuSeparator />
 			<DropdownMenuItem asChild={true}>
 				<Link href={`/team/${currentTeamSlug}/admin`}>Admin dashboard</Link>
@@ -49,8 +50,18 @@ function MenuContentAuthed() {
 	);
 }
 
+async function ProfileMenuContent() {
+	const { user } = await trpcServer.user.getSelf.query();
+
+	if (user) {
+		return <MenuContentAuthed displayName={user.displayName} />;
+	}
+
+	return <MenuContentUnauthed />;
+}
+
 export function ProfileMenu() {
-	const user = true;
+	'use client';
 
 	return (
 		<DropdownMenu>
@@ -59,7 +70,11 @@ export function ProfileMenu() {
 					<UserCircleIcon className='w-5 h-5' />
 				</Button>
 			</DropdownMenuTrigger>
-			<DropdownMenuContent align='end'>{user ? <MenuContentAuthed /> : <MenuContentUnauthed />}</DropdownMenuContent>
+			<DropdownMenuContent align='end'>
+				<Suspense fallback={<DropdownMenuLabel>Loading...</DropdownMenuLabel>}>
+					<ProfileMenuContent />
+				</Suspense>
+			</DropdownMenuContent>
 		</DropdownMenu>
 	);
 }

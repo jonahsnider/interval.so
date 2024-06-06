@@ -48,9 +48,13 @@ export function createTrpcHandlerAdonis<TRouter extends AnyTRPCRouter>(options: 
 
 		const path = request.url().slice(actualPrefix.length);
 
+		// @ts-expect-error TRPC's incomingMessageToRequest() expects a body property, which doesn't match the IncomingMessage interface
+		// If you don't do this, TRPC will attempt to load the body stream but for whatever reason that will just take forever instead of returning an actual response
+		request.request.body = request.hasBody() ? request.body() : '';
+
 		const trpcResponse = await resolveResponse({
 			router,
-			path: path,
+			path,
 			req: incomingMessageToRequest(request.request, { maxBodySize: null }),
 			createContext({ info }) {
 				return createContext({ context, info });

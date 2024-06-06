@@ -27,7 +27,4 @@ export default await Env.create(new URL('../../../', import.meta.url), {
 	POSTGRES_URL: Env.schema.string(),
 	// biome-ignore lint/style/useNamingConvention: These are environment variables
 	REDIS_URL: Env.schema.string(),
-	// https://docs.railway.app/guides/optimize-performance#replica-id-environment-variable
-	// biome-ignore lint/style/useNamingConvention: These are environment variables
-	RAILWAY_REPLICA_ID: Env.schema.string.optional(),
 });

@@ -1,16 +1,21 @@
 import { inject } from '@adonisjs/core';
-import { router } from '#services/trpc_service';
 import { injectHelper } from '../../util/inject_helper.js';
-import { HelloWorldRouter } from './hello_world_router.js';
+import { AuthRouter } from '../auth/auth_router.js';
+import { router } from '../trpc/trpc_service.js';
+import { UserRouter } from '../user/user_router.js';
 
 @inject()
-@injectHelper(HelloWorldRouter)
+@injectHelper(AuthRouter, UserRouter)
 export class AppRouter {
-	constructor(private readonly helloWorldRouter: HelloWorldRouter) {}
+	constructor(
+		private readonly authRouter: AuthRouter,
+		private readonly userRouter: UserRouter,
+	) {}
 
 	getRouter() {
 		return router({
-			helloWorld: this.helloWorldRouter.getRouter(),
+			auth: this.authRouter.getRouter(),
+			user: this.userRouter.getRouter(),
 		});
 	}
 }

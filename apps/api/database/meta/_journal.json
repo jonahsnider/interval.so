@@ -1,20 +1,27 @@
 {
-  "version": "7",
-  "dialect": "postgresql",
-  "entries": [
-    {
-      "idx": 0,
-      "version": "7",
-      "when": 1717402461166,
-      "tag": "0000_typical_lady_mastermind",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1717649788923,
-      "tag": "0001_sharp_lenny_balinger",
-      "breakpoints": true
-    }
-  ]
+	"version": "7",
+	"dialect": "postgresql",
+	"entries": [
+		{
+			"idx": 0,
+			"version": "7",
+			"when": 1717402461166,
+			"tag": "0000_typical_lady_mastermind",
+			"breakpoints": true
+		},
+		{
+			"idx": 1,
+			"version": "7",
+			"when": 1717649788923,
+			"tag": "0001_sharp_lenny_balinger",
+			"breakpoints": true
+		},
+		{
+			"idx": 2,
+			"version": "7",
+			"when": 1717652560476,
+			"tag": "0002_tricky_menace",
+			"breakpoints": true
+		}
+	]
 }

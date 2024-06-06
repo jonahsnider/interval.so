@@ -39,7 +39,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<ViewTransitions>
-			<html lang='en' className='bg-background'>
+			<html lang='en' className='bg-background' suppressHydrationWarning={true}>
 				<head>
 					<PlausibleProvider domain='hours.frc.sh' />
 				</head>

@@ -1,5 +1,5 @@
 import assert from 'node:assert';
-import { inject } from '@adonisjs/core';
+import type { HttpContext } from '@adonisjs/core/http';
 import {
 	generateAuthenticationOptions,
 	generateRegistrationOptions,
@@ -15,24 +15,18 @@ import { TRPCError } from '@trpc/server';
 import { eq } from 'drizzle-orm';
 import { origin, rpId, rpName } from '#config/auth';
 import * as Schema from '#database/schema';
-import { injectHelper } from '../../util/inject_helper.js';
-import { AuthChallengeService } from './auth_challenge_service.js';
-import { db } from './db.js';
+import { db } from '../db/db_service.js';
 
-@inject()
-@injectHelper(AuthChallengeService)
 export class AuthService {
-	constructor(private readonly authChallengeService: AuthChallengeService) {}
-
 	async getRegisterOptions(input: {
 		displayName: string;
-		sessionId: string;
+		context: HttpContext;
 	}): Promise<PublicKeyCredentialCreationOptionsJSON> {
 		const options: PublicKeyCredentialCreationOptionsJSON = await generateRegistrationOptions({
 			rpName: rpName,
 			// biome-ignore lint/style/useNamingConvention: This can't be renamed
 			rpID: rpId,
-			userName: input.sessionId,
+			userName: input.displayName,
 			userDisplayName: input.displayName,
 			// Don't prompt users for additional information about the authenticator
 			// (Recommended for smoother UX)
@@ -47,15 +41,18 @@ export class AuthService {
 			},
 		});
 
+		// Store the challenge for later verification
+		input.context.session.put('challenge', options.challenge);
+
 		return options;
 	}
 
 	async verifyRegister(input: {
 		body: RegistrationResponseJSON;
-		sessionId: string;
+		context: HttpContext;
 		displayName: string;
 	}): Promise<boolean> {
-		const existingChallenge = await this.authChallengeService.getAndDeleteChallenge(input.sessionId);
+		const existingChallenge = input.context.session.pull('challenge');
 
 		if (!existingChallenge) {
 			throw new TRPCError({
@@ -75,6 +72,8 @@ export class AuthService {
 		});
 
 		if (verification.verified) {
+			let userId: string | undefined;
+
 			await db.transaction(async (tx) => {
 				assert(
 					verification.registrationInfo,
@@ -98,13 +97,20 @@ export class AuthService {
 					counter: verification.registrationInfo.counter,
 					transports: input.body.response.transports,
 				});
+
+				userId = user.id;
 			});
+
+			assert(userId, new TypeError('User was not created'));
+
+			// Associate session with user
+			input.context.session.put('userId', userId);
 		}
 
 		return verification.verified;
 	}
 
-	async getLoginOptions(sessionId: string) {
+	async getLoginOptions(context: HttpContext) {
 		const options = await generateAuthenticationOptions({
 			// biome-ignore lint/style/useNamingConvention: This can't be renamed
 			rpID: rpId,
@@ -114,21 +120,28 @@ export class AuthService {
 		});
 
 		// Persist challenge
-		await this.authChallengeService.setChallenge(sessionId, options.challenge);
+		context.session.put('challenge', options.challenge);
 
 		return options;
 	}
 
-	async verifyLogin(body: AuthenticationResponseJSON, sessionId: string) {
+	async verifyLogin(body: AuthenticationResponseJSON, context: HttpContext) {
 		const passkey = await db.query.credentials.findFirst({
 			where: eq(Schema.credentials.id, body.id),
+			columns: {
+				userId: true,
+				id: true,
+				publicKey: true,
+				counter: true,
+				transports: true,
+			},
 		});
 
 		if (!passkey) {
 			throw new TRPCError({ code: 'UNAUTHORIZED', message: "That passkey wasn't recognized" });
 		}
 
-		const currentChallenge = await this.authChallengeService.getAndDeleteChallenge(sessionId);
+		const currentChallenge = context.session.pull('challenge');
 
 		if (!currentChallenge) {
 			throw new TRPCError({
@@ -163,6 +176,9 @@ export class AuthService {
 				.where(eq(Schema.credentials.id, passkey.id));
 		}
 
-    // TODO: Persist session in cookies or something
+		assert(passkey.userId, new TypeError('Credential from passkey was not associated with a user'));
+
+		// Associate session with user
+		context.session.put('userId', passkey.userId);
 	}
 }

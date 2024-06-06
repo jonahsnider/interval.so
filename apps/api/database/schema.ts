@@ -32,7 +32,7 @@ export const credentials = pgTable(
 	{
 		id: text('id').primaryKey().notNull(),
 		publicKey: bytea('public_key').notNull(),
-		userId: uuid('user_id').references(() => users.id),
+		userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }),
 		webauthnUserId: text('webauthn_user_id').notNull(),
 		counter: integer('counter').notNull().default(0),
 		deviceType: text('device_type').notNull(),

@@ -1,7 +1,7 @@
 'use client';
 
 import type { PropsWithChildren } from 'react';
-import { trpc } from '../trpc';
+import { trpc } from '../trpc/trpc-client';
 
 const Component = ({ children }: PropsWithChildren) => children;
 
