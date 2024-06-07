@@ -22,9 +22,9 @@ const bytea = customType<{ data: Buffer; notNull: false; default: false }>({
 });
 
 export const users = pgTable('users', {
-	id: uuid('id').primaryKey().defaultRandom(),
+	id: uuid('id').notNull().primaryKey().defaultRandom(),
 	displayName: text('display_name').notNull(),
-	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+	createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 });
 
 export const credentials = pgTable(
@@ -49,7 +49,7 @@ export const credentials = pgTable(
 
 export const teams = pgTable('teams', {
 	slug: text('slug').primaryKey().notNull(),
-	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+	createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 
 	password: text('password').notNull(),
 	displayName: text('display_name').notNull(),
@@ -58,8 +58,12 @@ export const teams = pgTable('teams', {
 export const teamUsers = pgTable(
 	'team_users',
 	{
-		teamSlug: text('team_slug').references(() => teams.slug),
-		userId: uuid('user_id').references(() => users.id),
+		teamSlug: text('team_slug')
+			.notNull()
+			.references(() => teams.slug),
+		userId: uuid('user_id')
+			.notNull()
+			.references(() => users.id),
 		role: teamUserRole('role').notNull().default('admin'),
 	},
 	(teamUsers) => ({
@@ -70,12 +74,14 @@ export const teamUsers = pgTable(
 export const teamMembers = pgTable(
 	'team_members',
 	{
-		id: uuid('id').primaryKey().defaultRandom(),
-		teamSlug: text('team_slug').references(() => teams.slug),
+		id: uuid('id').notNull().primaryKey().defaultRandom(),
+		teamSlug: text('team_slug')
+			.notNull()
+			.references(() => teams.slug),
 		name: text('name').notNull(),
 
 		archived: boolean('archived').notNull().default(false),
-		createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+		createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 	},
 	(teamMembers) => ({
 		unique: unique().on(teamMembers.teamSlug, teamMembers.name),
