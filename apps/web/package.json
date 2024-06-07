@@ -69,8 +69,8 @@
 		"zod": "^3.23.8"
 	},
 	"devDependencies": {
-		"dotenv": "16.4.5",
 		"@simplewebauthn/types": "10.0.0",
+		"dotenv": "16.4.5",
 		"type-fest": "4.12.0"
 	}
 }
