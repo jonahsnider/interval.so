@@ -1,7 +1,7 @@
 import { inject } from '@adonisjs/core';
 import { z } from 'zod';
 import { injectHelper } from '../../util/inject_helper.js';
-import { publicProcedure, router } from '../trpc/trpc_service.js';
+import { authedProcedure, publicProcedure, router } from '../trpc/trpc_service.js';
 import { UserSchema } from '../user/schemas/user_schema.js';
 import { AuthService } from './auth_service.js';
 
@@ -34,15 +34,13 @@ export class AuthRouter {
 							user: UserSchema.pick({ displayName: true }),
 						}),
 					)
-					.output(z.boolean())
+
 					.mutation(async ({ input, ctx }) => {
-						const verified = await this.authService.verifyRegister({
+						await this.authService.verifyRegister({
 							body: input.body,
 							displayName: input.user.displayName,
 							context: ctx.context,
 						});
-
-						return verified;
 					}),
 			}),
 			login: router({
@@ -52,6 +50,9 @@ export class AuthRouter {
 				verifyAuthenticationResponse: publicProcedure.input(z.object({ body: z.any() })).mutation(({ input, ctx }) => {
 					return this.authService.verifyLogin(input.body, ctx.context);
 				}),
+			}),
+			logOut: authedProcedure.mutation(({ ctx }) => {
+				ctx.context.session.clear();
 			}),
 		});
 	}

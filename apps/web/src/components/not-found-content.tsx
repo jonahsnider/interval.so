@@ -10,7 +10,7 @@ export function NotFoundPageContent() {
 				You are logged in as <strong>USERNAME</strong>
 			</p>
 
-			<Button asChild>
+			<Button asChild={true}>
 				<Link href='/login'>Sign in as a different user</Link>
 			</Button>
 

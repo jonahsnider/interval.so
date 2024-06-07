@@ -1,9 +1,9 @@
-import { trpcServer } from '../trpc/trpc-server';
-import type { PropsWithChildren } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import Link from 'next/link';
 import clsx from 'clsx';
+import Link from 'next/link';
+import type { PropsWithChildren } from 'react';
+import { trpcServer } from '../trpc/trpc-server';
 
 function NeedsSignedInCard() {
 	return (
@@ -14,9 +14,12 @@ function NeedsSignedInCard() {
 			<CardContent>
 				<CardDescription>You must be signed in to access this page.</CardDescription>
 			</CardContent>
-			<CardFooter className='justify-end'>
+			<CardFooter className='justify-end gap-2'>
+				<Button asChild={true} variant='secondary'>
+					<Link href='/signup'>Sign up</Link>
+				</Button>
 				<Button asChild={true}>
-					<Link href='/login'>Sign in</Link>
+					<Link href='/login'>Login</Link>
 				</Button>
 			</CardFooter>
 		</Card>

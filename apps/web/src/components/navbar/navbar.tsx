@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
 import { Link } from 'next-view-transitions';
 import type { PropsWithChildren } from 'react';
-import { ProfileMenu } from './profile-menu';
+import { ProfileMenu } from './profile-menu/profile-menu';
 
 type Props = {
 	left?: React.ReactNode;

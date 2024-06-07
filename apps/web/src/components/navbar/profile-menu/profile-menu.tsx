@@ -7,10 +7,12 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Skeleton } from '@/components/ui/skeleton';
 import { trpcServer } from '@/src/trpc/trpc-server';
 import { UserCircleIcon } from '@heroicons/react/20/solid';
 import { Link } from 'next-view-transitions';
 import { Suspense } from 'react';
+import { MenuContentAuthed } from './profile-menu.client';
 
 function MenuContentUnauthed() {
 	return (
@@ -24,28 +26,9 @@ function MenuContentUnauthed() {
 			</DropdownMenuItem>
 			<DropdownMenuItem asChild={true}>
 				<Link href='/signup' className='cursor-pointer'>
-					Sign Up
+					Sign up
 				</Link>
 			</DropdownMenuItem>
-		</>
-	);
-}
-
-function MenuContentAuthed({ displayName }: { displayName: string }) {
-	const currentTeamSlug = 'team581';
-
-	return (
-		<>
-			<DropdownMenuLabel>{displayName}</DropdownMenuLabel>
-			<DropdownMenuSeparator />
-			<DropdownMenuItem asChild={true}>
-				<Link href={`/team/${currentTeamSlug}/admin`}>Admin dashboard</Link>
-			</DropdownMenuItem>
-			<DropdownMenuItem asChild={true}>
-				<Link href='/account'>Account settings</Link>
-			</DropdownMenuItem>
-			<DropdownMenuSeparator />
-			<DropdownMenuItem>Logout</DropdownMenuItem>
 		</>
 	);
 }
@@ -60,6 +43,23 @@ async function ProfileMenuContent() {
 	return <MenuContentUnauthed />;
 }
 
+function ProfileMenuContentSkeleton() {
+	return (
+		<>
+			<DropdownMenuLabel>
+				<Skeleton className='h-4' />
+			</DropdownMenuLabel>
+			<DropdownMenuSeparator />
+			<DropdownMenuItem disabled={true} className='data-[disabled]:opacity-100'>
+				<Skeleton className='h-4 w-full' />
+			</DropdownMenuItem>
+			<DropdownMenuItem disabled={true} className='data-[disabled]:opacity-100'>
+				<Skeleton className='h-4 w-full' />
+			</DropdownMenuItem>
+		</>
+	);
+}
+
 export function ProfileMenu() {
 	'use client';
 
@@ -71,7 +71,7 @@ export function ProfileMenu() {
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align='end'>
-				<Suspense fallback={<DropdownMenuLabel>Loading...</DropdownMenuLabel>}>
+				<Suspense fallback={<ProfileMenuContentSkeleton />}>
 					<ProfileMenuContent />
 				</Suspense>
 			</DropdownMenuContent>

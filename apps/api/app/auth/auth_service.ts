@@ -51,7 +51,7 @@ export class AuthService {
 		body: RegistrationResponseJSON;
 		context: HttpContext;
 		displayName: string;
-	}): Promise<boolean> {
+	}): Promise<void> {
 		const existingChallenge = input.context.session.pull('challenge');
 
 		if (!existingChallenge) {
@@ -106,8 +106,6 @@ export class AuthService {
 			// Associate session with user
 			input.context.session.put('userId', userId);
 		}
-
-		return verification.verified;
 	}
 
 	async getLoginOptions(context: HttpContext) {

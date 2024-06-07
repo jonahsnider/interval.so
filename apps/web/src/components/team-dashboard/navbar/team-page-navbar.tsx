@@ -1,7 +1,7 @@
+import { trpcServer } from '@/src/trpc/trpc-server';
 import type { PropsWithChildren } from 'react';
 import { Navbar } from '../../navbar/navbar';
 import { TeamDropdown } from './team-dropdown';
-import { trpcServer } from '@/src/trpc/trpc-server';
 
 type Props = PropsWithChildren<{
 	className?: string;
