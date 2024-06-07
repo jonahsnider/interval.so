@@ -16,7 +16,9 @@ import { cn } from '@/lib/utils';
 const Form = FormProvider;
 
 type FormFieldContextValue<
+	// biome-ignore lint/style/useNamingConvention: This is in pascal case
 	TFieldValues extends FieldValues = FieldValues,
+	// biome-ignore lint/style/useNamingConvention: This is in pascal case
 	TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > = {
 	name: TName;
@@ -25,7 +27,9 @@ type FormFieldContextValue<
 const FormFieldContext = React.createContext<FormFieldContextValue>({} as FormFieldContextValue);
 
 const FormField = <
+	// biome-ignore lint/style/useNamingConvention: This is in pascal case
 	TFieldValues extends FieldValues = FieldValues,
+	// biome-ignore lint/style/useNamingConvention: This is in pascal case
 	TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
 	...props
