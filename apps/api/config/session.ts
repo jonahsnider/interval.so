@@ -1,5 +1,6 @@
 import app from '@adonisjs/core/services/app';
 import { defineConfig, stores } from '@adonisjs/session';
+import { convert } from 'convert';
 
 const sessionConfig = defineConfig({
 	enabled: true,
@@ -15,7 +16,7 @@ const sessionConfig = defineConfig({
 	 * Define how long to keep the session data alive without
 	 * any activity.
 	 */
-	age: '2h',
+	age: convert(3, 'months').to('seconds'),
 
 	/**
 	 * Configuration for session cookie and the
