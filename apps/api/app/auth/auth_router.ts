@@ -47,9 +47,12 @@ export class AuthRouter {
 				generateAuthenticationOptions: publicProcedure.output(z.any()).mutation(({ ctx }) => {
 					return this.authService.getLoginOptions(ctx.context);
 				}),
-				verifyAuthenticationResponse: publicProcedure.input(z.object({ body: z.any() })).mutation(({ input, ctx }) => {
-					return this.authService.verifyLogin(input.body, ctx.context);
-				}),
+				verifyAuthenticationResponse: publicProcedure
+					.input(z.object({ body: z.any() }))
+					.output(UserSchema.pick({ displayName: true }))
+					.mutation(({ input, ctx }) => {
+						return this.authService.verifyLogin(input.body, ctx.context);
+					}),
 			}),
 			logOut: authedProcedure.mutation(({ ctx }) => {
 				ctx.context.session.clear();

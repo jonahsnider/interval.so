@@ -133,6 +133,13 @@ export class AuthService {
 				counter: true,
 				transports: true,
 			},
+			with: {
+				user: {
+					columns: {
+						displayName: true,
+					},
+				},
+			},
 		});
 
 		if (!passkey) {
@@ -178,5 +185,7 @@ export class AuthService {
 
 		// Associate session with user
 		context.session.put('userId', passkey.userId);
+
+		return passkey.user;
 	}
 }

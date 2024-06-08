@@ -16,9 +16,10 @@ export function LoginCard() {
 
 	const getLoginOptions = trpc.auth.login.generateAuthenticationOptions.useMutation();
 	const finishLogin = trpc.auth.login.verifyAuthenticationResponse.useMutation({
-		onSuccess: () => {
+		onSuccess: ({ displayName }) => {
 			router.push('/');
 			router.refresh();
+			toast.success(`Logged in as ${displayName}`);
 		},
 	});
 
@@ -29,9 +30,13 @@ export function LoginCard() {
 			return await getLoginOptions.mutateAsync();
 		} catch (error) {
 			if (error instanceof TRPCClientError) {
-				toast.error(`An error occurred while preparing to login: ${error.message}`);
+				toast.error('An error occurred while preparing to login', {
+					description: error.message,
+				});
 			} else {
-				toast.error(`An unknown error occurred while preparing to login: ${error}`);
+				toast.error('An unknown error occurred while preparing to login', {
+					description: String(error),
+				});
 			}
 
 			throw error;
@@ -52,10 +57,14 @@ export function LoginCard() {
 				) {
 					toast.error('Login cancelled');
 				} else {
-					toast.error(`An error occurred while logging in: ${error.message}`);
+					toast.error('An error occurred while logging in', {
+						description: error.message,
+					});
 				}
 			} else {
-				toast.error(`An unknown error occurred while logging in: ${error}`);
+				toast.error('An unknown error occurred while logging in', {
+					description: String(error),
+				});
 			}
 
 			throw error;
@@ -67,9 +76,13 @@ export function LoginCard() {
 			await finishLogin.mutateAsync({ body: login });
 		} catch (error) {
 			if (error instanceof TRPCClientError) {
-				toast.error(`An error occurred while finalizing your login: ${error.message}`);
+				toast.error('An error occurred while finalizing your login', {
+					description: error.message,
+				});
 			} else {
-				toast.error(`An unknown error occurred while finalizing your login: ${error}`);
+				toast.error('An unknown error occurred while finalizing your login', {
+					description: String(error),
+				});
 			}
 
 			throw error;
@@ -90,8 +103,6 @@ export function LoginCard() {
 		} finally {
 			setIsPending(false);
 		}
-
-		toast.success('You were logged in');
 	};
 
 	return (

@@ -1,7 +1,13 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import type { CreateTeamFormType } from '@/src/app/team/(create)/page';
 
-export function CreateTeamPasswordCard() {
+type Props = {
+	form: CreateTeamFormType;
+};
+
+export function CreateTeamPasswordCard({ form }: Props) {
 	return (
 		<Card>
 			<CardHeader>
@@ -11,9 +17,17 @@ export function CreateTeamPasswordCard() {
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
-				<form>
-					<Input className='max-w-80' value='secret123' />
-				</form>
+				<FormField
+					control={form.control}
+					name='password'
+					render={({ field }) => (
+						<FormItem {...field}>
+							<Input {...field} className='max-w-80' type='text' placeholder='secret123' />
+
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
 			</CardContent>
 		</Card>
 	);

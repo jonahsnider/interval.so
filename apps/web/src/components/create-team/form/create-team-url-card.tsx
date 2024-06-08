@@ -1,7 +1,13 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import type { CreateTeamFormType } from '@/src/app/team/(create)/page';
 
-export function CreateTeamUrlCard() {
+type Props = {
+	form: CreateTeamFormType;
+};
+
+export function CreateTeamUrlCard({ form }: Props) {
 	return (
 		<Card>
 			<CardHeader>
@@ -12,14 +18,22 @@ export function CreateTeamUrlCard() {
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
-				<form>
-					<div className='flex'>
-						<span className='flex h-9 items-center justify-center rounded-md border border-input bg-muted px-3 py-1 text-sm shadow-sm transition-colors cursor-not-allowed rounded-r-none border-r-0 text-muted-foreground'>
-							https://hours.frc.sh/team/
-						</span>
-						<Input className='max-w-80 rounded-l-none' value='team581' />
-					</div>
-				</form>
+				<FormField
+					control={form.control}
+					name='slug'
+					render={({ field }) => (
+						<FormItem {...field}>
+							<div className='flex'>
+								<span className='flex h-9 items-center justify-center rounded-md border border-input bg-muted px-3 py-1 text-sm shadow-sm transition-colors cursor-not-allowed rounded-r-none border-r-0 text-muted-foreground'>
+									https://hours.frc.sh/team/
+								</span>
+								<Input {...field} className='max-w-80 rounded-l-none' placeholder='team581' />
+							</div>
+
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
 			</CardContent>
 		</Card>
 	);

@@ -1,7 +1,13 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import type { CreateTeamFormType } from '@/src/app/team/(create)/page';
 
-export function CreateTeamNameCard() {
+type Props = {
+	form: CreateTeamFormType;
+};
+
+export function CreateTeamNameCard({ form }: Props) {
 	return (
 		<Card>
 			<CardHeader>
@@ -9,9 +15,17 @@ export function CreateTeamNameCard() {
 				<CardDescription>Please enter a display name for the new team.</CardDescription>
 			</CardHeader>
 			<CardContent>
-				<form>
-					<Input className='max-w-80' value='Team 581' />
-				</form>
+				<FormField
+					control={form.control}
+					name='displayName'
+					render={({ field }) => (
+						<FormItem {...field}>
+							<Input {...field} className='max-w-80' type='text' placeholder='Team 581' />
+
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
 			</CardContent>
 		</Card>
 	);
