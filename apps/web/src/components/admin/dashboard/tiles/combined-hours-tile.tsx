@@ -3,13 +3,13 @@
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import clsx from 'clsx';
 import { useContext } from 'react';
-import { durationLabel } from '../../period-select';
+import { durationLabelPreviousPeriod } from '../../period-select';
 import { AdminDashboardContext } from '../admin-dashboard-context';
 
 export function CombinedHoursTile() {
 	const { duration } = useContext(AdminDashboardContext);
 
-	const label = durationLabel(duration);
+	const label = durationLabelPreviousPeriod(duration);
 
 	return (
 		<Card>

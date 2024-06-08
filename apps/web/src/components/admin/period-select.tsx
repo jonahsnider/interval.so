@@ -49,6 +49,14 @@ export function durationLabel(duration: DurationSlug): string | undefined {
 	return DURATIONS[duration];
 }
 
+export function durationLabelPreviousPeriod(duration: DurationSlug): string | undefined {
+	if (duration === DurationSlug.ThisYear) {
+		return 'Last year';
+	}
+
+	return durationLabel(duration);
+}
+
 export function toDateFnsDuration(duration: DurationSlug): Duration {
 	switch (duration) {
 		case DurationSlug.Last7Days:
