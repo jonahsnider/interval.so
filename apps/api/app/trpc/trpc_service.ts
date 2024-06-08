@@ -1,11 +1,12 @@
-import app from '@adonisjs/core/services/app';
 import { TRPCError, initTRPC } from '@trpc/server';
 import superjson from 'superjson';
 import type { createContext } from './trpc_context.js';
 
 const t = initTRPC.context<typeof createContext>().create({
 	transformer: superjson,
-	isDev: !app.inProduction,
+	// I don't want to see stacktraces in TRPC errors even in development
+	// Makes it harder to figure out what users actually would see
+	isDev: false,
 });
 
 export const router = t.router;

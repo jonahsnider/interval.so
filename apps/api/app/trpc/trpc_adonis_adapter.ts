@@ -3,7 +3,7 @@ import type { HttpContext } from '@adonisjs/core/http';
 import type { AnyTRPCRouter, inferRouterContext } from '@trpc/server';
 import { incomingMessageToRequest } from '@trpc/server/adapters/node-http';
 import { type TRPCRequestInfo, resolveResponse } from '@trpc/server/http';
-import type { MaybePromise } from '@trpc/server/unstable-core-do-not-import';
+import type { HTTPErrorHandler, MaybePromise } from '@trpc/server/unstable-core-do-not-import';
 
 export type CreateAdonisContextOptions = {
 	context: HttpContext;
@@ -38,6 +38,7 @@ export function createTrpcHandlerAdonis<TRouter extends AnyTRPCRouter>(options: 
 	router: TRouter;
 	prefix: string;
 	createContext: AdonisContextFn<TRouter>;
+	onError?: HTTPErrorHandler<TRouter, Request>;
 }): TrpcHandlerAdonis {
 	const { router, prefix: rawPrefix, createContext } = options;
 
@@ -60,6 +61,7 @@ export function createTrpcHandlerAdonis<TRouter extends AnyTRPCRouter>(options: 
 				return createContext({ context, info });
 			},
 			error: null,
+			onError: options.onError,
 		});
 
 		// @ts-expect-error Not sure why the types have stopped acting like iterables are a thing, but this works
