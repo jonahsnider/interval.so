@@ -1052,7 +1052,7 @@ __metadata:
     "@uidotdev/usehooks": "npm:2.4.1"
     "@vercel/analytics": "npm:1.2.2"
     autoprefixer: "npm:10.4.18"
-    chrono-node: "npm:2.7.5"
+    chrono-node: "npm:2.7.6"
     class-variance-authority: "npm:^0.7.0"
     clsx: "npm:^2.1.1"
     convert: "npm:5.0.0"
@@ -3917,12 +3917,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chrono-node@npm:2.7.5":
-  version: 2.7.5
-  resolution: "chrono-node@npm:2.7.5"
+"chrono-node@npm:2.7.6":
+  version: 2.7.6
+  resolution: "chrono-node@npm:2.7.6"
   dependencies:
     dayjs: "npm:^1.10.0"
-  checksum: 10c0/325fc93b25082c9250cb4abe28ddd4b0f4905079060d59acde2a471660e0d178e98b5d7c6fe717fe0e494e78584f5f166f68f1cddf0d0559a646238786a5361a
+  checksum: 10c0/ea4d2b9fac7f0e6ce5746d84ce9b14f6aec7523981f0e05fc956970850a1f7906868d921ac2c010f4060e090b1ac8985d1cfc30b4c844af049efa2b92c9a15f0
   languageName: node
   linkType: hard
 
