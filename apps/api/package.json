@@ -23,7 +23,7 @@
 	},
 	"scripts": {
 		"build": "node ace build",
-		"dev": "PORT=3001 node ace serve --watch",
+		"dev": "PORT=3001 node ace serve --hmr",
 		"dev:debug": "PORT=3001 node --inspect ace serve --hmr",
 		"migrate:apply": "drizzle-kit migrate",
 		"migrate:create": "drizzle-kit generate",
