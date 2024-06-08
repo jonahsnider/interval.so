@@ -35,6 +35,7 @@ server.use([
 router.use([
 	() => import('@adonisjs/core/bodyparser_middleware'),
 	() => import('@adonisjs/session/session_middleware'),
+	() => import('#middleware/initialize_bouncer_middleware'),
 ]);
 
 /**

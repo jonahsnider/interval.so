@@ -115,6 +115,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@adonisjs/bouncer@npm:^3.1.3":
+  version: 3.1.3
+  resolution: "@adonisjs/bouncer@npm:3.1.3"
+  dependencies:
+    "@poppinss/utils": "npm:^6.7.3"
+  peerDependencies:
+    "@adonisjs/core": ^6.2.0
+    "@adonisjs/i18n": ^2.0.0
+  peerDependenciesMeta:
+    "@adonisjs/core":
+      optional: true
+    "@adonisjs/i18n":
+      optional: true
+  checksum: 10c0/1a21b626dbe91b3504c40b61cb985b092cafa071e0e33e50dd7425d2d29d9f1f53e3b802c461f256873de3dcff6c8cd06ab83d2a072198602cc8e1ccabba4135
+  languageName: node
+  linkType: hard
+
 "@adonisjs/config@npm:^5.0.2":
   version: 5.0.2
   resolution: "@adonisjs/config@npm:5.0.2"
@@ -987,6 +1004,7 @@ __metadata:
   dependencies:
     "@adonisjs/assembler": "npm:^7.7.0"
     "@adonisjs/auth": "npm:^9.2.1"
+    "@adonisjs/bouncer": "npm:^3.1.3"
     "@adonisjs/core": "npm:^6.9.1"
     "@adonisjs/cors": "npm:^2.2.1"
     "@adonisjs/redis": "npm:^8.0.1"

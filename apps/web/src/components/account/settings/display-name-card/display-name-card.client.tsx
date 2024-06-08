@@ -41,7 +41,7 @@ export function DisplayNameCardInner({ user }: Props) {
 			router.refresh();
 		},
 		onError: (error) => {
-			toast.error(error.message, { id: toastId });
+			toast.error('An error occurred while updating your display name', { id: toastId, description: error.message });
 		},
 	});
 
