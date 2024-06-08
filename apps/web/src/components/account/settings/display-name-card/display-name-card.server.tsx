@@ -2,7 +2,7 @@ import assert from 'node:assert';
 import { SettingsCardSkeleton } from '@/src/components/settings-card-skeleton';
 import { trpcServer } from '@/src/trpc/trpc-server';
 import { Suspense } from 'react';
-import { DisplayNameCardInner } from './display-name-card-inner';
+import { DisplayNameCardInner } from './display-name-card.client';
 
 async function DisplayNameCardFetcher() {
 	const { user } = await trpcServer.user.getSelf.query();
