@@ -41,11 +41,11 @@ __metadata:
   linkType: hard
 
 "@adonisjs/assembler@npm:^7.6.1":
-  version: 7.6.1
-  resolution: "@adonisjs/assembler@npm:7.6.1"
+  version: 7.7.0
+  resolution: "@adonisjs/assembler@npm:7.7.0"
   dependencies:
-    "@adonisjs/env": "npm:^6.0.0"
-    "@antfu/install-pkg": "npm:^0.3.2"
+    "@adonisjs/env": "npm:^6.1.0"
+    "@antfu/install-pkg": "npm:^0.3.3"
     "@poppinss/chokidar-ts": "npm:^4.1.4"
     "@poppinss/cliui": "npm:^6.4.1"
     "@poppinss/hooks": "npm:^7.2.3"
@@ -62,7 +62,7 @@ __metadata:
     ts-morph: "npm:^22.0.0"
   peerDependencies:
     typescript: ^4.0.0 || ^5.0.0
-  checksum: 10c0/0ec048e067b5bcd5cf93a8abe2191c0ce71dfb700ad32aed408db2ecd2ae7c02518522d3a9273ecbe95d799a9bba51543cc965ae53eedc5b2a87691983d563b4
+  checksum: 10c0/e7c44434788ccf5be90c96cdc30f81b59712a52bb2fc7ad927dc3102c7378abb322827a5174f9a498ea3e08c05c90c9480a16dad936bb359f871dea5db273fd0
   languageName: node
   linkType: hard
 
@@ -193,7 +193,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/env@npm:^6.0.0, @adonisjs/env@npm:^6.1.0":
+"@adonisjs/env@npm:^6.1.0":
   version: 6.1.0
   resolution: "@adonisjs/env@npm:6.1.0"
   dependencies:
@@ -369,7 +369,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@antfu/install-pkg@npm:^0.3.2":
+"@antfu/install-pkg@npm:^0.3.2, @antfu/install-pkg@npm:^0.3.3":
   version: 0.3.3
   resolution: "@antfu/install-pkg@npm:0.3.3"
   dependencies:
