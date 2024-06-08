@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.6.1/schema.json",
+	"$schema": "https://biomejs.dev/schemas/1.8.0/schema.json",
 	"files": {
 		"ignore": [".next", "node_modules", ".vercel", "**/package.json", "apps/api/build"]
 	},
@@ -33,8 +33,12 @@
 			"nursery": {
 				"all": false
 			},
+			"correctness": {
+				"noNodejsModules": "off"
+			},
 			"style": {
 				"all": true,
+				"noNamespaceImport": "off",
 				"noParameterProperties": "off"
 			},
 			"suspicious": {

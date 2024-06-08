@@ -67,13 +67,12 @@ export function TeamDropdownTrigger({
 	displayName,
 	slug,
 }: Partial<Pick<TeamSchema, 'slug'>> & { displayName: ReactNode }) {
-	// biome-ignore lint/style/useNamingConvention: This is a component
 	const Outer = slug
 		? ({ children, className }: PropsWithChildren<{ className?: string }>) => (
 				<Link href={`/team/${slug}`} className={className}>
 					{children}
 				</Link>
-		  )
+			)
 		: 'div';
 
 	return (

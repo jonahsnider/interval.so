@@ -38,7 +38,6 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 	({ className, variant, size, asChild = false, ...props }, ref) => {
-		// biome-ignore lint/style/useNamingConvention: This is a component
 		const Comp = asChild ? Slot : 'button';
 		return <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />;
 	},

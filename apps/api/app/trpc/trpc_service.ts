@@ -20,7 +20,7 @@ export const publicProcedure = t.procedure.use(({ ctx, next }) => {
 			user: userId
 				? {
 						id: userId,
-				  }
+					}
 				: undefined,
 		},
 	});

@@ -1,4 +1,4 @@
-import assert from 'node:assert';
+import assert from 'node:assert/strict';
 import type { HttpContext } from '@adonisjs/core/http';
 import {
 	generateAuthenticationOptions,
