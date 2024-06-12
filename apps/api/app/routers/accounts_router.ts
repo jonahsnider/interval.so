@@ -1,13 +1,13 @@
 import { inject } from '@adonisjs/core';
 import { z } from 'zod';
 import { injectHelper } from '../../util/inject_helper.js';
-import { authedProcedure, publicProcedure, router } from '../trpc/trpc_service.js';
+import { AuthService } from '../auth/auth_service.js';
+import { publicProcedure, router } from '../trpc/trpc_service.js';
 import { UserSchema } from '../user/schemas/user_schema.js';
-import { AuthService } from './auth_service.js';
 
 @inject()
 @injectHelper(AuthService)
-export class AuthRouter {
+export class AccountsRouter {
 	constructor(private readonly authService: AuthService) {}
 
 	getRouter() {
@@ -54,7 +54,7 @@ export class AuthRouter {
 						return this.authService.verifyLogin(input.body, ctx.context);
 					}),
 			}),
-			logOut: authedProcedure.mutation(({ ctx }) => {
+			logOut: publicProcedure.mutation(({ ctx }) => {
 				ctx.context.session.clear();
 			}),
 		});

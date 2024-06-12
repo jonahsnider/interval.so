@@ -11,13 +11,14 @@
 		"lint": "biome check .",
 		"lint:fix": "biome check . --write",
 		"test": "yarn lint && yarn format && turbo run build type-check",
-		"type-check": "turbo run type-check"
+		"type-check": "turbo run type-check",
+		"dev": "turbo run dev"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.8.0",
 		"prettier": "3.3.1",
 		"prettier-plugin-packagejson": "2.5.0",
-		"turbo": "1.13.4",
+		"turbo": "2.0.3",
 		"vercel": "34.2.6"
 	},
 	"packageManager": "yarn@4.2.2",

@@ -4,59 +4,15 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/flex-table';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
+import { trpc } from '@/src/trpc/trpc-client';
+import type { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
 import clsx from 'clsx';
 import { AnimatePresence, type Variants, motion } from 'framer-motion';
 import Fuse from 'fuse.js/basic';
+import { useRouter } from 'next/navigation';
 import { useQueryState } from 'nuqs';
 import { useEffect, useMemo, useState } from 'react';
-
-type Member = {
-	name: string;
-	atMeeting: boolean;
-};
-
-const members: Member[] = [
-	{
-		name: 'Apple',
-		atMeeting: true,
-	},
-	{
-		name: 'Banana',
-		atMeeting: false,
-	},
-	{
-		name: 'Cherry',
-		atMeeting: true,
-	},
-	{
-		name: 'Date',
-		atMeeting: false,
-	},
-	{
-		name: 'Elderberry',
-		atMeeting: true,
-	},
-	{
-		name: 'Fig',
-		atMeeting: true,
-	},
-	{
-		name: 'Grape',
-		atMeeting: true,
-	},
-	{
-		name: 'Honeydew',
-		atMeeting: false,
-	},
-	{
-		name: 'Jackfruit',
-		atMeeting: true,
-	},
-	{
-		name: 'Kiwi',
-		atMeeting: true,
-	},
-];
+import { toast } from 'sonner';
 
 const MotionTableRow = motion(TableRow);
 const MotionTable = motion(Table);
@@ -66,24 +22,29 @@ const motionVariants: Variants = {
 	visible: { opacity: 1, height: 'auto' },
 };
 
-export function MembersTable() {
-	const fuse = useMemo(() => new Fuse(members, { keys: ['name'] }), []);
+type SimpleMember = Pick<TeamMemberSchema, 'id' | 'name' | 'atMeeting'>;
+
+type Props = {
+	members: SimpleMember[];
+};
+
+export function MembersTable({ members }: Props) {
+	const fuse = useMemo(() => new Fuse(members, { keys: ['name'] }), [members]);
 	const [filter, setFilter] = useQueryState('filter', { clearOnDefault: true, defaultValue: '' });
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: This is a false positive
 	useEffect(() => {
 		fuse.setCollection(members);
 	}, [members, fuse]);
 
 	const trimmedFilter = filter.trim();
 
-	const filteredMembers: ReadonlySet<Member> = useMemo(() => {
+	const filteredMembers: ReadonlySet<SimpleMember> = useMemo(() => {
 		if (trimmedFilter === '') {
 			return new Set(members);
 		}
 
 		return new Set(fuse.search(trimmedFilter).map((result) => result.item));
-	}, [trimmedFilter, fuse]);
+	}, [trimmedFilter, fuse, members]);
 
 	const noResults = filteredMembers.size === 0;
 
@@ -99,7 +60,7 @@ export function MembersTable() {
 
 			<CardContent className='px-0 transition-all'>
 				<AnimatePresence initial={false}>
-					{!noResults && <InnerTable filteredMembers={filteredMembers} />}
+					{!noResults && <InnerTable filteredMembers={filteredMembers} members={members} />}
 					{noResults && (
 						<motion.div
 							initial='hidden'
@@ -116,7 +77,10 @@ export function MembersTable() {
 		</Card>
 	);
 }
-function InnerTable({ filteredMembers }: { filteredMembers: ReadonlySet<Member> }) {
+function InnerTable({
+	filteredMembers,
+	members,
+}: { filteredMembers: ReadonlySet<SimpleMember>; members: SimpleMember[] }) {
 	const indexOfLastVisibleMember = members.findLastIndex((member) => filteredMembers.has(member));
 
 	return (
@@ -144,8 +108,36 @@ function InnerTable({ filteredMembers }: { filteredMembers: ReadonlySet<Member> 
 	);
 }
 
-function InnerTableRow({ visible, className, member }: { visible: boolean; className?: string; member: Member }) {
+function InnerTableRow({ visible, className, member }: { visible: boolean; className?: string; member: SimpleMember }) {
 	const [animating, setAnimating] = useState(false);
+	const [checked, setChecked] = useState(member.atMeeting);
+
+	const router = useRouter();
+
+	// Trying to do this the more correct way with useOptimistic was complicated and didn't work
+	// I didn't want to spend more time debugging, so I just did it this way
+	// This allows users to see the switch reflect their action optimistically, but reverts to the server state whenever new information is received or the mutation errors
+	useEffect(() => {
+		setChecked(member.atMeeting);
+	}, [member.atMeeting]);
+
+	const mutation = trpc.teams.members.updateAttendance.useMutation({
+		onMutate: ({ atMeeting }) => {
+			setChecked(Boolean(atMeeting));
+		},
+		onSettled: () => {
+			router.refresh();
+		},
+		onError: (error, { atMeeting }) => {
+			const action = atMeeting ? 'in' : 'out';
+			toast.error(`Unable to sign ${member.name} ${action}`, {
+				description: error.message,
+			});
+
+			// Revert state
+			setChecked(!atMeeting);
+		},
+	});
 
 	return (
 		<MotionTableRow
@@ -163,7 +155,11 @@ function InnerTableRow({ visible, className, member }: { visible: boolean; class
 		>
 			<TableCell className='font-medium pl-8'>{member.name}</TableCell>
 			<TableCell className='pr-8 text-right'>
-				<Switch defaultChecked={member.atMeeting} />
+				<Switch
+					checked={checked}
+					onCheckedChange={(checked) => mutation.mutate({ id: member.id, atMeeting: checked })}
+					disabled={mutation.isPending}
+				/>
 			</TableCell>
 		</MotionTableRow>
 	);

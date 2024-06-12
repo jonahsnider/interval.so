@@ -1,3 +1,4 @@
+import assert from 'node:assert/strict';
 import { TRPCError } from '@trpc/server';
 import { and, count, eq } from 'drizzle-orm';
 import postgres from 'postgres';
@@ -35,6 +36,8 @@ export class TeamService {
 			.from(Schema.teamUsers)
 			.where(and(eq(Schema.teamUsers.userId, user.id), eq(Schema.teamUsers.role, 'owner')));
 
+		assert(ownedTeams);
+
 		if (ownedTeams.count > TeamService.MAX_TEAMS_PER_USER) {
 			throw new TRPCError({
 				code: 'UNPROCESSABLE_CONTENT',
@@ -46,6 +49,8 @@ export class TeamService {
 			await db.transaction(async (tx) => {
 				// Create team
 				const [team] = await tx.insert(Schema.teams).values(input).returning({ slug: Schema.teams.slug });
+
+				assert(team);
 
 				// Create team user
 				await tx.insert(Schema.teamUsers).values({
@@ -63,5 +68,20 @@ export class TeamService {
 				});
 			}
 		}
+	}
+
+	async getDisplayName(team: Pick<TeamSchema, 'slug'>): Promise<string> {
+		// No auth needed, team display name/existence is public
+
+		const result = await db.query.teams.findFirst({
+			where: eq(Schema.teams.slug, team.slug),
+			columns: {
+				displayName: true,
+			},
+		});
+
+		assert(result, new TRPCError({ code: 'NOT_FOUND', message: 'Team not found' }));
+
+		return result.displayName;
 	}
 }

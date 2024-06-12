@@ -1,0 +1,1 @@
+CREATE INDEX IF NOT EXISTS "team_users_role_index" ON "team_users" USING btree ("role");

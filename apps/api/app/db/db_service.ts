@@ -8,3 +8,5 @@ const connection = postgres(postgresUrl.release());
 export const db = drizzle(connection, {
 	schema: { ...schema, ...relations },
 });
+
+export type Db = typeof db;

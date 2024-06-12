@@ -14,6 +14,7 @@ import {
 } from 'drizzle-orm/pg-core';
 
 export const teamUserRole = pgEnum('team_user_role', ['owner', 'admin']);
+export type TeamUserRole = (typeof teamUserRole)['enumValues'][number];
 
 const bytea = customType<{ data: Buffer; notNull: false; default: false }>({
 	dataType() {
@@ -68,6 +69,7 @@ export const teamUsers = pgTable(
 	},
 	(teamUsers) => ({
 		primaryKey: primaryKey({ columns: [teamUsers.teamSlug, teamUsers.userId] }),
+		roleIndex: index().on(teamUsers.role),
 	}),
 );
 
@@ -82,23 +84,26 @@ export const teamMembers = pgTable(
 
 		archived: boolean('archived').notNull().default(false),
 		createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+
+		pendingSignIn: timestamp('pending_sign_in', { withTimezone: true }),
 	},
 	(teamMembers) => ({
 		unique: unique().on(teamMembers.teamSlug, teamMembers.name),
 	}),
 );
 
-export const memberMeetings = pgTable(
-	'member_meetings',
+export const finishedMemberMeetings = pgTable(
+	'finished_member_meetings',
 	{
-		memberId: uuid('member_id').references(() => teamMembers.id),
+		id: uuid('id').notNull().primaryKey().defaultRandom(),
+		memberId: uuid('member_id')
+			.references(() => teamMembers.id)
+			.notNull(),
 
-		startedAt: timestamp('started_at', { withTimezone: true }).notNull().defaultNow(),
-		endedAt: timestamp('ended_at', { withTimezone: true }),
+		startedAt: timestamp('started_at', { withTimezone: true }).notNull(),
+		endedAt: timestamp('ended_at', { withTimezone: true }).notNull(),
 	},
 	(memberMeetings) => ({
-		primaryKey: primaryKey({ columns: [memberMeetings.memberId, memberMeetings.startedAt] }),
-		startIndex: index().on(memberMeetings.startedAt),
-		endIndex: index().on(memberMeetings.endedAt),
+		memberIdIndex: index().on(memberMeetings.memberId),
 	}),
 );

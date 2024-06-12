@@ -2,8 +2,8 @@ import { inject } from '@adonisjs/core';
 import { z } from 'zod';
 import { injectHelper } from '../../util/inject_helper.js';
 import { authedProcedure, publicProcedure, router } from '../trpc/trpc_service.js';
-import { UserSchema } from './schemas/user_schema.js';
-import { UserService } from './user_service.js';
+import { UserSchema } from '../user/schemas/user_schema.js';
+import { UserService } from '../user/user_service.js';
 
 @inject()
 @injectHelper(UserService)

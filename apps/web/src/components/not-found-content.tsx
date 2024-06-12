@@ -1,17 +1,30 @@
 import { Button } from '@/components/ui/button';
 import { Link } from 'next-view-transitions';
+import { trpcServer } from '../trpc/trpc-server';
 
-export function NotFoundPageContent() {
+export async function NotFoundPageContent() {
+	const { user } = await trpcServer.user.getSelf.query();
+
 	return (
-		<div className='flex flex-1 justify-center items-center flex-col gap-8'>
+		<div className='flex flex-1 justify-center items-center flex-col gap-6'>
 			<h1 className='text-5xl font-bold'>404</h1>
 
 			<p className='text-muted-foreground'>
-				You are logged in as <strong>USERNAME</strong>
+				{user && (
+					<>
+						You are logged in as <strong>{user.displayName}</strong>
+					</>
+				)}
+				{!user && "You aren't logged in"}
 			</p>
 
-			<Button asChild={true}>
-				<Link href='/login'>Sign in as a different user</Link>
+			<Button asChild={true} size='lg'>
+				<Link href='/login' className='[view-transition-name:auth-card-button]'>
+					<span className='[view-transition-name:auth-card-button-inner]'>
+						{user && 'Login as a different user'}
+						{!user && 'Login'}
+					</span>
+				</Link>
 			</Button>
 
 			<div className='text-center flex'>

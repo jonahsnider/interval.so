@@ -12,7 +12,7 @@ import { trpcServer } from '@/src/trpc/trpc-server';
 import { UserCircleIcon } from '@heroicons/react/20/solid';
 import { Link } from 'next-view-transitions';
 import { Suspense } from 'react';
-import { MenuContentAuthed } from './profile-menu.client';
+import { MenuContentAuthed, MenuContentGuestAuth } from './profile-menu.client';
 
 function MenuContentUnauthed() {
 	return (
@@ -34,10 +34,19 @@ function MenuContentUnauthed() {
 }
 
 async function ProfileMenuContent() {
-	const { user } = await trpcServer.user.getSelf.query();
+	const team = { slug: 'jonah-industries', displayName: 'TEMPORARY' };
+
+	const [{ user }, isGuest] = await Promise.all([
+		trpcServer.user.getSelf.query(),
+		trpcServer.guestLogin.isGuest.query(team),
+	]);
 
 	if (user) {
-		return <MenuContentAuthed displayName={user.displayName} />;
+		return <MenuContentAuthed user={user} />;
+	}
+
+	if (isGuest) {
+		return <MenuContentGuestAuth team={team} />;
 	}
 
 	return <MenuContentUnauthed />;

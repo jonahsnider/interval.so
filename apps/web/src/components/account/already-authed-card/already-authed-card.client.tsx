@@ -9,7 +9,7 @@ import { toast } from 'sonner';
 export function AlreadyAuthedCardInner({ displayName, title }: { displayName: string; title: string }) {
 	const router = useRouter();
 
-	const signOut = trpc.auth.logOut.useMutation({
+	const signOut = trpc.accounts.logOut.useMutation({
 		onSuccess: () => {
 			router.refresh();
 			toast.success('You have been logged out');
@@ -20,17 +20,23 @@ export function AlreadyAuthedCardInner({ displayName, title }: { displayName: st
 	});
 
 	return (
-		<Card>
+		<Card className='[view-transition-name:auth-card]'>
 			<CardHeader>
-				<CardTitle>{title}</CardTitle>
+				<CardTitle className='[view-transition-name:auth-card-title]'>{title}</CardTitle>
 			</CardHeader>
 
 			<CardContent>
-				<CardDescription>You're already signed in as {displayName}.</CardDescription>
+				<CardDescription className='[view-transition-name:auth-card-description]'>
+					You're already signed in as {displayName}.
+				</CardDescription>
 			</CardContent>
 
 			<CardFooter className='justify-end'>
-				<Button disabled={signOut.isPending} onClick={() => signOut.mutate()}>
+				<Button
+					disabled={signOut.isPending}
+					onClick={() => signOut.mutate()}
+					className='[view-transition-name:auth-card-button]'
+				>
 					Log out
 				</Button>
 			</CardFooter>

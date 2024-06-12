@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { trpc } from '@/src/trpc/trpc-client';
@@ -28,8 +28,8 @@ export function SignupCard() {
 		},
 	});
 
-	const getRegistrationOptions = trpc.auth.register.generateRegistrationOptions.useMutation();
-	const finishRegistration = trpc.auth.register.verifyRegistrationResponse.useMutation({
+	const getRegistrationOptions = trpc.accounts.register.generateRegistrationOptions.useMutation();
+	const finishRegistration = trpc.accounts.register.verifyRegistrationResponse.useMutation({
 		onSuccess: () => {
 			router.push('/');
 			router.refresh();
@@ -109,11 +109,14 @@ export function SignupCard() {
 	};
 
 	return (
-		<Card>
+		<Card className='[view-transition-name:auth-card]'>
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)}>
 					<CardHeader>
-						<CardTitle>Sign up</CardTitle>
+						<CardTitle className='[view-transition-name:auth-card-title]'>Sign up</CardTitle>
+						<CardDescription className='[view-transition-name:auth-card-description]'>
+							Create or join a team to track attendance once you've registered.
+						</CardDescription>
 					</CardHeader>
 					<CardContent>
 						<FormField
@@ -135,9 +138,14 @@ export function SignupCard() {
 					</CardContent>
 
 					<CardFooter className='justify-end'>
-						<Button type='submit' disabled={isPending} size='lg' className='w-full'>
+						<Button
+							type='submit'
+							disabled={isPending}
+							size='lg'
+							className='w-full [view-transition-name:auth-card-button]'
+						>
 							{isPending && <ArrowPathIcon className='h-4 w-4 animate-spin' />}
-							{!isPending && 'Sign up'}
+							{!isPending && <span className='[view-transition-name:auth-card-button-inner]'>Sign up</span>}
 						</Button>
 					</CardFooter>
 				</form>

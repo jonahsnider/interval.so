@@ -1,8 +1,9 @@
+import { Secret } from '@adonisjs/core/helpers';
 import { defineConfig } from '@adonisjs/redis';
 import type { InferConnections } from '@adonisjs/redis/types';
 import env from '#start/env';
 
-const url = new URL(env.get('REDIS_URL'));
+export const redisUrl = new Secret(new URL(env.get('REDIS_URL')));
 
 const redisConfig = defineConfig({
 	connection: 'main',
@@ -19,9 +20,9 @@ const redisConfig = defineConfig({
     |
     */
 		main: {
-			host: url.hostname,
-			port: url.port,
-			password: url.password,
+			host: redisUrl.release().hostname,
+			port: redisUrl.release().port,
+			password: redisUrl.release().password,
 			db: 0,
 			keyPrefix: '',
 			retryStrategy(times) {

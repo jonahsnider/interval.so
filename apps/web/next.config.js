@@ -7,9 +7,6 @@ dotenv.config({ path: path.join(__dirname, '..', '..', '.env') });
 
 /** @type {import('next').NextConfig} */
 const nextConfig = withPlausibleProxy()({
-	experimental: {
-		ppr: true,
-	},
 	productionBrowserSourceMaps: true,
 	env: {
 		// biome-ignore lint/style/useNamingConvention: This is an environment variable

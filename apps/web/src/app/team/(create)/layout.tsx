@@ -1,6 +1,6 @@
 import { MainContent } from '@/src/components/main-content';
 import { Navbar } from '@/src/components/navbar/navbar';
-import { NeedsSignedInScreen } from '@/src/components/needs-signed-in-screen';
+import { NeedsAdminAuthScreen } from '@/src/components/needs-admin-auth-screen';
 import { PageHeader } from '@/src/components/page-header';
 import type { PropsWithChildren } from 'react';
 
@@ -13,7 +13,7 @@ export default function TeamCreatePageLayout({ children }: PropsWithChildren) {
 			<PageHeader title='Create a team' />
 
 			<MainContent className='items-center'>
-				<NeedsSignedInScreen>{children}</NeedsSignedInScreen>
+				<NeedsAdminAuthScreen>{children}</NeedsAdminAuthScreen>
 			</MainContent>
 		</>
 	);

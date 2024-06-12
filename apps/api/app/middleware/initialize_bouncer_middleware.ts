@@ -6,7 +6,14 @@ import type { HttpContext } from '@adonisjs/core/http';
 import type { NextFn } from '@adonisjs/core/types/http';
 import type { UserSchema } from '../user/schemas/user_schema.js';
 
-export type BouncerUser = Pick<UserSchema, 'id'>;
+export type BouncerUser =
+	// Regular team user auth
+	| Pick<UserSchema, 'id'>
+	// Guest password auth
+	| {
+			id: undefined;
+			unvalidatedGuestToken: string;
+	  };
 
 export type AppBouncer = Bouncer<BouncerUser, typeof abilities, typeof policies>;
 
@@ -24,8 +31,17 @@ export default class InitializeBouncerMiddleware {
 		ctx.bouncer = new Bouncer(
 			(): BouncerUser | undefined => {
 				const userId = ctx.session.get('userId') as string | undefined;
+				const guestToken = ctx.session.get('guestToken') as string | undefined;
 
-				return userId ? { id: userId } : undefined;
+				if (userId) {
+					return { id: userId };
+				}
+
+				if (guestToken) {
+					return { id: undefined, unvalidatedGuestToken: guestToken };
+				}
+
+				return undefined;
 			},
 			abilities,
 			policies,

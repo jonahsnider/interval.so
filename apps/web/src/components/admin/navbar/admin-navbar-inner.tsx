@@ -2,6 +2,7 @@
 
 import { AnimatePresence, type Variants, motion } from 'framer-motion';
 
+import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import clsx from 'clsx';
 import { Link } from 'next-view-transitions';
 import { usePathname } from 'next/navigation';
@@ -35,15 +36,13 @@ const ENTRIES: NavbarEntryData[] = [
 	},
 ];
 
-function NavbarEntry({ label, hrefSuffix, matcher }: NavbarEntryData) {
+function NavbarEntry({ entry, team }: { entry: NavbarEntryData; team: Pick<TeamSchema, 'slug'> }) {
 	const pathname = usePathname();
 
-	const currentTeamSlug = 'team581';
+	const prefix = `/team/${team.slug}/admin`;
 
-	const prefix = `/team/${currentTeamSlug}/admin`;
-
-	const href = `${prefix}${hrefSuffix}`;
-	const active = matcher.test(pathname.slice(prefix.length));
+	const href = `${prefix}${entry.hrefSuffix}`;
+	const active = entry.matcher.test(pathname.slice(prefix.length));
 
 	return (
 		<Link
@@ -53,7 +52,7 @@ function NavbarEntry({ label, hrefSuffix, matcher }: NavbarEntryData) {
 				'border-primary': active,
 			})}
 		>
-			{label}
+			{entry.label}
 		</Link>
 	);
 }
@@ -63,7 +62,7 @@ const motionVariants: Variants = {
 	visible: { opacity: 1, height: 'auto' },
 };
 
-export function AdminNavbarInner() {
+export function AdminNavbarInner({ team }: { team: Pick<TeamSchema, 'slug'> }) {
 	return (
 		<AnimatePresence initial={false}>
 			<motion.nav
@@ -73,7 +72,7 @@ export function AdminNavbarInner() {
 				className='flex gap-6 justify-start items-center font-medium pt-2 col-span-full'
 			>
 				{ENTRIES.map((entry) => (
-					<NavbarEntry key={entry.hrefSuffix} {...entry} />
+					<NavbarEntry key={entry.hrefSuffix} entry={entry} team={team} />
 				))}
 			</motion.nav>
 		</AnimatePresence>

@@ -1,0 +1,1 @@
+ALTER TABLE "finished_member_meetings" ALTER COLUMN "member_id" SET NOT NULL;

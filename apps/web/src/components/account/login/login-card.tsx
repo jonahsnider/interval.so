@@ -14,8 +14,8 @@ import { toast } from 'sonner';
 export function LoginCard() {
 	const router = useRouter();
 
-	const getLoginOptions = trpc.auth.login.generateAuthenticationOptions.useMutation();
-	const finishLogin = trpc.auth.login.verifyAuthenticationResponse.useMutation({
+	const getLoginOptions = trpc.accounts.login.generateAuthenticationOptions.useMutation();
+	const finishLogin = trpc.accounts.login.verifyAuthenticationResponse.useMutation({
 		onSuccess: ({ displayName }) => {
 			router.push('/');
 			router.refresh();
@@ -106,15 +106,17 @@ export function LoginCard() {
 	};
 
 	return (
-		<Card>
+		<Card className='[view-transition-name:auth-card]'>
 			<CardHeader>
-				<CardTitle>Login</CardTitle>
-				<CardDescription>Login to hours.frc.sh with your passkey.</CardDescription>
+				<CardTitle className='[view-transition-name:auth-card-title]'>Login</CardTitle>
+				<CardDescription className='[view-transition-name:auth-card-description]'>
+					Login to hours.frc.sh with your passkey.
+				</CardDescription>
 			</CardHeader>
 			<CardFooter className='justify-center'>
-				<Button onClick={onClick} size='lg' className='w-full'>
+				<Button onClick={onClick} size='lg' className='w-full [view-transition-name:auth-card-button]'>
 					{isPending && <ArrowPathIcon className='h-4 w-4 animate-spin' />}
-					{!isPending && 'Login'}
+					{!isPending && <span className='[view-transition-name:auth-card-button-inner]'>Login</span>}
 				</Button>
 			</CardFooter>
 		</Card>

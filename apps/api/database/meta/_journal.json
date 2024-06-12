@@ -36,6 +36,34 @@
 			"when": 1717803966020,
 			"tag": "0004_abandoned_wild_child",
 			"breakpoints": true
+		},
+		{
+			"idx": 5,
+			"version": "7",
+			"when": 1717955713333,
+			"tag": "0005_late_luke_cage",
+			"breakpoints": true
+		},
+		{
+			"idx": 6,
+			"version": "7",
+			"when": 1717962231597,
+			"tag": "0006_bright_lockheed",
+			"breakpoints": true
+		},
+		{
+			"idx": 7,
+			"version": "7",
+			"when": 1717962511266,
+			"tag": "0007_easy_bloodaxe",
+			"breakpoints": true
+		},
+		{
+			"idx": 8,
+			"version": "7",
+			"when": 1717964322005,
+			"tag": "0008_premium_robin_chapel",
+			"breakpoints": true
 		}
 	]
 }

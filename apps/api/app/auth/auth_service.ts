@@ -87,6 +87,8 @@ export class AuthService {
 					})
 					.returning({ id: Schema.users.id });
 
+				assert(user);
+
 				await tx.insert(Schema.credentials).values({
 					userId: user.id,
 					deviceType: verification.registrationInfo.credentialDeviceType,

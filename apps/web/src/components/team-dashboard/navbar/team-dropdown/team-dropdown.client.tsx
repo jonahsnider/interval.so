@@ -37,7 +37,7 @@ export function TeamDropdownClient({ currentTeam, teams }: Props) {
 	return (
 		<DropdownMenu>
 			{currentTeamFull && <TeamDropdownTrigger {...currentTeamFull} />}
-			{!currentTeamFull && <TeamDropdownTrigger displayName='No team' />}
+			{!currentTeamFull && <TeamDropdownTrigger displayName='No team selected' />}
 
 			<DropdownMenuContent align='end'>
 				<DropdownMenuLabel>Your teams</DropdownMenuLabel>

@@ -13,6 +13,7 @@ export const router = t.router;
 
 export const publicProcedure = t.procedure.use(({ ctx, next }) => {
 	const userId = ctx.context.session.get('userId') as undefined | string;
+	const guestToken = ctx.context.session.get('guestToken') as undefined | string;
 
 	return next({
 		ctx: {
@@ -22,6 +23,7 @@ export const publicProcedure = t.procedure.use(({ ctx, next }) => {
 						id: userId,
 					}
 				: undefined,
+			guestToken,
 		},
 	});
 });
