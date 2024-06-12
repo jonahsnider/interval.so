@@ -15,14 +15,16 @@ import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema'
 import { SlashIcon } from '@radix-ui/react-icons';
 import { Link } from 'next-view-transitions';
 import { useRouter } from 'next/navigation';
-import { type PropsWithChildren, type ReactNode, useMemo } from 'react';
+import { type PropsWithChildren, type ReactNode, use, useMemo } from 'react';
 
 type Props = {
-	teams: Pick<TeamSchema, 'displayName' | 'slug'>[];
+	teamsPromise: Promise<Pick<TeamSchema, 'displayName' | 'slug'>[]>;
 	currentTeam?: Pick<TeamSchema, 'slug'>;
 };
 
-export function TeamDropdownClient({ currentTeam, teams }: Props) {
+export function TeamDropdownClient({ currentTeam, teamsPromise }: Props) {
+	const teams = use(teamsPromise);
+
 	const router = useRouter();
 	const currentTeamFull = currentTeam ? teams.find((team) => team.slug === currentTeam.slug) : undefined;
 

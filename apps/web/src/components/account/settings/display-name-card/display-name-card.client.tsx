@@ -8,7 +8,7 @@ import { trpc } from '@/src/trpc/trpc-client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UserSchema } from '@hours.frc.sh/api/app/user/schemas/user_schema';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { use, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import type { z } from 'zod';
@@ -16,10 +16,12 @@ import type { z } from 'zod';
 const formSchema = UserSchema.pick({ displayName: true });
 
 type Props = {
-	user: Pick<UserSchema, 'displayName'>;
+	userPromise: Promise<Pick<UserSchema, 'displayName'>>;
 };
 
-export function DisplayNameCardInner({ user }: Props) {
+export function DisplayNameCardInner({ userPromise }: Props) {
+	const user = use(userPromise);
+
 	const initial = user.displayName;
 
 	const router = useRouter();

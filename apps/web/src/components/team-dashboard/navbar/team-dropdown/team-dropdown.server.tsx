@@ -39,16 +39,12 @@ function TeamDropdownSkeleton({ currentTeam }: { currentTeam?: Pick<TeamSchema, 
 	);
 }
 
-async function TeamDropdownFetcher({ currentTeam }: { currentTeam?: Pick<TeamSchema, 'slug'> }) {
-	const teams = await trpcServer.teams.teamNamesForSelf.query();
-
-	return <TeamDropdownClient teams={teams} currentTeam={currentTeam} />;
-}
-
 export function TeamDropdown({ currentTeam }: { currentTeam?: Pick<TeamSchema, 'slug'> }) {
+	const teams = trpcServer.teams.teamNamesForSelf.query();
+
 	return (
 		<Suspense fallback={<TeamDropdownSkeleton currentTeam={currentTeam} />}>
-			<TeamDropdownFetcher currentTeam={currentTeam} />
+			<TeamDropdownClient teamsPromise={teams} currentTeam={currentTeam} />
 		</Suspense>
 	);
 }

@@ -10,29 +10,23 @@ type Props = {
 	team: Pick<TeamSchema, 'slug'>;
 };
 
-async function EndMeetingButtonFetcher({ width, team }: Props) {
-	const members = await trpcServer.teams.members.simpleMemberList.query({ slug: team.slug });
-
-	const enabled = members.some((member) => member.atMeeting);
-
-	return <EndMeetingButtonClient width={width} enabled={enabled} team={team} />;
-}
-
-function EndMeetingButtonSkeleton({ width }: { width?: 'full' | 'auto' }) {
-	return (
-		<Skeleton
-			className={clsx('h-9', {
-				'w-full': width === 'full',
-				'w-28': width !== 'full',
-			})}
-		/>
-	);
-}
-
 export function EndMeetingButton({ width, team }: Props) {
+	const enabled = trpcServer.teams.members.simpleMemberList
+		.query({ slug: team.slug })
+		.then((members) => members.some((member) => member.atMeeting));
+
 	return (
-		<Suspense fallback={<EndMeetingButtonSkeleton width={width} />}>
-			<EndMeetingButtonFetcher width={width} team={team} />
+		<Suspense
+			fallback={
+				<Skeleton
+					className={clsx('h-9', {
+						'w-full': width === 'full',
+						'w-28': width !== 'full',
+					})}
+				/>
+			}
+		>
+			<EndMeetingButtonClient width={width} enabledPromise={enabled} team={team} />
 		</Suspense>
 	);
 }

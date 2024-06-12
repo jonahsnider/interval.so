@@ -16,17 +16,19 @@ import { trpc } from '@/src/trpc/trpc-client';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { use, useState } from 'react';
 import { toast } from 'sonner';
 import { DateTimePicker } from '../../date-time-picker';
 
 type Props = {
 	width?: 'full' | 'auto';
-	enabled: boolean;
+	enabledPromise: Promise<boolean>;
 	team: Pick<TeamSchema, 'slug'>;
 };
 
-export function EndMeetingButtonClient({ width = 'auto', team, enabled }: Props) {
+export function EndMeetingButtonClient({ width = 'auto', team, enabledPromise }: Props) {
+	const enabled = use(enabledPromise);
+
 	return (
 		<Tooltip>
 			<TooltipTrigger asChild={true}>
