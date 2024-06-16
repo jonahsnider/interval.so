@@ -1,26 +1,22 @@
-'use client';
-
 type Props = {
-	value: string;
+	active: boolean;
 	title: string;
 	measure: number;
 	trend: number | undefined;
-	selected: string;
 	className?: string;
+	href: string;
 };
 
 import { Badge } from '@/components/ui/badge';
-import { Trigger } from '@radix-ui/react-tabs';
 import clsx from 'clsx';
+import { Link } from 'next-view-transitions';
 
-export function GraphTabTrigger({ value, measure, selected, title, trend, className }: Props) {
-	const active = selected === value;
-
+export function GraphTabTrigger({ measure, title, trend, className, href, active }: Props) {
 	return (
-		<Trigger
-			value={value}
+		<Link
+			href={href}
 			className={clsx(
-				'p-4 border-b-2 border-r transition-colors flex flex-col gap-2 leading-none min-w-56',
+				'p-4 border-b-2 border-r flex flex-col gap-2 leading-none min-w-56 items-start',
 				{
 					'dark:bg-muted/30 border-b-transparent': !active,
 					'bg-background border-b-primary': active,
@@ -32,7 +28,7 @@ export function GraphTabTrigger({ value, measure, selected, title, trend, classN
 
 			{trend && (
 				<div
-					className={clsx('flex gap-4 justify-center items-center transition-opacity', {
+					className={clsx('flex gap-4 justify-center items-center', {
 						'opacity-80': !active,
 					})}
 				>
@@ -50,6 +46,6 @@ export function GraphTabTrigger({ value, measure, selected, title, trend, classN
 					</Badge>
 				</div>
 			)}
-		</Trigger>
+		</Link>
 	);
 }
