@@ -12,10 +12,10 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { ChevronUpDownIcon, PlusIcon } from '@heroicons/react/16/solid';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
-import { SlashIcon } from '@radix-ui/react-icons';
 import { Link } from 'next-view-transitions';
 import { useRouter } from 'next/navigation';
-import { type PropsWithChildren, type ReactNode, use, useMemo } from 'react';
+import { type ReactNode, use, useMemo } from 'react';
+import { SlashSeparatedNavbarItem } from '../slash-separated-navbar-item';
 
 type Props = {
 	teamsPromise: Promise<Pick<TeamSchema, 'displayName' | 'slug'>[]>;
@@ -65,31 +65,18 @@ export function TeamDropdownClient({ currentTeam, teamsPromise }: Props) {
 		</DropdownMenu>
 	);
 }
+
 export function TeamDropdownTrigger({
 	displayName,
 	slug,
 }: Partial<Pick<TeamSchema, 'slug'>> & { displayName: ReactNode }) {
-	const Outer = slug
-		? ({ children, className }: PropsWithChildren<{ className?: string }>) => (
-				<Link href={`/team/${slug}`} className={className}>
-					{children}
-				</Link>
-			)
-		: 'div';
-
 	return (
-		<Outer className='flex items-center leading-none'>
-			<div className='px-2 text-muted-foreground'>
-				<SlashIcon height={20} width={20} />
-			</div>
-
-			<div className='pr-2'>{displayName}</div>
-
+		<SlashSeparatedNavbarItem team={{ slug, displayName }}>
 			<DropdownMenuTrigger asChild={true}>
 				<Button size='icon' variant='ghost'>
 					<ChevronUpDownIcon className='w-4 h-4' />
 				</Button>
 			</DropdownMenuTrigger>
-		</Outer>
+		</SlashSeparatedNavbarItem>
 	);
 }

@@ -6,15 +6,16 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
+import { Skeleton } from '@/components/ui/skeleton';
 import { trpc } from '@/src/trpc/trpc-client';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import type { UserSchema } from '@hours.frc.sh/api/app/user/schemas/user_schema';
 import { Link } from 'next-view-transitions';
 import { useRouter } from 'next/navigation';
+import { Suspense, use } from 'react';
 import { toast } from 'sonner';
 
 export function MenuContentAuthed({ user }: { user: Pick<UserSchema, 'displayName'> }) {
-	const currentTeamSlug = 'team581';
 	const router = useRouter();
 
 	const signOut = trpc.accounts.logOut.useMutation({
@@ -36,9 +37,6 @@ export function MenuContentAuthed({ user }: { user: Pick<UserSchema, 'displayNam
 				<DropdownMenuSeparator />
 
 				<DropdownMenuItem asChild={true}>
-					<Link href={`/team/${currentTeamSlug}/admin`}>Admin dashboard</Link>
-				</DropdownMenuItem>
-				<DropdownMenuItem asChild={true}>
 					<Link href='/account'>Account settings</Link>
 				</DropdownMenuItem>
 			</DropdownMenuGroup>
@@ -52,7 +50,15 @@ export function MenuContentAuthed({ user }: { user: Pick<UserSchema, 'displayNam
 	);
 }
 
-export function MenuContentGuestAuth({ team }: { team: Pick<TeamSchema, 'displayName'> }) {
+function DisplayName({ displayNamePromise }: { displayNamePromise: Promise<TeamSchema['displayName']> }) {
+	const displayName = use(displayNamePromise);
+
+	return displayName;
+}
+
+export function MenuContentGuestAuth({
+	displayNamePromise,
+}: { displayNamePromise: Promise<TeamSchema['displayName']> }) {
 	const router = useRouter();
 
 	const signOut = trpc.accounts.logOut.useMutation({
@@ -68,7 +74,11 @@ export function MenuContentGuestAuth({ team }: { team: Pick<TeamSchema, 'display
 
 	return (
 		<DropdownMenuGroup>
-			<DropdownMenuLabel>{team.displayName}</DropdownMenuLabel>
+			<DropdownMenuLabel>
+				<Suspense fallback={<Skeleton className='h-6 w-32' />}>
+					<DisplayName displayNamePromise={displayNamePromise} />
+				</Suspense>
+			</DropdownMenuLabel>
 
 			<DropdownMenuSeparator />
 

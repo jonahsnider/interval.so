@@ -27,6 +27,13 @@ export class GuestRouter {
 				.mutation(async ({ ctx, input }) => {
 					await this.guestPasswordService.guestPasswordLogin(input, ctx.context);
 				}),
+			getCurrentGuestTeam: publicProcedure.output(TeamSchema.pick({ slug: true }).optional()).query(({ ctx }) => {
+				if (!ctx.guestToken) {
+					return undefined;
+				}
+
+				return this.guestPasswordService.getTeamFromToken(ctx.guestToken);
+			}),
 		});
 	}
 }

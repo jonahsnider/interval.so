@@ -11,8 +11,8 @@ import type { TeamSchema } from '../team/schemas/team_schema.js';
 
 /** Manages tokens for guest passwords, which allow limited access to a team. */
 export class GuestPasswordService {
-	private static redisKey(teamSlug: string): string {
-		return `team:${teamSlug}:guestTokens`;
+	private static redisKey(guestToken: string): string {
+		return `guestToken:${guestToken}`;
 	}
 
 	private static readonly GUEST_PASSWORD_SESSION_LIFETIME = convert(6, 'months');
@@ -44,24 +44,38 @@ export class GuestPasswordService {
 
 		const token = cuid2.createId();
 
-		const pipeline = redis.pipeline();
-		pipeline.sadd(GuestPasswordService.redisKey(input.slug), token);
-		pipeline.expire(
-			GuestPasswordService.redisKey(input.slug),
+		// Map the token to the team
+		await redis.set(
+			GuestPasswordService.redisKey(token),
+			input.slug,
+			'EX',
 			GuestPasswordService.GUEST_PASSWORD_SESSION_LIFETIME.to('s'),
 		);
-		await pipeline.exec();
 
 		context.session.put('guestToken', token);
 	}
 
 	async teamHasGuestToken(team: Pick<TeamSchema, 'slug'>, token: string): Promise<boolean> {
-		const result = await redis.sismember(GuestPasswordService.redisKey(team.slug), token);
+		const tokenTeam = await this.getTeamFromToken(token);
 
-		return result === 1;
+		if (!tokenTeam) {
+			return false;
+		}
+
+		return tokenTeam.slug === team.slug;
 	}
 
 	async clearTokensForTeam(team: Pick<TeamSchema, 'slug'>): Promise<void> {
 		await redis.del(GuestPasswordService.redisKey(team.slug));
+	}
+
+	async getTeamFromToken(token: string): Promise<Pick<TeamSchema, 'slug'> | undefined> {
+		const result = await redis.get(GuestPasswordService.redisKey(token));
+
+		if (!result) {
+			return undefined;
+		}
+
+		return { slug: result };
 	}
 }

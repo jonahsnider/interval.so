@@ -34,19 +34,19 @@ function MenuContentUnauthed() {
 }
 
 async function ProfileMenuContent() {
-	const team = { slug: 'jonah-industries', displayName: 'TEMPORARY' };
-
-	const [{ user }, isGuest] = await Promise.all([
+	const [{ user }, guestTeam] = await Promise.all([
 		trpcServer.user.getSelf.query(),
-		trpcServer.guestLogin.isGuest.query(team),
+		trpcServer.guestLogin.getCurrentGuestTeam.query(),
 	]);
 
 	if (user) {
 		return <MenuContentAuthed user={user} />;
 	}
 
-	if (isGuest) {
-		return <MenuContentGuestAuth team={team} />;
+	if (guestTeam) {
+		const displayNamePromise = trpcServer.teams.getDisplayName.query(guestTeam);
+
+		return <MenuContentGuestAuth displayNamePromise={displayNamePromise} />;
 	}
 
 	return <MenuContentUnauthed />;

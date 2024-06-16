@@ -39,8 +39,8 @@ export function PasswordLoginCard({ team }: Props) {
 		},
 		onSuccess: () => {
 			toast.success('Logged in', { id: toastId });
-			router.refresh();
 			router.push(`/team/${team.slug}`);
+			router.refresh();
 		},
 		onError: (error) => {
 			toast.error('An error occurred while logging in', { id: toastId, description: error.message });
@@ -70,7 +70,7 @@ export function PasswordLoginCard({ team }: Props) {
 							name='password'
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Password</FormLabel>
+									<FormLabel>Team password</FormLabel>
 									<FormControl {...field}>
 										<Input {...field} className='max-w-80' type='text' placeholder='secret123' />
 									</FormControl>

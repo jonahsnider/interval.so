@@ -27,6 +27,9 @@ export default async function TeamLoginPage({ params }: Props) {
 		throw error;
 	}
 
+	// TODO: Render a different card if the user is already authed for this team
+	// TODO: If the user is authed for a different team, add a note that says "You are signed into {other team}"
+
 	return (
 		<>
 			<TeamPageNavbar currentTeam={{ slug: params.team }} />
