@@ -1,6 +1,5 @@
 import { MainContent } from '@/src/components/main-content';
 import { Navbar } from '@/src/components/navbar/navbar';
-import { NeedsAdminAuthScreen } from '@/src/components/needs-admin-auth-screen';
 import { PageHeader } from '@/src/components/page-header';
 import type { PropsWithChildren } from 'react';
 
@@ -12,9 +11,7 @@ export default function AccountPageLayout({ children }: PropsWithChildren) {
 
 			<PageHeader title='Account settings' />
 
-			<MainContent>
-				<NeedsAdminAuthScreen>{children}</NeedsAdminAuthScreen>
-			</MainContent>
+			<MainContent>{children}</MainContent>
 		</>
 	);
 }

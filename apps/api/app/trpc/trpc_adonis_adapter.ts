@@ -64,7 +64,6 @@ export function createTrpcHandlerAdonis<TRouter extends AnyTRPCRouter>(options: 
 			onError: options.onError,
 		});
 
-		// @ts-expect-error Not sure why the types have stopped acting like iterables are a thing, but this works
 		for (const [headerKey, headerValue] of trpcResponse.headers) {
 			response.header(headerKey, headerValue);
 		}

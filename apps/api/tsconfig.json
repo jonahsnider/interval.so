@@ -4,6 +4,7 @@
 		"rootDir": "./",
 		"outDir": "./build",
 		"strict": true,
+		"lib": ["DOM.Iterable", "ESNext"],
 		"noUncheckedIndexedAccess": true
 	}
 }
