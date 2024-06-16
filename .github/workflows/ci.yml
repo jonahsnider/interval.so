@@ -24,6 +24,8 @@ jobs:
         with:
           node-version: 'lts/*'
           cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install --immutable
       - name: Pull environment variables
         run: yarn vercel env pull --environment development .env --token ${{ secrets.VERCEL_TOKEN }}
       - name: Cache Next.js
