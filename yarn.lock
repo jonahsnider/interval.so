@@ -1043,7 +1043,7 @@ __metadata:
     "@vinejs/vine": "npm:^2.1.0"
     convert: "npm:5.3.0"
     dotenv: "npm:16.4.5"
-    drizzle-kit: "npm:0.22.6"
+    drizzle-kit: "npm:0.22.7"
     drizzle-orm: "npm:0.31.2"
     execa: "npm:9.2.0"
     hot-hook: "npm:^0.2.6"
@@ -4246,16 +4246,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"drizzle-kit@npm:0.22.6":
-  version: 0.22.6
-  resolution: "drizzle-kit@npm:0.22.6"
+"drizzle-kit@npm:0.22.7":
+  version: 0.22.7
+  resolution: "drizzle-kit@npm:0.22.7"
   dependencies:
     "@esbuild-kit/esm-loader": "npm:^2.5.5"
     esbuild: "npm:^0.19.7"
     esbuild-register: "npm:^3.5.0"
   bin:
     drizzle-kit: bin.cjs
-  checksum: 10c0/8fb7dc06f9b921c848fdd1eeed2399a71e170d0f1c355b376b6fb9ac0f2fdaa00682042a99dc60b6301f2e82603f15b0bedb5bede8a06ea0883ddaa9bed82587
+  checksum: 10c0/535d22abc657b78438124770210edec5e9d820c8fe07e61aba45ce754a6be2f63ae0328c4daf37884b981d9aea3889b3f0566be7f67290da6257383c07fd6fcc
   languageName: node
   linkType: hard
 
