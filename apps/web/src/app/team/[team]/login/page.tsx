@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { MainContent } from '@/src/components/main-content';
-import { TeamPageNavbar } from '@/src/components/team-dashboard/navbar/team-page-navbar';
+import { Navbar } from '@/src/components/navbar/navbar';
+
 import { PasswordLoginCard } from '@/src/components/team-dashboard/password-login/password-login-card';
 import { isTrpcClientError } from '@/src/trpc/common';
 import { trpcServer } from '@/src/trpc/trpc-server';
@@ -32,7 +33,7 @@ export default async function TeamLoginPage({ params }: Props) {
 
 	return (
 		<>
-			<TeamPageNavbar currentTeam={{ slug: params.team }} />
+			<Navbar currentTeam={{ slug: params.team }} />
 
 			<MainContent className='flex flex-1 justify-center items-center flex-col'>
 				<div className='flex flex-col gap-1'>

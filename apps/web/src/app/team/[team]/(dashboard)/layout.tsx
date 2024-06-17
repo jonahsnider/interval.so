@@ -1,6 +1,7 @@
 import { MainContent } from '@/src/components/main-content';
+import { Navbar } from '@/src/components/navbar/navbar';
 import { NeedsAnyAuthScreen } from '@/src/components/needs-any-auth-screen';
-import { TeamPageNavbar } from '@/src/components/team-dashboard/navbar/team-page-navbar';
+
 import { isTrpcClientError } from '@/src/trpc/common';
 import { trpcServer } from '@/src/trpc/trpc-server';
 import { notFound } from 'next/navigation';
@@ -27,7 +28,7 @@ export default async function TeamLayout({ children, params }: Props) {
 
 	return (
 		<>
-			<TeamPageNavbar currentTeam={{ slug: params.team }} />
+			<Navbar currentTeam={{ slug: params.team }} />
 
 			<MainContent>
 				<NeedsAnyAuthScreen
