@@ -1,15 +1,23 @@
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
+import { searchParamCache, searchParamSerializer } from '../../search-params';
 import { AverageHoursGraph } from '../average-hours-graph';
 import { UniqueMembersGraph } from '../unique-members-graph';
 import { GraphTabTrigger } from './graph-tab-trigger';
 
+export type GraphTab = 'members' | 'hours';
+
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;
-	selected: 'members' | 'hours';
+	selected: GraphTab;
 };
 
 export function GraphTabs({ team, selected }: Props) {
+	const queryStates = searchParamCache.all();
+	const queryString = searchParamSerializer(queryStates);
+
+	const createHref = (subpath: string) => `/team/${team.slug}/admin${subpath}${queryString}`;
+
 	return (
 		<Card>
 			<div className='flex flex-col'>
@@ -20,7 +28,7 @@ export function GraphTabs({ team, selected }: Props) {
 							title='Members'
 							measure={28}
 							trend={0.2}
-							href={`/team/${team.slug}/admin`}
+							href={createHref('')}
 						/>
 
 						<GraphTabTrigger
@@ -28,11 +36,10 @@ export function GraphTabs({ team, selected }: Props) {
 							title='Average hours'
 							measure={5.7}
 							trend={-0.13}
-							href={`/team/${team.slug}/admin/dashboard/hours`}
+							href={createHref('/dashboard/hours')}
 						/>
 					</div>
 				</CardHeader>
-
 				<CardContent>
 					{selected === 'members' && <UniqueMembersGraph />}
 					{selected === 'hours' && <AverageHoursGraph />}

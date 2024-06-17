@@ -16,17 +16,9 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { CalendarIcon } from '@heroicons/react/16/solid';
 import clsx from 'clsx';
-import { type Duration, intervalToDuration } from 'date-fns';
 import { useState } from 'react';
 import type { SelectRangeEventHandler } from 'react-day-picker';
-
-export enum DurationSlug {
-	Last7Days = '7d',
-	Last30Days = '30d',
-	Last12Months = '12m',
-	ThisYear = 'thisYear',
-	Custom = 'custom',
-}
+import { DurationSlug, durationLabel } from './duration-slug';
 
 type Props = {
 	duration: DurationSlug;
@@ -36,49 +28,6 @@ type Props = {
 	setDurationAndClearDates: (value: DurationSlug) => void;
 	setDatesAndClearDuration: SelectRangeEventHandler;
 };
-
-const DURATIONS = {
-	[DurationSlug.Last7Days]: 'Last 7 days',
-	[DurationSlug.Last30Days]: 'Last 30 days',
-	[DurationSlug.Last12Months]: 'Last 12 months',
-	[DurationSlug.ThisYear]: 'This year',
-	[DurationSlug.Custom]: undefined,
-} as const;
-
-export function durationLabel(duration: DurationSlug): string | undefined {
-	return DURATIONS[duration];
-}
-
-export function durationLabelPreviousPeriod(duration: DurationSlug): string | undefined {
-	if (duration === DurationSlug.ThisYear) {
-		return 'Last year';
-	}
-
-	return durationLabel(duration);
-}
-
-export function toDateFnsDuration(duration: DurationSlug): Duration {
-	switch (duration) {
-		case DurationSlug.Last7Days:
-			return { days: 7 };
-		case DurationSlug.Last30Days:
-			return { days: 30 };
-		case DurationSlug.Last12Months:
-			return { months: 12 };
-		case DurationSlug.ThisYear: {
-			// The difference between the current timestamp and the start of this year
-			// Kinda hacky but this doesn't need to be high precision
-
-			const now = new Date();
-			const startOfThisYear = new Date(now.getFullYear(), 0, 1);
-
-			return intervalToDuration({ start: startOfThisYear, end: now });
-		}
-		default:
-			return {};
-	}
-}
-
 export function PeriodSelect({ duration, setDatesAndClearDuration, setDurationAndClearDates, start, end }: Props) {
 	const [isOpen, setIsOpen] = useState(false);
 

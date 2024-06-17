@@ -1,7 +1,7 @@
 'use client';
 
 import { useContext } from 'react';
-import { PeriodSelect } from '../period-select';
+import { PeriodSelect } from '../period-select/period-select';
 import { AdminDashboardContext } from './admin-dashboard-context';
 
 export function AdminDashboardPeriodSelect() {

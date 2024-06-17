@@ -7,18 +7,21 @@ import { TeamSchema } from '../team/schemas/team_schema.js';
 import { TeamService } from '../team/team_service.js';
 import { authedProcedure, publicProcedure, router } from '../trpc/trpc_service.js';
 import { TeamMemberRouter } from './team_member_router.js';
+import { TeamStatsRouter } from './team_stats_router.js';
 
 @inject()
-@injectHelper(TeamService, TeamMemberRouter, GuestPasswordService)
+@injectHelper(TeamService, TeamMemberRouter, GuestPasswordService, TeamStatsRouter)
 export class TeamRouter {
 	constructor(
 		private readonly teamService: TeamService,
 		private readonly teamMemberRouter: TeamMemberRouter,
+		private readonly teamStatsRouter: TeamStatsRouter,
 	) {}
 
 	getRouter() {
 		return router({
 			members: this.teamMemberRouter.getRouter(),
+			stats: this.teamStatsRouter.getRouter(),
 
 			teamNamesForSelf: authedProcedure
 				.output(TeamSchema.pick({ displayName: true, slug: true }).array())

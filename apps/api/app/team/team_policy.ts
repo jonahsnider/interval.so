@@ -14,6 +14,10 @@ export default class TeamPolicy extends BasePolicy {
 		super();
 	}
 
+	read(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
+		return this.authorizationService.hasRoles(actor, team, ['admin', 'owner']);
+	}
+
 	update(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
 		return this.authorizationService.hasRoles(actor, team, ['admin', 'owner']);
 	}

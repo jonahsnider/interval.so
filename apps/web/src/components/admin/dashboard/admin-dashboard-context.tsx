@@ -1,9 +1,10 @@
 'use client';
 
-import { parseAsIsoDateTime, parseAsStringEnum, useQueryState } from 'nuqs';
+import { useQueryStates } from 'nuqs';
 import { type PropsWithChildren, createContext, useMemo } from 'react';
 import type { SelectRangeEventHandler } from 'react-day-picker';
-import { DurationSlug } from '../period-select';
+import { DurationSlug } from '../period-select/duration-slug';
+import { searchParamParsers } from './search-params';
 
 type ContextValue = {
 	duration: DurationSlug;
@@ -21,31 +22,23 @@ export const AdminDashboardContext = createContext<ContextValue>({
 });
 
 export function AdminDashboardProvider({ children }: PropsWithChildren) {
-	const [duration, setDuration] = useQueryState(
-		'duration',
-		parseAsStringEnum(Object.values(DurationSlug))
-			.withDefault(DurationSlug.Last7Days)
-			.withOptions({ clearOnDefault: true }),
-	);
-	const [start, setStart] = useQueryState('start', parseAsIsoDateTime.withOptions({ clearOnDefault: true }));
-	const [end, setEnd] = useQueryState('end', parseAsIsoDateTime.withOptions({ clearOnDefault: true }));
+	const [{ duration, end, start }, setQuery] = useQueryStates(searchParamParsers, {
+		// Data is rendered based off the query parameters, so we need to send those changes to the server
+		shallow: false,
+	});
 
 	const setDurationAndClearDates = useMemo(
 		() => (value: DurationSlug) => {
-			setDuration(value);
-			setStart(null);
-			setEnd(null);
+			setQuery({ duration: value, start: null, end: null });
 		},
-		[setDuration, setStart, setEnd],
+		[setQuery],
 	);
 
 	const setDatesAndClearDuration: SelectRangeEventHandler = useMemo(
 		() => (event) => {
-			setDuration(DurationSlug.Custom);
-			setStart(event?.from ?? null);
-			setEnd(event?.to ?? null);
+			setQuery({ duration: DurationSlug.Custom, start: event?.from ?? null, end: event?.to ?? null });
 		},
-		[setDuration, setStart, setEnd],
+		[setQuery],
 	);
 
 	const contextValue = useMemo(
