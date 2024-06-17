@@ -5,7 +5,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { trpcServer } from '@/src/trpc/trpc-server';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import { count } from '@jonahsnider/util';
-import { Suspense } from 'react';
+import { type ReactNode, Suspense } from 'react';
 
 type Props = { team: Pick<TeamSchema, 'slug'> };
 
@@ -24,6 +24,15 @@ async function LiveMemberCountTileFetcher({ team }: Props) {
 	const max = data.length;
 
 	return (
+		<LiveMemberCountTileBase
+			value={`${current}/${max} members`}
+			progressBar={<Progress value={current} max={max === 0 ? 1 : max} />}
+		/>
+	);
+}
+
+function LiveMemberCountTileBase({ progressBar, value }: { progressBar: ReactNode; value: ReactNode }) {
+	return (
 		<Card>
 			<CardHeader className='pb-2'>
 				<div className='flex justify-between items-center'>
@@ -31,16 +40,13 @@ async function LiveMemberCountTileFetcher({ team }: Props) {
 
 					<Badge className='hover:bg-primary shadow-none uppercase'>Live</Badge>
 				</div>
-				<CardTitle className='text-4xl'>
-					{current}/{max} members
-				</CardTitle>
+				<CardTitle className='text-4xl'>{value}</CardTitle>
 			</CardHeader>
 			{/* Height matches the height of the text in the other tiles */}
 			<CardFooter className='min-h-10'>
 				{/* Min height is used to align this with where text is in the other tiles */}
 
-				{/* Avoid having a NaN value that causes the progress bar to be stuck at 100% */}
-				<Progress value={current} max={max === 0 ? 1 : max} />
+				{progressBar}
 			</CardFooter>
 		</Card>
 	);
@@ -48,21 +54,9 @@ async function LiveMemberCountTileFetcher({ team }: Props) {
 
 function LiveMemberCountTileSkeleton() {
 	return (
-		<Card>
-			<CardHeader className='pb-2'>
-				<div className='flex justify-between items-center'>
-					<Skeleton className='w-48 h-6' />
-
-					<Skeleton className='w-12 h-6' />
-				</div>
-				<Skeleton className='w-60 h-10' />
-			</CardHeader>
-			{/* Height matches the height of the text in the other tiles */}
-			<CardFooter className='min-h-10'>
-				{/* Min height is used to align this with where text is in the other tiles */}
-
-				<Skeleton className='w-full h-2' />
-			</CardFooter>
-		</Card>
+		<LiveMemberCountTileBase
+			value={<Skeleton className='w-60 h-10' />}
+			progressBar={<Skeleton className='w-full h-2' />}
+		/>
 	);
 }
