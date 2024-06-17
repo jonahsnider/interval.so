@@ -1,0 +1,2 @@
+CREATE INDEX IF NOT EXISTS "finished_member_meetings_started_at_index" ON "finished_member_meetings" USING btree ("started_at");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "finished_member_meetings_ended_at_index" ON "finished_member_meetings" USING btree ("ended_at");

@@ -105,5 +105,7 @@ export const finishedMemberMeetings = pgTable(
 	},
 	(memberMeetings) => ({
 		memberIdIndex: index().on(memberMeetings.memberId),
+		startedAtIndex: index().on(memberMeetings.startedAt),
+		endedAtIndex: index().on(memberMeetings.endedAt),
 	}),
 );

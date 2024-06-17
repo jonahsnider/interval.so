@@ -31,7 +31,9 @@ async function CombinedHoursTileFetcher({ team, currentTimeRange, previousTimeRa
 			: undefined,
 	]);
 
-	if (current && trend) {
+	const currentFormatted = current.toFixed(1);
+
+	if (current !== 0 && trend) {
 		const percentChange = Math.round((trend / current - 1) * 100);
 
 		assert(!Number.isNaN(percentChange));
@@ -44,12 +46,12 @@ async function CombinedHoursTileFetcher({ team, currentTimeRange, previousTimeRa
 						{percentChange}% from {durationLabelPreviousPeriod(durationSlug)?.toLowerCase()}
 					</>
 				}
-				value={current}
+				value={currentFormatted}
 			/>
 		);
 	}
 
-	return <CombinedHoursTileBase value={current} />;
+	return <CombinedHoursTileBase value={currentFormatted} />;
 }
 
 function CombinedHoursSkeleton({ previousTimeRange }: Pick<Props, 'previousTimeRange'>) {
