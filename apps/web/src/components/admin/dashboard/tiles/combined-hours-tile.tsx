@@ -32,7 +32,7 @@ async function CombinedHoursTileFetcher({ team, currentTimeRange, previousTimeRa
 	]);
 
 	if (current && trend) {
-		const percentChange = Math.round(trend / current - 1);
+		const percentChange = Math.round((trend / current - 1) * 100);
 
 		assert(!Number.isNaN(percentChange));
 
@@ -41,7 +41,7 @@ async function CombinedHoursTileFetcher({ team, currentTimeRange, previousTimeRa
 				trend={
 					<>
 						{percentChange >= 0 && '+'}
-						{percentChange * 100}% from {durationLabelPreviousPeriod(durationSlug)?.toLowerCase()}
+						{percentChange}% from {durationLabelPreviousPeriod(durationSlug)?.toLowerCase()}
 					</>
 				}
 				value={current}
