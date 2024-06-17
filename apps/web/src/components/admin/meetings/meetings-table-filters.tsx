@@ -5,9 +5,9 @@ import { useQueryStates } from 'nuqs';
 import { useEffect, useMemo } from 'react';
 import type { SelectRangeEventHandler } from 'react-day-picker';
 import { searchParamParsers } from '../dashboard/search-params';
-import { DurationSlug, toTimeRange } from '../period-select/duration-slug';
+import { DurationSlug } from '../period-select/duration-slug';
 import { PeriodSelect } from '../period-select/period-select';
-import type { Meeting } from './columns';
+import type { GlobalFilterValue, Meeting } from './columns';
 
 type Props = {
 	table: Table<Meeting>;
@@ -35,11 +35,9 @@ export function MeetingsTableFilters({ table }: Props) {
 	);
 
 	useEffect(() => {
-		const timeRange = toTimeRange({ duration, start, end });
-
-		table.getColumn('start')?.setFilterValue([timeRange.current.start, timeRange.current.end]);
-		table.getColumn('end')?.setFilterValue([timeRange.current.start, timeRange.current.end]);
-	}, [duration, start, end, table.getColumn]);
+		const newGlobalFilter: GlobalFilterValue = { duration, start, end };
+		table.setGlobalFilter(newGlobalFilter);
+	}, [duration, start, end, table.setGlobalFilter]);
 
 	return (
 		<div>

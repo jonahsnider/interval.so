@@ -3,7 +3,6 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import {
 	type ColumnDef,
-	type ColumnFiltersState,
 	type SortingState,
 	flexRender,
 	getCoreRowModel,
@@ -12,8 +11,10 @@ import {
 	getSortedRowModel,
 	useReactTable,
 } from '@tanstack/react-table';
+import { useQueryStates } from 'nuqs';
 import { useState } from 'react';
-import type { Meeting } from './columns';
+import { searchParamParsers } from '../dashboard/search-params';
+import { type GlobalFilterValue, type Meeting, globalFilterFn } from './columns';
 import { MeetingsTableFilters } from './meetings-table-filters';
 
 interface Props {
@@ -22,26 +23,33 @@ interface Props {
 }
 
 export function MeetingsTable({ columns, data }: Props) {
+	const [queryStates] = useQueryStates(searchParamParsers);
+
 	const [sorting, setSorting] = useState<SortingState>([
 		{
 			id: 'end',
 			desc: true,
 		},
 	]);
-	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+
+	const [globalFilter, setGlobalFilter] = useState<GlobalFilterValue>(queryStates);
 
 	const table = useReactTable({
 		data,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
 		onSortingChange: setSorting,
+		onGlobalFilterChange: setGlobalFilter,
 		getSortedRowModel: getSortedRowModel(),
-		onColumnFiltersChange: setColumnFilters,
 		getFilteredRowModel: getFilteredRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
+		getColumnCanGlobalFilter(column) {
+			return column.id === 'end' || column.id === 'start';
+		},
+		globalFilterFn,
 		state: {
 			sorting,
-			columnFilters,
+			globalFilter,
 		},
 	});
 

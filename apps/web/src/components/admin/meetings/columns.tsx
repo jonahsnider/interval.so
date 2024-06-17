@@ -10,10 +10,11 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { formatDate, formatDateRange, formatDuration } from '@/src/utils/date-format';
 import { ArrowDownIcon, ArrowUpIcon, ChevronUpDownIcon, EllipsisVerticalIcon } from '@heroicons/react/16/solid';
-import type { Column, ColumnDef } from '@tanstack/react-table';
+import type { Column, ColumnDef, FilterFnOption } from '@tanstack/react-table';
 import clsx from 'clsx';
 import { type Duration, intervalToDuration, milliseconds } from 'date-fns';
 import type { PropsWithChildren } from 'react';
+import { DurationSlug, toTimeRange } from '../period-select/duration-slug';
 
 export type Meeting = {
 	attendeeCount: number;
@@ -74,6 +75,23 @@ function inDateRange(date: Date, [start, end]: [Date | undefined, Date | undefin
 	return true;
 }
 
+export type GlobalFilterValue = { duration: DurationSlug; start: Date | null; end: Date | null };
+
+export const globalFilterFn: FilterFnOption<Meeting> = (row, _columnId, filterValue: GlobalFilterValue) => {
+	const timeRange = toTimeRange(filterValue);
+
+	if (filterValue.duration !== DurationSlug.Custom && !row.original.end) {
+		// There is no end date, so the meeting is in progress, but you are querying for some duration relative to now
+		// So, we always include the row, since the meeting is happening now
+		return true;
+	}
+
+	return (
+		inDateRange(row.original.start, [timeRange.current.start, timeRange.current.end]) ||
+		inDateRange(row.original.end ?? new Date(), [timeRange.current.start, timeRange.current.end])
+	);
+};
+
 export const columns: ColumnDef<Meeting>[] = [
 	{
 		id: 'title',
@@ -104,11 +122,6 @@ export const columns: ColumnDef<Meeting>[] = [
 	},
 	{
 		accessorKey: 'start',
-		filterFn: (row, _columnId, filterValue: [Date | undefined, Date | undefined]) => {
-			const [start, end] = filterValue;
-
-			return inDateRange(row.original.start, [start, end]);
-		},
 		header: ({ column }) => {
 			return <SortableHeader column={column}>Start</SortableHeader>;
 		},
@@ -118,11 +131,6 @@ export const columns: ColumnDef<Meeting>[] = [
 	},
 	{
 		accessorKey: 'end',
-		filterFn: (row, _columnId, filterValue: [Date | undefined, Date | undefined]) => {
-			const [start, end] = filterValue;
-
-			return inDateRange(row.original.start, [start, end]);
-		},
 		header: ({ column }) => {
 			return <SortableHeader column={column}>End</SortableHeader>;
 		},
