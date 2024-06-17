@@ -17,7 +17,8 @@ const ENTRIES: NavbarEntryData[] = [
 	{
 		label: 'Dashboard',
 		hrefSuffix: '',
-		matcher: /^$/,
+		// Matches the root path, or any dashboard subpaths
+		matcher: /^($|\/dashboard)/,
 	},
 	{
 		label: 'Members',
