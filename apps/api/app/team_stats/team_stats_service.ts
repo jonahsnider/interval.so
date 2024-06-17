@@ -1,4 +1,4 @@
-import assert from 'assert';
+import assert from 'node:assert/strict';
 import { TRPCError } from '@trpc/server';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
@@ -8,7 +8,7 @@ export class TeamStatsService {
 	async getCombinedHours(
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
-		timeRange: TimeRangeSchema,
+		_timeRange: TimeRangeSchema,
 	): Promise<number> {
 		assert(await bouncer.with('TeamPolicy').allows('read', team), new TRPCError({ code: 'FORBIDDEN' }));
 
