@@ -142,8 +142,8 @@ __metadata:
   linkType: hard
 
 "@adonisjs/core@npm:^6.9.1":
-  version: 6.9.1
-  resolution: "@adonisjs/core@npm:6.9.1"
+  version: 6.11.0
+  resolution: "@adonisjs/core@npm:6.11.0"
   dependencies:
     "@adonisjs/ace": "npm:^13.0.1"
     "@adonisjs/application": "npm:^8.3.1"
@@ -154,6 +154,7 @@ __metadata:
     "@adonisjs/events": "npm:^9.0.2"
     "@adonisjs/fold": "npm:^10.1.2"
     "@adonisjs/hash": "npm:^9.0.3"
+    "@adonisjs/health": "npm:^1.1.0"
     "@adonisjs/http-server": "npm:^7.2.3"
     "@adonisjs/logger": "npm:^6.0.3"
     "@adonisjs/repl": "npm:^4.0.1"
@@ -188,7 +189,7 @@ __metadata:
       optional: true
   bin:
     adonis-kit: build/toolkit/main.js
-  checksum: 10c0/368c65c81c37fdd1cd4770f5e6b3b5b4076f45a722c786ea1193e0b403cc7568cb64b276c4d7abc0bfaba62d9a393cb89f4181916bd90c00ebd2ef4bd22a3694
+  checksum: 10c0/c98ea426fdd9670ca50afb92deac2348222a0686b6dc85b66df0cf11b0bd5e01939e88aadf0133844343859ad0bf78b8d662b74d0c534c9dbbcffcaad7369f6a
   languageName: node
   linkType: hard
 
@@ -260,6 +261,16 @@ __metadata:
     bcrypt:
       optional: true
   checksum: 10c0/3334af2495f03243aeafb6315d27afa35e8b146529e17a8ec57e4b27c03bc920232e361768567b23ccd0ddfa47fe95975b225909d4d99aa31394dbab70fb56fc
+  languageName: node
+  linkType: hard
+
+"@adonisjs/health@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@adonisjs/health@npm:1.1.0"
+  dependencies:
+    "@poppinss/utils": "npm:^6.7.3"
+    check-disk-space: "npm:^3.4.0"
+  checksum: 10c0/a5ad4741a60f451967772f8ceefaaba06263d525df7b3182853cecc3aa53fdda034f751796090b9a96fcf541464081ef3b544b44e5ac6c1c502b33569a751177
   languageName: node
   linkType: hard
 
@@ -3708,6 +3719,13 @@ __metadata:
     escape-string-regexp: "npm:^1.0.5"
     supports-color: "npm:^5.3.0"
   checksum: 10c0/e6543f02ec877732e3a2d1c3c3323ddb4d39fbab687c23f526e25bd4c6a9bf3b83a696e8c769d078e04e5754921648f7821b2a2acfd16c550435fd630026e073
+  languageName: node
+  linkType: hard
+
+"check-disk-space@npm:^3.4.0":
+  version: 3.4.0
+  resolution: "check-disk-space@npm:3.4.0"
+  checksum: 10c0/cc39c91e1337e974fb5069c2fbd9eb92aceca6e35f3da6863a4eada58f15c1bf6970055bffed1e41c15cde1fd0ad2580bb99bef8275791ed56d69947f8657aa5
   languageName: node
   linkType: hard
 
