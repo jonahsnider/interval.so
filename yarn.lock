@@ -1042,6 +1042,7 @@ __metadata:
     "@types/pg": "npm:8.11.6"
     "@vinejs/vine": "npm:2.1.0"
     convert: "npm:5.3.0"
+    date-fns: "npm:3.6.0"
     dotenv: "npm:16.4.5"
     drizzle-kit: "npm:0.22.7"
     drizzle-orm: "npm:0.31.2"
