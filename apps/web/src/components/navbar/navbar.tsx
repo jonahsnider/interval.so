@@ -11,6 +11,7 @@ type Props = {
 };
 
 export function Navbar({ children, center, left, right, className }: PropsWithChildren<Props>) {
+	// TODO: Nothing uses the center, but it still takes up space on small screens. Refactor to make this just a flex between with left/right, no center
 	return (
 		<header className={cn('w-full py-4 bg-background border-b flex flex-col', className)}>
 			<div className='grid grid-rows-1 grid-cols-3 items-center justify-between container max-w-6xl mx-auto'>
