@@ -12,6 +12,14 @@ const nextConfig = withPlausibleProxy()({
 		// biome-ignore lint/style/useNamingConvention: This is an environment variable
 		NEXT_PUBLIC_API_URL: getBaseApiUrl(),
 	},
+	// Needed for a Next.js bug https://github.com/vercel/next.js/discussions/32237#discussioncomment-4793595
+	webpack: (config) => {
+		config.resolve.extensionAlias = {
+			'.js': ['.ts', '.tsx', '.js'],
+		};
+
+		return config;
+	},
 });
 
 module.exports = nextConfig;
