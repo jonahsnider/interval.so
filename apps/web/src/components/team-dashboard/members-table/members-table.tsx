@@ -1,18 +1,22 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/flex-table';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { trpc } from '@/src/trpc/trpc-client';
+import { ArrowPathIcon, PlusIcon } from '@heroicons/react/16/solid';
+import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import type { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
 import clsx from 'clsx';
 import { AnimatePresence, type Variants, motion } from 'framer-motion';
 import Fuse from 'fuse.js/basic';
 import { useRouter } from 'next/navigation';
-import { useQueryState } from 'nuqs';
 import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
+import { CreateMemberDialog } from '../create-member-dialog/create-member-dialog';
 
 const MotionTableRow = motion(TableRow);
 const MotionTable = motion(Table);
@@ -26,11 +30,12 @@ type SimpleMember = Pick<TeamMemberSchema, 'id' | 'name' | 'atMeeting'>;
 
 type Props = {
 	members: SimpleMember[];
+	team: Pick<TeamSchema, 'slug'>;
 };
 
-export function MembersTable({ members }: Props) {
+export function MembersTable({ members, team }: Props) {
 	const fuse = useMemo(() => new Fuse(members, { keys: ['name'] }), [members]);
-	const [filter, setFilter] = useQueryState('filter', { clearOnDefault: true, defaultValue: '' });
+	const [filter, setFilter] = useState('');
 
 	useEffect(() => {
 		fuse.setCollection(members);
@@ -48,14 +53,37 @@ export function MembersTable({ members }: Props) {
 
 	const noResults = filteredMembers.size === 0;
 
+	const [signupDialogOpen, setSignupDialogOpen] = useState(false);
+
 	return (
 		<Card className='w-full max-w-xl'>
 			<CardHeader>
 				<CardTitle>Sign in & out</CardTitle>
 			</CardHeader>
 
-			<CardContent>
+			<CardContent className='flex gap-2'>
 				<Input placeholder='Search names' value={filter} onChange={(e) => setFilter(e.target.value)} />
+				<Dialog open={signupDialogOpen} onOpenChange={setSignupDialogOpen}>
+					<DialogTrigger asChild={true}>
+						<Button
+							variant='outline'
+							className='motion-safe:transition-[padding] motion-safe:hover:px-6'
+							disabled={signupDialogOpen}
+						>
+							{!signupDialogOpen && (
+								<>
+									<PlusIcon className='h-4 w-4 mr-2' />
+									Sign up
+								</>
+							)}
+							{signupDialogOpen && <ArrowPathIcon className='h-4 w-4 animate-spin' />}
+						</Button>
+					</DialogTrigger>
+
+					<DialogContent>
+						<CreateMemberDialog team={team} closeDialog={() => setSignupDialogOpen(false)} />
+					</DialogContent>
+				</Dialog>
 			</CardContent>
 
 			<CardContent className='px-0 transition-all'>

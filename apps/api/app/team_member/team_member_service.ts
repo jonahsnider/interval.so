@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import transmit from '@adonisjs/transmit/services/main';
 import { TRPCError } from '@trpc/server';
-import { and, eq, isNotNull, isNull } from 'drizzle-orm';
+import { and, asc, eq, isNotNull, isNull } from 'drizzle-orm';
+import postgres from 'postgres';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { db } from '../db/db_service.js';
@@ -47,6 +48,7 @@ export class TeamMemberService {
 				// That aren't archived
 				eq(Schema.teamMembers.archived, false),
 			),
+			orderBy: asc(Schema.teamMembers.name),
 		});
 
 		return members.map((member) => ({
@@ -59,24 +61,26 @@ export class TeamMemberService {
 	async create(
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
-		data: Pick<TeamMemberSchema, 'name' | 'archived'>,
-	): Promise<Pick<TeamMemberSchema, 'id'>> {
+		data: Pick<TeamMemberSchema, 'name'>,
+	): Promise<void> {
 		assert(await bouncer.with('TeamMemberPolicy').allows('create', team), new TRPCError({ code: 'FORBIDDEN' }));
 
-		const [created] = await db
-			.insert(Schema.teamMembers)
-			.values({
+		try {
+			await db.insert(Schema.teamMembers).values({
 				teamSlug: team.slug,
 				name: data.name,
-				archived: data.archived,
-			})
-			.returning({ id: Schema.teamMembers.id });
-
-		assert(created);
+			});
+		} catch (error) {
+			if (error instanceof postgres.PostgresError && error.code === '23505') {
+				// Team member name collision
+				throw new TRPCError({
+					code: 'UNPROCESSABLE_CONTENT',
+					message: 'A team member with that name already exists',
+				});
+			}
+		}
 
 		transmit.broadcast(TeamMemberService.transmitChannel(team));
-
-		return created;
 	}
 
 	async updateAttendance(

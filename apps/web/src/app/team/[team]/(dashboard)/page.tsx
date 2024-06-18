@@ -22,7 +22,8 @@ async function AdminTilesWrapper({ team }: { team: Pick<TeamSchema, 'slug'> }) {
 
 // biome-ignore lint/style/noDefaultExport: This has to be a default export
 export default async function HomePage({ params }: Props) {
-	const initialMembers = await trpcServer.teams.members.simpleMemberList.query({ slug: params.team });
+	const team = { slug: params.team };
+	const initialMembers = await trpcServer.teams.members.simpleMemberList.query(team);
 
 	// TODO: Make this stream - do the same strategy of a skeleton component, just a table with all the text set to skeletons + some dummy rows (also skeletons)
 
@@ -33,7 +34,7 @@ export default async function HomePage({ params }: Props) {
 				<Suspense>
 					<AdminTilesWrapper team={{ slug: params.team }} />
 				</Suspense>
-				<MembersTable members={initialMembers} />
+				<MembersTable members={initialMembers} team={team} />
 			</div>
 		</div>
 	);

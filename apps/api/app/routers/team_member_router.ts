@@ -13,8 +13,20 @@ export class TeamMemberRouter {
 
 	getRouter() {
 		return router({
+			create: publicProcedure
+				.input(
+					z.object({
+						team: TeamSchema.pick({ slug: true }).strict(),
+						member: TeamMemberSchema.pick({ name: true }).strict(),
+					}),
+				)
+				.output(z.void())
+				.mutation(({ input, ctx }) => {
+					return this.teamMemberService.create(ctx.context.bouncer, input.team, input.member);
+				}),
+
 			updateAttendance: publicProcedure
-				.input(TeamMemberSchema.pick({ id: true, atMeeting: true }))
+				.input(TeamMemberSchema.pick({ id: true, atMeeting: true }).strict())
 				.output(z.void())
 				.mutation(({ input, ctx }) => {
 					return this.teamMemberService.updateAttendance(ctx.context.bouncer, input, input);
@@ -26,7 +38,7 @@ export class TeamMemberRouter {
 					return this.teamMemberService.getTeamMembersSimple(ctx.context.bouncer, input);
 				}),
 			endMeeting: authedProcedure
-				.input(z.object({ team: TeamSchema.pick({ slug: true }), endTime: z.date() }))
+				.input(z.object({ team: TeamSchema.pick({ slug: true }), endTime: z.date() }).strict())
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
 					return this.teamMemberService.signOutAll(ctx.context.bouncer, input.team, input.endTime);
