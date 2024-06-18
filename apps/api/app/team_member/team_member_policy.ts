@@ -16,7 +16,7 @@ export default class TeamMemberPolicy extends BasePolicy {
 	}
 
 	create(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
-		return this.authorizationService.hasRoles(actor, team, ['admin', 'owner']);
+		return this.authorizationService.hasRoles(actor, team, ['admin', 'owner', 'guestToken']);
 	}
 
 	readSimple(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
