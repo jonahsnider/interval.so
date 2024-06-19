@@ -30,13 +30,11 @@ export class TeamStatsService {
 
 		// TODO: This either fully includes or fully excludes meetings depending on the time range. If the time range starts/ends when a meeting is in progress, should we include the partial meeting duration?
 
-		// TODO: Double check that this number is being calculated correctly
 		const pendingMeetingDurations = db
 			.select({
 				durationSeconds: sql`EXTRACT(epoch FROM now() - ${teamMembersForTeam.pendingSignIn})`.as('duration_seconds'),
 			})
 			.from(teamMembersForTeam)
-			.innerJoin(Schema.finishedMemberMeetings, eq(teamMembersForTeam.id, Schema.finishedMemberMeetings.memberId))
 			.where(
 				and(
 					gt(teamMembersForTeam.pendingSignIn, timeRange.start),
@@ -53,7 +51,6 @@ export class TeamStatsService {
 					),
 			})
 			.from(Schema.finishedMemberMeetings)
-			.innerJoin(teamMembersForTeam, eq(Schema.finishedMemberMeetings.memberId, teamMembersForTeam.id))
 			.where(
 				and(
 					gt(Schema.finishedMemberMeetings.startedAt, timeRange.start),
