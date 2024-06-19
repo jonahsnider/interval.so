@@ -66,16 +66,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/auth@npm:9.2.1":
-  version: 9.2.1
-  resolution: "@adonisjs/auth@npm:9.2.1"
+"@adonisjs/auth@npm:9.2.3":
+  version: 9.2.3
+  resolution: "@adonisjs/auth@npm:9.2.3"
   dependencies:
-    "@adonisjs/presets": "npm:^2.4.0"
+    "@adonisjs/presets": "npm:^2.5.1"
     basic-auth: "npm:^2.0.1"
   peerDependencies:
-    "@adonisjs/core": ^6.5.0
-    "@adonisjs/lucid": ^20.5.1
-    "@adonisjs/session": ^7.3.0
+    "@adonisjs/core": ^6.11.0
+    "@adonisjs/lucid": ^20.0.0 || ^21.0.1
+    "@adonisjs/session": ^7.4.1
     "@japa/api-client": ^2.0.3
     "@japa/browser-client": ^2.0.3
     "@japa/plugin-adonisjs": ^3.0.1
@@ -90,7 +90,7 @@ __metadata:
       optional: true
     "@japa/plugin-adonisjs":
       optional: true
-  checksum: 10c0/bd64ea42f75f26ddcd83b782dd13333e5fe10723af3e10b2af23bf89783b77508f6b59902946ecbe8e69b2a4a60342531f7fc2540a1bab55149b73a68158fc40
+  checksum: 10c0/0bca5df20b08ad2a67798029a5af8b408fe1546ad26c18f642da3c1cb3e69b1c27d52e9e3c53dae33e8af630b2e4b5a6d5313a5d983b7dc85fdc93f47bb77ae2
   languageName: node
   linkType: hard
 
@@ -320,9 +320,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/presets@npm:^2.4.0":
-  version: 2.4.1
-  resolution: "@adonisjs/presets@npm:2.4.1"
+"@adonisjs/presets@npm:^2.5.1":
+  version: 2.6.1
+  resolution: "@adonisjs/presets@npm:2.6.1"
   dependencies:
     "@poppinss/utils": "npm:^6.7.3"
   peerDependencies:
@@ -331,7 +331,7 @@ __metadata:
   peerDependenciesMeta:
     "@adonisjs/assembler":
       optional: true
-  checksum: 10c0/05efa28343f44011c38cb2a69ecfb037cd9986073b1305c7d3066b03ced5c8db6ae9bec5b4e7cf127699b9b22ede56a75cfa03c49a9da5a68c8c06017dad8556
+  checksum: 10c0/dacabdd27ff58ac30ccecbdea84a40ed5074cbc71c521fc1c01a46da762267900ef289d2bf414c8b0313ad22709a9ad3bc08e0c88b6b20545def5a00b9ee3c88
   languageName: node
   linkType: hard
 
@@ -1035,7 +1035,7 @@ __metadata:
   resolution: "@hours.frc.sh/api@workspace:apps/api"
   dependencies:
     "@adonisjs/assembler": "npm:7.7.0"
-    "@adonisjs/auth": "npm:9.2.1"
+    "@adonisjs/auth": "npm:9.2.3"
     "@adonisjs/bouncer": "npm:3.1.3"
     "@adonisjs/core": "npm:6.11.0"
     "@adonisjs/cors": "npm:2.2.1"
