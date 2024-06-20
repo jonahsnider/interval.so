@@ -1,4 +1,4 @@
-import { createTRPCClient, httpBatchLink } from '@trpc/client';
+import { createTRPCClient, unstable_httpBatchStreamLink } from '@trpc/client';
 import { cookies } from 'next/headers';
 import 'server-only';
 import superjson from 'superjson';
@@ -6,7 +6,7 @@ import { type AppRouterType, trpcUrl } from './common';
 
 export const trpcServer = createTRPCClient<AppRouterType>({
 	links: [
-		httpBatchLink({
+		unstable_httpBatchStreamLink({
 			transformer: superjson,
 			url: trpcUrl,
 			headers() {
