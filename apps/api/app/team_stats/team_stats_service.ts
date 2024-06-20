@@ -23,6 +23,7 @@ export class TeamStatsService {
 		const timeRangeEndAdjusted = add(timeRange.end, { minutes: 1 });
 
 		// TODO: This either fully includes or fully excludes meetings depending on the time range. If the time range starts/ends when a meeting is in progress, should we include the partial meeting duration?
+    // If yes, probably implement by selecting from max(finished_member_meetings.started_at, timeRange.start) and min(finished_member_meetings.ended_at, timeRange.end)
 
 		const pendingMeetingDurations = db
 			.select({
