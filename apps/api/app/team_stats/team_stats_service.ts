@@ -48,10 +48,15 @@ export class TeamStatsService {
 					),
 			})
 			.from(Schema.finishedMemberMeetings)
-			.innerJoin(Schema.teamMembers, eq(Schema.teamMembers.id, Schema.finishedMemberMeetings.memberId))
+			.innerJoin(
+				Schema.teamMembers,
+				and(
+					eq(Schema.teamMembers.id, Schema.finishedMemberMeetings.memberId),
+					eq(Schema.teamMembers.teamSlug, team.slug),
+				),
+			)
 			.where(
 				and(
-					eq(Schema.teamMembers.teamSlug, team.slug),
 					gt(Schema.finishedMemberMeetings.startedAt, timeRange.start),
 					lt(Schema.finishedMemberMeetings.endedAt, timeRange.end),
 				),
