@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import clsx from 'clsx';
 import { Link } from 'next-view-transitions';
+import { unstable_noStore as noStore } from 'next/cache';
 import type { PropsWithChildren } from 'react';
 import { trpcServer } from '../trpc/trpc-server';
 
@@ -36,6 +37,8 @@ type Props = PropsWithChildren<{
 }>;
 
 export async function NeedsAdminAuthScreen({ children, className }: Props) {
+	noStore();
+
 	const { user } = await trpcServer.user.getSelf.query();
 
 	if (user) {

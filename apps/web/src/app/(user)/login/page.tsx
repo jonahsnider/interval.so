@@ -4,11 +4,11 @@ import { LoginCard } from '@/src/components/account/login/login-card';
 import { trpcServer } from '@/src/trpc/trpc-server';
 import { ArrowRightIcon } from '@heroicons/react/16/solid';
 import { Link } from 'next-view-transitions';
-
-export const dynamic = 'force-dynamic';
+import { unstable_noStore as noStore } from 'next/cache';
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export
 export default async function LoginPage() {
+	noStore();
 	const { user } = await trpcServer.user.getSelf.query();
 
 	return (

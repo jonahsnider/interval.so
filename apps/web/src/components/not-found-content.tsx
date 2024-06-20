@@ -1,8 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { Link } from 'next-view-transitions';
+import { unstable_noStore as noStore } from 'next/cache';
 import { trpcServer } from '../trpc/trpc-server';
 
 export async function NotFoundPageContent() {
+	noStore();
 	const { user } = await trpcServer.user.getSelf.query();
 
 	return (

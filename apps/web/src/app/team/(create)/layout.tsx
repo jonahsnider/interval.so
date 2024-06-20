@@ -4,8 +4,6 @@ import { NeedsAdminAuthScreen } from '@/src/components/needs-admin-auth-screen';
 import { PageHeader } from '@/src/components/page-header';
 import type { PropsWithChildren } from 'react';
 
-export const dynamic = 'force-dynamic';
-
 // biome-ignore lint/style/noDefaultExport: This must be a default export
 export default function TeamCreatePageLayout({ children }: PropsWithChildren) {
 	return (

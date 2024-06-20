@@ -1,13 +1,13 @@
 import { trpcServer } from '@/src/trpc/trpc-server';
 import { Link } from 'next-view-transitions';
+import { unstable_noStore as noStore } from 'next/cache';
 import { redirect } from 'next/navigation';
-
 // TODO: See if there's a better way to do routing
 // Ideally the landing page for new users is statically rendered
-export const dynamic = 'force-dynamic';
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export
 export default async function HomePage() {
+	noStore();
 	const guestTeam = await trpcServer.guestLogin.getCurrentGuestTeam.query();
 
 	if (guestTeam) {
