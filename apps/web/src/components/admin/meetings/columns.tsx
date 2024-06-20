@@ -9,14 +9,16 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { formatDate, formatDateRange, formatDuration } from '@/src/utils/date-format';
-import { ArrowDownIcon, ArrowUpIcon, ChevronUpDownIcon, EllipsisVerticalIcon } from '@heroicons/react/16/solid';
+import { ArrowDownIcon, ArrowUpIcon, ChevronUpDownIcon } from '@heroicons/react/16/solid';
 import type { TeamMeetingSchema } from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
 import { Sort } from '@jonahsnider/util';
 import type { Column, ColumnDef, FilterFnOption } from '@tanstack/react-table';
 import clsx from 'clsx';
 import { type Duration, intervalToDuration, milliseconds } from 'date-fns';
+import { useParams } from 'next/navigation';
 import type { PropsWithChildren } from 'react';
 import { DurationSlug, toTimeRange } from '../period-select/duration-slug';
+import { RowActionsDropdown } from './row-actions/row-actions-dropdown';
 
 function SortableHeader({
 	column,
@@ -164,22 +166,14 @@ export const columns: ColumnDef<TeamMeetingSchema>[] = [
 	},
 	{
 		id: 'actions',
-		cell: () => {
-			return (
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild={true}>
-						<Button variant='ghost' size='icon' className='h-8 w-8 p-0'>
-							<span className='sr-only'>Open menu</span>
-							<EllipsisVerticalIcon className='h-4 w-4' />
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent align='end'>
-						<DropdownMenuItem className='text-destructive focus:text-destructive focus:bg-destructive/10'>
-							Delete meeting
-						</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
-			);
+		cell: ({ row }) => {
+			const params = useParams<{ team: string }>();
+
+			if (!params.team) {
+				throw new TypeError('Expected team Next.js route param to be defined');
+			}
+
+			return <RowActionsDropdown meeting={row.original} team={{ slug: params.team }} />;
 		},
 	},
 ];

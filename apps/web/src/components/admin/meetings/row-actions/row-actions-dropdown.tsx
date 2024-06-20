@@ -1,0 +1,50 @@
+'use client';
+
+import { Button } from '@/components/ui/button';
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { EllipsisVerticalIcon } from '@heroicons/react/16/solid';
+import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
+import type { TeamMeetingSchema } from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
+import { useState } from 'react';
+import { EndMeetingAlert } from '../../end-meeting-alert';
+import { DeleteMeetingItem } from './delete-meeting-item';
+import { EndMeetingItem } from './end-meeting-item';
+
+type Props = {
+	meeting: TeamMeetingSchema;
+	team: Pick<TeamSchema, 'slug'>;
+};
+
+export function RowActionsDropdown({ meeting, team }: Props) {
+	const [isEndMeetingAlertOpen, setIsEndMeetingAlertOpen] = useState(false);
+
+	return (
+		<>
+			<EndMeetingAlert team={team} open={isEndMeetingAlertOpen} onOpenChange={setIsEndMeetingAlertOpen} />
+
+			<DropdownMenu open={isEndMeetingAlertOpen ? true : undefined}>
+				<DropdownMenuTrigger asChild={true}>
+					<Button variant='ghost' size='icon' className='h-8 w-8 p-0'>
+						<span className='sr-only'>Open menu</span>
+						<EllipsisVerticalIcon className='h-4 w-4' />
+					</Button>
+				</DropdownMenuTrigger>
+				<DropdownMenuContent align='end'>
+					{!meeting.endedAt && (
+						<>
+							<EndMeetingItem setDialogOpen={setIsEndMeetingAlertOpen} />
+							<DropdownMenuSeparator />
+						</>
+					)}
+
+					<DeleteMeetingItem meeting={meeting} />
+				</DropdownMenuContent>
+			</DropdownMenu>
+		</>
+	);
+}
