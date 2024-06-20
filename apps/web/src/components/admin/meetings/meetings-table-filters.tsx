@@ -36,19 +36,18 @@ export function MeetingsTableFilters({ table }: Props) {
 	);
 
 	useEffect(() => {
-		const newGlobalFilter: GlobalFilterValue = { duration, start, end };
+		const newGlobalFilter: GlobalFilterValue = { duration, start: start ?? undefined, end: end ?? undefined };
 		table.setGlobalFilter(newGlobalFilter);
 	}, [duration, start, end, table.setGlobalFilter]);
 
 	return (
-		<div>
-			<PeriodSelect
-				duration={duration}
-				start={start ?? undefined}
-				end={end ?? undefined}
-				setDatesAndClearDuration={setDatesAndClearDuration}
-				setDurationAndClearDates={setDurationAndClearDates}
-			/>
-		</div>
+		<PeriodSelect
+			duration={duration}
+			start={start ?? undefined}
+			end={end ?? undefined}
+			setDatesAndClearDuration={setDatesAndClearDuration}
+			setDurationAndClearDates={setDurationAndClearDates}
+			className='max-w-min'
+		/>
 	);
 }

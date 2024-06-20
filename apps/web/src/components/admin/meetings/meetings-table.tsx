@@ -1,97 +1,102 @@
-'use client';
+import 'server-only';
 
+import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import type { TeamMeetingSchema } from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
-import {
-	type ColumnDef,
-	type SortingState,
-	flexRender,
-	getCoreRowModel,
-	getFilteredRowModel,
-	getPaginationRowModel,
-	getSortedRowModel,
-	useReactTable,
-} from '@tanstack/react-table';
-import { useQueryStates } from 'nuqs';
-import { useState } from 'react';
-import { searchParamParsers } from '../dashboard/search-params';
-import { type GlobalFilterValue, globalFilterFn } from './columns';
-import { MeetingsTableFilters } from './meetings-table-filters';
+import { trpcServer } from '@/src/trpc/trpc-server';
+import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
+import type { TimeRangeSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_range_schema';
+import { Suspense } from 'react';
+import { InnerTableContainer, OuterTableContainer } from './meetings-table-common';
+import { MeetingsTableClient } from './meetings-table.client';
 
-interface Props {
-	columns: ColumnDef<TeamMeetingSchema>[];
-	data: TeamMeetingSchema[];
-}
-
-export function MeetingsTable({ columns, data }: Props) {
-	const [queryStates] = useQueryStates(searchParamParsers);
-
-	const [sorting, setSorting] = useState<SortingState>([
-		{
-			id: 'end',
-			desc: true,
-		},
-	]);
-
-	const [globalFilter, setGlobalFilter] = useState<GlobalFilterValue>(queryStates);
-
-	const table = useReactTable({
-		data,
-		columns,
-		getCoreRowModel: getCoreRowModel(),
-		onSortingChange: setSorting,
-		onGlobalFilterChange: setGlobalFilter,
-		getSortedRowModel: getSortedRowModel(),
-		getFilteredRowModel: getFilteredRowModel(),
-		getPaginationRowModel: getPaginationRowModel(),
-		getColumnCanGlobalFilter(column) {
-			return column.id === 'end' || column.id === 'start';
-		},
-		globalFilterFn,
-		state: {
-			sorting,
-			globalFilter,
-		},
-	});
+export function MeetingsTable({
+	team,
+	timeRange,
+}: {
+	team: Pick<TeamSchema, 'slug'>;
+	timeRange: TimeRangeSchema;
+}) {
+	const dataPromise = trpcServer.teams.meetings.getMeetings.query({ team, timeRange });
 
 	return (
-		<div className='flex flex-col gap-4'>
-			<MeetingsTableFilters table={table} />
+		<Suspense fallback={<MeetingsTableSkeleton />}>
+			<MeetingsTableClient dataPromise={dataPromise} />
+		</Suspense>
+	);
+}
 
-			<div className='rounded-md border bg-background whitespace-nowrap'>
+function MeetingsTableSkeleton() {
+	return (
+		<OuterTableContainer>
+			{/* Filter button */}
+			<Skeleton className='w-40 h-9' />
+
+			<InnerTableContainer>
 				<Table>
 					<TableHeader>
-						{table.getHeaderGroups().map((headerGroup) => (
-							<TableRow key={headerGroup.id}>
-								{headerGroup.headers.map((header) => {
-									return (
-										<TableHead key={header.id}>
-											{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-										</TableHead>
-									);
-								})}
-							</TableRow>
-						))}
+						<TableRow>
+							<TableHead className='w-96'>
+								<Skeleton className='w-full h-4' />
+							</TableHead>
+							<TableHead>
+								<Skeleton className='w-full h-4' />
+							</TableHead>
+							<TableHead className='w-52'>
+								<Skeleton className='w-full h-4' />
+							</TableHead>
+							<TableHead className='w-48'>
+								<Skeleton className='w-full h-4' />
+							</TableHead>
+							<TableHead className='w-36'>
+								<Skeleton className='w-full h-4' />
+							</TableHead>
+							<TableHead />
+						</TableRow>
 					</TableHeader>
+
 					<TableBody>
-						{table.getRowModel().rows?.length ? (
-							table.getRowModel().rows.map((row) => (
-								<TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
-									{row.getVisibleCells().map((cell) => (
-										<TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-									))}
-								</TableRow>
-							))
-						) : (
-							<TableRow>
-								<TableCell colSpan={columns.length} className='h-24 text-center'>
-									No results.
-								</TableCell>
-							</TableRow>
-						)}
+						<TableRowSkeleton />
+						<TableRowSkeleton />
+						<TableRowSkeleton />
+						<TableRowSkeleton />
+						<TableRowSkeleton />
+						<TableRowSkeleton />
+						<TableRowSkeleton />
+						<TableRowSkeleton />
+						<TableRowSkeleton />
+						<TableRowSkeleton />
 					</TableBody>
 				</Table>
-			</div>
-		</div>
+			</InnerTableContainer>
+		</OuterTableContainer>
+	);
+}
+
+function TableRowSkeleton() {
+	return (
+		<TableRow>
+			<TableCell>
+				<Skeleton className='w-full h-4' />
+			</TableCell>
+			<TableCell>
+				<div className='flex justify-end items-center'>
+					<Skeleton className='w-8 h-4' />
+				</div>
+			</TableCell>
+			<TableCell>
+				<Skeleton className='w-full h-4' />
+			</TableCell>
+			<TableCell>
+				<Skeleton className='w-full h-4' />
+			</TableCell>
+			<TableCell>
+				<Skeleton className='w-full h-4' />
+			</TableCell>
+			<TableCell>
+				<div className='flex justify-end items-center'>
+					<Skeleton className='w-8 h-8' />
+				</div>
+			</TableCell>
+		</TableRow>
 	);
 }

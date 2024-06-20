@@ -1,25 +1,25 @@
-import { columns } from '@/src/components/admin/meetings/columns';
 import { MeetingsTable } from '@/src/components/admin/meetings/meetings-table';
-import { trpcServer } from '@/src/trpc/trpc-server';
+import { searchParamCache } from '@/src/components/admin/meetings/search-params';
+import { toTimeRange } from '@/src/components/admin/period-select/duration-slug';
+import type { SearchParams } from 'nuqs/parsers';
 
 type Props = {
 	params: {
 		team: string;
 	};
+	searchParams: SearchParams;
 };
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export
-export default async function AdminMeetingsPage({ params }: Props) {
+export default function AdminMeetingsPage({ params, searchParams }: Props) {
+	const parsedSearchParams = searchParamCache.parse(searchParams);
+	const { current: timeRange } = toTimeRange(parsedSearchParams);
+
 	const team = { slug: params.team };
-	const data = await trpcServer.teams.meetings.getMeetings.query({
-		team,
-		// TODO: Make this fetching legit and not super hacky
-		timeRange: { start: new Date(1970), end: new Date() },
-	});
 
 	return (
 		<div className='flex flex-col gap-4'>
-			<MeetingsTable columns={columns} data={data} />
+			<MeetingsTable team={team} timeRange={timeRange} />
 		</div>
 	);
 }

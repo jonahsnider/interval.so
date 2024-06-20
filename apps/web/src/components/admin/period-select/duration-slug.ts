@@ -1,6 +1,5 @@
 import type { TimeRangeSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_range_schema';
 import { type Duration, sub } from 'date-fns';
-import type { SearchParams } from '../dashboard/search-params';
 
 export enum DurationSlug {
 	Last7Days = '7d',
@@ -29,7 +28,11 @@ export function durationLabelPreviousPeriod(duration: DurationSlug): string | un
 	return durationLabel(duration);
 }
 
-export function toTimeRange(searchParams: SearchParams): {
+export function toTimeRange(searchParams: {
+	duration: DurationSlug;
+	start?: Date | null;
+	end?: Date | null;
+}): {
 	current: TimeRangeSchema;
 	previous?: TimeRangeSchema;
 } {

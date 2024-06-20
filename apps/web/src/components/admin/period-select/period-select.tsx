@@ -24,11 +24,19 @@ type Props = {
 	duration: DurationSlug;
 	start?: Date;
 	end?: Date;
+	className?: string;
 
 	setDurationAndClearDates: (value: DurationSlug) => void;
 	setDatesAndClearDuration: SelectRangeEventHandler;
 };
-export function PeriodSelect({ duration, setDatesAndClearDuration, setDurationAndClearDates, start, end }: Props) {
+export function PeriodSelect({
+	duration,
+	setDatesAndClearDuration,
+	setDurationAndClearDates,
+	start,
+	end,
+	className,
+}: Props) {
 	const [isOpen, setIsOpen] = useState(false);
 
 	// Prevent from staying in a state where no dates are selected but you are in custom mode
@@ -44,10 +52,13 @@ export function PeriodSelect({ duration, setDatesAndClearDuration, setDurationAn
 			<DropdownMenuTrigger asChild={true}>
 				<Button
 					variant='outline'
-					className={clsx({
-						'border-destructive':
-							duration === DurationSlug.Custom && ((isOpen && !start && !end) || !(isOpen || (start && end))),
-					})}
+					className={clsx(
+						{
+							'border-destructive':
+								duration === DurationSlug.Custom && ((isOpen && !start && !end) || !(isOpen || (start && end))),
+						},
+						className,
+					)}
 				>
 					<CalendarIcon className='h-4 w-4 mr-2' />
 					{duration === DurationSlug.Custom &&

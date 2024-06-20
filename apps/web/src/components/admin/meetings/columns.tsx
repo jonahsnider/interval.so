@@ -71,7 +71,7 @@ function inDateRange(date: Date, [start, end]: [Date | undefined, Date | undefin
 	return true;
 }
 
-export type GlobalFilterValue = { duration: DurationSlug; start: Date | null; end: Date | null };
+export type GlobalFilterValue = { duration: DurationSlug; start: Date | undefined; end: Date | undefined };
 
 export const globalFilterFn: FilterFnOption<TeamMeetingSchema> = (row, _columnId, filterValue: GlobalFilterValue) => {
 	const timeRange = toTimeRange(filterValue);
