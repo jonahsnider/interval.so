@@ -1,6 +1,7 @@
 'use client';
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import type { TeamMeetingSchema } from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
 import {
 	type ColumnDef,
 	type SortingState,
@@ -14,12 +15,12 @@ import {
 import { useQueryStates } from 'nuqs';
 import { useState } from 'react';
 import { searchParamParsers } from '../dashboard/search-params';
-import { type GlobalFilterValue, type Meeting, globalFilterFn } from './columns';
+import { type GlobalFilterValue, globalFilterFn } from './columns';
 import { MeetingsTableFilters } from './meetings-table-filters';
 
 interface Props {
-	columns: ColumnDef<Meeting>[];
-	data: Meeting[];
+	columns: ColumnDef<TeamMeetingSchema>[];
+	data: TeamMeetingSchema[];
 }
 
 export function MeetingsTable({ columns, data }: Props) {

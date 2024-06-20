@@ -10,23 +10,19 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { formatDate, formatDateRange, formatDuration } from '@/src/utils/date-format';
 import { ArrowDownIcon, ArrowUpIcon, ChevronUpDownIcon, EllipsisVerticalIcon } from '@heroicons/react/16/solid';
+import type { TeamMeetingSchema } from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
+import { Sort } from '@jonahsnider/util';
 import type { Column, ColumnDef, FilterFnOption } from '@tanstack/react-table';
 import clsx from 'clsx';
 import { type Duration, intervalToDuration, milliseconds } from 'date-fns';
 import type { PropsWithChildren } from 'react';
 import { DurationSlug, toTimeRange } from '../period-select/duration-slug';
 
-export type Meeting = {
-	attendeeCount: number;
-	start: Date;
-	end?: Date;
-};
-
 function SortableHeader({
 	column,
 	children,
 	side = 'left',
-}: PropsWithChildren<{ column: Column<Meeting>; side?: 'left' | 'right' }>) {
+}: PropsWithChildren<{ column: Column<TeamMeetingSchema>; side?: 'left' | 'right' }>) {
 	return (
 		<div className={clsx({ 'text-right': side === 'right' })}>
 			<DropdownMenu>
@@ -77,31 +73,31 @@ function inDateRange(date: Date, [start, end]: [Date | undefined, Date | undefin
 
 export type GlobalFilterValue = { duration: DurationSlug; start: Date | null; end: Date | null };
 
-export const globalFilterFn: FilterFnOption<Meeting> = (row, _columnId, filterValue: GlobalFilterValue) => {
+export const globalFilterFn: FilterFnOption<TeamMeetingSchema> = (row, _columnId, filterValue: GlobalFilterValue) => {
 	const timeRange = toTimeRange(filterValue);
 
-	if (filterValue.duration !== DurationSlug.Custom && !row.original.end) {
+	if (filterValue.duration !== DurationSlug.Custom && !row.original.endedAt) {
 		// There is no end date, so the meeting is in progress, but you are querying for some duration relative to now
 		// So, we always include the row, since the meeting is happening now
 		return true;
 	}
 
 	return (
-		inDateRange(row.original.start, [timeRange.current.start, timeRange.current.end]) ||
-		inDateRange(row.original.end ?? new Date(), [timeRange.current.start, timeRange.current.end])
+		inDateRange(row.original.startedAt, [timeRange.current.start, timeRange.current.end]) ||
+		inDateRange(row.original.endedAt ?? new Date(), [timeRange.current.start, timeRange.current.end])
 	);
 };
 
-export const columns: ColumnDef<Meeting>[] = [
+export const columns: ColumnDef<TeamMeetingSchema>[] = [
 	{
 		id: 'title',
-		accessorFn: (meeting) => formatDateRange(meeting.start, meeting.end),
+		accessorFn: (meeting) => formatDateRange(meeting.startedAt, meeting.endedAt),
 		header: 'Title',
 		cell: ({ getValue, row }) => {
 			return (
 				<div className='flex items-center gap-2'>
 					<p className='font-medium'>{getValue<string>()}</p>
-					{row.original.end === undefined && <Badge className='hover:bg-primary uppercase'>Live</Badge>}
+					{row.original.endedAt === undefined && <Badge className='hover:bg-primary uppercase'>Live</Badge>}
 				</div>
 			);
 		},
@@ -122,29 +118,33 @@ export const columns: ColumnDef<Meeting>[] = [
 	},
 	{
 		accessorKey: 'start',
+		sortingFn: Sort.ascending((row) => row.original.startedAt),
 		header: ({ column }) => {
 			return <SortableHeader column={column}>Start</SortableHeader>;
 		},
 		cell: ({ row }) => {
-			return <p>{formatDate(row.original.start)}</p>;
+			return <p>{formatDate(row.original.startedAt)}</p>;
 		},
 	},
 	{
 		accessorKey: 'end',
+		// If the meeting is still in progress, treat it as though it had just ended
+		// With the default sort, this means it'll be at the top of the list
+		sortingFn: Sort.ascending((row) => row.original.endedAt ?? new Date()),
 		header: ({ column }) => {
 			return <SortableHeader column={column}>End</SortableHeader>;
 		},
 		cell: ({ row }) => {
-			if (row.original.end) {
-				return <p>{formatDate(row.original.end)}</p>;
+			if (row.original.endedAt) {
+				return <p>{formatDate(row.original.endedAt)}</p>;
 			}
 		},
 	},
 	{
 		accessorFn: (meeting) =>
 			intervalToDuration({
-				start: meeting.start,
-				end: meeting.end ?? new Date(),
+				start: meeting.startedAt,
+				end: meeting.endedAt ?? new Date(),
 			}),
 		id: 'duration',
 		sortingFn: (aRow, bRow) => {
