@@ -31,7 +31,7 @@ async function CombinedHoursTileFetcher({ team, currentTimeRange, previousTimeRa
 			: undefined,
 	]);
 
-	const currentFormatted = current.toFixed(1);
+	const currentFormatted = `${current.toFixed(1)} hours`;
 
 	if (current !== 0 && trend) {
 		const percentChange = Math.round((trend / current - 1) * 100);
