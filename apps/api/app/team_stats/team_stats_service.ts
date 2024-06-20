@@ -18,12 +18,6 @@ export class TeamStatsService {
 	): Promise<number> {
 		assert(await bouncer.with('TeamPolicy').allows('read', team), new TRPCError({ code: 'FORBIDDEN' }));
 
-		const teamMembersForTeam = db
-			.select({ id: Schema.teamMembers.id, pendingSignIn: Schema.teamMembers.pendingSignIn })
-			.from(Schema.teamMembers)
-			.where(eq(Schema.teamMembers.teamSlug, team.slug))
-			.as('team_members_for_team');
-
 		// We add a minute to the end time since asking Postgres to filter using the end time in the range means that it will always be *slightly* after the end time
 		// Since requests probably won't take more than a minute to go through, this small adjustment means we don't exclude too many results from Postgres, and don't introduce too much inaccuracy into the result
 		const timeRangeEndAdjusted = add(timeRange.end, { minutes: 1 });
@@ -32,12 +26,15 @@ export class TeamStatsService {
 
 		const pendingMeetingDurations = db
 			.select({
-				durationSeconds: sql`EXTRACT(epoch FROM now() - ${teamMembersForTeam.pendingSignIn})`.as('duration_seconds'),
+				durationSeconds: sql<number>`EXTRACT(epoch FROM now() - ${Schema.teamMembers.pendingSignIn})`.as(
+					'duration_seconds',
+				),
 			})
-			.from(teamMembersForTeam)
+			.from(Schema.teamMembers)
 			.where(
 				and(
-					gt(teamMembersForTeam.pendingSignIn, timeRange.start),
+					eq(Schema.teamMembers.teamSlug, team.slug),
+					gt(Schema.teamMembers.pendingSignIn, timeRange.start),
 					// Need to manually stringify the date due to a Drizzle bug https://github.com/drizzle-team/drizzle-orm/issues/2009
 					lt(sql<Date>`now()`, timeRangeEndAdjusted.toISOString()),
 				),
@@ -46,13 +43,15 @@ export class TeamStatsService {
 		const finishedMeetingDurations = db
 			.select({
 				durationSeconds:
-					sql`EXTRACT(epoch FROM ${Schema.finishedMemberMeetings.endedAt} - ${Schema.finishedMemberMeetings.startedAt})`.as(
+					sql<number>`EXTRACT(epoch FROM ${Schema.finishedMemberMeetings.endedAt} - ${Schema.finishedMemberMeetings.startedAt})`.as(
 						'duration_seconds',
 					),
 			})
 			.from(Schema.finishedMemberMeetings)
+			.innerJoin(Schema.teamMembers, eq(Schema.teamMembers.id, Schema.finishedMemberMeetings.memberId))
 			.where(
 				and(
+					eq(Schema.teamMembers.teamSlug, team.slug),
 					gt(Schema.finishedMemberMeetings.startedAt, timeRange.start),
 					lt(Schema.finishedMemberMeetings.endedAt, timeRange.end),
 				),
@@ -62,7 +61,7 @@ export class TeamStatsService {
 
 		const [result] = await db
 			.select({
-				durationSeconds: sum(allDurations.durationSeconds),
+				durationSeconds: sum(allDurations.durationSeconds).mapWith(Number),
 			})
 			.from(allDurations);
 
@@ -70,6 +69,6 @@ export class TeamStatsService {
 			return 0;
 		}
 
-		return convert(Number(result.durationSeconds), 'seconds').to('hours');
+		return convert(result.durationSeconds, 'seconds').to('hours');
 	}
 }
