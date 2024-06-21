@@ -1,4 +1,4 @@
-import { MeetingsTable } from '@/src/components/admin/meetings/meetings-table';
+import { MeetingsTable } from '@/src/components/admin/meetings/meetings-table/meetings-table';
 import { searchParamCache } from '@/src/components/admin/meetings/search-params';
 import { toTimeRange } from '@/src/components/admin/period-select/duration-slug';
 import type { SearchParams } from 'nuqs/parsers';

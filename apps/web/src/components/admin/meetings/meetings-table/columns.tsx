@@ -17,7 +17,7 @@ import clsx from 'clsx';
 import { type Duration, intervalToDuration, milliseconds } from 'date-fns';
 import { useParams } from 'next/navigation';
 import type { PropsWithChildren } from 'react';
-import { DurationSlug, toTimeRange } from '../period-select/duration-slug';
+import { DurationSlug, toTimeRange } from '../../period-select/duration-slug';
 import { RowActionsDropdown } from './row-actions/row-actions-dropdown';
 
 function SortableHeader({

@@ -13,10 +13,10 @@ import {
 } from '@tanstack/react-table';
 import { useQueryStates } from 'nuqs';
 import { use, useState } from 'react';
+import { searchParamParsers } from '../search-params';
 import { type GlobalFilterValue, columns, globalFilterFn } from './columns';
-import { InnerTableContainer, OuterTableContainer } from './meetings-table/meetings-table-common';
-import { MeetingsTableFilters } from './meetings-table/meetings-table-filters';
-import { searchParamParsers } from './search-params';
+import { InnerTableContainer, OuterTableContainer } from './meetings-table-common';
+import { MeetingsTableFilters } from './meetings-table-filters';
 
 type Props = {
 	dataPromise: Promise<TeamMeetingSchema[]>;
