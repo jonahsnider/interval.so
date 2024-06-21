@@ -22,12 +22,13 @@ type Props = {
 
 export function RowActionsDropdown({ meeting, team }: Props) {
 	const [isEndMeetingAlertOpen, setIsEndMeetingAlertOpen] = useState(false);
+	const [isDeleteMeetingAlertOpen, setIsDeleteMeetingAlertOpen] = useState(false);
 
 	return (
 		<>
 			<EndMeetingAlert team={team} open={isEndMeetingAlertOpen} onOpenChange={setIsEndMeetingAlertOpen} />
 
-			<DropdownMenu open={isEndMeetingAlertOpen ? true : undefined}>
+			<DropdownMenu open={isEndMeetingAlertOpen || isDeleteMeetingAlertOpen ? true : undefined}>
 				<DropdownMenuTrigger asChild={true}>
 					<Button variant='ghost' size='icon' className='h-8 w-8 p-0'>
 						<span className='sr-only'>Open menu</span>
@@ -42,7 +43,7 @@ export function RowActionsDropdown({ meeting, team }: Props) {
 						</>
 					)}
 
-					<DeleteMeetingItem meeting={meeting} />
+					<DeleteMeetingItem meeting={meeting} team={team} setDialogOpen={setIsDeleteMeetingAlertOpen} />
 				</DropdownMenuContent>
 			</DropdownMenu>
 		</>

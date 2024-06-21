@@ -9,6 +9,7 @@ import { Suspense } from 'react';
 import { InnerTableContainer, OuterTableContainer } from './meetings-table-common';
 import { MeetingsTableClient } from './meetings-table.client';
 
+// TODO: Add a button to allow creating a meeting. You specify start time, end time, and select the members who were there
 export function MeetingsTable({
 	team,
 	timeRange,

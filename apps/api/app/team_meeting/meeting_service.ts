@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { TRPCError } from '@trpc/server';
-import { and, count, eq, gt, isNotNull, lt, max, min, sql } from 'drizzle-orm';
+import { and, count, eq, gt, gte, inArray, isNotNull, lt, lte, max, min, sql } from 'drizzle-orm';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { db } from '../db/db_service.js';
@@ -106,5 +106,42 @@ export class TeamMeetingService {
 		}
 
 		return result;
+	}
+
+	async deleteOngoingMeeting(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>) {
+		await bouncer.with('TeamPolicy').allows('update', team);
+
+		// Ongoing meeting, delete the pending sign in times
+		await db.update(Schema.teamMembers).set({ pendingSignIn: null }).where(eq(Schema.teamMembers.teamSlug, team.slug));
+	}
+
+	async deleteFinishedMeeting(
+		bouncer: AppBouncer,
+		team: Pick<TeamSchema, 'slug'>,
+		meeting: TimeRangeSchema,
+	): Promise<void> {
+		assert(await bouncer.with('TeamPolicy').allows('update', team), new TRPCError({ code: 'FORBIDDEN' }));
+
+		const meetingsToDelete = db.$with('meetings_to_delete').as(
+			db
+				.select({ id: Schema.finishedMemberMeetings.id })
+				.from(Schema.finishedMemberMeetings)
+				.innerJoin(
+					Schema.teamMembers,
+					and(
+						eq(Schema.finishedMemberMeetings.memberId, Schema.teamMembers.id),
+						eq(Schema.teamMembers.teamSlug, team.slug),
+						gte(Schema.finishedMemberMeetings.startedAt, meeting.start),
+						lte(Schema.finishedMemberMeetings.endedAt, meeting.end),
+					),
+				),
+		);
+
+		const meetingsToDeleteSubquery = db.select({ id: meetingsToDelete.id }).from(meetingsToDelete);
+
+		await db
+			.with(meetingsToDelete)
+			.delete(Schema.finishedMemberMeetings)
+			.where(inArray(Schema.finishedMemberMeetings.id, meetingsToDeleteSubquery));
 	}
 }

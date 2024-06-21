@@ -20,6 +20,30 @@ export class MeetingRouter {
 				.query(({ ctx, input }) => {
 					return this.meetingService.getMeetings(ctx.context.bouncer, input.team, input.timeRange);
 				}),
+			deleteOngoingMeeting: authedProcedure
+				.input(z.object({ team: TeamSchema.pick({ slug: true }) }).strict())
+				.output(z.void())
+				.mutation(({ ctx, input }) => {
+					return this.meetingService.deleteOngoingMeeting(ctx.context.bouncer, input.team);
+				}),
+			deleteFinishedMeeting: authedProcedure
+				.input(
+					z
+						.object({
+							team: TeamSchema.pick({ slug: true }),
+							meeting: TeamMeetingSchema.pick({ startedAt: true, endedAt: true }).extend({
+								endedAt: z.date(),
+							}),
+						})
+						.strict(),
+				)
+				.output(z.void())
+				.mutation(({ ctx, input }) => {
+					return this.meetingService.deleteFinishedMeeting(ctx.context.bouncer, input.team, {
+						start: input.meeting.startedAt,
+						end: input.meeting.endedAt,
+					});
+				}),
 		});
 	}
 }
