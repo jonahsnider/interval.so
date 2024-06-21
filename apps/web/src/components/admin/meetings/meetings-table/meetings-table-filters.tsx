@@ -5,9 +5,9 @@ import type { Table } from '@tanstack/react-table';
 import { useQueryStates } from 'nuqs';
 import { useEffect, useMemo } from 'react';
 import type { SelectRangeEventHandler } from 'react-day-picker';
-import { searchParamParsers } from '../dashboard/search-params';
-import { DurationSlug } from '../period-select/duration-slug';
-import { PeriodSelect } from '../period-select/period-select';
+import { searchParamParsers } from '../../dashboard/search-params';
+import { DurationSlug } from '../../period-select/duration-slug';
+import { PeriodSelect } from '../../period-select/period-select';
 import type { GlobalFilterValue } from './columns';
 
 type Props = {

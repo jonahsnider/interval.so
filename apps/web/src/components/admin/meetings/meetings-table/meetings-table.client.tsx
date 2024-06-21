@@ -14,8 +14,8 @@ import {
 import { useQueryStates } from 'nuqs';
 import { use, useState } from 'react';
 import { type GlobalFilterValue, columns, globalFilterFn } from './columns';
-import { InnerTableContainer, OuterTableContainer } from './meetings-table-common';
-import { MeetingsTableFilters } from './meetings-table-filters';
+import { InnerTableContainer, OuterTableContainer } from './meetings-table/meetings-table-common';
+import { MeetingsTableFilters } from './meetings-table/meetings-table-filters';
 import { searchParamParsers } from './search-params';
 
 type Props = {
