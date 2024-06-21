@@ -19,18 +19,21 @@ export function MeetingsTableFilters({ table }: Props) {
 
 	const setDurationAndClearDates = useMemo(
 		() => (value: DurationSlug) => {
-			setQuery({ duration: value, start: null, end: null });
+			setQuery({ duration: value, start: null, end: null }, { shallow: false });
 		},
 		[setQuery],
 	);
 
 	const setDatesAndClearDuration: SelectRangeEventHandler = useMemo(
 		() => (event) => {
-			setQuery({
-				duration: DurationSlug.Custom,
-				start: event?.from ?? null,
-				end: event?.to ?? null,
-			});
+			setQuery(
+				{
+					duration: DurationSlug.Custom,
+					start: event?.from ?? null,
+					end: event?.to ?? null,
+				},
+				{ shallow: false },
+			);
 		},
 		[setQuery],
 	);
