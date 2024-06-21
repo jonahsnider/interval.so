@@ -34,7 +34,7 @@
 		"@trpc/client": "11.0.0-rc.413",
 		"@trpc/next": "11.0.0-rc.413",
 		"@trpc/react-query": "11.0.0-rc.413",
-		"@types/node": "20.14.6",
+		"@types/node": "20.14.7",
 		"@types/react": "18.3.3",
 		"@types/react-dom": "18.3.0",
 		"@uidotdev/usehooks": "2.4.1",
