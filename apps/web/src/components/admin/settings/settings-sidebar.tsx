@@ -1,32 +1,38 @@
-'use client';
-
+import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import clsx from 'clsx';
 import { Link } from 'next-view-transitions';
-import { usePathname } from 'next/navigation';
 
-type NavbarEntryData = {
+type SidebarEntryData = {
 	label: string;
 	hrefSuffix: string;
+	id: string;
 };
 
-const ENTRIES: NavbarEntryData[] = [
+const ENTRIES = [
 	{
 		label: 'General',
 		hrefSuffix: '',
+		id: 'general',
 	},
 	{
 		label: 'Admins',
 		hrefSuffix: '/admins',
+		id: 'admins',
 	},
-];
+] as const satisfies SidebarEntryData[];
 
-function NavbarEntry({ label, hrefSuffix }: NavbarEntryData) {
-	const pathname = usePathname();
+export type SidebarEntryId = (typeof ENTRIES)[number]['id'];
 
-	const currentTeamSlug = 'team581';
-
-	const href = `/team/${currentTeamSlug}/admin/settings${hrefSuffix}`;
-	const active = pathname.endsWith(href);
+function SidebarEntry({
+	entry,
+	team,
+	active,
+}: {
+	entry: SidebarEntryData;
+	team: Pick<TeamSchema, 'slug'>;
+	active: boolean;
+}) {
+	const href = `/team/${encodeURIComponent(team.slug)}/admin/settings${entry.hrefSuffix}`;
 
 	return (
 		<Link
@@ -35,16 +41,21 @@ function NavbarEntry({ label, hrefSuffix }: NavbarEntryData) {
 				'font-semibold text-foreground': active,
 			})}
 		>
-			{label}
+			{entry.label}
 		</Link>
 	);
 }
 
-export function SettingsSidebar() {
+type Props = {
+	team: Pick<TeamSchema, 'slug'>;
+	pageId: SidebarEntryId;
+};
+
+export function SettingsSidebar({ team, pageId }: Props) {
 	return (
 		<nav className='flex flex-col gap-2 text-sm text-muted-foreground'>
 			{ENTRIES.map((entry) => (
-				<NavbarEntry key={entry.label} {...entry} />
+				<SidebarEntry key={entry.label} entry={entry} team={team} active={pageId === entry.id} />
 			))}
 		</nav>
 	);

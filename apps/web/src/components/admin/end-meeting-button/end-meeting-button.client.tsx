@@ -19,14 +19,14 @@ export function EndMeetingButtonClient({ width = 'auto', team, enabledPromise }:
 		<EndMeetingAlert team={team}>
 			<Tooltip>
 				<TooltipTrigger asChild={true}>
-					<EndMeetingAlertTrigger>
-						{/* biome-ignore lint/a11y/noNoninteractiveTabindex: This is interactive */}
-						<span tabIndex={0} className={clsx({ 'w-full': width === 'full' })}>
+					{/* biome-ignore lint/a11y/noNoninteractiveTabindex: This is interactive */}
+					<span tabIndex={0} className={clsx({ 'w-full': width === 'full' })}>
+						<EndMeetingAlertTrigger>
 							<Button className='w-full' variant='outline' disabled={!enabled}>
 								End meeting
 							</Button>
-						</span>
-					</EndMeetingAlertTrigger>
+						</EndMeetingAlertTrigger>
+					</span>
 				</TooltipTrigger>
 				{!enabled && (
 					<TooltipContent className='bg-accent text-accent-foreground'>
