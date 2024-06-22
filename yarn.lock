@@ -358,15 +358,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/session@npm:7.4.1":
-  version: 7.4.1
-  resolution: "@adonisjs/session@npm:7.4.1"
+"@adonisjs/session@npm:7.4.2":
+  version: 7.4.2
+  resolution: "@adonisjs/session@npm:7.4.2"
   dependencies:
     "@poppinss/macroable": "npm:^1.0.2"
     "@poppinss/utils": "npm:^6.7.3"
   peerDependencies:
     "@adonisjs/core": ^6.6.0
-    "@adonisjs/redis": ^8.0.1
+    "@adonisjs/redis": ^8.0.1 || ^9.0.0
     "@japa/api-client": ^2.0.3
     "@japa/browser-client": ^2.0.3
     edge.js: ^6.0.2
@@ -379,7 +379,7 @@ __metadata:
       optional: true
     edge.js:
       optional: true
-  checksum: 10c0/dfd641b8869f4371c7bbc19206bef43aeaa5204b39b3eda0d8ef74e94c48fd4851a161672e1247a357f8579b5d761cb8755e6ba61b0ce69bacf48b00e7a3e3ff
+  checksum: 10c0/542b71c13ff0b37eabe0ae2355e50420894cb6d8bd6a29adda0d79a8d982cfaed4e1d3dae0ac3a108ed791e280d9d439a5e8e5d1190ef59cb482bd58ebc37fe4
   languageName: node
   linkType: hard
 
@@ -1040,7 +1040,7 @@ __metadata:
     "@adonisjs/core": "npm:6.12.0"
     "@adonisjs/cors": "npm:2.2.1"
     "@adonisjs/redis": "npm:8.0.1"
-    "@adonisjs/session": "npm:7.4.1"
+    "@adonisjs/session": "npm:7.4.2"
     "@adonisjs/transmit": "npm:1.0.1"
     "@adonisjs/tsconfig": "npm:1.3.0"
     "@jonahsnider/util": "npm:11.0.0"
