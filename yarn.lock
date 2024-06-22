@@ -1086,7 +1086,7 @@ __metadata:
     "@radix-ui/react-label": "npm:2.0.2"
     "@radix-ui/react-popover": "npm:1.0.7"
     "@radix-ui/react-portal": "npm:1.1.1"
-    "@radix-ui/react-progress": "npm:1.0.3"
+    "@radix-ui/react-progress": "npm:1.1.0"
     "@radix-ui/react-select": "npm:2.0.0"
     "@radix-ui/react-separator": "npm:1.0.3"
     "@radix-ui/react-slot": "npm:1.0.2"
@@ -2346,24 +2346,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@radix-ui/react-progress@npm:1.0.3":
-  version: 1.0.3
-  resolution: "@radix-ui/react-progress@npm:1.0.3"
+"@radix-ui/react-progress@npm:1.1.0":
+  version: 1.1.0
+  resolution: "@radix-ui/react-progress@npm:1.1.0"
   dependencies:
-    "@babel/runtime": "npm:^7.13.10"
-    "@radix-ui/react-context": "npm:1.0.1"
-    "@radix-ui/react-primitive": "npm:1.0.3"
+    "@radix-ui/react-context": "npm:1.1.0"
+    "@radix-ui/react-primitive": "npm:2.0.0"
   peerDependencies:
     "@types/react": "*"
     "@types/react-dom": "*"
-    react: ^16.8 || ^17.0 || ^18.0
-    react-dom: ^16.8 || ^17.0 || ^18.0
+    react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
   peerDependenciesMeta:
     "@types/react":
       optional: true
     "@types/react-dom":
       optional: true
-  checksum: 10c0/ccb383ad06f8b2bcc8053c618009e775dc41674d5e2d51e8ab8460a60ea154488a03ccc07f72efbe28d7b182ca424bc223f304686edd002c7cd9be34199881b9
+  checksum: 10c0/36b722fe274f843162cea186993bc8254ab034341becc88d031e44e1fd3a31dd3c3e7b8fb64e19a02d04da842e3f3b5a7638ed4924cf70f50925889d4439e3ed
   languageName: node
   linkType: hard
 
