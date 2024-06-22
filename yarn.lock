@@ -141,9 +141,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/core@npm:6.12.0":
-  version: 6.12.0
-  resolution: "@adonisjs/core@npm:6.12.0"
+"@adonisjs/core@npm:6.12.1":
+  version: 6.12.1
+  resolution: "@adonisjs/core@npm:6.12.1"
   dependencies:
     "@adonisjs/ace": "npm:^13.1.0"
     "@adonisjs/application": "npm:^8.3.1"
@@ -189,7 +189,7 @@ __metadata:
       optional: true
   bin:
     adonis-kit: build/toolkit/main.js
-  checksum: 10c0/cf367814293f91c1dd7af2ba71d8e9d263835c518732d755c5662acec73fcbb52b3611bfddc8b56ddfb20cd38cada180917981da67c236eaf45ac1c81156e83b
+  checksum: 10c0/d3d9616bcb4ee7e7fe086e200c49cd69324c50a123087b95fef49dee9ca29e733bf5e4f5c7ea3431966631f919e7490e15bfdd298621e1b3ca8e748112f1a4d9
   languageName: node
   linkType: hard
 
@@ -1037,7 +1037,7 @@ __metadata:
     "@adonisjs/assembler": "npm:7.7.0"
     "@adonisjs/auth": "npm:9.2.3"
     "@adonisjs/bouncer": "npm:3.1.3"
-    "@adonisjs/core": "npm:6.12.0"
+    "@adonisjs/core": "npm:6.12.1"
     "@adonisjs/cors": "npm:2.2.1"
     "@adonisjs/redis": "npm:8.0.1"
     "@adonisjs/session": "npm:7.4.2"
