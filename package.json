@@ -21,7 +21,7 @@
 		"turbo": "2.0.4",
 		"vercel": "34.2.7"
 	},
-	"packageManager": "yarn@4.3.0",
+	"packageManager": "yarn@4.3.1",
 	"trustedDependencies": [
 		"@biomejs/biome"
 	]
