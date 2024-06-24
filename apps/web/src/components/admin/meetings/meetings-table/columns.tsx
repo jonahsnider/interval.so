@@ -1,62 +1,16 @@
 'use client';
 
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { SortableHeader } from '@/src/components/data-tables/sortable-header';
 import { formatDate, formatDateRange, formatDuration } from '@/src/utils/date-format';
-import { ArrowDownIcon, ArrowUpIcon, ChevronUpDownIcon } from '@heroicons/react/16/solid';
 import type { TeamMeetingSchema } from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
 import { Sort } from '@jonahsnider/util';
-import type { Column, ColumnDef, FilterFnOption } from '@tanstack/react-table';
-import clsx from 'clsx';
+import type { ColumnDef, FilterFnOption } from '@tanstack/react-table';
 import { type Duration, intervalToDuration, milliseconds } from 'date-fns';
 import { useParams } from 'next/navigation';
-import type { PropsWithChildren } from 'react';
 import { DurationSlug, toTimeRange } from '../../period-select/duration-slug';
 import { RowActionsDropdown } from './row-actions/row-actions-dropdown';
-
-function SortableHeader({
-	column,
-	children,
-	side = 'left',
-}: PropsWithChildren<{ column: Column<TeamMeetingSchema>; side?: 'left' | 'right' }>) {
-	return (
-		<div className={clsx({ 'text-right': side === 'right' })}>
-			<DropdownMenu>
-				<DropdownMenuTrigger asChild={true}>
-					<Button
-						variant='ghost'
-						size='sm'
-						className={clsx('text-sm', {
-							'-ml-3': side === 'left',
-						})}
-					>
-						{children}
-						{column.getIsSorted() === 'asc' && <ArrowUpIcon className='ml-2 h-4 w-4' />}
-						{column.getIsSorted() === 'desc' && <ArrowDownIcon className='ml-2 h-4 w-4' />}
-						{column.getIsSorted() === false && <ChevronUpDownIcon className='ml-2 h-4 w-4' />}
-					</Button>
-				</DropdownMenuTrigger>
-				<DropdownMenuContent>
-					<DropdownMenuItem className='flex items-center gap-2' onClick={() => column.toggleSorting(false)}>
-						<ArrowUpIcon className='h-4 w-4 text-muted-foreground' />
-						Ascending
-					</DropdownMenuItem>
-					<DropdownMenuItem className='flex items-center gap-2' onClick={() => column.toggleSorting(true)}>
-						<ArrowDownIcon className='h-4 w-4 text-muted-foreground' />
-						Descending
-					</DropdownMenuItem>
-				</DropdownMenuContent>
-			</DropdownMenu>
-		</div>
-	);
-}
 
 function inDateRange(date: Date, [start, end]: [Date | undefined, Date | undefined]): boolean {
 	if (start && end) {
