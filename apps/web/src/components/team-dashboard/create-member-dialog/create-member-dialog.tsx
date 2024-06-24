@@ -70,7 +70,7 @@ export function CreateMemberDialog({ team, closeDialog }: Props) {
 							<FormItem>
 								<FormLabel>Name</FormLabel>
 								<FormControl {...field}>
-									<Input className='max-w-80' type='text' autoComplete='name' {...field} placeholder='Your name' />
+									<Input className='max-w-80' type='text' autoComplete='off' {...field} placeholder='Your name' />
 								</FormControl>
 
 								<FormMessage />
