@@ -1,8 +1,9 @@
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
+import { toTimeRange } from '../../../period-select/duration-slug';
 import { searchParamCache, searchParamSerializer } from '../../search-params';
 import { AverageHoursGraph } from '../average-hours-graph';
-import { UniqueMembersGraph } from '../unique-members-graph';
+import { UniqueMembersGraph } from '../unique-members-graph/unique-members-graph';
 import { GraphTabTrigger } from './graph-tab-trigger';
 
 export type GraphTab = 'members' | 'hours';
@@ -17,6 +18,8 @@ export function GraphTabs({ team, selected }: Props) {
 	const queryString = searchParamSerializer(queryStates);
 
 	const createHref = (subpath: string) => `/team/${team.slug}/admin${subpath}${queryString}`;
+
+	const timeRange = toTimeRange(queryStates);
 
 	return (
 		<Card>
@@ -40,8 +43,8 @@ export function GraphTabs({ team, selected }: Props) {
 						/>
 					</div>
 				</CardHeader>
-				<CardContent>
-					{selected === 'members' && <UniqueMembersGraph />}
+				<CardContent className='min-h-96'>
+					{selected === 'members' && <UniqueMembersGraph team={team} timeRange={timeRange.current} />}
 					{selected === 'hours' && <AverageHoursGraph />}
 				</CardContent>
 			</div>

@@ -5,7 +5,7 @@ export enum DurationSlug {
 	Last7Days = '7d',
 	Last30Days = '30d',
 	Last12Months = '12m',
-	ThisYear = 'thisYear',
+	ThisYear = 'ytd',
 	Custom = 'custom',
 }
 const DURATIONS = {
@@ -57,10 +57,12 @@ export function toTimeRange(searchParams: {
 
 	if (duration === DurationSlug.ThisYear) {
 		return {
+			// Year to date
 			current: {
 				start: new Date(now.getFullYear(), 0, 1),
-				end: new Date(now.getFullYear() + 1, 0, 1),
+				end: new Date(),
 			},
+			// Entire last year
 			previous: {
 				start: new Date(now.getFullYear() - 1, 0, 1),
 				end: new Date(now.getFullYear(), 0, 1),

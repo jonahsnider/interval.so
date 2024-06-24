@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 		url: 'https://hours.frc.sh',
 		type: 'website',
 		title: 'hours.frc.sh',
-		siteName: 'shoursores.frc.sh',
+		siteName: 'hours.frc.sh',
 		description: 'Track meeting attendance.',
 	},
 };

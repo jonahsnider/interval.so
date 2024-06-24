@@ -2,15 +2,28 @@ import assert from 'node:assert/strict';
 import { TRPCError } from '@trpc/server';
 import { convert } from 'convert';
 import { add } from 'date-fns';
-import { and, eq, gt, lt, sql, sum } from 'drizzle-orm';
+import { and, countDistinct, eq, gt, lt, sql, sum } from 'drizzle-orm';
 import { unionAll } from 'drizzle-orm/pg-core';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { db } from '../db/db_service.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
+import { DatumPeriod, timeRangeToDatumPeriod } from './schemas/datum_time_range_schema.js';
 import type { TimeRangeSchema } from './schemas/time_range_schema.js';
+import type { UniqueMembersDatumSchema } from './schemas/unique_members_datum_schema.js';
 
 export class TeamStatsService {
+	private static datumPeriodToPostgresDateField(datumPeriod: DatumPeriod): string {
+		switch (datumPeriod) {
+			case DatumPeriod.Daily:
+				return 'day';
+			case DatumPeriod.Weekly:
+				return 'week';
+			case DatumPeriod.Monthly:
+				return 'month';
+		}
+	}
+
 	async getCombinedHours(
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
@@ -76,5 +89,57 @@ export class TeamStatsService {
 		}
 
 		return convert(result.durationSeconds, 'seconds').to('hours');
+	}
+
+	/**
+	 * Used for display a graph of unique members over a timespan.
+	 */
+	async getUniqueMembers(
+		bouncer: AppBouncer,
+		team: Pick<TeamSchema, 'slug'>,
+		timeRange: TimeRangeSchema,
+	): Promise<UniqueMembersDatumSchema[]> {
+		assert(await bouncer.with('TeamPolicy').allows('read', team), new TRPCError({ code: 'FORBIDDEN' }));
+
+		const datumPeriod = timeRangeToDatumPeriod(timeRange);
+		const dateField = TeamStatsService.datumPeriodToPostgresDateField(datumPeriod);
+		const interval = `1 ${dateField}`;
+
+		const seriesDate = sql<Date>`series_date`.mapWith((value) => new Date(value));
+
+		const meetingsForTeam = db
+			.select({
+				memberId: Schema.teamMembers.id,
+				startedAt: Schema.finishedMemberMeetings.startedAt,
+			})
+			.from(Schema.finishedMemberMeetings)
+			.innerJoin(
+				Schema.teamMembers,
+				and(
+					eq(Schema.teamMembers.id, Schema.finishedMemberMeetings.memberId),
+					eq(Schema.teamMembers.teamSlug, team.slug),
+				),
+			)
+			.as('meetings_for_team');
+
+		const result = await db
+			.select({
+				groupStart: seriesDate,
+				memberCount: countDistinct(meetingsForTeam.memberId).as('member_count'),
+			})
+			// TODO: For users not in/near UTC, this gets formatted in a bad way
+			// The graph x-axis will say "May", but it'll be May 31st, a few hours before June 1
+			// Need to find a way to solve this either client-side with formatting, or server-side by having an offset added during series generation
+			.from(
+				sql<Date>`generate_series(date_trunc(${dateField}, ${timeRange.start.toISOString()}::timestamptz), date_trunc(${dateField}, ${timeRange.end.toISOString()}::timestamptz), ${interval}::interval) as series_date`,
+			)
+			.leftJoin(meetingsForTeam, eq(sql<Date>`date_trunc(${dateField}, ${meetingsForTeam.startedAt})`, seriesDate))
+			.leftJoin(
+				Schema.teamMembers,
+				and(eq(meetingsForTeam.memberId, Schema.teamMembers.id), eq(Schema.teamMembers.teamSlug, team.slug)),
+			)
+			.groupBy(seriesDate);
+
+		return result.map((row) => ({ date: row.groupStart, memberCount: row.memberCount }));
 	}
 }
