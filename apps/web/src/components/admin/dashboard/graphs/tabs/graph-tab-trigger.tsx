@@ -24,7 +24,7 @@ export function GraphTabTrigger({ measure, title, trend, className, href, active
 				className,
 			)}
 		>
-			<p className='font-bold text-sm text-muted-foreground'>{title}</p>
+			<p className='font-semibold text-sm text-muted-foreground'>{title}</p>
 
 			{trend && (
 				<div
