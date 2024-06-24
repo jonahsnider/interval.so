@@ -46,7 +46,7 @@ function within7Days(date: Date) {
 /**
  * Format a date range in the most concise way possible, and if the range was within ±7 days, format it relative to now.
  */
-export function formatDateRange(start: Date, end?: Date): string {
+export function formatDateRange(start: Date, end?: Date, verbose = false): string {
 	const now = new Date();
 
 	const options: Intl.DateTimeFormatOptions = {
@@ -68,7 +68,7 @@ export function formatDateRange(start: Date, end?: Date): string {
 
 	let prefix = '';
 
-	if (within7Days(start) && (!end || within7Days(end))) {
+	if (!verbose && within7Days(start) && (!end || within7Days(end))) {
 		options.month = undefined;
 		options.day = undefined;
 		prefix = capitalize(formatRelative(start, now).replace(/ at .+$/, ', '));

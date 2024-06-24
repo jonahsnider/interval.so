@@ -8,6 +8,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { formatDate, formatDateRange, formatDuration } from '@/src/utils/date-format';
 import { ArrowDownIcon, ArrowUpIcon, ChevronUpDownIcon } from '@heroicons/react/16/solid';
 import type { TeamMeetingSchema } from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
@@ -98,7 +99,12 @@ export const columns: ColumnDef<TeamMeetingSchema>[] = [
 		cell: ({ getValue, row }) => {
 			return (
 				<div className='flex items-center gap-2'>
-					<p className='font-medium'>{getValue<string>()}</p>
+					<Tooltip>
+						<TooltipTrigger asChild={true}>
+							<p className='font-medium'>{getValue<string>()}</p>
+						</TooltipTrigger>
+						<TooltipContent>{formatDateRange(row.original.startedAt, row.original.endedAt, true)}</TooltipContent>
+					</Tooltip>
 					{row.original.endedAt === undefined && <Badge className='hover:bg-primary uppercase'>Live</Badge>}
 				</div>
 			);
@@ -125,7 +131,14 @@ export const columns: ColumnDef<TeamMeetingSchema>[] = [
 			return <SortableHeader column={column}>Start</SortableHeader>;
 		},
 		cell: ({ row }) => {
-			return <p>{formatDate(row.original.startedAt)}</p>;
+			return (
+				<Tooltip>
+					<TooltipTrigger asChild={true}>
+						<p>{formatDate(row.original.startedAt)}</p>
+					</TooltipTrigger>
+					<TooltipContent>{formatDate(row.original.startedAt, true)}</TooltipContent>
+				</Tooltip>
+			);
 		},
 	},
 	{
@@ -138,7 +151,15 @@ export const columns: ColumnDef<TeamMeetingSchema>[] = [
 		},
 		cell: ({ row }) => {
 			if (row.original.endedAt) {
-				return <p>{formatDate(row.original.endedAt)}</p>;
+				// return <p>{formatDate(row.original.endedAt)}</p>;
+				return (
+					<Tooltip>
+						<TooltipTrigger asChild={true}>
+							<p>{formatDate(row.original.endedAt)}</p>
+						</TooltipTrigger>
+						<TooltipContent>{formatDate(row.original.endedAt, true)}</TooltipContent>
+					</Tooltip>
+				);
 			}
 		},
 	},
