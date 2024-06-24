@@ -1,11 +1,11 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { ArrowRightEndOnRectangleIcon } from '@heroicons/react/16/solid';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import clsx from 'clsx';
 import { use } from 'react';
 import { EndMeetingAlert, EndMeetingAlertTrigger } from '../end-meeting-alert';
-import { ArrowRightEndOnRectangleIcon } from '@heroicons/react/16/solid';
 
 type Props = {
 	width?: 'full' | 'auto';
@@ -31,7 +31,7 @@ export function EndMeetingButtonClient({ width = 'auto', team, enabledPromise }:
 					</span>
 				</TooltipTrigger>
 				{!enabled && (
-					<TooltipContent className='bg-accent text-accent-foreground'>
+					<TooltipContent>
 						<p>No meeting is currently in progress</p>
 					</TooltipContent>
 				)}
