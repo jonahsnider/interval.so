@@ -17,13 +17,8 @@ export function UniqueMembersGraph(props: Props) {
 	const period = timeRangeToDatumPeriod(props.timeRange);
 
 	return (
-		<Suspense>
-			<UniqueMembersGraphClient
-				dataPromise={dataPromise}
-				period={period}
-				maxMemberCountPromise={maxMemberCount}
-				timeRange={props.timeRange}
-			/>
+		<Suspense fallback={<div className='h-96' />}>
+			<UniqueMembersGraphClient dataPromise={dataPromise} period={period} maxMemberCountPromise={maxMemberCount} />
 		</Suspense>
 	);
 }

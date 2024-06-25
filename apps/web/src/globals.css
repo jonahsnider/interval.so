@@ -32,6 +32,9 @@
 		--input: 240 5.9% 90%;
 		--ring: 164 50% 40%;
 		--radius: 0.5rem;
+
+		--chart-accent-1: #888;
+		--chart-accent-2: #eaeaea;
 	}
 
 	.dark {
@@ -55,6 +58,9 @@
 		--border: 240 3.7% 15.9%;
 		--input: 240 3.7% 15.9%;
 		--ring: 164 50% 40%;
+
+		--chart-accent-1: #999;
+		--chart-accent-2: #333;
 	}
 }
 

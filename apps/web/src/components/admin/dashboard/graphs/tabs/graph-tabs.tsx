@@ -43,7 +43,7 @@ export function GraphTabs({ team, selected }: Props) {
 						/>
 					</div>
 				</CardHeader>
-				<CardContent className='min-h-96'>
+				<CardContent>
 					{selected === 'members' && <UniqueMembersGraph team={team} timeRange={timeRange.current} />}
 					{selected === 'hours' && <AverageHoursGraph />}
 				</CardContent>

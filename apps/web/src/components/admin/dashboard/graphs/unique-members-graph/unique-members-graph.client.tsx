@@ -1,10 +1,16 @@
 'use client';
 
-import { Card, CardTitle } from '@/components/ui/card';
+import {
+	areaChartProps,
+	areaProps,
+	cartesianGridProps,
+	tooltipProps,
+	xAxisProps,
+	yAxisProps,
+} from '@/src/components/graphs/chart-props';
+import { CustomTooltip, formatTooltipDate } from '@/src/components/graphs/custom-tooltip';
 import { DatumPeriod } from '@hours.frc.sh/api/app/team_stats/schemas/datum_time_range_schema';
-import type { TimeRangeSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_range_schema';
 import type { UniqueMembersDatumSchema } from '@hours.frc.sh/api/app/team_stats/schemas/unique_members_datum_schema';
-import clsx from 'clsx';
 import { use, useMemo } from 'react';
 import {
 	Area,
@@ -20,7 +26,6 @@ import {
 type Props = {
 	dataPromise: Promise<UniqueMembersDatumSchema[]>;
 	maxMemberCountPromise: Promise<number>;
-	timeRange: TimeRangeSchema;
 	period: DatumPeriod;
 };
 
@@ -47,27 +52,7 @@ function formatXAxisDate(date: Date, period: DatumPeriod): string {
 	return new Intl.DateTimeFormat(undefined, options).format(date);
 }
 
-function formatTooltipDate(date: Date, period: DatumPeriod): string {
-	const now = new Date();
-	const options: Intl.DateTimeFormatOptions = {};
-
-	if (period === DatumPeriod.Monthly) {
-		options.month = 'long';
-		options.year = 'numeric';
-	} else {
-		options.day = 'numeric';
-		options.weekday = 'short';
-		options.month = 'short';
-
-		if (now.getFullYear() !== date.getFullYear()) {
-			options.year = 'numeric';
-		}
-	}
-
-	return new Intl.DateTimeFormat(undefined, options).format(date);
-}
-
-function CustomTooltip({
+function MembersTooltip({
 	period,
 	tooltipProps,
 }: {
@@ -83,22 +68,16 @@ function CustomTooltip({
 	const data = entry.payload as ChartDatum;
 
 	return (
-		<Card className='px-4 py-2 flex flex-col'>
-			<div className='flex items-center gap-6 justify-between'>
-				<div className='flex gap-2 items-center'>
-					<div className='h-3 w-3 rounded-full' style={{ backgroundColor: entry.stroke }} />
-					<CardTitle>{entry.name}</CardTitle>
-				</div>
-
-				<p className='font-bold bg-muted rounded px-1 py-px'>{data.memberCount.toLocaleString()}</p>
-			</div>
-
-			<p className='text-right text-muted-foreground'>{formatTooltipDate(new Date(data.timestamp), period)}</p>
-		</Card>
+		<CustomTooltip
+			color={entry.stroke}
+			title={entry.name}
+			value={data.memberCount.toLocaleString()}
+			footer={formatTooltipDate(new Date(data.timestamp), period)}
+		/>
 	);
 }
 
-export function UniqueMembersGraphClient({ dataPromise, period, maxMemberCountPromise, timeRange }: Props) {
+export function UniqueMembersGraphClient({ dataPromise, period, maxMemberCountPromise }: Props) {
 	const data = use(dataPromise);
 	const maxMemberCount = use(maxMemberCountPromise);
 
@@ -114,61 +93,27 @@ export function UniqueMembersGraphClient({ dataPromise, period, maxMemberCountPr
 	);
 
 	return (
-		<ResponsiveContainer
-			width='100%'
-			height={384}
-			className={clsx(
-				'[--chart-accent-1:#888] dark:[--chart-accent-1:#999] [--chart-accent-2:#eaeaea] dark:[--chart-accent-2:#333]',
-			)}
-		>
-			<AreaChart data={chartData} margin={{ left: 0, right: 0, top: 5, bottom: 0 }}>
-				<CartesianGrid vertical={false} stroke={'var(--chart-accent-2)'} />
+		<ResponsiveContainer width='100%' height={384}>
+			<AreaChart {...areaChartProps()} data={chartData}>
+				<CartesianGrid {...cartesianGridProps()} />
 				<XAxis
+					{...xAxisProps()}
 					dataKey='timestamp'
-					// domain={[timeRange.start.getTime(), timeRange.end.getTime()]}
 					domain={['auto', 'auto']}
 					tickFormatter={(date: number) => formatXAxisDate(new Date(date), period)}
 					type='number'
 					name='Time'
-					stroke={'var(--chart-accent-1)'}
-					axisLine={false}
-					tickLine={false}
-					tickMargin={0}
-					tickSize={16}
-					fontSize={12}
 					scale='time'
 				/>
-				<YAxis
-					stroke={'var(--chart-accent-1)'}
-					allowDecimals={false}
-					domain={[0, maxMemberCount]}
-					axisLine={false}
-					tickLine={false}
-					fontSize={12}
-					tickMargin={0}
-					tickSize={16}
-					strokeWidth={2}
-					width={40}
-				/>
+				<YAxis {...yAxisProps()} domain={[0, maxMemberCount]} width={40} />
 				{/* Hide tooltip when there's no data, otherwise the cursor will render at x=0 which looks weird */}
 				{data.length > 0 && (
 					<Tooltip
-						content={(props: TooltipProps<number, string>) => <CustomTooltip tooltipProps={props} period={period} />}
-						cursor={{ strokeWidth: 2, stroke: 'hsl(var(--foreground))' }}
-						isAnimationActive={false}
+						{...tooltipProps()}
+						content={(props: TooltipProps<number, string>) => <MembersTooltip tooltipProps={props} period={period} />}
 					/>
 				)}
-				<Area
-					type='linear'
-					dataKey='memberCount'
-					stroke='hsl(var(--primary))'
-					name='Members'
-					strokeWidth={2}
-					fill='hsl(var(--primary))'
-					fillOpacity={0.15}
-					strokeLinecap='round'
-					animationDuration={500}
-				/>
+				<Area {...areaProps({ color: 'primary' })} dataKey='memberCount' name='Members' />
 			</AreaChart>
 		</ResponsiveContainer>
 	);
