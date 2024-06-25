@@ -23,6 +23,7 @@
 		}
 	},
 	"linter": {
+		"ignore": ["apps/api/app/user/schemas/postgres_timezones.ts"],
 		"rules": {
 			"all": true,
 			"complexity": {
@@ -30,11 +31,11 @@
 				"noStaticOnlyClass": "off",
 				"useLiteralKeys": "off"
 			},
-			"nursery": {
-				"all": false
-			},
 			"correctness": {
 				"noNodejsModules": "off"
+			},
+			"nursery": {
+				"all": false
 			},
 			"style": {
 				"all": true,
