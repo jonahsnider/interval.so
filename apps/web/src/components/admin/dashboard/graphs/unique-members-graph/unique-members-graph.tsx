@@ -17,7 +17,7 @@ export function UniqueMembersGraph(props: Props) {
 	const period = timeRangeToDatumPeriod(props.timeRange);
 
 	return (
-		<Suspense fallback={'loading'}>
+		<Suspense>
 			<UniqueMembersGraphClient
 				dataPromise={dataPromise}
 				period={period}

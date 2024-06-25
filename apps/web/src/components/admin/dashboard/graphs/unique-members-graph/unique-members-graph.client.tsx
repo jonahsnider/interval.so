@@ -47,23 +47,34 @@ function formatXAxisDate(date: Date, period: DatumPeriod): string {
 	return new Intl.DateTimeFormat(undefined, options).format(date);
 }
 
-function formatTooltipDate(date: Date): string {
+function formatTooltipDate(date: Date, period: DatumPeriod): string {
 	const now = new Date();
-	const options: Intl.DateTimeFormatOptions = {
-		month: 'short',
-		day: 'numeric',
-		weekday: 'short',
-	};
+	const options: Intl.DateTimeFormatOptions = {};
 
-	if (now.getFullYear() !== date.getFullYear()) {
+	if (period === DatumPeriod.Monthly) {
+		options.month = 'long';
 		options.year = 'numeric';
+	} else {
+		options.day = 'numeric';
+		options.weekday = 'short';
+		options.month = 'short';
+
+		if (now.getFullYear() !== date.getFullYear()) {
+			options.year = 'numeric';
+		}
 	}
 
 	return new Intl.DateTimeFormat(undefined, options).format(date);
 }
 
-function CustomTooltip({ payload }: TooltipProps<number, string>) {
-	const entry = payload?.[0];
+function CustomTooltip({
+	period,
+	tooltipProps,
+}: {
+	tooltipProps: TooltipProps<number, string>;
+	period: DatumPeriod;
+}) {
+	const entry = tooltipProps.payload?.[0];
 
 	if (!entry) {
 		return undefined;
@@ -82,7 +93,7 @@ function CustomTooltip({ payload }: TooltipProps<number, string>) {
 				<p className='font-bold bg-muted rounded px-1 py-px'>{data.memberCount.toLocaleString()}</p>
 			</div>
 
-			<p className='text-right text-muted-foreground'>{formatTooltipDate(new Date(data.timestamp))}</p>
+			<p className='text-right text-muted-foreground'>{formatTooltipDate(new Date(data.timestamp), period)}</p>
 		</Card>
 	);
 }
@@ -114,7 +125,8 @@ export function UniqueMembersGraphClient({ dataPromise, period, maxMemberCountPr
 				<CartesianGrid vertical={false} stroke={'var(--chart-accent-2)'} />
 				<XAxis
 					dataKey='timestamp'
-					domain={[timeRange.start.getTime(), timeRange.end.getTime()]}
+					// domain={[timeRange.start.getTime(), timeRange.end.getTime()]}
+					domain={['auto', 'auto']}
 					tickFormatter={(date: number) => formatXAxisDate(new Date(date), period)}
 					type='number'
 					name='Time'
@@ -124,7 +136,6 @@ export function UniqueMembersGraphClient({ dataPromise, period, maxMemberCountPr
 					tickMargin={0}
 					tickSize={16}
 					fontSize={12}
-					tickCount={6}
 					scale='time'
 				/>
 				<YAxis
@@ -142,7 +153,7 @@ export function UniqueMembersGraphClient({ dataPromise, period, maxMemberCountPr
 				{/* Hide tooltip when there's no data, otherwise the cursor will render at x=0 which looks weird */}
 				{data.length > 0 && (
 					<Tooltip
-						content={CustomTooltip}
+						content={(props: TooltipProps<number, string>) => <CustomTooltip tooltipProps={props} period={period} />}
 						cursor={{ strokeWidth: 2, stroke: 'hsl(var(--foreground))' }}
 						isAnimationActive={false}
 					/>

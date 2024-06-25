@@ -8,6 +8,7 @@ import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { db } from '../db/db_service.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
+import type { UserTimezoneSchema } from '../user/schemas/user_timezone_schema.js';
 import { DatumPeriod, timeRangeToDatumPeriod } from './schemas/datum_time_range_schema.js';
 import type { TimeRangeSchema } from './schemas/time_range_schema.js';
 import type { UniqueMembersDatumSchema } from './schemas/unique_members_datum_schema.js';
@@ -98,6 +99,7 @@ export class TeamStatsService {
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
 		timeRange: TimeRangeSchema,
+		displayTimezone: UserTimezoneSchema,
 	): Promise<UniqueMembersDatumSchema[]> {
 		assert(await bouncer.with('TeamPolicy').allows('read', team), new TRPCError({ code: 'FORBIDDEN' }));
 
@@ -127,13 +129,16 @@ export class TeamStatsService {
 				groupStart: seriesDate,
 				memberCount: countDistinct(meetingsForTeam.memberId).as('member_count'),
 			})
-			// TODO: For users not in/near UTC, this gets formatted in a bad way
-			// The graph x-axis will say "May", but it'll be May 31st, a few hours before June 1
-			// Need to find a way to solve this either client-side with formatting, or server-side by having an offset added during series generation
 			.from(
-				sql<Date>`generate_series(date_trunc(${dateField}, ${timeRange.start.toISOString()}::timestamptz), date_trunc(${dateField}, ${timeRange.end.toISOString()}::timestamptz), ${interval}::interval) as series_date`,
+				sql<Date>`generate_series(date_trunc(${dateField}, ${timeRange.start.toISOString()}::timestamptz at time zone ${displayTimezone}) at time zone ${displayTimezone}, ${timeRange.end.toISOString()}::timestamptz, ${interval}::interval, ${displayTimezone}) as series_date`,
 			)
-			.leftJoin(meetingsForTeam, eq(sql<Date>`date_trunc(${dateField}, ${meetingsForTeam.startedAt})`, seriesDate))
+			.leftJoin(
+				meetingsForTeam,
+				eq(
+					sql<Date>`date_trunc(${dateField}, ${meetingsForTeam.startedAt} at time zone ${displayTimezone}) at time zone ${displayTimezone}`,
+					seriesDate,
+				),
+			)
 			.leftJoin(
 				Schema.teamMembers,
 				and(eq(meetingsForTeam.memberId, Schema.teamMembers.id), eq(Schema.teamMembers.teamSlug, team.slug)),

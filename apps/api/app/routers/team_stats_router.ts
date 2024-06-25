@@ -6,11 +6,15 @@ import { TimeRangeSchema } from '../team_stats/schemas/time_range_schema.js';
 import { UniqueMembersDatumSchema } from '../team_stats/schemas/unique_members_datum_schema.js';
 import { TeamStatsService } from '../team_stats/team_stats_service.js';
 import { authedProcedure, router } from '../trpc/trpc_service.js';
+import { UserService } from '../user/user_service.js';
 
 @inject()
-@injectHelper(TeamStatsService)
+@injectHelper(TeamStatsService, UserService)
 export class TeamStatsRouter {
-	constructor(private readonly teamStatsService: TeamStatsService) {}
+	constructor(
+		private readonly teamStatsService: TeamStatsService,
+		private readonly userService: UserService,
+	) {}
 
 	getRouter() {
 		return router({
@@ -24,7 +28,8 @@ export class TeamStatsRouter {
 				.input(z.object({ team: TeamSchema.pick({ slug: true }), timeRange: TimeRangeSchema }).strict())
 				.output(UniqueMembersDatumSchema.array())
 				.query(({ ctx, input }) => {
-					return this.teamStatsService.getUniqueMembers(ctx.context.bouncer, input.team, input.timeRange);
+					const timezone = this.userService.getTimezone(ctx.context);
+					return this.teamStatsService.getUniqueMembers(ctx.context.bouncer, input.team, input.timeRange, timezone);
 				}),
 		});
 	}

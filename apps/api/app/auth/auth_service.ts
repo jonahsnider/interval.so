@@ -16,6 +16,7 @@ import { eq } from 'drizzle-orm';
 import { origin, rpId, rpName } from '#config/auth';
 import * as Schema from '#database/schema';
 import { db } from '../db/db_service.js';
+import type { UserTimezoneSchema } from '../user/schemas/user_timezone_schema.js';
 
 export class AuthService {
 	async getRegisterOptions(input: {
@@ -51,6 +52,7 @@ export class AuthService {
 		body: RegistrationResponseJSON;
 		context: HttpContext;
 		displayName: string;
+		timezone: UserTimezoneSchema;
 	}): Promise<void> {
 		const existingChallenge = input.context.session.pull('challenge');
 
@@ -107,6 +109,7 @@ export class AuthService {
 
 			// Associate session with user
 			input.context.session.put('userId', userId);
+			input.context.session.put('timezone', input.timezone);
 		}
 	}
 
@@ -125,9 +128,13 @@ export class AuthService {
 		return options;
 	}
 
-	async verifyLogin(body: AuthenticationResponseJSON, context: HttpContext) {
+	async verifyLogin(input: {
+		body: AuthenticationResponseJSON;
+		context: HttpContext;
+		timezone: UserTimezoneSchema;
+	}) {
 		const passkey = await db.query.credentials.findFirst({
-			where: eq(Schema.credentials.id, body.id),
+			where: eq(Schema.credentials.id, input.body.id),
 			columns: {
 				userId: true,
 				id: true,
@@ -148,7 +155,7 @@ export class AuthService {
 			throw new TRPCError({ code: 'UNAUTHORIZED', message: "That passkey wasn't recognized" });
 		}
 
-		const currentChallenge = context.session.pull('challenge');
+		const currentChallenge = input.context.session.pull('challenge');
 
 		if (!currentChallenge) {
 			throw new TRPCError({
@@ -159,7 +166,7 @@ export class AuthService {
 
 		// TODO: If this throws, send a 400 for failing the challenge
 		const verification = await verifyAuthenticationResponse({
-			response: body,
+			response: input.body,
 			expectedChallenge: currentChallenge,
 			// biome-ignore lint/style/useNamingConvention: This can't be renamed
 			expectedRPID: rpId,
@@ -186,7 +193,8 @@ export class AuthService {
 		assert(passkey.userId, new TypeError('Credential from passkey was not associated with a user'));
 
 		// Associate session with user
-		context.session.put('userId', passkey.userId);
+		input.context.session.put('userId', passkey.userId);
+		input.context.session.put('timezone', input.timezone);
 
 		return passkey.user;
 	}

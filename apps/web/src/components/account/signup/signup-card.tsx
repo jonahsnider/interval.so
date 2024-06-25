@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { useTimezone } from '@/src/hooks/use-timezone';
 import { trpc } from '@/src/trpc/trpc-client';
 import { ArrowPathIcon } from '@heroicons/react/16/solid';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -37,6 +38,7 @@ export function SignupCard() {
 	});
 
 	const [isPending, setIsPending] = useState(false);
+	const timezone = useTimezone();
 
 	const wrappedGetRegistrationOptions = async (values: z.infer<typeof formSchema>) => {
 		try {
@@ -78,7 +80,7 @@ export function SignupCard() {
 
 	const wrappedFinishRegistration = async (registration: RegistrationResponseJSON) => {
 		try {
-			await finishRegistration.mutateAsync({ user: form.getValues(), body: registration });
+			await finishRegistration.mutateAsync({ user: form.getValues(), body: registration, timezone });
 		} catch (error) {
 			if (error instanceof TRPCClientError) {
 				toast.error(`An error occurred while finalizing your registration: ${error.message}`);

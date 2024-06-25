@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { useTimezone } from '@/src/hooks/use-timezone';
 import { trpc } from '@/src/trpc/trpc-client';
 import { ArrowPathIcon } from '@heroicons/react/16/solid';
 import { WebAuthnError, startAuthentication } from '@simplewebauthn/browser';
@@ -24,6 +25,7 @@ export function LoginCard() {
 	});
 
 	const [isPending, setIsPending] = useState(false);
+	const timezone = useTimezone();
 
 	const wrappedGetLoginOptions = async () => {
 		try {
@@ -73,7 +75,7 @@ export function LoginCard() {
 
 	const wrappedFinishLogin = async (login: AuthenticationResponseJSON) => {
 		try {
-			await finishLogin.mutateAsync({ body: login });
+			await finishLogin.mutateAsync({ body: login, timezone });
 		} catch (error) {
 			if (error instanceof TRPCClientError) {
 				toast.error('An error occurred while finalizing your login', {
