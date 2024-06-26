@@ -64,9 +64,9 @@ export class TeamStatsRouter {
 
 				getSimple: authedProcedure
 					.input(z.object({ team: TeamSchema.pick({ slug: true }), timeRange: TimeRangeSchema }).strict())
-					.output(z.number().int().nonnegative())
+					.output(z.number().nonnegative())
 					.query(({ ctx, input }) => {
-						return 123;
+						return this.teamStatsService.getAverageHoursSimple(ctx.context.bouncer, input.team, input.timeRange);
 					}),
 			},
 		});

@@ -247,4 +247,33 @@ export class TeamStatsService {
 			averageHours: convert(row.durationSeconds, 's').to('hour'),
 		}));
 	}
+
+	async getAverageHoursSimple(
+		bouncer: AppBouncer,
+		team: Pick<TeamSchema, 'slug'>,
+		timeRange: TimeRangeSchema,
+	): Promise<number> {
+		assert(await bouncer.with('TeamPolicy').allows('read', team), new TRPCError({ code: 'FORBIDDEN' }));
+
+		const [result] = await db
+			.select({
+				durationSeconds: sql`COALESCE(${avg(
+					sql`EXTRACT(epoch FROM ${Schema.finishedMemberMeetings.endedAt} - ${Schema.finishedMemberMeetings.startedAt})`,
+				)}, 0)`
+					.mapWith(Number)
+					.as('duration_seconds'),
+			})
+			.from(Schema.finishedMemberMeetings)
+			.innerJoin(
+				Schema.teamMembers,
+				and(
+					eq(Schema.finishedMemberMeetings.memberId, Schema.teamMembers.id),
+					eq(Schema.teamMembers.teamSlug, team.slug),
+					gt(Schema.finishedMemberMeetings.startedAt, timeRange.start),
+					lt(Schema.finishedMemberMeetings.endedAt, timeRange.end),
+				),
+			);
+
+		return convert(result?.durationSeconds ?? 0, 's').to('hour');
+	}
 }
