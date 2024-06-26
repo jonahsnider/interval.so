@@ -11,6 +11,7 @@ import {
 import { CustomTooltip, formatTooltipDate } from '@/src/components/graphs/custom-tooltip';
 import { DatumPeriod } from '@hours.frc.sh/api/app/team_stats/schemas/datum_time_range_schema';
 import type { UniqueMembersDatumSchema } from '@hours.frc.sh/api/app/team_stats/schemas/unique_members_datum_schema';
+import { max } from '@jonahsnider/util';
 import { use, useMemo } from 'react';
 import {
 	Area,
@@ -79,7 +80,8 @@ function MembersTooltip({
 
 export function UniqueMembersGraphClient({ dataPromise, period, maxMemberCountPromise }: Props) {
 	const data = use(dataPromise);
-	const maxMemberCount = use(maxMemberCountPromise);
+	const maxMemberCountHint = use(maxMemberCountPromise);
+	const maxMemberCount = Math.max(maxMemberCountHint, data.map((x) => x.memberCount).reduce(max, 0));
 
 	const chartData = useMemo(
 		() =>

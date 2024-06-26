@@ -24,13 +24,28 @@ export class TeamStatsRouter {
 				.query(({ ctx, input }) => {
 					return this.teamStatsService.getCombinedHours(ctx.context.bouncer, input.team, input.timeRange);
 				}),
-			getUniqueMembers: authedProcedure
-				.input(z.object({ team: TeamSchema.pick({ slug: true }), timeRange: TimeRangeSchema }).strict())
-				.output(UniqueMembersDatumSchema.array())
-				.query(({ ctx, input }) => {
-					const timezone = this.userService.getTimezone(ctx.context);
-					return this.teamStatsService.getUniqueMembers(ctx.context.bouncer, input.team, input.timeRange, timezone);
-				}),
+
+			uniqueMembers: {
+				getTimeSeries: authedProcedure
+					.input(z.object({ team: TeamSchema.pick({ slug: true }), timeRange: TimeRangeSchema }).strict())
+					.output(UniqueMembersDatumSchema.array())
+					.query(({ ctx, input }) => {
+						const timezone = this.userService.getTimezone(ctx.context);
+						return this.teamStatsService.getUniqueMembersTimeSeries(
+							ctx.context.bouncer,
+							input.team,
+							input.timeRange,
+							timezone,
+						);
+					}),
+
+				getSimple: authedProcedure
+					.input(z.object({ team: TeamSchema.pick({ slug: true }), timeRange: TimeRangeSchema }).strict())
+					.output(z.number().int().nonnegative())
+					.query(({ ctx, input }) => {
+						return this.teamStatsService.getUniqueMembersSimple(ctx.context.bouncer, input.team, input.timeRange);
+					}),
+			},
 		});
 	}
 }

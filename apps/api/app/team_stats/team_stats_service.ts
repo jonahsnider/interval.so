@@ -95,7 +95,7 @@ export class TeamStatsService {
 	/**
 	 * Used for display a graph of unique members over a timespan.
 	 */
-	async getUniqueMembers(
+	async getUniqueMembersTimeSeries(
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
 		timeRange: TimeRangeSchema,
@@ -146,5 +146,33 @@ export class TeamStatsService {
 			.groupBy(seriesDate);
 
 		return result.map((row) => ({ date: row.groupStart, memberCount: row.memberCount }));
+	}
+
+	/**
+	 * Get the total number of unique members within a timespan.
+	 */
+	async getUniqueMembersSimple(
+		bouncer: AppBouncer,
+		team: Pick<TeamSchema, 'slug'>,
+		timeRange: TimeRangeSchema,
+	): Promise<number> {
+		assert(await bouncer.with('TeamPolicy').allows('read', team), new TRPCError({ code: 'FORBIDDEN' }));
+
+		const [result] = await db
+			.select({
+				count: countDistinct(Schema.finishedMemberMeetings.memberId).as('member_count'),
+			})
+			.from(Schema.finishedMemberMeetings)
+			.innerJoin(
+				Schema.teamMembers,
+				and(
+					eq(Schema.finishedMemberMeetings.memberId, Schema.teamMembers.id),
+					eq(Schema.teamMembers.teamSlug, team.slug),
+					gt(Schema.finishedMemberMeetings.startedAt, timeRange.start),
+					lt(Schema.finishedMemberMeetings.endedAt, timeRange.end),
+				),
+			);
+
+		return result?.count ?? 0;
 	}
 }

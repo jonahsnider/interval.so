@@ -11,7 +11,7 @@ type Props = {
 };
 
 export function UniqueMembersGraph(props: Props) {
-	const dataPromise = trpcServer.teams.stats.getUniqueMembers.query(props);
+	const dataPromise = trpcServer.teams.stats.uniqueMembers.getTimeSeries.query(props);
 	const maxMemberCount = trpcServer.teams.members.simpleMemberList.query(props.team).then((members) => members.length);
 
 	const period = timeRangeToDatumPeriod(props.timeRange);
