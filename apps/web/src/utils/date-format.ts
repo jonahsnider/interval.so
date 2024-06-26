@@ -22,7 +22,7 @@ export function formatDate(date: Date, precise = false): string {
 		timeZoneName: 'short',
 	};
 
-	if (date.getMonth() !== now.getMonth() || date.getDate() !== now.getDate()) {
+	if (precise || date.getMonth() !== now.getMonth() || date.getDate() !== now.getDate()) {
 		options.month = 'short';
 		options.day = 'numeric';
 	}
