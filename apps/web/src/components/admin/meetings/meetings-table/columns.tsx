@@ -6,44 +6,10 @@ import { SortableHeader } from '@/src/components/data-tables/sortable-header';
 import { formatDate, formatDateRange, formatDuration } from '@/src/utils/date-format';
 import type { TeamMeetingSchema } from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
 import { Sort } from '@jonahsnider/util';
-import type { ColumnDef, FilterFnOption } from '@tanstack/react-table';
+import type { ColumnDef } from '@tanstack/react-table';
 import { type Duration, intervalToDuration, milliseconds } from 'date-fns';
 import { useParams } from 'next/navigation';
-import { DurationSlug, toTimeRange } from '../../period-select/duration-slug';
 import { RowActionsDropdown } from './row-actions/row-actions-dropdown';
-
-function inDateRange(date: Date, [start, end]: [Date | undefined, Date | undefined]): boolean {
-	if (start && end) {
-		return date >= start && date <= end;
-	}
-
-	if (start) {
-		return date >= start;
-	}
-
-	if (end) {
-		return date <= end;
-	}
-
-	return true;
-}
-
-export type GlobalFilterValue = { duration: DurationSlug; start: Date | undefined; end: Date | undefined };
-
-export const globalFilterFn: FilterFnOption<TeamMeetingSchema> = (row, _columnId, filterValue: GlobalFilterValue) => {
-	const timeRange = toTimeRange(filterValue);
-
-	if (filterValue.duration !== DurationSlug.Custom && !row.original.endedAt) {
-		// There is no end date, so the meeting is in progress, but you are querying for some duration relative to now
-		// So, we always include the row, since the meeting is happening now
-		return true;
-	}
-
-	return (
-		inDateRange(row.original.startedAt, [timeRange.current.start, timeRange.current.end]) ||
-		inDateRange(row.original.endedAt ?? new Date(), [timeRange.current.start, timeRange.current.end])
-	);
-};
 
 export const columns: ColumnDef<TeamMeetingSchema>[] = [
 	{
@@ -51,15 +17,30 @@ export const columns: ColumnDef<TeamMeetingSchema>[] = [
 		accessorFn: (meeting) => formatDateRange(meeting.startedAt, meeting.endedAt),
 		header: 'Title',
 		cell: ({ getValue, row }) => {
-			return (
-				<div className='flex items-center gap-2'>
+			const shortContent = getValue<string>();
+			const verboseContent = formatDateRange(row.original.startedAt, row.original.endedAt, true);
+
+			const inner =
+				shortContent === verboseContent ? (
+					<p className='font-medium'>{shortContent}</p>
+				) : (
 					<Tooltip>
 						<TooltipTrigger asChild={true}>
-							<p className='font-medium'>{getValue<string>()}</p>
+							<p className='font-medium'>{shortContent}</p>
 						</TooltipTrigger>
-						<TooltipContent>{formatDateRange(row.original.startedAt, row.original.endedAt, true)}</TooltipContent>
+						<TooltipContent>{verboseContent}</TooltipContent>
 					</Tooltip>
-					{row.original.endedAt === undefined && <Badge className='hover:bg-primary uppercase'>Live</Badge>}
+				);
+
+			if (row.original.endedAt) {
+				return inner;
+			}
+
+			return (
+				<div className='flex items-center gap-2'>
+					{inner}
+
+					<Badge className='hover:bg-primary uppercase'>Live</Badge>
 				</div>
 			);
 		},
@@ -85,12 +66,28 @@ export const columns: ColumnDef<TeamMeetingSchema>[] = [
 			return <SortableHeader column={column}>Start</SortableHeader>;
 		},
 		cell: ({ row }) => {
+			const shortContent = formatDate(row.original.startedAt);
+			const verboseContent = formatDate(row.original.startedAt, true);
+
+			// return (
+			// 	<Tooltip>
+			// 		<TooltipTrigger asChild={true}>
+			// 			<p>{formatDate(row.original.startedAt)}</p>
+			// 		</TooltipTrigger>
+			// 		<TooltipContent>{formatDate(row.original.startedAt, true)}</TooltipContent>
+			// 	</Tooltip>
+			// );
+
+			if (shortContent === verboseContent) {
+				return <p>{shortContent}</p>;
+			}
+
 			return (
 				<Tooltip>
 					<TooltipTrigger asChild={true}>
-						<p>{formatDate(row.original.startedAt)}</p>
+						<p>{shortContent}</p>
 					</TooltipTrigger>
-					<TooltipContent>{formatDate(row.original.startedAt, true)}</TooltipContent>
+					<TooltipContent>{verboseContent}</TooltipContent>
 				</Tooltip>
 			);
 		},
@@ -105,13 +102,19 @@ export const columns: ColumnDef<TeamMeetingSchema>[] = [
 		},
 		cell: ({ row }) => {
 			if (row.original.endedAt) {
-				// return <p>{formatDate(row.original.endedAt)}</p>;
+				const shortContent = formatDate(row.original.endedAt);
+				const verboseContent = formatDate(row.original.endedAt, true);
+
+				if (shortContent === verboseContent) {
+					return <p>{shortContent}</p>;
+				}
+
 				return (
 					<Tooltip>
 						<TooltipTrigger asChild={true}>
-							<p>{formatDate(row.original.endedAt)}</p>
+							<p>{shortContent}</p>
 						</TooltipTrigger>
-						<TooltipContent>{formatDate(row.original.endedAt, true)}</TooltipContent>
+						<TooltipContent>{verboseContent}</TooltipContent>
 					</Tooltip>
 				);
 			}
