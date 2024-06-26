@@ -117,7 +117,13 @@ export class TeamMemberService {
 		await db
 			.update(Schema.teamMembers)
 			.set({ pendingSignIn: new Date() })
-			.where(and(eq(Schema.teamMembers.id, teamMember.id), isNull(Schema.teamMembers.pendingSignIn)));
+			.where(
+				and(
+					eq(Schema.teamMembers.id, teamMember.id),
+					isNull(Schema.teamMembers.pendingSignIn),
+					eq(Schema.teamMembers.archived, false),
+				),
+			);
 	}
 
 	private async signOut(teamMember: Pick<TeamMemberSchema, 'id'>): Promise<void> {
@@ -127,7 +133,7 @@ export class TeamMemberService {
 			const [pendingSignIn] = await tx
 				.select({ pendingSignIn: Schema.teamMembers.pendingSignIn })
 				.from(Schema.teamMembers)
-				.where(eq(Schema.teamMembers.id, teamMember.id));
+				.where(and(eq(Schema.teamMembers.id, teamMember.id), eq(Schema.teamMembers.archived, false)));
 
 			if (!pendingSignIn?.pendingSignIn) {
 				return;
@@ -139,7 +145,10 @@ export class TeamMemberService {
 				endedAt: new Date(),
 			});
 
-			await tx.update(Schema.teamMembers).set({ pendingSignIn: null }).where(eq(Schema.teamMembers.id, teamMember.id));
+			await tx
+				.update(Schema.teamMembers)
+				.set({ pendingSignIn: null })
+				.where(and(eq(Schema.teamMembers.id, teamMember.id), eq(Schema.teamMembers.archived, false)));
 		});
 	}
 
