@@ -33,18 +33,16 @@ export function CreateMemberDialog({ team, closeDialog }: Props) {
 	const [toastId, setToastId] = useState<string | number | undefined>();
 
 	const mutation = trpc.teams.members.create.useMutation({
+		onMutate: () => {
+			setToastId(toast.loading('Creating account...'));
+		},
 		onSuccess: () => {
 			closeDialog();
 			router.refresh();
-			setToastId(toast.success('A new account was created', { id: toastId }));
+			toast.success('A new account was created', { id: toastId });
 		},
 		onError: (error) => {
-			setToastId(
-				toast.error('An error occurred while creating the account', { id: toastId, description: error.message }),
-			);
-		},
-		onMutate: () => {
-			setToastId(toast.loading('Creating account...'));
+			toast.error('An error occurred while creating the account', { id: toastId, description: error.message });
 		},
 	});
 

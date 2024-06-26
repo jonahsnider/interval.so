@@ -35,16 +35,14 @@ export function DeleteMeetingItem({ meeting, team, setDialogOpen }: Props) {
 			setToastId(toast.loading('Deleting meeting...'));
 		},
 		onSuccess: () => {
-			setToastId(toast.success('Meeting deleted', { id: toastId }));
+			toast.success('Meeting deleted', { id: toastId });
 			router.refresh();
 		},
 		onError: (error) => {
-			setToastId(
-				toast.error('An error occurred while deleting the meeting', {
-					description: error.message,
-					id: toastId,
-				}),
-			);
+			toast.error('An error occurred while deleting the meeting', {
+				description: error.message,
+				id: toastId,
+			});
 		},
 	});
 	const deleteFinishedMeeting = trpc.teams.meetings.deleteFinishedMeeting.useMutation({
@@ -52,16 +50,14 @@ export function DeleteMeetingItem({ meeting, team, setDialogOpen }: Props) {
 			setToastId(toast.loading('Deleting meeting...'));
 		},
 		onSuccess: () => {
-			setToastId(toast.success('Meeting deleted', { id: toastId }));
+			toast.success('Meeting deleted', { id: toastId });
 			router.refresh();
 		},
 		onError: (error) => {
-			setToastId(
-				toast.error('An error occurred while deleting the meeting', {
-					description: error.message,
-					id: toastId,
-				}),
-			);
+			toast.error('An error occurred while deleting the meeting', {
+				description: error.message,
+				id: toastId,
+			});
 		},
 	});
 
