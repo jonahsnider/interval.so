@@ -69,15 +69,6 @@ export const columns: ColumnDef<TeamMeetingSchema>[] = [
 			const shortContent = formatDate(row.original.startedAt);
 			const verboseContent = formatDate(row.original.startedAt, true);
 
-			// return (
-			// 	<Tooltip>
-			// 		<TooltipTrigger asChild={true}>
-			// 			<p>{formatDate(row.original.startedAt)}</p>
-			// 		</TooltipTrigger>
-			// 		<TooltipContent>{formatDate(row.original.startedAt, true)}</TooltipContent>
-			// 	</Tooltip>
-			// );
-
 			if (shortContent === verboseContent) {
 				return <p>{shortContent}</p>;
 			}
