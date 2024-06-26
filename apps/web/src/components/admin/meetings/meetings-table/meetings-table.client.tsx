@@ -3,13 +3,13 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import type { TeamMeetingSchema } from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
 import {
-	type SortingState,
 	flexRender,
 	getCoreRowModel,
 	getFilteredRowModel,
 	getPaginationRowModel,
 	getSortedRowModel,
 	useReactTable,
+	type SortingState,
 } from '@tanstack/react-table';
 import { use, useEffect, useState } from 'react';
 import { columns } from './columns';
@@ -49,7 +49,7 @@ export function MeetingsTableClient({ dataPromise }: Props) {
 
 	return (
 		<OuterTableContainer>
-			<MeetingsTableFilters table={table} />
+			<MeetingsTableFilters />
 
 			<InnerTableContainer>
 				<Table>
