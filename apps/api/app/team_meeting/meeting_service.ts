@@ -32,10 +32,6 @@ export class TeamMeetingService {
 				and(
 					eq(Schema.finishedMemberMeetings.memberId, Schema.teamMembers.id),
 					eq(Schema.teamMembers.teamSlug, team.slug),
-				),
-			)
-			.where(
-				and(
 					gt(Schema.finishedMemberMeetings.startedAt, timeRange.start),
 					// Need to manually stringify the date due to a Drizzle bug https://github.com/drizzle-team/drizzle-orm/issues/2009
 					lt(Schema.finishedMemberMeetings.endedAt, timeRange.end),
