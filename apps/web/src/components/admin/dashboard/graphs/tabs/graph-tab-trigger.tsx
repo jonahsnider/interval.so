@@ -9,7 +9,6 @@ import { toDigits } from '@jonahsnider/util';
 import clsx from 'clsx';
 import { Link } from 'next-view-transitions';
 import { type ReactNode, Suspense } from 'react';
-import { setTimeout } from 'timers/promises';
 import { searchParamCache, searchParamSerializer } from '../../search-params';
 
 type TabId = 'members' | 'hours';
@@ -65,8 +64,17 @@ async function getMeasure(
 			};
 		}
 		case 'hours': {
-			await setTimeout(1000);
-			return { current: 123 };
+			const [current, previous] = await Promise.all([
+				trpcServer.teams.stats.averageHours.getSimple.query({ team, timeRange: timeRange.current }),
+				timeRange.previous
+					? trpcServer.teams.stats.averageHours.getSimple.query({ team, timeRange: timeRange.previous })
+					: undefined,
+			]);
+
+			return {
+				current,
+				trend: previous ? current / previous - 1 : undefined,
+			};
 		}
 	}
 }

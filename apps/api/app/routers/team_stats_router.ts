@@ -2,6 +2,7 @@ import { inject } from '@adonisjs/core';
 import { z } from 'zod';
 import { injectHelper } from '../../util/inject_helper.js';
 import { TeamSchema } from '../team/schemas/team_schema.js';
+import { AverageHoursDatumSchema } from '../team_stats/schemas/average_hours_datum_schema.js';
 import { TimeRangeSchema } from '../team_stats/schemas/time_range_schema.js';
 import { UniqueMembersDatumSchema } from '../team_stats/schemas/unique_members_datum_schema.js';
 import { TeamStatsService } from '../team_stats/team_stats_service.js';
@@ -44,6 +45,28 @@ export class TeamStatsRouter {
 					.output(z.number().int().nonnegative())
 					.query(({ ctx, input }) => {
 						return this.teamStatsService.getUniqueMembersSimple(ctx.context.bouncer, input.team, input.timeRange);
+					}),
+			},
+
+			averageHours: {
+				getTimeSeries: authedProcedure
+					.input(z.object({ team: TeamSchema.pick({ slug: true }), timeRange: TimeRangeSchema }).strict())
+					.output(AverageHoursDatumSchema.array())
+					.query(({ ctx, input }) => {
+						const timezone = this.userService.getTimezone(ctx.context);
+						return this.teamStatsService.getAverageHoursTimeSeries(
+							ctx.context.bouncer,
+							input.team,
+							input.timeRange,
+							timezone,
+						);
+					}),
+
+				getSimple: authedProcedure
+					.input(z.object({ team: TeamSchema.pick({ slug: true }), timeRange: TimeRangeSchema }).strict())
+					.output(z.number().int().nonnegative())
+					.query(({ ctx, input }) => {
+						return 123;
 					}),
 			},
 		});

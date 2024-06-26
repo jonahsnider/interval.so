@@ -2,13 +2,14 @@ import assert from 'node:assert/strict';
 import { TRPCError } from '@trpc/server';
 import { convert } from 'convert';
 import { add } from 'date-fns';
-import { and, countDistinct, eq, gt, lt, sql, sum } from 'drizzle-orm';
+import { and, avg, countDistinct, eq, gt, lt, sql, sum } from 'drizzle-orm';
 import { unionAll } from 'drizzle-orm/pg-core';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { db } from '../db/db_service.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
 import type { UserTimezoneSchema } from '../user/schemas/user_timezone_schema.js';
+import type { AverageHoursDatumSchema } from './schemas/average_hours_datum_schema.js';
 import { DatumPeriod, timeRangeToDatumPeriod } from './schemas/datum_time_range_schema.js';
 import type { TimeRangeSchema } from './schemas/time_range_schema.js';
 import type { UniqueMembersDatumSchema } from './schemas/unique_members_datum_schema.js';
@@ -174,5 +175,76 @@ export class TeamStatsService {
 			);
 
 		return result?.count ?? 0;
+	}
+
+	/** Get the average number of hours spent by team members at meetings. */
+	async getAverageHoursTimeSeries(
+		bouncer: AppBouncer,
+		team: Pick<TeamSchema, 'slug'>,
+		timeRange: TimeRangeSchema,
+		displayTimezone: UserTimezoneSchema,
+	): Promise<AverageHoursDatumSchema[]> {
+		assert(await bouncer.with('TeamPolicy').allows('read', team), new TRPCError({ code: 'FORBIDDEN' }));
+
+		const datumPeriod = timeRangeToDatumPeriod(timeRange);
+		const dateField = TeamStatsService.datumPeriodToPostgresDateField(datumPeriod);
+		const interval = `1 ${dateField}`;
+
+		const seriesDate = sql<Date>`series_date`.mapWith((value) => new Date(value));
+
+		const meetingsForTeam = db
+			.select({
+				memberId: Schema.finishedMemberMeetings.memberId,
+				startedAt: Schema.finishedMemberMeetings.startedAt,
+				endedAt: Schema.finishedMemberMeetings.endedAt,
+				durationSeconds:
+					sql<number>`EXTRACT(epoch FROM ${Schema.finishedMemberMeetings.endedAt} - ${Schema.finishedMemberMeetings.startedAt})`.as(
+						'duration_seconds',
+					),
+			})
+			.from(Schema.finishedMemberMeetings)
+			.innerJoin(
+				Schema.teamMembers,
+				and(
+					eq(Schema.finishedMemberMeetings.memberId, Schema.teamMembers.id),
+					eq(Schema.teamMembers.teamSlug, team.slug),
+					gt(Schema.finishedMemberMeetings.startedAt, timeRange.start),
+					lt(Schema.finishedMemberMeetings.endedAt, timeRange.end),
+				),
+			)
+			.as('meetings_for_team');
+
+		// TODO: Consider first summing the durations per member, and then averaging those, to avoid very short meetings from a member (ex. accidental sign in/out/in) tanking the average
+
+		const result = await db
+			.select({
+				groupStart: seriesDate,
+				durationSeconds: sql`COALESCE(${avg(
+					sql`EXTRACT(epoch FROM ${meetingsForTeam.endedAt} - ${meetingsForTeam.startedAt})`,
+				)}, 0)`
+					.mapWith(Number)
+					.as('duration_seconds'),
+			})
+			.from(
+				sql<Date>`generate_series(date_trunc(${dateField}, ${timeRange.start.toISOString()}::timestamptz at time zone ${displayTimezone}) at time zone ${displayTimezone}, ${timeRange.end.toISOString()}::timestamptz, ${interval}::interval, ${displayTimezone}) as series_date`,
+			)
+			.leftJoin(
+				meetingsForTeam,
+				eq(
+					sql<Date>`date_trunc(${dateField}, ${meetingsForTeam.startedAt} at time zone ${displayTimezone}) at time zone ${displayTimezone}`,
+					seriesDate,
+				),
+			)
+			.leftJoin(
+				Schema.teamMembers,
+				and(eq(meetingsForTeam.memberId, Schema.teamMembers.id), eq(Schema.teamMembers.teamSlug, team.slug)),
+			)
+			.groupBy(seriesDate)
+			.orderBy(seriesDate);
+
+		return result.map((row) => ({
+			date: row.groupStart,
+			averageHours: convert(row.durationSeconds, 's').to('hour'),
+		}));
 	}
 }
