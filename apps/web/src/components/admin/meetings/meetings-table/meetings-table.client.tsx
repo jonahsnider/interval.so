@@ -11,7 +11,7 @@ import {
 	useReactTable,
 	type SortingState,
 } from '@tanstack/react-table';
-import { use, useEffect, useState } from 'react';
+import { use, useState } from 'react';
 import { columns } from './columns';
 import { InnerTableContainer, OuterTableContainer } from './meetings-table-common';
 import { MeetingsTableFilters } from './meetings-table-filters';
@@ -22,10 +22,6 @@ type Props = {
 
 export function MeetingsTableClient({ dataPromise }: Props) {
 	const data = use(dataPromise);
-
-	useEffect(() => {
-		console.table(data);
-	}, [data]);
 
 	const [sorting, setSorting] = useState<SortingState>([
 		{
