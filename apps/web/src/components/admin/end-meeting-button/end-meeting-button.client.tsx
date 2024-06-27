@@ -1,7 +1,7 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { ArrowRightEndOnRectangleIcon } from '@heroicons/react/16/solid';
+import { ArrowRightStartOnRectangleIcon } from '@heroicons/react/16/solid';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import clsx from 'clsx';
 import { use } from 'react';
@@ -24,7 +24,7 @@ export function EndMeetingButtonClient({ width = 'auto', team, enabledPromise }:
 					<span tabIndex={0} className={clsx({ 'w-full': width === 'full' })}>
 						<EndMeetingAlertTrigger>
 							<Button className='w-full' variant='outline' disabled={!enabled}>
-								<ArrowRightEndOnRectangleIcon className='h-4 w-4 mr-2' />
+								<ArrowRightStartOnRectangleIcon className='h-4 w-4 mr-2' />
 								End meeting
 							</Button>
 						</EndMeetingAlertTrigger>

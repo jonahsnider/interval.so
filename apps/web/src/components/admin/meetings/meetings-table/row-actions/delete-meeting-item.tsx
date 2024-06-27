@@ -14,6 +14,7 @@ import {
 import { buttonVariants } from '@/components/ui/button';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { trpc } from '@/src/trpc/trpc-client';
+import { TrashIcon } from '@heroicons/react/16/solid';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import type { TeamMeetingSchema } from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
 import { useRouter } from 'next/navigation';
@@ -81,7 +82,8 @@ export function DeleteMeetingItem({ meeting, team, setDialogOpen }: Props) {
 		<AlertDialog onOpenChange={setDialogOpen}>
 			<AlertDialogTrigger asChild={true}>
 				<DropdownMenuItem className='text-destructive focus:text-destructive focus:bg-destructive/10'>
-					Delete meeting
+					<TrashIcon className='h-4 w-4 mr-2' />
+					Delete
 				</DropdownMenuItem>
 			</AlertDialogTrigger>
 
