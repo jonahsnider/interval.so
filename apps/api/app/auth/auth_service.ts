@@ -16,7 +16,6 @@ import { eq } from 'drizzle-orm';
 import { origin, rpId, rpName } from '#config/auth';
 import * as Schema from '#database/schema';
 import { db } from '../db/db_service.js';
-import type { UserTimezoneSchema } from '../user/schemas/user_timezone_schema.js';
 
 export class AuthService {
 	async getRegisterOptions(input: {
@@ -52,7 +51,6 @@ export class AuthService {
 		body: RegistrationResponseJSON;
 		context: HttpContext;
 		displayName: string;
-		timezone: UserTimezoneSchema;
 	}): Promise<void> {
 		const existingChallenge = input.context.session.pull('challenge');
 
@@ -109,7 +107,6 @@ export class AuthService {
 
 			// Associate session with user
 			input.context.session.put('userId', userId);
-			input.context.session.put('timezone', input.timezone);
 		}
 	}
 
@@ -131,7 +128,6 @@ export class AuthService {
 	async verifyLogin(input: {
 		body: AuthenticationResponseJSON;
 		context: HttpContext;
-		timezone: UserTimezoneSchema;
 	}) {
 		const passkey = await db.query.credentials.findFirst({
 			where: eq(Schema.credentials.id, input.body.id),
@@ -194,7 +190,6 @@ export class AuthService {
 
 		// Associate session with user
 		input.context.session.put('userId', passkey.userId);
-		input.context.session.put('timezone', input.timezone);
 
 		return passkey.user;
 	}
