@@ -9,5 +9,6 @@ export const TeamMemberSchema = z.object({
 		.max(128, { message: "Team member's name can't be longer than 128 characters" }),
 	archived: z.boolean().default(false),
 	atMeeting: z.boolean().default(false),
+	lastSeenAt: z.optional(z.date().or(z.literal('now'))),
 });
 export type TeamMemberSchema = z.infer<typeof TeamMemberSchema>;

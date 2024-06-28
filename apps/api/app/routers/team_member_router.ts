@@ -25,23 +25,92 @@ export class TeamMemberRouter {
 					return this.teamMemberService.create(ctx.context.bouncer, input.team, input.member);
 				}),
 
-			updateAttendance: publicProcedure
-				.input(TeamMemberSchema.pick({ id: true, atMeeting: true }).strict())
-				.output(z.void())
-				.mutation(({ input, ctx }) => {
-					return this.teamMemberService.updateAttendance(ctx.context.bouncer, input, input);
-				}),
 			simpleMemberList: publicProcedure
 				.input(TeamSchema.pick({ slug: true }))
 				.output(TeamMemberSchema.pick({ id: true, name: true, atMeeting: true }).array())
 				.query(({ ctx, input }) => {
 					return this.teamMemberService.getTeamMembersSimple(ctx.context.bouncer, input);
 				}),
+			updateAttendance: publicProcedure
+				.input(TeamMemberSchema.pick({ id: true, atMeeting: true }).strict())
+				.output(z.void())
+				.mutation(({ input, ctx }) => {
+					return this.teamMemberService.updateAttendance(ctx.context.bouncer, input, input);
+				}),
+
 			endMeeting: authedProcedure
 				.input(z.object({ team: TeamSchema.pick({ slug: true }), endTime: z.date() }).strict())
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
 					return this.teamMemberService.signOutAll(ctx.context.bouncer, input.team, input.endTime);
+				}),
+
+			fullMemberList: authedProcedure
+				.input(TeamSchema.pick({ slug: true }).strict())
+				.output(TeamMemberSchema.array())
+				.query(({ ctx, input }) => {
+					return this.teamMemberService.getTeamMembersFull(ctx.context.bouncer, input);
+				}),
+
+			setArchived: authedProcedure
+				.input(TeamMemberSchema.pick({ id: true, archived: true }).strict())
+				.output(z.void())
+				.mutation(({ ctx, input }) => {
+					return this.teamMemberService.setArchived(ctx.context.bouncer, input);
+				}),
+
+			delete: authedProcedure
+				.input(TeamMemberSchema.pick({ id: true }).strict())
+				.output(z.void())
+				.mutation(({ ctx, input }) => {
+					return this.teamMemberService.delete(ctx.context.bouncer, input);
+				}),
+
+			deleteMany: authedProcedure
+				.input(
+					z
+						.object({
+							team: TeamSchema.pick({ slug: true }),
+							members: TeamMemberSchema.pick({ id: true }).array().min(1),
+						})
+						.strict(),
+				)
+				.output(z.void())
+				.mutation(({ ctx, input }) => {
+					return this.teamMemberService.deleteMany(ctx.context.bouncer, input.team, input.members);
+				}),
+			setArchivedMany: authedProcedure
+				.input(
+					z
+						.object({
+							team: TeamSchema.pick({ slug: true }),
+							members: TeamMemberSchema.pick({ id: true }).array().min(1),
+							data: TeamMemberSchema.pick({ archived: true }).strict(),
+						})
+						.strict(),
+				)
+				.output(z.void())
+				.mutation(({ ctx, input }) => {
+					return this.teamMemberService.setArchivedMany(ctx.context.bouncer, input.team, input.members, input.data);
+				}),
+			updateAttendanceMany: authedProcedure
+				.input(
+					z
+						.object({
+							team: TeamSchema.pick({ slug: true }),
+							members: TeamMemberSchema.pick({ id: true }).array().min(1),
+							data: TeamMemberSchema.pick({ atMeeting: true }).strict(),
+						})
+						.strict(),
+				)
+				.output(z.void())
+				.mutation(({ ctx, input }) => {
+					return this.teamMemberService.updateAttendanceMany(
+						ctx.context.bouncer,
+						input.team,
+						input.members,
+						input.data,
+					);
 				}),
 		});
 	}

@@ -16,19 +16,31 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { CalendarIcon } from '@heroicons/react/16/solid';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { type ReactNode, useState } from 'react';
 import type { SelectRangeEventHandler } from 'react-day-picker';
 import { DurationSlug, durationLabel } from './duration-slug';
 
 type Props = {
-	duration: DurationSlug;
 	start?: Date;
 	end?: Date;
 	className?: string;
+	emptyText?: ReactNode;
+	prefix?: ReactNode;
+	disabled?: boolean;
 
-	setDurationAndClearDates: (value: DurationSlug) => void;
 	setDatesAndClearDuration: SelectRangeEventHandler;
-};
+} & (
+	| {
+			duration: DurationSlug;
+			setDurationAndClearDates: (value: DurationSlug) => void;
+			optional?: false;
+	  }
+	| {
+			duration?: DurationSlug;
+			setDurationAndClearDates: (value?: DurationSlug) => void;
+			optional: true;
+	  }
+);
 export function PeriodSelect({
 	duration,
 	setDatesAndClearDuration,
@@ -36,6 +48,9 @@ export function PeriodSelect({
 	start,
 	end,
 	className,
+	optional,
+	emptyText = 'No dates selected',
+	disabled = false,
 }: Props) {
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -52,25 +67,27 @@ export function PeriodSelect({
 			<DropdownMenuTrigger asChild={true}>
 				<Button
 					variant='outline'
+					disabled={disabled}
 					className={clsx(
 						{
 							'border-destructive':
-								duration === DurationSlug.Custom && ((isOpen && !start && !end) || !(isOpen || (start && end))),
+								!optional &&
+								duration === DurationSlug.Custom &&
+								((isOpen && !start && !end) || !(isOpen || (start && end))),
 						},
 						className,
 					)}
 				>
 					<CalendarIcon className='h-4 w-4 mr-2' />
-					{duration === DurationSlug.Custom &&
-						(start || end ? (
-							<>
-								{start?.toLocaleDateString()} to {end?.toLocaleDateString()}
-							</>
-						) : (
-							<>No dates selected</>
-						))}
+					{duration === DurationSlug.Custom && start && end && (
+						<>
+							{start?.toLocaleDateString()} to {end?.toLocaleDateString()}
+						</>
+					)}
 
-					{duration !== DurationSlug.Custom && durationLabel(duration)}
+					{duration && duration !== DurationSlug.Custom && durationLabel(duration)}
+
+					{(!duration || (duration === DurationSlug.Custom && !(start && end))) && emptyText}
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent className='w-56'>
@@ -100,6 +117,13 @@ export function PeriodSelect({
 							</DropdownMenuSubContent>
 						</DropdownMenuPortal>
 					</DropdownMenuSub>
+					{optional && (start || end || duration) && (
+						<>
+							<DropdownMenuSeparator />
+
+							<DropdownMenuItem onClick={() => setDurationAndClearDates(undefined)}>Clear</DropdownMenuItem>
+						</>
+					)}
 				</DropdownMenuGroup>
 			</DropdownMenuContent>
 		</DropdownMenu>
