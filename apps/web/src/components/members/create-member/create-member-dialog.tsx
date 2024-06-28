@@ -1,7 +1,7 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Button, type ButtonProps } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { trpc } from '@/src/trpc/trpc-client';
@@ -9,19 +9,20 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { type PropsWithChildren, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import type { z } from 'zod';
 
-type Props = {
-	team: Pick<TeamSchema, 'slug'>;
-	closeDialog: () => void;
-};
-
 const formSchema = TeamMemberSchema.pick({ name: true });
 
-export function CreateMemberDialog({ team, closeDialog }: Props) {
+function CreateMemberDialogContent({
+	team,
+	closeDialog,
+}: {
+	team: Pick<TeamSchema, 'slug'>;
+	closeDialog: () => void;
+}) {
 	const form = useForm({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -34,15 +35,15 @@ export function CreateMemberDialog({ team, closeDialog }: Props) {
 
 	const mutation = trpc.teams.members.create.useMutation({
 		onMutate: () => {
-			setToastId(toast.loading('Creating account...'));
+			setToastId(toast.loading('Creating member...'));
 		},
 		onSuccess: () => {
 			closeDialog();
 			router.refresh();
-			toast.success('A new account was created', { id: toastId });
+			toast.success('A new member was created', { id: toastId });
 		},
 		onError: (error) => {
-			toast.error('An error occurred while creating the account', { id: toastId, description: error.message });
+			toast.error('An error occurred while creating the member', { id: toastId, description: error.message });
 		},
 	});
 
@@ -56,7 +57,7 @@ export function CreateMemberDialog({ team, closeDialog }: Props) {
 	return (
 		<>
 			<DialogHeader>
-				<DialogTitle>Sign up</DialogTitle>
+				<DialogTitle>Create member</DialogTitle>
 			</DialogHeader>
 
 			<Form {...form}>
@@ -68,7 +69,7 @@ export function CreateMemberDialog({ team, closeDialog }: Props) {
 							<FormItem>
 								<FormLabel>Name</FormLabel>
 								<FormControl {...field}>
-									<Input className='max-w-80' type='text' autoComplete='off' {...field} placeholder='Your name' />
+									<Input className='max-w-80' type='text' autoComplete='off' {...field} placeholder='Member name' />
 								</FormControl>
 
 								<FormMessage />
@@ -78,11 +79,35 @@ export function CreateMemberDialog({ team, closeDialog }: Props) {
 
 					<DialogFooter>
 						<Button type='submit' disabled={mutation.isPending}>
-							Submit
+							Sign up
 						</Button>
 					</DialogFooter>
 				</form>
 			</Form>
 		</>
+	);
+}
+
+type Props = PropsWithChildren<
+	{
+		team: Pick<TeamSchema, 'slug'>;
+	} & ButtonProps
+>;
+
+export function CreateMemberDialog({ team, children, ...buttonProps }: Props) {
+	const [open, setOpen] = useState(false);
+
+	return (
+		<Dialog open={open} onOpenChange={setOpen}>
+			<DialogTrigger asChild={true}>
+				<Button variant='outline' disabled={open} {...buttonProps}>
+					{children}
+				</Button>
+			</DialogTrigger>
+
+			<DialogContent>
+				<CreateMemberDialogContent team={team} closeDialog={() => setOpen(false)} />
+			</DialogContent>
+		</Dialog>
 	);
 }
