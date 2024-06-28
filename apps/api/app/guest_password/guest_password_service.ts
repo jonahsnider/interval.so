@@ -65,6 +65,7 @@ export class GuestPasswordService {
 		return tokenTeam.slug === team.slug;
 	}
 
+	// TODO: This doesn't actually work, the Redis key structure was changed
 	async clearTokensForTeam(team: Pick<TeamSchema, 'slug'>): Promise<void> {
 		await redis.del(GuestPasswordService.redisKey(team.slug));
 	}

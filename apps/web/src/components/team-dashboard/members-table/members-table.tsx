@@ -30,6 +30,7 @@ type Props = {
 	team: Pick<TeamSchema, 'slug'>;
 };
 
+// TODO: Refactor so that this does its own data fetching
 export function MembersTable({ members, team }: Props) {
 	const fuse = useMemo(() => new Fuse(members, { keys: ['name'] }), [members]);
 	const [filter, setFilter] = useState('');
@@ -45,6 +46,7 @@ export function MembersTable({ members, team }: Props) {
 			return new Set(members);
 		}
 
+		// TODO: This does not sort the results by relevance
 		return new Set(fuse.search(trimmedFilter).map((result) => result.item));
 	}, [trimmedFilter, fuse, members]);
 
