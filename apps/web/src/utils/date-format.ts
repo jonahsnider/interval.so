@@ -68,7 +68,17 @@ export function formatDateRange(start: Date, end?: Date, verbose = false): strin
 
 	let prefix = '';
 
-	if (!verbose && within7Days(start) && (!end || within7Days(end))) {
+	if (
+		// Not in verbose mode
+		!verbose &&
+		// Start date was recent
+		within7Days(start) &&
+		// No end date, or end date was same day as start
+		(!end ||
+			(start.getFullYear() === end.getFullYear() &&
+				start.getMonth() === end.getMonth() &&
+				end.getDate() === start.getDate()))
+	) {
 		options.month = undefined;
 		options.day = undefined;
 		prefix = capitalize(formatRelative(start, now).replace(/ at .+$/, ', '));
