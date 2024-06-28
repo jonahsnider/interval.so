@@ -10,7 +10,7 @@
 		"format": "prettier --check .",
 		"format:write": "yarn format --write",
 		"lint": "biome check .",
-		"lint:fix": "biome check . --write",
+		"lint:fix": "biome check . --write --unsafe",
 		"test": "yarn lint && yarn format && turbo run build type-check",
 		"type-check": "turbo run type-check"
 	},
