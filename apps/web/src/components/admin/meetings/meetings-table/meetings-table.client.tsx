@@ -25,7 +25,7 @@ export function MeetingsTableClient({ dataPromise }: Props) {
 
 	const [sorting, setSorting] = useState<SortingState>([
 		{
-			id: 'end',
+			id: 'endedAt',
 			desc: true,
 		},
 	]);

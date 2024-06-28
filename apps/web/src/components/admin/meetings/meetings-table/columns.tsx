@@ -60,7 +60,7 @@ export const columns: ColumnDef<TeamMeetingSchema>[] = [
 		},
 	},
 	{
-		accessorKey: 'start',
+		accessorKey: 'startedAt',
 		sortingFn: Sort.ascending((row) => row.original.startedAt),
 		header: ({ column }) => {
 			return <SortableHeader column={column}>Start</SortableHeader>;
@@ -84,7 +84,7 @@ export const columns: ColumnDef<TeamMeetingSchema>[] = [
 		},
 	},
 	{
-		accessorKey: 'end',
+		accessorKey: 'endedAt',
 		// If the meeting is still in progress, treat it as though it had just ended
 		// With the default sort, this means it'll be at the top of the list
 		sortingFn: Sort.ascending((row) => row.original.endedAt ?? new Date()),
