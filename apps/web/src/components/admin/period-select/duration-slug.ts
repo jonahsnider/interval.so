@@ -1,5 +1,5 @@
 import type { TimeRangeSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_range_schema';
-import { type Duration, sub } from 'date-fns';
+import { type Duration, endOfDay, endOfYear, startOfDay, startOfYear, sub } from 'date-fns';
 
 export enum DurationSlug {
 	Last7Days = '7d',
@@ -42,8 +42,8 @@ export function toTimeRange(searchParams: {
 		if (start && end) {
 			return {
 				current: {
-					start,
-					end,
+					start: startOfDay(start),
+					end: endOfDay(end),
 				},
 				previous: undefined,
 			};
@@ -59,13 +59,15 @@ export function toTimeRange(searchParams: {
 		return {
 			// Year to date
 			current: {
-				start: new Date(now.getFullYear(), 0, 1),
-				end: new Date(),
+				start: startOfYear(now),
+				// If we used the end of the year, there would be a bunch of data from all 0s from [now, endOfYear(now)]
+				// Which looks ugly. So we can just query up until now and then it only has existing data in the result
+				end: now,
 			},
 			// Entire last year
 			previous: {
-				start: new Date(now.getFullYear() - 1, 0, 1),
-				end: new Date(now.getFullYear(), 0, 1),
+				start: startOfYear(new Date(now.getFullYear() - 1, 0, 1)),
+				end: endOfYear(new Date(now.getFullYear() - 1, 0, 1)),
 			},
 		};
 	}
