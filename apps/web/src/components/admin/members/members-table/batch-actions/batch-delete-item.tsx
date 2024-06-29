@@ -12,7 +12,6 @@ import { buttonVariants } from '@/components/ui/button';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { trpc } from '@/src/trpc/trpc-client';
 import { TrashIcon } from '@heroicons/react/16/solid';
-import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import type { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
 import { AlertDialog } from '@radix-ui/react-alert-dialog';
 import type { Table } from '@tanstack/react-table';
@@ -21,13 +20,12 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 
 type Props = {
-	team: Pick<TeamSchema, 'slug'>;
 	setDialogOpen: (open: boolean) => void;
 	table: Table<TeamMemberSchema>;
 	closeDropdown: () => void;
 };
 
-export function BatchDeleteItem({ setDialogOpen, table, team, closeDropdown }: Props) {
+export function BatchDeleteItem({ setDialogOpen, table, closeDropdown }: Props) {
 	const [toastId, setToastId] = useState<string | number | undefined>();
 	const router = useRouter();
 
@@ -73,9 +71,7 @@ export function BatchDeleteItem({ setDialogOpen, table, team, closeDropdown }: P
 					<AlertDialogCancel>Cancel</AlertDialogCancel>
 					<AlertDialogAction
 						className={buttonVariants({ variant: 'destructive' })}
-						onClick={() =>
-							deleteMembers.mutate({ team, members: selectedRows.map((row) => ({ id: row.original.id })) })
-						}
+						onClick={() => deleteMembers.mutate({ members: selectedRows.map((row) => ({ id: row.original.id })) })}
 						disabled={deleteMembers.isPending}
 					>
 						Delete members

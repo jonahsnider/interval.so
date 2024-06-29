@@ -1,10 +1,11 @@
 import assert from 'node:assert/strict';
 import transmit from '@adonisjs/transmit/services/main';
 import { TRPCError } from '@trpc/server';
-import { and, asc, count, desc, eq, inArray, isNotNull, isNull, sql } from 'drizzle-orm';
+import { and, asc, count, desc, eq, inArray, isNotNull, isNull } from 'drizzle-orm';
 import postgres from 'postgres';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
+import { AuthorizationService } from '../authorization/authorization_service.js';
 import { db } from '../db/db_service.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
 import type { TeamMemberSchema } from './schemas/team_member_schema.js';
@@ -17,26 +18,11 @@ export class TeamMemberService {
 		return `team/${team.slug}/members`;
 	}
 
-	async getTeamByMember(teamMember: Pick<TeamMemberSchema, 'id'>): Promise<Pick<TeamSchema, 'id'> | undefined> {
-		const dbMember = await db.query.teamMembers.findFirst({
-			columns: {
-				teamId: true,
-			},
-			where: eq(Schema.teamMembers.id, teamMember.id),
-		});
-
-		if (!dbMember) {
-			return undefined;
-		}
-
-		return { id: dbMember.teamId };
-	}
-
 	async getTeamMembersSimple(
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
 	): Promise<Pick<TeamMemberSchema, 'id' | 'name' | 'atMeeting'>[]> {
-		assert(await bouncer.with('TeamMemberPolicy').allows('readSimple', team), new TRPCError({ code: 'FORBIDDEN' }));
+		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('viewSimpleMemberList', team));
 
 		const result = await db.query.teams.findFirst({
 			columns: {},
@@ -66,7 +52,7 @@ export class TeamMemberService {
 	}
 
 	async getTeamMembersFull(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>): Promise<TeamMemberSchema[]> {
-		assert(await bouncer.with('TeamMemberPolicy').allows('readFull', team), new TRPCError({ code: 'FORBIDDEN' }));
+		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('viewFullMemberList', team));
 
 		const result = await db.query.teams.findFirst({
 			columns: {},
@@ -112,7 +98,7 @@ export class TeamMemberService {
 		team: Pick<TeamSchema, 'slug'>,
 		data: Pick<TeamMemberSchema, 'name'>,
 	): Promise<void> {
-		assert(await bouncer.with('TeamMemberPolicy').allows('create', team), new TRPCError({ code: 'FORBIDDEN' }));
+		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('create', team));
 
 		// TODO: Limit teams to 1000 members (doesn't matter if unarchived or archived)
 
@@ -165,9 +151,8 @@ export class TeamMemberService {
 		teamMember: Pick<TeamMemberSchema, 'id'>,
 		data: Pick<TeamMemberSchema, 'atMeeting'>,
 	) {
-		assert(
-			await bouncer.with('TeamMemberPolicy').allows('updateAttendance', teamMember),
-			new TRPCError({ code: 'FORBIDDEN' }),
+		await AuthorizationService.assertPermission(
+			bouncer.with('TeamMemberPolicy').allows('updateAttendance', teamMember),
 		);
 
 		if (data.atMeeting) {
@@ -230,7 +215,7 @@ export class TeamMemberService {
 	}
 
 	async signOutAll(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>, endTime: Date): Promise<void> {
-		assert(await bouncer.with('TeamPolicy').allows('update', team), new TRPCError({ code: 'FORBIDDEN' }));
+		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('signOutAll', team));
 
 		// TODO: Rewrite this to use a single query (CTE?) instead of doing the select and then insert
 
@@ -271,7 +256,7 @@ export class TeamMemberService {
 	}
 
 	async setArchived(bouncer: AppBouncer, member: Pick<TeamMemberSchema, 'id' | 'archived'>): Promise<void> {
-		assert(await bouncer.with('TeamMemberPolicy').allows('update', member), new TRPCError({ code: 'FORBIDDEN' }));
+		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('update', [member]));
 
 		if (member.archived) {
 			const dbMember = await db.query.teamMembers.findFirst({
@@ -296,7 +281,7 @@ export class TeamMemberService {
 	}
 
 	async delete(bouncer: AppBouncer, member: Pick<TeamMemberSchema, 'id'>): Promise<void> {
-		assert(await bouncer.with('TeamMemberPolicy').allows('delete', member), new TRPCError({ code: 'FORBIDDEN' }));
+		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('delete', [member]));
 
 		await db.transaction(async (tx) => {
 			// Delete meetings
@@ -306,8 +291,8 @@ export class TeamMemberService {
 		});
 	}
 
-	async deleteMany(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>, members: Pick<TeamMemberSchema, 'id'>[]) {
-		assert(await bouncer.with('TeamPolicy').allows('update', team), new TRPCError({ code: 'FORBIDDEN' }));
+	async deleteMany(bouncer: AppBouncer, members: Pick<TeamMemberSchema, 'id'>[]) {
+		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('delete', members));
 
 		await db.transaction(async (tx) => {
 			const memberIds = members.map((member) => member.id);
@@ -321,11 +306,10 @@ export class TeamMemberService {
 
 	async setArchivedMany(
 		bouncer: AppBouncer,
-		team: Pick<TeamSchema, 'slug'>,
 		members: Pick<TeamMemberSchema, 'id'>[],
 		data: Pick<TeamMemberSchema, 'archived'>,
 	) {
-		assert(await bouncer.with('TeamPolicy').allows('update', team), new TRPCError({ code: 'FORBIDDEN' }));
+		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('update', members));
 
 		const memberIds = members.map((member) => member.id);
 
@@ -353,32 +337,24 @@ export class TeamMemberService {
 
 	async updateAttendanceMany(
 		bouncer: AppBouncer,
-		team: Pick<TeamSchema, 'slug'>,
 		members: Pick<TeamMemberSchema, 'id'>[],
 		data: Pick<TeamMemberSchema, 'atMeeting'>,
 	): Promise<void> {
-		assert(await bouncer.with('TeamPolicy').allows('update', team), new TRPCError({ code: 'FORBIDDEN' }));
+		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('update', members));
 
 		if (data.atMeeting) {
-			await this.signInMany(team, members);
+			await this.signInMany(members);
 		} else {
-			await this.signOutMany(team, members, new Date());
+			await this.signOutMany(members, new Date());
 		}
 	}
 
-	private async signInMany(team: Pick<TeamSchema, 'slug'>, members: Pick<TeamMemberSchema, 'id'>[]): Promise<void> {
-		const teams = db
-			.$with('team_input')
-			.as(db.select({ id: Schema.teams.id }).from(Schema.teams).where(eq(Schema.teams.slug, team.slug)));
-
+	private async signInMany(members: Pick<TeamMemberSchema, 'id'>[]): Promise<void> {
 		await db
-			.with(teams)
 			.update(Schema.teamMembers)
 			.set({ pendingSignIn: new Date() })
 			.where(
 				and(
-					// On this team
-					eq(Schema.teamMembers.teamId, sql`(select * from ${teams})`),
 					// In the list of members
 					inArray(
 						Schema.teamMembers.id,
@@ -392,11 +368,7 @@ export class TeamMemberService {
 			);
 	}
 
-	private async signOutMany(
-		team: Pick<TeamSchema, 'slug'>,
-		members: Pick<TeamMemberSchema, 'id'>[],
-		endTime: Date,
-	): Promise<void> {
+	private async signOutMany(members: Pick<TeamMemberSchema, 'id'>[], endTime: Date): Promise<void> {
 		// TODO: Rewrite this to use a single query (CTE?) instead of doing the select and then insert
 
 		await db.transaction(async (tx) => {
@@ -406,8 +378,6 @@ export class TeamMemberService {
 			const dbMembers = await tx
 				.select({ id: Schema.teamMembers.id, pendingSignIn: Schema.teamMembers.pendingSignIn })
 				.from(Schema.teamMembers)
-				// Ensure we only select members from the team slug, since we can't necessarily trust the members array as being part of this team
-				.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)))
 				.where(
 					and(
 						// Currently signed in

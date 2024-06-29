@@ -49,6 +49,7 @@
 		"postgres": "3.4.4",
 		"reflect-metadata": "0.2.2",
 		"superjson": "2.2.1",
+		"ts-pattern": "5.2.0",
 		"zod": "3.23.8"
 	},
 	"devDependencies": {

@@ -1074,6 +1074,7 @@ __metadata:
     reflect-metadata: "npm:0.2.2"
     superjson: "npm:2.2.1"
     ts-node: "npm:10.9.2"
+    ts-pattern: "npm:5.2.0"
     typescript: "npm:5.5.2"
     zod: "npm:3.23.8"
   languageName: unknown
@@ -9386,6 +9387,13 @@ __metadata:
     ts-node-transpile-only: dist/bin-transpile.js
     ts-script: dist/bin-script-deprecated.js
   checksum: 10c0/5f29938489f96982a25ba650b64218e83a3357d76f7bede80195c65ab44ad279c8357264639b7abdd5d7e75fc269a83daa0e9c62fd8637a3def67254ecc9ddc2
+  languageName: node
+  linkType: hard
+
+"ts-pattern@npm:5.2.0":
+  version: 5.2.0
+  resolution: "ts-pattern@npm:5.2.0"
+  checksum: 10c0/99d0bc0d2f3aa19d8ff50b028f4e1c3da35b21f4503f329f8818863b614df3850c0b3709c703e18f5902e68b9682d29719c82b709e07907e87e374e5c70a01f5
   languageName: node
   linkType: hard
 

@@ -8,7 +8,6 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { EllipsisVerticalIcon } from '@heroicons/react/16/solid';
-import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import type { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
 import type { Table } from '@tanstack/react-table';
 import { useState } from 'react';
@@ -18,10 +17,9 @@ import { BatchUpdateAttendanceItem } from './batch-update-attendance-item';
 
 type Props = {
 	table: Table<TeamMemberSchema>;
-	team: Pick<TeamSchema, 'slug'>;
 };
 
-export function BatchActionsDropdown({ table, team }: Props) {
+export function BatchActionsDropdown({ table }: Props) {
 	const [isDeleteMembersAlertOpen, setDeleteMembersAlertOpen] = useState(false);
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -37,13 +35,12 @@ export function BatchActionsDropdown({ table, team }: Props) {
 			</DropdownMenuTrigger>
 
 			<DropdownMenuContent align='end'>
-				<BatchUpdateAttendanceItem team={team} table={table} />
-				<BatchArchiveItem team={team} table={table} />
+				<BatchUpdateAttendanceItem table={table} />
+				<BatchArchiveItem table={table} />
 				<DropdownMenuSeparator />
 				<BatchDeleteItem
 					setDialogOpen={setDeleteMembersAlertOpen}
 					table={table}
-					team={team}
 					closeDropdown={() => setDropdownOpen(false)}
 				/>
 			</DropdownMenuContent>

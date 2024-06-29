@@ -1,7 +1,6 @@
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { trpc } from '@/src/trpc/trpc-client';
 import { ArchiveBoxIcon, ArrowUpIcon } from '@heroicons/react/16/solid';
-import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import type { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
 import type { Table } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
@@ -9,11 +8,10 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 
 type Props = {
-	team: Pick<TeamSchema, 'slug'>;
 	table: Table<TeamMemberSchema>;
 };
 
-export function BatchArchiveItem({ team, table }: Props) {
+export function BatchArchiveItem({ table }: Props) {
 	const [toastId, setToastId] = useState<string | number | undefined>();
 	const router = useRouter();
 	const selectedRows = table.getSelectedRowModel().rows;
@@ -38,7 +36,7 @@ export function BatchArchiveItem({ team, table }: Props) {
 
 	return (
 		<DropdownMenuItem
-			onClick={() => mutation.mutate({ team, members: selectedRows.map((row) => ({ id: row.original.id })), data })}
+			onClick={() => mutation.mutate({ members: selectedRows.map((row) => ({ id: row.original.id })), data })}
 		>
 			{data.archived && <ArchiveBoxIcon className='h-4 w-4 mr-2' />}
 			{!data.archived && <ArrowUpIcon className='h-4 w-4 mr-2' />}

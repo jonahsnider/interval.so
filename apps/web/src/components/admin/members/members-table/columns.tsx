@@ -9,7 +9,6 @@ import { ArchiveBoxIcon, UserIcon } from '@heroicons/react/16/solid';
 import type { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
 import { Sort } from '@jonahsnider/util';
 import type { ColumnDef } from '@tanstack/react-table';
-import { useParams } from 'next/navigation';
 import { toTimeRange } from '../../period-select/duration-slug';
 import { BatchActionsDropdown } from './batch-actions/batch-actions-dropdown';
 import type { LastSeenAtFilter } from './members-table-buttons';
@@ -122,13 +121,7 @@ export const columns: ColumnDef<TeamMemberSchema>[] = [
 	{
 		id: 'actions',
 		header: ({ table }) => {
-			const params = useParams<{ team: string }>();
-
-			if (!params.team) {
-				throw new TypeError('Expected team Next.js route param to be defined');
-			}
-
-			return <BatchActionsDropdown table={table} team={{ slug: params.team }} />;
+			return <BatchActionsDropdown table={table} />;
 		},
 		cell: ({ row }) => {
 			return <RowActionsDropdown member={row.original} />;

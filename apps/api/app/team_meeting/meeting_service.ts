@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
-import { TRPCError } from '@trpc/server';
 import { and, count, eq, gt, gte, inArray, isNotNull, lt, lte, max, min, sql } from 'drizzle-orm';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
+import { AuthorizationService } from '../authorization/authorization_service.js';
 import { db } from '../db/db_service.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
 import type { TimeRangeSchema } from '../team_stats/schemas/time_range_schema.js';
@@ -14,7 +14,7 @@ export class TeamMeetingService {
 		team: Pick<TeamSchema, 'slug'>,
 		timeRange: TimeRangeSchema,
 	): Promise<TeamMeetingSchema[]> {
-		assert(await bouncer.with('TeamPolicy').allows('read', team), new TRPCError({ code: 'FORBIDDEN' }));
+		await AuthorizationService.assertPermission(bouncer.with('MeetingPolicy').allows('viewList', team));
 
 		// The giant query for grouping the overlapping sign-ins is from https://wiki.postgresql.org/wiki/Range_aggregation
 		const s1 = db
@@ -112,7 +112,7 @@ export class TeamMeetingService {
 	}
 
 	async deleteOngoingMeeting(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>) {
-		await bouncer.with('TeamPolicy').allows('update', team);
+		await AuthorizationService.assertPermission(bouncer.with('MeetingPolicy').allows('delete', team));
 
 		const teamBySlug = db
 			.select({ id: Schema.teams.id })
@@ -129,7 +129,7 @@ export class TeamMeetingService {
 		team: Pick<TeamSchema, 'slug'>,
 		meeting: TimeRangeSchema,
 	): Promise<void> {
-		assert(await bouncer.with('TeamPolicy').allows('update', team), new TRPCError({ code: 'FORBIDDEN' }));
+		await AuthorizationService.assertPermission(bouncer.with('MeetingPolicy').allows('delete', team));
 
 		const meetingsToDelete = db.$with('meetings_to_delete').as(
 			db

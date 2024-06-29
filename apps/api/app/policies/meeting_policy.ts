@@ -4,25 +4,25 @@ import { inject } from '@adonisjs/core';
 import type { BouncerUser } from '#middleware/initialize_bouncer_middleware';
 import { injectHelper } from '../../util/inject_helper.js';
 import { AuthorizationService } from '../authorization/authorization_service.js';
-import type { TeamSchema } from './schemas/team_schema.js';
+import type { TeamSchema } from '../team/schemas/team_schema.js';
 
 @inject()
 @injectHelper(AuthorizationService)
 // biome-ignore lint/style/noDefaultExport: This must be a default export
-export default class TeamPolicy extends BasePolicy {
+export default class MeetingPolicy extends BasePolicy {
 	constructor(private readonly authorizationService: AuthorizationService) {
 		super();
 	}
 
-	read(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
-		return this.authorizationService.hasRoles(actor, team, ['admin', 'owner']);
+	viewList(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
+		return this.authorizationService.hasRoles(actor, team, ['owner', 'admin', 'editor', 'viewer']);
 	}
 
-	update(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
-		return this.authorizationService.hasRoles(actor, team, ['admin', 'owner']);
+	create(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
+		return this.authorizationService.hasRoles(actor, team, ['owner', 'admin', 'editor']);
 	}
 
 	delete(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
-		return this.authorizationService.hasRoles(actor, team, ['owner']);
+		return this.authorizationService.hasRoles(actor, team, ['owner', 'admin', 'editor']);
 	}
 }

@@ -13,7 +13,7 @@ import {
 	uuid,
 } from 'drizzle-orm/pg-core';
 
-export const teamUserRole = pgEnum('team_user_role', ['owner', 'admin']);
+export const teamUserRole = pgEnum('team_user_role', ['owner', 'admin', 'editor', 'viewer']);
 export type TeamUserRole = (typeof teamUserRole)['enumValues'][number];
 
 const bytea = customType<{ data: Buffer; notNull: false; default: false }>({

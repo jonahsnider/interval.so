@@ -1,22 +1,28 @@
+import assert from 'node:assert/strict';
 import { inject } from '@adonisjs/core';
-import type * as Schema from '#database/schema';
+import { TRPCError } from '@trpc/server';
+import { inArray } from 'drizzle-orm';
+import * as Schema from '#database/schema';
 import type { BouncerUser } from '#middleware/initialize_bouncer_middleware';
 import { injectHelper } from '../../util/inject_helper.js';
+import { db } from '../db/db_service.js';
 import { GuestPasswordService } from '../guest_password/guest_password_service.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
 import type { TeamMemberSchema } from '../team_member/schemas/team_member_schema.js';
-import { TeamMemberService } from '../team_member/team_member_service.js';
 import { TeamUserService } from '../team_user/team_user_service.js';
 
 export type TeamRole = Schema.TeamUserRole | 'guestToken';
 
 @inject()
-@injectHelper(GuestPasswordService, TeamUserService, TeamMemberService)
+@injectHelper(GuestPasswordService, TeamUserService)
 export class AuthorizationService {
+	static async assertPermission(allowsPromise: Promise<boolean>): Promise<void> {
+		assert(await allowsPromise, new TRPCError({ code: 'FORBIDDEN' }));
+	}
+
 	constructor(
 		private readonly guestPasswordService: GuestPasswordService,
 		private readonly teamUserService: TeamUserService,
-		private readonly teamMemberService: TeamMemberService,
 	) {}
 
 	async hasRoles(
@@ -45,21 +51,38 @@ export class AuthorizationService {
 		);
 	}
 
-	/** Check whether an actor has a role by querying via team member. */
-	async hasRolesByTeamMember(
+	/** Given an actor, an array of team members, and an array of roles, return whether all the members are in the team, and the actor has one of the roles. */
+	async hasRolesByTeamMembers(
 		actor: BouncerUser,
-		teamMember: Pick<TeamMemberSchema, 'id'>,
+		teamMembers: Pick<TeamMemberSchema, 'id'>[],
 		roles: TeamRole[],
 	): Promise<boolean> {
-		// TODO: Rewrite this to do one query instead of two - I'm not optimizing for performance for the MVP
+		// First, we get all the teams for the team member IDs (or null, if the member ID doesn't exist)
+		// If any of the teams are null, throw an error or return false or something
+		// Then, we check if the actor has the correct roles for the team associated with those members
 
-		const team = await this.teamMemberService.getTeamByMember(teamMember);
+		const memberIds = teamMembers.map((member) => member.id);
 
-		if (!team) {
-			// This should only ever be falsy if the team member ID doesn't exist anymore, and thus isn't associated with a team
+		const teams = await db
+			.select({ teamId: Schema.teamMembers.teamId })
+			.from(Schema.teamMembers)
+			.where(inArray(Schema.teamMembers.id, memberIds))
+			.groupBy(Schema.teamMembers.teamId);
+
+		if (teams.length === 0) {
 			return false;
 		}
 
-		return this.hasRoles(actor, team, roles);
+		if (teams.length > 1) {
+			throw new TRPCError({
+				code: 'UNPROCESSABLE_CONTENT',
+				message: 'This operation may not reference team members from multiple teams',
+			});
+		}
+
+		const [team] = teams;
+		assert(team);
+
+		return this.hasRoles(actor, { id: team.teamId }, roles);
 	}
 }

@@ -1,11 +1,10 @@
-import assert from 'node:assert/strict';
-import { TRPCError } from '@trpc/server';
 import { convert } from 'convert';
 import { add } from 'date-fns';
 import { and, avg, countDistinct, eq, gt, lt, sql, sum } from 'drizzle-orm';
 import { unionAll } from 'drizzle-orm/pg-core';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
+import { AuthorizationService } from '../authorization/authorization_service.js';
 import { db } from '../db/db_service.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
 import type { UserTimezoneSchema } from '../user/schemas/user_timezone_schema.js';
@@ -31,7 +30,7 @@ export class TeamStatsService {
 		team: Pick<TeamSchema, 'slug'>,
 		timeRange: TimeRangeSchema,
 	): Promise<number> {
-		assert(await bouncer.with('TeamPolicy').allows('read', team), new TRPCError({ code: 'FORBIDDEN' }));
+		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewInsights', team));
 
 		// We add a minute to the end time since asking Postgres to filter using the end time in the range means that it will always be *slightly* after the end time
 		// Since requests probably won't take more than a minute to go through, this small adjustment means we don't exclude too many results from Postgres, and don't introduce too much inaccuracy into the result
@@ -97,7 +96,7 @@ export class TeamStatsService {
 		timeRange: TimeRangeSchema,
 		displayTimezone: UserTimezoneSchema,
 	): Promise<UniqueMembersDatumSchema[]> {
-		assert(await bouncer.with('TeamPolicy').allows('read', team), new TRPCError({ code: 'FORBIDDEN' }));
+		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewInsights', team));
 
 		const datumPeriod = timeRangeToDatumPeriod(timeRange);
 		const dateField = TeamStatsService.datumPeriodToPostgresDateField(datumPeriod);
@@ -144,7 +143,7 @@ export class TeamStatsService {
 		team: Pick<TeamSchema, 'slug'>,
 		timeRange: TimeRangeSchema,
 	): Promise<number> {
-		assert(await bouncer.with('TeamPolicy').allows('read', team), new TRPCError({ code: 'FORBIDDEN' }));
+		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewInsights', team));
 
 		const [result] = await db
 			.select({
@@ -171,7 +170,7 @@ export class TeamStatsService {
 		timeRange: TimeRangeSchema,
 		displayTimezone: UserTimezoneSchema,
 	): Promise<AverageHoursDatumSchema[]> {
-		assert(await bouncer.with('TeamPolicy').allows('read', team), new TRPCError({ code: 'FORBIDDEN' }));
+		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewInsights', team));
 
 		const datumPeriod = timeRangeToDatumPeriod(timeRange);
 		const dateField = TeamStatsService.datumPeriodToPostgresDateField(datumPeriod);
@@ -237,7 +236,7 @@ export class TeamStatsService {
 		team: Pick<TeamSchema, 'slug'>,
 		timeRange: TimeRangeSchema,
 	): Promise<number> {
-		assert(await bouncer.with('TeamPolicy').allows('read', team), new TRPCError({ code: 'FORBIDDEN' }));
+		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewInsights', team));
 
 		const [result] = await db
 			.select({

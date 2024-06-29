@@ -70,20 +70,18 @@ export class TeamMemberRouter {
 				.input(
 					z
 						.object({
-							team: TeamSchema.pick({ slug: true }),
 							members: TeamMemberSchema.pick({ id: true }).array().min(1),
 						})
 						.strict(),
 				)
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
-					return this.teamMemberService.deleteMany(ctx.context.bouncer, input.team, input.members);
+					return this.teamMemberService.deleteMany(ctx.context.bouncer, input.members);
 				}),
 			setArchivedMany: authedProcedure
 				.input(
 					z
 						.object({
-							team: TeamSchema.pick({ slug: true }),
 							members: TeamMemberSchema.pick({ id: true }).array().min(1),
 							data: TeamMemberSchema.pick({ archived: true }).strict(),
 						})
@@ -91,13 +89,12 @@ export class TeamMemberRouter {
 				)
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
-					return this.teamMemberService.setArchivedMany(ctx.context.bouncer, input.team, input.members, input.data);
+					return this.teamMemberService.setArchivedMany(ctx.context.bouncer, input.members, input.data);
 				}),
 			updateAttendanceMany: authedProcedure
 				.input(
 					z
 						.object({
-							team: TeamSchema.pick({ slug: true }),
 							members: TeamMemberSchema.pick({ id: true }).array().min(1),
 							data: TeamMemberSchema.pick({ atMeeting: true }).strict(),
 						})
@@ -105,12 +102,7 @@ export class TeamMemberRouter {
 				)
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
-					return this.teamMemberService.updateAttendanceMany(
-						ctx.context.bouncer,
-						input.team,
-						input.members,
-						input.data,
-					);
+					return this.teamMemberService.updateAttendanceMany(ctx.context.bouncer, input.members, input.data);
 				}),
 		});
 	}
