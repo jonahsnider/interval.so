@@ -1,1 +1,0 @@
-ALTER TABLE "credentials" ALTER COLUMN "user_id" SET NOT NULL;

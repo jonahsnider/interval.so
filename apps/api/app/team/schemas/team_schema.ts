@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 export const TeamSchema = z.object({
+	id: z.string().uuid(),
 	slug: z
 		.string()
 		.trim()

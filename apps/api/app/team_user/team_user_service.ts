@@ -1,7 +1,5 @@
-import assert from 'node:assert/strict';
 import { and, count, eq, inArray } from 'drizzle-orm';
 import * as Schema from '#database/schema';
-import type { BouncerUser } from '#middleware/initialize_bouncer_middleware';
 import { db } from '../db/db_service.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
 import type { UserSchema } from '../user/schemas/user_schema.js';
@@ -10,45 +8,54 @@ import type { UserSchema } from '../user/schemas/user_schema.js';
 export class TeamUserService {
 	async userHasRoleInTeam(
 		actor: Pick<UserSchema, 'id'>,
-		team: Pick<TeamSchema, 'slug'>,
+		team: Pick<TeamSchema, 'slug'> | Pick<TeamSchema, 'id'>,
 		roles: Schema.TeamUserRole[],
 	): Promise<boolean> {
-		const [result] = await db
-			.select({ count: count() })
-			.from(Schema.teamUsers)
-			.where(
-				and(
-					// User is a team user
-					eq(Schema.teamUsers.userId, actor.id),
-					// Team slug matches the input
-					eq(Schema.teamUsers.teamSlug, team.slug),
-					// User has a role with edit permissions
-					inArray(Schema.teamUsers.role, roles),
-				),
-			);
+		let result:
+			| {
+					count: number;
+			  }
+			| undefined;
 
-		assert(result);
-
-		return result.count > 0;
-	}
-
-	async getRoleForTeam(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): Promise<Schema.TeamUserRole | undefined> {
-		if (!actor.id) {
-			return undefined;
+		if ('id' in team) {
+			// Get team by ID
+			[result] = await db
+				.select({ count: count() })
+				.from(Schema.teamUsers)
+				.where(
+					and(
+						// User is a team user
+						eq(Schema.teamUsers.userId, actor.id),
+						// Team ID matches the input
+						eq(Schema.teamUsers.teamId, team.id),
+						// User has a role with edit permissions
+						inArray(Schema.teamUsers.role, roles),
+					),
+				);
+		} else {
+			// Get team by slug
+			[result] = await db
+				.select({ count: count() })
+				.from(Schema.teamUsers)
+				.innerJoin(
+					Schema.teams,
+					and(
+						// User is on the team
+						eq(Schema.teamUsers.teamId, Schema.teams.id),
+						// Team slug matches the input
+						eq(Schema.teams.slug, team.slug),
+					),
+				)
+				.where(
+					and(
+						// User is a team user
+						eq(Schema.teamUsers.userId, actor.id),
+						// User has a role with edit permissions
+						inArray(Schema.teamUsers.role, roles),
+					),
+				);
 		}
 
-		const foundUser = await db.query.teamUsers.findFirst({
-			columns: {
-				role: true,
-			},
-			where: and(
-				// User is a team user
-				eq(Schema.teamUsers.userId, actor.id),
-				// Team slug matches the input
-				eq(Schema.teamUsers.teamSlug, team.slug),
-			),
-		});
-
-		return foundUser?.role;
+		return result ? result.count > 0 : false;
 	}
 }

@@ -32,7 +32,7 @@ export class TeamRouter {
 					return this.teamService.teamNamesForUser(ctx.user);
 				}),
 			create: authedProcedure
-				.input(TeamSchema)
+				.input(TeamSchema.pick({ displayName: true, password: true, slug: true }))
 				.output(z.void())
 				.mutation(({ input, ctx }) => {
 					return this.teamService.create(input, ctx.user);

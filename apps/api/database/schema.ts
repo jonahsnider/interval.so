@@ -49,7 +49,8 @@ export const credentials = pgTable(
 );
 
 export const teams = pgTable('teams', {
-	slug: text('slug').primaryKey().notNull(),
+	id: uuid('id').primaryKey().defaultRandom(),
+	slug: text('slug').unique().notNull(),
 	createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 
 	password: text('password').notNull(),
@@ -59,16 +60,16 @@ export const teams = pgTable('teams', {
 export const teamUsers = pgTable(
 	'team_users',
 	{
-		teamSlug: text('team_slug')
+		teamId: uuid('team_id')
 			.notNull()
-			.references(() => teams.slug),
+			.references(() => teams.id),
 		userId: uuid('user_id')
 			.notNull()
 			.references(() => users.id),
 		role: teamUserRole('role').notNull().default('admin'),
 	},
 	(teamUsers) => ({
-		primaryKey: primaryKey({ columns: [teamUsers.teamSlug, teamUsers.userId] }),
+		primaryKey: primaryKey({ columns: [teamUsers.teamId, teamUsers.userId] }),
 		roleIndex: index().on(teamUsers.role),
 	}),
 );
@@ -77,9 +78,9 @@ export const teamMembers = pgTable(
 	'team_members',
 	{
 		id: uuid('id').notNull().primaryKey().defaultRandom(),
-		teamSlug: text('team_slug')
+		teamId: uuid('team_id')
 			.notNull()
-			.references(() => teams.slug),
+			.references(() => teams.id),
 		name: text('name').notNull(),
 
 		archived: boolean('archived').notNull().default(false),
@@ -88,7 +89,7 @@ export const teamMembers = pgTable(
 		pendingSignIn: timestamp('pending_sign_in', { withTimezone: true }),
 	},
 	(teamMembers) => ({
-		unique: unique().on(teamMembers.teamSlug, teamMembers.name),
+		unique: unique().on(teamMembers.teamId, teamMembers.name),
 	}),
 );
 

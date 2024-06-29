@@ -31,12 +31,12 @@ export class TeamMeetingService {
 				Schema.teamMembers,
 				and(
 					eq(Schema.finishedMemberMeetings.memberId, Schema.teamMembers.id),
-					eq(Schema.teamMembers.teamSlug, team.slug),
 					gt(Schema.finishedMemberMeetings.startedAt, timeRange.start),
 					// Need to manually stringify the date due to a Drizzle bug https://github.com/drizzle-team/drizzle-orm/issues/2009
 					lt(Schema.finishedMemberMeetings.endedAt, timeRange.end),
 				),
 			)
+			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)))
 			.as('s1');
 
 		const s2 = db
@@ -78,7 +78,14 @@ export class TeamMeetingService {
 					startedAt: min(Schema.teamMembers.pendingSignIn).as('started_at'),
 				})
 				.from(Schema.teamMembers)
-				.where(and(eq(Schema.teamMembers.teamSlug, team.slug), isNotNull(Schema.teamMembers.pendingSignIn))),
+				.innerJoin(
+					Schema.teams,
+					and(
+						eq(Schema.teamMembers.teamId, Schema.teams.id),
+						eq(Schema.teams.slug, team.slug),
+						isNotNull(Schema.teamMembers.pendingSignIn),
+					),
+				),
 		]);
 
 		const result = completedMeetings.map((row) => {
@@ -107,8 +114,14 @@ export class TeamMeetingService {
 	async deleteOngoingMeeting(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>) {
 		await bouncer.with('TeamPolicy').allows('update', team);
 
+		const teamBySlug = db
+			.select({ id: Schema.teams.id })
+			.from(Schema.teams)
+			.where(eq(Schema.teams.slug, team.slug))
+			.as('input_team');
+
 		// Ongoing meeting, delete the pending sign in times
-		await db.update(Schema.teamMembers).set({ pendingSignIn: null }).where(eq(Schema.teamMembers.teamSlug, team.slug));
+		await db.update(Schema.teamMembers).set({ pendingSignIn: null }).where(eq(Schema.teamMembers.id, teamBySlug.id));
 	}
 
 	async deleteFinishedMeeting(
@@ -126,11 +139,11 @@ export class TeamMeetingService {
 					Schema.teamMembers,
 					and(
 						eq(Schema.finishedMemberMeetings.memberId, Schema.teamMembers.id),
-						eq(Schema.teamMembers.teamSlug, team.slug),
 						gte(Schema.finishedMemberMeetings.startedAt, meeting.start),
 						lte(Schema.finishedMemberMeetings.endedAt, meeting.end),
 					),
-				),
+				)
+				.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug))),
 		);
 
 		const meetingsToDeleteSubquery = db.select({ id: meetingsToDelete.id }).from(meetingsToDelete);

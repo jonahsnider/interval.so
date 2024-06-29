@@ -5,71 +5,8 @@
 		{
 			"idx": 0,
 			"version": "7",
-			"when": 1717402461166,
-			"tag": "0000_typical_lady_mastermind",
-			"breakpoints": true
-		},
-		{
-			"idx": 1,
-			"version": "7",
-			"when": 1717649788923,
-			"tag": "0001_sharp_lenny_balinger",
-			"breakpoints": true
-		},
-		{
-			"idx": 2,
-			"version": "7",
-			"when": 1717652560476,
-			"tag": "0002_tricky_menace",
-			"breakpoints": true
-		},
-		{
-			"idx": 3,
-			"version": "7",
-			"when": 1717672891055,
-			"tag": "0003_known_iron_lad",
-			"breakpoints": true
-		},
-		{
-			"idx": 4,
-			"version": "7",
-			"when": 1717803966020,
-			"tag": "0004_abandoned_wild_child",
-			"breakpoints": true
-		},
-		{
-			"idx": 5,
-			"version": "7",
-			"when": 1717955713333,
-			"tag": "0005_late_luke_cage",
-			"breakpoints": true
-		},
-		{
-			"idx": 6,
-			"version": "7",
-			"when": 1717962231597,
-			"tag": "0006_bright_lockheed",
-			"breakpoints": true
-		},
-		{
-			"idx": 7,
-			"version": "7",
-			"when": 1717962511266,
-			"tag": "0007_easy_bloodaxe",
-			"breakpoints": true
-		},
-		{
-			"idx": 8,
-			"version": "7",
-			"when": 1717964322005,
-			"tag": "0008_premium_robin_chapel",
-			"breakpoints": true
-		},
-		{
-			"idx": 9,
-			"version": "7",
-			"when": 1718664872804,
-			"tag": "0009_fluffy_aqueduct",
+			"when": 1719619815812,
+			"tag": "0000_gray_miek",
 			"breakpoints": true
 		}
 	]

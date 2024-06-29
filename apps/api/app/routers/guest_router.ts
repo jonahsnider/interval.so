@@ -3,12 +3,16 @@ import { z } from 'zod';
 import { injectHelper } from '../../util/inject_helper.js';
 import { GuestPasswordService } from '../guest_password/guest_password_service.js';
 import { TeamSchema } from '../team/schemas/team_schema.js';
+import { TeamService } from '../team/team_service.js';
 import { publicProcedure, router } from '../trpc/trpc_service.js';
 
 @inject()
-@injectHelper(GuestPasswordService)
+@injectHelper(GuestPasswordService, TeamService)
 export class GuestRouter {
-	constructor(private readonly guestPasswordService: GuestPasswordService) {}
+	constructor(
+		private readonly guestPasswordService: GuestPasswordService,
+		private readonly teamService: TeamService,
+	) {}
 
 	getRouter() {
 		return router({
@@ -27,12 +31,18 @@ export class GuestRouter {
 				.mutation(async ({ ctx, input }) => {
 					await this.guestPasswordService.guestPasswordLogin(input, ctx.context);
 				}),
-			getCurrentGuestTeam: publicProcedure.output(TeamSchema.pick({ slug: true }).optional()).query(({ ctx }) => {
+			getCurrentGuestTeam: publicProcedure.output(TeamSchema.pick({ slug: true }).optional()).query(async ({ ctx }) => {
 				if (!ctx.guestToken) {
 					return undefined;
 				}
 
-				return this.guestPasswordService.getTeamFromToken(ctx.guestToken);
+				const team = await this.guestPasswordService.getTeamFromToken(ctx.guestToken);
+
+				if (!team) {
+					return undefined;
+				}
+
+				return this.teamService.getTeamById(team);
 			}),
 		});
 	}

@@ -29,7 +29,10 @@ export class TeamService {
 		}));
 	}
 
-	async create(input: TeamSchema, user: Pick<UserSchema, 'id'>): Promise<void> {
+	async create(
+		input: Pick<TeamSchema, 'displayName' | 'password' | 'slug'>,
+		user: Pick<UserSchema, 'id'>,
+	): Promise<void> {
 		// Count teams this user is an owner of
 		const [ownedTeams] = await db
 			.select({ count: count() })
@@ -48,13 +51,13 @@ export class TeamService {
 		try {
 			await db.transaction(async (tx) => {
 				// Create team
-				const [team] = await tx.insert(Schema.teams).values(input).returning({ slug: Schema.teams.slug });
+				const [team] = await tx.insert(Schema.teams).values(input).returning({ id: Schema.teams.id });
 
 				assert(team);
 
 				// Create team user
 				await tx.insert(Schema.teamUsers).values({
-					teamSlug: team.slug,
+					teamId: team.id,
 					userId: user.id,
 					role: 'owner',
 				});
@@ -67,6 +70,8 @@ export class TeamService {
 					message: 'A team with that URL already exists',
 				});
 			}
+
+			throw error;
 		}
 	}
 
@@ -83,5 +88,27 @@ export class TeamService {
 		assert(result, new TRPCError({ code: 'NOT_FOUND', message: 'Team not found' }));
 
 		return result.displayName;
+	}
+
+	async getTeamById(team: Pick<TeamSchema, 'id'>): Promise<Pick<TeamSchema, 'slug'> | undefined> {
+		const result = await db.query.teams.findFirst({
+			where: eq(Schema.teams.id, team.id),
+			columns: {
+				slug: true,
+			},
+		});
+
+		return result;
+	}
+
+	async getTeamBySlug(team: Pick<TeamSchema, 'slug'>): Promise<Pick<TeamSchema, 'id'> | undefined> {
+		const result = await db.query.teams.findFirst({
+			where: eq(Schema.teams.slug, team.slug),
+			columns: {
+				id: true,
+			},
+		});
+
+		return result;
 	}
 }

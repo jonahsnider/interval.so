@@ -47,9 +47,9 @@ export class TeamStatsService {
 				),
 			})
 			.from(Schema.teamMembers)
+			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)))
 			.where(
 				and(
-					eq(Schema.teamMembers.teamSlug, team.slug),
 					gt(Schema.teamMembers.pendingSignIn, timeRange.start),
 					// Need to manually stringify the date due to a Drizzle bug https://github.com/drizzle-team/drizzle-orm/issues/2009
 					lt(sql<Date>`now()`, timeRangeEndAdjusted.toISOString()),
@@ -64,13 +64,8 @@ export class TeamStatsService {
 					),
 			})
 			.from(Schema.finishedMemberMeetings)
-			.innerJoin(
-				Schema.teamMembers,
-				and(
-					eq(Schema.teamMembers.id, Schema.finishedMemberMeetings.memberId),
-					eq(Schema.teamMembers.teamSlug, team.slug),
-				),
-			)
+			.innerJoin(Schema.teamMembers, and(eq(Schema.teamMembers.id, Schema.finishedMemberMeetings.memberId)))
+			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)))
 			.where(
 				and(
 					gt(Schema.finishedMemberMeetings.startedAt, timeRange.start),
@@ -116,13 +111,8 @@ export class TeamStatsService {
 				startedAt: Schema.finishedMemberMeetings.startedAt,
 			})
 			.from(Schema.finishedMemberMeetings)
-			.innerJoin(
-				Schema.teamMembers,
-				and(
-					eq(Schema.teamMembers.id, Schema.finishedMemberMeetings.memberId),
-					eq(Schema.teamMembers.teamSlug, team.slug),
-				),
-			)
+			.innerJoin(Schema.teamMembers, eq(Schema.teamMembers.id, Schema.finishedMemberMeetings.memberId))
+			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)))
 			.as('meetings_for_team');
 
 		const result = await db
@@ -140,10 +130,7 @@ export class TeamStatsService {
 					seriesDate,
 				),
 			)
-			.leftJoin(
-				Schema.teamMembers,
-				and(eq(meetingsForTeam.memberId, Schema.teamMembers.id), eq(Schema.teamMembers.teamSlug, team.slug)),
-			)
+			.leftJoin(Schema.teamMembers, eq(meetingsForTeam.memberId, Schema.teamMembers.id))
 			.groupBy(seriesDate);
 
 		return result.map((row) => ({ date: row.groupStart, memberCount: row.memberCount }));
@@ -168,11 +155,11 @@ export class TeamStatsService {
 				Schema.teamMembers,
 				and(
 					eq(Schema.finishedMemberMeetings.memberId, Schema.teamMembers.id),
-					eq(Schema.teamMembers.teamSlug, team.slug),
 					gt(Schema.finishedMemberMeetings.startedAt, timeRange.start),
 					lt(Schema.finishedMemberMeetings.endedAt, timeRange.end),
 				),
-			);
+			)
+			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)));
 
 		return result?.count ?? 0;
 	}
@@ -207,11 +194,11 @@ export class TeamStatsService {
 				Schema.teamMembers,
 				and(
 					eq(Schema.finishedMemberMeetings.memberId, Schema.teamMembers.id),
-					eq(Schema.teamMembers.teamSlug, team.slug),
 					gt(Schema.finishedMemberMeetings.startedAt, timeRange.start),
 					lt(Schema.finishedMemberMeetings.endedAt, timeRange.end),
 				),
 			)
+			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)))
 			.as('meetings_for_team');
 
 		// TODO: Consider first summing the durations per member, and then averaging those, to avoid very short meetings from a member (ex. accidental sign in/out/in) tanking the average
@@ -235,10 +222,7 @@ export class TeamStatsService {
 					seriesDate,
 				),
 			)
-			.leftJoin(
-				Schema.teamMembers,
-				and(eq(meetingsForTeam.memberId, Schema.teamMembers.id), eq(Schema.teamMembers.teamSlug, team.slug)),
-			)
+			.leftJoin(Schema.teamMembers, eq(meetingsForTeam.memberId, Schema.teamMembers.id))
 			.groupBy(seriesDate)
 			.orderBy(seriesDate);
 
@@ -268,11 +252,11 @@ export class TeamStatsService {
 				Schema.teamMembers,
 				and(
 					eq(Schema.finishedMemberMeetings.memberId, Schema.teamMembers.id),
-					eq(Schema.teamMembers.teamSlug, team.slug),
 					gt(Schema.finishedMemberMeetings.startedAt, timeRange.start),
 					lt(Schema.finishedMemberMeetings.endedAt, timeRange.end),
 				),
-			);
+			)
+			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)));
 
 		return convert(result?.durationSeconds ?? 0, 's').to('hour');
 	}

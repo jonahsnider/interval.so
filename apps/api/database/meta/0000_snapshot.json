@@ -1,36 +1,150 @@
 {
-	"id": "83655504-c012-487c-81c0-769d9514f552",
+	"id": "3851b1e3-7c97-4e05-892d-d8529e81ea80",
 	"prevId": "00000000-0000-0000-0000-000000000000",
 	"version": "7",
 	"dialect": "postgresql",
 	"tables": {
-		"public.member_meetings": {
-			"name": "member_meetings",
+		"public.credentials": {
+			"name": "credentials",
 			"schema": "",
 			"columns": {
+				"id": {
+					"name": "id",
+					"type": "text",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"public_key": {
+					"name": "public_key",
+					"type": "bytea",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"user_id": {
+					"name": "user_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"webauthn_user_id": {
+					"name": "webauthn_user_id",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"counter": {
+					"name": "counter",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"default": 0
+				},
+				"device_type": {
+					"name": "device_type",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"backed_up": {
+					"name": "backed_up",
+					"type": "boolean",
+					"primaryKey": false,
+					"notNull": true,
+					"default": false
+				},
+				"transports": {
+					"name": "transports",
+					"type": "jsonb",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "'[]'::jsonb"
+				}
+			},
+			"indexes": {
+				"credentials_webauthn_user_id_index": {
+					"name": "credentials_webauthn_user_id_index",
+					"columns": [
+						{
+							"expression": "webauthn_user_id",
+							"isExpression": false,
+							"asc": true,
+							"nulls": "last"
+						}
+					],
+					"isUnique": false,
+					"concurrently": false,
+					"method": "btree",
+					"with": {}
+				}
+			},
+			"foreignKeys": {
+				"credentials_user_id_users_id_fk": {
+					"name": "credentials_user_id_users_id_fk",
+					"tableFrom": "credentials",
+					"tableTo": "users",
+					"columnsFrom": ["user_id"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"credentials_user_id_webauthn_user_id_unique": {
+					"name": "credentials_user_id_webauthn_user_id_unique",
+					"nullsNotDistinct": false,
+					"columns": ["user_id", "webauthn_user_id"]
+				}
+			}
+		},
+		"public.finished_member_meetings": {
+			"name": "finished_member_meetings",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
 				"member_id": {
 					"name": "member_id",
 					"type": "uuid",
 					"primaryKey": false,
-					"notNull": false
+					"notNull": true
 				},
 				"started_at": {
 					"name": "started_at",
 					"type": "timestamp with time zone",
 					"primaryKey": false,
-					"notNull": true,
-					"default": "now()"
+					"notNull": true
 				},
 				"ended_at": {
 					"name": "ended_at",
 					"type": "timestamp with time zone",
 					"primaryKey": false,
-					"notNull": false
+					"notNull": true
 				}
 			},
 			"indexes": {
-				"member_meetings_started_at_index": {
-					"name": "member_meetings_started_at_index",
+				"finished_member_meetings_member_id_index": {
+					"name": "finished_member_meetings_member_id_index",
+					"columns": [
+						{
+							"expression": "member_id",
+							"isExpression": false,
+							"asc": true,
+							"nulls": "last"
+						}
+					],
+					"isUnique": false,
+					"concurrently": false,
+					"method": "btree",
+					"with": {}
+				},
+				"finished_member_meetings_started_at_index": {
+					"name": "finished_member_meetings_started_at_index",
 					"columns": [
 						{
 							"expression": "started_at",
@@ -44,8 +158,8 @@
 					"method": "btree",
 					"with": {}
 				},
-				"member_meetings_ended_at_index": {
-					"name": "member_meetings_ended_at_index",
+				"finished_member_meetings_ended_at_index": {
+					"name": "finished_member_meetings_ended_at_index",
 					"columns": [
 						{
 							"expression": "ended_at",
@@ -61,9 +175,9 @@
 				}
 			},
 			"foreignKeys": {
-				"member_meetings_member_id_team_members_id_fk": {
-					"name": "member_meetings_member_id_team_members_id_fk",
-					"tableFrom": "member_meetings",
+				"finished_member_meetings_member_id_team_members_id_fk": {
+					"name": "finished_member_meetings_member_id_team_members_id_fk",
+					"tableFrom": "finished_member_meetings",
 					"tableTo": "team_members",
 					"columnsFrom": ["member_id"],
 					"columnsTo": ["id"],
@@ -71,12 +185,7 @@
 					"onUpdate": "no action"
 				}
 			},
-			"compositePrimaryKeys": {
-				"member_meetings_member_id_started_at_pk": {
-					"name": "member_meetings_member_id_started_at_pk",
-					"columns": ["member_id", "started_at"]
-				}
-			},
+			"compositePrimaryKeys": {},
 			"uniqueConstraints": {}
 		},
 		"public.team_members": {
@@ -90,11 +199,11 @@
 					"notNull": true,
 					"default": "gen_random_uuid()"
 				},
-				"team_slug": {
-					"name": "team_slug",
-					"type": "text",
+				"team_id": {
+					"name": "team_id",
+					"type": "uuid",
 					"primaryKey": false,
-					"notNull": false
+					"notNull": true
 				},
 				"name": {
 					"name": "name",
@@ -113,28 +222,34 @@
 					"name": "created_at",
 					"type": "timestamp with time zone",
 					"primaryKey": false,
-					"notNull": false,
+					"notNull": true,
 					"default": "now()"
+				},
+				"pending_sign_in": {
+					"name": "pending_sign_in",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": false
 				}
 			},
 			"indexes": {},
 			"foreignKeys": {
-				"team_members_team_slug_teams_slug_fk": {
-					"name": "team_members_team_slug_teams_slug_fk",
+				"team_members_team_id_teams_id_fk": {
+					"name": "team_members_team_id_teams_id_fk",
 					"tableFrom": "team_members",
 					"tableTo": "teams",
-					"columnsFrom": ["team_slug"],
-					"columnsTo": ["slug"],
+					"columnsFrom": ["team_id"],
+					"columnsTo": ["id"],
 					"onDelete": "no action",
 					"onUpdate": "no action"
 				}
 			},
 			"compositePrimaryKeys": {},
 			"uniqueConstraints": {
-				"team_members_team_slug_name_unique": {
-					"name": "team_members_team_slug_name_unique",
+				"team_members_team_id_name_unique": {
+					"name": "team_members_team_id_name_unique",
 					"nullsNotDistinct": false,
-					"columns": ["team_slug", "name"]
+					"columns": ["team_id", "name"]
 				}
 			}
 		},
@@ -142,17 +257,17 @@
 			"name": "team_users",
 			"schema": "",
 			"columns": {
-				"team_slug": {
-					"name": "team_slug",
-					"type": "text",
+				"team_id": {
+					"name": "team_id",
+					"type": "uuid",
 					"primaryKey": false,
-					"notNull": false
+					"notNull": true
 				},
 				"user_id": {
 					"name": "user_id",
 					"type": "uuid",
 					"primaryKey": false,
-					"notNull": false
+					"notNull": true
 				},
 				"role": {
 					"name": "role",
@@ -163,14 +278,30 @@
 					"default": "'admin'"
 				}
 			},
-			"indexes": {},
+			"indexes": {
+				"team_users_role_index": {
+					"name": "team_users_role_index",
+					"columns": [
+						{
+							"expression": "role",
+							"isExpression": false,
+							"asc": true,
+							"nulls": "last"
+						}
+					],
+					"isUnique": false,
+					"concurrently": false,
+					"method": "btree",
+					"with": {}
+				}
+			},
 			"foreignKeys": {
-				"team_users_team_slug_teams_slug_fk": {
-					"name": "team_users_team_slug_teams_slug_fk",
+				"team_users_team_id_teams_id_fk": {
+					"name": "team_users_team_id_teams_id_fk",
 					"tableFrom": "team_users",
 					"tableTo": "teams",
-					"columnsFrom": ["team_slug"],
-					"columnsTo": ["slug"],
+					"columnsFrom": ["team_id"],
+					"columnsTo": ["id"],
 					"onDelete": "no action",
 					"onUpdate": "no action"
 				},
@@ -185,9 +316,9 @@
 				}
 			},
 			"compositePrimaryKeys": {
-				"team_users_team_slug_user_id_pk": {
-					"name": "team_users_team_slug_user_id_pk",
-					"columns": ["team_slug", "user_id"]
+				"team_users_team_id_user_id_pk": {
+					"name": "team_users_team_id_user_id_pk",
+					"columns": ["team_id", "user_id"]
 				}
 			},
 			"uniqueConstraints": {}
@@ -196,17 +327,24 @@
 			"name": "teams",
 			"schema": "",
 			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
 				"slug": {
 					"name": "slug",
 					"type": "text",
-					"primaryKey": true,
+					"primaryKey": false,
 					"notNull": true
 				},
 				"created_at": {
 					"name": "created_at",
 					"type": "timestamp with time zone",
 					"primaryKey": false,
-					"notNull": false,
+					"notNull": true,
 					"default": "now()"
 				},
 				"password": {
@@ -225,7 +363,13 @@
 			"indexes": {},
 			"foreignKeys": {},
 			"compositePrimaryKeys": {},
-			"uniqueConstraints": {}
+			"uniqueConstraints": {
+				"teams_slug_unique": {
+					"name": "teams_slug_unique",
+					"nullsNotDistinct": false,
+					"columns": ["slug"]
+				}
+			}
 		},
 		"public.users": {
 			"name": "users",
@@ -248,7 +392,7 @@
 					"name": "created_at",
 					"type": "timestamp with time zone",
 					"primaryKey": false,
-					"notNull": false,
+					"notNull": true,
 					"default": "now()"
 				}
 			},

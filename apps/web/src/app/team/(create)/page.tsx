@@ -14,7 +14,7 @@ import { type UseFormReturn, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import type { z } from 'zod';
 
-const formSchema = TeamSchema;
+const formSchema = TeamSchema.pick({ displayName: true, password: true, slug: true });
 
 export type CreateTeamFormType = UseFormReturn<z.infer<typeof formSchema>, unknown, undefined>;
 

@@ -19,7 +19,11 @@ export class AuthorizationService {
 		private readonly teamMemberService: TeamMemberService,
 	) {}
 
-	async hasRoles(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>, roles: TeamRole[]): Promise<boolean> {
+	async hasRoles(
+		actor: BouncerUser,
+		team: Pick<TeamSchema, 'slug'> | Pick<TeamSchema, 'id'>,
+		roles: TeamRole[],
+	): Promise<boolean> {
 		if (actor.id === undefined) {
 			// No team user, so we can only check the guest token
 

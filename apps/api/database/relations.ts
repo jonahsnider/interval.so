@@ -19,8 +19,8 @@ export const teamsRelations = relations(teams, ({ many }) => ({
 
 export const teamUsersRelations = relations(teamUsers, ({ one }) => ({
 	team: one(teams, {
-		fields: [teamUsers.teamSlug],
-		references: [teams.slug],
+		fields: [teamUsers.teamId],
+		references: [teams.id],
 	}),
 	user: one(users, {
 		fields: [teamUsers.userId],
@@ -37,8 +37,8 @@ export const memberMeetingsRelations = relations(finishedMemberMeetings, ({ one 
 
 export const teamMembersRelations = relations(teamMembers, ({ one, many }) => ({
 	team: one(teams, {
-		fields: [teamMembers.teamSlug],
-		references: [teams.slug],
+		fields: [teamMembers.teamId],
+		references: [teams.id],
 	}),
 	meetings: many(finishedMemberMeetings),
 }));

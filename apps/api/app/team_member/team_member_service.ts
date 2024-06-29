@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import transmit from '@adonisjs/transmit/services/main';
 import { TRPCError } from '@trpc/server';
-import { and, asc, desc, eq, inArray, isNotNull, isNull } from 'drizzle-orm';
+import { and, asc, count, desc, eq, inArray, isNotNull, isNull, sql } from 'drizzle-orm';
 import postgres from 'postgres';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
@@ -11,23 +11,25 @@ import type { TeamMemberSchema } from './schemas/team_member_schema.js';
 
 /** A team member is someone whose attendance is tracked by team users. */
 export class TeamMemberService {
+	private static readonly MAX_MEMBERS_PER_TEAM = 1000;
+
 	private static transmitChannel(team: Pick<TeamSchema, 'slug'>): string {
 		return `team/${team.slug}/members`;
 	}
 
-	async getTeamByMember(teamMember: Pick<TeamMemberSchema, 'id'>): Promise<Pick<TeamSchema, 'slug'> | undefined> {
-		const team = await db.query.teamMembers.findFirst({
+	async getTeamByMember(teamMember: Pick<TeamMemberSchema, 'id'>): Promise<Pick<TeamSchema, 'id'> | undefined> {
+		const dbMember = await db.query.teamMembers.findFirst({
 			columns: {
-				teamSlug: true,
+				teamId: true,
 			},
 			where: eq(Schema.teamMembers.id, teamMember.id),
 		});
 
-		if (team) {
-			return { slug: team.teamSlug };
+		if (!dbMember) {
+			return undefined;
 		}
 
-		return undefined;
+		return { id: dbMember.teamId };
 	}
 
 	async getTeamMembersSimple(
@@ -36,61 +38,73 @@ export class TeamMemberService {
 	): Promise<Pick<TeamMemberSchema, 'id' | 'name' | 'atMeeting'>[]> {
 		assert(await bouncer.with('TeamMemberPolicy').allows('readSimple', team), new TRPCError({ code: 'FORBIDDEN' }));
 
-		const members = await db.query.teamMembers.findMany({
-			columns: {
-				id: true,
-				name: true,
-				pendingSignIn: true,
+		const result = await db.query.teams.findFirst({
+			columns: {},
+			where: eq(Schema.teams.slug, team.slug),
+			with: {
+				members: {
+					columns: {
+						id: true,
+						name: true,
+					},
+					extras: {
+						atMeeting: isNotNull(Schema.teamMembers.pendingSignIn).as('at_meeting'),
+					},
+					orderBy: asc(Schema.teamMembers.name),
+					where: eq(Schema.teamMembers.archived, false),
+				},
 			},
-			where: and(
-				// Members in this team
-				eq(Schema.teamMembers.teamSlug, team.slug),
-				// That aren't archived
-				eq(Schema.teamMembers.archived, false),
-			),
-			orderBy: asc(Schema.teamMembers.name),
 		});
 
-		return members.map((member) => ({
-			id: member.id,
-			name: member.name,
-			atMeeting: Boolean(member.pendingSignIn),
-		}));
+		return (
+			result?.members.map((member) => ({
+				id: member.id,
+				name: member.name,
+				atMeeting: member.atMeeting as boolean,
+			})) ?? []
+		);
 	}
 
 	async getTeamMembersFull(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>): Promise<TeamMemberSchema[]> {
 		assert(await bouncer.with('TeamMemberPolicy').allows('readFull', team), new TRPCError({ code: 'FORBIDDEN' }));
 
-		const members = await db.query.teamMembers.findMany({
-			columns: {
-				id: true,
-				name: true,
-				archived: true,
-				createdAt: true,
-				pendingSignIn: true,
-			},
+		const result = await db.query.teams.findFirst({
+			columns: {},
+			where: eq(Schema.teams.slug, team.slug),
 			with: {
-				meetings: {
+				members: {
 					columns: {
-						endedAt: true,
+						id: true,
+						name: true,
+						archived: true,
+						createdAt: true,
+						pendingSignIn: true,
 					},
-					limit: 1,
-					orderBy: desc(Schema.finishedMemberMeetings.endedAt),
+					with: {
+						meetings: {
+							columns: {
+								endedAt: true,
+							},
+							limit: 1,
+							orderBy: desc(Schema.finishedMemberMeetings.endedAt),
+						},
+					},
 				},
 			},
-			where: eq(Schema.teamMembers.teamSlug, team.slug),
 		});
 
-		return members.map((member) => ({
-			id: member.id,
-			name: member.name,
-			archived: member.archived,
-			createdAt: member.createdAt,
-			atMeeting: Boolean(member.pendingSignIn),
-			// If signed in, mark them as last seen now
-			// Otherwise, use the last time they signed out
-			lastSeenAt: member.pendingSignIn ? 'now' : member.meetings[0]?.endedAt,
-		}));
+		return (
+			result?.members.map((member) => ({
+				id: member.id,
+				name: member.name,
+				archived: member.archived,
+				createdAt: member.createdAt,
+				atMeeting: Boolean(member.pendingSignIn),
+				// If signed in, mark them as last seen now
+				// Otherwise, use the last time they signed out
+				lastSeenAt: member.pendingSignIn ? 'now' : member.meetings[0]?.endedAt,
+			})) ?? []
+		);
 	}
 
 	async create(
@@ -102,9 +116,33 @@ export class TeamMemberService {
 
 		// TODO: Limit teams to 1000 members (doesn't matter if unarchived or archived)
 
+		const [dbTeam, [members]] = await Promise.all([
+			db.query.teams.findFirst({
+				columns: {
+					id: true,
+				},
+				where: eq(Schema.teams.slug, team.slug),
+			}),
+			db
+				.select({ count: count() })
+				.from(Schema.teamMembers)
+				.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)))
+				.where(eq(Schema.teams.slug, team.slug)),
+		]);
+
+		assert(dbTeam, new TRPCError({ code: 'NOT_FOUND', message: 'Team not found' }));
+		assert(members);
+
+		if (members.count >= TeamMemberService.MAX_MEMBERS_PER_TEAM) {
+			throw new TRPCError({
+				code: 'UNPROCESSABLE_CONTENT',
+				message: `You can't have more than ${TeamMemberService.MAX_MEMBERS_PER_TEAM} members in a team, try deleting some members first`,
+			});
+		}
+
 		try {
 			await db.insert(Schema.teamMembers).values({
-				teamSlug: team.slug,
+				teamId: dbTeam.id,
 				name: data.name,
 			});
 		} catch (error) {
@@ -115,6 +153,8 @@ export class TeamMemberService {
 					message: 'A team member with that name already exists',
 				});
 			}
+
+			throw error;
 		}
 
 		transmit.broadcast(TeamMemberService.transmitChannel(team));
@@ -199,7 +239,14 @@ export class TeamMemberService {
 			const members = await tx
 				.select({ id: Schema.teamMembers.id, pendingSignIn: Schema.teamMembers.pendingSignIn })
 				.from(Schema.teamMembers)
-				.where(and(eq(Schema.teamMembers.teamSlug, team.slug), isNotNull(Schema.teamMembers.pendingSignIn)));
+				.innerJoin(
+					Schema.teams,
+					and(
+						eq(Schema.teamMembers.teamId, Schema.teams.id),
+						eq(Schema.teams.slug, team.slug),
+						isNotNull(Schema.teamMembers.pendingSignIn),
+					),
+				);
 
 			if (members.length === 0) {
 				return;
@@ -219,10 +266,7 @@ export class TeamMemberService {
 				}),
 			);
 
-			await tx
-				.update(Schema.teamMembers)
-				.set({ pendingSignIn: null })
-				.where(eq(Schema.teamMembers.teamSlug, team.slug));
+			await tx.update(Schema.teamMembers).set({ pendingSignIn: null });
 		});
 	}
 
@@ -323,13 +367,18 @@ export class TeamMemberService {
 	}
 
 	private async signInMany(team: Pick<TeamSchema, 'slug'>, members: Pick<TeamMemberSchema, 'id'>[]): Promise<void> {
+		const teams = db
+			.$with('team_input')
+			.as(db.select({ id: Schema.teams.id }).from(Schema.teams).where(eq(Schema.teams.slug, team.slug)));
+
 		await db
+			.with(teams)
 			.update(Schema.teamMembers)
 			.set({ pendingSignIn: new Date() })
 			.where(
 				and(
 					// On this team
-					eq(Schema.teamMembers.teamSlug, team.slug),
+					eq(Schema.teamMembers.teamId, sql`(select * from ${teams})`),
 					// In the list of members
 					inArray(
 						Schema.teamMembers.id,
@@ -357,10 +406,10 @@ export class TeamMemberService {
 			const dbMembers = await tx
 				.select({ id: Schema.teamMembers.id, pendingSignIn: Schema.teamMembers.pendingSignIn })
 				.from(Schema.teamMembers)
+				// Ensure we only select members from the team slug, since we can't necessarily trust the members array as being part of this team
+				.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)))
 				.where(
 					and(
-						// On this team
-						eq(Schema.teamMembers.teamSlug, team.slug),
 						// Currently signed in
 						isNotNull(Schema.teamMembers.pendingSignIn),
 						// Not archived
@@ -386,10 +435,7 @@ export class TeamMemberService {
 				}),
 			);
 
-			await tx
-				.update(Schema.teamMembers)
-				.set({ pendingSignIn: null })
-				.where(and(eq(Schema.teamMembers.teamSlug, team.slug), inArray(Schema.teamMembers.id, memberIds)));
+			await tx.update(Schema.teamMembers).set({ pendingSignIn: null }).where(inArray(Schema.teamMembers.id, memberIds));
 		});
 	}
 }
