@@ -81,7 +81,12 @@ function MembersTooltip({
 export function UniqueMembersGraphClient({ dataPromise, period, maxMemberCountPromise }: Props) {
 	const data = use(dataPromise);
 	const maxMemberCountHint = use(maxMemberCountPromise);
-	const maxMemberCount = Math.max(maxMemberCountHint, data.map((x) => x.memberCount).reduce(max, 0));
+	const maxMemberCount = Math.max(
+		maxMemberCountHint,
+		data.map((x) => x.memberCount).reduce(max, 0),
+		// Prevents the graph from being totally empty on the y-axis (looks weird)
+		4,
+	);
 
 	const chartData = useMemo(
 		() =>
