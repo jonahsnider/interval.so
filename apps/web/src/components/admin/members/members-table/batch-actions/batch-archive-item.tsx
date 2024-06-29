@@ -25,7 +25,6 @@ export function BatchArchiveItem({ team, table }: Props) {
 		onSuccess: () => {
 			toast.success(`Archived ${selectedRows.length} members`, { id: toastId });
 			router.refresh();
-			table.toggleAllRowsSelected(false);
 		},
 		onError: (error, { data }) => {
 			toast.error(`An error occurred while ${data.archived ? 'archiving' : 'unarchiving'} the members`, {
