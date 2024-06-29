@@ -17,15 +17,15 @@ export function ArchiveMemberItem({ member }: Props) {
 	const router = useRouter();
 
 	const mutation = trpc.teams.members.setArchived.useMutation({
-		onMutate: () => {
-			setToastId(toast.loading(`Archiving ${member.name}...`));
+		onMutate: ({ archived }) => {
+			setToastId(toast.loading(`${archived ? 'Archiving' : 'Unarchiving'} ${member.name}...`));
 		},
-		onSuccess: () => {
-			toast.success(`Archived ${member.name}`, { id: toastId });
+		onSuccess: (_result, { archived }) => {
+			toast.success(`${archived ? 'Archived' : 'Unarchived'} ${member.name}`, { id: toastId });
 			router.refresh();
 		},
-		onError: (error) => {
-			toast.error(`An error occurred while archiving ${member.name}`, {
+		onError: (error, { archived }) => {
+			toast.error(`An error occurred while ${archived ? 'archiving' : 'unarchiving'} ${member.name}`, {
 				description: error.message,
 				id: toastId,
 			});
