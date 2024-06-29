@@ -6,6 +6,7 @@ import { trpcServer } from '@/src/trpc/trpc-server';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import type { TimeRangeSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_range_schema';
 import { Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { InnerTableContainer, OuterTableContainer } from './meetings-table-common';
 import { MeetingsTableClient } from './meetings-table.client';
 
@@ -19,9 +20,17 @@ export function MeetingsTable({ team, timeRange }: Props) {
 	const dataPromise = trpcServer.teams.meetings.getMeetings.query({ team, timeRange });
 
 	return (
-		<Suspense fallback={<MeetingsTableSkeleton />}>
-			<MeetingsTableClient dataPromise={dataPromise} />
-		</Suspense>
+		<ErrorBoundary
+			fallback={
+				<div className='flex items-center justify-center h-96 rounded-md border bg-card'>
+					<p className='text-muted-foreground'>An error occurred while rendering this table</p>
+				</div>
+			}
+		>
+			<Suspense fallback={<MeetingsTableSkeleton />}>
+				<MeetingsTableClient dataPromise={dataPromise} />
+			</Suspense>
+		</ErrorBoundary>
 	);
 }
 

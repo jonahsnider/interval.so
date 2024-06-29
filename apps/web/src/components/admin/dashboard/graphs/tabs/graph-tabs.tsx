@@ -2,6 +2,7 @@ import 'server-only';
 
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
+import { ErrorBoundary } from 'react-error-boundary';
 import { toTimeRange } from '../../../period-select/duration-slug';
 import { searchParamCache } from '../../search-params';
 import { AverageHoursGraph } from '../average-hours-graph/average-hours-graph.server';
@@ -30,8 +31,16 @@ export function GraphTabs({ team, selected }: Props) {
 					</div>
 				</CardHeader>
 				<CardContent>
-					{selected === 'members' && <UniqueMembersGraph team={team} timeRange={timeRange.current} />}
-					{selected === 'hours' && <AverageHoursGraph team={team} timeRange={timeRange.current} />}
+					<ErrorBoundary
+						fallback={
+							<div className='flex items-center justify-center h-96'>
+								<p className='text-muted-foreground'>An error occurred while rendering this graph</p>
+							</div>
+						}
+					>
+						{selected === 'members' && <UniqueMembersGraph team={team} timeRange={timeRange.current} />}
+						{selected === 'hours' && <AverageHoursGraph team={team} timeRange={timeRange.current} />}
+					</ErrorBoundary>
 				</CardContent>
 			</div>
 		</Card>

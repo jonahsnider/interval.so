@@ -6,6 +6,7 @@ import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema'
 import type { TimeRangeSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_range_schema';
 import clsx from 'clsx';
 import { type ReactNode, Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { type DurationSlug, durationLabelPreviousPeriod } from '../../period-select/duration-slug';
 
 type Props = {
@@ -17,9 +18,17 @@ type Props = {
 
 export function CombinedHoursTile(props: Props) {
 	return (
-		<Suspense fallback={<CombinedHoursSkeleton previousTimeRange={props.previousTimeRange} />}>
-			<CombinedHoursTileFetcher {...props} />
-		</Suspense>
+		<ErrorBoundary
+			fallback={
+				<CombinedHoursTileBase
+					value={<p className='text-base font-normal tracking-normal'>An error occurred while rendering this tile</p>}
+				/>
+			}
+		>
+			<Suspense fallback={<CombinedHoursSkeleton previousTimeRange={props.previousTimeRange} />}>
+				<CombinedHoursTileFetcher {...props} />
+			</Suspense>
+		</ErrorBoundary>
 	);
 }
 
