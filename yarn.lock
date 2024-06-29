@@ -383,9 +383,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/transmit@npm:1.0.1":
-  version: 1.0.1
-  resolution: "@adonisjs/transmit@npm:1.0.1"
+"@adonisjs/transmit@npm:1.0.2":
+  version: 1.0.2
+  resolution: "@adonisjs/transmit@npm:1.0.2"
   dependencies:
     "@boringnode/bus": "npm:^0.5.0"
     "@poppinss/matchit": "npm:^3.1.2"
@@ -393,7 +393,7 @@ __metadata:
     emittery: "npm:^1.0.3"
   peerDependencies:
     "@adonisjs/core": ^6.2.0
-  checksum: 10c0/6f6ea6d08a139a2d9703f37c802b73d034223541cc3782678cae189e41b20a4bb7c85bc94ce42c9b556a6b231e28d36a4462d26a73ab343c140547f555a4c0e6
+  checksum: 10c0/48c6a21b133b684b4bb96134a3503cc9b8993dd03330ac7e30c5f758f520625225bb40e427f3b06b992e4d47f063ac1b8536212275911527664cf23bbeac517f
   languageName: node
   linkType: hard
 
@@ -1050,7 +1050,7 @@ __metadata:
     "@adonisjs/cors": "npm:2.2.1"
     "@adonisjs/redis": "npm:8.0.1"
     "@adonisjs/session": "npm:7.4.2"
-    "@adonisjs/transmit": "npm:1.0.1"
+    "@adonisjs/transmit": "npm:1.0.2"
     "@adonisjs/tsconfig": "npm:1.3.0"
     "@jonahsnider/util": "npm:11.0.0"
     "@paralleldrive/cuid2": "npm:2.2.2"
