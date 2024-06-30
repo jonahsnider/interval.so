@@ -12,25 +12,6 @@ import type { TeamSchema } from './schemas/team_schema.js';
 export class TeamService {
 	private static readonly MAX_TEAMS_PER_USER = 10;
 
-	async teamNamesForUser(user: Pick<UserSchema, 'id'>): Promise<Pick<TeamSchema, 'displayName' | 'slug'>[]> {
-		const teamMembers = await db.query.teamManagers.findMany({
-			where: eq(Schema.teamManagers.userId, user.id),
-			with: {
-				team: {
-					columns: {
-						displayName: true,
-						slug: true,
-					},
-				},
-			},
-		});
-
-		return teamMembers.map((team) => ({
-			displayName: team.team.displayName,
-			slug: team.team.slug,
-		}));
-	}
-
 	async create(
 		input: Pick<TeamSchema, 'displayName' | 'password' | 'slug'>,
 		user: Pick<UserSchema, 'id'>,

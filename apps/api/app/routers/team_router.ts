@@ -32,7 +32,7 @@ export class TeamRouter {
 			teamNamesForSelf: authedProcedure
 				.output(TeamSchema.pick({ displayName: true, slug: true }).array())
 				.query(({ ctx }) => {
-					return this.teamService.teamNamesForUser(ctx.user);
+					return this.teamManagerService.teamNamesForUser(ctx.user);
 				}),
 			roleForSelf: authedProcedure
 				.input(TeamSchema.pick({ slug: true }))

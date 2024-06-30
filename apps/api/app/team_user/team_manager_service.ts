@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { TRPCError } from '@trpc/server';
-import { and, count, eq, inArray } from 'drizzle-orm';
+import { and, asc, count, eq, inArray, not } from 'drizzle-orm';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { AuthorizationService } from '../authorization/authorization_service.js';
@@ -11,6 +11,22 @@ import type { TeamManagerSchema } from './schemas/team_user_schema.js';
 
 /** Team managers are editors/viewers/admins of a team, who manage settings & attendance. */
 export class TeamManagerService {
+	async teamNamesForUser(user: Pick<UserSchema, 'id'>): Promise<Pick<TeamSchema, 'displayName' | 'slug'>[]> {
+		const result = await db
+			.select({ teamDisplayName: Schema.teams.displayName, teamSlug: Schema.teams.slug })
+			.from(Schema.teamManagers)
+			.innerJoin(
+				Schema.teams,
+				and(eq(Schema.teamManagers.teamId, Schema.teams.id), eq(Schema.teamManagers.userId, user.id)),
+			)
+			.orderBy(asc(Schema.teams.displayName));
+
+		return result.map((element) => ({
+			displayName: element.teamDisplayName,
+			slug: element.teamSlug,
+		}));
+	}
+
 	async userHasRoleInTeam(
 		actor: Pick<UserSchema, 'id'>,
 		team: Pick<TeamSchema, 'slug'> | Pick<TeamSchema, 'id'>,
