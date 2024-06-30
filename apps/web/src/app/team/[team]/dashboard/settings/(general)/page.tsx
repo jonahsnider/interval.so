@@ -3,7 +3,6 @@ import { LeaveTeamCard } from '@/src/components/admin/settings/general/leave-tea
 import { TeamDisplayNameCard } from '@/src/components/admin/settings/general/team-display-name';
 import { TeamPasswordCard } from '@/src/components/admin/settings/general/team-password-card/team-password-card.server';
 import { TeamUrlCard } from '@/src/components/admin/settings/general/team-url-card';
-import { TeamSettingsPageContainer } from '@/src/components/admin/settings/page-container';
 
 type Props = {
 	params: {
@@ -16,18 +15,16 @@ export default function TeamSettingsGeneralPage({ params }: Props) {
 	const team = { slug: params.team };
 
 	return (
-		<TeamSettingsPageContainer team={team} pageId='general'>
-			<div className='flex flex-col gap-4'>
-				<TeamPasswordCard team={team} />
+		<div className='flex flex-col gap-4'>
+			<TeamPasswordCard team={team} />
 
-				<TeamDisplayNameCard />
+			<TeamDisplayNameCard />
 
-				<TeamUrlCard />
+			<TeamUrlCard />
 
-				<LeaveTeamCard team={team} />
+			<LeaveTeamCard team={team} />
 
-				<DeleteTeamCard team={team} />
-			</div>
-		</TeamSettingsPageContainer>
+			<DeleteTeamCard team={team} />
+		</div>
 	);
 }

@@ -1,0 +1,17 @@
+import { TeamSettingsPageContainer } from '@/src/components/admin/settings/page-container';
+import type { PropsWithChildren } from 'react';
+
+type Props = PropsWithChildren<{
+	params: {
+		team: string;
+	};
+}>;
+
+// biome-ignore lint/style/noDefaultExport: This must be a default export
+export default function TeamSettingsGeneralLayout({ children, params }: Props) {
+	return (
+		<TeamSettingsPageContainer team={{ slug: params.team }} pageId='general'>
+			{children}
+		</TeamSettingsPageContainer>
+	);
+}
