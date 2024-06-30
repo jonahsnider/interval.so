@@ -12,11 +12,14 @@ export function AdminLinkTile({ team }: Props) {
 		<Link href={`/team/${encodeURIComponent(team.slug)}/admin`} className='h-full w-full'>
 			<Card className='transition-colors relative h-full flex flex-col justify-between hover:bg-muted'>
 				<CardHeader>
-					<CardTitle>Admin dashboard</CardTitle>
+					<div className='flex items-center justify-between'>
+						<CardTitle>Admin dashboard</CardTitle>
+						<ArrowRightIcon className='h-6 w-6 text-muted-foreground sm:hidden' />
+					</div>
 					<CardDescription>View historical data, manage members, and more</CardDescription>
 				</CardHeader>
 
-				<CardFooter className='justify-end'>
+				<CardFooter className='justify-end hidden sm:flex'>
 					<ArrowRightIcon className='h-6 w-6 text-muted-foreground' />
 				</CardFooter>
 			</Card>

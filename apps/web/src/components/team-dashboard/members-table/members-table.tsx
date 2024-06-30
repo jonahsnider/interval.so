@@ -53,13 +53,18 @@ export function MembersTable({ members, team }: Props) {
 	const noResults = filteredMembers.size === 0;
 
 	return (
-		<Card className='w-full max-w-xl'>
+		<Card className='w-full md:max-w-xl'>
 			<CardHeader>
 				<CardTitle>Sign in & out</CardTitle>
 			</CardHeader>
 
 			<CardContent className='flex gap-2'>
-				<Input placeholder='Search names' value={filter} onChange={(e) => setFilter(e.target.value)} />
+				<Input
+					className='min-w-32'
+					placeholder='Search names'
+					value={filter}
+					onChange={(e) => setFilter(e.target.value)}
+				/>
 				<CreateMemberDialog team={team} className='motion-safe:transition-[padding] motion-safe:hover:px-6'>
 					<PlusIcon className='h-4 w-4 mr-2' />
 					Sign up

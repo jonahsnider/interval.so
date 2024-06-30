@@ -17,8 +17,8 @@ export default function AdminDashboardLayout({ children, params }: Props) {
 
 	return (
 		<AdminDashboardProvider>
-			<PageHeader title='Dashboard' className='flex items-end'>
-				<div className='flex gap-8'>
+			<PageHeader title='Dashboard'>
+				<div className='flex gap-4 sm:gap-8'>
 					<EndMeetingButton team={team} />
 					<AdminDashboardPeriodSelect />
 				</div>

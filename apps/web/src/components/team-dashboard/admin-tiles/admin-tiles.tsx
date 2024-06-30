@@ -9,7 +9,7 @@ type Props = {
 
 export function AdminTiles({ team }: Props) {
 	return (
-		<div className='w-full grid grid-cols-1 sm:grid-cols-3 gap-4 justify-between max-w-4xl text-balance'>
+		<div className='w-full grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-4 justify-between max-w-4xl text-balance'>
 			<ManageTile team={team} />
 			<MemberCountTile team={team} />
 			<AdminLinkTile team={team} />

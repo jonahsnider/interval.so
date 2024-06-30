@@ -17,7 +17,7 @@ export default function AdminMembersPageLayout({ children, params }: Props) {
 	return (
 		<>
 			<PageHeader title='Members'>
-				<CreateMemberDialog team={team} variant='default'>
+				<CreateMemberDialog team={team} variant='default' className='max-w-min'>
 					<UserPlusIcon className='h-4 w-4 mr-2' />
 					Create member
 				</CreateMemberDialog>
