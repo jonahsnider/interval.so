@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { ChevronUpDownIcon, PlusIcon } from '@heroicons/react/16/solid';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
+import clsx from 'clsx';
 import { Link } from 'next-view-transitions';
 import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { type ReactNode, use, useMemo } from 'react';
@@ -63,6 +64,11 @@ export function TeamDropdownClient({ currentTeam, teamsPromise }: Props) {
 				<DropdownMenuSeparator />
 				{teams.map((team) => (
 					<DropdownMenuCheckboxItem
+						// Undo the increased left padding that's kept for the checkbox
+						// Having the padding on each item looks weird when there's no checkboxes shown
+						className={clsx({
+							'pl-2': !currentTeamFull,
+						})}
 						key={team.slug}
 						checked={currentTeamFull && currentTeamFull.slug === team.slug}
 						onCheckedChange={() => selectTeam(team)}
