@@ -8,7 +8,9 @@ export function ManagerInviteLinkCard() {
 		<Card>
 			<CardHeader>
 				<CardTitle>Manager invite link</CardTitle>
-				<CardDescription>Allow other people to join your team as managers through the link below. They will be given the "viewer" role.</CardDescription>
+				<CardDescription>
+					Allow other people to join your team as managers through the link below. They will be given the "viewer" role.
+				</CardDescription>
 			</CardHeader>
 			<CardContent>
 				<form>
