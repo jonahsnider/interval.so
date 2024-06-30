@@ -7,14 +7,14 @@ import { AuthorizationService } from '../authorization/authorization_service.js'
 import { db } from '../db/db_service.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
 import type { UserSchema } from '../user/schemas/user_schema.js';
-import type { TeamUserSchema } from './schemas/team_user_schema.js';
+import type { TeamManagerSchema } from './schemas/team_user_schema.js';
 
-/** Team users are editors/viewers/admins of a team, who manage settings & attendance. */
-export class TeamUserService {
+/** Team managers are editors/viewers/admins of a team, who manage settings & attendance. */
+export class TeamManagerService {
 	async userHasRoleInTeam(
 		actor: Pick<UserSchema, 'id'>,
 		team: Pick<TeamSchema, 'slug'> | Pick<TeamSchema, 'id'>,
-		roles: Schema.TeamUserRole[],
+		roles: Schema.TeamManagerRole[],
 	): Promise<boolean> {
 		let result:
 			| {
@@ -26,27 +26,27 @@ export class TeamUserService {
 			// Get team by ID
 			[result] = await db
 				.select({ count: count() })
-				.from(Schema.teamUsers)
+				.from(Schema.teamManagers)
 				.where(
 					and(
 						// User is a team user
-						eq(Schema.teamUsers.userId, actor.id),
+						eq(Schema.teamManagers.userId, actor.id),
 						// Team ID matches the input
-						eq(Schema.teamUsers.teamId, team.id),
+						eq(Schema.teamManagers.teamId, team.id),
 						// User has a role with edit permissions
-						inArray(Schema.teamUsers.role, roles),
+						inArray(Schema.teamManagers.role, roles),
 					),
 				);
 		} else {
 			// Get team by slug
 			[result] = await db
 				.select({ count: count() })
-				.from(Schema.teamUsers)
+				.from(Schema.teamManagers)
 				.innerJoin(
 					Schema.teams,
 					and(
 						// User is on the team
-						eq(Schema.teamUsers.teamId, Schema.teams.id),
+						eq(Schema.teamManagers.teamId, Schema.teams.id),
 						// Team slug matches the input
 						eq(Schema.teams.slug, team.slug),
 					),
@@ -54,9 +54,9 @@ export class TeamUserService {
 				.where(
 					and(
 						// User is a team user
-						eq(Schema.teamUsers.userId, actor.id),
+						eq(Schema.teamManagers.userId, actor.id),
 						// User has a role with edit permissions
-						inArray(Schema.teamUsers.role, roles),
+						inArray(Schema.teamManagers.role, roles),
 					),
 				);
 		}
@@ -67,8 +67,8 @@ export class TeamUserService {
 	async getUserRole(
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
-		user: Pick<TeamUserSchema, 'id'>,
-	): Promise<Pick<TeamUserSchema, 'role'>> {
+		user: Pick<TeamManagerSchema, 'id'>,
+	): Promise<Pick<TeamManagerSchema, 'role'>> {
 		// Don't leak team user IDs if the actor isn't in the team
 		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewSettings', team));
 
@@ -76,8 +76,8 @@ export class TeamUserService {
 			columns: {},
 			where: eq(Schema.teams.slug, team.slug),
 			with: {
-				users: {
-					where: eq(Schema.teamUsers.userId, user.id),
+				managers: {
+					where: eq(Schema.teamManagers.userId, user.id),
 					columns: {
 						role: true,
 					},
@@ -86,7 +86,7 @@ export class TeamUserService {
 			},
 		});
 
-		const result = dbTeam?.users[0];
+		const result = dbTeam?.managers[0];
 
 		assert(result, new TRPCError({ code: 'NOT_FOUND', message: 'User not found' }));
 
@@ -96,7 +96,7 @@ export class TeamUserService {
 	async removeUser(
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
-		user: Pick<TeamUserSchema, 'id'>,
+		user: Pick<TeamManagerSchema, 'id'>,
 	): Promise<void> {
 		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('removeUser', bouncer, team, user));
 
@@ -104,6 +104,6 @@ export class TeamUserService {
 			.$with('team_input')
 			.as(db.select({ id: Schema.teams.id }).from(Schema.teams).where(eq(Schema.teams.slug, team.slug)));
 
-		await db.with(teams).delete(Schema.teamUsers).where(eq(Schema.teamUsers.userId, user.id));
+		await db.with(teams).delete(Schema.teamManagers).where(eq(Schema.teamManagers.userId, user.id));
 	}
 }

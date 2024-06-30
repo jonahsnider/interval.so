@@ -1,8 +1,8 @@
 import { relations } from 'drizzle-orm/relations';
-import { credentials, finishedMemberMeetings, teamMembers, teamUsers, teams, users } from './schema.js';
+import { credentials, finishedMemberMeetings, teamManagers, teamMembers, teams, users } from './schema.js';
 
 export const usersRelations = relations(users, ({ many }) => ({
-	teamUsers: many(teamUsers),
+	teamManagers: many(teamManagers),
 }));
 
 export const credentialsRelations = relations(credentials, ({ one }) => ({
@@ -14,16 +14,16 @@ export const credentialsRelations = relations(credentials, ({ one }) => ({
 
 export const teamsRelations = relations(teams, ({ many }) => ({
 	members: many(teamMembers),
-	users: many(teamUsers),
+	managers: many(teamManagers),
 }));
 
-export const teamUsersRelations = relations(teamUsers, ({ one }) => ({
+export const teamManagersRelations = relations(teamManagers, ({ one }) => ({
 	team: one(teams, {
-		fields: [teamUsers.teamId],
+		fields: [teamManagers.teamId],
 		references: [teams.id],
 	}),
 	user: one(users, {
-		fields: [teamUsers.userId],
+		fields: [teamManagers.userId],
 		references: [users.id],
 	}),
 }));

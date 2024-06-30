@@ -1,15 +1,15 @@
 import { z } from 'zod';
-import { type TeamUserRole, teamUserRole } from '#database/schema';
+import { type TeamManagerRole, teamManagerRole } from '#database/schema';
 import { UserSchema } from '../../user/schemas/user_schema.js';
 
-export const TeamUserSchema = z.object({
+export const TeamManagerSchema = z.object({
 	id: z.string().uuid(),
 	displayName: UserSchema.shape.displayName,
-	role: z.enum(teamUserRole.enumValues),
+	role: z.enum(teamManagerRole.enumValues),
 });
-export type TeamUserSchema = z.infer<typeof TeamUserSchema>;
+export type TeamManagerSchema = z.infer<typeof TeamManagerSchema>;
 
-export function rolesThatCanManageOther(other: Pick<TeamUserSchema, 'role'>): TeamUserRole[] {
+export function rolesThatCanManageOther(other: Pick<TeamManagerSchema, 'role'>): TeamManagerRole[] {
 	switch (other.role) {
 		case 'owner':
 		case 'admin':

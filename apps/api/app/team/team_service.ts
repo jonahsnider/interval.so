@@ -13,8 +13,8 @@ export class TeamService {
 	private static readonly MAX_TEAMS_PER_USER = 10;
 
 	async teamNamesForUser(user: Pick<UserSchema, 'id'>): Promise<Pick<TeamSchema, 'displayName' | 'slug'>[]> {
-		const teamUsers = await db.query.teamUsers.findMany({
-			where: eq(Schema.teamUsers.userId, user.id),
+		const teamMembers = await db.query.teamManagers.findMany({
+			where: eq(Schema.teamManagers.userId, user.id),
 			with: {
 				team: {
 					columns: {
@@ -25,7 +25,7 @@ export class TeamService {
 			},
 		});
 
-		return teamUsers.map((team) => ({
+		return teamMembers.map((team) => ({
 			displayName: team.team.displayName,
 			slug: team.team.slug,
 		}));
@@ -38,8 +38,8 @@ export class TeamService {
 		// Count teams this user is an owner of
 		const [ownedTeams] = await db
 			.select({ count: count() })
-			.from(Schema.teamUsers)
-			.where(and(eq(Schema.teamUsers.userId, user.id), eq(Schema.teamUsers.role, 'owner')));
+			.from(Schema.teamManagers)
+			.where(and(eq(Schema.teamManagers.userId, user.id), eq(Schema.teamManagers.role, 'owner')));
 
 		assert(ownedTeams);
 
@@ -58,7 +58,7 @@ export class TeamService {
 				assert(team);
 
 				// Create team user
-				await tx.insert(Schema.teamUsers).values({
+				await tx.insert(Schema.teamManagers).values({
 					teamId: team.id,
 					userId: user.id,
 					role: 'owner',
@@ -121,7 +121,10 @@ export class TeamService {
 			// Delete team members
 			await tx.with(targetTeamCte).delete(Schema.teamMembers).where(eq(Schema.teamMembers.teamId, targetTeamSubquery));
 			// Delete team managers
-			await tx.with(targetTeamCte).delete(Schema.teamUsers).where(eq(Schema.teamUsers.teamId, targetTeamSubquery));
+			await tx
+				.with(targetTeamCte)
+				.delete(Schema.teamManagers)
+				.where(eq(Schema.teamManagers.teamId, targetTeamSubquery));
 			// Delete team
 			await tx.delete(Schema.teams).where(eq(Schema.teams.slug, team.slug));
 		});

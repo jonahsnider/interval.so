@@ -5,22 +5,22 @@ import { injectHelper } from '../../util/inject_helper.js';
 import { GuestPasswordService } from '../guest_password/guest_password_service.js';
 import { TeamSchema } from '../team/schemas/team_schema.js';
 import { TeamService } from '../team/team_service.js';
-import { TeamUserSchema } from '../team_user/schemas/team_user_schema.js';
-import { TeamUserService } from '../team_user/team_user_service.js';
+import { TeamManagerSchema } from '../team_user/schemas/team_user_schema.js';
+import { TeamManagerService } from '../team_user/team_manager_service.js';
 import { authedProcedure, publicProcedure, router } from '../trpc/trpc_service.js';
 import { MeetingRouter } from './meeting_router.js';
 import { TeamMemberRouter } from './team_member_router.js';
 import { TeamStatsRouter } from './team_stats_router.js';
 
 @inject()
-@injectHelper(TeamService, TeamMemberRouter, GuestPasswordService, TeamStatsRouter, MeetingRouter, TeamUserService)
+@injectHelper(TeamService, TeamMemberRouter, GuestPasswordService, TeamStatsRouter, MeetingRouter, TeamManagerService)
 export class TeamRouter {
 	constructor(
 		private readonly teamService: TeamService,
 		private readonly teamMemberRouter: TeamMemberRouter,
 		private readonly teamStatsRouter: TeamStatsRouter,
 		private readonly meetingRouter: MeetingRouter,
-		private readonly teamUserService: TeamUserService,
+		private readonly teamManagerService: TeamManagerService,
 	) {}
 
 	getRouter() {
@@ -36,9 +36,9 @@ export class TeamRouter {
 				}),
 			roleForSelf: authedProcedure
 				.input(TeamSchema.pick({ slug: true }))
-				.output(TeamUserSchema.pick({ role: true }))
+				.output(TeamManagerSchema.pick({ role: true }))
 				.query(({ ctx, input }) => {
-					return this.teamUserService.getUserRole(ctx.context.bouncer, input, ctx.user);
+					return this.teamManagerService.getUserRole(ctx.context.bouncer, input, ctx.user);
 				}),
 			create: authedProcedure
 				.input(TeamSchema.pick({ displayName: true, password: true, slug: true }))

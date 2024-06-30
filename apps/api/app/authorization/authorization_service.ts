@@ -9,12 +9,12 @@ import { db } from '../db/db_service.js';
 import { GuestPasswordService } from '../guest_password/guest_password_service.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
 import type { TeamMemberSchema } from '../team_member/schemas/team_member_schema.js';
-import { TeamUserService } from '../team_user/team_user_service.js';
+import { TeamManagerService } from '../team_user/team_manager_service.js';
 
-export type TeamRole = Schema.TeamUserRole | 'guestToken';
+export type TeamRole = Schema.TeamManagerRole | 'guestToken';
 
 @inject()
-@injectHelper(GuestPasswordService, TeamUserService)
+@injectHelper(GuestPasswordService, TeamManagerService)
 export class AuthorizationService {
 	static async assertPermission(allowsPromise: Promise<boolean>): Promise<void> {
 		assert(await allowsPromise, new TRPCError({ code: 'FORBIDDEN' }));
@@ -22,7 +22,7 @@ export class AuthorizationService {
 
 	constructor(
 		private readonly guestPasswordService: GuestPasswordService,
-		private readonly teamUserService: TeamUserService,
+		private readonly teamManagerService: TeamManagerService,
 	) {}
 
 	async hasRoles(
@@ -61,10 +61,10 @@ export class AuthorizationService {
 		}
 
 		// Check if the DB contains any of the allowed roles
-		return this.teamUserService.userHasRoleInTeam(
+		return this.teamManagerService.userHasRoleInTeam(
 			actor,
 			team,
-			roles.filter((role): role is Schema.TeamUserRole => role !== 'guestToken'),
+			roles.filter((role): role is Schema.TeamManagerRole => role !== 'guestToken'),
 		);
 	}
 

@@ -2,21 +2,21 @@ import { BasePolicy } from '@adonisjs/bouncer';
 import type { AuthorizerResponse } from '@adonisjs/bouncer/types';
 import { inject } from '@adonisjs/core';
 import { P, match } from 'ts-pattern';
-import type { TeamUserRole } from '#database/schema';
+import type { TeamManagerRole } from '#database/schema';
 import type { AppBouncer, BouncerUser } from '#middleware/initialize_bouncer_middleware';
 import { injectHelper } from '../../util/inject_helper.js';
 import { AuthorizationService } from '../authorization/authorization_service.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
-import { type TeamUserSchema, rolesThatCanManageOther } from '../team_user/schemas/team_user_schema.js';
-import { TeamUserService } from '../team_user/team_user_service.js';
+import { type TeamManagerSchema, rolesThatCanManageOther } from '../team_user/schemas/team_user_schema.js';
+import { TeamManagerService } from '../team_user/team_manager_service.js';
 
 @inject()
-@injectHelper(AuthorizationService, TeamUserService)
+@injectHelper(AuthorizationService, TeamManagerService)
 // biome-ignore lint/style/noDefaultExport: This must be a default export
 export default class TeamPolicy extends BasePolicy {
 	constructor(
 		private readonly authorizationService: AuthorizationService,
-		private readonly teamUserService: TeamUserService,
+		private readonly teamManagerService: TeamManagerService,
 	) {
 		super();
 	}
@@ -45,24 +45,24 @@ export default class TeamPolicy extends BasePolicy {
 		actor: BouncerUser,
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
-		targetUser: Pick<TeamUserSchema, 'id'>,
-		change: Pick<TeamUserSchema, 'role'>,
+		targetUser: Pick<TeamManagerSchema, 'id'>,
+		change: Pick<TeamManagerSchema, 'role'>,
 	): Promise<boolean> {
-		const targetUserRole = await this.teamUserService.getUserRole(bouncer, team, targetUser);
+		const targetUserRole = await this.teamManagerService.getUserRole(bouncer, team, targetUser);
 
 		/** The roles allowed to perform this operation, or `false` if the operation is not allowed no matter what. */
-		const allowedRolesOrFalse: false | TeamUserRole[] = match({
+		const allowedRolesOrFalse: false | TeamManagerRole[] = match({
 			from: targetUserRole.role,
 			to: change.role,
 		})
 			// Owners can't be modified
 			.with({ from: 'owner', to: P.any }, (): false => false)
 			// An owner can make anyone into an owner or an admin
-			.with({ from: P.any, to: P.union('owner', 'admin') }, (): TeamUserRole[] => ['owner'])
+			.with({ from: P.any, to: P.union('owner', 'admin') }, (): TeamManagerRole[] => ['owner'])
 			// Only owner can manage admins
-			.with({ from: 'admin', to: P.any }, (): TeamUserRole[] => ['owner'])
+			.with({ from: 'admin', to: P.any }, (): TeamManagerRole[] => ['owner'])
 			// Owners & admins can manage editors & viewers
-			.with({ from: P.union('editor', 'viewer'), to: P.union('editor', 'viewer') }, (): TeamUserRole[] => [
+			.with({ from: P.union('editor', 'viewer'), to: P.union('editor', 'viewer') }, (): TeamManagerRole[] => [
 				'owner',
 				'admin',
 			])
@@ -79,9 +79,9 @@ export default class TeamPolicy extends BasePolicy {
 		actor: BouncerUser,
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
-		targetUser: Pick<TeamUserSchema, 'id'>,
+		targetUser: Pick<TeamManagerSchema, 'id'>,
 	): Promise<boolean> {
-		const targetUserRole = await this.teamUserService.getUserRole(bouncer, team, targetUser);
+		const targetUserRole = await this.teamManagerService.getUserRole(bouncer, team, targetUser);
 
 		const allowedRoles = rolesThatCanManageOther(targetUserRole);
 

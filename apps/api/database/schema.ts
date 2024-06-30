@@ -13,8 +13,8 @@ import {
 	uuid,
 } from 'drizzle-orm/pg-core';
 
-export const teamUserRole = pgEnum('team_user_role', ['owner', 'admin', 'editor', 'viewer']);
-export type TeamUserRole = (typeof teamUserRole)['enumValues'][number];
+export const teamManagerRole = pgEnum('team_user_role', ['owner', 'admin', 'editor', 'viewer']);
+export type TeamManagerRole = (typeof teamManagerRole)['enumValues'][number];
 
 const bytea = customType<{ data: Buffer; notNull: false; default: false }>({
 	dataType() {
@@ -57,7 +57,7 @@ export const teams = pgTable('teams', {
 	displayName: text('display_name').notNull(),
 });
 
-export const teamUsers = pgTable(
+export const teamManagers = pgTable(
 	'team_users',
 	{
 		teamId: uuid('team_id')
@@ -66,11 +66,11 @@ export const teamUsers = pgTable(
 		userId: uuid('user_id')
 			.notNull()
 			.references(() => users.id),
-		role: teamUserRole('role').notNull().default('admin'),
+		role: teamManagerRole('role').notNull().default('admin'),
 	},
-	(teamUsers) => ({
-		primaryKey: primaryKey({ columns: [teamUsers.teamId, teamUsers.userId] }),
-		roleIndex: index().on(teamUsers.role),
+	(teamManagers) => ({
+		primaryKey: primaryKey({ columns: [teamManagers.teamId, teamManagers.userId] }),
+		roleIndex: index().on(teamManagers.role),
 	}),
 );
 
