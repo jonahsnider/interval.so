@@ -15,6 +15,13 @@
 			"when": 1719650690063,
 			"tag": "0001_loving_micromacro",
 			"breakpoints": true
+		},
+		{
+			"idx": 2,
+			"version": "7",
+			"when": 1719743411915,
+			"tag": "0002_wandering_lizard",
+			"breakpoints": true
 		}
 	]
 }

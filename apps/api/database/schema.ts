@@ -22,6 +22,12 @@ const bytea = customType<{ data: Buffer; notNull: false; default: false }>({
 	},
 });
 
+const citext = customType<{ data: string; notNull: false; default: false }>({
+	dataType() {
+		return 'citext';
+	},
+});
+
 export const users = pgTable('users', {
 	id: uuid('id').notNull().primaryKey().defaultRandom(),
 	displayName: text('display_name').notNull(),
@@ -50,7 +56,7 @@ export const credentials = pgTable(
 
 export const teams = pgTable('teams', {
 	id: uuid('id').primaryKey().defaultRandom(),
-	slug: text('slug').unique().notNull(),
+	slug: citext('slug').unique().notNull(),
 	createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 
 	password: text('password').notNull(),
