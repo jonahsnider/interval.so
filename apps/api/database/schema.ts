@@ -66,6 +66,7 @@ export const teams = pgTable('teams', {
 });
 
 export const teamManagers = pgTable(
+  // TODO: Rename to "team_managers" - blocked by https://github.com/drizzle-team/drizzle-orm/issues/2344
 	'team_users',
 	{
 		teamId: uuid('team_id')
