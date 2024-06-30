@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
+import { CopyButtonInput } from '@/src/components/copy-button-input';
 
 export function TeamPasswordCard() {
 	return (
@@ -13,7 +13,7 @@ export function TeamPasswordCard() {
 			</CardHeader>
 			<CardContent>
 				<form>
-					<Input className='max-w-80' value='secret123' />
+					<CopyButtonInput className='max-w-80' value='secret123' copyValue='secret123' />
 				</form>
 			</CardContent>
 			<CardFooter className='border-t px-6 py-4'>
