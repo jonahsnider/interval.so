@@ -3,6 +3,8 @@ import { TRPCError } from '@trpc/server';
 import { and, count, eq } from 'drizzle-orm';
 import postgres from 'postgres';
 import * as Schema from '#database/schema';
+import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
+import { AuthorizationService } from '../authorization/authorization_service.js';
 import { db } from '../db/db_service.js';
 import type { UserSchema } from '../user/schemas/user_schema.js';
 import type { TeamSchema } from './schemas/team_schema.js';
@@ -101,14 +103,27 @@ export class TeamService {
 		return result;
 	}
 
-	async getTeamBySlug(team: Pick<TeamSchema, 'slug'>): Promise<Pick<TeamSchema, 'id'> | undefined> {
-		const result = await db.query.teams.findFirst({
-			where: eq(Schema.teams.slug, team.slug),
-			columns: {
-				id: true,
-			},
-		});
+	async delete(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>): Promise<void> {
+		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('delete', team));
 
-		return result;
+		await db.transaction(async (tx) => {
+			const targetTeamCte = tx
+				.$with('target_team_cte')
+				.as(tx.select({ id: Schema.teams.id }).from(Schema.teams).where(eq(Schema.teams.slug, team.slug)));
+
+			const targetTeamSubquery = tx.select({ id: targetTeamCte.id }).from(targetTeamCte);
+
+			// Delete team meetings
+			await tx
+				.with(targetTeamCte)
+				.delete(Schema.finishedMemberMeetings)
+				.where(eq(Schema.finishedMemberMeetings.memberId, targetTeamSubquery));
+			// Delete team members
+			await tx.with(targetTeamCte).delete(Schema.teamMembers).where(eq(Schema.teamMembers.teamId, targetTeamSubquery));
+			// Delete team managers
+			await tx.with(targetTeamCte).delete(Schema.teamUsers).where(eq(Schema.teamUsers.teamId, targetTeamSubquery));
+			// Delete team
+			await tx.delete(Schema.teams).where(eq(Schema.teams.slug, team.slug));
+		});
 	}
 }

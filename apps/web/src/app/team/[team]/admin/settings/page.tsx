@@ -1,4 +1,4 @@
-import { DeleteTeamCard } from '@/src/components/admin/settings/general/delete-team-card';
+import { DeleteTeamCard } from '@/src/components/admin/settings/general/delete-team-card/delete-team-card.server';
 import { LeaveTeamCard } from '@/src/components/admin/settings/general/leave-team-card';
 import { TeamDisplayNameCard } from '@/src/components/admin/settings/general/team-display-name';
 import { TeamPasswordCard } from '@/src/components/admin/settings/general/team-password';
@@ -13,8 +13,10 @@ type Props = {
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export
 export default function AdminSettingsGeneralPage({ params }: Props) {
+	const team = { slug: params.team };
+
 	return (
-		<AdminSettingsPageContainer team={{ slug: params.team }} pageId='general'>
+		<AdminSettingsPageContainer team={team} pageId='general'>
 			<div className='flex flex-col gap-4'>
 				<TeamPasswordCard />
 
@@ -24,7 +26,7 @@ export default function AdminSettingsGeneralPage({ params }: Props) {
 
 				<LeaveTeamCard />
 
-				<DeleteTeamCard />
+				<DeleteTeamCard team={team} />
 			</div>
 		</AdminSettingsPageContainer>
 	);
