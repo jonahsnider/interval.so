@@ -13,7 +13,7 @@ export function AdminInviteLinkCard() {
 			<CardContent>
 				<form>
 					<div className='flex max-w-min shadow-sm rounded-md'>
-						<span className='flex h-9 max-w-80  overflow-y-auto [scrollbar-width:none] items-center justify-start rounded-md border border-input px-3 py-1 text-sm transition-colors rounded-r-none border-r-0'>
+						<span className='flex h-9 max-w-80 overflow-y-auto [scrollbar-width:none] items-center justify-start rounded-md border border-input px-3 py-1 text-sm transition-colors rounded-r-none border-r-0'>
 							https://hours.frc.sh/teams/team581/invite/nxa0X74wNdOgKjEm04iPOco2DI4iN3SA
 						</span>
 						<Tooltip>
