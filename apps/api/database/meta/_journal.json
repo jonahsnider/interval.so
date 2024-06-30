@@ -22,6 +22,13 @@
 			"when": 1719743411915,
 			"tag": "0002_wandering_lizard",
 			"breakpoints": true
+		},
+		{
+			"idx": 3,
+			"version": "7",
+			"when": 1719744227083,
+			"tag": "0003_perpetual_ronan",
+			"breakpoints": true
 		}
 	]
 }
