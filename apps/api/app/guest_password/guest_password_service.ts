@@ -55,14 +55,34 @@ export class GuestPasswordService {
 		context.session.put('guestToken', token);
 	}
 
-	async teamHasGuestToken(team: Pick<TeamSchema, 'id'>, token: string): Promise<boolean> {
+	async teamHasGuestToken(team: Pick<TeamSchema, 'id'> | Pick<TeamSchema, 'slug'>, token: string): Promise<boolean> {
 		const tokenTeam = await this.getTeamFromToken(token);
 
 		if (!tokenTeam) {
 			return false;
 		}
 
-		return tokenTeam.id === team.id;
+		let teamWithId: Pick<TeamSchema, 'id'>;
+
+		if ('id' in team) {
+			teamWithId = team;
+		} else {
+      // TODO: Instead of returning the ID from the query, ask the DB if there is a team with that slug & id
+			const dbTeam = await db.query.teams.findFirst({
+				where: eq(Schema.teams.slug, team.slug),
+				columns: {
+					id: true,
+				},
+			});
+
+			if (!dbTeam) {
+				return false;
+			}
+
+			teamWithId = dbTeam;
+		}
+
+		return tokenTeam.id === teamWithId.id;
 	}
 
 	async getTeamFromToken(token: string): Promise<Pick<TeamSchema, 'id'> | undefined> {

@@ -1,9 +1,9 @@
-import assert from 'node:assert/strict';
-import { inject } from '@adonisjs/core';
-import { TRPCError } from '@trpc/server';
-import { eq, inArray } from 'drizzle-orm';
 import * as Schema from '#database/schema';
 import type { BouncerUser } from '#middleware/initialize_bouncer_middleware';
+import { inject } from '@adonisjs/core';
+import { TRPCError } from '@trpc/server';
+import { inArray } from 'drizzle-orm';
+import assert from 'node:assert/strict';
 import { injectHelper } from '../../util/inject_helper.js';
 import { db } from '../db/db_service.js';
 import { GuestPasswordService } from '../guest_password/guest_password_service.js';
@@ -39,25 +39,7 @@ export class AuthorizationService {
 				return false;
 			}
 
-			// Check if the token is still valid
-			if ('id' in team) {
-				return this.guestPasswordService.teamHasGuestToken(team, actor.unvalidatedGuestToken);
-			}
-
-			// Get team by slug
-			const teamWithId = await db.query.teams.findFirst({
-				where: eq(Schema.teams.slug, team.slug),
-				columns: {
-					id: true,
-				},
-			});
-
-			if (!teamWithId) {
-				// Don't throw an error, that leaks team existence
-				return false;
-			}
-
-			return this.guestPasswordService.teamHasGuestToken(teamWithId, actor.unvalidatedGuestToken);
+			return this.guestPasswordService.teamHasGuestToken(team, actor.unvalidatedGuestToken);
 		}
 
 		// Check if the DB contains any of the allowed roles
