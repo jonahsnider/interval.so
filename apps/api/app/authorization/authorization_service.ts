@@ -1,9 +1,9 @@
-import * as Schema from '#database/schema';
-import type { BouncerUser } from '#middleware/initialize_bouncer_middleware';
+import assert from 'node:assert/strict';
 import { inject } from '@adonisjs/core';
 import { TRPCError } from '@trpc/server';
 import { inArray } from 'drizzle-orm';
-import assert from 'node:assert/strict';
+import * as Schema from '#database/schema';
+import type { BouncerUser } from '#middleware/initialize_bouncer_middleware';
 import { injectHelper } from '../../util/inject_helper.js';
 import { db } from '../db/db_service.js';
 import { GuestPasswordService } from '../guest_password/guest_password_service.js';

@@ -67,7 +67,7 @@ export class GuestPasswordService {
 		if ('id' in team) {
 			teamWithId = team;
 		} else {
-      // TODO: Instead of returning the ID from the query, ask the DB if there is a team with that slug & id
+			// TODO: Instead of returning the ID from the query, ask the DB if there is a team with that slug & id
 			const dbTeam = await db.query.teams.findFirst({
 				where: eq(Schema.teams.slug, team.slug),
 				columns: {
