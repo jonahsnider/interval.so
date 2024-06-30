@@ -13,8 +13,12 @@ export function SettingsCardSkeleton() {
 				<Skeleton className='h-9 w-96' />
 			</CardContent>
 			<CardFooter className='border-t px-6 py-4'>
-				<Skeleton className='h-9 w-32' />
+				<SettingsCardButtonSkeleton />
 			</CardFooter>
 		</Card>
 	);
+}
+
+export function SettingsCardButtonSkeleton() {
+	return <Skeleton className='h-9 w-32' />;
 }

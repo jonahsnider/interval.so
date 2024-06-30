@@ -40,6 +40,13 @@ export class TeamRouter {
 				.query(({ ctx, input }) => {
 					return this.teamManagerService.getUserRole(ctx.context.bouncer, input, ctx.user);
 				}),
+			leave: authedProcedure
+				.input(TeamSchema.pick({ slug: true }))
+				.output(z.void())
+				.mutation(({ ctx, input }) => {
+					return this.teamManagerService.leave(ctx.context.bouncer, input, ctx.user);
+				}),
+
 			create: authedProcedure
 				.input(TeamSchema.pick({ displayName: true, password: true, slug: true }))
 				.output(z.void())

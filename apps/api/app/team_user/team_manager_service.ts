@@ -122,4 +122,24 @@ export class TeamManagerService {
 
 		await db.with(teams).delete(Schema.teamManagers).where(eq(Schema.teamManagers.userId, user.id));
 	}
+
+	async leave(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>, user: Pick<UserSchema, 'id'>): Promise<void> {
+		// This is just to check if they have access to the team
+		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewSettings', team));
+
+		const teams = db
+			.$with('team_input')
+			.as(db.select({ id: Schema.teams.id }).from(Schema.teams).where(eq(Schema.teams.slug, team.slug)));
+
+		await db
+			.with(teams)
+			.delete(Schema.teamManagers)
+			.where(
+				and(
+					eq(Schema.teamManagers.userId, user.id),
+					// Not the owner of the team
+					not(eq(Schema.teamManagers.role, 'owner')),
+				),
+			);
+	}
 }
