@@ -67,6 +67,27 @@ export class TeamRouter {
 				.mutation(({ input, ctx }) => {
 					return this.teamService.delete(ctx.context.bouncer, input);
 				}),
+
+			getPassword: authedProcedure
+				.input(TeamSchema.pick({ slug: true }))
+				.output(TeamSchema.pick({ password: true }))
+				.query(({ ctx, input }) => {
+					return this.teamService.getPassword(ctx.context.bouncer, input);
+				}),
+
+			setPassword: authedProcedure
+				.input(
+					z
+						.object({
+							team: TeamSchema.pick({ slug: true }),
+							data: TeamSchema.pick({ password: true }),
+						})
+						.strict(),
+				)
+				.output(z.void())
+				.mutation(({ input, ctx }) => {
+					return this.teamService.setPassword(ctx.context.bouncer, input.team, input.data);
+				}),
 		});
 	}
 }

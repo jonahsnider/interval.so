@@ -9,13 +9,25 @@ export function SettingsCardSkeleton() {
 
 				<Skeleton className='h-4 w-[32rem]' />
 			</CardHeader>
-			<CardContent>
-				<Skeleton className='h-9 w-96' />
-			</CardContent>
-			<CardFooter className='border-t px-6 py-4'>
-				<SettingsCardButtonSkeleton />
-			</CardFooter>
+			<SettingsCardContentSkeleton />
+			<SettingsCardFooterSkeleton />
 		</Card>
+	);
+}
+
+export function SettingsCardContentSkeleton() {
+	return (
+		<CardContent>
+			<Skeleton className='h-9 w-80' />
+		</CardContent>
+	);
+}
+
+export function SettingsCardFooterSkeleton() {
+	return (
+		<CardFooter className='border-t px-6 py-4'>
+			<SettingsCardButtonSkeleton />
+		</CardFooter>
 	);
 }
 

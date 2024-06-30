@@ -10,16 +10,16 @@ import { useState } from 'react';
 
 type Props = {
 	value: string;
-	copyValue: string;
+	copyValue?: string;
 	className?: string;
 } & (
 	| {
 			onChange?: undefined;
-			editable?: false;
+			editable: false;
 	  }
 	| {
 			onChange: (value: string) => void;
-			editable: true;
+			editable?: true;
 	  }
 );
 
@@ -27,7 +27,7 @@ type Props = {
 const sharedStyles = clsx('rounded-r-none border-r-0 focus-visible:z-[1]');
 
 /** An input with a copy button. */
-export function CopyButtonInput({ copyValue, value, editable = true, onChange, className }: Props) {
+export function CopyButtonInput({ value, copyValue = value, editable = true, onChange, className }: Props) {
 	return (
 		<div className={clsx('flex shadow-sm rounded-md w-full', className)}>
 			{editable && <Input className={sharedStyles} value={value} onChange={(e) => onChange?.(e.target.value)} />}
@@ -42,7 +42,7 @@ export function CopyButtonInput({ copyValue, value, editable = true, onChange, c
 				</span>
 			)}
 
-			<CopyButton copyValue={copyValue} />
+			<CopyButton value={copyValue} />
 		</div>
 	);
 }
@@ -57,12 +57,12 @@ const motionVariants: Variants = {
 const MotionClipboardIcon = motion(ClipboardIcon);
 const MotionCheckIcon = motion(CheckIcon);
 
-function CopyButton({ copyValue }: Pick<Props, 'copyValue'>) {
+function CopyButton({ value }: { value: string }) {
 	const [isCopied, setIsCopied] = useState(false);
 	const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | undefined>();
 
 	const onClick = () => {
-		navigator.clipboard.writeText(copyValue);
+		navigator.clipboard.writeText(value);
 		setIsCopied(true);
 		clearTimeout(timeoutId);
 

@@ -110,4 +110,27 @@ export class TeamService {
 			await tx.delete(Schema.teams).where(eq(Schema.teams.slug, team.slug));
 		});
 	}
+
+	async getPassword(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>): Promise<Pick<TeamSchema, 'password'>> {
+		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewSettings', team));
+
+		const result = await db.query.teams.findFirst({
+			columns: {
+				password: true,
+			},
+			where: eq(Schema.teams.slug, team.slug),
+		});
+
+		assert(result, new TRPCError({ code: 'NOT_FOUND', message: 'Team not found' }));
+
+		return result;
+	}
+
+	async setPassword(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>, data: Pick<TeamSchema, 'password'>) {
+		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('updateSettings', team));
+
+		await db.transaction(async (tx) => {
+			await tx.update(Schema.teams).set(data).where(eq(Schema.teams.slug, team.slug));
+		});
+	}
 }

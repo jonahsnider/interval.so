@@ -1,7 +1,7 @@
 import { DeleteTeamCard } from '@/src/components/admin/settings/general/delete-team-card/delete-team-card.server';
 import { LeaveTeamCard } from '@/src/components/admin/settings/general/leave-team-card/leave-team-card.server';
 import { TeamDisplayNameCard } from '@/src/components/admin/settings/general/team-display-name';
-import { TeamPasswordCard } from '@/src/components/admin/settings/general/team-password';
+import { TeamPasswordCard } from '@/src/components/admin/settings/general/team-password-card/team-password-card.server';
 import { TeamUrlCard } from '@/src/components/admin/settings/general/team-url-card';
 import { AdminSettingsPageContainer } from '@/src/components/admin/settings/page-container';
 
@@ -18,7 +18,7 @@ export default function AdminSettingsGeneralPage({ params }: Props) {
 	return (
 		<AdminSettingsPageContainer team={team} pageId='general'>
 			<div className='flex flex-col gap-4'>
-				<TeamPasswordCard />
+				<TeamPasswordCard team={team} />
 
 				<TeamDisplayNameCard />
 
