@@ -3,7 +3,7 @@ import { LeaveTeamCard } from '@/src/components/admin/settings/general/leave-tea
 import { TeamDisplayNameCard } from '@/src/components/admin/settings/general/team-display-name';
 import { TeamPasswordCard } from '@/src/components/admin/settings/general/team-password-card/team-password-card.server';
 import { TeamUrlCard } from '@/src/components/admin/settings/general/team-url-card';
-import { AdminSettingsPageContainer } from '@/src/components/admin/settings/page-container';
+import { TeamSettingsPageContainer } from '@/src/components/admin/settings/page-container';
 
 type Props = {
 	params: {
@@ -12,11 +12,11 @@ type Props = {
 };
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export
-export default function AdminSettingsGeneralPage({ params }: Props) {
+export default function TeamSettingsGeneralPage({ params }: Props) {
 	const team = { slug: params.team };
 
 	return (
-		<AdminSettingsPageContainer team={team} pageId='general'>
+		<TeamSettingsPageContainer team={team} pageId='general'>
 			<div className='flex flex-col gap-4'>
 				<TeamPasswordCard team={team} />
 
@@ -28,6 +28,6 @@ export default function AdminSettingsGeneralPage({ params }: Props) {
 
 				<DeleteTeamCard team={team} />
 			</div>
-		</AdminSettingsPageContainer>
+		</TeamSettingsPageContainer>
 	);
 }

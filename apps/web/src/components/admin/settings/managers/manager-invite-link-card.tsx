@@ -3,12 +3,12 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { ClipboardIcon } from '@heroicons/react/20/solid';
 
-export function AdminInviteLinkCard() {
+export function ManagerInviteLinkCard() {
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>Admin invite link</CardTitle>
-				<CardDescription>Allow other people to join your team as admins through the link below.</CardDescription>
+				<CardTitle>Manager invite link</CardTitle>
+				<CardDescription>Allow other people to join your team as managers through the link below. They will be given the "viewer" role.</CardDescription>
 			</CardHeader>
 			<CardContent>
 				<form>

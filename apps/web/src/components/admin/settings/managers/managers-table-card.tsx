@@ -10,12 +10,12 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { EllipsisHorizontalIcon } from '@heroicons/react/16/solid';
 
-type Admin = {
+type TeamManager = {
 	name: string;
 	role: 'owner' | 'admin';
 };
 
-const admins: Admin[] = [
+const managers: TeamManager[] = [
 	{
 		name: 'Banana',
 		role: 'owner',
@@ -34,12 +34,12 @@ const admins: Admin[] = [
 	},
 ];
 
-export function AdminsTable() {
+export function ManagersTableCard() {
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>Manage admins</CardTitle>
-				<CardDescription>Manage access of other admins.</CardDescription>
+				<CardTitle>Team managers</CardTitle>
+				<CardDescription>Adjust access of other managers.</CardDescription>
 			</CardHeader>
 
 			<CardContent>
@@ -53,7 +53,7 @@ export function AdminsTable() {
 							</TableRow>
 						</TableHeader>
 						<TableBody>
-							{admins.map((admin) => (
+							{managers.map((admin) => (
 								<TableRow key={admin.name}>
 									<TableCell className='font-medium w-full'>{admin.name}</TableCell>
 									<TableCell>

@@ -9,7 +9,7 @@ type Props = {
 
 export function AdminLinkTile({ team }: Props) {
 	return (
-		<Link href={`/team/${encodeURIComponent(team.slug)}/admin`} className='h-full w-full'>
+		<Link href={`/team/${encodeURIComponent(team.slug)}/dashboard`} className='h-full w-full'>
 			<Card className='transition-colors relative h-full flex flex-col justify-between hover:bg-muted'>
 				<CardHeader>
 					<div className='flex items-center justify-between'>

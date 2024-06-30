@@ -15,9 +15,9 @@ const ENTRIES = [
 		id: 'general',
 	},
 	{
-		label: 'Admins',
-		hrefSuffix: '/admins',
-		id: 'admins',
+		label: 'Managers',
+		hrefSuffix: '/managers',
+		id: 'managers',
 	},
 ] as const satisfies SidebarEntryData[];
 
@@ -32,7 +32,7 @@ function SidebarEntry({
 	team: Pick<TeamSchema, 'slug'>;
 	active: boolean;
 }) {
-	const href = `/team/${encodeURIComponent(team.slug)}/admin/settings${entry.hrefSuffix}`;
+	const href = `/team/${encodeURIComponent(team.slug)}/dashboard/settings${entry.hrefSuffix}`;
 
 	return (
 		<Link

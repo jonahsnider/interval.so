@@ -18,7 +18,7 @@ const ENTRIES: NavbarEntryData[] = [
 		label: 'Dashboard',
 		hrefSuffix: '',
 		// Matches the root path, or any dashboard subpaths
-		matcher: /^($|\/dashboard)/,
+		matcher: /^(?:\/hours)?$/,
 	},
 	{
 		label: 'Members',
@@ -40,7 +40,7 @@ const ENTRIES: NavbarEntryData[] = [
 function NavbarEntry({ entry, team }: { entry: NavbarEntryData; team: Pick<TeamSchema, 'slug'> }) {
 	const pathname = usePathname();
 
-	const prefix = `/team/${team.slug}/admin`;
+	const prefix = `/team/${team.slug}/dashboard`;
 
 	const href = `${prefix}${entry.hrefSuffix}`;
 	const active = entry.matcher.test(pathname.slice(prefix.length));

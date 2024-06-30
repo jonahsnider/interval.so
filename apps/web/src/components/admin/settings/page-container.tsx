@@ -7,7 +7,7 @@ type Props = PropsWithChildren<{
 	pageId: SidebarEntryId;
 }>;
 
-export function AdminSettingsPageContainer({ team, children, pageId }: Props) {
+export function TeamSettingsPageContainer({ team, children, pageId }: Props) {
 	return (
 		<>
 			<div className='col-span-full sm:col-span-1 [view-transition-name:team-settings-sidebar]'>

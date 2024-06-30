@@ -122,7 +122,7 @@ const TAB_OPTIONS = {
 	},
 	hours: {
 		title: 'Average hours',
-		hrefSuffix: '/dashboard/hours',
+		hrefSuffix: '/hours',
 	},
 };
 
@@ -130,7 +130,7 @@ export function GraphTabTrigger({ tabId, active, timeRange, team }: Props) {
 	const queryStates = searchParamCache.all();
 	const queryString = searchParamSerializer(queryStates);
 
-	const createHref = (subpath: string) => `/team/${team.slug}/admin${subpath}${queryString}`;
+	const createHref = (subpath: string) => `/team/${team.slug}/dashboard${subpath}${queryString}`;
 
 	return (
 		<GraphTabTriggerBase
