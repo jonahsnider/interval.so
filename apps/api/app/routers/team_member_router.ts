@@ -2,17 +2,25 @@ import { inject } from '@adonisjs/core';
 import { z } from 'zod';
 import { injectHelper } from '../../util/inject_helper.js';
 import { TeamSchema } from '../team/schemas/team_schema.js';
+import { TeamMemberEventsService } from '../team_member/events/team_member_events_service.js';
 import { TeamMemberSchema } from '../team_member/schemas/team_member_schema.js';
 import { TeamMemberService } from '../team_member/team_member_service.js';
 import { authedProcedure, publicProcedure, router } from '../trpc/trpc_service.js';
 
 @inject()
-@injectHelper(TeamMemberService)
+@injectHelper(TeamMemberService, TeamMemberEventsService)
 export class TeamMemberRouter {
-	constructor(private readonly teamMemberService: TeamMemberService) {}
+	constructor(
+		private readonly teamMemberService: TeamMemberService,
+		private readonly eventsService: TeamMemberEventsService,
+	) {}
 
 	getRouter() {
 		return router({
+			subscribeForTeam: publicProcedure.input(TeamSchema.pick({ slug: true })).subscription(({ input, ctx }) => {
+				return this.eventsService.subscribeForTeam(ctx.context.bouncer, input);
+			}),
+
 			create: publicProcedure
 				.input(
 					z.object({

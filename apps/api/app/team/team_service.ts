@@ -73,6 +73,19 @@ export class TeamService {
 		return result.displayName;
 	}
 
+	async getTeamBySlug(team: Pick<TeamSchema, 'slug'>): Promise<Pick<TeamSchema, 'id'>> {
+		const result = await db.query.teams.findFirst({
+			where: eq(Schema.teams.slug, team.slug),
+			columns: {
+				id: true,
+			},
+		});
+
+		assert(result, new TRPCError({ code: 'NOT_FOUND', message: 'Team not found' }));
+
+		return result;
+	}
+
 	async getTeamById(team: Pick<TeamSchema, 'id'>): Promise<Pick<TeamSchema, 'slug'> | undefined> {
 		const result = await db.query.teams.findFirst({
 			where: eq(Schema.teams.id, team.id),

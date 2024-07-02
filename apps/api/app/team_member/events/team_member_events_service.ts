@@ -1,14 +1,26 @@
+import { inject } from '@adonisjs/core';
 import redis from '@adonisjs/redis/services/main';
-import { eq, inArray } from 'drizzle-orm';
+import { observable } from '@trpc/server/observable';
+import { inArray } from 'drizzle-orm';
 import * as Schema from '#database/schema';
+import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
+import { injectHelper } from '../../../util/inject_helper.js';
+import { AuthorizationService } from '../../authorization/authorization_service.js';
 import { db } from '../../db/db_service.js';
 import type { TeamSchema } from '../../team/schemas/team_schema.js';
+import { TeamService } from '../../team/team_service.js';
 import type { TeamMemberSchema } from '../schemas/team_member_schema.js';
 import type { RedisEvent } from './schemas/redis_event_schema.js';
 
+@inject()
+@injectHelper(TeamService)
 export class TeamMemberEventsService {
+	private static getRedisChannel(team: Pick<TeamSchema, 'id'>): string {
+		return `team/${team.id}/members`;
+	}
+
 	private static async announceEventRaw(team: Pick<TeamSchema, 'id'>, event: RedisEvent): Promise<void> {
-		await redis.publish(`team/${team.id}/members`, event);
+		await redis.publish(TeamMemberEventsService.getRedisChannel(team), event);
 	}
 
 	private static async announceEventByMembers(
@@ -35,7 +47,34 @@ export class TeamMemberEventsService {
 		await Promise.all(teams.map((team) => TeamMemberEventsService.announceEventRaw(team, event)));
 	}
 
-	private static async announceEventByTeam(
+	async subscribeForTeam(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>) {
+		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('viewSimpleMemberList', team));
+
+		const teamWithId = await this.teamService.getTeamBySlug(team);
+
+		return observable<RedisEvent>((observer) => {
+			const onMessage = (message: RedisEvent) => {
+				observer.next(message);
+			};
+
+			redis.subscribe(TeamMemberEventsService.getRedisChannel(teamWithId), async (message) => {
+				// Ensure they still have access to this data
+				await AuthorizationService.assertPermission(
+					bouncer.with('TeamMemberPolicy').allows('viewSimpleMemberList', team),
+				);
+
+				onMessage(message as RedisEvent);
+			});
+
+			return () => {
+				redis.unsubscribe(TeamMemberEventsService.getRedisChannel(teamWithId));
+			};
+		});
+	}
+
+	constructor(private readonly teamService: TeamService) {}
+
+	private async announceEventByTeam(
 		team: Pick<TeamSchema, 'id'> | Pick<TeamSchema, 'slug'>,
 		event: RedisEvent,
 	): Promise<void> {
@@ -43,12 +82,7 @@ export class TeamMemberEventsService {
 			return TeamMemberEventsService.announceEventRaw(team, event);
 		}
 
-		const teamWithId = await db.query.teams.findFirst({
-			columns: {
-				id: true,
-			},
-			where: eq(Schema.teams.slug, team.slug),
-		});
+		const teamWithId = await this.teamService.getTeamBySlug(team);
 
 		if (!teamWithId) {
 			throw new Error(`Team with slug ${team.slug} not found`);
@@ -57,9 +91,9 @@ export class TeamMemberEventsService {
 		return TeamMemberEventsService.announceEventRaw(teamWithId, event);
 	}
 
-	static announceEvent(members: Pick<TeamMemberSchema, 'id'>[], event: RedisEvent): Promise<void>;
-	static announceEvent(team: Pick<TeamSchema, 'id'> | Pick<TeamSchema, 'slug'>, event: RedisEvent): Promise<void>;
-	static announceEvent(
+	announceEvent(members: Pick<TeamMemberSchema, 'id'>[], event: RedisEvent): Promise<void>;
+	announceEvent(team: Pick<TeamSchema, 'id'> | Pick<TeamSchema, 'slug'>, event: RedisEvent): Promise<void>;
+	announceEvent(
 		teamOrMembers: Pick<TeamSchema, 'id'> | Pick<TeamSchema, 'slug'> | Pick<TeamMemberSchema, 'id'>[],
 		event: RedisEvent,
 	): Promise<void> {
@@ -67,6 +101,6 @@ export class TeamMemberEventsService {
 			return TeamMemberEventsService.announceEventByMembers(teamOrMembers, event);
 		}
 
-		return TeamMemberEventsService.announceEventByTeam(teamOrMembers, event);
+		return this.announceEventByTeam(teamOrMembers, event);
 	}
 }
