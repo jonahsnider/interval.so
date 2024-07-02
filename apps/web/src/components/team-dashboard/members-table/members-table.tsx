@@ -138,7 +138,7 @@ function InnerTableRow({ visible, className, member }: { visible: boolean; class
 		onMutate: ({ atMeeting }) => {
 			setChecked(Boolean(atMeeting));
 		},
-		onSettled: () => {
+		onSuccess: () => {
 			router.refresh();
 		},
 		onError: (error, { atMeeting }) => {

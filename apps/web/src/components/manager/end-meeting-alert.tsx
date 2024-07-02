@@ -108,15 +108,13 @@ function EndMeetingDialogAction({
 		},
 		onSuccess: () => {
 			toast.success('Meeting ended', { id: toastId });
+			router.refresh();
 		},
 		onError: (error) => {
 			toast.error('An error occurred while ending the meeting', {
 				description: error.message,
 				id: toastId,
 			});
-		},
-		onSettled: () => {
-			router.refresh();
 		},
 	});
 
