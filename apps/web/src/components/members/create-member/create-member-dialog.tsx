@@ -55,13 +55,12 @@ function CreateMemberDialogContent({
 	};
 
 	return (
-		<>
-			<DialogHeader>
-				<DialogTitle>Create member</DialogTitle>
-			</DialogHeader>
-
-			<Form {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)}>
+		<Form {...form}>
+			<form onSubmit={form.handleSubmit(onSubmit)}>
+				<DialogContent>
+					<DialogHeader>
+						<DialogTitle>Create member</DialogTitle>
+					</DialogHeader>
 					<FormField
 						control={form.control}
 						name='name'
@@ -82,9 +81,9 @@ function CreateMemberDialogContent({
 							Sign up
 						</Button>
 					</DialogFooter>
-				</form>
-			</Form>
-		</>
+				</DialogContent>
+			</form>
+		</Form>
 	);
 }
 
@@ -105,9 +104,7 @@ export function CreateMemberDialog({ team, children, ...buttonProps }: Props) {
 				</Button>
 			</DialogTrigger>
 
-			<DialogContent>
-				<CreateMemberDialogContent team={team} closeDialog={() => setOpen(false)} />
-			</DialogContent>
+			<CreateMemberDialogContent team={team} closeDialog={() => setOpen(false)} />
 		</Dialog>
 	);
 }
