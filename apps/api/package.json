@@ -40,7 +40,7 @@
 		"@jonahsnider/util": "11.0.0",
 		"@paralleldrive/cuid2": "2.2.2",
 		"@simplewebauthn/server": "10.0.0",
-		"@trpc/server": "11.0.0-rc.433",
+		"@trpc/server": "11.0.0-rc.436",
 		"@vinejs/vine": "2.1.0",
 		"convert": "5.3.0",
 		"date-fns": "3.6.0",
