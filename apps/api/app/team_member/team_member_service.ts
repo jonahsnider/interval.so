@@ -242,7 +242,10 @@ export class TeamMemberService {
 				);
 
 			if (members.length === 0) {
-				return;
+				throw new TRPCError({
+					code: 'UNPROCESSABLE_CONTENT',
+					message: 'There is no meeting in progress',
+				});
 			}
 
 			await tx.insert(Schema.finishedMemberMeetings).values(
