@@ -63,7 +63,7 @@ const motionVariants: Variants = {
 	visible: { opacity: 1, height: 'auto' },
 };
 
-export function AdminNavbarInner({ team }: { team: Pick<TeamSchema, 'slug'> }) {
+export function ManagerNavbarInner({ team }: { team: Pick<TeamSchema, 'slug'> }) {
 	return (
 		<AnimatePresence initial={false}>
 			<motion.nav

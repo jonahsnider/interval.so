@@ -1,4 +1,4 @@
-import { TeamSettingsPageContainer } from '@/src/components/admin/settings/page-container';
+import { TeamSettingsPageContainer } from '@/src/components/manager/settings/page-container';
 import type { PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren<{

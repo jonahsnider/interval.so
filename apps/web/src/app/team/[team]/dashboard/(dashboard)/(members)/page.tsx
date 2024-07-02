@@ -1,5 +1,5 @@
-import { AdminDashboardPageWrapper } from '@/src/components/admin/dashboard/admin-dashboard-page-wrapper';
-import { searchParamCache } from '@/src/components/admin/dashboard/search-params';
+import { ManagerDashboardPageWrapper } from '@/src/components/manager/dashboard/manager-dashboard-page-wrapper';
+import { searchParamCache } from '@/src/components/manager/dashboard/search-params';
 
 type Props = {
 	params: {
@@ -9,8 +9,8 @@ type Props = {
 };
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export
-export default function AdminPageMembersTab({ params, searchParams }: Props) {
+export default function ManagerPageMembersTab({ params, searchParams }: Props) {
 	searchParamCache.parse(searchParams);
 
-	return <AdminDashboardPageWrapper team={{ slug: params.team }} graphTab='members' />;
+	return <ManagerDashboardPageWrapper team={{ slug: params.team }} graphTab='members' />;
 }

@@ -11,7 +11,7 @@ type Props = PropsWithChildren<{
 }>;
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export
-export default function AdminMembersPageLayout({ children, params }: Props) {
+export default function ManagerMembersPageLayout({ children, params }: Props) {
 	const team = { slug: params.team };
 
 	return (

@@ -1,6 +1,6 @@
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
-import { EndMeetingButton } from '../../admin/end-meeting-button/end-meeting-button';
+import { EndMeetingButton } from '../../manager/end-meeting-button/end-meeting-button';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;

@@ -36,7 +36,7 @@ type Props = PropsWithChildren<{
 	className?: string;
 }>;
 
-export async function NeedsAdminAuthScreen({ children, className }: Props) {
+export async function NeedsManagerAuthScreen({ children, className }: Props) {
 	noStore();
 
 	const { user } = await trpcServer.user.getSelf.query();

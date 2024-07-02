@@ -1,6 +1,6 @@
-import { MeetingsTable } from '@/src/components/admin/meetings/meetings-table/meetings-table';
-import { searchParamCache } from '@/src/components/admin/meetings/search-params';
-import { toTimeRange } from '@/src/components/admin/period-select/duration-slug';
+import { MeetingsTable } from '@/src/components/manager/meetings/meetings-table/meetings-table';
+import { searchParamCache } from '@/src/components/manager/meetings/search-params';
+import { toTimeRange } from '@/src/components/manager/period-select/duration-slug';
 import type { SearchParams } from 'nuqs/parsers';
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
 };
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export
-export default function AdminMeetingsPage({ params, searchParams }: Props) {
+export default function ManagerMeetingsPage({ params, searchParams }: Props) {
 	const parsedSearchParams = searchParamCache.parse(searchParams);
 	const { current: timeRange } = toTimeRange(parsedSearchParams);
 

@@ -10,7 +10,7 @@ type Props = {
 	graphTab: GraphTab;
 };
 
-export function AdminDashboardPageWrapper({ graphTab, team }: Props) {
+export function ManagerDashboardPageWrapper({ graphTab, team }: Props) {
 	const searchParams = searchParamCache.all();
 
 	const timeRange = toTimeRange(searchParams);

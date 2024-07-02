@@ -1,4 +1,4 @@
-import { AdminTiles } from '@/src/components/team-dashboard/admin-tiles/admin-tiles';
+import { ManagerTiles } from '@/src/components/team-dashboard/manager-tiles/manager-tiles';
 import { MembersTable } from '@/src/components/team-dashboard/members-table/members-table';
 import { trpcServer } from '@/src/trpc/trpc-server';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
@@ -10,11 +10,11 @@ type Props = {
 	};
 };
 
-async function AdminTilesWrapper({ team }: { team: Pick<TeamSchema, 'slug'> }) {
+async function ManagerTilesWrapper({ team }: { team: Pick<TeamSchema, 'slug'> }) {
 	const { user } = await trpcServer.user.getSelf.query();
 
 	if (user) {
-		return <AdminTiles team={team} />;
+		return <ManagerTiles team={team} />;
 	}
 
 	return undefined;
@@ -32,7 +32,7 @@ export default async function HomePage({ params }: Props) {
 			<div className='flex flex-col gap-4 justify-center items-center w-full pt-2'>
 				{/* No fallback, we don't want to render a skeleton if the user is not signed in */}
 				<Suspense>
-					<AdminTilesWrapper team={{ slug: params.team }} />
+					<ManagerTilesWrapper team={{ slug: params.team }} />
 				</Suspense>
 				<MembersTable members={initialMembers} team={team} />
 			</div>

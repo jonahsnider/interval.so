@@ -2,11 +2,11 @@
 
 import { useContext } from 'react';
 import { PeriodSelect } from '../period-select/period-select';
-import { AdminDashboardContext } from './admin-dashboard-context';
+import { ManagerDashboardContext } from './manager-dashboard-context';
 
-export function AdminDashboardPeriodSelect() {
+export function ManagerDashboardPeriodSelect() {
 	const { duration, setDatesAndClearDuration, setDurationAndClearDates, start, end } =
-		useContext(AdminDashboardContext);
+		useContext(ManagerDashboardContext);
 
 	return (
 		<PeriodSelect

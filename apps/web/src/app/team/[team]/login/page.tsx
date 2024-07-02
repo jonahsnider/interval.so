@@ -42,7 +42,7 @@ export default async function TeamLoginPage({ params }: Props) {
 					<div className='flex justify-start'>
 						<Button asChild={true} variant='link'>
 							<Link href='/login' className='flex items-center gap-2'>
-								Are you a team admin? Login here <ArrowRightIcon className='h-4 w-4' />
+								Are you a team manager? Login here <ArrowRightIcon className='h-4 w-4' />
 							</Link>
 						</Button>
 					</div>

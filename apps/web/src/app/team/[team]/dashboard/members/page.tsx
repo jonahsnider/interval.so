@@ -1,4 +1,4 @@
-import { MembersTable } from '@/src/components/admin/members/members-table/members-table';
+import { MembersTable } from '@/src/components/manager/members/members-table/members-table';
 
 type Props = {
 	params: {
@@ -7,7 +7,7 @@ type Props = {
 };
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export
-export default function AdminMembersPage({ params }: Props) {
+export default function ManagerMembersPage({ params }: Props) {
 	const team = { slug: params.team };
 
 	return (

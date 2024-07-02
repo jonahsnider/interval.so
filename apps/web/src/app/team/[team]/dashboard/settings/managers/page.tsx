@@ -1,5 +1,5 @@
-import { ManagerInviteLinkCard } from '@/src/components/admin/settings/managers/manager-invite-link-card';
-import { ManagersTableCard } from '@/src/components/admin/settings/managers/managers-table-card';
+import { ManagerInviteLinkCard } from '@/src/components/manager/settings/managers/manager-invite-link-card';
+import { ManagersTableCard } from '@/src/components/manager/settings/managers/managers-table-card';
 
 type Props = {
 	params: {

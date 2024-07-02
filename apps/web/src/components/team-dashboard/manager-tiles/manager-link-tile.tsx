@@ -7,13 +7,13 @@ type Props = {
 	team: Pick<TeamSchema, 'slug'>;
 };
 
-export function AdminLinkTile({ team }: Props) {
+export function ManagerLinkTile({ team }: Props) {
 	return (
 		<Link href={`/team/${encodeURIComponent(team.slug)}/dashboard`} className='h-full w-full'>
 			<Card className='transition-colors relative h-full flex flex-col justify-between hover:bg-muted'>
 				<CardHeader>
 					<div className='flex items-center justify-between'>
-						<CardTitle>Admin dashboard</CardTitle>
+						<CardTitle>Manager dashboard</CardTitle>
 						<ArrowRightIcon className='h-6 w-6 text-muted-foreground sm:hidden' />
 					</div>
 					<CardDescription>View historical data, manage members, and more</CardDescription>

@@ -15,13 +15,13 @@ type ContextValue = {
 	setDatesAndClearDuration: SelectRangeEventHandler;
 };
 
-export const AdminDashboardContext = createContext<ContextValue>({
+export const ManagerDashboardContext = createContext<ContextValue>({
 	duration: DurationSlug.Last7Days,
 	setDatesAndClearDuration: () => {},
 	setDurationAndClearDates: () => {},
 });
 
-export function AdminDashboardProvider({ children }: PropsWithChildren) {
+export function ManagerDashboardProvider({ children }: PropsWithChildren) {
 	const [{ duration, end, start }, setQuery] = useQueryStates(searchParamParsers, {
 		// Data is rendered based off the query parameters, so we need to send those changes to the server
 		shallow: false,
@@ -52,5 +52,5 @@ export function AdminDashboardProvider({ children }: PropsWithChildren) {
 		[duration, start, end, setDurationAndClearDates, setDatesAndClearDuration],
 	);
 
-	return <AdminDashboardContext.Provider value={contextValue}>{children}</AdminDashboardContext.Provider>;
+	return <ManagerDashboardContext.Provider value={contextValue}>{children}</ManagerDashboardContext.Provider>;
 }

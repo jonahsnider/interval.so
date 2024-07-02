@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import clsx from 'clsx';
-
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import { Link } from 'next-view-transitions';
 import type { PropsWithChildren } from 'react';
