@@ -26,10 +26,14 @@ export class AuthorizationService {
 	) {}
 
 	async hasRoles(
-		actor: BouncerUser,
+		actor: BouncerUser | undefined,
 		team: Pick<TeamSchema, 'slug'> | Pick<TeamSchema, 'id'>,
 		roles: TeamRole[],
 	): Promise<boolean> {
+		if (!actor) {
+			return false;
+		}
+
 		if (actor.id === undefined) {
 			// No team user, so we can only check the guest token
 
@@ -52,10 +56,14 @@ export class AuthorizationService {
 
 	/** Given an actor, an array of team members, and an array of roles, return whether all the members are in the team, and the actor has one of the roles. */
 	async hasRolesByTeamMembers(
-		actor: BouncerUser,
+		actor: BouncerUser | undefined,
 		teamMembers: Pick<TeamMemberSchema, 'id'>[],
 		roles: TeamRole[],
 	): Promise<boolean> {
+		if (!actor) {
+			return false;
+		}
+
 		// First, we get all the teams for the team member IDs (or null, if the member ID doesn't exist)
 		// If any of the teams are null, throw an error or return false or something
 		// Then, we check if the actor has the correct roles for the team associated with those members
