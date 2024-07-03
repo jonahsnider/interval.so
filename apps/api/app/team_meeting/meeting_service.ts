@@ -153,4 +153,17 @@ export class TeamMeetingService {
 			.delete(Schema.finishedMemberMeetings)
 			.where(inArray(Schema.finishedMemberMeetings.id, meetingsToDeleteSubquery));
 	}
+
+	async getCurrentMeetingStart(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>): Promise<Date | undefined> {
+		await AuthorizationService.assertPermission(bouncer.with('MeetingPolicy').allows('viewList', team));
+
+		const [result] = await db
+			.select({
+				startedAt: min(Schema.teamMembers.pendingSignIn),
+			})
+			.from(Schema.teamMembers)
+			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)));
+
+		return result?.startedAt ?? undefined;
+	}
 }

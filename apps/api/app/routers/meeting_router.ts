@@ -20,6 +20,14 @@ export class MeetingRouter {
 				.query(({ ctx, input }) => {
 					return this.meetingService.getMeetings(ctx.context.bouncer, input.team, input.timeRange);
 				}),
+			getCurrentMeetingStart: authedProcedure
+				.input(TeamSchema.pick({ slug: true }).strict())
+				.output(z.object({ startedAt: TeamMeetingSchema.shape.startedAt.optional() }))
+				.query(async ({ ctx, input }) => {
+					const startedAt = await this.meetingService.getCurrentMeetingStart(ctx.context.bouncer, input);
+					return { startedAt };
+				}),
+
 			deleteOngoingMeeting: authedProcedure
 				.input(z.object({ team: TeamSchema.pick({ slug: true }) }).strict())
 				.output(z.void())
