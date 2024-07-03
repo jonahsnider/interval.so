@@ -11,7 +11,7 @@ import { MultiSubscriptionManager } from '../../redis/multi_subscription_manager
 import type { TeamSchema } from '../../team/schemas/team_schema.js';
 import { TeamService } from '../../team/team_service.js';
 import type { TeamMemberSchema } from '../schemas/team_member_schema.js';
-import type { RedisEvent } from './schemas/redis_event_schema.js';
+import type { MemberRedisEvent } from './schemas/redis_event_schema.js';
 
 @inject()
 @injectHelper(TeamService)
@@ -20,13 +20,13 @@ export class TeamMemberEventsService {
 		return `team/${team.id}/members`;
 	}
 
-	private static async announceEventRaw(team: Pick<TeamSchema, 'id'>, event: RedisEvent): Promise<void> {
+	private static async announceEventRaw(team: Pick<TeamSchema, 'id'>, event: MemberRedisEvent): Promise<void> {
 		await redis.publish(TeamMemberEventsService.getRedisChannel(team), event);
 	}
 
 	private static async announceEventByMembers(
 		members: Pick<TeamMemberSchema, 'id'>[],
-		event: RedisEvent,
+		event: MemberRedisEvent,
 	): Promise<void> {
 		if (members.length === 0) {
 			return;
@@ -50,12 +50,14 @@ export class TeamMemberEventsService {
 
 	constructor(private readonly teamService: TeamService) {}
 
-	async subscribeForTeam(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>): Promise<Observable<RedisEvent>> {
+	async subscribeForTeam(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>): Promise<Observable<MemberRedisEvent>> {
 		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('viewSimpleMemberList', team));
 
 		const teamWithId = await this.teamService.getTeamBySlug(team);
 
-		return MultiSubscriptionManager.subscribe<RedisEvent>(TeamMemberEventsService.getRedisChannel(teamWithId)).pipe(
+		return MultiSubscriptionManager.subscribe<MemberRedisEvent>(
+			TeamMemberEventsService.getRedisChannel(teamWithId),
+		).pipe(
 			mergeMap((message) =>
 				// Ensure that they still have access to this data
 				from(
@@ -71,7 +73,7 @@ export class TeamMemberEventsService {
 
 	private async announceEventByTeam(
 		team: Pick<TeamSchema, 'id'> | Pick<TeamSchema, 'slug'>,
-		event: RedisEvent,
+		event: MemberRedisEvent,
 	): Promise<void> {
 		if ('id' in team) {
 			return TeamMemberEventsService.announceEventRaw(team, event);
@@ -86,11 +88,11 @@ export class TeamMemberEventsService {
 		return TeamMemberEventsService.announceEventRaw(teamWithId, event);
 	}
 
-	announceEvent(members: Pick<TeamMemberSchema, 'id'>[], event: RedisEvent): Promise<void>;
-	announceEvent(team: Pick<TeamSchema, 'id'> | Pick<TeamSchema, 'slug'>, event: RedisEvent): Promise<void>;
+	announceEvent(members: Pick<TeamMemberSchema, 'id'>[], event: MemberRedisEvent): Promise<void>;
+	announceEvent(team: Pick<TeamSchema, 'id'> | Pick<TeamSchema, 'slug'>, event: MemberRedisEvent): Promise<void>;
 	announceEvent(
 		teamOrMembers: Pick<TeamSchema, 'id'> | Pick<TeamSchema, 'slug'> | Pick<TeamMemberSchema, 'id'>[],
-		event: RedisEvent,
+		event: MemberRedisEvent,
 	): Promise<void> {
 		if (Array.isArray(teamOrMembers)) {
 			return TeamMemberEventsService.announceEventByMembers(teamOrMembers, event);

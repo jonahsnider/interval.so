@@ -10,7 +10,7 @@ import { injectHelper } from '../../util/inject_helper.js';
 import { AuthorizationService } from '../authorization/authorization_service.js';
 import { db } from '../db/db_service.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
-import { RedisEvent } from './events/schemas/redis_event_schema.js';
+import { MemberRedisEvent } from './events/schemas/redis_event_schema.js';
 import { TeamMemberEventsService } from './events/team_member_events_service.js';
 import type { SimpleTeamMemberSchema, TeamMemberSchema } from './schemas/team_member_schema.js';
 
@@ -159,7 +159,7 @@ export class TeamMemberService {
 			throw error;
 		}
 
-		await this.eventsService.announceEvent(team, RedisEvent.MemberCreated);
+		await this.eventsService.announceEvent(team, MemberRedisEvent.MemberCreated);
 	}
 
 	async updateAttendance(
@@ -201,7 +201,7 @@ export class TeamMemberService {
 				),
 			);
 
-		await this.eventsService.announceEvent([teamMember], RedisEvent.MemberAttendanceUpdated);
+		await this.eventsService.announceEvent([teamMember], MemberRedisEvent.MemberAttendanceUpdated);
 	}
 
 	private async signOut(teamMember: Pick<TeamMemberSchema, 'id'>): Promise<void> {
@@ -229,7 +229,7 @@ export class TeamMemberService {
 				.where(and(eq(Schema.teamMembers.id, teamMember.id), eq(Schema.teamMembers.archived, false)));
 		});
 
-		await this.eventsService.announceEvent([teamMember], RedisEvent.MemberAttendanceUpdated);
+		await this.eventsService.announceEvent([teamMember], MemberRedisEvent.MemberAttendanceUpdated);
 	}
 
 	async signOutAll(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>, endTime: Date): Promise<void> {
@@ -282,7 +282,7 @@ export class TeamMemberService {
 			await tx.update(Schema.teamMembers).set({ pendingSignIn: null });
 		});
 
-		await this.eventsService.announceEvent(team, RedisEvent.MemberAttendanceUpdated);
+		await this.eventsService.announceEvent(team, MemberRedisEvent.MemberAttendanceUpdated);
 	}
 
 	async setArchived(bouncer: AppBouncer, member: Pick<TeamMemberSchema, 'id' | 'archived'>): Promise<void> {
@@ -309,7 +309,7 @@ export class TeamMemberService {
 			.set({ archived: member.archived, pendingSignIn: null })
 			.where(eq(Schema.teamMembers.id, member.id));
 
-		await this.eventsService.announceEvent([member], RedisEvent.MemberUpdated);
+		await this.eventsService.announceEvent([member], MemberRedisEvent.MemberUpdated);
 	}
 
 	async delete(bouncer: AppBouncer, member: Pick<TeamMemberSchema, 'id'>): Promise<void> {
@@ -322,7 +322,7 @@ export class TeamMemberService {
 			await tx.delete(Schema.teamMembers).where(eq(Schema.teamMembers.id, member.id));
 		});
 
-		await this.eventsService.announceEvent([member], RedisEvent.MemberDeleted);
+		await this.eventsService.announceEvent([member], MemberRedisEvent.MemberDeleted);
 	}
 
 	async deleteMany(bouncer: AppBouncer, members: Pick<TeamMemberSchema, 'id'>[]) {
@@ -337,7 +337,7 @@ export class TeamMemberService {
 			await tx.delete(Schema.teamMembers).where(inArray(Schema.teamMembers.id, memberIds));
 		});
 
-		await this.eventsService.announceEvent(members, RedisEvent.MemberDeleted);
+		await this.eventsService.announceEvent(members, MemberRedisEvent.MemberDeleted);
 	}
 
 	async setArchivedMany(
@@ -370,7 +370,7 @@ export class TeamMemberService {
 			.set({ archived: data.archived, pendingSignIn: null })
 			.where(inArray(Schema.teamMembers.id, memberIds));
 
-		await this.eventsService.announceEvent(members, RedisEvent.MemberUpdated);
+		await this.eventsService.announceEvent(members, MemberRedisEvent.MemberUpdated);
 	}
 
 	async updateAttendanceMany(
@@ -405,7 +405,7 @@ export class TeamMemberService {
 				),
 			);
 
-		await this.eventsService.announceEvent(members, RedisEvent.MemberAttendanceUpdated);
+		await this.eventsService.announceEvent(members, MemberRedisEvent.MemberAttendanceUpdated);
 	}
 
 	private async signOutMany(members: Pick<TeamMemberSchema, 'id'>[], endTime: Date): Promise<void> {
@@ -448,6 +448,6 @@ export class TeamMemberService {
 			await tx.update(Schema.teamMembers).set({ pendingSignIn: null }).where(inArray(Schema.teamMembers.id, memberIds));
 		});
 
-		await this.eventsService.announceEvent(members, RedisEvent.MemberAttendanceUpdated);
+		await this.eventsService.announceEvent(members, MemberRedisEvent.MemberAttendanceUpdated);
 	}
 }
