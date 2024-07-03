@@ -315,18 +315,26 @@ export class TeamMemberService {
 	async delete(bouncer: AppBouncer, member: Pick<TeamMemberSchema, 'id'>): Promise<void> {
 		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('delete', [member]));
 
+		let team: Pick<TeamSchema, 'id'> | undefined;
+
 		await db.transaction(async (tx) => {
 			// Delete meetings
 			await tx.delete(Schema.finishedMemberMeetings).where(eq(Schema.finishedMemberMeetings.memberId, member.id));
 			// Delete member
-			await tx.delete(Schema.teamMembers).where(eq(Schema.teamMembers.id, member.id));
+			[team] = await tx.delete(Schema.teamMembers).where(eq(Schema.teamMembers.id, member.id)).returning({
+				id: Schema.teamMembers.teamId,
+			});
 		});
 
-		await this.eventsService.announceEvent([member], MemberRedisEvent.MemberDeleted);
+		if (team) {
+			await this.eventsService.announceEvent(team, MemberRedisEvent.MemberDeleted);
+		}
 	}
 
 	async deleteMany(bouncer: AppBouncer, members: Pick<TeamMemberSchema, 'id'>[]) {
 		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('delete', members));
+
+		let teams: Pick<TeamSchema, 'id'>[] = [];
 
 		await db.transaction(async (tx) => {
 			const memberIds = members.map((member) => member.id);
@@ -334,10 +342,18 @@ export class TeamMemberService {
 			// Delete meetings
 			await tx.delete(Schema.finishedMemberMeetings).where(inArray(Schema.finishedMemberMeetings.memberId, memberIds));
 			// Delete member
-			await tx.delete(Schema.teamMembers).where(inArray(Schema.teamMembers.id, memberIds));
+			teams = await tx.delete(Schema.teamMembers).where(inArray(Schema.teamMembers.id, memberIds)).returning({
+				id: Schema.teamMembers.teamId,
+			});
 		});
 
-		await this.eventsService.announceEvent(members, MemberRedisEvent.MemberDeleted);
+		const teamIds = new Set(teams.map((team) => team.id));
+
+		await Promise.all(
+			Array.from(teamIds).map((teamId) =>
+				this.eventsService.announceEvent({ id: teamId }, MemberRedisEvent.MemberDeleted),
+			),
+		);
 	}
 
 	async setArchivedMany(

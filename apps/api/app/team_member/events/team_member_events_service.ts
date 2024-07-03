@@ -1,4 +1,5 @@
 import { inject } from '@adonisjs/core';
+import logger from '@adonisjs/core/services/logger';
 import redis from '@adonisjs/redis/services/main';
 import { inArray } from 'drizzle-orm';
 import { type Observable, from, map, mergeMap } from 'rxjs';
@@ -44,6 +45,19 @@ export class TeamMemberEventsService {
 				),
 			)
 			.groupBy(Schema.teamMembers.teamId);
+
+		if (teams.length === 0) {
+			logger.warn(
+				'Tried to announce a team member event by members, but no teams could be found from the members. Were the members deleted? - %o',
+				{
+					members,
+					teams,
+					event,
+				},
+			);
+
+			return;
+		}
 
 		await Promise.all(teams.map((team) => TeamMemberEventsService.announceEventRaw(team, event)));
 	}
