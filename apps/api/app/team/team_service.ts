@@ -74,6 +74,16 @@ export class TeamService {
 		return result.displayName;
 	}
 
+	async setDisplayName(
+		bouncer: AppBouncer,
+		team: Pick<TeamSchema, 'slug'>,
+		data: Pick<TeamSchema, 'displayName'>,
+	): Promise<void> {
+		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('updateSettings', team));
+
+		await db.update(Schema.teams).set(data).where(eq(Schema.teams.slug, team.slug));
+	}
+
 	async getTeamBySlug(team: Pick<TeamSchema, 'slug'>): Promise<Pick<TeamSchema, 'id'>> {
 		const result = await db.query.teams.findFirst({
 			where: eq(Schema.teams.slug, team.slug),

@@ -60,6 +60,17 @@ export class TeamRouter {
 				.query(({ input }) => {
 					return this.teamService.getDisplayName(input);
 				}),
+			setDisplayName: authedProcedure
+				.input(
+					z.object({
+						team: TeamSchema.pick({ slug: true }),
+						data: TeamSchema.pick({ displayName: true }),
+					}),
+				)
+				.output(z.void())
+				.mutation(({ input, ctx }) => {
+					return this.teamService.setDisplayName(ctx.context.bouncer, input.team, input.data);
+				}),
 
 			delete: authedProcedure
 				.input(TeamSchema.pick({ slug: true }))

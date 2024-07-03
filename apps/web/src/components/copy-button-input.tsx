@@ -7,6 +7,7 @@ import { CheckIcon, ClipboardIcon } from '@heroicons/react/16/solid';
 import clsx from 'clsx';
 import { AnimatePresence, type Variants, motion } from 'framer-motion';
 import { useState } from 'react';
+import { ReadonlyTextField } from './readonly-text-field';
 
 type Props = {
 	value: string;
@@ -31,16 +32,7 @@ export function CopyButtonInput({ value, copyValue = value, editable = true, onC
 	return (
 		<div className={clsx('flex shadow-sm rounded-md w-full', className)}>
 			{editable && <Input className={sharedStyles} value={value} onChange={(e) => onChange?.(e.target.value)} />}
-			{!editable && (
-				<span
-					className={clsx(
-						'flex h-9 overflow-y-auto [scrollbar-width:none] items-center justify-start rounded-md border border-input px-3 py-1 text-sm transition-colors bg-muted/40',
-						sharedStyles,
-					)}
-				>
-					{value}
-				</span>
-			)}
+			{!editable && <ReadonlyTextField className={sharedStyles}>{value}</ReadonlyTextField>}
 
 			<CopyButton value={copyValue} />
 		</div>

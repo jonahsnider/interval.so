@@ -1,6 +1,6 @@
 import { DeleteTeamCard } from '@/src/components/manager/settings/general/delete-team-card/delete-team-card.server';
 import { LeaveTeamCard } from '@/src/components/manager/settings/general/leave-team-card/leave-team-card.server';
-import { TeamDisplayNameCard } from '@/src/components/manager/settings/general/team-display-name';
+import { TeamDisplayNameCard } from '@/src/components/manager/settings/general/team-display-name-card/team-display-name-card.server';
 import { TeamPasswordCard } from '@/src/components/manager/settings/general/team-password-card/team-password-card.server';
 import { TeamUrlCard } from '@/src/components/manager/settings/general/team-url-card';
 
@@ -18,7 +18,7 @@ export default function TeamSettingsGeneralPage({ params }: Props) {
 		<div className='flex flex-col gap-4'>
 			<TeamPasswordCard team={team} />
 
-			<TeamDisplayNameCard />
+			<TeamDisplayNameCard team={team} />
 
 			<TeamUrlCard />
 
