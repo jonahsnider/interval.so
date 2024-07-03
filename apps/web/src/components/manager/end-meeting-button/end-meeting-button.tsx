@@ -14,6 +14,7 @@ export function EndMeetingButton({ width, team }: Props) {
 	const enabled = trpcServer.teams.members.simpleMemberList
 		.query({ slug: team.slug })
 		.then((members) => members.some((member) => member.atMeeting));
+	const meetingStart = trpcServer.teams.meetings.getCurrentMeetingStart.query(team);
 
 	return (
 		<Suspense
@@ -26,7 +27,7 @@ export function EndMeetingButton({ width, team }: Props) {
 				/>
 			}
 		>
-			<EndMeetingButtonClient width={width} enabledPromise={enabled} team={team} />
+			<EndMeetingButtonClient width={width} enabledPromise={enabled} team={team} meetingStartPromise={meetingStart} />
 		</Suspense>
 	);
 }

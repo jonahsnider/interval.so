@@ -25,9 +25,12 @@ type Props = PropsWithChildren<{
 	team: Pick<TeamSchema, 'slug'>;
 	open?: boolean;
 	onOpenChange?: (open: boolean) => void;
+	meetingStart: Date | undefined;
 }>;
 
-export function EndMeetingAlert({ team, open, onOpenChange, children }: Props) {
+// TODO: Refactor to use a regular dialog and not an alert
+
+export function EndMeetingAlert({ team, open, onOpenChange, children, meetingStart }: Props) {
 	const [date, setDate] = useState<Date | undefined>(new Date());
 
 	const onOpenChangeCombined = (open: boolean) => {
@@ -42,7 +45,7 @@ export function EndMeetingAlert({ team, open, onOpenChange, children }: Props) {
 	return (
 		<AlertDialog open={open} onOpenChange={onOpenChangeCombined}>
 			{children}
-			<EndMeetingAlertContent setDate={setDate} team={team} date={date} />
+			<EndMeetingAlertContent setDate={setDate} team={team} date={date} meetingStart={meetingStart} />
 		</AlertDialog>
 	);
 }
@@ -55,10 +58,12 @@ function EndMeetingAlertContent({
 	setDate,
 	team,
 	date,
+	meetingStart,
 }: {
 	date?: Date;
 	setDate: (date: Date | undefined) => void;
 	team: Pick<TeamSchema, 'slug'>;
+	meetingStart: Date | undefined;
 }) {
 	return (
 		<AlertDialogContent className='max-w-min'>
@@ -69,7 +74,7 @@ function EndMeetingAlertContent({
 				</AlertDialogDescription>
 
 				<div>
-					<DateTimePicker onSelect={setDate} value={date} />
+					<DateTimePicker onSelect={setDate} value={date} fromDate={meetingStart} />
 				</div>
 			</AlertDialogHeader>
 

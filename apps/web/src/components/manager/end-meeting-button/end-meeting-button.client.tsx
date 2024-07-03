@@ -10,14 +10,20 @@ import { EndMeetingAlert, EndMeetingAlertTrigger } from '../end-meeting-alert';
 type Props = {
 	width?: 'full' | 'auto';
 	enabledPromise: Promise<boolean>;
+	meetingStartPromise: Promise<{ startedAt?: Date | undefined }>;
 	team: Pick<TeamSchema, 'slug'>;
 };
 
-export function EndMeetingButtonClient({ width = 'auto', team, enabledPromise }: Props) {
+export function EndMeetingButtonClient({ width = 'auto', team, enabledPromise, meetingStartPromise }: Props) {
 	const enabled = use(enabledPromise);
+	const { startedAt: meetingStart } = use(meetingStartPromise);
+
+	if (enabled && !meetingStart) {
+		throw new RangeError('Expected an in progress meeting to be defined');
+	}
 
 	return (
-		<EndMeetingAlert team={team}>
+		<EndMeetingAlert team={team} meetingStart={meetingStart}>
 			<Tooltip>
 				<TooltipTrigger asChild={true}>
 					{/* biome-ignore lint/a11y/noNoninteractiveTabindex: This is interactive */}

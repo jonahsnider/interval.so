@@ -14,9 +14,10 @@ type Props = {
 	onSelect: (value: Date | undefined) => void;
 	className?: string;
 	picker?: Omit<CalendarProps, 'mode' | 'onSelect' | 'selected'>;
+	fromDate?: Date;
 };
 
-export function DateTimePicker({ onSelect, value, className, picker }: Props) {
+export function DateTimePicker({ onSelect, value, className, picker, fromDate }: Props) {
 	const [textInput, setDateInput] = useState(value ? formatDate(value) : '');
 
 	const onCalendarSelection = (date?: Date) => {
@@ -56,6 +57,8 @@ export function DateTimePicker({ onSelect, value, className, picker }: Props) {
 							onSelect(date);
 						}}
 						className={cn('p-0', picker?.className)}
+						fromDate={fromDate}
+						toDate={new Date()}
 					/>
 				</div>
 				<Separator />
