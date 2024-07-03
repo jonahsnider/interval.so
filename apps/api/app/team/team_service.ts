@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { TRPCError } from '@trpc/server';
+import { cryptoRandomStringAsync } from 'crypto-random-string';
 import { and, count, eq } from 'drizzle-orm';
 import postgres from 'postgres';
 import * as Schema from '#database/schema';
@@ -142,8 +143,34 @@ export class TeamService {
 	async setPassword(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>, data: Pick<TeamSchema, 'password'>) {
 		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('updateSettings', team));
 
-		await db.transaction(async (tx) => {
-			await tx.update(Schema.teams).set(data).where(eq(Schema.teams.slug, team.slug));
+		await db.update(Schema.teams).set(data).where(eq(Schema.teams.slug, team.slug));
+	}
+
+	async getInviteCode(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>): Promise<Pick<TeamSchema, 'inviteCode'>> {
+		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewInviteUrl', team));
+
+		const result = await db.query.teams.findFirst({
+			columns: {
+				inviteCode: true,
+			},
+			where: eq(Schema.teams.slug, team.slug),
 		});
+
+		assert(result, new TRPCError({ code: 'NOT_FOUND', message: 'Team not found' }));
+
+		return result;
+	}
+
+	async resetInviteCode(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>): Promise<Pick<TeamSchema, 'inviteCode'>> {
+		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('resetInviteUrl', team));
+
+		const newCode = await cryptoRandomStringAsync({
+			length: 32,
+			type: 'alphanumeric',
+		});
+
+		await db.update(Schema.teams).set({ inviteCode: newCode }).where(eq(Schema.teams.slug, team.slug));
+
+		return { inviteCode: newCode };
 	}
 }

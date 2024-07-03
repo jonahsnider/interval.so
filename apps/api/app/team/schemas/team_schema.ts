@@ -17,5 +17,6 @@ export const TeamSchema = z.object({
 		.string()
 		.min(1, { message: "Team passwords can't be empty" })
 		.max(64, { message: "Team passwords can't be longer than 64 characters" }),
+	inviteCode: z.string(),
 });
 export type TeamSchema = z.infer<typeof TeamSchema>;

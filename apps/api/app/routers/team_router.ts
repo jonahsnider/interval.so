@@ -88,6 +88,20 @@ export class TeamRouter {
 				.mutation(({ input, ctx }) => {
 					return this.teamService.setPassword(ctx.context.bouncer, input.team, input.data);
 				}),
+
+			getInviteCode: authedProcedure
+				.input(TeamSchema.pick({ slug: true }))
+				.output(TeamSchema.pick({ inviteCode: true }))
+				.query(({ ctx, input }) => {
+					return this.teamService.getInviteCode(ctx.context.bouncer, input);
+				}),
+
+			resetInviteCode: authedProcedure
+				.input(TeamSchema.pick({ slug: true }))
+				.output(TeamSchema.pick({ inviteCode: true }))
+				.mutation(({ ctx, input }) => {
+					return this.teamService.resetInviteCode(ctx.context.bouncer, input);
+				}),
 		});
 	}
 }

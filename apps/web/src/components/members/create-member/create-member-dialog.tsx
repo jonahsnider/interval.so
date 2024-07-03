@@ -8,7 +8,7 @@ import { trpc } from '@/src/trpc/trpc-client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
-import { type PropsWithChildren, useState, useEffect } from 'react';
+import { type PropsWithChildren, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import type { z } from 'zod';
