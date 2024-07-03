@@ -49,6 +49,8 @@ async function getMeasure(
 	current: number;
 	trend?: number;
 }> {
+	// TODO: Find a way to make this realtime, probably less DRY since it's more trend specific
+
 	switch (tabId) {
 		case 'members': {
 			const [current, previous] = await Promise.all([

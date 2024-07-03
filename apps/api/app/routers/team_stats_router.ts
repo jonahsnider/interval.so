@@ -52,6 +52,18 @@ export class TeamStatsRouter {
 						);
 					}),
 
+				subscribeTimeSeries: authedProcedure
+					.input(z.object({ team: TeamSchema.pick({ slug: true }), timeRange: TimeRangeSchema }).strict())
+					.subscription(({ ctx, input }): Promise<Observable<UniqueMembersDatumSchema[], unknown>> => {
+						const timezone = this.userService.getTimezone(ctx.context);
+						return this.teamStatsSubscriptionsService.uniqueMembersTimeSeriesSubscribe(
+							ctx.context.bouncer,
+							input.team,
+							input.timeRange,
+							timezone,
+						);
+					}),
+
 				getSimple: authedProcedure
 					.input(z.object({ team: TeamSchema.pick({ slug: true }), timeRange: TimeRangeSchema }).strict())
 					.output(z.number().int().nonnegative())
@@ -67,6 +79,18 @@ export class TeamStatsRouter {
 					.query(({ ctx, input }) => {
 						const timezone = this.userService.getTimezone(ctx.context);
 						return this.teamStatsService.getAverageHoursTimeSeries(
+							ctx.context.bouncer,
+							input.team,
+							input.timeRange,
+							timezone,
+						);
+					}),
+
+				subscribeTimeSeries: authedProcedure
+					.input(z.object({ team: TeamSchema.pick({ slug: true }), timeRange: TimeRangeSchema }).strict())
+					.subscription(({ ctx, input }): Promise<Observable<AverageHoursDatumSchema[], unknown>> => {
+						const timezone = this.userService.getTimezone(ctx.context);
+						return this.teamStatsSubscriptionsService.averageHoursTimeSeriesSubscribe(
 							ctx.context.bouncer,
 							input.team,
 							input.timeRange,

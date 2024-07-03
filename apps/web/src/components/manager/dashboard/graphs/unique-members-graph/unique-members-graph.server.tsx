@@ -18,7 +18,13 @@ export function UniqueMembersGraph(props: Props) {
 
 	return (
 		<Suspense fallback={<div className='h-96' />}>
-			<UniqueMembersGraphClient dataPromise={dataPromise} period={period} maxMemberCountPromise={maxMemberCount} />
+			<UniqueMembersGraphClient
+				dataPromise={dataPromise}
+				period={period}
+				maxMemberCountPromise={maxMemberCount}
+				team={props.team}
+				timeRange={props.timeRange}
+			/>
 		</Suspense>
 	);
 }

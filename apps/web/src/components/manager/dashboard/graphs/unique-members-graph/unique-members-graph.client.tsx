@@ -9,10 +9,13 @@ import {
 	yAxisProps,
 } from '@/src/components/graphs/chart-props';
 import { CustomTooltip, formatTooltipDate } from '@/src/components/graphs/custom-tooltip';
+import { trpc } from '@/src/trpc/trpc-client';
+import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import { DatumPeriod } from '@hours.frc.sh/api/app/team_stats/schemas/datum_time_range_schema';
+import type { TimeRangeSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_range_schema';
 import type { UniqueMembersDatumSchema } from '@hours.frc.sh/api/app/team_stats/schemas/unique_members_datum_schema';
 import { max } from '@jonahsnider/util';
-import { use, useMemo } from 'react';
+import { use, useMemo, useState } from 'react';
 import {
 	Area,
 	AreaChart,
@@ -28,6 +31,8 @@ type Props = {
 	dataPromise: Promise<UniqueMembersDatumSchema[]>;
 	maxMemberCountPromise: Promise<number>;
 	period: DatumPeriod;
+	team: Pick<TeamSchema, 'slug'>;
+	timeRange: TimeRangeSchema;
 };
 
 type ChartDatum = {
@@ -78,8 +83,12 @@ function MembersTooltip({
 	);
 }
 
-export function UniqueMembersGraphClient({ dataPromise, period, maxMemberCountPromise }: Props) {
-	const data = use(dataPromise);
+export function UniqueMembersGraphClient({ dataPromise, period, maxMemberCountPromise, team, timeRange }: Props) {
+	const initialData = use(dataPromise);
+	const [data, setData] = useState(initialData);
+
+	trpc.teams.stats.uniqueMembers.subscribeTimeSeries.useSubscription({ team, timeRange }, { onData: setData });
+
 	const maxMemberCountHint = use(maxMemberCountPromise);
 	const maxMemberCount = Math.max(
 		maxMemberCountHint,

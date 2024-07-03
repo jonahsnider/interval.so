@@ -9,10 +9,13 @@ import {
 	yAxisProps,
 } from '@/src/components/graphs/chart-props';
 import { CustomTooltip, formatTooltipDate } from '@/src/components/graphs/custom-tooltip';
+import { trpc } from '@/src/trpc/trpc-client';
+import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import type { AverageHoursDatumSchema } from '@hours.frc.sh/api/app/team_stats/schemas/average_hours_datum_schema';
 import { DatumPeriod } from '@hours.frc.sh/api/app/team_stats/schemas/datum_time_range_schema';
+import type { TimeRangeSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_range_schema';
 import { toDigits } from '@jonahsnider/util';
-import { use, useMemo } from 'react';
+import { use, useMemo, useState } from 'react';
 import {
 	Area,
 	AreaChart,
@@ -25,6 +28,8 @@ import {
 } from 'recharts';
 
 type Props = {
+	team: Pick<TeamSchema, 'slug'>;
+	timeRange: TimeRangeSchema;
 	dataPromise: Promise<AverageHoursDatumSchema[]>;
 	period: DatumPeriod;
 };
@@ -78,8 +83,11 @@ function HoursTooltip({
 	);
 }
 
-export function AverageHoursGraphClient({ dataPromise, period }: Props) {
-	const data = use(dataPromise);
+export function AverageHoursGraphClient({ dataPromise, period, team, timeRange }: Props) {
+	const initialData = use(dataPromise);
+	const [data, setData] = useState(initialData);
+
+	trpc.teams.stats.averageHours.subscribeTimeSeries.useSubscription({ team, timeRange }, { onData: setData });
 
 	const chartData = useMemo(
 		() =>
