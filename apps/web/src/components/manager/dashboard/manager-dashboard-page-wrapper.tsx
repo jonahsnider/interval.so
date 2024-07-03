@@ -2,8 +2,8 @@ import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema'
 import { toTimeRange } from '../period-select/duration-slug';
 import { type GraphTab, GraphTabs } from './graphs/tabs/graph-tabs';
 import { searchParamCache } from './search-params';
-import { CombinedHoursTile } from './tiles/combined-hours-tile';
-import { LiveMemberCountTile } from './tiles/live-member-count-tile';
+import { CombinedHoursTile } from './tiles/combined-hours-tile/combined-hours-tile.server';
+import { LiveMemberCountTile } from './tiles/live-member-count-tile/live-member-count-tile.server';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;

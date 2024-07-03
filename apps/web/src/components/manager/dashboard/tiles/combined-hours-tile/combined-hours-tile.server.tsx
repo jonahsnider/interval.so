@@ -1,13 +1,12 @@
-import assert from 'node:assert/strict';
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { trpcServer } from '@/src/trpc/trpc-server';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import type { TimeRangeSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_range_schema';
-import clsx from 'clsx';
-import { type ReactNode, Suspense } from 'react';
+import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { type DurationSlug, durationLabelPreviousPeriod } from '../../period-select/duration-slug';
+import type { DurationSlug } from '../../../period-select/duration-slug';
+import { CombinedHoursTileClient } from './combined-hours-tile.client';
+import { CombinedHoursTileBase } from './combined-hours-tile.shared';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;
@@ -40,27 +39,16 @@ async function CombinedHoursTileFetcher({ team, currentTimeRange, previousTimeRa
 			: undefined,
 	]);
 
-	const currentFormatted = `${current.toFixed(1)} hours`;
-
-	if (current !== 0 && trend) {
-		const percentChange = Math.round((trend / current - 1) * 100);
-
-		assert(!Number.isNaN(percentChange));
-
-		return (
-			<CombinedHoursTileBase
-				trend={
-					<>
-						{percentChange >= 0 && '+'}
-						{percentChange}% from {durationLabelPreviousPeriod(durationSlug)?.toLowerCase()}
-					</>
-				}
-				value={currentFormatted}
-			/>
-		);
-	}
-
-	return <CombinedHoursTileBase value={currentFormatted} />;
+	return (
+		<CombinedHoursTileClient
+			team={team}
+			currentTimeRange={currentTimeRange}
+			durationSlug={durationSlug}
+			previousTimeRange={previousTimeRange}
+			initialCurrent={current}
+			initialTrend={trend}
+		/>
+	);
 }
 
 function CombinedHoursSkeleton({ previousTimeRange }: Pick<Props, 'previousTimeRange'>) {
@@ -69,23 +57,5 @@ function CombinedHoursSkeleton({ previousTimeRange }: Pick<Props, 'previousTimeR
 			trend={previousTimeRange && <Skeleton className='h-4 w-40' />}
 			value={<Skeleton className='h-10 w-full' />}
 		/>
-	);
-}
-
-function CombinedHoursTileBase({ trend, value }: { trend?: ReactNode; value: ReactNode }) {
-	return (
-		<Card>
-			<CardHeader className='pb-2'>
-				<CardDescription className='text-base'>Combined hours</CardDescription>
-				<CardTitle className='text-4xl'>{value}</CardTitle>
-			</CardHeader>
-			<CardFooter
-				className={clsx('text-xs text-muted-foreground', {
-					invisible: !trend,
-				})}
-			>
-				{trend}
-			</CardFooter>
-		</Card>
 	);
 }
