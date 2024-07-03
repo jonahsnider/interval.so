@@ -45,16 +45,15 @@ export function AttendanceTable({ initialData, team }: Props) {
 
 	const trimmedFilter = filter.trim();
 
-	const filteredMembers: ReadonlySet<SimpleMember> = useMemo(() => {
+	const filteredMembers = useMemo(() => {
 		if (trimmedFilter === '') {
-			return new Set(members);
+			return members;
 		}
 
-		// TODO: This does not sort the results by relevance
-		return new Set(fuse.search(trimmedFilter).map((result) => result.item));
+		return fuse.search(trimmedFilter).map((result) => result.item);
 	}, [trimmedFilter, fuse, members]);
 
-	const noResults = filteredMembers.size === 0;
+	const noResults = filteredMembers.length === 0;
 
 	return (
 		<Card className='w-full md:max-w-xl'>
@@ -94,11 +93,22 @@ export function AttendanceTable({ initialData, team }: Props) {
 		</Card>
 	);
 }
-function InnerTable({
-	filteredMembers,
-	members,
-}: { filteredMembers: ReadonlySet<SimpleMember>; members: SimpleMember[] }) {
-	const indexOfLastVisibleMember = members.findLastIndex((member) => filteredMembers.has(member));
+function InnerTable({ filteredMembers, members }: { filteredMembers: SimpleMember[]; members: SimpleMember[] }) {
+	const visibleMembers = useMemo(() => new Set(filteredMembers), [filteredMembers]);
+	const sortedMembers = useMemo(
+		() =>
+			members.toSorted((a, b) => {
+				const aIndex = visibleMembers.has(a) ? filteredMembers.indexOf(a) : 1;
+				const bIndex = visibleMembers.has(b) ? filteredMembers.indexOf(b) : 1;
+
+				return aIndex - bIndex;
+			}),
+		[members, filteredMembers.indexOf, visibleMembers],
+	);
+	const indexOfLastVisibleMember = useMemo(
+		() => sortedMembers.findLastIndex((member) => visibleMembers.has(member)),
+		[sortedMembers, visibleMembers],
+	);
 
 	return (
 		<MotionTable initial='hidden' animate='visible' exit='hidden' variants={motionVariants} className='overflow-hidden'>
@@ -109,10 +119,10 @@ function InnerTable({
 				</TableRow>
 			</TableHeader>
 			<TableBody>
-				{members.map((member, index) => (
+				{sortedMembers.map((member, index) => (
 					<InnerTableRow
 						key={member.name}
-						visible={filteredMembers.has(member)}
+						visible={visibleMembers.has(member)}
 						member={member}
 						className={clsx({
 							// Need to use JS for this because the CSS selector in TableBody doesn't factor in how rows are hidden
