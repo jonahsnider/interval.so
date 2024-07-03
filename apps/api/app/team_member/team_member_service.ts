@@ -266,6 +266,10 @@ export class TeamMemberService {
 					const { pendingSignIn } = member;
 
 					assert(pendingSignIn, new TypeError('Expected pending sign in to be defined'));
+					assert(
+						pendingSignIn.getTime() <= endTime.getTime(),
+						new TRPCError({ code: 'UNPROCESSABLE_CONTENT', message: 'Cannot end meeting before it starts' }),
+					);
 
 					return {
 						memberId: member.id,
