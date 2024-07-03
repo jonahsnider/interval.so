@@ -1,14 +1,22 @@
 import assert from 'node:assert/strict';
+import { inject } from '@adonisjs/core';
 import { and, countDistinct, eq, gt, gte, inArray, isNotNull, lt, lte, max, min, sql } from 'drizzle-orm';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
+import { injectHelper } from '../../util/inject_helper.js';
 import { AuthorizationService } from '../authorization/authorization_service.js';
 import { db } from '../db/db_service.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
+import { MemberRedisEvent } from '../team_member/events/schemas/redis_event_schema.js';
+import { TeamMemberEventsService } from '../team_member/events/team_member_events_service.js';
 import type { TimeRangeSchema } from '../team_stats/schemas/time_range_schema.js';
 import type { TeamMeetingSchema } from './schemas/team_meeting_schema.js';
 
+@inject()
+@injectHelper(TeamMemberEventsService)
 export class TeamMeetingService {
+	constructor(private readonly teamMemberEventsService: TeamMemberEventsService) {}
+
 	async getMeetings(
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
@@ -122,6 +130,8 @@ export class TeamMeetingService {
 
 		// Ongoing meeting, delete the pending sign in times
 		await db.update(Schema.teamMembers).set({ pendingSignIn: null }).where(eq(Schema.teamMembers.id, teamBySlug.id));
+
+		await this.teamMemberEventsService.announceEvent(team, MemberRedisEvent.MemberAttendanceUpdated);
 	}
 
 	async deleteFinishedMeeting(
@@ -152,6 +162,8 @@ export class TeamMeetingService {
 			.with(meetingsToDelete)
 			.delete(Schema.finishedMemberMeetings)
 			.where(inArray(Schema.finishedMemberMeetings.id, meetingsToDeleteSubquery));
+
+		await this.teamMemberEventsService.announceEvent(team, MemberRedisEvent.MemberAttendanceUpdated);
 	}
 
 	async getCurrentMeetingStart(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>): Promise<Date | undefined> {
