@@ -1,12 +1,13 @@
 import { inject } from '@adonisjs/core';
 import redis from '@adonisjs/redis/services/main';
-import { observable } from '@trpc/server/observable';
 import { inArray } from 'drizzle-orm';
+import { type Observable, from, map, mergeMap } from 'rxjs';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { injectHelper } from '../../../util/inject_helper.js';
 import { AuthorizationService } from '../../authorization/authorization_service.js';
 import { db } from '../../db/db_service.js';
+import { MultiSubscriptionManager } from '../../redis/multi_subscription_manager.js';
 import type { TeamSchema } from '../../team/schemas/team_schema.js';
 import { TeamService } from '../../team/team_service.js';
 import type { TeamMemberSchema } from '../schemas/team_member_schema.js';
@@ -47,32 +48,26 @@ export class TeamMemberEventsService {
 		await Promise.all(teams.map((team) => TeamMemberEventsService.announceEventRaw(team, event)));
 	}
 
-	async subscribeForTeam(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>) {
+	constructor(private readonly teamService: TeamService) {}
+
+	async subscribeForTeam(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>): Promise<Observable<RedisEvent>> {
 		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('viewSimpleMemberList', team));
 
 		const teamWithId = await this.teamService.getTeamBySlug(team);
 
-		return observable<RedisEvent>((observer) => {
-			const onMessage = (message: RedisEvent) => {
-				observer.next(message);
-			};
-
-			redis.subscribe(TeamMemberEventsService.getRedisChannel(teamWithId), async (message) => {
-				// Ensure they still have access to this data
-				await AuthorizationService.assertPermission(
-					bouncer.with('TeamMemberPolicy').allows('viewSimpleMemberList', team),
-				);
-
-				onMessage(message as RedisEvent);
-			});
-
-			return () => {
-				redis.unsubscribe(TeamMemberEventsService.getRedisChannel(teamWithId));
-			};
-		});
+		return MultiSubscriptionManager.subscribe<RedisEvent>(TeamMemberEventsService.getRedisChannel(teamWithId)).pipe(
+			mergeMap((message) =>
+				// Ensure that they still have access to this data
+				from(
+					AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('viewSimpleMemberList', team)),
+				).pipe(
+					map((_) => {
+						return message;
+					}),
+				),
+			),
+		);
 	}
-
-	constructor(private readonly teamService: TeamService) {}
 
 	private async announceEventByTeam(
 		team: Pick<TeamSchema, 'id'> | Pick<TeamSchema, 'slug'>,

@@ -34,7 +34,7 @@ export default async function HomePage({ params }: Props) {
 				<Suspense>
 					<ManagerTilesWrapper team={{ slug: params.team }} />
 				</Suspense>
-				<MembersTable members={initialMembers} team={team} />
+				<MembersTable initialData={initialMembers} team={team} />
 			</div>
 		</div>
 	);

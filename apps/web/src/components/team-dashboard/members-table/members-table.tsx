@@ -26,12 +26,17 @@ const motionVariants: Variants = {
 type SimpleMember = Pick<TeamMemberSchema, 'id' | 'name' | 'atMeeting'>;
 
 type Props = {
-	members: SimpleMember[];
+	initialData: SimpleMember[];
 	team: Pick<TeamSchema, 'slug'>;
 };
 
-// TODO: Refactor so that this does its own data fetching
-export function MembersTable({ members, team }: Props) {
+export function MembersTable({ initialData, team }: Props) {
+	const [members, setMembers] = useState(initialData);
+
+	trpc.teams.members.simpleMemberListSubscription.useSubscription(team, {
+		onData: setMembers,
+	});
+
 	const fuse = useMemo(() => new Fuse(members, { keys: ['name'] }), [members]);
 	const [filter, setFilter] = useState('');
 

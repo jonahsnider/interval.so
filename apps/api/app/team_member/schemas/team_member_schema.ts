@@ -12,3 +12,6 @@ export const TeamMemberSchema = z.object({
 	lastSeenAt: z.optional(z.date().or(z.literal('now'))),
 });
 export type TeamMemberSchema = z.infer<typeof TeamMemberSchema>;
+
+export const SimpleTeamMemberSchema = TeamMemberSchema.pick({ id: true, name: true, atMeeting: true });
+export type SimpleTeamMemberSchema = z.infer<typeof SimpleTeamMemberSchema>;

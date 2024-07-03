@@ -348,19 +348,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/redis@patch:@adonisjs/redis@npm%3A9.1.0#~/.yarn/patches/@adonisjs-redis-npm-9.1.0-c8941587e6.patch":
-  version: 9.1.0
-  resolution: "@adonisjs/redis@patch:@adonisjs/redis@npm%3A9.1.0#~/.yarn/patches/@adonisjs-redis-npm-9.1.0-c8941587e6.patch::version=9.1.0&hash=0d6e2d"
-  dependencies:
-    "@poppinss/utils": "npm:^6.7.3"
-    emittery: "npm:^1.0.3"
-    ioredis: "npm:^5.4.1"
-  peerDependencies:
-    "@adonisjs/core": ^6.2.0
-  checksum: 10c0/d97827383fea9e4122281ea6199f4c8414dded75b50643a435345e0acf56ff4293d5db51e0f24d360fd8b924e6f84e9d5eb5ef135ef4bcd4690ffacefde33aef
-  languageName: node
-  linkType: hard
-
 "@adonisjs/repl@npm:^4.0.1":
   version: 4.0.1
   resolution: "@adonisjs/repl@npm:4.0.1"
@@ -1031,7 +1018,7 @@ __metadata:
     "@adonisjs/bouncer": "npm:3.1.3"
     "@adonisjs/core": "npm:6.12.1"
     "@adonisjs/cors": "npm:2.2.1"
-    "@adonisjs/redis": "patch:@adonisjs/redis@npm%3A9.1.0#~/.yarn/patches/@adonisjs-redis-npm-9.1.0-c8941587e6.patch"
+    "@adonisjs/redis": "npm:9.1.0"
     "@adonisjs/session": "npm:7.4.2"
     "@adonisjs/tsconfig": "npm:1.3.0"
     "@jonahsnider/util": "npm:11.0.0"
@@ -1054,6 +1041,7 @@ __metadata:
     postgres: "npm:3.4.4"
     prettier: "npm:3.3.2"
     reflect-metadata: "npm:0.2.2"
+    rxjs: "npm:7.8.1"
     superjson: "npm:2.2.1"
     ts-node: "npm:10.9.2"
     ts-pattern: "npm:5.2.0"
@@ -8450,6 +8438,15 @@ __metadata:
   dependencies:
     queue-microtask: "npm:^1.2.2"
   checksum: 10c0/200b5ab25b5b8b7113f9901bfe3afc347e19bb7475b267d55ad0eb86a62a46d77510cb0f232507c9e5d497ebda569a08a9867d0d14f57a82ad5564d991588b39
+  languageName: node
+  linkType: hard
+
+"rxjs@npm:7.8.1":
+  version: 7.8.1
+  resolution: "rxjs@npm:7.8.1"
+  dependencies:
+    tslib: "npm:^2.1.0"
+  checksum: 10c0/3c49c1ecd66170b175c9cacf5cef67f8914dcbc7cd0162855538d365c83fea631167cacb644b3ce533b2ea0e9a4d0b12175186985f89d75abe73dbd8f7f06f68
   languageName: node
   linkType: hard
 

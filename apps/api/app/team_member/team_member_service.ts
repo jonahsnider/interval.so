@@ -3,6 +3,7 @@ import { inject } from '@adonisjs/core';
 import { TRPCError } from '@trpc/server';
 import { and, asc, count, desc, eq, inArray, isNotNull, isNull } from 'drizzle-orm';
 import postgres from 'postgres';
+import { type Observable, concat, from, mergeMap } from 'rxjs';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { injectHelper } from '../../util/inject_helper.js';
@@ -11,7 +12,7 @@ import { db } from '../db/db_service.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
 import { RedisEvent } from './events/schemas/redis_event_schema.js';
 import { TeamMemberEventsService } from './events/team_member_events_service.js';
-import type { TeamMemberSchema } from './schemas/team_member_schema.js';
+import type { SimpleTeamMemberSchema, TeamMemberSchema } from './schemas/team_member_schema.js';
 
 /** A team member is someone whose attendance is tracked by team users. */
 @inject()
@@ -21,10 +22,22 @@ export class TeamMemberService {
 
 	constructor(private readonly eventsService: TeamMemberEventsService) {}
 
-	async getTeamMembersSimple(
+	async simpleTeamMemberListSubscribe(
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
-	): Promise<Pick<TeamMemberSchema, 'id' | 'name' | 'atMeeting'>[]> {
+	): Promise<Observable<SimpleTeamMemberSchema[]>> {
+		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('viewSimpleMemberList', team));
+		const memberChanges = await this.eventsService.subscribeForTeam(bouncer, team);
+
+		return concat(
+			// Emit one event on subscribe
+			from(this.getTeamMembersSimple(bouncer, team)),
+			// Each time the team members change, emit a new event
+			memberChanges.pipe(mergeMap(() => from(this.getTeamMembersSimple(bouncer, team)))),
+		);
+	}
+
+	async getTeamMembersSimple(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>): Promise<SimpleTeamMemberSchema[]> {
 		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('viewSimpleMemberList', team));
 
 		const result = await db.query.teams.findFirst({

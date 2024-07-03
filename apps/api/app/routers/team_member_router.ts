@@ -1,9 +1,10 @@
 import { inject } from '@adonisjs/core';
+import type { Observable } from '@trpc/server/observable';
 import { z } from 'zod';
 import { injectHelper } from '../../util/inject_helper.js';
 import { TeamSchema } from '../team/schemas/team_schema.js';
 import { TeamMemberEventsService } from '../team_member/events/team_member_events_service.js';
-import { TeamMemberSchema } from '../team_member/schemas/team_member_schema.js';
+import { type SimpleTeamMemberSchema, TeamMemberSchema } from '../team_member/schemas/team_member_schema.js';
 import { TeamMemberService } from '../team_member/team_member_service.js';
 import { authedProcedure, publicProcedure, router } from '../trpc/trpc_service.js';
 
@@ -17,10 +18,6 @@ export class TeamMemberRouter {
 
 	getRouter() {
 		return router({
-			subscribeForTeam: publicProcedure.input(TeamSchema.pick({ slug: true })).subscription(({ input, ctx }) => {
-				return this.eventsService.subscribeForTeam(ctx.context.bouncer, input);
-			}),
-
 			create: publicProcedure
 				.input(
 					z.object({
@@ -38,6 +35,12 @@ export class TeamMemberRouter {
 				.output(TeamMemberSchema.pick({ id: true, name: true, atMeeting: true }).array())
 				.query(({ ctx, input }) => {
 					return this.teamMemberService.getTeamMembersSimple(ctx.context.bouncer, input);
+				}),
+
+			simpleMemberListSubscription: publicProcedure
+				.input(TeamSchema.pick({ slug: true }))
+				.subscription(({ ctx, input }): Promise<Observable<SimpleTeamMemberSchema[], unknown>> => {
+					return this.teamMemberService.simpleTeamMemberListSubscribe(ctx.context.bouncer, input);
 				}),
 			updateAttendance: publicProcedure
 				.input(TeamMemberSchema.pick({ id: true, atMeeting: true }).strict())
