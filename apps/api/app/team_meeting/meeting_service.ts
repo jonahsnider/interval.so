@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { and, count, eq, gt, gte, inArray, isNotNull, lt, lte, max, min, sql } from 'drizzle-orm';
+import { and, countDistinct, eq, gt, gte, inArray, isNotNull, lt, lte, max, min, sql } from 'drizzle-orm';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { AuthorizationService } from '../authorization/authorization_service.js';
@@ -66,7 +66,7 @@ export class TeamMeetingService {
 		const [completedMeetings, [pendingMeeting]] = await Promise.all([
 			db
 				.select({
-					memberCount: count(s3.memberId).as('member_count'),
+					memberCount: countDistinct(s3.memberId).as('member_count'),
 					startedAt: min(s3.startedAt).as('started_at'),
 					endedAt: max(s3.endedAt).as('ended_at'),
 				})
@@ -74,7 +74,7 @@ export class TeamMeetingService {
 				.groupBy(s3.leftEdge),
 			db
 				.select({
-					memberCount: count(Schema.teamMembers.id).as('member_count'),
+					memberCount: countDistinct(Schema.teamMembers.id).as('member_count'),
 					startedAt: min(Schema.teamMembers.pendingSignIn).as('started_at'),
 				})
 				.from(Schema.teamMembers)
