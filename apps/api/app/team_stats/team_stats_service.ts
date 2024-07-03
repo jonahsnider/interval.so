@@ -1,5 +1,4 @@
 import { convert } from 'convert';
-import { add } from 'date-fns';
 import { and, avg, countDistinct, eq, gt, lt, sql, sum } from 'drizzle-orm';
 import { unionAll } from 'drizzle-orm/pg-core';
 import * as Schema from '#database/schema';
@@ -9,8 +8,8 @@ import { db } from '../db/db_service.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
 import type { UserTimezoneSchema } from '../user/schemas/user_timezone_schema.js';
 import type { AverageHoursDatumSchema } from './schemas/average_hours_datum_schema.js';
-import { DatumPeriod, timeRangeToDatumPeriod } from './schemas/datum_time_range_schema.js';
-import type { TimeRangeSchema } from './schemas/time_range_schema.js';
+import { DatumPeriod, timeFilterToDatumPeriod } from './schemas/datum_time_range_schema.js';
+import type { TimeFilterSchema } from './schemas/time_filter_schema.js';
 import type { UniqueMembersDatumSchema } from './schemas/unique_members_datum_schema.js';
 
 export class TeamStatsService {
@@ -28,16 +27,12 @@ export class TeamStatsService {
 	async getCombinedHours(
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
-		timeRange: TimeRangeSchema,
+		timeFilter: TimeFilterSchema,
 	): Promise<number> {
 		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewInsights', team));
 
-		// We add a minute to the end time since asking Postgres to filter using the end time in the range means that it will always be *slightly* after the end time
-		// Since requests probably won't take more than a minute to go through, this small adjustment means we don't exclude too many results from Postgres, and don't introduce too much inaccuracy into the result
-		const timeRangeEndAdjusted = add(timeRange.end, { minutes: 1 });
-
 		// TODO: This either fully includes or fully excludes meetings depending on the time range. If the time range starts/ends when a meeting is in progress, should we include the partial meeting duration?
-		// If yes, probably implement by selecting from max(finished_member_meetings.started_at, timeRange.start) and min(finished_member_meetings.ended_at, timeRange.end)
+		// If yes, probably implement by selecting from max(finished_member_meetings.started_at, timeFilter.start) and min(finished_member_meetings.ended_at, timeFilter.end)
 
 		const pendingMeetingDurations = db
 			.select({
@@ -49,9 +44,11 @@ export class TeamStatsService {
 			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)))
 			.where(
 				and(
-					gt(Schema.teamMembers.pendingSignIn, timeRange.start),
+					gt(Schema.teamMembers.pendingSignIn, timeFilter.start),
+					// Since meetings are pending, we don't have an end time, so we act as though they ended now()
+					// If the time filter included an end time, we filter via that
 					// Need to manually stringify the date due to a Drizzle bug https://github.com/drizzle-team/drizzle-orm/issues/2009
-					lt(sql<Date>`now()`, timeRangeEndAdjusted.toISOString()),
+					timeFilter.end && lt(sql<Date>`now()`, timeFilter.end.toISOString()),
 				),
 			);
 
@@ -67,8 +64,8 @@ export class TeamStatsService {
 			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)))
 			.where(
 				and(
-					gt(Schema.finishedMemberMeetings.startedAt, timeRange.start),
-					lt(Schema.finishedMemberMeetings.endedAt, timeRange.end),
+					gt(Schema.finishedMemberMeetings.startedAt, timeFilter.start),
+					timeFilter.end && lt(Schema.finishedMemberMeetings.endedAt, timeFilter.end),
 				),
 			);
 
@@ -93,12 +90,12 @@ export class TeamStatsService {
 	async getUniqueMembersTimeSeries(
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
-		timeRange: TimeRangeSchema,
+		timeFilter: TimeFilterSchema,
 		displayTimezone: UserTimezoneSchema,
 	): Promise<UniqueMembersDatumSchema[]> {
 		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewInsights', team));
 
-		const datumPeriod = timeRangeToDatumPeriod(timeRange);
+		const datumPeriod = timeFilterToDatumPeriod(timeFilter);
 		const dateField = TeamStatsService.datumPeriodToPostgresDateField(datumPeriod);
 		const interval = `1 ${dateField}`;
 
@@ -114,13 +111,16 @@ export class TeamStatsService {
 			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)))
 			.as('meetings_for_team');
 
+		// We act as though the filter had ended now if it didn't have an end time included
+		const seriesEndDate = timeFilter.end ?? new Date();
+
 		const result = await db
 			.select({
 				groupStart: seriesDate,
 				memberCount: countDistinct(meetingsForTeam.memberId).as('member_count'),
 			})
 			.from(
-				sql<Date>`generate_series(date_trunc(${dateField}, ${timeRange.start.toISOString()}::timestamptz at time zone ${displayTimezone}) at time zone ${displayTimezone}, ${timeRange.end.toISOString()}::timestamptz, ${interval}::interval, ${displayTimezone}) as series_date`,
+				sql<Date>`generate_series(date_trunc(${dateField}, ${timeFilter.start.toISOString()}::timestamptz at time zone ${displayTimezone}) at time zone ${displayTimezone}, ${seriesEndDate.toISOString()}::timestamptz, ${interval}::interval, ${displayTimezone}) as series_date`,
 			)
 			.leftJoin(
 				meetingsForTeam,
@@ -141,7 +141,7 @@ export class TeamStatsService {
 	async getUniqueMembersSimple(
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
-		timeRange: TimeRangeSchema,
+		timeFilter: TimeFilterSchema,
 	): Promise<number> {
 		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewInsights', team));
 
@@ -154,8 +154,8 @@ export class TeamStatsService {
 				Schema.teamMembers,
 				and(
 					eq(Schema.finishedMemberMeetings.memberId, Schema.teamMembers.id),
-					gt(Schema.finishedMemberMeetings.startedAt, timeRange.start),
-					lt(Schema.finishedMemberMeetings.endedAt, timeRange.end),
+					gt(Schema.finishedMemberMeetings.startedAt, timeFilter.start),
+					timeFilter.end && lt(Schema.finishedMemberMeetings.endedAt, timeFilter.end),
 				),
 			)
 			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)));
@@ -167,12 +167,12 @@ export class TeamStatsService {
 	async getAverageHoursTimeSeries(
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
-		timeRange: TimeRangeSchema,
+		timeFilter: TimeFilterSchema,
 		displayTimezone: UserTimezoneSchema,
 	): Promise<AverageHoursDatumSchema[]> {
 		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewInsights', team));
 
-		const datumPeriod = timeRangeToDatumPeriod(timeRange);
+		const datumPeriod = timeFilterToDatumPeriod(timeFilter);
 		const dateField = TeamStatsService.datumPeriodToPostgresDateField(datumPeriod);
 		const interval = `1 ${dateField}`;
 
@@ -193,14 +193,17 @@ export class TeamStatsService {
 				Schema.teamMembers,
 				and(
 					eq(Schema.finishedMemberMeetings.memberId, Schema.teamMembers.id),
-					gt(Schema.finishedMemberMeetings.startedAt, timeRange.start),
-					lt(Schema.finishedMemberMeetings.endedAt, timeRange.end),
+					gt(Schema.finishedMemberMeetings.startedAt, timeFilter.start),
+					timeFilter.end && lt(Schema.finishedMemberMeetings.endedAt, timeFilter.end),
 				),
 			)
 			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)))
 			.as('meetings_for_team');
 
 		// TODO: Consider first summing the durations per member, and then averaging those, to avoid very short meetings from a member (ex. accidental sign in/out/in) tanking the average
+
+		// We act as though the filter had ended now if it didn't have an end time included
+		const seriesEndDate = timeFilter.end ?? new Date();
 
 		const result = await db
 			.select({
@@ -212,7 +215,7 @@ export class TeamStatsService {
 					.as('duration_seconds'),
 			})
 			.from(
-				sql<Date>`generate_series(date_trunc(${dateField}, ${timeRange.start.toISOString()}::timestamptz at time zone ${displayTimezone}) at time zone ${displayTimezone}, ${timeRange.end.toISOString()}::timestamptz, ${interval}::interval, ${displayTimezone}) as series_date`,
+				sql<Date>`generate_series(date_trunc(${dateField}, ${timeFilter.start.toISOString()}::timestamptz at time zone ${displayTimezone}) at time zone ${displayTimezone}, ${seriesEndDate.toISOString()}::timestamptz, ${interval}::interval, ${displayTimezone}) as series_date`,
 			)
 			.leftJoin(
 				meetingsForTeam,
@@ -234,7 +237,7 @@ export class TeamStatsService {
 	async getAverageHoursSimple(
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
-		timeRange: TimeRangeSchema,
+		timeFilter: TimeFilterSchema,
 	): Promise<number> {
 		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewInsights', team));
 
@@ -251,8 +254,8 @@ export class TeamStatsService {
 				Schema.teamMembers,
 				and(
 					eq(Schema.finishedMemberMeetings.memberId, Schema.teamMembers.id),
-					gt(Schema.finishedMemberMeetings.startedAt, timeRange.start),
-					lt(Schema.finishedMemberMeetings.endedAt, timeRange.end),
+					gt(Schema.finishedMemberMeetings.startedAt, timeFilter.start),
+					timeFilter.end && lt(Schema.finishedMemberMeetings.endedAt, timeFilter.end),
 				),
 			)
 			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)));

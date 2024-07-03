@@ -1,5 +1,5 @@
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
-import { toTimeRange } from '../period-select/duration-slug';
+import { toTimeFilter, toTimeRange } from '../period-select/duration-slug';
 import { type GraphTab, GraphTabs } from './graphs/tabs/graph-tabs';
 import { searchParamCache } from './search-params';
 import { CombinedHoursTile } from './tiles/combined-hours-tile/combined-hours-tile.server';
@@ -13,6 +13,7 @@ type Props = {
 export function ManagerDashboardPageWrapper({ graphTab, team }: Props) {
 	const searchParams = searchParamCache.all();
 
+	const timeFilter = toTimeFilter(searchParams);
 	const timeRange = toTimeRange(searchParams);
 
 	return (
@@ -21,8 +22,8 @@ export function ManagerDashboardPageWrapper({ graphTab, team }: Props) {
 			<CombinedHoursTile
 				team={team}
 				durationSlug={searchParams.duration}
-				currentTimeRange={timeRange.current}
-				previousTimeRange={timeRange.previous}
+				currentTimeFilter={timeFilter}
+				previousTimeFilter={timeRange.previous}
 			/>
 
 			<div className='col-span-full'>

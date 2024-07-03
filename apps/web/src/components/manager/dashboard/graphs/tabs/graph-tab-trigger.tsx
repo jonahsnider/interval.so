@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { trpcServer } from '@/src/trpc/trpc-server';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
+import type { TimeFilterSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_filter_schema';
 import type { TimeRangeSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_range_schema';
 import { toDigits } from '@jonahsnider/util';
 import clsx from 'clsx';
@@ -17,8 +18,8 @@ type Props = {
 	active: boolean;
 	tabId: TabId;
 	team: Pick<TeamSchema, 'slug'>;
-	timeRange: {
-		current: TimeRangeSchema;
+	timeFilters: {
+		current: TimeFilterSchema;
 		previous?: TimeRangeSchema;
 	};
 };
@@ -41,8 +42,8 @@ function TrendBadge({ trend }: { trend: number }) {
 async function getMeasure(
 	tabId: TabId,
 	team: Pick<TeamSchema, 'slug'>,
-	timeRange: {
-		current: TimeRangeSchema;
+	timeFilters: {
+		current: TimeFilterSchema;
 		previous?: TimeRangeSchema;
 	},
 ): Promise<{
@@ -54,9 +55,9 @@ async function getMeasure(
 	switch (tabId) {
 		case 'members': {
 			const [current, previous] = await Promise.all([
-				trpcServer.teams.stats.uniqueMembers.getSimple.query({ team, timeRange: timeRange.current }),
-				timeRange.previous
-					? trpcServer.teams.stats.uniqueMembers.getSimple.query({ team, timeRange: timeRange.previous })
+				trpcServer.teams.stats.uniqueMembers.getSimple.query({ team, timeFilter: timeFilters.current }),
+				timeFilters.previous
+					? trpcServer.teams.stats.uniqueMembers.getSimple.query({ team, timeFilter: timeFilters.previous })
 					: undefined,
 			]);
 
@@ -67,9 +68,9 @@ async function getMeasure(
 		}
 		case 'hours': {
 			const [current, previous] = await Promise.all([
-				trpcServer.teams.stats.averageHours.getSimple.query({ team, timeRange: timeRange.current }),
-				timeRange.previous
-					? trpcServer.teams.stats.averageHours.getSimple.query({ team, timeRange: timeRange.previous })
+				trpcServer.teams.stats.averageHours.getSimple.query({ team, timeFilter: timeFilters.current }),
+				timeFilters.previous
+					? trpcServer.teams.stats.averageHours.getSimple.query({ team, timeFilter: timeFilters.previous })
 					: undefined,
 			]);
 
@@ -84,16 +85,16 @@ async function getMeasure(
 async function Trend({
 	tabId,
 	team,
-	timeRange,
+	timeFilters,
 }: {
 	tabId: TabId;
 	team: Pick<TeamSchema, 'slug'>;
-	timeRange: {
-		current: TimeRangeSchema;
+	timeFilters: {
+		current: TimeFilterSchema;
 		previous?: TimeRangeSchema;
 	};
 }) {
-	const { trend } = await getMeasure(tabId, team, timeRange);
+	const { trend } = await getMeasure(tabId, team, timeFilters);
 
 	if (trend) {
 		return <TrendBadge trend={trend} />;
@@ -103,16 +104,16 @@ async function Trend({
 async function Measure({
 	tabId,
 	team,
-	timeRange,
+	timeFilters,
 }: {
 	tabId: TabId;
 	team: Pick<TeamSchema, 'slug'>;
-	timeRange: {
-		current: TimeRangeSchema;
+	timeFilters: {
+		current: TimeFilterSchema;
 		previous?: TimeRangeSchema;
 	};
 }) {
-	const { current } = await getMeasure(tabId, team, timeRange);
+	const { current } = await getMeasure(tabId, team, timeFilters);
 
 	return <p className='text-3xl font-semibold'>{toDigits(current, 1)}</p>;
 }
@@ -128,7 +129,7 @@ const TAB_OPTIONS = {
 	},
 };
 
-export function GraphTabTrigger({ tabId, active, timeRange, team }: Props) {
+export function GraphTabTrigger({ tabId, active, timeFilters, team }: Props) {
 	const queryStates = searchParamCache.all();
 	const queryString = searchParamSerializer(queryStates);
 
@@ -139,8 +140,8 @@ export function GraphTabTrigger({ tabId, active, timeRange, team }: Props) {
 			active={active}
 			href={createHref(TAB_OPTIONS[tabId].hrefSuffix)}
 			title={TAB_OPTIONS[tabId].title}
-			measure={<Measure tabId={tabId} team={team} timeRange={timeRange} />}
-			trend={<Trend tabId={tabId} team={team} timeRange={timeRange} />}
+			measure={<Measure tabId={tabId} team={team} timeFilters={timeFilters} />}
+			trend={<Trend tabId={tabId} team={team} timeFilters={timeFilters} />}
 		/>
 	);
 }

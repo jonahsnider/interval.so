@@ -1,20 +1,20 @@
 import { trpcServer } from '@/src/trpc/trpc-server';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
-import { timeRangeToDatumPeriod } from '@hours.frc.sh/api/app/team_stats/schemas/datum_time_range_schema';
-import type { TimeRangeSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_range_schema';
+import { timeFilterToDatumPeriod } from '@hours.frc.sh/api/app/team_stats/schemas/datum_time_range_schema';
+import type { TimeFilterSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_filter_schema';
 import { Suspense } from 'react';
 import { UniqueMembersGraphClient } from './unique-members-graph.client';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;
-	timeRange: TimeRangeSchema;
+	timeFilter: TimeFilterSchema;
 };
 
 export function UniqueMembersGraph(props: Props) {
 	const dataPromise = trpcServer.teams.stats.uniqueMembers.getTimeSeries.query(props);
 	const maxMemberCount = trpcServer.teams.members.simpleMemberList.query(props.team).then((members) => members.length);
 
-	const period = timeRangeToDatumPeriod(props.timeRange);
+	const period = timeFilterToDatumPeriod(props.timeFilter);
 
 	return (
 		<Suspense fallback={<div className='h-96' />}>
@@ -23,7 +23,7 @@ export function UniqueMembersGraph(props: Props) {
 				period={period}
 				maxMemberCountPromise={maxMemberCount}
 				team={props.team}
-				timeRange={props.timeRange}
+				timeFilter={props.timeFilter}
 			/>
 		</Suspense>
 	);

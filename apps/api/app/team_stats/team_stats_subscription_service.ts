@@ -8,7 +8,7 @@ import { MemberRedisEvent } from '../team_member/events/schemas/redis_event_sche
 import { TeamMemberEventsService } from '../team_member/events/team_member_events_service.js';
 import type { UserTimezoneSchema } from '../user/schemas/user_timezone_schema.js';
 import type { AverageHoursDatumSchema } from './schemas/average_hours_datum_schema.js';
-import type { TimeRangeSchema } from './schemas/time_range_schema.js';
+import type { TimeFilterSchema } from './schemas/time_filter_schema.js';
 import type { UniqueMembersDatumSchema } from './schemas/unique_members_datum_schema.js';
 import { TeamStatsService } from './team_stats_service.js';
 
@@ -23,14 +23,14 @@ export class TeamStatsSubscriptionService {
 	async combinedHoursSubscribe(
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
-		timeRange: TimeRangeSchema,
+		timeFilter: TimeFilterSchema,
 	): Promise<Observable<number>> {
 		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewInsights', team));
 
 		const memberChanges = await this.eventsService.subscribeForTeam(bouncer, team);
 
 		return concat(
-			from(this.teamStatsService.getCombinedHours(bouncer, team, timeRange)),
+			from(this.teamStatsService.getCombinedHours(bouncer, team, timeFilter)),
 			memberChanges.pipe(
 				filter(
 					(event) =>
@@ -38,7 +38,7 @@ export class TeamStatsSubscriptionService {
 						event === MemberRedisEvent.MemberDeleted ||
 						event === MemberRedisEvent.MemberAttendanceUpdated,
 				),
-				mergeMap(() => from(this.teamStatsService.getCombinedHours(bouncer, team, timeRange))),
+				mergeMap(() => from(this.teamStatsService.getCombinedHours(bouncer, team, timeFilter))),
 			),
 		);
 	}
@@ -46,7 +46,7 @@ export class TeamStatsSubscriptionService {
 	async averageHoursTimeSeriesSubscribe(
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
-		timeRange: TimeRangeSchema,
+		timeFilter: TimeFilterSchema,
 		timezone: UserTimezoneSchema,
 	): Promise<Observable<AverageHoursDatumSchema[]>> {
 		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewInsights', team));
@@ -54,7 +54,7 @@ export class TeamStatsSubscriptionService {
 		const memberChanges = await this.eventsService.subscribeForTeam(bouncer, team);
 
 		return concat(
-			from(this.teamStatsService.getAverageHoursTimeSeries(bouncer, team, timeRange, timezone)),
+			from(this.teamStatsService.getAverageHoursTimeSeries(bouncer, team, timeFilter, timezone)),
 			memberChanges.pipe(
 				filter(
 					(event) =>
@@ -62,7 +62,7 @@ export class TeamStatsSubscriptionService {
 						event === MemberRedisEvent.MemberDeleted ||
 						event === MemberRedisEvent.MemberAttendanceUpdated,
 				),
-				mergeMap(() => from(this.teamStatsService.getAverageHoursTimeSeries(bouncer, team, timeRange, timezone))),
+				mergeMap(() => from(this.teamStatsService.getAverageHoursTimeSeries(bouncer, team, timeFilter, timezone))),
 			),
 		);
 	}
@@ -70,7 +70,7 @@ export class TeamStatsSubscriptionService {
 	async uniqueMembersTimeSeriesSubscribe(
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
-		timeRange: TimeRangeSchema,
+		timeFilter: TimeFilterSchema,
 		timezone: UserTimezoneSchema,
 	): Promise<Observable<UniqueMembersDatumSchema[]>> {
 		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewInsights', team));
@@ -78,7 +78,7 @@ export class TeamStatsSubscriptionService {
 		const memberChanges = await this.eventsService.subscribeForTeam(bouncer, team);
 
 		return concat(
-			from(this.teamStatsService.getUniqueMembersTimeSeries(bouncer, team, timeRange, timezone)),
+			from(this.teamStatsService.getUniqueMembersTimeSeries(bouncer, team, timeFilter, timezone)),
 			memberChanges.pipe(
 				filter(
 					(event) =>
@@ -86,7 +86,7 @@ export class TeamStatsSubscriptionService {
 						event === MemberRedisEvent.MemberDeleted ||
 						event === MemberRedisEvent.MemberAttendanceUpdated,
 				),
-				mergeMap(() => from(this.teamStatsService.getUniqueMembersTimeSeries(bouncer, team, timeRange, timezone))),
+				mergeMap(() => from(this.teamStatsService.getUniqueMembersTimeSeries(bouncer, team, timeFilter, timezone))),
 			),
 		);
 	}

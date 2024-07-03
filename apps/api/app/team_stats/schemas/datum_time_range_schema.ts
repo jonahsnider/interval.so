@@ -1,4 +1,5 @@
 import { convert } from 'convert';
+import type { TimeFilterSchema } from './time_filter_schema.js';
 import type { TimeRangeSchema } from './time_range_schema.js';
 
 export enum DatumPeriod {
@@ -7,8 +8,10 @@ export enum DatumPeriod {
 	Monthly = 'monthly',
 }
 
-export function timeRangeToDatumPeriod(timeRange: TimeRangeSchema): DatumPeriod {
-	const days = convert(timeRange.end.getTime() - timeRange.start.getTime(), 'milliseconds').to('days');
+export function timeFilterToDatumPeriod(timeFilter: TimeFilterSchema | TimeRangeSchema): DatumPeriod {
+	// Act as though the time filter had ended now if it didn't have an end time included
+	const endTime = timeFilter.end ?? new Date();
+	const days = convert(endTime.getTime() - timeFilter.start.getTime(), 'milliseconds').to('days');
 
 	if (days < 15) {
 		return DatumPeriod.Daily;

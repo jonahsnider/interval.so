@@ -2,6 +2,7 @@
 import type { RouterOutput } from '@/src/trpc/common';
 import { trpc } from '@/src/trpc/trpc-client';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
+import type { TimeFilterSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_filter_schema';
 import type { TimeRangeSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_range_schema';
 import { useState } from 'react';
 import { type DurationSlug, durationLabelPreviousPeriod } from '../../../period-select/duration-slug';
@@ -13,16 +14,16 @@ type Props = {
 	durationSlug: DurationSlug;
 
 	initialCurrent: RouterOutput['teams']['stats']['getCombinedHours'];
-	currentTimeRange: TimeRangeSchema;
+	currentTimeFilter: TimeFilterSchema;
 
 	initialTrend?: RouterOutput['teams']['stats']['getCombinedHours'];
-	previousTimeRange?: TimeRangeSchema;
+	previousTimeFilter?: TimeRangeSchema;
 };
 
 export function CombinedHoursTileClient({
 	team,
-	currentTimeRange,
-	previousTimeRange,
+	currentTimeFilter,
+	previousTimeFilter,
 	initialCurrent,
 	initialTrend,
 	durationSlug,
@@ -30,7 +31,7 @@ export function CombinedHoursTileClient({
 	const [current, setCurrent] = useState(initialCurrent);
 
 	trpc.teams.stats.getCombinedHoursSubscription.useSubscription(
-		{ team, timeRange: currentTimeRange },
+		{ team, timeFilter: currentTimeFilter },
 		{ onData: setCurrent },
 	);
 
@@ -38,13 +39,13 @@ export function CombinedHoursTileClient({
 		<CombinedHoursTileBase
 			value={`${current.toFixed(1)} hours`}
 			trend={
-				previousTimeRange && (
+				previousTimeFilter && (
 					<Trend
 						team={team}
 						current={current}
 						durationSlug={durationSlug}
 						initialTrend={initialTrend}
-						previousTimeRange={previousTimeRange}
+						previousTimeFilter={previousTimeFilter}
 					/>
 				)
 			}
@@ -55,7 +56,7 @@ export function CombinedHoursTileClient({
 function Trend({
 	initialTrend,
 	durationSlug,
-	previousTimeRange,
+	previousTimeFilter,
 	team,
 	current,
 }: {
@@ -63,12 +64,12 @@ function Trend({
 	current: number;
 	durationSlug: DurationSlug;
 	initialTrend?: RouterOutput['teams']['stats']['getCombinedHours'];
-	previousTimeRange: TimeRangeSchema;
+	previousTimeFilter: TimeRangeSchema;
 }) {
 	const [trend, setTrend] = useState(initialTrend);
 
 	trpc.teams.stats.getCombinedHoursSubscription.useSubscription(
-		{ team, timeRange: previousTimeRange },
+		{ team, timeFilter: previousTimeFilter },
 		{ onData: setTrend },
 	);
 

@@ -1,6 +1,7 @@
 import { Skeleton } from '@/components/ui/skeleton';
 import { trpcServer } from '@/src/trpc/trpc-server';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
+import type { TimeFilterSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_filter_schema';
 import type { TimeRangeSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_range_schema';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -10,9 +11,9 @@ import { CombinedHoursTileBase } from './combined-hours-tile.shared';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;
-	currentTimeRange: TimeRangeSchema;
+	currentTimeFilter: TimeFilterSchema;
 	durationSlug: DurationSlug;
-	previousTimeRange?: TimeRangeSchema;
+	previousTimeFilter?: TimeRangeSchema;
 };
 
 export function CombinedHoursTile(props: Props) {
@@ -24,37 +25,37 @@ export function CombinedHoursTile(props: Props) {
 				/>
 			}
 		>
-			<Suspense fallback={<CombinedHoursSkeleton previousTimeRange={props.previousTimeRange} />}>
+			<Suspense fallback={<CombinedHoursSkeleton previousTimeFilter={props.previousTimeFilter} />}>
 				<CombinedHoursTileFetcher {...props} />
 			</Suspense>
 		</ErrorBoundary>
 	);
 }
 
-async function CombinedHoursTileFetcher({ team, currentTimeRange, previousTimeRange, durationSlug }: Props) {
+async function CombinedHoursTileFetcher({ team, currentTimeFilter, previousTimeFilter, durationSlug }: Props) {
 	const [current, trend] = await Promise.all([
-		trpcServer.teams.stats.getCombinedHours.query({ team, timeRange: currentTimeRange }),
-		previousTimeRange
-			? trpcServer.teams.stats.getCombinedHours.query({ team, timeRange: previousTimeRange })
+		trpcServer.teams.stats.getCombinedHours.query({ team, timeFilter: currentTimeFilter }),
+		previousTimeFilter
+			? trpcServer.teams.stats.getCombinedHours.query({ team, timeFilter: previousTimeFilter })
 			: undefined,
 	]);
 
 	return (
 		<CombinedHoursTileClient
 			team={team}
-			currentTimeRange={currentTimeRange}
+			currentTimeFilter={currentTimeFilter}
 			durationSlug={durationSlug}
-			previousTimeRange={previousTimeRange}
+			previousTimeFilter={previousTimeFilter}
 			initialCurrent={current}
 			initialTrend={trend}
 		/>
 	);
 }
 
-function CombinedHoursSkeleton({ previousTimeRange }: Pick<Props, 'previousTimeRange'>) {
+function CombinedHoursSkeleton({ previousTimeFilter }: Pick<Props, 'previousTimeFilter'>) {
 	return (
 		<CombinedHoursTileBase
-			trend={previousTimeRange && <Skeleton className='h-4 w-40' />}
+			trend={previousTimeFilter && <Skeleton className='h-4 w-40' />}
 			value={<Skeleton className='h-10 w-full' />}
 		/>
 	);

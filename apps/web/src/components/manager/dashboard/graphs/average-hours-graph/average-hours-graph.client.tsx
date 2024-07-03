@@ -13,7 +13,7 @@ import { trpc } from '@/src/trpc/trpc-client';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import type { AverageHoursDatumSchema } from '@hours.frc.sh/api/app/team_stats/schemas/average_hours_datum_schema';
 import { DatumPeriod } from '@hours.frc.sh/api/app/team_stats/schemas/datum_time_range_schema';
-import type { TimeRangeSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_range_schema';
+import type { TimeFilterSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_filter_schema';
 import { toDigits } from '@jonahsnider/util';
 import { use, useMemo, useState } from 'react';
 import {
@@ -29,7 +29,7 @@ import {
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;
-	timeRange: TimeRangeSchema;
+	timeFilter: TimeFilterSchema;
 	dataPromise: Promise<AverageHoursDatumSchema[]>;
 	period: DatumPeriod;
 };
@@ -83,11 +83,11 @@ function HoursTooltip({
 	);
 }
 
-export function AverageHoursGraphClient({ dataPromise, period, team, timeRange }: Props) {
+export function AverageHoursGraphClient({ dataPromise, period, team, timeFilter }: Props) {
 	const initialData = use(dataPromise);
 	const [data, setData] = useState(initialData);
 
-	trpc.teams.stats.averageHours.subscribeTimeSeries.useSubscription({ team, timeRange }, { onData: setData });
+	trpc.teams.stats.averageHours.subscribeTimeSeries.useSubscription({ team, timeFilter }, { onData: setData });
 
 	const chartData = useMemo(
 		() =>
