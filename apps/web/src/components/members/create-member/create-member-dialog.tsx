@@ -8,7 +8,7 @@ import { trpc } from '@/src/trpc/trpc-client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
-import { type PropsWithChildren, useState } from 'react';
+import { type PropsWithChildren, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import type { z } from 'zod';
@@ -18,9 +18,11 @@ const formSchema = TeamMemberSchema.pick({ name: true });
 function CreateMemberDialogContent({
 	team,
 	closeDialog,
+	open,
 }: {
 	team: Pick<TeamSchema, 'slug'>;
 	closeDialog: () => void;
+	open: boolean;
 }) {
 	const form = useForm({
 		resolver: zodResolver(formSchema),
@@ -29,6 +31,12 @@ function CreateMemberDialogContent({
 		},
 	});
 	const [toastId, setToastId] = useState<string | number | undefined>();
+
+	useEffect(() => {
+		if (!open) {
+			form.reset();
+		}
+	}, [open, form]);
 
 	const mutation = trpc.teams.members.create.useMutation({
 		onMutate: () => {
@@ -99,7 +107,7 @@ export function CreateMemberDialog({ team, children, ...buttonProps }: Props) {
 					{children}
 				</Button>
 			</DialogTrigger>
-			<CreateMemberDialogContent team={team} closeDialog={() => setOpen(false)} />
+			<CreateMemberDialogContent team={team} closeDialog={() => setOpen(false)} open={open} />
 		</Dialog>
 	);
 }
