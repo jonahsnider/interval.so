@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { inject } from '@adonisjs/core';
 import { TRPCError } from '@trpc/server';
-import { and, asc, count, desc, eq, inArray, isNotNull, isNull } from 'drizzle-orm';
+import { and, asc, count, eq, inArray, isNotNull, isNull } from 'drizzle-orm';
 import postgres from 'postgres';
 import { type Observable, concat, from, mergeMap } from 'rxjs';
 import * as Schema from '#database/schema';
@@ -88,7 +88,7 @@ export class TeamMemberService {
 								endedAt: true,
 							},
 							limit: 1,
-							orderBy: desc(Schema.finishedMemberMeetings.endedAt),
+							orderBy: asc(Schema.finishedMemberMeetings.endedAt),
 						},
 					},
 				},
