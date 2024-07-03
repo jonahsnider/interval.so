@@ -127,7 +127,6 @@ function InnerTable({
 }
 
 function InnerTableRow({ visible, className, member }: { visible: boolean; className?: string; member: SimpleMember }) {
-	const [animating, setAnimating] = useState(false);
 	const [checked, setChecked] = useState(member.atMeeting);
 
 	const router = useRouter();
@@ -162,14 +161,7 @@ function InnerTableRow({ visible, className, member }: { visible: boolean; class
 			initial='hidden'
 			variants={motionVariants}
 			animate={visible ? 'visible' : 'hidden'}
-			onAnimationStart={() => setAnimating(true)}
-			onAnimationComplete={() => setAnimating(false)}
-			className={clsx(
-				{
-					invisible: !(visible || animating),
-				},
-				className,
-			)}
+			className={className}
 		>
 			<TableCell className='font-medium pl-8'>{member.name}</TableCell>
 			<TableCell className='pr-8 text-right'>
