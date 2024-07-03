@@ -8,7 +8,6 @@ import { trpc } from '@/src/trpc/trpc-client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
-import { useRouter } from 'next/navigation';
 import { type PropsWithChildren, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -29,8 +28,6 @@ function CreateMemberDialogContent({
 			name: '',
 		},
 	});
-	const router = useRouter();
-
 	const [toastId, setToastId] = useState<string | number | undefined>();
 
 	const mutation = trpc.teams.members.create.useMutation({
@@ -39,7 +36,6 @@ function CreateMemberDialogContent({
 		},
 		onSuccess: () => {
 			closeDialog();
-			router.refresh();
 			toast.success('A new member was created', { id: toastId });
 		},
 		onError: (error) => {
@@ -55,9 +51,9 @@ function CreateMemberDialogContent({
 	};
 
 	return (
-		<Form {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit)}>
-				<DialogContent>
+		<DialogContent>
+			<Form {...form}>
+				<form onSubmit={form.handleSubmit(onSubmit)} className='grid gap-4'>
 					<DialogHeader>
 						<DialogTitle>Create member</DialogTitle>
 					</DialogHeader>
@@ -81,9 +77,9 @@ function CreateMemberDialogContent({
 							Sign up
 						</Button>
 					</DialogFooter>
-				</DialogContent>
-			</form>
-		</Form>
+				</form>
+			</Form>
+		</DialogContent>
 	);
 }
 
@@ -103,7 +99,6 @@ export function CreateMemberDialog({ team, children, ...buttonProps }: Props) {
 					{children}
 				</Button>
 			</DialogTrigger>
-
 			<CreateMemberDialogContent team={team} closeDialog={() => setOpen(false)} />
 		</Dialog>
 	);
