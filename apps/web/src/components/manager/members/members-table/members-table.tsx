@@ -11,7 +11,7 @@ type Props = {
 
 export function MembersTable({ team }: Props) {
 	return (
-		<Suspense fallback={<MembersTableClient data={[]} loading={true} />}>
+		<Suspense fallback={<MembersTableClient initialData={[]} loading={true} team={team} />}>
 			<MembersTableFetcher team={team} />
 		</Suspense>
 	);
@@ -20,5 +20,5 @@ export function MembersTable({ team }: Props) {
 async function MembersTableFetcher({ team }: Props) {
 	const data = await trpcServer.teams.members.fullMemberList.query(team);
 
-	return <MembersTableClient data={data} loading={false} />;
+	return <MembersTableClient initialData={data} loading={false} team={team} />;
 }

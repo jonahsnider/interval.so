@@ -2,6 +2,8 @@
 
 import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { trpc } from '@/src/trpc/trpc-client';
+import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import type { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
 import {
 	type ColumnFiltersState,
@@ -20,7 +22,8 @@ import { MembersTableButtons } from './members-table-buttons';
 import { InnerTableContainer, OuterTableContainer } from './members-table-common';
 
 type Props = {
-	data: TeamMemberSchema[];
+	team: Pick<TeamSchema, 'slug'>;
+	initialData: TeamMemberSchema[];
 	loading: boolean;
 };
 
@@ -50,7 +53,11 @@ function TableRowSkeleton() {
 	);
 }
 
-export function MembersTableClient({ data, loading }: Props) {
+export function MembersTableClient({ initialData, loading, team }: Props) {
+	const [data, setData] = useState(initialData);
+
+	trpc.teams.members.fullMemberListSubscription.useSubscription(team, { onData: setData });
+
 	const [sorting, setSorting] = useState<SortingState>([
 		{
 			id: 'name',

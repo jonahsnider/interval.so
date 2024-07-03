@@ -65,6 +65,11 @@ export class TeamMemberRouter {
 				.query(({ ctx, input }) => {
 					return this.teamMemberService.getTeamMembersFull(ctx.context.bouncer, input);
 				}),
+			fullMemberListSubscription: authedProcedure
+				.input(TeamSchema.pick({ slug: true }).strict())
+				.subscription(({ ctx, input }): Promise<Observable<TeamMemberSchema[], unknown>> => {
+					return this.teamMemberSubscriptionService.fullTeamMemberListSubscribe(ctx.context.bouncer, input);
+				}),
 
 			setArchived: authedProcedure
 				.input(TeamMemberSchema.pick({ id: true, archived: true }).strict())
