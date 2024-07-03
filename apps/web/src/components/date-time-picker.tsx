@@ -5,6 +5,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import { CalendarIcon } from '@heroicons/react/16/solid';
+import { min } from '@jonahsnider/util';
 import { parseDate } from 'chrono-node';
 import { useState } from 'react';
 import { formatDate } from '../utils/date-format';
@@ -19,6 +20,7 @@ type Props = {
 
 export function DateTimePicker({ onSelect, value, className, picker, fromDate }: Props) {
 	const [textInput, setDateInput] = useState(value ? formatDate(value) : '');
+	const now = new Date();
 
 	const onCalendarSelection = (date?: Date) => {
 		if (date) {
@@ -31,10 +33,11 @@ export function DateTimePicker({ onSelect, value, className, picker, fromDate }:
 	const onTextInput = (date: string) => {
 		setDateInput(date);
 
-		const parsed = parseDate(date, new Date());
+		const parsed = parseDate(date, now);
 
 		if (parsed) {
-			onSelect(parsed);
+			// Prevent entering a time in the future
+			onSelect(min(parsed, now));
 		}
 	};
 
@@ -58,7 +61,7 @@ export function DateTimePicker({ onSelect, value, className, picker, fromDate }:
 						}}
 						className={cn('p-0', picker?.className)}
 						fromDate={fromDate}
-						toDate={new Date()}
+						toDate={now}
 					/>
 				</div>
 				<Separator />
