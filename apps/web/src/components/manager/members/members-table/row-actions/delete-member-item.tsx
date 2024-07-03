@@ -16,7 +16,6 @@ import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { trpc } from '@/src/trpc/trpc-client';
 import { TrashIcon } from '@heroicons/react/16/solid';
 import type { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -27,7 +26,6 @@ type Props = {
 
 export function DeleteMemberItem({ member, setDialogOpen }: Props) {
 	const [toastId, setToastId] = useState<string | number | undefined>();
-	const router = useRouter();
 
 	const deleteMember = trpc.teams.members.delete.useMutation({
 		onMutate: () => {
@@ -35,7 +33,6 @@ export function DeleteMemberItem({ member, setDialogOpen }: Props) {
 		},
 		onSuccess: () => {
 			setToastId(toast.success(`Deleted ${member.name}`, { id: toastId }));
-			router.refresh();
 		},
 		onError: (error) => {
 			setToastId(

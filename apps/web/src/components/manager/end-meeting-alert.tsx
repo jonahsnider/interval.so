@@ -15,7 +15,6 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { trpc } from '@/src/trpc/trpc-client';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import clsx from 'clsx';
-import { useRouter } from 'next/navigation';
 import type { PropsWithChildren } from 'react';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -105,7 +104,6 @@ function EndMeetingDialogAction({
 	team: Pick<TeamSchema, 'slug'>;
 }) {
 	const [toastId, setToastId] = useState<string | number | undefined>();
-	const router = useRouter();
 
 	const signOutAll = trpc.teams.members.endMeeting.useMutation({
 		onMutate: () => {
@@ -113,7 +111,6 @@ function EndMeetingDialogAction({
 		},
 		onSuccess: () => {
 			toast.success('Meeting ended', { id: toastId });
-			router.refresh();
 		},
 		onError: (error) => {
 			toast.error('An error occurred while ending the meeting', {

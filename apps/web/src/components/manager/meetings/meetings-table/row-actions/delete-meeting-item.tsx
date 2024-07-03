@@ -17,7 +17,6 @@ import { trpc } from '@/src/trpc/trpc-client';
 import { TrashIcon } from '@heroicons/react/16/solid';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import type { TeamMeetingSchema } from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -29,7 +28,6 @@ type Props = {
 
 export function DeleteMeetingItem({ meeting, team, setDialogOpen }: Props) {
 	const [toastId, setToastId] = useState<string | number | undefined>();
-	const router = useRouter();
 
 	const deleteOngoingMeeting = trpc.teams.meetings.deleteOngoingMeeting.useMutation({
 		onMutate: () => {
@@ -37,7 +35,6 @@ export function DeleteMeetingItem({ meeting, team, setDialogOpen }: Props) {
 		},
 		onSuccess: () => {
 			toast.success('Meeting deleted', { id: toastId });
-			router.refresh();
 		},
 		onError: (error) => {
 			toast.error('An error occurred while deleting the meeting', {
@@ -52,7 +49,6 @@ export function DeleteMeetingItem({ meeting, team, setDialogOpen }: Props) {
 		},
 		onSuccess: () => {
 			toast.success('Meeting deleted', { id: toastId });
-			router.refresh();
 		},
 		onError: (error) => {
 			toast.error('An error occurred while deleting the meeting', {

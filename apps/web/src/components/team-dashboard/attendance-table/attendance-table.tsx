@@ -10,7 +10,6 @@ import type { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas
 import clsx from 'clsx';
 import { AnimatePresence, type Variants, motion } from 'framer-motion';
 import Fuse from 'fuse.js/basic';
-import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 import { CreateMemberDialog } from '../../members/create-member/create-member-dialog';
@@ -129,8 +128,6 @@ function InnerTable({
 function InnerTableRow({ visible, className, member }: { visible: boolean; className?: string; member: SimpleMember }) {
 	const [checked, setChecked] = useState(member.atMeeting);
 
-	const router = useRouter();
-
 	// Trying to do this the more correct way with useOptimistic was complicated and didn't work
 	// I didn't want to spend more time debugging, so I just did it this way
 	// This allows users to see the switch reflect their action optimistically, but reverts to the server state whenever new information is received or the mutation errors
@@ -141,9 +138,6 @@ function InnerTableRow({ visible, className, member }: { visible: boolean; class
 	const mutation = trpc.teams.members.updateAttendance.useMutation({
 		onMutate: ({ atMeeting }) => {
 			setChecked(Boolean(atMeeting));
-		},
-		onSuccess: () => {
-			router.refresh();
 		},
 		onError: (error, { atMeeting }) => {
 			const action = atMeeting ? 'in' : 'out';

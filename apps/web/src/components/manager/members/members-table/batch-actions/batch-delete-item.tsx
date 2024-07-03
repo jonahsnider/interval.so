@@ -15,7 +15,6 @@ import { TrashIcon } from '@heroicons/react/16/solid';
 import type { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
 import { AlertDialog } from '@radix-ui/react-alert-dialog';
 import type { Table } from '@tanstack/react-table';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -27,7 +26,6 @@ type Props = {
 
 export function BatchDeleteItem({ setDialogOpen, table, closeDropdown }: Props) {
 	const [toastId, setToastId] = useState<string | number | undefined>();
-	const router = useRouter();
 
 	const selectedRows = table.getSelectedRowModel().rows;
 
@@ -37,7 +35,6 @@ export function BatchDeleteItem({ setDialogOpen, table, closeDropdown }: Props) 
 		},
 		onSuccess: () => {
 			toast.success(`Deleted ${selectedRows.length} members`, { id: toastId });
-			router.refresh();
 			setDialogOpen(false);
 			closeDropdown();
 			table.toggleAllRowsSelected(false);

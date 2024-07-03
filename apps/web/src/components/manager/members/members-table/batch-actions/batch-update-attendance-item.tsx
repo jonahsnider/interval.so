@@ -3,7 +3,6 @@ import { trpc } from '@/src/trpc/trpc-client';
 import { ArrowLeftEndOnRectangleIcon, ArrowRightStartOnRectangleIcon } from '@heroicons/react/16/solid';
 import type { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
 import type { Table } from '@tanstack/react-table';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -13,7 +12,6 @@ type Props = {
 
 export function BatchUpdateAttendanceItem({ table }: Props) {
 	const [toastId, setToastId] = useState<string | number | undefined>();
-	const router = useRouter();
 	const selectedRows = table.getSelectedRowModel().rows;
 
 	const mutation = trpc.teams.members.updateAttendanceMany.useMutation({
@@ -22,7 +20,6 @@ export function BatchUpdateAttendanceItem({ table }: Props) {
 		},
 		onSuccess: (_result, { data }) => {
 			toast.success(`Signed ${selectedRows.length} members ${data.atMeeting ? 'in' : 'out'}`, { id: toastId });
-			router.refresh();
 		},
 		onError: (error, { data }) => {
 			toast.error(`An error occurred while ${data.atMeeting ? 'signing in' : 'signing out'} the members`, {
