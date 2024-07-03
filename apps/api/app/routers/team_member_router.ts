@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { injectHelper } from '../../util/inject_helper.js';
 import { TeamSchema } from '../team/schemas/team_schema.js';
 import { TeamMemberEventsService } from '../team_member/events/team_member_events_service.js';
+import { NowOrEarlierSchema } from '../team_member/schemas/now_or_earlier_schema.js';
 import { type SimpleTeamMemberSchema, TeamMemberSchema } from '../team_member/schemas/team_member_schema.js';
 import { TeamMemberBatchService } from '../team_member/team_member_batch_service.js';
 import { TeamMemberService } from '../team_member/team_member_service.js';
@@ -53,7 +54,7 @@ export class TeamMemberRouter {
 				}),
 
 			endMeeting: authedProcedure
-				.input(z.object({ team: TeamSchema.pick({ slug: true }), endTime: z.date() }).strict())
+				.input(z.object({ team: TeamSchema.pick({ slug: true }), endTime: NowOrEarlierSchema }).strict())
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
 					return this.teamMemberBatchService.signOutAll(ctx.context.bouncer, input.team, input.endTime);
