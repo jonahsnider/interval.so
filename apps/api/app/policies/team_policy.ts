@@ -38,7 +38,7 @@ export default class TeamPolicy extends BasePolicy {
 	}
 
 	updateSettings(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
-		return this.authorizationService.hasRoles(actor, team, ['owner', 'admin', 'editor']);
+		return this.authorizationService.hasRoles(actor, team, ['owner', 'admin']);
 	}
 
 	async updateUserRole(

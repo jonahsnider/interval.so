@@ -40,7 +40,7 @@ async function TeamDisplayNameEditFormFetcher({ team }: Props) {
 		trpcServer.teams.roleForSelf.query(team),
 	]);
 
-	if (teamManager.role === 'viewer') {
+	if (teamManager.role === 'viewer' || teamManager.role === 'editor') {
 		return (
 			<CardContent>
 				<ReadonlyTextField className='min-w-80'>{currentDisplayName}</ReadonlyTextField>
