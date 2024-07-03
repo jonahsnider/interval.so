@@ -1,5 +1,5 @@
+import { AttendanceTable } from '@/src/components/team-dashboard/attendance-table/attendance-table';
 import { ManagerTiles } from '@/src/components/team-dashboard/manager-tiles/manager-tiles';
-import { MembersTable } from '@/src/components/team-dashboard/members-table/members-table';
 import { trpcServer } from '@/src/trpc/trpc-server';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import { Suspense } from 'react';
@@ -34,7 +34,7 @@ export default async function HomePage({ params }: Props) {
 				<Suspense>
 					<ManagerTilesWrapper team={{ slug: params.team }} />
 				</Suspense>
-				<MembersTable initialData={initialMembers} team={team} />
+				<AttendanceTable initialData={initialMembers} team={team} />
 			</div>
 		</div>
 	);

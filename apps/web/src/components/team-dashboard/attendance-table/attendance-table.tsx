@@ -30,7 +30,7 @@ type Props = {
 	team: Pick<TeamSchema, 'slug'>;
 };
 
-export function MembersTable({ initialData, team }: Props) {
+export function AttendanceTable({ initialData, team }: Props) {
 	const [members, setMembers] = useState(initialData);
 
 	trpc.teams.members.simpleMemberListSubscription.useSubscription(team, {
