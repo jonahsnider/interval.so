@@ -1,4 +1,4 @@
-import { httpBatchLink, splitLink, unstable_httpSubscriptionLink } from '@trpc/client';
+import { splitLink, unstable_httpBatchStreamLink, unstable_httpSubscriptionLink } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
 import superjson from 'superjson';
 import { getTimezone } from '../utils/timezone-util';
@@ -17,7 +17,7 @@ export const trpc = createTRPCNext<AppRouterType>({
 						withCredentials: true,
 					},
 				}),
-				false: httpBatchLink({
+				false: unstable_httpBatchStreamLink({
 					transformer: superjson,
 					url: trpcUrl,
 					headers() {
