@@ -3,7 +3,7 @@ import type { RouterOutput } from '@/src/trpc/common';
 import { trpc } from '@/src/trpc/trpc-client';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import type { TimeRangeSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_range_schema';
-import { type ReactNode, useState } from 'react';
+import { useState } from 'react';
 import { type DurationSlug, durationLabelPreviousPeriod } from '../../../period-select/duration-slug';
 import { CombinedHoursTileBase } from './combined-hours-tile.shared';
 
@@ -27,10 +27,6 @@ export function CombinedHoursTileClient({
 	initialTrend,
 	durationSlug,
 }: Props) {
-	// const [current] = trpc.teams.stats.getCombinedHours.useSuspenseQuery(
-	// 	{ team, timeRange: currentTimeRange },
-	// 	{ initialData: initialCurrent },
-	// );
 	const [current, setCurrent] = useState(initialCurrent);
 
 	trpc.teams.stats.getCombinedHoursSubscription.useSubscription(
@@ -38,18 +34,43 @@ export function CombinedHoursTileClient({
 		{ onData: setCurrent },
 	);
 
-	// Evil conditional hook but it's okay since this component gets unmounted if the trend time range changes
-	const [trend] =
-		previousTimeRange && initialTrend
-			? trpc.teams.stats.getCombinedHours.useSuspenseQuery(
-					{ team, timeRange: previousTimeRange },
-					{ initialData: initialTrend },
+	return (
+		<CombinedHoursTileBase
+			value={`${current.toFixed(1)} hours`}
+			trend={
+				previousTimeRange && (
+					<Trend
+						team={team}
+						current={current}
+						durationSlug={durationSlug}
+						initialTrend={initialTrend}
+						previousTimeRange={previousTimeRange}
+					/>
 				)
-			: [undefined];
+			}
+		/>
+	);
+}
 
-	const currentFormatted = `${current.toFixed(1)} hours`;
+function Trend({
+	initialTrend,
+	durationSlug,
+	previousTimeRange,
+	team,
+	current,
+}: {
+	team: Pick<TeamSchema, 'slug'>;
+	current: number;
+	durationSlug: DurationSlug;
+	initialTrend?: RouterOutput['teams']['stats']['getCombinedHours'];
+	previousTimeRange: TimeRangeSchema;
+}) {
+	const [trend, setTrend] = useState(initialTrend);
 
-	let trendFormatted: ReactNode;
+	trpc.teams.stats.getCombinedHoursSubscription.useSubscription(
+		{ team, timeRange: previousTimeRange },
+		{ onData: setTrend },
+	);
 
 	if (current !== 0 && trend) {
 		const percentChange = Math.round((trend / current - 1) * 100);
@@ -58,13 +79,11 @@ export function CombinedHoursTileClient({
 			throw new RangeError('percentChange is NaN');
 		}
 
-		trendFormatted = (
+		return (
 			<>
 				{percentChange >= 0 && '+'}
 				{percentChange}% from {durationLabelPreviousPeriod(durationSlug)?.toLowerCase()}
 			</>
 		);
 	}
-
-	return <CombinedHoursTileBase value={currentFormatted} trend={trendFormatted} />;
 }
