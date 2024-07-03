@@ -14,9 +14,7 @@ export function rolesThatCanManageOther(other: Pick<TeamManagerSchema, 'role'>):
 		case 'owner':
 		case 'admin':
 			return ['owner'];
-		case 'viewer':
 		case 'editor':
-			// Editors can't update viewers, even though they're a level above them
 			return ['owner', 'admin'];
 	}
 }

@@ -34,7 +34,7 @@ export default class TeamPolicy extends BasePolicy {
 	}
 
 	viewSettings(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
-		return this.authorizationService.hasRoles(actor, team, ['owner', 'admin', 'editor', 'viewer']);
+		return this.authorizationService.hasRoles(actor, team, ['owner', 'admin', 'editor']);
 	}
 
 	updateSettings(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
@@ -61,11 +61,8 @@ export default class TeamPolicy extends BasePolicy {
 			.with({ from: P.any, to: P.union('owner', 'admin') }, (): TeamManagerRole[] => ['owner'])
 			// Only owner can manage admins
 			.with({ from: 'admin', to: P.any }, (): TeamManagerRole[] => ['owner'])
-			// Owners & admins can manage editors & viewers
-			.with({ from: P.union('editor', 'viewer'), to: P.union('editor', 'viewer') }, (): TeamManagerRole[] => [
-				'owner',
-				'admin',
-			])
+			// Owners & admins can manage editors
+			.with({ from: 'editor', to: 'editor' }, (): TeamManagerRole[] => ['owner', 'admin'])
 			.exhaustive();
 
 		if (allowedRolesOrFalse === false) {

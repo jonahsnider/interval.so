@@ -14,7 +14,8 @@ import {
 	uuid,
 } from 'drizzle-orm/pg-core';
 
-export const teamManagerRole = pgEnum('team_user_role', ['owner', 'admin', 'editor', 'viewer']);
+// TODO: The current database migrations have a "viewer" value, but it's annoying to remove that in Postgres + Drizzle can't handle it
+export const teamManagerRole = pgEnum('team_user_role', ['owner', 'admin', 'editor']);
 export type TeamManagerRole = (typeof teamManagerRole)['enumValues'][number];
 
 const bytea = customType<{ data: Buffer; notNull: false; default: false }>({

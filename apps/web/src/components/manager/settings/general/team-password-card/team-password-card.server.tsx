@@ -42,7 +42,7 @@ async function TeamPasswordEditFormFetcher({ team }: Props) {
 		trpcServer.teams.roleForSelf.query(team),
 	]);
 
-	if (teamManager.role === 'viewer') {
+	if (teamManager.role === 'editor') {
 		return (
 			<CardContent>
 				<CopyButtonInput className='max-w-80' value={currentPassword.password} editable={false} />

@@ -15,7 +15,7 @@ export default class MeetingPolicy extends BasePolicy {
 	}
 
 	viewList(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
-		return this.authorizationService.hasRoles(actor, team, ['owner', 'admin', 'editor', 'viewer']);
+		return this.authorizationService.hasRoles(actor, team, ['owner', 'admin', 'editor']);
 	}
 
 	create(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {

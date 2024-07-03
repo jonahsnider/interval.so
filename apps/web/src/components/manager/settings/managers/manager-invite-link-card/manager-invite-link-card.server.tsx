@@ -34,7 +34,7 @@ function Inner({ team }: Props) {
 		<Card>
 			<CardHeader>
 				<CardTitle>Manager invite link</CardTitle>
-				<CardDescription>Allow other people to join your team as viewers through the link below.</CardDescription>
+				<CardDescription>Allow other people to join your team as editors through the link below.</CardDescription>
 			</CardHeader>
 			<Suspense fallback={<SettingsCardContentSkeleton />}>
 				<CardContent>

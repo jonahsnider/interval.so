@@ -16,23 +16,23 @@ export default class TeamMemberPolicy extends BasePolicy {
 	}
 
 	create(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
-		return this.authorizationService.hasRoles(actor, team, ['admin', 'owner', 'editor', 'viewer', 'guestToken']);
+		return this.authorizationService.hasRoles(actor, team, ['admin', 'owner', 'editor', 'guestToken']);
 	}
 
 	viewSimpleMemberList(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
-		return this.authorizationService.hasRoles(actor, team, ['admin', 'owner', 'editor', 'viewer', 'guestToken']);
+		return this.authorizationService.hasRoles(actor, team, ['admin', 'owner', 'editor', 'guestToken']);
 	}
 
 	updateAttendance(actor: BouncerUser, teamMember: Pick<TeamMemberSchema, 'id'>): AuthorizerResponse {
 		return this.authorizationService.hasRolesByTeamMembers(
 			actor,
 			[teamMember],
-			['admin', 'owner', 'editor', 'viewer', 'guestToken'],
+			['admin', 'owner', 'editor', 'guestToken'],
 		);
 	}
 
 	viewFullMemberList(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
-		return this.authorizationService.hasRoles(actor, team, ['owner', 'admin', 'editor', 'viewer']);
+		return this.authorizationService.hasRoles(actor, team, ['owner', 'admin', 'editor']);
 	}
 
 	update(actor: BouncerUser, teamMembers: Pick<TeamMemberSchema, 'id'>[]): AuthorizerResponse {
@@ -44,8 +44,6 @@ export default class TeamMemberPolicy extends BasePolicy {
 	}
 
 	signOutAll(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
-		// Viewers can't do the batch sign out, they can only sign out individually
-		// Unclear if this means anything. I guess it means viewers can only sign members out "now", vs at a specified time
 		return this.authorizationService.hasRoles(actor, team, ['owner', 'admin', 'editor']);
 	}
 }

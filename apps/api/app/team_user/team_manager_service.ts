@@ -9,7 +9,7 @@ import type { TeamSchema } from '../team/schemas/team_schema.js';
 import type { UserSchema } from '../user/schemas/user_schema.js';
 import type { TeamManagerSchema } from './schemas/team_user_schema.js';
 
-/** Team managers are editors/viewers/admins of a team, who manage settings & attendance. */
+/** Team managers are editors/admins of a team, who manage settings & attendance. */
 export class TeamManagerService {
 	async teamNamesForUser(user: Pick<UserSchema, 'id'>): Promise<Pick<TeamSchema, 'displayName' | 'slug'>[]> {
 		const result = await db
