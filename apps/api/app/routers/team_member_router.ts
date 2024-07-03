@@ -5,15 +5,18 @@ import { injectHelper } from '../../util/inject_helper.js';
 import { TeamSchema } from '../team/schemas/team_schema.js';
 import { TeamMemberEventsService } from '../team_member/events/team_member_events_service.js';
 import { type SimpleTeamMemberSchema, TeamMemberSchema } from '../team_member/schemas/team_member_schema.js';
+import { TeamMemberBatchService } from '../team_member/team_member_batch_service.js';
 import { TeamMemberService } from '../team_member/team_member_service.js';
+import { TeamMemberSubscriptionService } from '../team_member/team_member_subscription_service.js';
 import { authedProcedure, publicProcedure, router } from '../trpc/trpc_service.js';
 
 @inject()
-@injectHelper(TeamMemberService, TeamMemberEventsService)
+@injectHelper(TeamMemberService, TeamMemberEventsService, TeamMemberSubscriptionService, TeamMemberBatchService)
 export class TeamMemberRouter {
 	constructor(
 		private readonly teamMemberService: TeamMemberService,
-		private readonly eventsService: TeamMemberEventsService,
+		private readonly teamMemberSubscriptionService: TeamMemberSubscriptionService,
+		private readonly teamMemberBatchService: TeamMemberBatchService,
 	) {}
 
 	getRouter() {
@@ -40,7 +43,7 @@ export class TeamMemberRouter {
 			simpleMemberListSubscription: publicProcedure
 				.input(TeamSchema.pick({ slug: true }))
 				.subscription(({ ctx, input }): Promise<Observable<SimpleTeamMemberSchema[], unknown>> => {
-					return this.teamMemberService.simpleTeamMemberListSubscribe(ctx.context.bouncer, input);
+					return this.teamMemberSubscriptionService.simpleTeamMemberListSubscribe(ctx.context.bouncer, input);
 				}),
 			updateAttendance: publicProcedure
 				.input(TeamMemberSchema.pick({ id: true, atMeeting: true }).strict())
@@ -53,7 +56,7 @@ export class TeamMemberRouter {
 				.input(z.object({ team: TeamSchema.pick({ slug: true }), endTime: z.date() }).strict())
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
-					return this.teamMemberService.signOutAll(ctx.context.bouncer, input.team, input.endTime);
+					return this.teamMemberBatchService.signOutAll(ctx.context.bouncer, input.team, input.endTime);
 				}),
 
 			fullMemberList: authedProcedure
@@ -87,7 +90,7 @@ export class TeamMemberRouter {
 				)
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
-					return this.teamMemberService.deleteMany(ctx.context.bouncer, input.members);
+					return this.teamMemberBatchService.deleteMany(ctx.context.bouncer, input.members);
 				}),
 			setArchivedMany: authedProcedure
 				.input(
@@ -100,7 +103,7 @@ export class TeamMemberRouter {
 				)
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
-					return this.teamMemberService.setArchivedMany(ctx.context.bouncer, input.members, input.data);
+					return this.teamMemberBatchService.setArchivedMany(ctx.context.bouncer, input.members, input.data);
 				}),
 			updateAttendanceMany: authedProcedure
 				.input(
@@ -113,7 +116,7 @@ export class TeamMemberRouter {
 				)
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
-					return this.teamMemberService.updateAttendanceMany(ctx.context.bouncer, input.members, input.data);
+					return this.teamMemberBatchService.updateAttendanceMany(ctx.context.bouncer, input.members, input.data);
 				}),
 		});
 	}

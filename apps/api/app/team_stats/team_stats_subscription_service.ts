@@ -14,7 +14,7 @@ import { TeamStatsService } from './team_stats_service.js';
 
 @inject()
 @injectHelper(TeamStatsService, TeamMemberEventsService)
-export class TeamStatsSubscriptionsService {
+export class TeamStatsSubscriptionService {
 	constructor(
 		private readonly teamStatsService: TeamStatsService,
 		private readonly eventsService: TeamMemberEventsService,

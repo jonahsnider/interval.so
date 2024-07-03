@@ -7,17 +7,17 @@ import { AverageHoursDatumSchema } from '../team_stats/schemas/average_hours_dat
 import { TimeRangeSchema } from '../team_stats/schemas/time_range_schema.js';
 import { UniqueMembersDatumSchema } from '../team_stats/schemas/unique_members_datum_schema.js';
 import { TeamStatsService } from '../team_stats/team_stats_service.js';
-import { TeamStatsSubscriptionsService } from '../team_stats/team_stats_subscriptions_service.js';
+import { TeamStatsSubscriptionService } from '../team_stats/team_stats_subscription_service.js';
 import { authedProcedure, router } from '../trpc/trpc_service.js';
 import { UserService } from '../user/user_service.js';
 
 @inject()
-@injectHelper(TeamStatsService, UserService, TeamStatsSubscriptionsService)
+@injectHelper(TeamStatsService, UserService, TeamStatsSubscriptionService)
 export class TeamStatsRouter {
 	constructor(
 		private readonly teamStatsService: TeamStatsService,
 		private readonly userService: UserService,
-		private readonly teamStatsSubscriptionsService: TeamStatsSubscriptionsService,
+		private readonly teamStatsSubscriptionsService: TeamStatsSubscriptionService,
 	) {}
 
 	getRouter() {
