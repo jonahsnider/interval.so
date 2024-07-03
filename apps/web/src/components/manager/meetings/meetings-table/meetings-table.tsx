@@ -28,7 +28,7 @@ export function MeetingsTable({ team, timeRange }: Props) {
 			}
 		>
 			<Suspense fallback={<MeetingsTableSkeleton />}>
-				<MeetingsTableClient dataPromise={dataPromise} />
+				<MeetingsTableClient initialDataPromise={dataPromise} team={team} timeRange={timeRange} />
 			</Suspense>
 		</ErrorBoundary>
 	);

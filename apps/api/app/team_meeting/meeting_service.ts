@@ -14,7 +14,7 @@ import type { TeamMeetingSchema } from './schemas/team_meeting_schema.js';
 
 @inject()
 @injectHelper(TeamMemberEventsService)
-export class TeamMeetingService {
+export class MeetingService {
 	constructor(private readonly teamMemberEventsService: TeamMemberEventsService) {}
 
 	async getMeetings(
