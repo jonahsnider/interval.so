@@ -6,7 +6,7 @@ import { TeamSchema } from '../team/schemas/team_schema.js';
 import { MeetingService } from '../team_meeting/meeting_service.js';
 import { MeetingSubscriptionService } from '../team_meeting/meeting_subscription_service.js';
 import { TeamMeetingSchema } from '../team_meeting/schemas/team_meeting_schema.js';
-import { TimeRangeSchema } from '../team_stats/schemas/time_range_schema.js';
+import { TimeFilterSchema } from '../team_stats/schemas/time_filter_schema.js';
 import { authedProcedure, router } from '../trpc/trpc_service.js';
 
 @inject()
@@ -20,15 +20,15 @@ export class MeetingRouter {
 	getRouter() {
 		return router({
 			getMeetings: authedProcedure
-				.input(z.object({ team: TeamSchema.pick({ slug: true }), timeRange: TimeRangeSchema }).strict())
+				.input(z.object({ team: TeamSchema.pick({ slug: true }), timeFilter: TimeFilterSchema }).strict())
 				.output(z.array(TeamMeetingSchema))
 				.query(({ ctx, input }) => {
-					return this.meetingService.getMeetings(ctx.context.bouncer, input.team, input.timeRange);
+					return this.meetingService.getMeetings(ctx.context.bouncer, input.team, input.timeFilter);
 				}),
 			meetingsSubscription: authedProcedure
-				.input(z.object({ team: TeamSchema.pick({ slug: true }), timeRange: TimeRangeSchema }).strict())
+				.input(z.object({ team: TeamSchema.pick({ slug: true }), timeFilter: TimeFilterSchema }).strict())
 				.subscription(({ ctx, input }): Promise<Observable<TeamMeetingSchema[], unknown>> => {
-					return this.meetingSubscriptionService.meetingsSubscribe(ctx.context.bouncer, input.team, input.timeRange);
+					return this.meetingSubscriptionService.meetingsSubscribe(ctx.context.bouncer, input.team, input.timeFilter);
 				}),
 
 			getCurrentMeetingStart: authedProcedure

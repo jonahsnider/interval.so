@@ -4,7 +4,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { trpcServer } from '@/src/trpc/trpc-server';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
-import type { TimeRangeSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_range_schema';
+import type { TimeFilterSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_filter_schema';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { InnerTableContainer, OuterTableContainer } from './meetings-table-common';
@@ -12,12 +12,12 @@ import { MeetingsTableClient } from './meetings-table.client';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;
-	timeRange: TimeRangeSchema;
+	timeFilter: TimeFilterSchema;
 };
 
 // TODO: Add a button to allow creating a meeting. You specify start time, end time, and select the members who were there
-export function MeetingsTable({ team, timeRange }: Props) {
-	const dataPromise = trpcServer.teams.meetings.getMeetings.query({ team, timeRange });
+export function MeetingsTable({ team, timeFilter }: Props) {
+	const dataPromise = trpcServer.teams.meetings.getMeetings.query({ team, timeFilter: timeFilter });
 
 	return (
 		<ErrorBoundary
@@ -28,7 +28,7 @@ export function MeetingsTable({ team, timeRange }: Props) {
 			}
 		>
 			<Suspense fallback={<MeetingsTableSkeleton />}>
-				<MeetingsTableClient initialDataPromise={dataPromise} team={team} timeRange={timeRange} />
+				<MeetingsTableClient initialDataPromise={dataPromise} team={team} timeFilter={timeFilter} />
 			</Suspense>
 		</ErrorBoundary>
 	);

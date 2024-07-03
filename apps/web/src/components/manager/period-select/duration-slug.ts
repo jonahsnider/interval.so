@@ -1,3 +1,4 @@
+import type { TimeFilterSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_filter_schema';
 import type { TimeRangeSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_range_schema';
 import { type Duration, endOfDay, endOfYear, startOfDay, startOfYear, sub } from 'date-fns';
 
@@ -26,6 +27,22 @@ export function durationLabelPreviousPeriod(duration: DurationSlug): string | un
 	}
 
 	return durationLabel(duration);
+}
+
+export function toTimeFilter(searchParams: {
+	duration: DurationSlug;
+	start?: Date | null;
+	end?: Date | null;
+}): TimeFilterSchema {
+	const timeRange = toTimeRange(searchParams);
+
+	if (searchParams.duration === DurationSlug.Custom) {
+		return timeRange.current;
+	}
+
+	return {
+		start: timeRange.current.start,
+	};
 }
 
 export function toTimeRange(searchParams: {

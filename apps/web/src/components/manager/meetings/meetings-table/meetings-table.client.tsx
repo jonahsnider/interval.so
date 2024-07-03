@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { trpc } from '@/src/trpc/trpc-client';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import type { TeamMeetingSchema } from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
-import type { TimeRangeSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_range_schema';
+import type { TimeFilterSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_filter_schema';
 import {
 	type SortingState,
 	flexRender,
@@ -22,14 +22,14 @@ import { MeetingsTableFilters } from './meetings-table-filters';
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;
 	initialDataPromise: Promise<TeamMeetingSchema[]>;
-	timeRange: TimeRangeSchema;
+	timeFilter: TimeFilterSchema;
 };
 
-export function MeetingsTableClient({ initialDataPromise, team, timeRange }: Props) {
+export function MeetingsTableClient({ initialDataPromise, team, timeFilter }: Props) {
 	const initialData = use(initialDataPromise);
 	const [data, setData] = useState(initialData);
 
-	trpc.teams.meetings.meetingsSubscription.useSubscription({ team, timeRange }, { onData: setData });
+	trpc.teams.meetings.meetingsSubscription.useSubscription({ team, timeFilter: timeFilter }, { onData: setData });
 
 	const [sorting, setSorting] = useState<SortingState>([
 		{

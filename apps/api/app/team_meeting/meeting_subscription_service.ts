@@ -6,7 +6,7 @@ import { AuthorizationService } from '../authorization/authorization_service.js'
 import type { TeamSchema } from '../team/schemas/team_schema.js';
 import { MemberRedisEvent } from '../team_member/events/schemas/redis_event_schema.js';
 import { TeamMemberEventsService } from '../team_member/events/team_member_events_service.js';
-import type { TimeRangeSchema } from '../team_stats/schemas/time_range_schema.js';
+import type { TimeFilterSchema } from '../team_stats/schemas/time_filter_schema.js';
 import { MeetingService } from './meeting_service.js';
 import type { TeamMeetingSchema } from './schemas/team_meeting_schema.js';
 
@@ -21,7 +21,7 @@ export class MeetingSubscriptionService {
 	async meetingsSubscribe(
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
-		timeRange: TimeRangeSchema,
+		timeFilter: TimeFilterSchema,
 	): Promise<Observable<TeamMeetingSchema[]>> {
 		await AuthorizationService.assertPermission(bouncer.with('MeetingPolicy').allows('viewList', team));
 
@@ -29,7 +29,7 @@ export class MeetingSubscriptionService {
 
 		return concat(
 			// Emit one event on subscribe
-			from(this.meetingService.getMeetings(bouncer, team, timeRange)),
+			from(this.meetingService.getMeetings(bouncer, team, timeFilter)),
 			memberChanges.pipe(
 				filter(
 					(event) =>
@@ -37,7 +37,7 @@ export class MeetingSubscriptionService {
 						event === MemberRedisEvent.MemberDeleted ||
 						event === MemberRedisEvent.MemberAttendanceUpdated,
 				),
-				mergeMap(() => from(this.meetingService.getMeetings(bouncer, team, timeRange))),
+				mergeMap(() => from(this.meetingService.getMeetings(bouncer, team, timeFilter))),
 			),
 		);
 	}

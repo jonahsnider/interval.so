@@ -9,6 +9,7 @@ import { db } from '../db/db_service.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
 import { MemberRedisEvent } from '../team_member/events/schemas/redis_event_schema.js';
 import { TeamMemberEventsService } from '../team_member/events/team_member_events_service.js';
+import type { TimeFilterSchema } from '../team_stats/schemas/time_filter_schema.js';
 import type { TimeRangeSchema } from '../team_stats/schemas/time_range_schema.js';
 import type { TeamMeetingSchema } from './schemas/team_meeting_schema.js';
 
@@ -20,7 +21,7 @@ export class MeetingService {
 	async getMeetings(
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
-		timeRange: TimeRangeSchema,
+		timeFilter: TimeFilterSchema,
 	): Promise<TeamMeetingSchema[]> {
 		await AuthorizationService.assertPermission(bouncer.with('MeetingPolicy').allows('viewList', team));
 
@@ -39,9 +40,9 @@ export class MeetingService {
 				Schema.teamMembers,
 				and(
 					eq(Schema.finishedMemberMeetings.memberId, Schema.teamMembers.id),
-					gt(Schema.finishedMemberMeetings.startedAt, timeRange.start),
+					gt(Schema.finishedMemberMeetings.startedAt, timeFilter.start),
 					// Need to manually stringify the date due to a Drizzle bug https://github.com/drizzle-team/drizzle-orm/issues/2009
-					lt(Schema.finishedMemberMeetings.endedAt, timeRange.end),
+					timeFilter.end && lt(Schema.finishedMemberMeetings.endedAt, timeFilter.end),
 				),
 			)
 			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)))
