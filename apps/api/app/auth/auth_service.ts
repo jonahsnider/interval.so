@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 import {
 	generateAuthenticationOptions,
@@ -15,9 +16,15 @@ import { TRPCError } from '@trpc/server';
 import { eq } from 'drizzle-orm';
 import { origin, rpId, rpName } from '#config/auth';
 import * as Schema from '#database/schema';
+import { injectHelper } from '../../util/inject_helper.js';
 import { db } from '../db/db_service.js';
+import { AuthChallengeService } from './auth_challenge/auth_challenge_service.js';
 
+@inject()
+@injectHelper(AuthChallengeService)
 export class AuthService {
+	constructor(private readonly authChallengeService: AuthChallengeService) {}
+
 	async getRegisterOptions(input: {
 		displayName: string;
 		context: HttpContext;
@@ -42,7 +49,7 @@ export class AuthService {
 		});
 
 		// Store the challenge for later verification
-		input.context.session.put('challenge', options.challenge);
+		await this.authChallengeService.storeChallenge(input.context.session, options.challenge);
 
 		return options;
 	}
@@ -52,7 +59,7 @@ export class AuthService {
 		context: HttpContext;
 		displayName: string;
 	}): Promise<void> {
-		const existingChallenge = input.context.session.pull('challenge');
+		const existingChallenge = await this.authChallengeService.consumeChallenge(input.context.session);
 
 		if (!existingChallenge) {
 			throw new TRPCError({
@@ -125,7 +132,7 @@ export class AuthService {
 		});
 
 		// Persist challenge
-		context.session.put('challenge', options.challenge);
+		await this.authChallengeService.storeChallenge(context.session, options.challenge);
 
 		return options;
 	}
@@ -156,7 +163,7 @@ export class AuthService {
 			throw new TRPCError({ code: 'UNAUTHORIZED', message: "That passkey wasn't recognized" });
 		}
 
-		const currentChallenge = input.context.session.pull('challenge');
+		const currentChallenge = await this.authChallengeService.consumeChallenge(input.context.session);
 
 		if (!currentChallenge) {
 			throw new TRPCError({
