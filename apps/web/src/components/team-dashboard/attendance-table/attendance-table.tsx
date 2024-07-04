@@ -167,7 +167,7 @@ function InnerTableRow({ visible, className, member }: { visible: boolean; class
 			animate={visible ? 'visible' : 'hidden'}
 			className={className}
 		>
-			<TableCell className='font-medium pl-8'>{member.name}</TableCell>
+			<TableCell className='font-medium pl-8 whitespace-pre-wrap'>{member.name}</TableCell>
 			<TableCell className='pr-8 text-right'>
 				<Switch
 					checked={checked}
