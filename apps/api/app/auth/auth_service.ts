@@ -41,6 +41,7 @@ export class AuthService {
 			},
 		});
 
+		// TODO: For whatever reason, this is not properly persisting to Redis - need to make a separate service that manages challenges outside of the session
 		// Store the challenge for later verification
 		input.context.session.put('challenge', options.challenge);
 
@@ -71,43 +72,48 @@ export class AuthService {
 			requireUserVerification: true,
 		});
 
-		if (verification.verified) {
-			let userId: string | undefined;
+		if (!verification.verified) {
+			throw new TRPCError({
+				code: 'UNAUTHORIZED',
+				message: 'Authentication failed',
+			});
+		}
 
-			await db.transaction(async (tx) => {
-				assert(
-					verification.registrationInfo,
-					new TypeError('Expected registration info to be defined since verification was successful'),
-				);
+		let userId: string | undefined;
 
-				const [user] = await tx
-					.insert(Schema.users)
-					.values({
-						displayName: input.displayName,
-					})
-					.returning({ id: Schema.users.id });
+		await db.transaction(async (tx) => {
+			assert(
+				verification.registrationInfo,
+				new TypeError('Expected registration info to be defined since verification was successful'),
+			);
 
-				assert(user);
+			const [user] = await tx
+				.insert(Schema.users)
+				.values({
+					displayName: input.displayName,
+				})
+				.returning({ id: Schema.users.id });
 
-				await tx.insert(Schema.credentials).values({
-					userId: user.id,
-					deviceType: verification.registrationInfo.credentialDeviceType,
-					id: verification.registrationInfo.credentialID,
-					publicKey: Buffer.from(verification.registrationInfo.credentialPublicKey),
-					webauthnUserId: verification.registrationInfo.aaguid,
-					backedUp: verification.registrationInfo.credentialBackedUp,
-					counter: verification.registrationInfo.counter,
-					transports: input.body.response.transports,
-				});
+			assert(user);
 
-				userId = user.id;
+			await tx.insert(Schema.credentials).values({
+				userId: user.id,
+				deviceType: verification.registrationInfo.credentialDeviceType,
+				id: verification.registrationInfo.credentialID,
+				publicKey: Buffer.from(verification.registrationInfo.credentialPublicKey),
+				webauthnUserId: verification.registrationInfo.aaguid,
+				backedUp: verification.registrationInfo.credentialBackedUp,
+				counter: verification.registrationInfo.counter,
+				transports: input.body.response.transports,
 			});
 
-			assert(userId, new TypeError('User was not created'));
+			userId = user.id;
+		});
 
-			// Associate session with user
-			input.context.session.put('userId', userId);
-		}
+		assert(userId, new TypeError('User was not created'));
+
+		// Associate session with user
+		input.context.session.put('userId', userId);
 	}
 
 	async getLoginOptions(context: HttpContext) {
@@ -177,17 +183,23 @@ export class AuthService {
 			requireUserVerification: true,
 		});
 
-		if (verification.verified) {
-			await db
-				.update(Schema.credentials)
-				.set({
-					counter: verification.authenticationInfo.newCounter,
-				})
-				.where(eq(Schema.credentials.id, passkey.id));
+		if (!verification.verified) {
+			throw new TRPCError({
+				code: 'UNAUTHORIZED',
+				message: 'Authentication failed',
+			});
 		}
+
+		await db
+			.update(Schema.credentials)
+			.set({
+				counter: verification.authenticationInfo.newCounter,
+			})
+			.where(eq(Schema.credentials.id, passkey.id));
 
 		assert(passkey.userId, new TypeError('Credential from passkey was not associated with a user'));
 
+		// TODO: This also seems like it's not writing to Redis, seems like something is very wrong with Redis provider for sessions
 		// Associate session with user
 		input.context.session.put('userId', passkey.userId);
 
