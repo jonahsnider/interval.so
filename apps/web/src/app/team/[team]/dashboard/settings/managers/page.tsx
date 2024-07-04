@@ -1,5 +1,5 @@
 import { ManagerInviteLinkCard } from '@/src/components/manager/settings/managers/manager-invite-link-card/manager-invite-link-card.server';
-import { ManagersTableCard } from '@/src/components/manager/settings/managers/managers-table-card';
+import { ManagersTableCard } from '@/src/components/manager/settings/managers/managers-table-card/managers-table-card.server';
 
 type Props = {
 	params: {
@@ -18,7 +18,7 @@ export default function TeamSettingsManagersPage({ params }: Props) {
 
 			<ManagerInviteLinkCard team={team} />
 
-			<ManagersTableCard />
+			<ManagersTableCard team={team} />
 		</div>
 	);
 }

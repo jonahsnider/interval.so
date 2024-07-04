@@ -7,8 +7,9 @@ import type { AppBouncer, BouncerUser } from '#middleware/initialize_bouncer_mid
 import { injectHelper } from '../../util/inject_helper.js';
 import { AuthorizationService } from '../authorization/authorization_service.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
-import { type TeamManagerSchema, rolesThatCanManageOther } from '../team_user/schemas/team_user_schema.js';
-import { TeamManagerService } from '../team_user/team_manager_service.js';
+import { type TeamManagerSchema, rolesThatCanManageOther } from '../team_manager/schemas/team_manager_schema.js';
+import { TeamManagerService } from '../team_manager/team_manager_service.js';
+import type { UserSchema } from '../user/schemas/user_schema.js';
 
 @inject()
 @injectHelper(AuthorizationService, TeamManagerService)
@@ -45,7 +46,7 @@ export default class TeamPolicy extends BasePolicy {
 		actor: BouncerUser,
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
-		targetUser: Pick<TeamManagerSchema, 'id'>,
+		targetUser: Pick<UserSchema, 'id'>,
 		change: Pick<TeamManagerSchema, 'role'>,
 	): Promise<boolean> {
 		const targetUserRole = await this.teamManagerService.getUserRole(bouncer, team, targetUser);
@@ -76,7 +77,7 @@ export default class TeamPolicy extends BasePolicy {
 		actor: BouncerUser,
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
-		targetUser: Pick<TeamManagerSchema, 'id'>,
+		targetUser: Pick<UserSchema, 'id'>,
 	): Promise<boolean> {
 		const targetUserRole = await this.teamManagerService.getUserRole(bouncer, team, targetUser);
 

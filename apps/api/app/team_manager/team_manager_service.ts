@@ -7,7 +7,7 @@ import { AuthorizationService } from '../authorization/authorization_service.js'
 import { db } from '../db/db_service.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
 import type { UserSchema } from '../user/schemas/user_schema.js';
-import type { TeamManagerSchema } from './schemas/team_user_schema.js';
+import type { TeamManagerSchema } from './schemas/team_manager_schema.js';
 
 /** Team managers are editors/admins of a team, who manage settings & attendance. */
 export class TeamManagerService {
@@ -83,7 +83,7 @@ export class TeamManagerService {
 	async getUserRole(
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
-		user: Pick<TeamManagerSchema, 'id'>,
+		user: Pick<UserSchema, 'id'>,
 	): Promise<Pick<TeamManagerSchema, 'role'>> {
 		// Don't leak team user IDs if the actor isn't in the team
 		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewSettings', team));
@@ -109,10 +109,10 @@ export class TeamManagerService {
 		return result;
 	}
 
-	async removeUser(
+	async removeManager(
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
-		user: Pick<TeamManagerSchema, 'id'>,
+		user: Pick<UserSchema, 'id'>,
 	): Promise<void> {
 		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('removeUser', bouncer, team, user));
 
@@ -141,5 +141,49 @@ export class TeamManagerService {
 					not(eq(Schema.teamManagers.role, 'owner')),
 				),
 			);
+	}
+
+	async getList(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>): Promise<TeamManagerSchema[]> {
+		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewSettings', team));
+
+		const result = await db
+			.select({
+				userId: Schema.teamManagers.userId,
+				userDisplayName: Schema.users.displayName,
+				role: Schema.teamManagers.role,
+			})
+			.from(Schema.teamManagers)
+			.innerJoin(Schema.teams, and(eq(Schema.teamManagers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)))
+			.innerJoin(
+				Schema.users,
+				and(eq(Schema.teamManagers.userId, Schema.users.id), eq(Schema.users.id, Schema.teamManagers.userId)),
+			)
+			.orderBy(asc(Schema.teamManagers.role), asc(Schema.users.displayName));
+
+		return result.map((row) => ({
+			user: {
+				id: row.userId,
+				displayName: row.userDisplayName,
+			},
+			role: row.role,
+		}));
+	}
+
+	async updateRole(
+		bouncer: AppBouncer,
+		team: Pick<TeamSchema, 'slug'>,
+		target: Pick<UserSchema, 'id'>,
+		change: Pick<TeamManagerSchema, 'role'>,
+	): Promise<void> {
+		await AuthorizationService.assertPermission(
+			bouncer.with('TeamPolicy').allows('updateUserRole', bouncer, team, target, change),
+		);
+
+		const teams = db.select({ id: Schema.teams.id }).from(Schema.teams).where(eq(Schema.teams.slug, team.slug));
+
+		await db
+			.update(Schema.teamManagers)
+			.set({ role: change.role })
+			.where(and(eq(Schema.teamManagers.userId, target.id), eq(Schema.teamManagers.teamId, teams)));
 	}
 }

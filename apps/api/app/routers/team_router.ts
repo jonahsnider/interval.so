@@ -5,15 +5,24 @@ import { injectHelper } from '../../util/inject_helper.js';
 import { GuestPasswordService } from '../guest_password/guest_password_service.js';
 import { TeamSchema } from '../team/schemas/team_schema.js';
 import { TeamService } from '../team/team_service.js';
-import { TeamManagerSchema } from '../team_user/schemas/team_user_schema.js';
-import { TeamManagerService } from '../team_user/team_manager_service.js';
+import { TeamManagerSchema } from '../team_manager/schemas/team_manager_schema.js';
+import { TeamManagerService } from '../team_manager/team_manager_service.js';
 import { authedProcedure, publicProcedure, router } from '../trpc/trpc_service.js';
 import { MeetingRouter } from './meeting_router.js';
+import { TeamManagerRouter } from './team_manager_router.js';
 import { TeamMemberRouter } from './team_member_router.js';
 import { TeamStatsRouter } from './team_stats_router.js';
 
 @inject()
-@injectHelper(TeamService, TeamMemberRouter, GuestPasswordService, TeamStatsRouter, MeetingRouter, TeamManagerService)
+@injectHelper(
+	TeamService,
+	TeamMemberRouter,
+	GuestPasswordService,
+	TeamStatsRouter,
+	MeetingRouter,
+	TeamManagerService,
+	TeamManagerRouter,
+)
 export class TeamRouter {
 	constructor(
 		private readonly teamService: TeamService,
@@ -21,6 +30,7 @@ export class TeamRouter {
 		private readonly teamStatsRouter: TeamStatsRouter,
 		private readonly meetingRouter: MeetingRouter,
 		private readonly teamManagerService: TeamManagerService,
+		private readonly teamManagerRouter: TeamManagerRouter,
 	) {}
 
 	getRouter() {
@@ -28,7 +38,9 @@ export class TeamRouter {
 			members: this.teamMemberRouter.getRouter(),
 			stats: this.teamStatsRouter.getRouter(),
 			meetings: this.meetingRouter.getRouter(),
+			managers: this.teamManagerRouter.getRouter(),
 
+			// TODO: Move to a new TeamSelfRouter (operations related to a team, for the current user)
 			teamNamesForSelf: authedProcedure
 				.output(TeamSchema.pick({ displayName: true, slug: true }).array())
 				.query(({ ctx }) => {
