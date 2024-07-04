@@ -1,4 +1,3 @@
-import { sql } from 'drizzle-orm';
 import {
 	boolean,
 	customType,
@@ -63,7 +62,7 @@ export const teams = pgTable('teams', {
 
 	password: text('password').notNull(),
 	displayName: text('display_name').notNull(),
-	inviteCode: text('invite_code').unique().notNull().default(sql`encode(gen_random_bytes(18), 'base64')`),
+	inviteCode: text('invite_code').unique().notNull(),
 });
 
 export const teamManagers = pgTable(

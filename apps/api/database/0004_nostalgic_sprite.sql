@@ -1,0 +1,1 @@
+ALTER TABLE "teams" ALTER COLUMN "invite_code" DROP DEFAULT;

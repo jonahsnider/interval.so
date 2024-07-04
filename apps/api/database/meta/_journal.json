@@ -29,6 +29,13 @@
 			"when": 1719744227083,
 			"tag": "0003_perpetual_ronan",
 			"breakpoints": true
+		},
+		{
+			"idx": 4,
+			"version": "7",
+			"when": 1720091536981,
+			"tag": "0004_nostalgic_sprite",
+			"breakpoints": true
 		}
 	]
 }
