@@ -23,7 +23,7 @@ export default class TeamPolicy extends BasePolicy {
 	}
 
 	viewInsights(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
-		return this.authorizationService.hasRoles(actor, team, ['owner', 'admin']);
+		return this.authorizationService.hasRoles(actor, team, ['owner', 'admin', 'editor']);
 	}
 
 	viewInviteUrl(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
