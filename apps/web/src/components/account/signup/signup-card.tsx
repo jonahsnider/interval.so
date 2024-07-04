@@ -12,14 +12,17 @@ import { WebAuthnError, startRegistration } from '@simplewebauthn/browser';
 import type { PublicKeyCredentialCreationOptionsJSON, RegistrationResponseJSON } from '@simplewebauthn/types';
 import { TRPCClientError } from '@trpc/client';
 import { useRouter } from 'next/navigation';
+import { useQueryStates } from 'nuqs';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import type { z } from 'zod';
+import { searchParamParsers } from '../search-params';
 
 const formSchema = UserSchema.pick({ displayName: true });
 
 export function SignupCard() {
+	const [searchParams] = useQueryStates(searchParamParsers);
 	const router = useRouter();
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -28,10 +31,26 @@ export function SignupCard() {
 		},
 	});
 
+	const joinTeam = trpc.teams.join.useMutation({
+		onMutate: () => {},
+		onSuccess: (result) => {
+			router.push(`/team/${result.slug}`);
+			router.refresh();
+		},
+		onError: (error) => {
+			toast.error('Your account was created, but something went wrong while joining the team', {
+				description: error.message,
+			});
+		},
+	});
+
 	const getRegistrationOptions = trpc.accounts.register.generateRegistrationOptions.useMutation();
 	const finishRegistration = trpc.accounts.register.verifyRegistrationResponse.useMutation({
 		onSuccess: () => {
-			router.push('/');
+			if (!searchParams.invite) {
+				router.push('/');
+			}
+
 			router.refresh();
 		},
 	});
@@ -99,6 +118,10 @@ export function SignupCard() {
 			const registration = await wrappedStartRegistration(registrationOptions);
 
 			await wrappedFinishRegistration(registration);
+
+			if (searchParams.invite) {
+				joinTeam.mutate({ inviteCode: searchParams.invite });
+			}
 		} catch {
 			return;
 		} finally {
@@ -115,7 +138,8 @@ export function SignupCard() {
 					<CardHeader>
 						<CardTitle className='[view-transition-name:auth-card-title]'>Sign up</CardTitle>
 						<CardDescription className='[view-transition-name:auth-card-description]'>
-							Create or join a team to track attendance once you've registered.
+							{searchParams.invite && 'Finish registering to join the rest of your team and start tracking attendance.'}
+							{!searchParams.invite && "Create or join a team to track attendance once you've registered."}
 						</CardDescription>
 					</CardHeader>
 					<CardContent>

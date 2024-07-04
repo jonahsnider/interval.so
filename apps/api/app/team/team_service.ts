@@ -7,6 +7,7 @@ import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { AuthorizationService } from '../authorization/authorization_service.js';
 import { db } from '../db/db_service.js';
+import type { TeamManagerSchema } from '../team_manager/schemas/team_manager_schema.js';
 import type { UserSchema } from '../user/schemas/user_schema.js';
 import type { TeamSchema } from './schemas/team_schema.js';
 
@@ -200,5 +201,48 @@ export class TeamService {
 
 			throw error;
 		}
+	}
+
+	async getTeamByInviteCode(input: Pick<TeamSchema, 'inviteCode'>): Promise<{
+		team: Pick<TeamSchema, 'displayName'>;
+		owner: Pick<TeamManagerSchema['user'], 'displayName'>;
+	}> {
+		const result = await db.query.teams.findFirst({
+			columns: {
+				displayName: true,
+			},
+			where: eq(Schema.teams.inviteCode, input.inviteCode),
+			with: {
+				managers: {
+					with: {
+						user: {
+							columns: {
+								displayName: true,
+							},
+						},
+					},
+					where: eq(Schema.teamManagers.role, 'owner'),
+					limit: 1,
+				},
+			},
+		});
+
+		if (!result) {
+			throw new TRPCError({
+				code: 'FORBIDDEN',
+				message: 'Incorrect invite code',
+			});
+		}
+
+		const [owner] = result.managers;
+
+		assert(owner, new TypeError('Team is missing an owner'));
+
+		return {
+			team: {
+				displayName: result.displayName,
+			},
+			owner: { displayName: owner.user.displayName },
+		};
 	}
 }

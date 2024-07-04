@@ -40,6 +40,22 @@ export class TeamRouter {
 			meetings: this.meetingRouter.getRouter(),
 			managers: this.teamManagerRouter.getRouter(),
 
+			getByInviteCode: publicProcedure
+				.input(TeamSchema.pick({ inviteCode: true }).strict())
+				.output(
+					z.object({
+						team: TeamSchema.pick({ displayName: true }),
+						owner: TeamManagerSchema.shape.user.pick({ displayName: true }),
+					}),
+				)
+				.query(({ input }) => {
+					return this.teamService.getTeamByInviteCode(input);
+				}),
+			join: authedProcedure
+				.input(TeamSchema.pick({ inviteCode: true }).strict())
+				.output(TeamSchema.pick({ slug: true }))
+				.mutation(({ input, ctx }) => this.teamManagerService.joinTeam(input, ctx.user)),
+
 			// TODO: Move to a new TeamSelfRouter (operations related to a team, for the current user)
 			teamNamesForSelf: authedProcedure
 				.output(TeamSchema.pick({ displayName: true, slug: true }).array())

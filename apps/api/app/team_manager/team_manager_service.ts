@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { TRPCError } from '@trpc/server';
-import { and, asc, count, eq, inArray, not } from 'drizzle-orm';
+import { and, asc, count, eq, inArray, not, sql } from 'drizzle-orm';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { AuthorizationService } from '../authorization/authorization_service.js';
@@ -196,5 +196,39 @@ export class TeamManagerService {
 				.set({ role: change.role })
 				.where(and(eq(Schema.teamManagers.userId, target.id), eq(Schema.teamManagers.teamId, teams)));
 		});
+	}
+
+	async joinTeam(
+		team: Pick<TeamSchema, 'inviteCode'>,
+		user: Pick<UserSchema, 'id'>,
+	): Promise<Pick<TeamSchema, 'slug'>> {
+		const inputTeam = db
+			.select({ id: Schema.teams.id })
+			.from(Schema.teams)
+			.where(eq(Schema.teams.inviteCode, team.inviteCode));
+
+		const [newManager] = await db
+			.insert(Schema.teamManagers)
+			.values({
+				teamId: sql`(${inputTeam})`,
+				userId: user.id,
+				role: 'editor',
+			})
+			.returning({ teamId: Schema.teamManagers.teamId })
+			// Conflict occurs if you're already a manager of the team
+			.onConflictDoNothing();
+
+		assert(newManager, new TRPCError({ code: 'BAD_REQUEST', message: 'You are already a manager of this team' }));
+
+		const dbTeam = await db.query.teams.findFirst({
+			columns: {
+				slug: true,
+			},
+			where: eq(Schema.teams.id, newManager.teamId),
+		});
+
+		assert(dbTeam, new TypeError('Expected team to be associated with the team manager'));
+
+		return dbTeam;
 	}
 }
