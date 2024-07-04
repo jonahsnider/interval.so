@@ -25,6 +25,8 @@ export function BatchActionsDropdown({ table }: Props) {
 
 	const anySelection = table.getIsAllRowsSelected() || table.getIsSomeRowsSelected();
 
+	// TODO: If you delete all members, something about the dropdown close logic breaks and never allows pointer events again
+	// Need to stop having the dialog be a child of the dropdown
 	return (
 		<DropdownMenu open={isDeleteMembersAlertOpen ? true : dropdownOpen} onOpenChange={setDropdownOpen}>
 			<DropdownMenuTrigger asChild={true}>
