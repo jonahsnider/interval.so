@@ -1,10 +1,11 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { trpc } from '@/src/trpc/trpc-client';
 import { ArrowRightStartOnRectangleIcon } from '@heroicons/react/16/solid';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import clsx from 'clsx';
-import { use } from 'react';
+import { use, useState } from 'react';
 import { EndMeetingAlert, EndMeetingAlertTrigger } from '../end-meeting-alert';
 
 type Props = {
@@ -15,8 +16,19 @@ type Props = {
 };
 
 export function EndMeetingButtonClient({ width = 'auto', team, enabledPromise, meetingStartPromise }: Props) {
-	const enabled = use(enabledPromise);
-	const { startedAt: meetingStart } = use(meetingStartPromise);
+	const initialEnabled = use(enabledPromise);
+	const [enabled, setEnabled] = useState(initialEnabled);
+	const initialMeetingStart = use(meetingStartPromise);
+	const [meetingStart, setMeetingStart] = useState(initialMeetingStart.startedAt);
+
+	trpc.teams.members.simpleMemberListSubscription.useSubscription(team, {
+		onData: (data) => {
+			setEnabled(data.some((member) => member.atMeeting));
+		},
+	});
+	trpc.teams.meetings.currentMeetingStartSubscription.useSubscription(team, {
+		onData: setMeetingStart,
+	});
 
 	if (enabled && !meetingStart) {
 		throw new RangeError('Expected an in progress meeting to be defined');

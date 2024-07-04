@@ -41,4 +41,20 @@ export class MeetingSubscriptionService {
 			),
 		);
 	}
+
+	async currentMeetingStartSubscribe(
+		bouncer: AppBouncer,
+		team: Pick<TeamSchema, 'slug'>,
+	): Promise<Observable<Date | undefined>> {
+		await AuthorizationService.assertPermission(bouncer.with('MeetingPolicy').allows('viewList', team));
+
+		const memberChanges = await this.eventsService.subscribeForTeam(bouncer, team);
+
+		return concat(
+			// Emit one event on subscribe
+			from(this.meetingService.getCurrentMeetingStart(bouncer, team)),
+			// Each time the team members change, emit a new event
+			memberChanges.pipe(mergeMap(() => from(this.meetingService.getCurrentMeetingStart(bouncer, team)))),
+		);
+	}
 }

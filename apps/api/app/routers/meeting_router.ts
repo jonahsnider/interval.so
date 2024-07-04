@@ -38,6 +38,11 @@ export class MeetingRouter {
 					const startedAt = await this.meetingService.getCurrentMeetingStart(ctx.context.bouncer, input);
 					return { startedAt };
 				}),
+			currentMeetingStartSubscription: authedProcedure
+				.input(TeamSchema.pick({ slug: true }).strict())
+				.subscription(({ ctx, input }): Promise<Observable<Date | undefined, unknown>> => {
+					return this.meetingSubscriptionService.currentMeetingStartSubscribe(ctx.context.bouncer, input);
+				}),
 
 			deleteOngoingMeeting: authedProcedure
 				.input(z.object({ team: TeamSchema.pick({ slug: true }) }).strict())
