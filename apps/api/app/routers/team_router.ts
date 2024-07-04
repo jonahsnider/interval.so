@@ -113,6 +113,18 @@ export class TeamRouter {
 				.mutation(({ ctx, input }) => {
 					return this.teamService.resetInviteCode(ctx.context.bouncer, input);
 				}),
+
+			setSlug: authedProcedure
+				.input(
+					z.object({
+						team: TeamSchema.pick({ slug: true }),
+						data: TeamSchema.pick({ slug: true }),
+					}),
+				)
+				.output(z.void())
+				.mutation(({ input, ctx }) => {
+					return this.teamService.setSlug(ctx.context.bouncer, input.team, input.data);
+				}),
 		});
 	}
 }

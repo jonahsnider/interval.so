@@ -2,7 +2,7 @@ import { DeleteTeamCard } from '@/src/components/manager/settings/general/delete
 import { LeaveTeamCard } from '@/src/components/manager/settings/general/leave-team-card/leave-team-card.server';
 import { TeamDisplayNameCard } from '@/src/components/manager/settings/general/team-display-name-card/team-display-name-card.server';
 import { TeamPasswordCard } from '@/src/components/manager/settings/general/team-password-card/team-password-card.server';
-import { TeamUrlCard } from '@/src/components/manager/settings/general/team-url-card';
+import { TeamUrlCard } from '@/src/components/manager/settings/general/team-url-card/team-url-card.server';
 
 type Props = {
 	params: {
@@ -20,7 +20,7 @@ export default function TeamSettingsGeneralPage({ params }: Props) {
 
 			<TeamDisplayNameCard team={team} />
 
-			<TeamUrlCard />
+			<TeamUrlCard team={team} />
 
 			<LeaveTeamCard team={team} />
 

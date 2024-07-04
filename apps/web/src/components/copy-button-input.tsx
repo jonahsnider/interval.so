@@ -13,6 +13,7 @@ type Props = {
 	value: string;
 	copyValue?: string;
 	className?: string;
+	innerClassName?: string;
 } & (
 	| {
 			onChange?: undefined;
@@ -24,11 +25,18 @@ type Props = {
 	  }
 );
 
-// z-index 1 so that the ring when focused isn't covered up by the copy button border
-const sharedStyles = clsx('rounded-r-none border-r-0 focus-visible:z-[1]');
-
 /** An input with a copy button. */
-export function CopyButtonInput({ value, copyValue = value, editable = true, onChange, className }: Props) {
+export function CopyButtonInput({
+	value,
+	copyValue = value,
+	editable = true,
+	onChange,
+	className,
+	innerClassName,
+}: Props) {
+	// z-index 1 so that the ring when focused isn't covered up by the copy button border
+	const sharedStyles = clsx('rounded-r-none border-r-0 focus-visible:z-[1]', innerClassName);
+
 	return (
 		<div className={clsx('flex shadow-sm rounded-md w-full', className)}>
 			{editable && <Input className={sharedStyles} value={value} onChange={(e) => onChange?.(e.target.value)} />}

@@ -183,4 +183,22 @@ export class TeamService {
 
 		return { inviteCode: newCode };
 	}
+
+	async setSlug(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>, data: Pick<TeamSchema, 'slug'>): Promise<void> {
+		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('updateSettings', team));
+
+		try {
+			await db.update(Schema.teams).set(data).where(eq(Schema.teams.slug, team.slug));
+		} catch (error) {
+			if (error instanceof postgres.PostgresError && error.code === '23505') {
+				// Team slug collision
+				throw new TRPCError({
+					code: 'UNPROCESSABLE_CONTENT',
+					message: 'A team with that URL already exists',
+				});
+			}
+
+			throw error;
+		}
+	}
 }
