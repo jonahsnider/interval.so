@@ -2,6 +2,7 @@
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { trpc } from '@/src/trpc/trpc-client';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import type { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
@@ -78,16 +79,23 @@ function MemberAvatar({ member }: { member: Pick<TeamMemberSchema, 'name'> }) {
 		.map((word) => first(word))
 		.join('');
 
+	// TODO: The items should be covering up the item after them, not the other way around
+
 	return (
-		<MotionAvatar
-			variants={avatarMotionVariants}
-			initial='hidden'
-			animate='visible'
-			exit='hidden'
-			layout={true}
-			className='-mr-3 hover:mr-0 transition-[margin] duration-200'
-		>
-			<AvatarFallback className='bg-background border-2 border-border truncate'>{initials}</AvatarFallback>
-		</MotionAvatar>
+		<Tooltip>
+			<TooltipTrigger>
+				<MotionAvatar
+					variants={avatarMotionVariants}
+					initial='hidden'
+					animate='visible'
+					exit='hidden'
+					layout={true}
+					className='-mr-3 hover:mr-0 transition-[margin] duration-200'
+				>
+					<AvatarFallback className='bg-background border-2 border-border truncate'>{initials}</AvatarFallback>
+				</MotionAvatar>
+			</TooltipTrigger>
+			<TooltipContent>{member.name}</TooltipContent>
+		</Tooltip>
 	);
 }
