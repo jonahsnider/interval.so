@@ -43,7 +43,7 @@ async function TeamDisplayNameEditFormFetcher({ team }: Props) {
 	if (teamManager.role === 'editor') {
 		return (
 			<CardContent>
-				<ReadonlyTextField className='min-w-80'>{currentDisplayName}</ReadonlyTextField>
+				<ReadonlyTextField>{currentDisplayName}</ReadonlyTextField>
 			</CardContent>
 		);
 	}
