@@ -1,5 +1,11 @@
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { cn } from '@/lib/utils';
+import clsx from 'clsx';
+
+type Props = {
+	className?: string;
+};
 
 export function SettingsCardSkeleton() {
 	return (
@@ -15,10 +21,10 @@ export function SettingsCardSkeleton() {
 	);
 }
 
-export function SettingsCardContentSkeleton() {
+export function SettingsCardContentSkeleton({ className }: Props) {
 	return (
 		<CardContent>
-			<Skeleton className='h-9 w-80' />
+			<Skeleton className={cn(clsx('h-9 w-80', className))} />
 		</CardContent>
 	);
 }

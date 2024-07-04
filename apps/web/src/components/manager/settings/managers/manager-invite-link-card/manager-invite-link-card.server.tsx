@@ -36,7 +36,7 @@ function Inner({ team }: Props) {
 				<CardTitle>Manager invite link</CardTitle>
 				<CardDescription>Allow other people to join your team as editors through the link below.</CardDescription>
 			</CardHeader>
-			<Suspense fallback={<SettingsCardContentSkeleton />}>
+			<Suspense fallback={<SettingsCardContentSkeleton className='w-[500px]' />}>
 				<CardContent>
 					<InviteLinkFieldFetcher team={team} />
 				</CardContent>
