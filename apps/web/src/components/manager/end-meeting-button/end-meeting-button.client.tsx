@@ -30,10 +30,6 @@ export function EndMeetingButtonClient({ width = 'auto', team, enabledPromise, m
 		onData: setMeetingStart,
 	});
 
-	if (enabled && !meetingStart) {
-		throw new RangeError('Expected an in progress meeting to be defined');
-	}
-
 	return (
 		<EndMeetingAlert team={team} meetingStart={meetingStart}>
 			<Tooltip>
