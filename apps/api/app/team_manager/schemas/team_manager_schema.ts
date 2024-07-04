@@ -31,7 +31,11 @@ export function getAllowedRoleModifications(
 		})
 			// Owner can't modify themself since they're a special case
 			.with({ mine: 'owner', theirs: 'owner' }, (): TeamManagerRole[] => [])
-			.with({ mine: 'owner', theirs: P.union('admin', 'editor') }, (): TeamManagerRole[] => ['admin', 'editor'])
+			.with({ mine: 'owner', theirs: P.union('admin', 'editor') }, (): TeamManagerRole[] => [
+				'owner',
+				'admin',
+				'editor',
+			])
 
 			// Editors can't modify anyone
 			.with({ mine: 'editor', theirs: P.any }, (): TeamManagerRole[] => [])

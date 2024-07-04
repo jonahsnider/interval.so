@@ -181,9 +181,20 @@ export class TeamManagerService {
 
 		const teams = db.select({ id: Schema.teams.id }).from(Schema.teams).where(eq(Schema.teams.slug, team.slug));
 
-		await db
-			.update(Schema.teamManagers)
-			.set({ role: change.role })
-			.where(and(eq(Schema.teamManagers.userId, target.id), eq(Schema.teamManagers.teamId, teams)));
+		await db.transaction(async (tx) => {
+			if (change.role === 'owner') {
+				// The is setting a new owner, and we know that they can only have passed authorization if they are also the owner
+				// So we change the existing owner to be an admin
+				await tx
+					.update(Schema.teamManagers)
+					.set({ role: 'admin' })
+					.where(and(eq(Schema.teamManagers.role, 'owner'), eq(Schema.teamManagers.teamId, teams)));
+			}
+
+			await tx
+				.update(Schema.teamManagers)
+				.set({ role: change.role })
+				.where(and(eq(Schema.teamManagers.userId, target.id), eq(Schema.teamManagers.teamId, teams)));
+		});
 	}
 }

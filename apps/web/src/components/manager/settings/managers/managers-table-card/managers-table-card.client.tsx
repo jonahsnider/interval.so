@@ -7,13 +7,14 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger } from '@/components/ui/select';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectSeparator, SelectTrigger } from '@/components/ui/select';
 import { trpc } from '@/src/trpc/trpc-client';
 import { EllipsisHorizontalIcon } from '@heroicons/react/16/solid';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import { TeamManagerSchema } from '@hours.frc.sh/api/app/team_manager/schemas/team_manager_schema';
 import type { TeamManagerRole } from '@hours.frc.sh/api/database/schema';
 import { capitalize } from '@jonahsnider/util';
+import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -28,12 +29,10 @@ export function ManagersTableRoleSelect({
 	team: Pick<TeamSchema, 'slug'>;
 }) {
 	const [toastId, setToastId] = useState<string | number | undefined>();
-	const [optimisticRole, setOptimisticRole] = useState<TeamManagerRole>(manager.role);
 	const router = useRouter();
 
 	const updateRole = trpc.teams.managers.updateRole.useMutation({
-		onMutate: ({ change }) => {
-			setOptimisticRole(change.role);
+		onMutate: () => {
 			setToastId(toast.loading(`Updating ${manager.user.displayName}'s role...`));
 		},
 		onSuccess: () => {
@@ -45,12 +44,11 @@ export function ManagersTableRoleSelect({
 				description: error.message,
 				id: toastId,
 			});
-			// Clear out optimistic state update that didn't succeed
-			setOptimisticRole(manager.role);
 		},
 	});
 
 	const selectOptions = allowedRoleModifications.length > 0 ? allowedRoleModifications : [manager.role];
+	const selectOptionsWithoutOwner = selectOptions.filter((role) => role !== 'owner');
 
 	const onValueChange = (value: string) => {
 		const change = TeamManagerSchema.pick({ role: true }).parse({ role: value });
@@ -63,23 +61,37 @@ export function ManagersTableRoleSelect({
 	};
 
 	return (
-		<Select
-			defaultValue={manager.role}
-			disabled={!allowedRoleModifications.length}
-			onValueChange={onValueChange}
-			value={optimisticRole}
-		>
-			<SelectTrigger className='min-w-48 max-w-min shadow-none'>{capitalize(optimisticRole)}</SelectTrigger>
+		<Select disabled={!allowedRoleModifications.length} onValueChange={onValueChange} value={manager.role}>
+			<SelectTrigger className='min-w-48 max-w-min shadow-none'>{capitalize(manager.role)}</SelectTrigger>
 			<SelectContent>
 				<SelectGroup>
-					{selectOptions.map((role) => (
-						<SelectItem key={role} value={role} role='checkbox'>
-							{capitalize(role)}
-						</SelectItem>
+					{selectOptionsWithoutOwner.map((role) => (
+						<SelectItemRole key={role} managerRole={role} />
 					))}
+					{/* Owner role is an option, so we display it specially since ownership transfer is destructive */}
+					{selectOptions.length !== selectOptionsWithoutOwner.length && (
+						<>
+							<SelectSeparator />
+							<SelectItemRole managerRole='owner' destructive={true} />
+						</>
+					)}
 				</SelectGroup>
 			</SelectContent>
 		</Select>
+	);
+}
+
+function SelectItemRole({ managerRole, destructive }: { managerRole: TeamManagerRole; destructive?: boolean }) {
+	return (
+		<SelectItem
+			value={managerRole}
+			role='checkbox'
+			className={clsx({
+				'text-destructive focus:text-destructive focus:bg-destructive/10': destructive,
+			})}
+		>
+			{managerRole === 'owner' ? 'Transfer ownership' : capitalize(managerRole)}
+		</SelectItem>
 	);
 }
 
