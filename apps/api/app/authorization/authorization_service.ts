@@ -8,8 +8,8 @@ import { injectHelper } from '../../util/inject_helper.js';
 import { db } from '../db/db_service.js';
 import { GuestPasswordService } from '../guest_password/guest_password_service.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
+import { TeamManagerService } from '../team_manager/team_manager_service.js';
 import type { TeamMemberSchema } from '../team_member/schemas/team_member_schema.js';
-import { TeamManagerService } from '../team_user/team_manager_service.js';
 
 export type TeamRole = Schema.TeamManagerRole | 'guestToken';
 
