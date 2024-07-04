@@ -12,8 +12,8 @@ export function MemberAvatars({ team }: Props) {
 		.query(team)
 		.then((members) => members.filter((member) => member.atMeeting));
 
-	// TODO: Fallback to skeleton of a few avatars rendered
 	return (
+		// No fallback, the avatars animate themselves on initial enter
 		<Suspense>
 			<MemberAvatarsClient membersPromise={membersPromise} team={team} />
 		</Suspense>

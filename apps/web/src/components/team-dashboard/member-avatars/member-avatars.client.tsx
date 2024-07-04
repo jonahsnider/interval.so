@@ -45,7 +45,7 @@ export function MemberAvatarsClient({ membersPromise, team }: Props) {
 				variants={containerMotionVariants}
 				animate={members.length > 0 ? 'items' : 'noItems'}
 			>
-				<AnimatePresence initial={false}>
+				<AnimatePresence initial={true}>
 					{members.map((member) => (
 						<MemberAvatar key={member.id} member={member} />
 					))}
