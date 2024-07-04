@@ -6,7 +6,6 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { trpc } from '@/src/trpc/trpc-client';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import type { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
-import { first } from '@jonahsnider/util';
 import { AnimatePresence, type Variants, motion } from 'framer-motion';
 import { use, useState } from 'react';
 
@@ -73,11 +72,10 @@ const avatarMotionVariants: Variants = {
 
 const MotionAvatar = motion(Avatar);
 
+const FIRST_TWO_INTIALS_REGEXP = /^(\S)\S*\s*(\S)/i;
+
 function MemberAvatar({ member }: { member: Pick<TeamMemberSchema, 'name'> }) {
-	const initials = member.name
-		.split(' ')
-		.map((word) => first(word))
-		.join('');
+	const matches = FIRST_TWO_INTIALS_REGEXP.exec(member.name);
 
 	// TODO: The items should be covering up the item after them, not the other way around
 
@@ -92,7 +90,10 @@ function MemberAvatar({ member }: { member: Pick<TeamMemberSchema, 'name'> }) {
 					layout={true}
 					className='-mr-3 hover:mr-0 transition-[margin] duration-200'
 				>
-					<AvatarFallback className='bg-background border-2 border-border truncate'>{initials}</AvatarFallback>
+					<AvatarFallback className='bg-background border-2 border-border truncate'>
+						{matches?.[1]}
+						{matches?.[2]}
+					</AvatarFallback>
 				</MotionAvatar>
 			</TooltipTrigger>
 			<TooltipContent>{member.name}</TooltipContent>
