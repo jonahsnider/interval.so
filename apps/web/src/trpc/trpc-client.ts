@@ -1,5 +1,5 @@
 import {
-	HTTPBatchLinkOptions,
+	type HTTPBatchLinkOptions,
 	httpBatchLink,
 	splitLink,
 	unstable_httpBatchStreamLink,
