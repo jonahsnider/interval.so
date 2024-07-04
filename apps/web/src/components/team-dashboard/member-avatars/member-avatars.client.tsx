@@ -87,7 +87,7 @@ function MemberAvatar({ member }: { member: Pick<TeamMemberSchema, 'name'> }) {
 			layout={true}
 			className='-mr-3 hover:mr-0 transition-[margin] duration-200'
 		>
-			<AvatarFallback className='bg-background border-2 border-border'>{initials}</AvatarFallback>
+			<AvatarFallback className='bg-background border-2 border-border truncate'>{initials}</AvatarFallback>
 		</MotionAvatar>
 	);
 }
