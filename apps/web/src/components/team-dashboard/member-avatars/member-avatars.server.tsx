@@ -12,6 +12,7 @@ export function MemberAvatars({ team }: Props) {
 		.query(team)
 		.then((members) => members.filter((member) => member.atMeeting));
 
+	// TODO: Fallback to skeleton of a few avatars rendered
 	return (
 		<Suspense>
 			<MemberAvatarsClient membersPromise={membersPromise} team={team} />
