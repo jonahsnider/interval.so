@@ -21,7 +21,7 @@ async function ManagerTilesWrapper({ team }: { team: Pick<TeamSchema, 'slug'> })
 }
 
 // biome-ignore lint/style/noDefaultExport: This has to be a default export
-export default async function HomePage({ params }: Props) {
+export default async function TeamInsightsPage({ params }: Props) {
 	const team = { slug: params.team };
 	const initialMembers = await trpcServer.teams.members.simpleMemberList.query(team);
 

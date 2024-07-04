@@ -14,7 +14,7 @@ type Props = PropsWithChildren<{
 }>;
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export
-export default async function TeamLayout({ children, params }: Props) {
+export default async function TeamInsightsLayout({ children, params }: Props) {
 	let displayName: string;
 	try {
 		displayName = await trpcServer.teams.getDisplayName.query({ slug: params.team });
