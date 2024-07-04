@@ -82,6 +82,7 @@ export class TeamRouter {
 					return this.teamService.create(input, ctx.user);
 				}),
 
+			// TODO: Move to a new TeamSettingsRouter, consider splitting out TeamService as well
 			getDisplayName: publicProcedure
 				.input(TeamSchema.pick({ slug: true }))
 				.output(z.string())
