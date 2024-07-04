@@ -41,7 +41,6 @@ export class AuthService {
 			},
 		});
 
-		// TODO: For whatever reason, this is not properly persisting to Redis - need to make a separate service that manages challenges outside of the session
 		// Store the challenge for later verification
 		input.context.session.put('challenge', options.challenge);
 
@@ -199,7 +198,6 @@ export class AuthService {
 
 		assert(passkey.userId, new TypeError('Credential from passkey was not associated with a user'));
 
-		// TODO: This also seems like it's not writing to Redis, seems like something is very wrong with Redis provider for sessions
 		// Associate session with user
 		input.context.session.put('userId', passkey.userId);
 

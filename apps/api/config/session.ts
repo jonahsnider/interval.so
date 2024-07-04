@@ -34,8 +34,7 @@ const sessionConfig = defineConfig({
 	 * variable in order to infer the store name without any
 	 * errors.
 	 */
-	// TODO: Figure out why the Redis store stopped working
-	store: 'memory',
+	store: 'redis',
 
 	/**
 	 * List of configured stores. Refer documentation to see
