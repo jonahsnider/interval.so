@@ -40,7 +40,7 @@ export function MemberAvatarsClient({ membersPromise, team }: Props) {
 	return (
 		<ScrollArea className='w-full'>
 			<motion.div
-				className='-space-x-3 w-full flex justify-start items-center'
+				className='w-full flex justify-start items-center'
 				layout='size'
 				variants={containerMotionVariants}
 				animate={members.length > 0 ? 'items' : 'noItems'}
@@ -79,7 +79,14 @@ function MemberAvatar({ member }: { member: Pick<TeamMemberSchema, 'name'> }) {
 		.join('');
 
 	return (
-		<MotionAvatar variants={avatarMotionVariants} initial='hidden' animate='visible' exit='hidden' layout={true}>
+		<MotionAvatar
+			variants={avatarMotionVariants}
+			initial='hidden'
+			animate='visible'
+			exit='hidden'
+			layout={true}
+			className='-mr-3 hover:mr-0 transition-[margin] duration-200'
+		>
 			<AvatarFallback className='bg-background border-2 border-border'>{initials}</AvatarFallback>
 		</MotionAvatar>
 	);
