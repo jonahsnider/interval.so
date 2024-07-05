@@ -30,7 +30,7 @@ export function MemberCountTile({ team }: Props) {
 			</CardHeader>
 
 			{/* Min height ensures that this doesn't grow the card by a tiny amount when the avatars are rendered */}
-			<CardFooter className='min-h-16'>
+			<CardFooter className='sm:min-h-16'>
 				<MemberAvatars team={team} />
 			</CardFooter>
 		</Card>
