@@ -43,7 +43,7 @@ export const columns: ColumnDef<TeamMemberSchema>[] = [
 			// TODO: Modal with user information
 
 			return (
-				<Button variant='link' className='text-foreground p-0 h-auto whitespace-pre-wrap'>
+				<Button variant='link' className='text-foreground p-0 h-auto whitespace-pre'>
 					{row.original.name}
 				</Button>
 			);
