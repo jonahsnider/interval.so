@@ -136,6 +136,7 @@ function InnerTable({ filteredMembers, members }: { filteredMembers: SimpleMembe
 }
 
 function InnerTableRow({ visible, className, member }: { visible: boolean; className?: string; member: SimpleMember }) {
+	const [animating, setAnimating] = useState(false);
 	const [checked, setChecked] = useState(member.atMeeting);
 
 	// Trying to do this the more correct way with useOptimistic was complicated and didn't work
@@ -165,7 +166,16 @@ function InnerTableRow({ visible, className, member }: { visible: boolean; class
 			initial='hidden'
 			variants={motionVariants}
 			animate={visible ? 'visible' : 'hidden'}
-			className={className}
+			onAnimationStart={() => setAnimating(true)}
+			onAnimationComplete={() => setAnimating(false)}
+			className={clsx(
+				{
+					// This helps prevent hidden rows from being "on top" of shown rows when filtering
+					// Otherwise, you get weird behavior like hover states being applied to hidden rows
+					invisible: !(visible || animating),
+				},
+				className,
+			)}
 		>
 			<TableCell className='font-medium pl-8 whitespace-pre-wrap'>{member.name}</TableCell>
 			<TableCell className='pr-8 text-right'>
