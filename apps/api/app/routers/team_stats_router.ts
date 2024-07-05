@@ -26,16 +26,12 @@ export class TeamStatsRouter {
 				.input(z.object({ team: TeamSchema.pick({ slug: true }), timeFilter: TimeFilterSchema }).strict())
 				.output(z.number().nonnegative())
 				.query(({ ctx, input }) => {
-					return this.teamStatsService.getCombinedHours(ctx.context.bouncer, input.team, input.timeFilter);
+					return this.teamStatsService.getCombinedHours(ctx.bouncer, input.team, input.timeFilter);
 				}),
 			getCombinedHoursSubscription: authedProcedure
 				.input(z.object({ team: TeamSchema.pick({ slug: true }), timeFilter: TimeFilterSchema }).strict())
 				.subscription(({ ctx, input }): Promise<Observable<number, unknown>> => {
-					return this.teamStatsSubscriptionsService.combinedHoursSubscribe(
-						ctx.context.bouncer,
-						input.team,
-						input.timeFilter,
-					);
+					return this.teamStatsSubscriptionsService.combinedHoursSubscribe(ctx.bouncer, input.team, input.timeFilter);
 				}),
 
 			uniqueMembers: {
@@ -43,9 +39,9 @@ export class TeamStatsRouter {
 					.input(z.object({ team: TeamSchema.pick({ slug: true }), timeFilter: TimeFilterSchema }).strict())
 					.output(UniqueMembersDatumSchema.array())
 					.query(({ ctx, input }) => {
-						const timezone = this.userService.getTimezone(ctx.context);
+						const timezone = this.userService.getTimezone(ctx.session);
 						return this.teamStatsService.getUniqueMembersTimeSeries(
-							ctx.context.bouncer,
+							ctx.bouncer,
 							input.team,
 							input.timeFilter,
 							timezone,
@@ -55,9 +51,9 @@ export class TeamStatsRouter {
 				subscribeTimeSeries: authedProcedure
 					.input(z.object({ team: TeamSchema.pick({ slug: true }), timeFilter: TimeFilterSchema }).strict())
 					.subscription(({ ctx, input }): Promise<Observable<UniqueMembersDatumSchema[], unknown>> => {
-						const timezone = this.userService.getTimezone(ctx.context);
+						const timezone = this.userService.getTimezone(ctx.session);
 						return this.teamStatsSubscriptionsService.uniqueMembersTimeSeriesSubscribe(
-							ctx.context.bouncer,
+							ctx.bouncer,
 							input.team,
 							input.timeFilter,
 							timezone,
@@ -68,7 +64,7 @@ export class TeamStatsRouter {
 					.input(z.object({ team: TeamSchema.pick({ slug: true }), timeFilter: TimeFilterSchema }).strict())
 					.output(z.number().int().nonnegative())
 					.query(({ ctx, input }) => {
-						return this.teamStatsService.getUniqueMembersSimple(ctx.context.bouncer, input.team, input.timeFilter);
+						return this.teamStatsService.getUniqueMembersSimple(ctx.bouncer, input.team, input.timeFilter);
 					}),
 			},
 
@@ -77,21 +73,16 @@ export class TeamStatsRouter {
 					.input(z.object({ team: TeamSchema.pick({ slug: true }), timeFilter: TimeFilterSchema }).strict())
 					.output(AverageHoursDatumSchema.array())
 					.query(({ ctx, input }) => {
-						const timezone = this.userService.getTimezone(ctx.context);
-						return this.teamStatsService.getAverageHoursTimeSeries(
-							ctx.context.bouncer,
-							input.team,
-							input.timeFilter,
-							timezone,
-						);
+						const timezone = this.userService.getTimezone(ctx.session);
+						return this.teamStatsService.getAverageHoursTimeSeries(ctx.bouncer, input.team, input.timeFilter, timezone);
 					}),
 
 				subscribeTimeSeries: authedProcedure
 					.input(z.object({ team: TeamSchema.pick({ slug: true }), timeFilter: TimeFilterSchema }).strict())
 					.subscription(({ ctx, input }): Promise<Observable<AverageHoursDatumSchema[], unknown>> => {
-						const timezone = this.userService.getTimezone(ctx.context);
+						const timezone = this.userService.getTimezone(ctx.session);
 						return this.teamStatsSubscriptionsService.averageHoursTimeSeriesSubscribe(
-							ctx.context.bouncer,
+							ctx.bouncer,
 							input.team,
 							input.timeFilter,
 							timezone,
@@ -102,7 +93,7 @@ export class TeamStatsRouter {
 					.input(z.object({ team: TeamSchema.pick({ slug: true }), timeFilter: TimeFilterSchema }).strict())
 					.output(z.number().nonnegative())
 					.query(({ ctx, input }) => {
-						return this.teamStatsService.getAverageHoursSimple(ctx.context.bouncer, input.team, input.timeFilter);
+						return this.teamStatsService.getAverageHoursSimple(ctx.bouncer, input.team, input.timeFilter);
 					}),
 			},
 		});

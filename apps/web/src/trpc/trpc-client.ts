@@ -1,14 +1,15 @@
 import {
 	type HTTPBatchLinkOptions,
+	createWSClient,
 	httpBatchLink,
 	splitLink,
 	unstable_httpBatchStreamLink,
-	unstable_httpSubscriptionLink,
+	wsLink,
 } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
 import superjson from 'superjson';
 import { getTimezone } from '../utils/timezone-util';
-import { type AppRouterType, trpcUrl } from './common';
+import { type AppRouterType, trpcUrl, trpcWsUrl } from './common';
 
 const httpBatchOptions: HTTPBatchLinkOptions<AppRouterType['_def']['_config']['$types']> = {
 	transformer: superjson,
@@ -28,18 +29,19 @@ const httpBatchOptions: HTTPBatchLinkOptions<AppRouterType['_def']['_config']['$
 	},
 };
 
+const wsClient = createWSClient({
+	url: trpcWsUrl.toString(),
+});
+
 export const trpc = createTRPCNext<AppRouterType>({
 	transformer: superjson,
 	config: () => ({
 		links: [
 			splitLink({
 				condition: (op) => op.type === 'subscription',
-				true: unstable_httpSubscriptionLink({
+				true: wsLink({
 					transformer: superjson,
-					url: trpcUrl.toString(),
-					eventSourceOptions: {
-						withCredentials: true,
-					},
+					client: wsClient,
 				}),
 				false: splitLink({
 					// Mutations for auth will totally break and cause session stuff to stop working if you use streaming, since the backend can't set cookies via header properly

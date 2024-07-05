@@ -22,7 +22,7 @@ export class AccountsRouter {
 					.mutation(async ({ input, ctx }) => {
 						const options = await this.authService.getRegisterOptions({
 							displayName: input.displayName,
-							context: ctx.context,
+							session: ctx.session,
 						});
 
 						return options;
@@ -38,13 +38,13 @@ export class AccountsRouter {
 						await this.authService.verifyRegister({
 							body: input.body,
 							displayName: input.user.displayName,
-							context: ctx.context,
+							session: ctx.session,
 						});
 					}),
 			}),
 			login: router({
 				generateAuthenticationOptions: publicProcedure.output(z.any()).mutation(({ ctx }) => {
-					return this.authService.getLoginOptions(ctx.context);
+					return this.authService.getLoginOptions(ctx.session);
 				}),
 				verifyAuthenticationResponse: publicProcedure
 					.input(z.object({ body: z.any() }))
@@ -52,12 +52,12 @@ export class AccountsRouter {
 					.mutation(({ input, ctx }) => {
 						return this.authService.verifyLogin({
 							body: input.body,
-							context: ctx.context,
+							session: ctx.session,
 						});
 					}),
 			}),
 			logOut: publicProcedure.mutation(({ ctx }) => {
-				ctx.context.session.clear();
+				ctx.session.clear();
 			}),
 		});
 	}

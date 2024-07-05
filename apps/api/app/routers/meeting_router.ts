@@ -23,32 +23,32 @@ export class MeetingRouter {
 				.input(z.object({ team: TeamSchema.pick({ slug: true }), timeFilter: TimeFilterSchema }).strict())
 				.output(z.array(TeamMeetingSchema))
 				.query(({ ctx, input }) => {
-					return this.meetingService.getMeetings(ctx.context.bouncer, input.team, input.timeFilter);
+					return this.meetingService.getMeetings(ctx.bouncer, input.team, input.timeFilter);
 				}),
 			meetingsSubscription: authedProcedure
 				.input(z.object({ team: TeamSchema.pick({ slug: true }), timeFilter: TimeFilterSchema }).strict())
 				.subscription(({ ctx, input }): Promise<Observable<TeamMeetingSchema[], unknown>> => {
-					return this.meetingSubscriptionService.meetingsSubscribe(ctx.context.bouncer, input.team, input.timeFilter);
+					return this.meetingSubscriptionService.meetingsSubscribe(ctx.bouncer, input.team, input.timeFilter);
 				}),
 
 			getCurrentMeetingStart: authedProcedure
 				.input(TeamSchema.pick({ slug: true }).strict())
 				.output(z.object({ startedAt: TeamMeetingSchema.shape.startedAt.optional() }))
 				.query(async ({ ctx, input }) => {
-					const startedAt = await this.meetingService.getCurrentMeetingStart(ctx.context.bouncer, input);
+					const startedAt = await this.meetingService.getCurrentMeetingStart(ctx.bouncer, input);
 					return { startedAt };
 				}),
 			currentMeetingStartSubscription: authedProcedure
 				.input(TeamSchema.pick({ slug: true }).strict())
 				.subscription(({ ctx, input }): Promise<Observable<Date | undefined, unknown>> => {
-					return this.meetingSubscriptionService.currentMeetingStartSubscribe(ctx.context.bouncer, input);
+					return this.meetingSubscriptionService.currentMeetingStartSubscribe(ctx.bouncer, input);
 				}),
 
 			deleteOngoingMeeting: authedProcedure
 				.input(z.object({ team: TeamSchema.pick({ slug: true }) }).strict())
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
-					return this.meetingService.deleteOngoingMeeting(ctx.context.bouncer, input.team);
+					return this.meetingService.deleteOngoingMeeting(ctx.bouncer, input.team);
 				}),
 			deleteFinishedMeeting: authedProcedure
 				.input(
@@ -63,7 +63,7 @@ export class MeetingRouter {
 				)
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
-					return this.meetingService.deleteFinishedMeeting(ctx.context.bouncer, input.team, {
+					return this.meetingService.deleteFinishedMeeting(ctx.bouncer, input.team, {
 						start: input.meeting.startedAt,
 						end: input.meeting.endedAt,
 					});

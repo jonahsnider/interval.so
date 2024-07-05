@@ -51,6 +51,7 @@
 		"rxjs": "7.8.1",
 		"superjson": "2.2.1",
 		"ts-pattern": "5.2.0",
+		"ws": "8.18.0",
 		"zod": "3.23.8"
 	},
 	"devDependencies": {
@@ -60,6 +61,7 @@
 		"@swc/core": "1.6.7",
 		"@types/node": "20.14.9",
 		"@types/pg": "8.11.6",
+		"@types/ws": "^8",
 		"dotenv": "16.4.5",
 		"drizzle-kit": "0.22.8",
 		"execa": "9.3.0",

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { inject } from '@adonisjs/core';
-import type { HttpContext } from '@adonisjs/core/http';
+import type { Session } from '@adonisjs/session';
 import {
 	generateAuthenticationOptions,
 	generateRegistrationOptions,
@@ -27,7 +27,7 @@ export class AuthService {
 
 	async getRegisterOptions(input: {
 		displayName: string;
-		context: HttpContext;
+		session: Session;
 	}): Promise<PublicKeyCredentialCreationOptionsJSON> {
 		const options: PublicKeyCredentialCreationOptionsJSON = await generateRegistrationOptions({
 			rpName: rpName,
@@ -49,17 +49,17 @@ export class AuthService {
 		});
 
 		// Store the challenge for later verification
-		await this.authChallengeService.storeChallenge(input.context.session, options.challenge);
+		await this.authChallengeService.storeChallenge(input.session, options.challenge);
 
 		return options;
 	}
 
 	async verifyRegister(input: {
 		body: RegistrationResponseJSON;
-		context: HttpContext;
+		session: Session;
 		displayName: string;
 	}): Promise<void> {
-		const existingChallenge = await this.authChallengeService.consumeChallenge(input.context.session);
+		const existingChallenge = await this.authChallengeService.consumeChallenge(input.session);
 
 		if (!existingChallenge) {
 			throw new TRPCError({
@@ -119,10 +119,10 @@ export class AuthService {
 		assert(userId, new TypeError('User was not created'));
 
 		// Associate session with user
-		input.context.session.put('userId', userId);
+		input.session.put('userId', userId);
 	}
 
-	async getLoginOptions(context: HttpContext) {
+	async getLoginOptions(session: Session) {
 		const options = await generateAuthenticationOptions({
 			// biome-ignore lint/style/useNamingConvention: This can't be renamed
 			rpID: rpId,
@@ -132,14 +132,14 @@ export class AuthService {
 		});
 
 		// Persist challenge
-		await this.authChallengeService.storeChallenge(context.session, options.challenge);
+		await this.authChallengeService.storeChallenge(session, options.challenge);
 
 		return options;
 	}
 
 	async verifyLogin(input: {
 		body: AuthenticationResponseJSON;
-		context: HttpContext;
+		session: Session;
 	}) {
 		const passkey = await db.query.credentials.findFirst({
 			where: eq(Schema.credentials.id, input.body.id),
@@ -163,7 +163,7 @@ export class AuthService {
 			throw new TRPCError({ code: 'UNAUTHORIZED', message: "That passkey wasn't recognized" });
 		}
 
-		const currentChallenge = await this.authChallengeService.consumeChallenge(input.context.session);
+		const currentChallenge = await this.authChallengeService.consumeChallenge(input.session);
 
 		if (!currentChallenge) {
 			throw new TRPCError({
@@ -206,7 +206,7 @@ export class AuthService {
 		assert(passkey.userId, new TypeError('Credential from passkey was not associated with a user'));
 
 		// Associate session with user
-		input.context.session.put('userId', passkey.userId);
+		input.session.put('userId', passkey.userId);
 
 		return passkey.user;
 	}

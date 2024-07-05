@@ -1,4 +1,4 @@
-import type { HttpContext } from '@adonisjs/core/http';
+import type { Session } from '@adonisjs/session';
 import { eq } from 'drizzle-orm';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
@@ -40,8 +40,8 @@ export class UserService {
 		await db.update(Schema.users).set(updated).where(eq(Schema.users.id, user.id));
 	}
 
-	getTimezone(context: HttpContext): UserTimezoneSchema {
-		const raw = context.session.get('timezone');
+	getTimezone(session: Session): UserTimezoneSchema {
+		const raw = session.get('timezone');
 
 		const parsed = UserTimezoneSchema.safeParse(raw);
 

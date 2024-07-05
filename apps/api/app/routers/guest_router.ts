@@ -29,7 +29,7 @@ export class GuestRouter {
 			passwordLogin: publicProcedure
 				.input(TeamSchema.pick({ password: true, slug: true }))
 				.mutation(async ({ ctx, input }) => {
-					await this.guestPasswordService.guestPasswordLogin(input, ctx.context);
+					await this.guestPasswordService.guestPasswordLogin(input, ctx.session);
 				}),
 			getCurrentGuestTeam: publicProcedure.output(TeamSchema.pick({ slug: true }).optional()).query(async ({ ctx }) => {
 				if (!ctx.guestToken) {

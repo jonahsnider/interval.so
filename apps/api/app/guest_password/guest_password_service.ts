@@ -1,5 +1,5 @@
-import type { HttpContext } from '@adonisjs/core/http';
 import redis from '@adonisjs/redis/services/main';
+import type { Session } from '@adonisjs/session';
 import cuid2 from '@paralleldrive/cuid2';
 import { TRPCError } from '@trpc/server';
 import { convert } from 'convert';
@@ -32,7 +32,7 @@ export class GuestPasswordService {
 	}
 
 	/** Do a guest password login for a team. */
-	async guestPasswordLogin(input: Pick<TeamSchema, 'password' | 'slug'>, context: HttpContext): Promise<void> {
+	async guestPasswordLogin(input: Pick<TeamSchema, 'password' | 'slug'>, session: Session): Promise<void> {
 		const foundTeam = await this.verifyPassword(input, input);
 
 		if (!foundTeam) {
@@ -52,7 +52,7 @@ export class GuestPasswordService {
 			GuestPasswordService.GUEST_PASSWORD_SESSION_LIFETIME.to('s'),
 		);
 
-		context.session.put('guestToken', token);
+		session.put('guestToken', token);
 	}
 
 	async teamHasGuestToken(team: Pick<TeamSchema, 'id'> | Pick<TeamSchema, 'slug'>, token: string): Promise<boolean> {

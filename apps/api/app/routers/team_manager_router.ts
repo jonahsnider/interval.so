@@ -17,7 +17,7 @@ export class TeamManagerRouter {
 			getList: authedProcedure
 				.input(TeamSchema.pick({ slug: true }))
 				.output(TeamManagerSchema.array())
-				.query(({ ctx, input }) => this.teamManagerService.getList(ctx.context.bouncer, input)),
+				.query(({ ctx, input }) => this.teamManagerService.getList(ctx.bouncer, input)),
 
 			removeManager: authedProcedure
 				.input(
@@ -27,9 +27,7 @@ export class TeamManagerRouter {
 					}),
 				)
 				.output(z.void())
-				.mutation(({ ctx, input }) =>
-					this.teamManagerService.removeManager(ctx.context.bouncer, input.team, input.user),
-				),
+				.mutation(({ ctx, input }) => this.teamManagerService.removeManager(ctx.bouncer, input.team, input.user)),
 
 			updateRole: authedProcedure
 				.input(
@@ -41,7 +39,7 @@ export class TeamManagerRouter {
 				)
 				.output(z.void())
 				.mutation(({ ctx, input }) =>
-					this.teamManagerService.updateRole(ctx.context.bouncer, input.team, input.user, input.change),
+					this.teamManagerService.updateRole(ctx.bouncer, input.team, input.user, input.change),
 				),
 		});
 	}

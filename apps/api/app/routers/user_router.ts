@@ -21,7 +21,7 @@ export class UserRouter {
 				.query(async ({ ctx }) => {
 					if (ctx.user) {
 						return {
-							user: await this.userService.getUser(ctx.context.bouncer, ctx.user),
+							user: await this.userService.getUser(ctx.bouncer, ctx.user),
 						};
 					}
 
@@ -30,11 +30,11 @@ export class UserRouter {
 					};
 				}),
 			deleteSelf: authedProcedure.mutation(async ({ ctx }) => {
-				await this.userService.deleteUser(ctx.context.bouncer, ctx.user);
-				ctx.context.session.clear();
+				await this.userService.deleteUser(ctx.bouncer, ctx.user);
+				ctx.session.clear();
 			}),
 			setDisplayName: authedProcedure.input(UserSchema.pick({ displayName: true })).mutation(async ({ input, ctx }) => {
-				await this.userService.setDisplayName(ctx.context.bouncer, ctx.user, input);
+				await this.userService.setDisplayName(ctx.bouncer, ctx.user, input);
 			}),
 		});
 	}

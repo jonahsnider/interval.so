@@ -4,7 +4,7 @@ import logger from '@adonisjs/core/services/logger';
 import { injectHelper } from '../../util/inject_helper.js';
 import { AppRouter } from '../routers/app_router.js';
 import { type TrpcHandlerAdonis, createTrpcHandlerAdonis } from './trpc_adonis_adapter.js';
-import { createContext } from './trpc_context.js';
+import { createHttpContext } from './trpc_context.js';
 
 @inject()
 @injectHelper(AppRouter)
@@ -16,7 +16,7 @@ export default class TrpcController {
 		this.handler = createTrpcHandlerAdonis({
 			router: appRouter.getRouter(),
 			prefix: '/trpc',
-			createContext,
+			createContext: createHttpContext,
 			onError(options) {
 				if (options.error.code === 'INTERNAL_SERVER_ERROR') {
 					// Log error and have tRPC respond like normal
@@ -26,9 +26,9 @@ export default class TrpcController {
 					options.error.message = 'Internal server error';
 					options.error.stack = undefined;
 				}
-			},
 
-			// Use default TRPC error response for client errors
+				// Use default TRPC error response for client errors
+			},
 		});
 	}
 

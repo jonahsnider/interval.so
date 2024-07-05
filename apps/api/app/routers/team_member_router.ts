@@ -31,59 +31,59 @@ export class TeamMemberRouter {
 				)
 				.output(z.void())
 				.mutation(({ input, ctx }) => {
-					return this.teamMemberService.create(ctx.context.bouncer, input.team, input.member);
+					return this.teamMemberService.create(ctx.bouncer, input.team, input.member);
 				}),
 
 			simpleMemberList: publicProcedure
 				.input(TeamSchema.pick({ slug: true }))
 				.output(TeamMemberSchema.pick({ id: true, name: true, atMeeting: true }).array())
 				.query(({ ctx, input }) => {
-					return this.teamMemberService.getTeamMembersSimple(ctx.context.bouncer, input);
+					return this.teamMemberService.getTeamMembersSimple(ctx.bouncer, input);
 				}),
 
 			simpleMemberListSubscription: publicProcedure
 				.input(TeamSchema.pick({ slug: true }))
 				.subscription(({ ctx, input }): Promise<Observable<SimpleTeamMemberSchema[], unknown>> => {
-					return this.teamMemberSubscriptionService.simpleTeamMemberListSubscribe(ctx.context.bouncer, input);
+					return this.teamMemberSubscriptionService.simpleTeamMemberListSubscribe(ctx.bouncer, input);
 				}),
 			updateAttendance: publicProcedure
 				.input(TeamMemberSchema.pick({ id: true, atMeeting: true }).strict())
 				.output(z.void())
 				.mutation(({ input, ctx }) => {
-					return this.teamMemberService.updateAttendance(ctx.context.bouncer, input, input);
+					return this.teamMemberService.updateAttendance(ctx.bouncer, input, input);
 				}),
 
 			endMeeting: authedProcedure
 				.input(z.object({ team: TeamSchema.pick({ slug: true }), endTime: NowOrEarlierSchema }).strict())
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
-					return this.teamMemberBatchService.signOutAll(ctx.context.bouncer, input.team, input.endTime);
+					return this.teamMemberBatchService.signOutAll(ctx.bouncer, input.team, input.endTime);
 				}),
 
 			fullMemberList: authedProcedure
 				.input(TeamSchema.pick({ slug: true }).strict())
 				.output(TeamMemberSchema.array())
 				.query(({ ctx, input }) => {
-					return this.teamMemberService.getTeamMembersFull(ctx.context.bouncer, input);
+					return this.teamMemberService.getTeamMembersFull(ctx.bouncer, input);
 				}),
 			fullMemberListSubscription: authedProcedure
 				.input(TeamSchema.pick({ slug: true }).strict())
 				.subscription(({ ctx, input }): Promise<Observable<TeamMemberSchema[], unknown>> => {
-					return this.teamMemberSubscriptionService.fullTeamMemberListSubscribe(ctx.context.bouncer, input);
+					return this.teamMemberSubscriptionService.fullTeamMemberListSubscribe(ctx.bouncer, input);
 				}),
 
 			setArchived: authedProcedure
 				.input(TeamMemberSchema.pick({ id: true, archived: true }).strict())
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
-					return this.teamMemberService.setArchived(ctx.context.bouncer, input);
+					return this.teamMemberService.setArchived(ctx.bouncer, input);
 				}),
 
 			delete: authedProcedure
 				.input(TeamMemberSchema.pick({ id: true }).strict())
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
-					return this.teamMemberService.delete(ctx.context.bouncer, input);
+					return this.teamMemberService.delete(ctx.bouncer, input);
 				}),
 
 			deleteMany: authedProcedure
@@ -96,7 +96,7 @@ export class TeamMemberRouter {
 				)
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
-					return this.teamMemberBatchService.deleteMany(ctx.context.bouncer, input.members);
+					return this.teamMemberBatchService.deleteMany(ctx.bouncer, input.members);
 				}),
 			setArchivedMany: authedProcedure
 				.input(
@@ -109,7 +109,7 @@ export class TeamMemberRouter {
 				)
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
-					return this.teamMemberBatchService.setArchivedMany(ctx.context.bouncer, input.members, input.data);
+					return this.teamMemberBatchService.setArchivedMany(ctx.bouncer, input.members, input.data);
 				}),
 			updateAttendanceMany: authedProcedure
 				.input(
@@ -122,7 +122,7 @@ export class TeamMemberRouter {
 				)
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
-					return this.teamMemberBatchService.updateAttendanceMany(ctx.context.bouncer, input.members, input.data);
+					return this.teamMemberBatchService.updateAttendanceMany(ctx.bouncer, input.members, input.data);
 				}),
 		});
 	}

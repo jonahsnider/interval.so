@@ -66,13 +66,13 @@ export class TeamRouter {
 				.input(TeamSchema.pick({ slug: true }))
 				.output(TeamManagerSchema.pick({ role: true }))
 				.query(({ ctx, input }) => {
-					return this.teamManagerService.getUserRole(ctx.context.bouncer, input, ctx.user);
+					return this.teamManagerService.getUserRole(ctx.bouncer, input, ctx.user);
 				}),
 			leave: authedProcedure
 				.input(TeamSchema.pick({ slug: true }))
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
-					return this.teamManagerService.leave(ctx.context.bouncer, input, ctx.user);
+					return this.teamManagerService.leave(ctx.bouncer, input, ctx.user);
 				}),
 
 			create: authedProcedure
@@ -98,21 +98,21 @@ export class TeamRouter {
 				)
 				.output(z.void())
 				.mutation(({ input, ctx }) => {
-					return this.teamService.setDisplayName(ctx.context.bouncer, input.team, input.data);
+					return this.teamService.setDisplayName(ctx.bouncer, input.team, input.data);
 				}),
 
 			delete: authedProcedure
 				.input(TeamSchema.pick({ slug: true }))
 				.output(z.void())
 				.mutation(({ input, ctx }) => {
-					return this.teamService.delete(ctx.context.bouncer, input);
+					return this.teamService.delete(ctx.bouncer, input);
 				}),
 
 			getPassword: authedProcedure
 				.input(TeamSchema.pick({ slug: true }))
 				.output(TeamSchema.pick({ password: true }))
 				.query(({ ctx, input }) => {
-					return this.teamService.getPassword(ctx.context.bouncer, input);
+					return this.teamService.getPassword(ctx.bouncer, input);
 				}),
 
 			setPassword: authedProcedure
@@ -126,21 +126,21 @@ export class TeamRouter {
 				)
 				.output(z.void())
 				.mutation(({ input, ctx }) => {
-					return this.teamService.setPassword(ctx.context.bouncer, input.team, input.data);
+					return this.teamService.setPassword(ctx.bouncer, input.team, input.data);
 				}),
 
 			getInviteCode: authedProcedure
 				.input(TeamSchema.pick({ slug: true }))
 				.output(TeamSchema.pick({ inviteCode: true }))
 				.query(({ ctx, input }) => {
-					return this.teamService.getInviteCode(ctx.context.bouncer, input);
+					return this.teamService.getInviteCode(ctx.bouncer, input);
 				}),
 
 			resetInviteCode: authedProcedure
 				.input(TeamSchema.pick({ slug: true }))
 				.output(TeamSchema.pick({ inviteCode: true }))
 				.mutation(({ ctx, input }) => {
-					return this.teamService.resetInviteCode(ctx.context.bouncer, input);
+					return this.teamService.resetInviteCode(ctx.bouncer, input);
 				}),
 
 			setSlug: authedProcedure
@@ -152,7 +152,7 @@ export class TeamRouter {
 				)
 				.output(z.void())
 				.mutation(({ input, ctx }) => {
-					return this.teamService.setSlug(ctx.context.bouncer, input.team, input.data);
+					return this.teamService.setSlug(ctx.bouncer, input.team, input.data);
 				}),
 		});
 	}

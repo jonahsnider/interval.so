@@ -1,8 +1,8 @@
 import { TRPCError, initTRPC } from '@trpc/server';
 import superjson from 'superjson';
-import type { createContext } from './trpc_context.js';
+import type { createHttpContext } from './trpc_context.js';
 
-const t = initTRPC.context<typeof createContext>().create({
+const t = initTRPC.context<typeof createHttpContext>().create({
 	transformer: superjson,
 	// I don't want to see stacktraces in TRPC errors even in development
 	// Makes it harder to figure out what users actually would see
@@ -12,8 +12,8 @@ const t = initTRPC.context<typeof createContext>().create({
 export const router = t.router;
 
 export const publicProcedure = t.procedure.use(({ ctx, next }) => {
-	const userId = ctx.context.session.get('userId') as undefined | string;
-	const guestToken = ctx.context.session.get('guestToken') as undefined | string;
+	const userId = ctx.session.get('userId') as undefined | string;
+	const guestToken = ctx.session.get('guestToken') as undefined | string;
 
 	return next({
 		ctx: {

@@ -4,6 +4,8 @@ import { TRPCClientError } from '@trpc/client';
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
 
 export const trpcUrl = new URL('/trpc', getBaseApiUrl());
+export const trpcWsUrl = new URL('/trpc', getBaseApiUrl());
+trpcWsUrl.protocol = 'ws';
 
 export type RouterInput = inferRouterInputs<AppRouterType>;
 export type RouterOutput = inferRouterOutputs<AppRouterType>;

@@ -1029,6 +1029,7 @@ __metadata:
     "@trpc/server": "npm:11.0.0-rc.436"
     "@types/node": "npm:20.14.9"
     "@types/pg": "npm:8.11.6"
+    "@types/ws": "npm:^8"
     "@vinejs/vine": "npm:2.1.0"
     convert: "npm:5.3.0"
     crypto-random-string: "npm:5.0.0"
@@ -1047,6 +1048,7 @@ __metadata:
     ts-node: "npm:10.9.2"
     ts-pattern: "npm:5.2.0"
     typescript: "npm:5.5.3"
+    ws: "npm:8.18.0"
     zod: "npm:3.23.8"
   languageName: unknown
   linkType: soft
@@ -3271,6 +3273,15 @@ __metadata:
   version: 13.11.10
   resolution: "@types/validator@npm:13.11.10"
   checksum: 10c0/fe63a20fa90d3e8c661d0ac5b5af162cdd387b9e8fd67f5a0a00ca308e4e2d7602467cc32ef3e2c979b737629fa9e2ff593d3946ee4f8667bbb80af0494b9c66
+  languageName: node
+  linkType: hard
+
+"@types/ws@npm:^8":
+  version: 8.5.10
+  resolution: "@types/ws@npm:8.5.10"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 10c0/e9af279b984c4a04ab53295a40aa95c3e9685f04888df5c6920860d1dd073fcc57c7bd33578a04b285b2c655a0b52258d34bee0a20569dca8defb8393e1e5d29
   languageName: node
   linkType: hard
 
@@ -9894,6 +9905,21 @@ __metadata:
   version: 1.0.2
   resolution: "wrappy@npm:1.0.2"
   checksum: 10c0/56fece1a4018c6a6c8e28fbc88c87e0fbf4ea8fd64fc6c63b18f4acc4bd13e0ad2515189786dd2c30d3eec9663d70f4ecf699330002f8ccb547e4a18231fc9f0
+  languageName: node
+  linkType: hard
+
+"ws@npm:8.18.0":
+  version: 8.18.0
+  resolution: "ws@npm:8.18.0"
+  peerDependencies:
+    bufferutil: ^4.0.1
+    utf-8-validate: ">=5.0.2"
+  peerDependenciesMeta:
+    bufferutil:
+      optional: true
+    utf-8-validate:
+      optional: true
+  checksum: 10c0/25eb33aff17edcb90721ed6b0eb250976328533ad3cd1a28a274bd263682e7296a6591ff1436d6cbc50fa67463158b062f9d1122013b361cec99a05f84680e06
   languageName: node
   linkType: hard
 
