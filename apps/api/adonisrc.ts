@@ -34,6 +34,7 @@ export default defineConfig({
 		() => import('@adonisjs/redis/redis_provider'),
 		() => import('@adonisjs/session/session_provider'),
 		() => import('@adonisjs/bouncer/bouncer_provider'),
+		() => import('@rlanz/sentry/provider'),
 	],
 
 	/*

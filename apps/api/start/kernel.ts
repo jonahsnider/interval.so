@@ -33,6 +33,7 @@ server.use([
  * requests with a registered route.
  */
 router.use([
+	() => import('@rlanz/sentry/middleware'),
 	() => import('@adonisjs/core/bodyparser_middleware'),
 	() => import('@adonisjs/session/session_middleware'),
 	() => import('#middleware/initialize_bouncer_middleware'),

@@ -20,8 +20,8 @@ export default class TrpcController {
 			onError(options) {
 				if (options.error.code === 'INTERNAL_SERVER_ERROR') {
 					// Log error and have tRPC respond like normal
+					options.ctx?.sentry.captureException(options.error);
 					logger.error(options.error);
-					// TODO: Log to Sentry
 
 					options.error.message = 'Internal server error';
 					options.error.stack = undefined;
