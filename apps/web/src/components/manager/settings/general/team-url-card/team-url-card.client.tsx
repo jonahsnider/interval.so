@@ -64,7 +64,9 @@ export function TeamUrlCardEditForm({ team }: Props) {
 						render={({ field }) => (
 							<FormItem {...field}>
 								<div className='flex'>
-									<ReadonlyTextField className='rounded-r-none'>https://hours.frc.sh/team/</ReadonlyTextField>
+									<ReadonlyTextField className='rounded-r-none'>
+										<span className='hidden sm:block'>https://</span>hours.frc.sh/team/
+									</ReadonlyTextField>
 									<CopyButtonInput
 										className='max-w-80'
 										innerClassName='rounded-l-none border-l-0'
