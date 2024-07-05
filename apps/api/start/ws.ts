@@ -44,6 +44,7 @@ const handler = applyWSSHandler({
 		return {
 			bouncer: createBouncer(session).setContainerResolver(adonisHttpContext.containerResolver),
 			session,
+			sentry: adonisHttpContext.sentry,
 		};
 	},
 	keepAlive: {
