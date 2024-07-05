@@ -26,7 +26,12 @@ export function RowActionsDropdown({ meeting, team }: Props) {
 
 	return (
 		<>
-			<EndMeetingAlert team={team} open={isEndMeetingAlertOpen} onOpenChange={setIsEndMeetingAlertOpen} />
+			<EndMeetingAlert
+				team={team}
+				open={isEndMeetingAlertOpen}
+				onOpenChange={setIsEndMeetingAlertOpen}
+				meetingStart={meeting.startedAt}
+			/>
 
 			<DropdownMenu open={isEndMeetingAlertOpen || isDeleteMeetingAlertOpen ? true : undefined}>
 				<DropdownMenuTrigger asChild={true}>
