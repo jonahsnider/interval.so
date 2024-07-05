@@ -2,10 +2,10 @@ import { inject } from '@adonisjs/core';
 import type { Observable } from '@trpc/server/observable';
 import { z } from 'zod';
 import { injectHelper } from '../../util/inject_helper.js';
+import { MeetingService } from '../meeting/meeting_service.js';
+import { MeetingSubscriptionService } from '../meeting/meeting_subscription_service.js';
+import { TeamMeetingSchema } from '../meeting/schemas/team_meeting_schema.js';
 import { TeamSchema } from '../team/schemas/team_schema.js';
-import { MeetingService } from '../team_meeting/meeting_service.js';
-import { MeetingSubscriptionService } from '../team_meeting/meeting_subscription_service.js';
-import { TeamMeetingSchema } from '../team_meeting/schemas/team_meeting_schema.js';
 import { TimeFilterSchema } from '../team_stats/schemas/time_filter_schema.js';
 import { authedProcedure, router } from '../trpc/trpc_service.js';
 
