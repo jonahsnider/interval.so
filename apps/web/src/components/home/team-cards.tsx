@@ -1,10 +1,10 @@
-import { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
-import { TeamCard } from './team-card/team-card.server';
-import { CreateTeamCard } from './create-team-card';
-import { Suspense, use } from 'react';
-import { trpcServer } from '@/src/trpc/trpc-server';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { trpcServer } from '@/src/trpc/trpc-server';
+import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
+import { Suspense, use } from 'react';
+import { CreateTeamCard } from './create-team-card';
+import { TeamCard } from './team-card/team-card.server';
 
 export function TeamCards() {
 	const teamsPromise = trpcServer.teams.forUser.getTeamNames.query();

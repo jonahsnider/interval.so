@@ -2,8 +2,8 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { trpcServer } from '@/src/trpc/trpc-server';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import { Suspense, use } from 'react';
-import { SlashSeparatedNavbarItem } from './slash-separated-navbar-item';
 import { ErrorBoundary } from 'react-error-boundary';
+import { SlashSeparatedNavbarItem } from './slash-separated-navbar-item';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;

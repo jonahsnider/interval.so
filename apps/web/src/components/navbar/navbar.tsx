@@ -1,13 +1,11 @@
-import { cn } from '@/lib/utils';
 import { trpcServer } from '@/src/trpc/trpc-server';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
-import { Link } from 'next-view-transitions';
-import { Fragment, Suspense, type PropsWithChildren } from 'react';
+import { type PropsWithChildren, Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { GuestTeamNavbarItem } from '../team-dashboard/navbar/guest-team-navbar-item';
 import { TeamDropdown } from '../team-dashboard/navbar/team-dropdown/team-dropdown.server';
-import { ProfileMenu } from './profile-menu/profile-menu';
-import { ErrorBoundary } from 'react-error-boundary';
 import { BaseNavbar } from './base-navbar';
+import { ProfileMenu } from './profile-menu/profile-menu';
 
 type Props = {
 	className?: string;

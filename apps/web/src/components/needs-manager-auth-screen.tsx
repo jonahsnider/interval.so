@@ -1,11 +1,11 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { captureException } from '@sentry/nextjs';
 import clsx from 'clsx';
 import { Link } from 'next-view-transitions';
 import { unstable_noStore as noStore } from 'next/cache';
 import type { PropsWithChildren } from 'react';
 import { trpcServer } from '../trpc/trpc-server';
-import { captureException } from '@sentry/nextjs';
 
 function NeedsSignedInCard() {
 	return (

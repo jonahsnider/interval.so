@@ -12,8 +12,8 @@ import { trpcServer } from '@/src/trpc/trpc-server';
 import { UserCircleIcon } from '@heroicons/react/20/solid';
 import { Link } from 'next-view-transitions';
 import { Suspense } from 'react';
-import { MenuContentAuthed, MenuContentGuestAuth } from './profile-menu.client';
 import { ErrorBoundary } from 'react-error-boundary';
+import { MenuContentAuthed, MenuContentGuestAuth } from './profile-menu.client';
 
 function MenuContentUnauthed() {
 	return (
