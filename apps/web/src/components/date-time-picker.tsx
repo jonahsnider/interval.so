@@ -71,7 +71,7 @@ export function DateTimePicker({ onSelect, value, className, picker, fromDate }:
 				</div>
 				<Separator />
 				<div className='px-4'>
-					<Input value={textInput} onChange={(e) => onTextInput(e.target.value)} />
+					<Input value={textInput} placeholder='Try "yesterday" or "3pm"' onChange={(e) => onTextInput(e.target.value)} />
 				</div>
 			</PopoverContent>
 		</Popover>
