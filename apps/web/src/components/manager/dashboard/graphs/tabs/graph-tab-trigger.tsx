@@ -165,7 +165,7 @@ function GraphTabTriggerBase({
 		<Link
 			href={href}
 			className={clsx(
-				'p-4 border-b-2 border-r flex flex-col gap-2 leading-none min-w-56 items-start',
+				'p-4 border-b-2 border-r flex flex-col gap-2 leading-none items-start',
 				{
 					'dark:bg-muted/30 border-b-transparent': !active,
 					'bg-background border-b-primary': active,

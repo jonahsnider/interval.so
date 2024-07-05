@@ -25,7 +25,7 @@ export function GraphTabs({ team, selected }: Props) {
 		<Card>
 			<div className='flex flex-col'>
 				<CardHeader className='pt-0 px-0'>
-					<div className='bg-muted/50 border-b rounded-t-xl flex overflow-x-auto'>
+					<div className='bg-muted/50 border-b rounded-t-xl grid grid-cols-2 xs:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 overflow-x-auto'>
 						<GraphTabTrigger
 							active={selected === 'members'}
 							tabId='members'
