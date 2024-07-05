@@ -7,6 +7,7 @@ import { trpc } from '@/src/trpc/trpc-client';
 import { PlusIcon } from '@heroicons/react/16/solid';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import type { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
+import { concatIterables } from '@jonahsnider/util';
 import clsx from 'clsx';
 import { AnimatePresence, type Variants, motion } from 'framer-motion';
 import Fuse from 'fuse.js/basic';
@@ -18,8 +19,14 @@ const MotionTableRow = motion(TableRow);
 const MotionTable = motion(Table);
 
 const motionVariants: Variants = {
-	hidden: { opacity: 0, height: 0 },
-	visible: { opacity: 1, height: 'auto' },
+	hidden: {
+		opacity: 0,
+		height: 0,
+		transitionEnd: {
+			position: 'absolute',
+		},
+	},
+	visible: { opacity: 1, height: 'auto', position: 'relative' },
 };
 
 type SimpleMember = Pick<TeamMemberSchema, 'id' | 'name' | 'atMeeting'>;
@@ -96,19 +103,16 @@ export function AttendanceTable({ initialData, team }: Props) {
 function InnerTable({ filteredMembers, members }: { filteredMembers: SimpleMember[]; members: SimpleMember[] }) {
 	const visibleMembers = useMemo(() => new Set(filteredMembers), [filteredMembers]);
 	const sortedMembers = useMemo(
-		() =>
-			members.toSorted((a, b) => {
-				const aIndex = visibleMembers.has(a) ? filteredMembers.indexOf(a) : 1;
-				const bIndex = visibleMembers.has(b) ? filteredMembers.indexOf(b) : 1;
-
-				return aIndex - bIndex;
-			}),
-		[members, filteredMembers.indexOf, visibleMembers],
+		() => [...new Set(concatIterables(filteredMembers, members))],
+		[members, filteredMembers],
 	);
 	const indexOfLastVisibleMember = useMemo(
 		() => sortedMembers.findLastIndex((member) => visibleMembers.has(member)),
 		[sortedMembers, visibleMembers],
 	);
+
+	// Can't use AnimatePresence to handle row animations due to this bug https://github.com/framer/motion/issues/2023
+	// Have to do this awful stuff to hide the elements on the DOM without actually unmounting them
 
 	return (
 		<MotionTable initial='hidden' animate='visible' exit='hidden' variants={motionVariants} className='overflow-hidden'>
@@ -168,6 +172,8 @@ function InnerTableRow({ visible, className, member }: { visible: boolean; class
 			animate={visible ? 'visible' : 'hidden'}
 			onAnimationStart={() => setAnimating(true)}
 			onAnimationComplete={() => setAnimating(false)}
+			layout={visible}
+			transition={{ stiffness: 100 }}
 			className={clsx(
 				{
 					// This helps prevent hidden rows from being "on top" of shown rows when filtering
@@ -183,6 +189,7 @@ function InnerTableRow({ visible, className, member }: { visible: boolean; class
 					checked={checked}
 					onCheckedChange={(checked) => mutation.mutate({ id: member.id, atMeeting: checked })}
 					disabled={mutation.isPending}
+					className={clsx({ 'opacity-0': !visible })}
 				/>
 			</TableCell>
 		</MotionTableRow>
