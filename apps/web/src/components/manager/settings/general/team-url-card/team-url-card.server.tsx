@@ -38,7 +38,7 @@ function TeamUrlCardFormSkeleton() {
 }
 
 async function TeamUrlCardFormFetcher({ team }: Props) {
-	const teamManager = await trpcServer.teams.roleForSelf.query(team);
+	const teamManager = await trpcServer.teams.forUser.getRole.query(team);
 
 	if (teamManager.role === 'editor') {
 		return (

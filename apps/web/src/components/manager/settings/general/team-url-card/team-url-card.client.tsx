@@ -30,7 +30,7 @@ export function TeamUrlCardEditForm({ team }: Props) {
 	const router = useRouter();
 
 	const [toastId, setToastId] = useState<string | number | undefined>();
-	const setSlug = trpc.teams.setSlug.useMutation({
+	const setSlug = trpc.teams.settings.setSlug.useMutation({
 		onMutate: () => {
 			setToastId(toast.loading('Updating team URL...'));
 		},

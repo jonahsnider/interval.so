@@ -26,7 +26,7 @@ export function LeaveTeamCard({ team }: Props) {
 }
 
 async function LeaveTeamCardAction({ team }: Props) {
-	const role = await trpcServer.teams.roleForSelf.query({ slug: team.slug });
+	const role = await trpcServer.teams.forUser.getRole.query({ slug: team.slug });
 
 	if (role.role === 'owner') {
 		return <LeaveTeamCardNotAllowed />;

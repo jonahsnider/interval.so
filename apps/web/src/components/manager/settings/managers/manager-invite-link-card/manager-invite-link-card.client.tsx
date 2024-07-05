@@ -17,7 +17,7 @@ export function ManageInviteLinkCardButton({ team }: Pick<Props, 'team'>) {
 	const [toastId, setToastId] = useState<string | number | undefined>();
 	const router = useRouter();
 
-	const resetInviteCode = trpc.teams.resetInviteCode.useMutation({
+	const resetInviteCode = trpc.teams.settings.resetInviteCode.useMutation({
 		onMutate: () => {
 			setToastId(toast.loading('Resetting invite link...'));
 		},

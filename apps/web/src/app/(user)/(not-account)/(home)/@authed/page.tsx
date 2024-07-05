@@ -5,7 +5,7 @@ import { trpcServer } from '@/src/trpc/trpc-server';
 // biome-ignore lint/style/noDefaultExport: This must be a default export
 export default async function TeamSelectPage() {
 	// TODO: Make this stream, make it a separate component <TeamCardsForSelf />
-	const teams = await trpcServer.teams.teamNamesForSelf.query();
+	const teams = await trpcServer.teams.forUser.getTeamNames.query();
 
 	return (
 		<div className='flex items-center justify-center w-full'>

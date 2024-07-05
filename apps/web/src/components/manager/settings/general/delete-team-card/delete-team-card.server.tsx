@@ -17,7 +17,7 @@ export function DeleteTeamCard({ team }: Props) {
 }
 
 async function TeamCardFetcher({ team }: Props) {
-	const role = await trpcServer.teams.roleForSelf.query({ slug: team.slug });
+	const role = await trpcServer.teams.forUser.getRole.query({ slug: team.slug });
 
 	if (role.role === 'owner') {
 		return <DeleteTeamCardClient team={team} />;

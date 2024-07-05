@@ -30,7 +30,7 @@ export function TeamDisplayNameEditForm({ team, initialDisplayName }: Props) {
 	const router = useRouter();
 
 	const [toastId, setToastId] = useState<string | number | undefined>();
-	const setDisplayName = trpc.teams.setDisplayName.useMutation({
+	const setDisplayName = trpc.teams.settings.setDisplayName.useMutation({
 		onMutate: () => {
 			setToastId(toast.loading('Updating team display name...'));
 		},

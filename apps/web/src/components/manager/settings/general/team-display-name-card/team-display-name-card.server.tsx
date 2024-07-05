@@ -36,8 +36,8 @@ function TeamDisplayNameEditFormSkeleton() {
 
 async function TeamDisplayNameEditFormFetcher({ team }: Props) {
 	const [currentDisplayName, teamManager] = await Promise.all([
-		trpcServer.teams.getDisplayName.query(team),
-		trpcServer.teams.roleForSelf.query(team),
+		trpcServer.teams.settings.getDisplayName.query(team),
+		trpcServer.teams.forUser.getRole.query(team),
 	]);
 
 	if (teamManager.role === 'editor') {

@@ -31,7 +31,7 @@ export function SignupCard() {
 		},
 	});
 
-	const joinTeam = trpc.teams.join.useMutation({
+	const joinTeam = trpc.teams.forUser.join.useMutation({
 		onMutate: () => {},
 		onSuccess: (result) => {
 			router.push(`/team/${result.slug}`);

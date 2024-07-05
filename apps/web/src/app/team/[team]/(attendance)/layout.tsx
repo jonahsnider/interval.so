@@ -17,7 +17,7 @@ type Props = PropsWithChildren<{
 export default async function TeamAttendanceLayout({ children, params }: Props) {
 	let displayName: string;
 	try {
-		displayName = await trpcServer.teams.getDisplayName.query({ slug: params.team });
+		displayName = await trpcServer.teams.settings.getDisplayName.query({ slug: params.team });
 	} catch (error) {
 		if (isTrpcClientError(error) && error.data?.code === 'NOT_FOUND') {
 			notFound();

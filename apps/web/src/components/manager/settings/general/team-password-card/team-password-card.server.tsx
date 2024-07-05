@@ -38,8 +38,8 @@ function TeamPasswordEditFormSkeleton() {
 
 async function TeamPasswordEditFormFetcher({ team }: Props) {
 	const [currentPassword, teamManager] = await Promise.all([
-		trpcServer.teams.getPassword.query(team),
-		trpcServer.teams.roleForSelf.query(team),
+		trpcServer.teams.settings.getPassword.query(team),
+		trpcServer.teams.forUser.getRole.query(team),
 	]);
 
 	if (teamManager.role === 'editor') {

@@ -28,7 +28,7 @@ export function TeamPasswordEditForm({ team, initialTeamValue }: Props) {
 	});
 
 	const [toastId, setToastId] = useState<string | number | undefined>();
-	const setPassword = trpc.teams.setPassword.useMutation({
+	const setPassword = trpc.teams.settings.setPassword.useMutation({
 		onMutate: () => {
 			setToastId(toast.loading('Updating team password...'));
 		},

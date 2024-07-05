@@ -81,7 +81,7 @@ function ManagersTableRowSkeleton() {
 
 async function ManagersTableBody({ team }: Props) {
 	const [self, managers] = await Promise.all([
-		trpcServer.teams.roleForSelf.query(team),
+		trpcServer.teams.forUser.getRole.query(team),
 		trpcServer.teams.managers.getList.query(team),
 	]);
 

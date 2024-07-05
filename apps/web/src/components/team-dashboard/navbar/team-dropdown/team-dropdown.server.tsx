@@ -40,7 +40,7 @@ function TeamDropdownSkeleton({ currentTeam }: { currentTeam?: Pick<TeamSchema, 
 }
 
 export function TeamDropdown({ currentTeam }: { currentTeam?: Pick<TeamSchema, 'slug'> }) {
-	const teams = trpcServer.teams.teamNamesForSelf.query();
+	const teams = trpcServer.teams.forUser.getTeamNames.query();
 
 	return (
 		<Suspense fallback={<TeamDropdownSkeleton currentTeam={currentTeam} />}>

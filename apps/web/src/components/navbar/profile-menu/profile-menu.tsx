@@ -44,7 +44,7 @@ async function ProfileMenuContent() {
 	}
 
 	if (guestTeam) {
-		const displayNamePromise = trpcServer.teams.getDisplayName.query(guestTeam);
+		const displayNamePromise = trpcServer.teams.settings.getDisplayName.query(guestTeam);
 
 		return <MenuContentGuestAuth displayNamePromise={displayNamePromise} />;
 	}

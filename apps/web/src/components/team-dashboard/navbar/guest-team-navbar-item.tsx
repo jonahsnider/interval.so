@@ -9,7 +9,7 @@ type Props = {
 };
 
 async function DisplayName({ team }: Props) {
-	const displayName = await trpcServer.teams.getDisplayName.query(team);
+	const displayName = await trpcServer.teams.settings.getDisplayName.query(team);
 
 	return displayName;
 }

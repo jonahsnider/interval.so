@@ -26,7 +26,7 @@ export function LeaveTeamCardActionAllowed({ team }: Props) {
 	const [toastId, setToastId] = useState<string | number | undefined>();
 	const router = useRouter();
 
-	const leaveTeam = trpc.teams.leave.useMutation({
+	const leaveTeam = trpc.teams.forUser.leave.useMutation({
 		onMutate: () => {
 			setToastId(toast.loading('Leaving team...'));
 		},

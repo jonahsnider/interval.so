@@ -24,7 +24,7 @@ export function JoinTeamButtonClient({ className, teamPromise, teamInvite, isAut
 
 	const [toastId, setToastId] = useState<string | number | undefined>();
 
-	const joinTeam = trpc.teams.join.useMutation({
+	const joinTeam = trpc.teams.forUser.join.useMutation({
 		onMutate: () => {
 			setToastId(toast.loading(`Joining ${team.displayName}...`));
 		},

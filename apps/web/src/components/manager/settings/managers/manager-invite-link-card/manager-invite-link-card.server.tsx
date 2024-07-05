@@ -20,7 +20,7 @@ export function ManagerInviteLinkCard({ team }: Props) {
 }
 
 async function Outer({ team }: Props) {
-	const teamManager = await trpcServer.teams.roleForSelf.query({ slug: team.slug });
+	const teamManager = await trpcServer.teams.forUser.getRole.query({ slug: team.slug });
 
 	if (teamManager.role !== 'owner' && teamManager.role !== 'admin') {
 		return undefined;
@@ -50,7 +50,7 @@ function Inner({ team }: Props) {
 }
 
 async function InviteLinkFieldFetcher({ team }: Props) {
-	const dbTeam = await trpcServer.teams.getInviteCode.query(team);
+	const dbTeam = await trpcServer.teams.settings.getInviteCode.query(team);
 
 	return <CopyButtonInput value={inviteLinkUrl(dbTeam)} editable={false} />;
 }
