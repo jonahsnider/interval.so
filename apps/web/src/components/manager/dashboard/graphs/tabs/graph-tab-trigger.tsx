@@ -172,6 +172,7 @@ function GraphTabTriggerBase({
 				},
 				className,
 			)}
+			scroll={false}
 		>
 			<p className='font-semibold text-sm text-muted-foreground'>{title}</p>
 
