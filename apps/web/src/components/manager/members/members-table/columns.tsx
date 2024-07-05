@@ -67,6 +67,12 @@ export const columns: ColumnDef<TeamMemberSchema>[] = [
 		},
 	},
 	{
+		accessorKey: 'atMeeting',
+		filterFn: (row, _columnId, filterValue: boolean[]) => {
+			return filterValue.includes(row.original.atMeeting);
+		},
+	},
+	{
 		accessorKey: 'lastSeenAt',
 		sortingFn: Sort.ascending((row) =>
 			row.original.lastSeenAt === 'now'

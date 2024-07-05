@@ -14,13 +14,14 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
-import { CheckIcon, PlusCircleIcon } from '@heroicons/react/16/solid';
+import { CheckIcon } from '@heroicons/react/16/solid';
 import type { Column } from '@tanstack/react-table';
 
 // biome-ignore lint/style/useNamingConvention: This is PascalCase
 interface DataTableFacetedFilterProps<TData, TValue> {
 	column?: Column<TData, TValue>;
 	title?: string;
+	icon: React.ComponentType<{ className?: string }>;
 	options: {
 		label: string;
 		value: TValue;
@@ -35,15 +36,17 @@ export function DataTableFacetedFilter<TData, TValue>({
 	title,
 	options,
 	disabled = false,
+	icon: Icon,
 }: DataTableFacetedFilterProps<TData, TValue>) {
 	const facets = column?.getFacetedUniqueValues();
-	const selectedValues = new Set(column?.getFilterValue() as TValue[]);
+	const filterValue = column?.getFilterValue();
+	const selectedValues = Array.isArray(filterValue) ? new Set(filterValue as TValue[]) : new Set();
 
 	return (
 		<Popover>
 			<PopoverTrigger asChild={true}>
 				<Button variant='outline' disabled={disabled}>
-					<PlusCircleIcon className='mr-2 h-4 w-4' />
+					<Icon className='mr-2 h-4 w-4' />
 					{title}
 					{selectedValues?.size > 0 && (
 						<>

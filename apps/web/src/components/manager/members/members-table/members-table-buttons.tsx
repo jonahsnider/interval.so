@@ -2,7 +2,7 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { DataTableFacetedFilter } from '@/src/components/data-tables/faceted-filter';
-import { ArchiveBoxIcon, UserIcon, XMarkIcon } from '@heroicons/react/16/solid';
+import { ArchiveBoxIcon, CheckIcon, UserIcon, XMarkIcon } from '@heroicons/react/16/solid';
 import type { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
 import type { Table } from '@tanstack/react-table';
 import type { SelectRangeEventHandler } from 'react-day-picker';
@@ -51,6 +51,7 @@ export function MembersTableButtons({ table, loading }: Props) {
 		});
 	};
 
+	const lastSeenAtFilter = lastSeenAtColumn.getFilterValue() as LastSeenAtFilter;
 	return (
 		<div className='flex items-center gap-2'>
 			<Input
@@ -62,6 +63,7 @@ export function MembersTableButtons({ table, loading }: Props) {
 			/>
 
 			<DataTableFacetedFilter
+				icon={ArchiveBoxIcon}
 				title='Archived'
 				column={table.getColumn('archived')}
 				disabled={loading}
@@ -79,13 +81,32 @@ export function MembersTableButtons({ table, loading }: Props) {
 				]}
 			/>
 
+			<DataTableFacetedFilter
+				icon={UserIcon}
+				title='Signed in'
+				column={table.getColumn('atMeeting')}
+				disabled={loading}
+				options={[
+					{
+						label: 'Signed in',
+						value: true,
+						icon: CheckIcon,
+					},
+					{
+						label: 'Not signed in',
+						value: false,
+						icon: XMarkIcon,
+					},
+				]}
+			/>
+
 			<PeriodSelect
 				optional={true}
 				setDatesAndClearDuration={setDatesAndClearDuration}
 				setDurationAndClearDates={setDurationAndClearDates}
-				start={(lastSeenAtColumn.getFilterValue() as LastSeenAtFilter)?.start}
-				end={(lastSeenAtColumn.getFilterValue() as LastSeenAtFilter)?.end}
-				duration={(lastSeenAtColumn.getFilterValue() as LastSeenAtFilter)?.duration}
+				start={lastSeenAtFilter?.start}
+				end={lastSeenAtFilter?.end}
+				duration={lastSeenAtFilter?.duration}
 				emptyText='Last seen'
 				disabled={loading}
 			/>

@@ -76,6 +76,12 @@ export function MembersTableClient({ initialData, loading, team }: Props) {
 		getFilteredRowModel: getFilteredRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
 		onColumnFiltersChange: setColumnFilters,
+		initialState: {
+			columnVisibility: {
+				// Used only for filtering
+				atMeeting: false,
+			},
+		},
 		state: {
 			sorting,
 			columnFilters,
@@ -134,7 +140,8 @@ export function MembersTableClient({ initialData, loading, team }: Props) {
 								))
 							) : (
 								<TableRow>
-									<TableCell colSpan={columns.length} className='h-24 text-center'>
+									{/* All columns except for the hidden "atMeeting" column */}
+									<TableCell colSpan={columns.length - 1} className='h-24 text-center'>
 										No results.
 									</TableCell>
 								</TableRow>
