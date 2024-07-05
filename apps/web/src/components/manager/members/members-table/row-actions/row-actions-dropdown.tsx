@@ -22,21 +22,19 @@ export function RowActionsDropdown({ member }: Props) {
 	const [isDeleteMemberAlertOpen, setDeleteMemberAlertOpen] = useState(false);
 
 	return (
-		<>
-			<DropdownMenu open={isDeleteMemberAlertOpen ? true : undefined}>
-				<DropdownMenuTrigger asChild={true}>
-					<Button variant='ghost' size='icon' className='h-8 w-8 p-0'>
-						<span className='sr-only'>Open menu</span>
-						<EllipsisVerticalIcon className='h-4 w-4' />
-					</Button>
-				</DropdownMenuTrigger>
-				<DropdownMenuContent align='end'>
-					<UpdateAttendanceItem member={member} />
-					<DropdownMenuSeparator />
-					<ArchiveMemberItem member={member} />
-					<DeleteMemberItem member={member} setDialogOpen={setDeleteMemberAlertOpen} />
-				</DropdownMenuContent>
-			</DropdownMenu>
-		</>
+		<DropdownMenu open={isDeleteMemberAlertOpen ? true : undefined}>
+			<DropdownMenuTrigger asChild={true}>
+				<Button variant='ghost' size='icon' className='h-8 w-8 p-0'>
+					<span className='sr-only'>Open menu</span>
+					<EllipsisVerticalIcon className='h-4 w-4' />
+				</Button>
+			</DropdownMenuTrigger>
+			<DropdownMenuContent align='end'>
+				<UpdateAttendanceItem member={member} />
+				<DropdownMenuSeparator />
+				<ArchiveMemberItem member={member} />
+				<DeleteMemberItem member={member} setDialogOpen={setDeleteMemberAlertOpen} />
+			</DropdownMenuContent>
+		</DropdownMenu>
 	);
 }
