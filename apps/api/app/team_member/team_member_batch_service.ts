@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { inject } from '@adonisjs/core';
 import { TRPCError } from '@trpc/server';
-import { and, eq, inArray, isNotNull, isNull } from 'drizzle-orm';
+import { and, eq, inArray, isNotNull, isNull, lte } from 'drizzle-orm';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { injectHelper } from '../../util/inject_helper.js';
@@ -36,6 +36,8 @@ export class TeamMemberBatchService {
 						eq(Schema.teamMembers.teamId, Schema.teams.id),
 						eq(Schema.teams.slug, team.slug),
 						isNotNull(Schema.teamMembers.pendingSignIn),
+						// Make sure we only affect people who had signed in **before** the end time
+						lte(Schema.teamMembers.pendingSignIn, endTime),
 					),
 				);
 
@@ -64,7 +66,15 @@ export class TeamMemberBatchService {
 				}),
 			);
 
-			await tx.update(Schema.teamMembers).set({ pendingSignIn: null });
+			await tx
+				.update(Schema.teamMembers)
+				.set({ pendingSignIn: null })
+				.where(
+					inArray(
+						Schema.teamMembers.id,
+						members.map((member) => member.id),
+					),
+				);
 		});
 
 		await this.eventsService.announceEvent(team, MemberRedisEvent.MemberAttendanceUpdated);
