@@ -14,6 +14,13 @@ import type { TeamSchema } from './schemas/team_schema.js';
 export class TeamService {
 	private static readonly MAX_TEAMS_PER_USER = 10;
 
+	private static generateInviteCode(): Promise<string> {
+		return cryptoRandomStringAsync({
+			length: 32,
+			type: 'alphanumeric',
+		});
+	}
+
 	async create(
 		input: Pick<TeamSchema, 'displayName' | 'password' | 'slug'>,
 		user: Pick<UserSchema, 'id'>,
@@ -36,7 +43,15 @@ export class TeamService {
 		try {
 			await db.transaction(async (tx) => {
 				// Create team
-				const [team] = await tx.insert(Schema.teams).values(input).returning({ id: Schema.teams.id });
+				const [team] = await tx
+					.insert(Schema.teams)
+					.values({
+						displayName: input.displayName,
+						slug: input.slug,
+						password: input.password,
+						inviteCode: await TeamService.generateInviteCode(),
+					})
+					.returning({ id: Schema.teams.id });
 
 				assert(team);
 
@@ -175,10 +190,7 @@ export class TeamService {
 	async resetInviteCode(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>): Promise<Pick<TeamSchema, 'inviteCode'>> {
 		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('resetInviteUrl', team));
 
-		const newCode = await cryptoRandomStringAsync({
-			length: 32,
-			type: 'alphanumeric',
-		});
+		const newCode = await TeamService.generateInviteCode();
 
 		await db.update(Schema.teams).set({ inviteCode: newCode }).where(eq(Schema.teams.slug, team.slug));
 
