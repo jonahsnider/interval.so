@@ -61,7 +61,7 @@ export function AttendanceTable({ initialData, team }: Props) {
 	}, [trimmedFilter, fuse, members]);
 
 	return (
-		<Card className='w-full md:max-w-xl'>
+		<Card className='w-full md:max-w-xl overflow-x-auto'>
 			<CardHeader>
 				<CardTitle>Sign in & out</CardTitle>
 			</CardHeader>
@@ -102,7 +102,7 @@ function InnerTable({ filteredMembers, members }: { filteredMembers: SimpleMembe
 	// Have to do this awful stuff to hide the elements on the DOM without actually unmounting them
 
 	return (
-		<MotionTable initial='hidden' animate='visible' exit='hidden' variants={motionVariants} className='overflow-hidden'>
+		<MotionTable initial='hidden' animate='visible' exit='hidden' variants={motionVariants} className='min-w-min'>
 			<TableHeader>
 				<TableRow>
 					<TableHead className='pl-8'>Name</TableHead>
@@ -175,7 +175,7 @@ function InnerTableRow({ visible, className, member }: { visible: boolean; class
 				className,
 			)}
 		>
-			<TableCell className='font-medium pl-8 whitespace-pre-wrap'>{member.name}</TableCell>
+			<TableCell className='font-medium pl-8 whitespace-pre'>{member.name}</TableCell>
 			<TableCell className='pr-8 text-right'>
 				<Switch
 					checked={checked}
