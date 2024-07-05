@@ -60,8 +60,6 @@ export function AttendanceTable({ initialData, team }: Props) {
 		return fuse.search(trimmedFilter).map((result) => result.item);
 	}, [trimmedFilter, fuse, members]);
 
-	const noResults = filteredMembers.length === 0;
-
 	return (
 		<Card className='w-full md:max-w-xl'>
 			<CardHeader>
@@ -83,18 +81,7 @@ export function AttendanceTable({ initialData, team }: Props) {
 
 			<CardContent className='px-0 pb-0 transition-all'>
 				<AnimatePresence initial={false}>
-					{!noResults && <InnerTable filteredMembers={filteredMembers} members={members} />}
-					{noResults && (
-						<motion.div
-							initial='hidden'
-							animate='visible'
-							exit='hidden'
-							variants={motionVariants}
-							className='w-full justify-center flex items-center'
-						>
-							<p className='font-semibold px-4 py-2'>No results</p>
-						</motion.div>
-					)}
+					<InnerTable filteredMembers={filteredMembers} members={members} />
 				</AnimatePresence>
 			</CardContent>
 		</Card>
@@ -134,6 +121,11 @@ function InnerTable({ filteredMembers, members }: { filteredMembers: SimpleMembe
 						})}
 					/>
 				))}
+				{filteredMembers.length === 0 && (
+					<MotionTableRow initial='hidden' animate='visible' exit='hidden' variants={motionVariants}>
+						<TableCell className='h-16 w-full items-center justify-center'>No results.</TableCell>
+					</MotionTableRow>
+				)}
 			</TableBody>
 		</MotionTable>
 	);
