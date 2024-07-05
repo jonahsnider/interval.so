@@ -8,7 +8,6 @@ import {
 } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
 import { convert } from 'convert';
-import { toast } from 'sonner';
 import superjson from 'superjson';
 import { getTimezone } from '../utils/timezone-util';
 import { type AppRouterType, trpcUrl, trpcWsUrl } from './common';
@@ -31,24 +30,11 @@ const httpBatchOptions: HTTPBatchLinkOptions<AppRouterType['_def']['_config']['$
 	},
 };
 
-let wsErrorToastId: string | number | undefined;
-
 const wsClient = createWSClient({
 	url: trpcWsUrl.toString(),
 	lazy: {
 		enabled: true,
 		closeMs: convert(1, 'm').to('ms'),
-	},
-	onOpen() {
-		if (wsErrorToastId) {
-			toast.success('Reconnected to the server', { id: wsErrorToastId });
-			wsErrorToastId = undefined;
-		}
-	},
-	onClose() {
-		wsErrorToastId = toast.loading('Reconnecting to the server...', {
-			dismissible: false,
-		});
 	},
 });
 
