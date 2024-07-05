@@ -10,16 +10,17 @@ type Props = {
 export function ManagerLinkTile({ team }: Props) {
 	return (
 		<Link href={`/team/${encodeURIComponent(team.slug)}/dashboard`} className='h-full w-full'>
-			<Card className='transition-colors relative h-full flex flex-col justify-between hover:bg-accent'>
-				<CardHeader>
-					<div className='flex items-center justify-between'>
-						<CardTitle>Manager dashboard</CardTitle>
-						<ArrowRightIcon className='h-6 w-6 text-muted-foreground sm:hidden' />
-					</div>
+			<Card className='transition-colors h-full flex xs:flex-col hover:bg-accent justify-between'>
+				<CardHeader className='w-full'>
+					<CardTitle>Manager dashboard</CardTitle>
 					<CardDescription>View historical data, manage members, and more</CardDescription>
 				</CardHeader>
 
-				<CardFooter className='justify-end hidden sm:flex'>
+				<CardHeader className='pl-0 items-center justify-center xs:hidden'>
+					<ArrowRightIcon className='h-6 w-6 text-muted-foreground' />
+				</CardHeader>
+
+				<CardFooter className='justify-end items-end max-xs:hidden'>
 					<ArrowRightIcon className='h-6 w-6 text-muted-foreground' />
 				</CardFooter>
 			</Card>
