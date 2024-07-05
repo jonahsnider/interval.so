@@ -5,6 +5,7 @@ import { Link } from 'next-view-transitions';
 import { unstable_noStore as noStore } from 'next/cache';
 import type { PropsWithChildren } from 'react';
 import { trpcServer } from '../trpc/trpc-server';
+import { captureException } from '@sentry/nextjs';
 
 function NeedsSignedInCard() {
 	return (
@@ -39,10 +40,25 @@ type Props = PropsWithChildren<{
 export async function NeedsManagerAuthScreen({ children, className }: Props) {
 	noStore();
 
-	const { user } = await trpcServer.user.getSelf.query();
+	try {
+		const { user } = await trpcServer.user.getSelf.query();
 
-	if (user) {
-		return <>{children}</>;
+		if (user) {
+			return <>{children}</>;
+		}
+	} catch (error) {
+		captureException(error);
+
+		return (
+			<div className={clsx('w-full flex items-center justify-center flex-1', className)}>
+				<Card>
+					<CardHeader>
+						<CardTitle>Error</CardTitle>
+						<CardDescription>An error occurred while loading your account.</CardDescription>
+					</CardHeader>
+				</Card>
+			</div>
+		);
 	}
 
 	return (

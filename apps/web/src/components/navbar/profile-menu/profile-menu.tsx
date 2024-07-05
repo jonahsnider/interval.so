@@ -13,6 +13,7 @@ import { UserCircleIcon } from '@heroicons/react/20/solid';
 import { Link } from 'next-view-transitions';
 import { Suspense } from 'react';
 import { MenuContentAuthed, MenuContentGuestAuth } from './profile-menu.client';
+import { ErrorBoundary } from 'react-error-boundary';
 
 function MenuContentUnauthed() {
 	return (
@@ -80,9 +81,13 @@ export function ProfileMenu() {
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align='end'>
-				<Suspense fallback={<ProfileMenuContentSkeleton />}>
-					<ProfileMenuContent />
-				</Suspense>
+				<ErrorBoundary
+					fallback={<DropdownMenuLabel>Something went wrong while loading your profile</DropdownMenuLabel>}
+				>
+					<Suspense fallback={<ProfileMenuContentSkeleton />}>
+						<ProfileMenuContent />
+					</Suspense>
+				</ErrorBoundary>
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);

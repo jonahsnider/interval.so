@@ -250,3 +250,6 @@ service-account-key.json
 
 # My local design files
 designs.tldr
+
+# Sentry secrets
+.env.sentry-build-plugin
