@@ -74,7 +74,7 @@ export function AttendanceTable({ initialData, team }: Props) {
 				</CreateMemberDialog>
 			</CardContent>
 
-			<CardContent className='px-0 transition-all'>
+			<CardContent className='px-0 pb-0 transition-all'>
 				<AnimatePresence initial={false}>
 					{!noResults && <InnerTable filteredMembers={filteredMembers} members={members} />}
 					{noResults && (
@@ -126,7 +126,7 @@ function InnerTable({ filteredMembers, members }: { filteredMembers: SimpleMembe
 						member={member}
 						className={clsx({
 							// Need to use JS for this because the CSS selector in TableBody doesn't factor in how rows are hidden
-							'border-0': index === indexOfLastVisibleMember,
+							'border-0 rounded-b-lg': index === indexOfLastVisibleMember,
 						})}
 					/>
 				))}
