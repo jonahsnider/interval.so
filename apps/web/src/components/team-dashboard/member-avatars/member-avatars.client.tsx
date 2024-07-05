@@ -72,10 +72,10 @@ const avatarMotionVariants: Variants = {
 
 const MotionAvatar = motion(Avatar);
 
-const FIRST_TWO_INTIALS_REGEXP = /^(\S)\S*\s*(\S)/i;
+const FIRST_TWO_INTIALS_REGEXP = /^(\S)\S*\s*(\S)?/;
 
 function MemberAvatar({ member }: { member: Pick<TeamMemberSchema, 'name'> }) {
-	const matches = FIRST_TWO_INTIALS_REGEXP.exec(member.name);
+	const [, firstInitial, secondInitial] = FIRST_TWO_INTIALS_REGEXP.exec(member.name) ?? [];
 
 	// TODO: The items should be covering up the item after them, not the other way around
 
@@ -91,8 +91,8 @@ function MemberAvatar({ member }: { member: Pick<TeamMemberSchema, 'name'> }) {
 					className='-mr-3 hover:mr-0 transition-[margin] duration-200'
 				>
 					<AvatarFallback className='bg-background border-2 border-border truncate'>
-						{matches?.[1]}
-						{matches?.[2]}
+						{firstInitial}
+						{secondInitial}
 					</AvatarFallback>
 				</MotionAvatar>
 			</TooltipTrigger>
