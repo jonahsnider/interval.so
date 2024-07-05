@@ -10,11 +10,11 @@ type Props = PropsWithChildren<{
 export function TeamSettingsPageContainer({ team, children, pageId }: Props) {
 	return (
 		<>
-			<div className='col-span-full sm:col-span-1 [view-transition-name:team-settings-sidebar]'>
+			<div className='col-span-full md:col-span-1 [view-transition-name:team-settings-sidebar]'>
 				<SettingsSidebar team={team} pageId={pageId} />
 			</div>
 
-			<div className='col-span-full sm:col-span-3 [view-transition-name:team-settings-content]'>{children}</div>
+			<div className='col-span-full md:col-span-3 [view-transition-name:team-settings-content]'>{children}</div>
 		</>
 	);
 }
