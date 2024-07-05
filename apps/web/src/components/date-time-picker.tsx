@@ -5,8 +5,8 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import { CalendarIcon } from '@heroicons/react/16/solid';
-import { min } from '@jonahsnider/util';
 import { parseDate } from 'chrono-node';
+import { clamp } from 'date-fns';
 import { useState } from 'react';
 import { formatDate } from '../utils/date-format';
 
@@ -37,7 +37,12 @@ export function DateTimePicker({ onSelect, value, className, picker, fromDate }:
 
 		if (parsed) {
 			// Prevent entering a time in the future
-			onSelect(min(parsed, now));
+			onSelect(
+				clamp(parsed, {
+					start: fromDate ?? 0,
+					end: now,
+				}),
+			);
 		}
 	};
 
