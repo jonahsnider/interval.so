@@ -100,8 +100,6 @@ export class TeamMemberService {
 	): Promise<void> {
 		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('create', team));
 
-		// TODO: Limit teams to 1000 members (doesn't matter if unarchived or archived)
-
 		const [dbTeam, [members]] = await Promise.all([
 			db.query.teams.findFirst({
 				columns: {
