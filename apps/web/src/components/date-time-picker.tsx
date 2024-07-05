@@ -54,7 +54,7 @@ export function DateTimePicker({ onSelect, value, className, picker, fromDate }:
 					{value ? formatDate(value) : 'Select date'}
 				</Button>
 			</PopoverTrigger>
-			<PopoverContent className='flex flex-col gap-2 px-0 max-w-min'>
+			<PopoverContent className='flex flex-col gap-2 px-0 max-w-min py-2'>
 				<div className='px-4'>
 					<Calendar
 						mode='single'
