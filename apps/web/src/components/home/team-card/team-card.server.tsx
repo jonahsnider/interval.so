@@ -1,20 +1,22 @@
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 import { trpcServer } from '@/src/trpc/trpc-server';
 import { ArrowRightIcon } from '@heroicons/react/24/solid';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import { count } from '@jonahsnider/util';
 import { Link } from 'next-view-transitions';
+import { Suspense } from 'react';
 import { MemberAvatars } from '../../team-dashboard/member-avatars/member-avatars.server';
+import { TeamCardDescription } from './team-card.client';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug' | 'displayName'>;
 };
 
-// TODO: Make this realtime
-export async function TeamCard({ team }: Props) {
-	const attendance = await trpcServer.teams.members.simpleMemberList.query(team);
-
-	const memberCount = count(attendance, (member) => member.atMeeting);
+export function TeamCard({ team }: Props) {
+	const memberCountPromise = trpcServer.teams.members.simpleMemberList
+		.query(team)
+		.then((members) => count(members, (member) => member.atMeeting));
 
 	return (
 		<Link href={`/team/${team.slug}`} className='group'>
@@ -24,11 +26,11 @@ export async function TeamCard({ team }: Props) {
 						<CardTitle>{team.displayName}</CardTitle>
 						<ArrowRightIcon className='h-6 w-6 text-muted-foreground group-hover:translate-x-[6px] transition-transform duration-200' />
 					</div>
-					<CardDescription>
-						{memberCount === 0 && 'No members signed in currently'}
-						{memberCount === 1 && '1 member signed in'}
-						{memberCount > 1 && `${memberCount} members signed in`}
-					</CardDescription>
+					<Suspense fallback={<Skeleton className='h-5 w-48' />}>
+						<CardDescription>
+							<TeamCardDescription team={team} initialMemberCountPromise={memberCountPromise} />
+						</CardDescription>
+					</Suspense>
 				</CardHeader>
 
 				<CardFooter>
