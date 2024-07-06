@@ -1,5 +1,6 @@
 'use client';
 
+import { type ChartConfig, ChartContainer, ChartTooltip } from '@/components/ui/chart';
 import {
 	areaChartProps,
 	areaProps,
@@ -9,23 +10,15 @@ import {
 	yAxisProps,
 } from '@/src/components/graphs/chart-props';
 import { CustomTooltip, formatTooltipDate } from '@/src/components/graphs/custom-tooltip';
+import { formatXAxisDate } from '@/src/components/graphs/graph-utils';
 import { trpc } from '@/src/trpc/trpc-client';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import type { AverageHoursDatumSchema } from '@hours.frc.sh/api/app/team_stats/schemas/average_hours_datum_schema';
-import { DatumPeriod } from '@hours.frc.sh/api/app/team_stats/schemas/datum_time_range_schema';
+import type { DatumPeriod } from '@hours.frc.sh/api/app/team_stats/schemas/datum_time_range_schema';
 import type { TimeFilterSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_filter_schema';
 import { toDigits } from '@jonahsnider/util';
 import { use, useMemo, useState } from 'react';
-import {
-	Area,
-	AreaChart,
-	CartesianGrid,
-	ResponsiveContainer,
-	Tooltip,
-	type TooltipProps,
-	XAxis,
-	YAxis,
-} from 'recharts';
+import { Area, AreaChart, CartesianGrid, type TooltipProps, XAxis, YAxis } from 'recharts';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;
@@ -39,24 +32,12 @@ type ChartDatum = {
 	averageHours: number;
 };
 
-// TODO: This is copypasted between each graph, move it to the graph utils file
-// biome-ignore lint/style/useNamingConvention: This is camelcase
-function formatXAxisDate(date: Date, period: DatumPeriod): string {
-	const now = new Date();
-	const options: Intl.DateTimeFormatOptions = {
-		month: 'short',
-	};
-
-	if (period !== DatumPeriod.Monthly) {
-		options.day = 'numeric';
-	}
-
-	if (date.getFullYear() !== now.getFullYear()) {
-		options.year = 'numeric';
-	}
-
-	return new Intl.DateTimeFormat(undefined, options).format(date);
-}
+const chartConfig = {
+	averageHours: {
+		label: 'Average hours',
+		color: 'hsl(var(--chart-1))',
+	},
+} satisfies ChartConfig;
 
 function HoursTooltip({
 	period,
@@ -101,8 +82,8 @@ export function AverageHoursGraphClient({ dataPromise, period, team, timeFilter 
 	);
 
 	return (
-		<ResponsiveContainer width='100%' height={384}>
-			<AreaChart {...areaChartProps()} data={chartData}>
+		<ChartContainer config={chartConfig} className='h-96 w-full'>
+			<AreaChart {...areaChartProps()} accessibilityLayer={true} data={chartData}>
 				<CartesianGrid {...cartesianGridProps()} />
 				<XAxis
 					{...xAxisProps()}
@@ -116,13 +97,19 @@ export function AverageHoursGraphClient({ dataPromise, period, team, timeFilter 
 				<YAxis {...yAxisProps()} domain={[0, 'auto']} width={40} />
 				{/* Hide tooltip when there's no data, otherwise the cursor will render at x=0 which looks weird */}
 				{data.length > 0 && (
-					<Tooltip
+					<ChartTooltip
 						{...tooltipProps()}
 						content={(props: TooltipProps<number, string>) => <HoursTooltip tooltipProps={props} period={period} />}
 					/>
 				)}
-				<Area {...areaProps({ color: 'primary' })} dataKey='averageHours' name='Average hours' />
+				<Area
+					{...areaProps()}
+					dataKey='averageHours'
+					name='Average hours'
+					fill='var(--color-averageHours)'
+					stroke='var(--color-averageHours)'
+				/>
 			</AreaChart>
-		</ResponsiveContainer>
+		</ChartContainer>
 	);
 }

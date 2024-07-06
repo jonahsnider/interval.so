@@ -31,7 +31,7 @@ type Props = {
 
 export function CustomTooltip({ color, footer, title, value }: Props) {
 	return (
-		<Card className='px-2 py-1 flex flex-col items-center'>
+		<Card className='px-2 py-1 flex flex-col items-center text-base'>
 			<div className='flex items-center gap-6 justify-between'>
 				<div className='flex gap-2 items-center'>
 					<div className='h-3 w-3 rounded-full' style={{ backgroundColor: color }} />

@@ -32,9 +32,6 @@
 		--input: 240 5.9% 90%;
 		--ring: 164 50% 40%;
 		--radius: 0.5rem;
-
-		--chart-accent-1: #888;
-		--chart-accent-2: #eaeaea;
 	}
 
 	.dark {
@@ -58,9 +55,6 @@
 		--border: 240 3.7% 15.9%;
 		--input: 240 3.7% 15.9%;
 		--ring: 164 50% 40%;
-
-		--chart-accent-1: #999;
-		--chart-accent-2: #333;
 	}
 }
 
@@ -68,4 +62,23 @@
 	* {
 		@apply border-border;
 	}
+}
+
+/* Charts */
+@layer base {
+  :root {
+    --chart-1: var(--primary);
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+  }
+
+  .dark {
+    --chart-1: var(--primary);
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
 }

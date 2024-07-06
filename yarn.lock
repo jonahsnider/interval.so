@@ -1317,7 +1317,7 @@ __metadata:
     react-dom: "npm:18.3.1"
     react-error-boundary: "npm:4.0.13"
     react-hook-form: "npm:7.52.1"
-    recharts: "npm:2.12.7"
+    recharts: "npm:^2.12.7"
     server-only: "npm:0.0.1"
     sonner: "npm:1.5.0"
     superjson: "npm:2.2.1"
@@ -9874,7 +9874,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"recharts@npm:2.12.7":
+"recharts@npm:^2.12.7":
   version: 2.12.7
   resolution: "recharts@npm:2.12.7"
   dependencies:
