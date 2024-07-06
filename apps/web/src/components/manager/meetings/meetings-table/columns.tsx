@@ -9,7 +9,27 @@ import { Sort } from '@jonahsnider/util';
 import type { ColumnDef } from '@tanstack/react-table';
 import { type Duration, intervalToDuration, milliseconds } from 'date-fns';
 import { useParams } from 'next/navigation';
+import type { PropsWithChildren } from 'react';
 import { RowActionsDropdown } from './row-actions/row-actions-dropdown';
+
+function MeetingTitleTooltip({
+	meeting,
+	children,
+}: PropsWithChildren<{ meeting: Pick<TeamMeetingSchema, 'startedAt' | 'endedAt'> }>) {
+	const shortContent = formatDateRange(meeting.startedAt, meeting.endedAt);
+	const verboseContent = formatDateRange(meeting.startedAt, meeting.endedAt, true);
+
+	if (shortContent === verboseContent) {
+		return children;
+	}
+
+	return (
+		<Tooltip>
+			<TooltipTrigger asChild={true}>{children}</TooltipTrigger>
+			<TooltipContent>{verboseContent}</TooltipContent>
+		</Tooltip>
+	);
+}
 
 export const columns: ColumnDef<TeamMeetingSchema>[] = [
 	{
@@ -18,19 +38,12 @@ export const columns: ColumnDef<TeamMeetingSchema>[] = [
 		header: 'Title',
 		cell: ({ getValue, row }) => {
 			const shortContent = getValue<string>();
-			const verboseContent = formatDateRange(row.original.startedAt, row.original.endedAt, true);
 
-			const inner =
-				shortContent === verboseContent ? (
+			const inner = (
+				<MeetingTitleTooltip meeting={row.original}>
 					<p className='font-medium'>{shortContent}</p>
-				) : (
-					<Tooltip>
-						<TooltipTrigger asChild={true}>
-							<p className='font-medium'>{shortContent}</p>
-						</TooltipTrigger>
-						<TooltipContent>{verboseContent}</TooltipContent>
-					</Tooltip>
-				);
+				</MeetingTitleTooltip>
+			);
 
 			if (row.original.endedAt) {
 				return inner;
