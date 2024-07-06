@@ -61,7 +61,7 @@ export function AttendanceTable({ initialData, team }: Props) {
 	}, [trimmedFilter, fuse, members]);
 
 	return (
-		<Card className='w-full md:max-w-xl overflow-x-auto'>
+		<Card className='w-full md:max-w-xl'>
 			<CardHeader>
 				<CardTitle>Sign in & out</CardTitle>
 			</CardHeader>
@@ -90,7 +90,7 @@ export function AttendanceTable({ initialData, team }: Props) {
 function InnerTable({ filteredMembers, members }: { filteredMembers: SimpleMember[]; members: SimpleMember[] }) {
 	const visibleMembers = useMemo(() => new Set(filteredMembers), [filteredMembers]);
 	const sortedMembers = useMemo(
-		() => [...new Set(concatIterables(filteredMembers, members))],
+		() => [...new Set(concatIterables(members, filteredMembers))],
 		[members, filteredMembers],
 	);
 	const indexOfLastVisibleMember = useMemo(
@@ -102,7 +102,14 @@ function InnerTable({ filteredMembers, members }: { filteredMembers: SimpleMembe
 	// Have to do this awful stuff to hide the elements on the DOM without actually unmounting them
 
 	return (
-		<MotionTable initial='hidden' animate='visible' exit='hidden' variants={motionVariants} className='min-w-min'>
+		<MotionTable
+			initial='hidden'
+			animate='visible'
+			exit='hidden'
+			variants={motionVariants}
+			// Overflow Y hidden so that the invisible rows don't cause a scrollbar (since they still have a 1px height for some reason)
+			className='min-w-min overflow-y-hidden'
+		>
 			<TableHeader>
 				<TableRow>
 					<TableHead className='pl-8'>Name</TableHead>
