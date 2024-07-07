@@ -120,7 +120,7 @@ export class MeetingService {
 		return result;
 	}
 
-	async deleteOngoingMeeting(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>) {
+	async deleteOngoingMeeting(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>): Promise<void> {
 		await AuthorizationService.assertPermission(bouncer.with('MeetingPolicy').allows('delete', team));
 
 		const teamBySlug = db
