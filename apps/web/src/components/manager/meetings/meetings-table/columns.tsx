@@ -1,15 +1,17 @@
 'use client';
 
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { SortableHeader } from '@/src/components/data-tables/sortable-header';
 import { formatDate, formatDateRange, formatDuration } from '@/src/utils/date-format';
-import type { TeamMeetingSchema } from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
+import type { TeamMeetingSchema } from '@hours.frc.sh/api/app/meeting/schemas/team_meeting_schema';
 import { Sort } from '@jonahsnider/util';
 import type { ColumnDef } from '@tanstack/react-table';
 import { type Duration, intervalToDuration, milliseconds } from 'date-fns';
 import { useParams } from 'next/navigation';
 import type { PropsWithChildren } from 'react';
+import { MeetingDialog } from '../meeting-dialog/meeting-dialog';
 import { RowActionsDropdown } from './row-actions/row-actions-dropdown';
 
 function MeetingTitleTooltip({
@@ -38,11 +40,30 @@ export const columns: ColumnDef<TeamMeetingSchema>[] = [
 		header: 'Title',
 		cell: ({ getValue, row }) => {
 			const shortContent = getValue<string>();
+			const params = useParams<{ team: string }>();
+
+			if (!params.team) {
+				throw new TypeError('Expected team Next.js route param to be defined');
+			}
 
 			const inner = (
-				<MeetingTitleTooltip meeting={row.original}>
-					<p className='font-medium'>{shortContent}</p>
-				</MeetingTitleTooltip>
+				<>
+					{/* Ongoing meetings don't get a dialog */}
+					{!row.original.endedAt && (
+						<MeetingTitleTooltip meeting={row.original}>
+							<p className='font-medium'>{shortContent}</p>
+						</MeetingTitleTooltip>
+					)}
+					{row.original.endedAt && (
+						<MeetingDialog meeting={row.original} team={{ slug: params.team }}>
+							<Button variant='link' className='p-0 font-medium text-foreground'>
+								<MeetingTitleTooltip meeting={row.original}>
+									<span>{shortContent}</span>
+								</MeetingTitleTooltip>
+							</Button>
+						</MeetingDialog>
+					)}
+				</>
 			);
 
 			if (row.original.endedAt) {

@@ -8,6 +8,7 @@ import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { injectHelper } from '../../util/inject_helper.js';
 import { AuthorizationService } from '../authorization/authorization_service.js';
 import { db } from '../db/db_service.js';
+import type { MeetingAttendeeSchema } from '../meeting/schemas/team_meeting_schema.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
 import { MemberRedisEvent } from './events/schemas/redis_event_schema.js';
 import { TeamMemberEventsService } from './events/team_member_events_service.js';
@@ -257,6 +258,33 @@ export class TeamMemberService {
 
 		if (team) {
 			await this.eventsService.announceEvent(team, MemberRedisEvent.MemberDeleted);
+		}
+	}
+
+	async deleteFinishedMeeting(
+		bouncer: AppBouncer,
+		attendee: Pick<MeetingAttendeeSchema, 'attendanceId'>,
+	): Promise<void> {
+		await AuthorizationService.assertPermission(
+			bouncer.with('TeamMemberPolicy').allows('deleteFinishedMeeting', attendee),
+		);
+
+		const [deleted] = await db
+			.delete(Schema.finishedMemberMeetings)
+			.where(eq(Schema.finishedMemberMeetings.id, attendee.attendanceId))
+			.returning({
+				memberId: Schema.finishedMemberMeetings.memberId,
+			});
+
+		if (deleted) {
+			await this.eventsService.announceEvent(
+				[
+					{
+						id: deleted.memberId,
+					},
+				],
+				MemberRedisEvent.MemberAttendanceUpdated,
+			);
 		}
 	}
 }

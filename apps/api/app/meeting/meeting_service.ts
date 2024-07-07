@@ -31,6 +31,8 @@ export class MeetingService {
 				startedAt: Schema.finishedMemberMeetings.startedAt,
 				endedAt: Schema.finishedMemberMeetings.endedAt,
 				memberId: Schema.finishedMemberMeetings.memberId,
+				memberName: Schema.teamMembers.name,
+				attendanceId: Schema.finishedMemberMeetings.id,
 				le: sql<Date>`lag(${Schema.finishedMemberMeetings.endedAt}) OVER (ORDER BY ${Schema.finishedMemberMeetings.startedAt}, ${Schema.finishedMemberMeetings.endedAt})`.as(
 					'le',
 				),
@@ -53,6 +55,8 @@ export class MeetingService {
 				startedAt: s1.startedAt,
 				endedAt: s1.endedAt,
 				memberId: s1.memberId,
+				memberName: s1.memberName,
+				attendanceId: s1.attendanceId,
 				newStart:
 					sql<Date>`CASE WHEN ${s1.startedAt} < ${max(s1.le)} OVER (ORDER BY ${s1.startedAt}, ${s1.endedAt}) THEN null ELSE ${s1.startedAt} END`.as(
 						'new_start',
@@ -66,6 +70,8 @@ export class MeetingService {
 				startedAt: s2.startedAt,
 				endedAt: s2.endedAt,
 				memberId: s2.memberId,
+				memberName: s2.memberName,
+				attendanceId: s2.attendanceId,
 				leftEdge: sql<Date>`${max(s2.newStart)} OVER (ORDER BY ${s2.startedAt}, ${s2.endedAt})`.as('left_edge'),
 			})
 			.from(s2)
@@ -75,15 +81,21 @@ export class MeetingService {
 		const [completedMeetings, [pendingMeeting]] = await Promise.all([
 			db
 				.select({
-					memberCount: countDistinct(s3.memberId).as('member_count'),
+					attendeeCount: countDistinct(s3.memberId).as('attendee_count'),
+					attendees: sql<
+						{ name: string; attendanceId: string; startedAt: string; endedAt: string }[]
+					>`jsonb_agg(jsonb_build_object('name', ${s3.memberName}, 'attendanceId', ${s3.attendanceId}, 'startedAt', ${s3.startedAt}, 'endedAt', ${s3.endedAt}))`.as(
+						'attendees',
+					),
 					startedAt: min(s3.startedAt).as('started_at'),
 					endedAt: max(s3.endedAt).as('ended_at'),
 				})
 				.from(s3)
-				.groupBy(s3.leftEdge),
+				.groupBy(s3.leftEdge)
+				.orderBy(s3.leftEdge),
 			db
 				.select({
-					memberCount: countDistinct(Schema.teamMembers.id).as('member_count'),
+					attendeeCount: countDistinct(Schema.teamMembers.id).as('attendee_count'),
 					startedAt: min(Schema.teamMembers.pendingSignIn).as('started_at'),
 				})
 				.from(Schema.teamMembers)
@@ -97,15 +109,22 @@ export class MeetingService {
 				),
 		]);
 
-		const result = completedMeetings.map((row) => {
-			const { startedAt } = row;
+		const result: TeamMeetingSchema[] = completedMeetings.map((row) => {
+			const { startedAt, endedAt } = row;
 
 			assert(startedAt, new TypeError('Expected startedAt to be defined'));
+			assert(endedAt, new TypeError('Expected endedAt to be defined'));
 
 			return {
 				startedAt,
-				endedAt: row.endedAt ?? undefined,
-				attendeeCount: row.memberCount,
+				endedAt,
+				attendees: row.attendees.map((attendee) => ({
+					name: attendee.name,
+					attendanceId: attendee.attendanceId,
+					startedAt: new Date(attendee.startedAt),
+					endedAt: new Date(attendee.endedAt),
+				})),
+				attendeeCount: row.attendeeCount,
 			};
 		});
 
@@ -113,7 +132,8 @@ export class MeetingService {
 			result.push({
 				startedAt: pendingMeeting.startedAt,
 				endedAt: undefined,
-				attendeeCount: pendingMeeting.memberCount,
+				attendees: undefined,
+				attendeeCount: pendingMeeting.attendeeCount,
 			});
 		}
 

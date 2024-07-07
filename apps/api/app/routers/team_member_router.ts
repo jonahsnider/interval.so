@@ -2,6 +2,7 @@ import { inject } from '@adonisjs/core';
 import type { Observable } from '@trpc/server/observable';
 import { z } from 'zod';
 import { injectHelper } from '../../util/inject_helper.js';
+import { MeetingAttendeeSchema } from '../meeting/schemas/team_meeting_schema.js';
 import { TeamSchema } from '../team/schemas/team_schema.js';
 import { TeamMemberEventsService } from '../team_member/events/team_member_events_service.js';
 import { NowOrEarlierSchema } from '../team_member/schemas/now_or_earlier_schema.js';
@@ -123,6 +124,19 @@ export class TeamMemberRouter {
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
 					return this.teamMemberBatchService.updateAttendanceMany(ctx.bouncer, input.members, input.data);
+				}),
+
+			deleteFinishedMeeting: authedProcedure
+				.input(MeetingAttendeeSchema.pick({ attendanceId: true }))
+				.output(z.void())
+				.mutation(({ ctx, input }) => {
+					return this.teamMemberService.deleteFinishedMeeting(ctx.bouncer, input);
+				}),
+			updateFinishedMeetings: authedProcedure
+				.input(z.array(MeetingAttendeeSchema.pick({ attendanceId: true, startedAt: true, endedAt: true }).strict()))
+				.output(z.void())
+				.mutation(({ ctx, input }) => {
+					return this.teamMemberBatchService.updateManyMeetings(ctx.bouncer, input);
 				}),
 		});
 	}

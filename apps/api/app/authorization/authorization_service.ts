@@ -1,12 +1,13 @@
 import assert from 'node:assert/strict';
 import { inject } from '@adonisjs/core';
 import { TRPCError } from '@trpc/server';
-import { inArray } from 'drizzle-orm';
+import { and, eq, inArray } from 'drizzle-orm';
 import * as Schema from '#database/schema';
 import type { BouncerUser } from '#middleware/initialize_bouncer_middleware';
 import { injectHelper } from '../../util/inject_helper.js';
 import { db } from '../db/db_service.js';
 import { GuestPasswordService } from '../guest_password/guest_password_service.js';
+import type { MeetingAttendeeSchema } from '../meeting/schemas/team_meeting_schema.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
 import { TeamManagerService } from '../team_manager/team_manager_service.js';
 import type { TeamMemberSchema } from '../team_member/schemas/team_member_schema.js';
@@ -77,6 +78,49 @@ export class AuthorizationService {
 			.groupBy(Schema.teamMembers.teamId);
 
 		if (teams.length === 0) {
+			return false;
+		}
+
+		if (teams.length > 1) {
+			throw new TRPCError({
+				code: 'UNPROCESSABLE_CONTENT',
+				message: 'This operation may not reference team members from multiple teams',
+			});
+		}
+
+		const [team] = teams;
+		assert(team);
+
+		return this.hasRoles(actor, { id: team.teamId }, roles);
+	}
+
+	async hasRolesByMeetingIds(
+		actor: BouncerUser | undefined,
+		meetings: Pick<MeetingAttendeeSchema, 'attendanceId'>[],
+		roles: TeamRole[],
+	): Promise<boolean> {
+		if (!actor) {
+			return false;
+		}
+
+		const teams = await db
+			.select({
+				teamId: Schema.teamMembers.teamId,
+			})
+			.from(Schema.teamMembers)
+			.innerJoin(Schema.finishedMemberMeetings, eq(Schema.teamMembers.id, Schema.finishedMemberMeetings.memberId))
+			.where(
+				and(
+					eq(Schema.finishedMemberMeetings.memberId, Schema.teamMembers.id),
+					inArray(
+						Schema.finishedMemberMeetings.id,
+						meetings.map((meeting) => meeting.attendanceId),
+					),
+				),
+			)
+			.limit(1);
+
+		if (!teams) {
 			return false;
 		}
 

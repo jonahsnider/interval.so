@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button, type ButtonProps } from '@/components/ui/button';
 import { Calendar, type CalendarProps } from '@/components/ui/calendar';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -16,9 +16,21 @@ type Props = {
 	className?: string;
 	picker?: Omit<CalendarProps, 'mode' | 'onSelect' | 'selected'>;
 	fromDate?: Date;
+	buttonProps?: ButtonProps;
+	icon?: boolean;
+	verbose?: boolean;
 };
 
-export function DateTimePicker({ onSelect, value, className, picker, fromDate }: Props) {
+export function DateTimePicker({
+	onSelect,
+	value,
+	className,
+	picker,
+	fromDate,
+	buttonProps,
+	icon = true,
+	verbose = false,
+}: Props) {
 	const [textInput, setDateInput] = useState(value ? formatDate(value) : '');
 	const now = new Date();
 
@@ -49,9 +61,9 @@ export function DateTimePicker({ onSelect, value, className, picker, fromDate }:
 	return (
 		<Popover>
 			<PopoverTrigger asChild={true}>
-				<Button variant='outline' className={cn('min-w-64', className)}>
-					<CalendarIcon className='h-4 w-4 mr-2' />
-					{value ? formatDate(value) : 'Select date'}
+				<Button variant='outline' {...buttonProps} className={cn('min-w-64', className)}>
+					{icon && <CalendarIcon className='h-4 w-4 mr-2' />}
+					{value ? formatDate(value, verbose) : 'Select date'}
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent className='flex flex-col gap-2 px-0 max-w-min py-2'>

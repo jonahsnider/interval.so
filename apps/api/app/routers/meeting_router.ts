@@ -33,7 +33,7 @@ export class MeetingRouter {
 
 			getCurrentMeetingStart: authedProcedure
 				.input(TeamSchema.pick({ slug: true }).strict())
-				.output(z.object({ startedAt: TeamMeetingSchema.shape.startedAt.optional() }))
+				.output(z.object({ startedAt: z.date().optional() }))
 				.query(async ({ ctx, input }) => {
 					const startedAt = await this.meetingService.getCurrentMeetingStart(ctx.bouncer, input);
 					return { startedAt };
@@ -55,9 +55,7 @@ export class MeetingRouter {
 					z
 						.object({
 							team: TeamSchema.pick({ slug: true }),
-							meeting: TeamMeetingSchema.pick({ startedAt: true, endedAt: true }).extend({
-								endedAt: z.date(),
-							}),
+							meeting: z.object({ startedAt: z.date(), endedAt: z.date() }),
 						})
 						.strict(),
 				)

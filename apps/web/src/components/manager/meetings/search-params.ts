@@ -7,6 +7,11 @@ export const searchParamParsers = {
 		.withOptions({ clearOnDefault: true }),
 	start: parseAsIsoDateTime.withOptions({ clearOnDefault: true }),
 	end: parseAsIsoDateTime.withOptions({ clearOnDefault: true }),
+
+	// The start and end date of the meeting for the current open dialog
+	// Meetings don't have an ID since they're not a real construct, so we use this to identify them
+	dialogStart: parseAsIsoDateTime.withOptions({ clearOnDefault: true }),
+	dialogEnd: parseAsIsoDateTime.withOptions({ clearOnDefault: true }),
 };
 export const searchParamCache = createSearchParamsCache(searchParamParsers);
 export const searchParamSerializer = createSerializer(searchParamParsers);
