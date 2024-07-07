@@ -2,8 +2,8 @@
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { trpc } from '@/src/trpc/trpc-client';
+import type { TeamMeetingSchema } from '@hours.frc.sh/api/app/meeting/schemas/team_meeting_schema';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
-import type { TeamMeetingSchema } from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
 import type { TimeFilterSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_filter_schema';
 import {
 	type SortingState,
