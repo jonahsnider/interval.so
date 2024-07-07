@@ -81,6 +81,10 @@ export class TeamMemberBatchService {
 	}
 
 	async deleteMany(bouncer: AppBouncer, members: Pick<TeamMemberSchema, 'id'>[]) {
+		if (members.length === 0) {
+			return;
+		}
+
 		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('delete', members));
 
 		let teams: Pick<TeamSchema, 'id'>[] = [];
@@ -110,6 +114,10 @@ export class TeamMemberBatchService {
 		members: Pick<TeamMemberSchema, 'id'>[],
 		data: Pick<TeamMemberSchema, 'archived'>,
 	) {
+		if (members.length === 0) {
+			return;
+		}
+
 		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('update', members));
 
 		const memberIds = members.map((member) => member.id);
@@ -143,6 +151,10 @@ export class TeamMemberBatchService {
 		members: Pick<TeamMemberSchema, 'id'>[],
 		data: Pick<TeamMemberSchema, 'atMeeting'>,
 	): Promise<void> {
+		if (members.length === 0) {
+			return;
+		}
+
 		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('update', members));
 
 		if (data.atMeeting) {
@@ -153,6 +165,10 @@ export class TeamMemberBatchService {
 	}
 
 	private async signInMany(members: Pick<TeamMemberSchema, 'id'>[]): Promise<void> {
+		if (members.length === 0) {
+			return;
+		}
+
 		await db
 			.update(Schema.teamMembers)
 			.set({ pendingSignIn: new Date() })
@@ -174,6 +190,10 @@ export class TeamMemberBatchService {
 	}
 
 	private async signOutMany(members: Pick<TeamMemberSchema, 'id'>[], endTime: Date): Promise<void> {
+		if (members.length === 0) {
+			return;
+		}
+
 		// TODO: Rewrite this to use a single query (CTE?) instead of doing the select and then insert
 
 		await db.transaction(async (tx) => {
