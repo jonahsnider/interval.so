@@ -32,7 +32,7 @@ export function ManagersTableCard({ team }: Props) {
 
 function ManagersTable({ team }: Props) {
 	return (
-		<div className='rounded-lg border'>
+		<div className='rounded-md border overflow-hidden'>
 			<Table>
 				<TableHeader>
 					<TableRow>
