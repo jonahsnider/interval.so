@@ -67,7 +67,7 @@ export function DateTimePicker({
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent className='flex flex-col gap-2 px-0 max-w-min py-2'>
-				<div className='px-4'>
+				<div className='px-2'>
 					<Calendar
 						mode='single'
 						{...picker}
@@ -82,7 +82,7 @@ export function DateTimePicker({
 					/>
 				</div>
 				<Separator />
-				<div className='px-4'>
+				<div className='px-2'>
 					<Input
 						value={textInput}
 						placeholder='Try "yesterday" or "3pm"'
