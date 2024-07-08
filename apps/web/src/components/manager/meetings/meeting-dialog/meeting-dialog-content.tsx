@@ -10,7 +10,6 @@ import {
 	DialogTitle,
 } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { trpc } from '@/src/trpc/trpc-client';
 import { formatDateRange } from '@/src/utils/date-format';
 import type {
@@ -18,16 +17,9 @@ import type {
 	TeamMeetingSchema,
 } from '@hours.frc.sh/api/app/meeting/schemas/team_meeting_schema';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
-import {
-	type SortingState,
-	flexRender,
-	getCoreRowModel,
-	getSortedRowModel,
-	useReactTable,
-} from '@tanstack/react-table';
 import { useContext, useState } from 'react';
 import { toast } from 'sonner';
-import { columns } from './meeting-attendee-table/columns';
+import { MeetingAttendeeTable } from './meeting-attendee-table/meeting-attendee-table';
 import { MeetingDialogActions } from './meeting-dialog-actions';
 import { MeetingDialogChangesContext } from './meeting-dialog-changes-context';
 
@@ -57,10 +49,6 @@ export function MeetingDialogContent({ meeting, closeDialog, team }: Props) {
 		},
 	});
 
-	if (meeting.attendees === undefined) {
-		throw new RangeError('Expected attendees to be defined, is this meeting still in progress?');
-	}
-
 	const onSubmit = () => {
 		const variables: Pick<MeetingAttendeeSchema, 'attendanceId' | 'startedAt' | 'endedAt'>[] = Object.entries(
 			changes.updatedMeetings.meetings,
@@ -79,25 +67,6 @@ export function MeetingDialogContent({ meeting, closeDialog, team }: Props) {
 		submitChanges.mutate(variables);
 	};
 
-	const [sorting, setSorting] = useState<SortingState>([
-		{
-			id: 'name',
-			desc: false,
-		},
-	]);
-
-	const table = useReactTable({
-		data: meeting.attendees,
-		columns,
-		getCoreRowModel: getCoreRowModel(),
-		onSortingChange: setSorting,
-		getSortedRowModel: getSortedRowModel(),
-		state: {
-			sorting,
-			pagination: { pageIndex: 0, pageSize: meeting.attendees.length },
-		},
-	});
-
 	return (
 		<DialogContent closeButton={false} className='max-w-max'>
 			<div className='flex items-center justify-between'>
@@ -110,41 +79,7 @@ export function MeetingDialogContent({ meeting, closeDialog, team }: Props) {
 			</div>
 
 			<ScrollArea className='max-h-96'>
-				<Table>
-					<TableHeader>
-						{table.getHeaderGroups().map((headerGroup) => (
-							<TableRow key={headerGroup.id}>
-								{headerGroup.headers.map((header) => {
-									return (
-										<TableHead key={header.id}>
-											{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-										</TableHead>
-									);
-								})}
-							</TableRow>
-						))}
-					</TableHeader>
-
-					<TableBody>
-						{table.getRowModel().rows?.length ? (
-							table.getRowModel().rows.map((row) => (
-								<TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
-									{row.getVisibleCells().map((cell) => (
-										<TableCell key={cell.id} className='py-0.5'>
-											{flexRender(cell.column.columnDef.cell, cell.getContext())}
-										</TableCell>
-									))}
-								</TableRow>
-							))
-						) : (
-							<TableRow>
-								<TableCell colSpan={columns.length} className='h-24 text-center'>
-									No results.
-								</TableCell>
-							</TableRow>
-						)}
-					</TableBody>
-				</Table>
+				<MeetingAttendeeTable meeting={meeting} />
 			</ScrollArea>
 
 			<DialogFooter className='sm:justify-between'>
