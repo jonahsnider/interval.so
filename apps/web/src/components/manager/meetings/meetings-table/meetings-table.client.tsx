@@ -9,8 +9,6 @@ import {
 	type SortingState,
 	flexRender,
 	getCoreRowModel,
-	getFilteredRowModel,
-	getPaginationRowModel,
 	getSortedRowModel,
 	useReactTable,
 } from '@tanstack/react-table';
@@ -44,8 +42,6 @@ export function MeetingsTableClient({ initialDataPromise, team, timeFilter }: Pr
 		getCoreRowModel: getCoreRowModel(),
 		onSortingChange: setSorting,
 		getSortedRowModel: getSortedRowModel(),
-		getFilteredRowModel: getFilteredRowModel(),
-		getPaginationRowModel: getPaginationRowModel(),
 		state: {
 			sorting,
 		},

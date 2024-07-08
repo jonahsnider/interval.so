@@ -11,7 +11,6 @@ import {
 	flexRender,
 	getCoreRowModel,
 	getFilteredRowModel,
-	getPaginationRowModel,
 	getSortedRowModel,
 	useReactTable,
 } from '@tanstack/react-table';
@@ -74,7 +73,6 @@ export function MembersTableClient({ initialData, loading, team }: Props) {
 		onSortingChange: setSorting,
 		getSortedRowModel: getSortedRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),
-		getPaginationRowModel: getPaginationRowModel(),
 		onColumnFiltersChange: setColumnFilters,
 		initialState: {
 			columnVisibility: {
