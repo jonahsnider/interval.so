@@ -28,6 +28,7 @@ export function MeetingDialogChangesProvider({ children }: { children: React.Rea
 
 	const updateMeeting = useMemo(
 		() => (original: Pick<MeetingAttendeeSchema, 'attendanceId' | 'startedAt' | 'endedAt'>, data: MeetingChange) => {
+			// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: No obvious way to simplify this
 			setUpdatedMeetings((draft) => {
 				draft.meetings[original.attendanceId] ??= {
 					startedAt: original.startedAt,

@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
 const THEMES = { light: '', dark: '.dark' } as const;
 
 export type ChartConfig = {
-	[k in string]: {
+	[K in string]: {
 		label?: React.ReactNode;
 		icon?: React.ComponentType;
 	} & ({ color?: string; theme?: never } | { color?: never; theme: Record<keyof typeof THEMES, string> });
@@ -162,6 +162,7 @@ const ChartTooltipContent = React.forwardRef<
 			>
 				{nestLabel ? null : tooltipLabel}
 				<div className='grid gap-1.5'>
+					{/* biome-ignore lint/complexity/noExcessiveCognitiveComplexity: This is not my code and I will not be attempting to improve it */}
 					{payload.map((item, index) => {
 						const key = `${nameKey || item.name || item.dataKey || 'value'}`;
 						const itemConfig = getPayloadConfigFromPayload(config, item, key);

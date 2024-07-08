@@ -7,7 +7,7 @@ type Props = {
 };
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export
-export default async function TeamInvitePage({ params }: Props) {
+export default function TeamInvitePage({ params }: Props) {
 	const inviteTeam = { inviteCode: params.inviteCode };
 
 	return <JoinTeamCard team={inviteTeam} />;

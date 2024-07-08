@@ -5,6 +5,7 @@ import NextError from 'next/error';
 import { useEffect } from 'react';
 import { isTrpcClientError } from '../trpc/common';
 
+// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default function GlobalError({ error }: { error: Error & { digest?: string } }) {
 	useEffect(() => {
 		if (error instanceof AggregateError) {
