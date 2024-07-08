@@ -15,7 +15,6 @@ type Props = {
 	timeFilter: TimeFilterSchema;
 };
 
-// TODO: Add a button to allow creating a meeting. You specify start time, end time, and select the members who were there
 export function MeetingsTable({ team, timeFilter }: Props) {
 	const dataPromise = trpcServer.teams.meetings.getMeetings.query({ team, timeFilter: timeFilter });
 
