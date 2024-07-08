@@ -40,7 +40,7 @@ export function MeetingsTableClient({ initialDataPromise, team, timeFilter }: Pr
 	]);
 	const [pagination, setPagination] = useState<PaginationState>({
 		pageIndex: 0,
-		pageSize: 20,
+		pageSize: 10,
 	});
 
 	const table = useReactTable({

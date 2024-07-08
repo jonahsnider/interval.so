@@ -12,7 +12,7 @@ interface TablePaginationProps<TData> {
 	pageSizes?: readonly number[];
 }
 
-const DEFAULT_PAGE_SIZES = [10, 20, 30, 40, 50] as const;
+const DEFAULT_PAGE_SIZES = [10, 25, 50] as const;
 
 // biome-ignore lint/style/useNamingConvention: This is in pascal case
 export function TablePagination<TData>({ table, pageSizes = DEFAULT_PAGE_SIZES }: TablePaginationProps<TData>) {
