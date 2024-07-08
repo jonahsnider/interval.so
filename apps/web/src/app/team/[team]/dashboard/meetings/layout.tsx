@@ -16,7 +16,7 @@ export default function ManagerMeetingsPageLayout({ children, params }: Props) {
 	return (
 		<>
 			<PageHeader title='Meetings'>
-				<CreateMeetingDialog team={team} />
+				<CreateMeetingDialog team={team} className='max-w-min' />
 			</PageHeader>
 			<MainContent>{children}</MainContent>
 		</>

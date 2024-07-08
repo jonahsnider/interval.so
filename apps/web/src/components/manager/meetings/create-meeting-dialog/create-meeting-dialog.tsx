@@ -18,11 +18,12 @@ import { AttendeesSelect } from './attendees-select';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;
+	className?: string;
 };
 
 const formSchema = CreateTeamMeetingSchema;
 
-export function CreateMeetingDialog({ team }: Props) {
+export function CreateMeetingDialog({ team, className }: Props) {
 	const [dialogOpen, setDialogOpen] = useState(false);
 
 	const form = useForm({
@@ -69,7 +70,7 @@ export function CreateMeetingDialog({ team }: Props) {
 	return (
 		<Dialog open={dialogOpen} onOpenChange={onDialogOpenChange}>
 			<DialogTrigger asChild={true}>
-				<Button>
+				<Button className={className}>
 					<PlusIcon className='h-4 w-4 mr-2' />
 					Create meeting
 				</Button>
