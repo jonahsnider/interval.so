@@ -72,7 +72,7 @@ export function CreateMeetingDialog({ team, className }: Props) {
 			<DialogTrigger asChild={true}>
 				<Button className={className}>
 					<PlusIcon className='h-4 w-4 mr-2' />
-					Create meeting
+					Add meeting
 				</Button>
 			</DialogTrigger>
 
@@ -80,7 +80,7 @@ export function CreateMeetingDialog({ team, className }: Props) {
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className='grid gap-4'>
 						<DialogHeader>
-							<DialogTitle>Create meeting</DialogTitle>
+							<DialogTitle>Add meeting</DialogTitle>
 						</DialogHeader>
 
 						<FormField
@@ -115,7 +115,7 @@ export function CreateMeetingDialog({ team, className }: Props) {
 
 						<DialogFooter className='justify-end'>
 							<Button type='submit' disabled={createMeeting.isPending}>
-								Create meeting
+								Add
 							</Button>
 						</DialogFooter>
 					</form>

@@ -63,7 +63,7 @@ function CreateMemberDialogContent({
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className='grid gap-4'>
 					<DialogHeader>
-						<DialogTitle>Create member</DialogTitle>
+						<DialogTitle>Add member</DialogTitle>
 					</DialogHeader>
 					<FormField
 						control={form.control}
@@ -82,7 +82,7 @@ function CreateMemberDialogContent({
 
 					<DialogFooter>
 						<Button type='submit' disabled={mutation.isPending}>
-							Sign up
+							Add
 						</Button>
 					</DialogFooter>
 				</form>
