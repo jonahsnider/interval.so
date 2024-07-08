@@ -1,14 +1,17 @@
 'use client';
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { TablePagination } from '@/src/components/data-tables/table-pagination';
 import { trpc } from '@/src/trpc/trpc-client';
 import type { TeamMeetingSchema } from '@hours.frc.sh/api/app/meeting/schemas/team_meeting_schema';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import type { TimeFilterSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_filter_schema';
 import {
+	type PaginationState,
 	type SortingState,
 	flexRender,
 	getCoreRowModel,
+	getPaginationRowModel,
 	getSortedRowModel,
 	useReactTable,
 } from '@tanstack/react-table';
@@ -35,6 +38,10 @@ export function MeetingsTableClient({ initialDataPromise, team, timeFilter }: Pr
 			desc: true,
 		},
 	]);
+	const [pagination, setPagination] = useState<PaginationState>({
+		pageIndex: 0,
+		pageSize: 20,
+	});
 
 	const table = useReactTable({
 		data,
@@ -42,8 +49,11 @@ export function MeetingsTableClient({ initialDataPromise, team, timeFilter }: Pr
 		getCoreRowModel: getCoreRowModel(),
 		onSortingChange: setSorting,
 		getSortedRowModel: getSortedRowModel(),
+		getPaginationRowModel: getPaginationRowModel(),
+		onPaginationChange: setPagination,
 		state: {
 			sorting,
+			pagination,
 		},
 	});
 
@@ -85,6 +95,10 @@ export function MeetingsTableClient({ initialDataPromise, team, timeFilter }: Pr
 					</TableBody>
 				</Table>
 			</InnerTableContainer>
+
+			<div className='flex items-center justify-end'>
+				<TablePagination table={table} />
+			</div>
 		</OuterTableContainer>
 	);
 }

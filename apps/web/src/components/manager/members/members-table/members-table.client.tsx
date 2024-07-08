@@ -2,15 +2,19 @@
 
 import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { TablePagination } from '@/src/components/data-tables/table-pagination';
+import { TableSelectionStatus } from '@/src/components/data-tables/table-selection-status';
 import { trpc } from '@/src/trpc/trpc-client';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import type { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
 import {
 	type ColumnFiltersState,
+	type PaginationState,
 	type SortingState,
 	flexRender,
 	getCoreRowModel,
 	getFilteredRowModel,
+	getPaginationRowModel,
 	getSortedRowModel,
 	useReactTable,
 } from '@tanstack/react-table';
@@ -65,6 +69,10 @@ export function MembersTableClient({ initialData, loading, team }: Props) {
 	]);
 
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([{ id: 'archived', value: [false] }]);
+	const [pagination, setPagination] = useState<PaginationState>({
+		pageIndex: 0,
+		pageSize: 50,
+	});
 
 	const table = useReactTable({
 		data,
@@ -74,6 +82,8 @@ export function MembersTableClient({ initialData, loading, team }: Props) {
 		getSortedRowModel: getSortedRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),
 		onColumnFiltersChange: setColumnFilters,
+		getPaginationRowModel: getPaginationRowModel(),
+		onPaginationChange: setPagination,
 		initialState: {
 			columnVisibility: {
 				// Used only for filtering
@@ -83,6 +93,7 @@ export function MembersTableClient({ initialData, loading, team }: Props) {
 		state: {
 			sorting,
 			columnFilters,
+			pagination,
 		},
 	});
 
@@ -147,6 +158,11 @@ export function MembersTableClient({ initialData, loading, team }: Props) {
 					</TableBody>
 				</Table>
 			</InnerTableContainer>
+
+			<div className='flex items-center justify-between'>
+				<TableSelectionStatus table={table} />
+				<TablePagination table={table} />
+			</div>
 		</OuterTableContainer>
 	);
 }
