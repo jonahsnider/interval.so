@@ -79,6 +79,7 @@ export const columns: ColumnDef<TeamMemberSchema>[] = [
 				? Number.POSITIVE_INFINITY
 				: row.original.lastSeenAt ?? Number.NEGATIVE_INFINITY,
 		),
+		sortUndefined: -1,
 		enableColumnFilter: true,
 		filterFn: (row, _columnId, filterValue) => {
 			const rawFilter = filterValue as LastSeenAtFilter;
