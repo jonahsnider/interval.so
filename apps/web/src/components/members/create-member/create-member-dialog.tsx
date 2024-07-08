@@ -71,7 +71,7 @@ function CreateMemberDialogContent({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Name</FormLabel>
-								<FormControl {...field}>
+								<FormControl>
 									<Input className='max-w-80' type='text' autoComplete='off' {...field} placeholder='Member name' />
 								</FormControl>
 

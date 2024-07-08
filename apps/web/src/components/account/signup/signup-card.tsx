@@ -149,7 +149,7 @@ export function SignupCard() {
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Display name</FormLabel>
-									<FormControl {...field}>
+									<FormControl>
 										<Input {...field} className='max-w-60' type='text' autoComplete='name' />
 									</FormControl>
 									<FormDescription>

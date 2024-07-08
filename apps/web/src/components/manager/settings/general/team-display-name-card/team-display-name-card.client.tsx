@@ -59,7 +59,7 @@ export function TeamDisplayNameEditForm({ team, initialDisplayName }: Props) {
 						name='displayName'
 						render={({ field }) => (
 							<FormItem>
-								<FormControl {...field}>
+								<FormControl>
 									<Input className='max-w-80' type='text' autoComplete='off' {...field} />
 								</FormControl>
 

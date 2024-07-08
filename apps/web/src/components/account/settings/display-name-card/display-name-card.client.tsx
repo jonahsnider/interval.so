@@ -65,7 +65,7 @@ export function DisplayNameCardInner({ userPromise }: Props) {
 							name='displayName'
 							render={({ field }) => (
 								<FormItem>
-									<FormControl {...field}>
+									<FormControl>
 										<Input className='max-w-80' type='text' autoComplete='name' {...field} />
 									</FormControl>
 

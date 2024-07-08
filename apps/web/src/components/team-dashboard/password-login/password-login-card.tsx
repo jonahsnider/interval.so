@@ -71,7 +71,7 @@ export function PasswordLoginCard({ team }: Props) {
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Team password</FormLabel>
-									<FormControl {...field}>
+									<FormControl>
 										<Input {...field} className='max-w-80' type='text' placeholder='secret123' />
 									</FormControl>
 
