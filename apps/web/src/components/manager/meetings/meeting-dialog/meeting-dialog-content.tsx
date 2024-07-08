@@ -103,7 +103,7 @@ export function MeetingDialogContent({ meeting, closeDialog, team }: Props) {
 			<div className='flex items-center justify-between'>
 				<DialogHeader>
 					<DialogTitle>Meeting from {formatDateRange(meeting.startedAt, meeting.endedAt, true)}</DialogTitle>
-					<DialogDescription>Click on the start or end date in a row to edit them.</DialogDescription>
+					<DialogDescription>Click on the start or end dates in a row to edit them.</DialogDescription>
 				</DialogHeader>
 
 				<MeetingDialogActions meeting={meeting} team={team} closeDialog={closeDialog} />
