@@ -19,7 +19,6 @@ export function formatDate(date: Date, precise = false): string {
 	const options: Intl.DateTimeFormatOptions = {
 		hour: 'numeric',
 		minute: 'numeric',
-		timeZoneName: 'short',
 	};
 
 	if (precise || date.getMonth() !== now.getMonth() || date.getDate() !== now.getDate()) {
@@ -52,7 +51,6 @@ export function formatDateRange(start: Date, end?: Date, verbose = false): strin
 	const options: Intl.DateTimeFormatOptions = {
 		hour: 'numeric',
 		minute: 'numeric',
-		timeZoneName: 'short',
 		month: 'short',
 		day: 'numeric',
 		year: 'numeric',
