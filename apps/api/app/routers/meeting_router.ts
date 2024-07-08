@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { injectHelper } from '../../util/inject_helper.js';
 import { MeetingService } from '../meeting/meeting_service.js';
 import { MeetingSubscriptionService } from '../meeting/meeting_subscription_service.js';
+import { CreateTeamMeetingSchema } from '../meeting/schemas/create_team_meeting_schema.js';
 import { TeamMeetingSchema } from '../meeting/schemas/team_meeting_schema.js';
 import { TeamSchema } from '../team/schemas/team_schema.js';
 import { TimeFilterSchema } from '../team_stats/schemas/time_filter_schema.js';
@@ -29,6 +30,13 @@ export class MeetingRouter {
 				.input(z.object({ team: TeamSchema.pick({ slug: true }), timeFilter: TimeFilterSchema }).strict())
 				.subscription(({ ctx, input }): Promise<Observable<TeamMeetingSchema[], unknown>> => {
 					return this.meetingSubscriptionService.meetingsSubscribe(ctx.bouncer, input.team, input.timeFilter);
+				}),
+
+			create: authedProcedure
+				.input(CreateTeamMeetingSchema)
+				.output(z.void())
+				.mutation(({ ctx, input }) => {
+					return this.meetingService.createMeeting(ctx.bouncer, input);
 				}),
 
 			getCurrentMeetingStart: authedProcedure

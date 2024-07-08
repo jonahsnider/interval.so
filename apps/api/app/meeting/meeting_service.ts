@@ -11,6 +11,7 @@ import { MemberRedisEvent } from '../team_member/events/schemas/redis_event_sche
 import { TeamMemberEventsService } from '../team_member/events/team_member_events_service.js';
 import type { TimeFilterSchema } from '../team_stats/schemas/time_filter_schema.js';
 import type { TimeRangeSchema } from '../team_stats/schemas/time_range_schema.js';
+import type { CreateTeamMeetingSchema } from './schemas/create_team_meeting_schema.js';
 import type { TeamMeetingSchema } from './schemas/team_meeting_schema.js';
 
 @inject()
@@ -198,5 +199,25 @@ export class MeetingService {
 			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)));
 
 		return result?.startedAt ?? undefined;
+	}
+
+	async createMeeting(bouncer: AppBouncer, data: CreateTeamMeetingSchema): Promise<void> {
+		await AuthorizationService.assertPermission(bouncer.with('MeetingPolicy').allows('create', data.attendees));
+
+		const uniqueAttendeeIds = new Set(data.attendees.map((attendee) => attendee.id));
+
+		await db.transaction((tx) =>
+			Promise.all(
+				[...uniqueAttendeeIds].map(async (attendeeId) => {
+					await tx.insert(Schema.finishedMemberMeetings).values({
+						memberId: attendeeId,
+						startedAt: data.timeRange.start,
+						endedAt: data.timeRange.end,
+					});
+				}),
+			),
+		);
+
+		await this.teamMemberEventsService.announceEvent(data.attendees, MemberRedisEvent.MemberAttendanceUpdated);
 	}
 }
