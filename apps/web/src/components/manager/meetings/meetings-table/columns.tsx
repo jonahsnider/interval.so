@@ -4,13 +4,13 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { SortableHeader } from '@/src/components/data-tables/sortable-header';
+import { TeamSlugContext } from '@/src/components/team-dashboard/team-slug-provider';
 import { formatDate, formatDateRange, formatDuration } from '@/src/utils/date-format';
 import type { TeamMeetingSchema } from '@hours.frc.sh/api/app/meeting/schemas/team_meeting_schema';
 import { Sort } from '@jonahsnider/util';
 import type { ColumnDef } from '@tanstack/react-table';
 import { type Duration, intervalToDuration, milliseconds } from 'date-fns';
-import { useParams } from 'next/navigation';
-import type { PropsWithChildren } from 'react';
+import { type PropsWithChildren, useContext } from 'react';
 import { MeetingDialog } from '../meeting-dialog/meeting-dialog';
 import { RowActionsDropdown } from './row-actions/row-actions-dropdown';
 
@@ -40,9 +40,9 @@ export const columns: ColumnDef<TeamMeetingSchema>[] = [
 		header: 'Title',
 		cell: ({ getValue, row }) => {
 			const shortContent = getValue<string>();
-			const params = useParams<{ team: string }>();
+			const { team } = useContext(TeamSlugContext);
 
-			if (!params.team) {
+			if (!team) {
 				throw new TypeError('Expected team Next.js route param to be defined');
 			}
 
@@ -55,7 +55,7 @@ export const columns: ColumnDef<TeamMeetingSchema>[] = [
 						</MeetingTitleTooltip>
 					)}
 					{row.original.endedAt && (
-						<MeetingDialog meeting={row.original} team={{ slug: params.team }}>
+						<MeetingDialog meeting={row.original} team={team}>
 							<Button variant='link' className='p-0 font-medium text-foreground'>
 								<MeetingTitleTooltip meeting={row.original}>
 									<span>{shortContent}</span>
@@ -170,13 +170,13 @@ export const columns: ColumnDef<TeamMeetingSchema>[] = [
 	{
 		id: 'actions',
 		cell: ({ row }) => {
-			const params = useParams<{ team: string }>();
+			const { team } = useContext(TeamSlugContext);
 
-			if (!params.team) {
+			if (!team) {
 				throw new TypeError('Expected team Next.js route param to be defined');
 			}
 
-			return <RowActionsDropdown meeting={row.original} team={{ slug: params.team }} />;
+			return <RowActionsDropdown meeting={row.original} team={team} />;
 		},
 	},
 ];

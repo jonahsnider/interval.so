@@ -1,18 +1,22 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { cn } from '@/lib/utils';
 import { SortableHeader } from '@/src/components/data-tables/sortable-header';
+import { TeamSlugContext } from '@/src/components/team-dashboard/team-slug-provider';
 import { formatDate } from '@/src/utils/date-format';
 import { ArchiveBoxIcon, UserIcon } from '@heroicons/react/16/solid';
 import type { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
 import { Sort } from '@jonahsnider/util';
 import type { ColumnDef } from '@tanstack/react-table';
+import { Link } from 'next-view-transitions';
+import { useContext } from 'react';
 import { toTimeRange } from '../../period-select/duration-slug';
 import { BatchActionsDropdown } from './batch-actions/batch-actions-dropdown';
 import type { LastSeenAtFilter } from './members-table-buttons';
-import { RowActionsDropdown } from './row-actions/row-actions-dropdown';
+import { MemberRowActionsDropdown } from './row-actions/row-actions-dropdown';
 
 export const columns: ColumnDef<TeamMemberSchema>[] = [
 	{
@@ -40,12 +44,19 @@ export const columns: ColumnDef<TeamMemberSchema>[] = [
 		accessorKey: 'name',
 		header: ({ column }) => <SortableHeader column={column}>Name</SortableHeader>,
 		cell: ({ row }) => {
-			// TODO: Modal with user information
+			const { team } = useContext(TeamSlugContext);
+
+			if (!team) {
+				throw new TypeError('Expected team Next.js route param to be defined');
+			}
 
 			return (
-				<Button variant='link' className='text-foreground p-0 h-auto whitespace-pre'>
+				<Link
+					className={cn(buttonVariants({ variant: 'link' }), 'text-foreground p-0 h-auto whitespace-pre')}
+					href={`/team/${team.slug}/dashboard/members/${row.original.id}`}
+				>
 					{row.original.name}
-				</Button>
+				</Link>
 			);
 		},
 	},
@@ -135,7 +146,7 @@ export const columns: ColumnDef<TeamMemberSchema>[] = [
 			return <BatchActionsDropdown table={table} />;
 		},
 		cell: ({ row }) => {
-			return <RowActionsDropdown member={row.original} />;
+			return <MemberRowActionsDropdown member={row.original} />;
 		},
 	},
 ];

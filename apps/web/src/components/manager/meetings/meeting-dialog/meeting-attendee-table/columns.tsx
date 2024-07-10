@@ -1,12 +1,16 @@
 'use client';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import { SortableHeader } from '@/src/components/data-tables/sortable-header';
 import { DateTimePicker } from '@/src/components/date-time-picker';
+import { TeamSlugContext } from '@/src/components/team-dashboard/team-slug-provider';
 import { formatDuration } from '@/src/utils/date-format';
 import type { MeetingAttendeeSchema } from '@hours.frc.sh/api/app/meeting/schemas/team_meeting_schema';
 import { Sort } from '@jonahsnider/util';
 import type { ColumnDef } from '@tanstack/react-table';
 import clsx from 'clsx';
 import { type Duration, intervalToDuration, milliseconds } from 'date-fns';
+import Link from 'next/link';
 import { useContext, useState } from 'react';
 import { MeetingDialogChangesContext } from '../meeting-dialog-changes-context';
 import { RowActionsDropdown } from './row-actions-dropdown';
@@ -18,7 +22,20 @@ export const columns: ColumnDef<MeetingAttendeeSchema>[] = [
 			return <SortableHeader column={column}>Name</SortableHeader>;
 		},
 		cell: ({ row }) => {
-			return <p className='font-medium'>{row.original.name}</p>;
+			const { team } = useContext(TeamSlugContext);
+
+			if (!team) {
+				throw new TypeError('Expected team Next.js route param to be defined');
+			}
+
+			return (
+				<Link
+					className={cn(buttonVariants({ variant: 'link' }), 'text-foreground p-0')}
+					href={`/team/${team.slug}/dashboard/members/${row.original.member.id}`}
+				>
+					{row.original.member.name}
+				</Link>
+			);
 		},
 	},
 	{
