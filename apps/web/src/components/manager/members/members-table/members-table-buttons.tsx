@@ -53,12 +53,12 @@ export function MembersTableButtons({ table, loading }: Props) {
 
 	const lastSeenAtFilter = lastSeenAtColumn.getFilterValue() as LastSeenAtFilter;
 	return (
-		<div className='flex items-center gap-2'>
+		<div className='flex items-center gap-2 flex-wrap'>
 			<Input
 				placeholder='Filter members...'
 				value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
 				onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
-				className='max-w-36 lg:max-w-64 bg-background'
+				className='xs:max-w-36 md:max-w-64 bg-background xs:flex-grow flex-grow-0'
 				disabled={loading}
 			/>
 
@@ -79,6 +79,7 @@ export function MembersTableButtons({ table, loading }: Props) {
 						icon: UserIcon,
 					},
 				]}
+				className='max-xs:flex-grow'
 			/>
 
 			<DataTableFacetedFilter
@@ -98,6 +99,7 @@ export function MembersTableButtons({ table, loading }: Props) {
 						icon: XMarkIcon,
 					},
 				]}
+				className='max-xs:flex-grow'
 			/>
 
 			<PeriodSelect
@@ -109,13 +111,14 @@ export function MembersTableButtons({ table, loading }: Props) {
 				duration={lastSeenAtFilter?.duration}
 				emptyText='Last seen'
 				disabled={loading}
+				className='max-xs:flex-grow'
 			/>
 
 			{table.getState().columnFilters.length > 0 && (
 				<Button
 					variant='ghost'
 					onClick={() => table.resetColumnFilters()}
-					className='h-8 px-2 lg:px-3'
+					className='h-8 px-2 lg:px-3 max-xs:flex-grow'
 					disabled={loading}
 				>
 					Reset

@@ -28,6 +28,7 @@ interface DataTableFacetedFilterProps<TData, TValue> {
 		icon?: React.ComponentType<{ className?: string }>;
 	}[];
 	disabled?: boolean;
+	className?: string;
 }
 
 // biome-ignore lint/style/useNamingConvention: This is PascalCase
@@ -37,6 +38,7 @@ export function DataTableFacetedFilter<TData, TValue>({
 	options,
 	disabled = false,
 	icon: Icon,
+	className,
 }: DataTableFacetedFilterProps<TData, TValue>) {
 	const facets = column?.getFacetedUniqueValues();
 	const filterValue = column?.getFilterValue();
@@ -45,7 +47,7 @@ export function DataTableFacetedFilter<TData, TValue>({
 	return (
 		<Popover>
 			<PopoverTrigger asChild={true}>
-				<Button variant='outline' disabled={disabled}>
+				<Button variant='outline' disabled={disabled} className={className}>
 					<Icon className='mr-2 h-4 w-4' />
 					{title}
 					{selectedValues?.size > 0 && (
