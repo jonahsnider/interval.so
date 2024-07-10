@@ -120,7 +120,9 @@ export class AuthorizationService {
 			)
 			.limit(1);
 
-		if (!teams) {
+		const [team] = teams;
+
+		if (!team) {
 			return false;
 		}
 
@@ -130,9 +132,6 @@ export class AuthorizationService {
 				message: 'This operation may not reference team members from multiple teams',
 			});
 		}
-
-		const [team] = teams;
-		assert(team);
 
 		return this.hasRoles(actor, { id: team.teamId }, roles);
 	}
