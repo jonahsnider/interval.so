@@ -3,6 +3,7 @@ import app from '@adonisjs/core/services/app';
 import logger from '@adonisjs/core/services/logger';
 import adonisServer from '@adonisjs/core/services/server';
 import { Session } from '@adonisjs/session';
+import SentryMiddleware from '@rlanz/sentry/middleware';
 import { captureException } from '@sentry/node';
 import { applyWSSHandler } from '@trpc/server/adapters/ws';
 import { WebSocketServer } from 'ws';
@@ -24,6 +25,8 @@ const appRouter = await app.container.make(AppRouter);
 const resolvedSessionConfig = await sessionConfig.resolver(app);
 const sessionStoreFactory = resolvedSessionConfig.stores[resolvedSessionConfig.store];
 const emitterService = await app.container.make('emitter');
+const sentryMiddleware = new SentryMiddleware();
+
 const handler = applyWSSHandler({
 	wss,
 	router: appRouter.getRouter(),
@@ -40,6 +43,8 @@ const handler = applyWSSHandler({
 		const session = new Session(resolvedSessionConfig, sessionStoreFactory, emitterService, adonisHttpContext);
 
 		await session.initiate(false);
+
+		await sentryMiddleware.handle(adonisHttpContext, () => {});
 
 		return {
 			bouncer: createBouncer(session).setContainerResolver(adonisHttpContext.containerResolver),
@@ -58,7 +63,7 @@ const handler = applyWSSHandler({
 		if (options.error.code === 'INTERNAL_SERVER_ERROR') {
 			// Log error and have tRPC respond like normal
 			logger.error(options.error);
-			if (options.ctx) {
+			if (options.ctx?.sentry) {
 				options.ctx.sentry.captureException(options.error);
 			} else {
 				captureException(options.error);
