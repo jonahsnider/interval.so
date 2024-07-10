@@ -14,8 +14,9 @@ import { ChevronUpDownIcon, PlusIcon } from '@heroicons/react/16/solid';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import clsx from 'clsx';
 import { Link } from 'next-view-transitions';
-import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { type ReactNode, use, useMemo } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { type ReactNode, use, useContext, useMemo } from 'react';
+import { TeamSlugContext } from '../../team-slug-provider';
 import { SlashSeparatedNavbarItem } from '../slash-separated-navbar-item';
 
 type Props = {
@@ -29,20 +30,20 @@ export function TeamDropdownClient({ currentTeam, teamsPromise }: Props) {
 	const router = useRouter();
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
-	const params = useParams<{ team?: string }>();
 	const currentTeamFull = currentTeam ? teams.find((team) => team.slug === currentTeam.slug) : undefined;
+	const { team: urlTeam } = useContext(TeamSlugContext);
 
 	// TODO: Figure out if this can be done with regular links as a server component instead of dynamically + client side
 	const selectTeam = useMemo(
 		() => (team: Pick<TeamSchema, 'slug'>) => {
 			const newTeamSlug = encodeURIComponent(team.slug);
 
-			if (params.team && pathname.startsWith(`/team/${params.team}/`)) {
+			if (urlTeam && pathname.startsWith(`/team/${urlTeam.slug}/`)) {
 				// We are definitely on a team page, so we can just swap out the team slug with the selected one
 				// We do a single string replace, which only does the first occurrence of the team slug
 				// We include the full /team/ segment to avoid false positive (ex. a team with a slug "team", which would .replace() the wrong segment of the URL)
 
-				const newPathname = pathname.replace(`/team/${params.team}/`, `/team/${newTeamSlug}/`);
+				const newPathname = pathname.replace(`/team/${urlTeam.slug}/`, `/team/${newTeamSlug}/`);
 
 				router.push(`${newPathname}?${searchParams.toString()}`);
 				return;
@@ -51,7 +52,7 @@ export function TeamDropdownClient({ currentTeam, teamsPromise }: Props) {
 			// Non team route, go to main dashboard
 			router.push(`/team/${newTeamSlug}`);
 		},
-		[router, pathname, params, searchParams],
+		[router, pathname, urlTeam, searchParams],
 	);
 
 	return (
