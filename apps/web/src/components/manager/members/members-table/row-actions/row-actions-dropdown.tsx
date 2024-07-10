@@ -15,7 +15,8 @@ import { DeleteMemberItem } from './delete-member-item';
 import { UpdateAttendanceItem } from './update-attendance-item';
 
 type Props = {
-	member: TeamMemberSchema;
+	variant?: 'standalone' | 'table';
+	member: Pick<TeamMemberSchema, 'id' | 'name' | 'atMeeting' | 'archived'>;
 };
 
 export function RowActionsDropdown({ member }: Props) {

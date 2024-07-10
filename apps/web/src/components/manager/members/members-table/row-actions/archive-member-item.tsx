@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 
 type Props = {
-	member: TeamMemberSchema;
+	member: Pick<TeamMemberSchema, 'id' | 'name' | 'archived'>;
 };
 
 export function ArchiveMemberItem({ member }: Props) {
