@@ -7,8 +7,8 @@ export const TeamMemberSchema = z.object({
 		.trim()
 		.min(1, { message: "Team member's name can't be empty" })
 		.max(128, { message: "Team member's name can't be longer than 128 characters" }),
-	archived: z.boolean().default(false),
-	atMeeting: z.boolean().default(false),
+	archived: z.boolean(),
+	atMeeting: z.boolean(),
 	lastSeenAt: z.optional(z.date().or(z.literal('now'))),
 });
 export type TeamMemberSchema = z.infer<typeof TeamMemberSchema>;
