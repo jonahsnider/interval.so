@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { CardContent, CardFooter } from '@/components/ui/card';
+import { CardContent, CardDescription, CardFooter } from '@/components/ui/card';
 import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { CopyButtonInput } from '@/src/components/copy-button-input';
 import { trpc } from '@/src/trpc/trpc-client';
@@ -60,10 +60,12 @@ export function TeamPasswordEditForm({ team, initialTeamValue }: Props) {
 						)}
 					/>
 				</CardContent>
-				<CardFooter className='border-t px-6 py-4'>
+				<CardFooter className='border-t px-6 py-4 justify-between gap-2 flex-wrap'>
 					<Button type='submit' disabled={setPassword.isPending}>
 						Save
 					</Button>
+
+					<CardDescription>Changing the team password will sign out all devices using the old password.</CardDescription>
 				</CardFooter>
 			</form>
 		</Form>
