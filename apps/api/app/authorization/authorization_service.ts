@@ -108,12 +108,12 @@ export class AuthorizationService {
 				teamId: Schema.teamMembers.teamId,
 			})
 			.from(Schema.teamMembers)
-			.innerJoin(Schema.finishedMemberMeetings, eq(Schema.teamMembers.id, Schema.finishedMemberMeetings.memberId))
+			.innerJoin(Schema.memberAttendance, eq(Schema.teamMembers.id, Schema.memberAttendance.memberId))
 			.where(
 				and(
-					eq(Schema.finishedMemberMeetings.memberId, Schema.teamMembers.id),
+					eq(Schema.memberAttendance.memberId, Schema.teamMembers.id),
 					inArray(
-						Schema.finishedMemberMeetings.id,
+						Schema.memberAttendance.id,
 						meetings.map((meeting) => meeting.attendanceId),
 					),
 				),

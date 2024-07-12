@@ -55,17 +55,17 @@ export class TeamStatsService {
 		const finishedMeetingDurations = db
 			.select({
 				durationSeconds:
-					sql<number>`EXTRACT(epoch FROM ${Schema.finishedMemberMeetings.endedAt} - ${Schema.finishedMemberMeetings.startedAt})`.as(
+					sql<number>`EXTRACT(epoch FROM ${Schema.memberAttendance.endedAt} - ${Schema.memberAttendance.startedAt})`.as(
 						'duration_seconds',
 					),
 			})
-			.from(Schema.finishedMemberMeetings)
-			.innerJoin(Schema.teamMembers, and(eq(Schema.teamMembers.id, Schema.finishedMemberMeetings.memberId)))
+			.from(Schema.memberAttendance)
+			.innerJoin(Schema.teamMembers, and(eq(Schema.teamMembers.id, Schema.memberAttendance.memberId)))
 			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)))
 			.where(
 				and(
-					gt(Schema.finishedMemberMeetings.startedAt, timeFilter.start),
-					timeFilter.end && lt(Schema.finishedMemberMeetings.endedAt, timeFilter.end),
+					gt(Schema.memberAttendance.startedAt, timeFilter.start),
+					timeFilter.end && lt(Schema.memberAttendance.endedAt, timeFilter.end),
 				),
 			);
 
@@ -104,10 +104,10 @@ export class TeamStatsService {
 		const meetingsForTeam = db
 			.select({
 				memberId: Schema.teamMembers.id,
-				startedAt: Schema.finishedMemberMeetings.startedAt,
+				startedAt: Schema.memberAttendance.startedAt,
 			})
-			.from(Schema.finishedMemberMeetings)
-			.innerJoin(Schema.teamMembers, eq(Schema.teamMembers.id, Schema.finishedMemberMeetings.memberId))
+			.from(Schema.memberAttendance)
+			.innerJoin(Schema.teamMembers, eq(Schema.teamMembers.id, Schema.memberAttendance.memberId))
 			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)))
 			.as('meetings_for_team');
 
@@ -147,15 +147,15 @@ export class TeamStatsService {
 
 		const [result] = await db
 			.select({
-				count: countDistinct(Schema.finishedMemberMeetings.memberId).as('member_count'),
+				count: countDistinct(Schema.memberAttendance.memberId).as('member_count'),
 			})
-			.from(Schema.finishedMemberMeetings)
+			.from(Schema.memberAttendance)
 			.innerJoin(
 				Schema.teamMembers,
 				and(
-					eq(Schema.finishedMemberMeetings.memberId, Schema.teamMembers.id),
-					gt(Schema.finishedMemberMeetings.startedAt, timeFilter.start),
-					timeFilter.end && lt(Schema.finishedMemberMeetings.endedAt, timeFilter.end),
+					eq(Schema.memberAttendance.memberId, Schema.teamMembers.id),
+					gt(Schema.memberAttendance.startedAt, timeFilter.start),
+					timeFilter.end && lt(Schema.memberAttendance.endedAt, timeFilter.end),
 				),
 			)
 			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)));
@@ -180,21 +180,21 @@ export class TeamStatsService {
 
 		const meetingsForTeam = db
 			.select({
-				memberId: Schema.finishedMemberMeetings.memberId,
-				startedAt: Schema.finishedMemberMeetings.startedAt,
-				endedAt: Schema.finishedMemberMeetings.endedAt,
+				memberId: Schema.memberAttendance.memberId,
+				startedAt: Schema.memberAttendance.startedAt,
+				endedAt: Schema.memberAttendance.endedAt,
 				durationSeconds:
-					sql<number>`EXTRACT(epoch FROM ${Schema.finishedMemberMeetings.endedAt} - ${Schema.finishedMemberMeetings.startedAt})`.as(
+					sql<number>`EXTRACT(epoch FROM ${Schema.memberAttendance.endedAt} - ${Schema.memberAttendance.startedAt})`.as(
 						'duration_seconds',
 					),
 			})
-			.from(Schema.finishedMemberMeetings)
+			.from(Schema.memberAttendance)
 			.innerJoin(
 				Schema.teamMembers,
 				and(
-					eq(Schema.finishedMemberMeetings.memberId, Schema.teamMembers.id),
-					gt(Schema.finishedMemberMeetings.startedAt, timeFilter.start),
-					timeFilter.end && lt(Schema.finishedMemberMeetings.endedAt, timeFilter.end),
+					eq(Schema.memberAttendance.memberId, Schema.teamMembers.id),
+					gt(Schema.memberAttendance.startedAt, timeFilter.start),
+					timeFilter.end && lt(Schema.memberAttendance.endedAt, timeFilter.end),
 				),
 			)
 			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)))
@@ -244,18 +244,18 @@ export class TeamStatsService {
 		const [result] = await db
 			.select({
 				durationSeconds: sql`COALESCE(${avg(
-					sql`EXTRACT(epoch FROM ${Schema.finishedMemberMeetings.endedAt} - ${Schema.finishedMemberMeetings.startedAt})`,
+					sql`EXTRACT(epoch FROM ${Schema.memberAttendance.endedAt} - ${Schema.memberAttendance.startedAt})`,
 				)}, 0)`
 					.mapWith(Number)
 					.as('duration_seconds'),
 			})
-			.from(Schema.finishedMemberMeetings)
+			.from(Schema.memberAttendance)
 			.innerJoin(
 				Schema.teamMembers,
 				and(
-					eq(Schema.finishedMemberMeetings.memberId, Schema.teamMembers.id),
-					gt(Schema.finishedMemberMeetings.startedAt, timeFilter.start),
-					timeFilter.end && lt(Schema.finishedMemberMeetings.endedAt, timeFilter.end),
+					eq(Schema.memberAttendance.memberId, Schema.teamMembers.id),
+					gt(Schema.memberAttendance.startedAt, timeFilter.start),
+					timeFilter.end && lt(Schema.memberAttendance.endedAt, timeFilter.end),
 				),
 			)
 			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)));

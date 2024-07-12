@@ -68,12 +68,12 @@ export class TeamMemberService {
 						pendingSignIn: true,
 					},
 					with: {
-						meetings: {
+						attendance: {
 							columns: {
 								endedAt: true,
 							},
 							limit: 1,
-							orderBy: asc(Schema.finishedMemberMeetings.endedAt),
+							orderBy: asc(Schema.memberAttendance.endedAt),
 						},
 					},
 				},
@@ -89,7 +89,7 @@ export class TeamMemberService {
 				atMeeting: Boolean(member.pendingSignIn),
 				// If signed in, mark them as last seen now
 				// Otherwise, use the last time they signed out
-				lastSeenAt: member.pendingSignIn ? 'now' : member.meetings[0]?.endedAt,
+				lastSeenAt: member.pendingSignIn ? 'now' : member.attendance[0]?.endedAt,
 			})) ?? []
 		);
 	}
@@ -200,7 +200,7 @@ export class TeamMemberService {
 				return;
 			}
 
-			await tx.insert(Schema.finishedMemberMeetings).values({
+			await tx.insert(Schema.memberAttendance).values({
 				memberId: teamMember.id,
 				startedAt: pendingSignIn.pendingSignIn,
 				endedAt: new Date(),
@@ -249,7 +249,7 @@ export class TeamMemberService {
 
 		await db.transaction(async (tx) => {
 			// Delete meetings
-			await tx.delete(Schema.finishedMemberMeetings).where(eq(Schema.finishedMemberMeetings.memberId, member.id));
+			await tx.delete(Schema.memberAttendance).where(eq(Schema.memberAttendance.memberId, member.id));
 			// Delete member
 			[team] = await tx.delete(Schema.teamMembers).where(eq(Schema.teamMembers.id, member.id)).returning({
 				id: Schema.teamMembers.teamId,
@@ -270,10 +270,10 @@ export class TeamMemberService {
 		);
 
 		const [deleted] = await db
-			.delete(Schema.finishedMemberMeetings)
-			.where(eq(Schema.finishedMemberMeetings.id, attendee.attendanceId))
+			.delete(Schema.memberAttendance)
+			.where(eq(Schema.memberAttendance.id, attendee.attendanceId))
 			.returning({
-				memberId: Schema.finishedMemberMeetings.memberId,
+				memberId: Schema.memberAttendance.memberId,
 			});
 
 		if (deleted) {
@@ -324,7 +324,7 @@ export class TeamMemberService {
 			bouncer.with('TeamMemberPolicy').allows('createFinishedMeeting', [member]),
 		);
 
-		await db.insert(Schema.finishedMemberMeetings).values({
+		await db.insert(Schema.memberAttendance).values({
 			startedAt: data.startedAt,
 			endedAt: data.endedAt,
 			memberId: member.id,
@@ -343,23 +343,23 @@ export class TeamMemberService {
 
 			const [result] = await tx
 				.select({
-					startedAt: min(Schema.finishedMemberMeetings.startedAt),
-					endedAt: max(Schema.finishedMemberMeetings.endedAt),
-					memberId: Schema.finishedMemberMeetings.memberId,
+					startedAt: min(Schema.memberAttendance.startedAt),
+					endedAt: max(Schema.memberAttendance.endedAt),
+					memberId: Schema.memberAttendance.memberId,
 				})
-				.from(Schema.finishedMemberMeetings)
+				.from(Schema.memberAttendance)
 				.limit(1)
-				.groupBy(Schema.finishedMemberMeetings.memberId)
-				.where(inArray(Schema.finishedMemberMeetings.id, attendanceIds));
+				.groupBy(Schema.memberAttendance.memberId)
+				.where(inArray(Schema.memberAttendance.id, attendanceIds));
 
-			await tx.delete(Schema.finishedMemberMeetings).where(inArray(Schema.finishedMemberMeetings.id, attendanceIds));
+			await tx.delete(Schema.memberAttendance).where(inArray(Schema.memberAttendance.id, attendanceIds));
 
 			assert(
 				result?.startedAt && result.endedAt,
 				new TRPCError({ code: 'NOT_FOUND', message: 'Attendance entries not found' }),
 			);
 
-			await tx.insert(Schema.finishedMemberMeetings).values({
+			await tx.insert(Schema.memberAttendance).values({
 				startedAt: result.startedAt,
 				endedAt: result.endedAt,
 				memberId: result.memberId,
@@ -382,10 +382,10 @@ export class TeamMemberService {
 		const attendanceIds = attendanceEntries.map((entry) => entry.attendanceId);
 
 		const affectedMembers = await db
-			.delete(Schema.finishedMemberMeetings)
-			.where(inArray(Schema.finishedMemberMeetings.id, attendanceIds))
+			.delete(Schema.memberAttendance)
+			.where(inArray(Schema.memberAttendance.id, attendanceIds))
 			.returning({
-				id: Schema.finishedMemberMeetings.memberId,
+				id: Schema.memberAttendance.memberId,
 			});
 
 		await this.eventsService.announceEvent(affectedMembers, MemberRedisEvent.MemberAttendanceUpdated);
@@ -400,6 +400,6 @@ export class TeamMemberService {
 
 		await db.update(Schema.teamMembers).set(data).where(eq(Schema.teamMembers.id, member.id));
 
-    await this.eventsService.announceEvent([member], MemberRedisEvent.MemberUpdated);
+		await this.eventsService.announceEvent([member], MemberRedisEvent.MemberUpdated);
 	}
 }

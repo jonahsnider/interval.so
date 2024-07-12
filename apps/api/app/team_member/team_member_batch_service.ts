@@ -49,7 +49,7 @@ export class TeamMemberBatchService {
 				});
 			}
 
-			await tx.insert(Schema.finishedMemberMeetings).values(
+			await tx.insert(Schema.memberAttendance).values(
 				members.map((member) => {
 					const { pendingSignIn } = member;
 
@@ -94,7 +94,7 @@ export class TeamMemberBatchService {
 			const memberIds = members.map((member) => member.id);
 
 			// Delete meetings
-			await tx.delete(Schema.finishedMemberMeetings).where(inArray(Schema.finishedMemberMeetings.memberId, memberIds));
+			await tx.delete(Schema.memberAttendance).where(inArray(Schema.memberAttendance.memberId, memberIds));
 			// Delete member
 			teams = await tx.delete(Schema.teamMembers).where(inArray(Schema.teamMembers.id, memberIds)).returning({
 				id: Schema.teamMembers.teamId,
@@ -217,7 +217,7 @@ export class TeamMemberBatchService {
 				return;
 			}
 
-			await tx.insert(Schema.finishedMemberMeetings).values(
+			await tx.insert(Schema.memberAttendance).values(
 				dbMembers.map((member) => {
 					const { pendingSignIn } = member;
 
@@ -260,14 +260,14 @@ export class TeamMemberBatchService {
 					}
 
 					const [member] = await tx
-						.update(Schema.finishedMemberMeetings)
+						.update(Schema.memberAttendance)
 						.set({
 							startedAt: change.startedAt,
 							endedAt: change.endedAt,
 						})
-						.where(eq(Schema.finishedMemberMeetings.id, change.attendanceId))
+						.where(eq(Schema.memberAttendance.id, change.attendanceId))
 						.returning({
-							memberId: Schema.finishedMemberMeetings.memberId,
+							memberId: Schema.memberAttendance.memberId,
 						});
 
 					return member;

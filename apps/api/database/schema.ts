@@ -102,8 +102,8 @@ export const teamMembers = pgTable(
 	}),
 );
 
-export const finishedMemberMeetings = pgTable(
-	'finished_member_meetings',
+export const memberAttendance = pgTable(
+	'member_attendance',
 	{
 		id: uuid('id').notNull().primaryKey().defaultRandom(),
 		memberId: uuid('member_id')

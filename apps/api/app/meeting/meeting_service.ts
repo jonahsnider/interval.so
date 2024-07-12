@@ -20,6 +20,7 @@ import type { MeetingAttendeeSchema, TeamMeetingSchema } from './schemas/team_me
 export class MeetingService {
 	constructor(private readonly teamMemberEventsService: TeamMemberEventsService) {}
 
+	// TODO: Consider making this a materialized view, as long as it's not expensive to refresh it. Maybe use https://github.com/sraoss/pg_ivm
 	async getMeetings(
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
@@ -30,23 +31,23 @@ export class MeetingService {
 		// The giant query for grouping the overlapping sign-ins is from https://wiki.postgresql.org/wiki/Range_aggregation
 		const s1 = db
 			.select({
-				startedAt: Schema.finishedMemberMeetings.startedAt,
-				endedAt: Schema.finishedMemberMeetings.endedAt,
-				memberId: Schema.finishedMemberMeetings.memberId,
+				startedAt: Schema.memberAttendance.startedAt,
+				endedAt: Schema.memberAttendance.endedAt,
+				memberId: Schema.memberAttendance.memberId,
 				memberName: Schema.teamMembers.name,
-				attendanceId: Schema.finishedMemberMeetings.id,
-				le: sql<Date>`lag(${Schema.finishedMemberMeetings.endedAt}) OVER (ORDER BY ${Schema.finishedMemberMeetings.startedAt}, ${Schema.finishedMemberMeetings.endedAt})`.as(
+				attendanceId: Schema.memberAttendance.id,
+				le: sql<Date>`lag(${Schema.memberAttendance.endedAt}) OVER (ORDER BY ${Schema.memberAttendance.startedAt}, ${Schema.memberAttendance.endedAt})`.as(
 					'le',
 				),
 			})
-			.from(Schema.finishedMemberMeetings)
+			.from(Schema.memberAttendance)
 			.innerJoin(
 				Schema.teamMembers,
 				and(
-					eq(Schema.finishedMemberMeetings.memberId, Schema.teamMembers.id),
-					gt(Schema.finishedMemberMeetings.startedAt, timeFilter.start),
+					eq(Schema.memberAttendance.memberId, Schema.teamMembers.id),
+					gt(Schema.memberAttendance.startedAt, timeFilter.start),
 					// Need to manually stringify the date due to a Drizzle bug https://github.com/drizzle-team/drizzle-orm/issues/2009
-					timeFilter.end && lt(Schema.finishedMemberMeetings.endedAt, timeFilter.end),
+					timeFilter.end && lt(Schema.memberAttendance.endedAt, timeFilter.end),
 				),
 			)
 			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)))
@@ -169,14 +170,14 @@ export class MeetingService {
 
 		const meetingsToDelete = db.$with('meetings_to_delete').as(
 			db
-				.select({ id: Schema.finishedMemberMeetings.id })
-				.from(Schema.finishedMemberMeetings)
+				.select({ id: Schema.memberAttendance.id })
+				.from(Schema.memberAttendance)
 				.innerJoin(
 					Schema.teamMembers,
 					and(
-						eq(Schema.finishedMemberMeetings.memberId, Schema.teamMembers.id),
-						gte(Schema.finishedMemberMeetings.startedAt, meeting.start),
-						lte(Schema.finishedMemberMeetings.endedAt, meeting.end),
+						eq(Schema.memberAttendance.memberId, Schema.teamMembers.id),
+						gte(Schema.memberAttendance.startedAt, meeting.start),
+						lte(Schema.memberAttendance.endedAt, meeting.end),
 					),
 				)
 				.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug))),
@@ -186,8 +187,8 @@ export class MeetingService {
 
 		await db
 			.with(meetingsToDelete)
-			.delete(Schema.finishedMemberMeetings)
-			.where(inArray(Schema.finishedMemberMeetings.id, meetingsToDeleteSubquery));
+			.delete(Schema.memberAttendance)
+			.where(inArray(Schema.memberAttendance.id, meetingsToDeleteSubquery));
 
 		await this.teamMemberEventsService.announceEvent(team, MemberRedisEvent.MemberAttendanceUpdated);
 	}
@@ -213,7 +214,7 @@ export class MeetingService {
 		await db.transaction((tx) =>
 			Promise.all(
 				[...uniqueAttendeeIds].map(async (attendeeId) => {
-					await tx.insert(Schema.finishedMemberMeetings).values({
+					await tx.insert(Schema.memberAttendance).values({
 						memberId: attendeeId,
 						startedAt: data.timeRange.start,
 						endedAt: data.timeRange.end,
@@ -236,16 +237,16 @@ export class MeetingService {
 
 		const result = await db
 			.select({
-				attendanceId: Schema.finishedMemberMeetings.id,
-				startedAt: Schema.finishedMemberMeetings.startedAt,
-				endedAt: Schema.finishedMemberMeetings.endedAt,
+				attendanceId: Schema.memberAttendance.id,
+				startedAt: Schema.memberAttendance.startedAt,
+				endedAt: Schema.memberAttendance.endedAt,
 			})
-			.from(Schema.finishedMemberMeetings)
+			.from(Schema.memberAttendance)
 			.where(
 				and(
-					eq(Schema.finishedMemberMeetings.memberId, member.id),
-					gt(Schema.finishedMemberMeetings.startedAt, timeFilter.start),
-					timeFilter.end && lt(Schema.finishedMemberMeetings.endedAt, timeFilter.end),
+					eq(Schema.memberAttendance.memberId, member.id),
+					gt(Schema.memberAttendance.startedAt, timeFilter.start),
+					timeFilter.end && lt(Schema.memberAttendance.endedAt, timeFilter.end),
 				),
 			);
 
