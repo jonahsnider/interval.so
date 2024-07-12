@@ -130,7 +130,7 @@ function InnerTable({ filteredMembers, members }: { filteredMembers: SimpleMembe
 				))}
 				{filteredMembers.length === 0 && (
 					<MotionTableRow initial='hidden' animate='visible' exit='hidden' variants={motionVariants}>
-						<TableCell className='h-16 w-full items-center justify-center'>No results.</TableCell>
+						<TableCell className='h-16 w-full items-center justify-center'>No results</TableCell>
 					</MotionTableRow>
 				)}
 			</TableBody>

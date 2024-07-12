@@ -151,7 +151,7 @@ export function MembersTableClient({ initialData, loading, team }: Props) {
 								<TableRow>
 									{/* All columns except for the hidden "atMeeting" column */}
 									<TableCell colSpan={columns.length - 1} className='h-24 text-center'>
-										No results.
+										No results
 									</TableCell>
 								</TableRow>
 							))}
