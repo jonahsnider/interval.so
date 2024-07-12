@@ -5,7 +5,7 @@ import { SortableHeader } from '@/src/components/data-tables/sortable-header';
 import { DateTimePicker } from '@/src/components/date-time-picker';
 import { TeamSlugContext } from '@/src/components/team-dashboard/team-slug-provider';
 import { formatDuration } from '@/src/utils/date-format';
-import type { MeetingAttendeeSchema } from '@hours.frc.sh/api/app/meeting/schemas/team_meeting_schema';
+import type { MeetingAttendeeSchema } from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
 import { Sort } from '@jonahsnider/util';
 import type { ColumnDef } from '@tanstack/react-table';
 import clsx from 'clsx';

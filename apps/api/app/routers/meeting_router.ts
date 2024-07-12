@@ -2,21 +2,21 @@ import { inject } from '@adonisjs/core';
 import type { Observable } from '@trpc/server/observable';
 import { z } from 'zod';
 import { injectHelper } from '../../util/inject_helper.js';
-import { MeetingService } from '../meeting/meeting_service.js';
-import { MeetingSubscriptionService } from '../meeting/meeting_subscription_service.js';
-import { CreateTeamMeetingSchema } from '../meeting/schemas/create_team_meeting_schema.js';
-import { MeetingAttendeeSchema, TeamMeetingSchema } from '../meeting/schemas/team_meeting_schema.js';
 import { TeamSchema } from '../team/schemas/team_schema.js';
+import { CreateTeamMeetingSchema } from '../team_meeting/schemas/create_team_meeting_schema.js';
+import { MeetingAttendeeSchema, TeamMeetingSchema } from '../team_meeting/schemas/team_meeting_schema.js';
+import { TeamMeetingService } from '../team_meeting/team_meeting_service.js';
+import { TeamMeetingSubscriptionService } from '../team_meeting/team_meeting_subscription_service.js';
 import { TeamMemberSchema } from '../team_member/schemas/team_member_schema.js';
 import { TimeFilterSchema } from '../team_stats/schemas/time_filter_schema.js';
 import { authedProcedure, router } from '../trpc/trpc_service.js';
 
 @inject()
-@injectHelper(MeetingService, MeetingSubscriptionService)
+@injectHelper(TeamMeetingService, TeamMeetingSubscriptionService)
 export class MeetingRouter {
 	constructor(
-		private readonly meetingService: MeetingService,
-		private readonly meetingSubscriptionService: MeetingSubscriptionService,
+		private readonly meetingService: TeamMeetingService,
+		private readonly meetingSubscriptionService: TeamMeetingSubscriptionService,
 	) {}
 
 	getRouter() {

@@ -12,11 +12,11 @@ import {
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { trpc } from '@/src/trpc/trpc-client';
 import { formatDateRange } from '@/src/utils/date-format';
+import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import type {
 	MeetingAttendeeSchema,
 	TeamMeetingSchema,
-} from '@hours.frc.sh/api/app/meeting/schemas/team_meeting_schema';
-import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
+} from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
 import { useContext, useState } from 'react';
 import { toast } from 'sonner';
 import { MeetingAttendeeTable } from './meeting-attendee-table/meeting-attendee-table';

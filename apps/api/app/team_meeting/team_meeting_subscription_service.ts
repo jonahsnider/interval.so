@@ -8,15 +8,15 @@ import { MemberRedisEvent } from '../team_member/events/schemas/redis_event_sche
 import { TeamMemberEventsService } from '../team_member/events/team_member_events_service.js';
 import type { TeamMemberSchema } from '../team_member/schemas/team_member_schema.js';
 import type { TimeFilterSchema } from '../team_stats/schemas/time_filter_schema.js';
-import { MeetingService } from './meeting_service.js';
 import type { MeetingAttendeeSchema, TeamMeetingSchema } from './schemas/team_meeting_schema.js';
+import { TeamMeetingService } from './team_meeting_service.js';
 
 @inject()
-@injectHelper(TeamMemberEventsService, MeetingService)
-export class MeetingSubscriptionService {
+@injectHelper(TeamMemberEventsService, TeamMeetingService)
+export class TeamMeetingSubscriptionService {
 	constructor(
 		private readonly eventsService: TeamMemberEventsService,
-		private readonly meetingService: MeetingService,
+		private readonly meetingService: TeamMeetingService,
 	) {}
 
 	async meetingsSubscribe(

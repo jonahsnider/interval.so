@@ -17,7 +17,7 @@ import type { MeetingAttendeeSchema, TeamMeetingSchema } from './schemas/team_me
 
 @inject()
 @injectHelper(TeamMemberEventsService)
-export class MeetingService {
+export class TeamMeetingService {
 	constructor(private readonly teamMemberEventsService: TeamMemberEventsService) {}
 
 	// TODO: Consider making this a materialized view, as long as it's not expensive to refresh it. Maybe use https://github.com/sraoss/pg_ivm

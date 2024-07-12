@@ -1,4 +1,4 @@
-import type { MeetingAttendeeSchema } from '@hours.frc.sh/api/app/meeting/schemas/team_meeting_schema';
+import type { MeetingAttendeeSchema } from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
 import { createContext, useMemo } from 'react';
 import { useMutative } from 'use-mutative';
 

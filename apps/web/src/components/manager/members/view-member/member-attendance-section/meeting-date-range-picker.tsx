@@ -2,7 +2,7 @@
 
 import { DateTimeRangePicker } from '@/src/components/date-time-range-picker';
 import { trpc } from '@/src/trpc/trpc-client';
-import type { MeetingAttendeeSchema } from '@hours.frc.sh/api/app/meeting/schemas/team_meeting_schema';
+import type { MeetingAttendeeSchema } from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
 import type { TimeRangeSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_range_schema';
 import { type ComponentProps, useState } from 'react';
 import { toast } from 'sonner';

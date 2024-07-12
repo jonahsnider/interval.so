@@ -4,8 +4,8 @@ import { inject } from '@adonisjs/core';
 import type { BouncerUser } from '#middleware/initialize_bouncer_middleware';
 import { injectHelper } from '../../util/inject_helper.js';
 import { AuthorizationService } from '../authorization/authorization_service.js';
-import type { MeetingAttendeeSchema } from '../meeting/schemas/team_meeting_schema.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
+import type { MeetingAttendeeSchema } from '../team_meeting/schemas/team_meeting_schema.js';
 import type { TeamMemberSchema } from '../team_member/schemas/team_member_schema.js';
 
 @inject()

@@ -1,6 +1,6 @@
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
-import type { TeamMeetingSchema } from '@hours.frc.sh/api/app/meeting/schemas/team_meeting_schema';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
+import type { TeamMeetingSchema } from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
 import { useQueryStates } from 'nuqs';
 import { type PropsWithChildren, useContext } from 'react';
 import { searchParamParsers } from '../search-params';
