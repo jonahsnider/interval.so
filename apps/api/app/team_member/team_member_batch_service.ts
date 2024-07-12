@@ -8,7 +8,6 @@ import { injectHelper } from '../../util/inject_helper.js';
 import { AuthorizationService } from '../authorization/authorization_service.js';
 import { db } from '../db/db_service.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
-import type { MeetingAttendeeSchema } from '../team_meeting/schemas/team_meeting_schema.js';
 import { MemberRedisEvent } from './events/schemas/redis_event_schema.js';
 import { TeamMemberEventsService } from './events/team_member_events_service.js';
 import type { TeamMemberSchema } from './schemas/team_member_schema.js';
@@ -233,51 +232,6 @@ export class TeamMemberBatchService {
 
 			await tx.update(Schema.teamMembers).set({ pendingSignIn: null }).where(inArray(Schema.teamMembers.id, memberIds));
 		});
-
-		await this.eventsService.announceEvent(members, MemberRedisEvent.MemberAttendanceUpdated);
-	}
-
-	async updateManyMeetings(
-		bouncer: AppBouncer,
-		data: Pick<MeetingAttendeeSchema, 'attendanceId' | 'startedAt' | 'endedAt'>[],
-	): Promise<void> {
-		if (data.length === 0) {
-			return;
-		}
-
-		await AuthorizationService.assertPermission(
-			bouncer.with('TeamMemberPolicy').allows('updateFinishedMeetings', data),
-		);
-
-		const updatedMembers = await db.transaction(async (tx) =>
-			Promise.all(
-				data.map(async (change) => {
-					if (change.endedAt.getTime() < change.startedAt.getTime()) {
-						throw new TRPCError({
-							code: 'UNPROCESSABLE_CONTENT',
-							message: 'Cannot end meeting before it starts',
-						});
-					}
-
-					const [member] = await tx
-						.update(Schema.memberAttendance)
-						.set({
-							startedAt: change.startedAt,
-							endedAt: change.endedAt,
-						})
-						.where(eq(Schema.memberAttendance.id, change.attendanceId))
-						.returning({
-							memberId: Schema.memberAttendance.memberId,
-						});
-
-					return member;
-				}),
-			),
-		);
-
-		const members = updatedMembers
-			.filter((member): member is NonNullable<typeof member> => Boolean(member))
-			.map((member) => ({ id: member.memberId }));
 
 		await this.eventsService.announceEvent(members, MemberRedisEvent.MemberAttendanceUpdated);
 	}

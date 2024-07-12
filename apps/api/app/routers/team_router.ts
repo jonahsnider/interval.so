@@ -5,9 +5,9 @@ import { TeamSchema } from '../team/schemas/team_schema.js';
 import { TeamService } from '../team/team_service.js';
 import { TeamManagerSchema } from '../team_manager/schemas/team_manager_schema.js';
 import { authedProcedure, publicProcedure, router } from '../trpc/trpc_service.js';
-import { MeetingRouter } from './meeting_router.js';
 import { TeamForUserRouter } from './team_for_user_router.js';
 import { TeamManagerRouter } from './team_manager_router.js';
+import { TeamMeetingRouter } from './team_meeting_router.js';
 import { TeamMemberRouter } from './team_member_router.js';
 import { TeamSettingsRouter } from './team_settings_router.js';
 import { TeamStatsRouter } from './team_stats_router.js';
@@ -17,7 +17,7 @@ import { TeamStatsRouter } from './team_stats_router.js';
 	TeamService,
 	TeamMemberRouter,
 	TeamStatsRouter,
-	MeetingRouter,
+	TeamMeetingRouter,
 	TeamManagerRouter,
 	TeamSettingsRouter,
 	TeamForUserRouter,
@@ -27,7 +27,7 @@ export class TeamRouter {
 		private readonly teamService: TeamService,
 		private readonly teamMemberRouter: TeamMemberRouter,
 		private readonly teamStatsRouter: TeamStatsRouter,
-		private readonly meetingRouter: MeetingRouter,
+		private readonly meetingRouter: TeamMeetingRouter,
 		private readonly teamManagerRouter: TeamManagerRouter,
 		private readonly teamSettingsRouter: TeamSettingsRouter,
 		private readonly teamForUserRouter: TeamForUserRouter,

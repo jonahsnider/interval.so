@@ -4,16 +4,15 @@ import { z } from 'zod';
 import { injectHelper } from '../../util/inject_helper.js';
 import { TeamSchema } from '../team/schemas/team_schema.js';
 import { CreateTeamMeetingSchema } from '../team_meeting/schemas/create_team_meeting_schema.js';
-import { MeetingAttendeeSchema, TeamMeetingSchema } from '../team_meeting/schemas/team_meeting_schema.js';
+import { TeamMeetingSchema } from '../team_meeting/schemas/team_meeting_schema.js';
 import { TeamMeetingService } from '../team_meeting/team_meeting_service.js';
 import { TeamMeetingSubscriptionService } from '../team_meeting/team_meeting_subscription_service.js';
-import { TeamMemberSchema } from '../team_member/schemas/team_member_schema.js';
 import { TimeFilterSchema } from '../team_stats/schemas/time_filter_schema.js';
 import { authedProcedure, router } from '../trpc/trpc_service.js';
 
 @inject()
 @injectHelper(TeamMeetingService, TeamMeetingSubscriptionService)
-export class MeetingRouter {
+export class TeamMeetingRouter {
 	constructor(
 		private readonly meetingService: TeamMeetingService,
 		private readonly meetingSubscriptionService: TeamMeetingSubscriptionService,
@@ -32,27 +31,6 @@ export class MeetingRouter {
 				.subscription(({ ctx, input }): Promise<Observable<TeamMeetingSchema[], unknown>> => {
 					return this.meetingSubscriptionService.meetingsSubscribe(ctx.bouncer, input.team, input.timeFilter);
 				}),
-
-			getMeetingsForMember: authedProcedure
-				.input(z.object({ member: TeamMemberSchema.pick({ id: true }), timeFilter: TimeFilterSchema }).strict())
-				.output(MeetingAttendeeSchema.pick({ attendanceId: true, startedAt: true, endedAt: true }).array())
-				.query(({ ctx, input }) =>
-					this.meetingService.getMeetingsForMember(ctx.bouncer, input.member, input.timeFilter),
-				),
-			meetingsForMemberSubscription: authedProcedure
-				.input(z.object({ member: TeamMemberSchema.pick({ id: true }), timeFilter: TimeFilterSchema }).strict())
-				.subscription(
-					({
-						ctx,
-						input,
-					}): Promise<Observable<Pick<MeetingAttendeeSchema, 'attendanceId' | 'startedAt' | 'endedAt'>[], unknown>> => {
-						return this.meetingSubscriptionService.meetingsForMemberSubscribe(
-							ctx.bouncer,
-							input.member,
-							input.timeFilter,
-						);
-					},
-				),
 
 			create: authedProcedure
 				.input(CreateTeamMeetingSchema)

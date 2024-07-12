@@ -9,11 +9,10 @@ import { db } from '../db/db_service.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
 import { MemberRedisEvent } from '../team_member/events/schemas/redis_event_schema.js';
 import { TeamMemberEventsService } from '../team_member/events/team_member_events_service.js';
-import type { TeamMemberSchema } from '../team_member/schemas/team_member_schema.js';
 import type { TimeFilterSchema } from '../team_stats/schemas/time_filter_schema.js';
 import type { TimeRangeSchema } from '../team_stats/schemas/time_range_schema.js';
 import type { CreateTeamMeetingSchema } from './schemas/create_team_meeting_schema.js';
-import type { MeetingAttendeeSchema, TeamMeetingSchema } from './schemas/team_meeting_schema.js';
+import type { TeamMeetingSchema } from './schemas/team_meeting_schema.js';
 
 @inject()
 @injectHelper(TeamMemberEventsService)
@@ -224,36 +223,5 @@ export class TeamMeetingService {
 		);
 
 		await this.teamMemberEventsService.announceEvent(data.attendees, MemberRedisEvent.MemberAttendanceUpdated);
-	}
-
-	async getMeetingsForMember(
-		bouncer: AppBouncer,
-		member: Pick<TeamMemberSchema, 'id'>,
-		timeFilter: TimeFilterSchema,
-	): Promise<Pick<MeetingAttendeeSchema, 'attendanceId' | 'startedAt' | 'endedAt'>[]> {
-		await AuthorizationService.assertPermission(
-			bouncer.with('TeamMemberPolicy').allows('viewMeetingsForMembers', [member]),
-		);
-
-		const result = await db
-			.select({
-				attendanceId: Schema.memberAttendance.id,
-				startedAt: Schema.memberAttendance.startedAt,
-				endedAt: Schema.memberAttendance.endedAt,
-			})
-			.from(Schema.memberAttendance)
-			.where(
-				and(
-					eq(Schema.memberAttendance.memberId, member.id),
-					gt(Schema.memberAttendance.startedAt, timeFilter.start),
-					timeFilter.end && lt(Schema.memberAttendance.endedAt, timeFilter.end),
-				),
-			);
-
-		return result.map((row) => ({
-			attendanceId: row.attendanceId,
-			startedAt: row.startedAt,
-			endedAt: row.endedAt,
-		}));
 	}
 }

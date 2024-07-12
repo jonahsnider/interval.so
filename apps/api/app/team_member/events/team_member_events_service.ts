@@ -94,7 +94,7 @@ export class TeamMemberEventsService {
 		member: Pick<TeamMemberSchema, 'id'>,
 	): Promise<Observable<MemberRedisEvent>> {
 		await AuthorizationService.assertPermission(
-			bouncer.with('TeamMemberPolicy').allows('viewMeetingsForMembers', [member]),
+			bouncer.with('TeamMemberAttendancePolicy').allows('viewEntriesForMembers', [member]),
 		);
 
 		const team = await db.query.teamMembers.findFirst({

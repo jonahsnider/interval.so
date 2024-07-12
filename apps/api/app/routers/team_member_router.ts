@@ -3,7 +3,6 @@ import type { Observable } from '@trpc/server/observable';
 import { z } from 'zod';
 import { injectHelper } from '../../util/inject_helper.js';
 import { TeamSchema } from '../team/schemas/team_schema.js';
-import { MeetingAttendeeSchema } from '../team_meeting/schemas/team_meeting_schema.js';
 import { TeamMemberEventsService } from '../team_member/events/team_member_events_service.js';
 import { NowOrEarlierSchema } from '../team_member/schemas/now_or_earlier_schema.js';
 import { type SimpleTeamMemberSchema, TeamMemberSchema } from '../team_member/schemas/team_member_schema.js';
@@ -11,18 +10,28 @@ import { TeamMemberBatchService } from '../team_member/team_member_batch_service
 import { TeamMemberService } from '../team_member/team_member_service.js';
 import { TeamMemberSubscriptionService } from '../team_member/team_member_subscription_service.js';
 import { authedProcedure, publicProcedure, router } from '../trpc/trpc_service.js';
+import { TeamMemberAttendanceRouter } from './team_member_attendance_router.js';
 
 @inject()
-@injectHelper(TeamMemberService, TeamMemberEventsService, TeamMemberSubscriptionService, TeamMemberBatchService)
+@injectHelper(
+	TeamMemberService,
+	TeamMemberEventsService,
+	TeamMemberSubscriptionService,
+	TeamMemberBatchService,
+	TeamMemberAttendanceRouter,
+)
 export class TeamMemberRouter {
 	constructor(
 		private readonly teamMemberService: TeamMemberService,
 		private readonly teamMemberSubscriptionService: TeamMemberSubscriptionService,
 		private readonly teamMemberBatchService: TeamMemberBatchService,
+		private readonly attendanceRouter: TeamMemberAttendanceRouter,
 	) {}
 
 	getRouter() {
 		return router({
+			attendance: this.attendanceRouter.getRouter(),
+
 			create: publicProcedure
 				.input(
 					z.object({
@@ -145,44 +154,6 @@ export class TeamMemberRouter {
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
 					return this.teamMemberBatchService.updateAttendanceMany(ctx.bouncer, input.members, input.data);
-				}),
-
-			createFinishedMeeting: authedProcedure
-				.input(
-					z.object({
-						member: TeamMemberSchema.pick({ id: true }),
-						data: MeetingAttendeeSchema.pick({ startedAt: true, endedAt: true }).strict(),
-					}),
-				)
-				.output(z.void())
-				.mutation(({ ctx, input }) => {
-					return this.teamMemberService.createFinishedMeeting(ctx.bouncer, input.member, input.data);
-				}),
-
-			deleteManyFinishedMeetings: authedProcedure
-				.input(MeetingAttendeeSchema.pick({ attendanceId: true }).array())
-				.output(z.void())
-				.mutation(({ ctx, input }) => {
-					return this.teamMemberService.deleteManyFinishedMeetings(ctx.bouncer, input);
-				}),
-			deleteFinishedMeeting: authedProcedure
-				.input(MeetingAttendeeSchema.pick({ attendanceId: true }))
-				.output(z.void())
-				.mutation(({ ctx, input }) => {
-					return this.teamMemberService.deleteFinishedMeeting(ctx.bouncer, input);
-				}),
-			updateFinishedMeetings: authedProcedure
-				.input(z.array(MeetingAttendeeSchema.pick({ attendanceId: true, startedAt: true, endedAt: true }).strict()))
-				.output(z.void())
-				.mutation(({ ctx, input }) => {
-					return this.teamMemberBatchService.updateManyMeetings(ctx.bouncer, input);
-				}),
-
-			mergeFinishedMeetings: authedProcedure
-				.input(z.array(MeetingAttendeeSchema.pick({ attendanceId: true })).min(2))
-				.output(z.void())
-				.mutation(({ ctx, input }) => {
-					return this.teamMemberService.mergeFinishedMeetings(ctx.bouncer, input);
 				}),
 		});
 	}

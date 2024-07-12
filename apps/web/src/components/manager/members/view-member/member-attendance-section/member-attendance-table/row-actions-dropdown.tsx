@@ -20,7 +20,7 @@ type Props = {
 export function RowActionsDropdown({ row }: Props) {
 	const [toastId, setToastId] = useState<string | number | undefined>();
 
-	const deleteAttendeeEntry = trpc.teams.members.deleteFinishedMeeting.useMutation({
+	const deleteAttendeeEntry = trpc.teams.members.attendance.deleteEntries.useMutation({
 		onMutate: () => {
 			setToastId(toast.loading('Deleting attendance record...'));
 		},
@@ -41,7 +41,7 @@ export function RowActionsDropdown({ row }: Props) {
 			throw new TypeError('Expected attendance ID to be defined for non draft row');
 		}
 
-		deleteAttendeeEntry.mutate({ attendanceId });
+		deleteAttendeeEntry.mutate([{ attendanceId }]);
 	};
 
 	return (

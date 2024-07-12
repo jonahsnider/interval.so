@@ -9,26 +9,26 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { trpc } from '@/src/trpc/trpc-client';
 import { EllipsisVerticalIcon, TrashIcon } from '@heroicons/react/16/solid';
-import type { MeetingAttendeeSchema } from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
+import type { AttendanceEntrySchema } from '@hours.frc.sh/api/app/team_member_attendance/schemas/attendance_entry_schema';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
 type Props = {
-	attendee: Pick<MeetingAttendeeSchema, 'attendanceId' | 'member'>;
+	attendanceEntry: Pick<AttendanceEntrySchema, 'attendanceId' | 'member'>;
 };
 
-export function RowActionsDropdown({ attendee }: Props) {
+export function RowActionsDropdown({ attendanceEntry }: Props) {
 	const [toastId, setToastId] = useState<string | number | undefined>();
 
-	const deleteAttendeeEntry = trpc.teams.members.deleteFinishedMeeting.useMutation({
+	const deleteAttendeeEntry = trpc.teams.members.attendance.deleteEntries.useMutation({
 		onMutate: () => {
-			setToastId(toast.loading(`Deleting attendance record for ${attendee.member.name}...`));
+			setToastId(toast.loading(`Deleting attendance record for ${attendanceEntry.member.name}...`));
 		},
 		onSuccess: () => {
-			toast.success(`Deleted attendance record for ${attendee.member.name}`, { id: toastId });
+			toast.success(`Deleted attendance record for ${attendanceEntry.member.name}`, { id: toastId });
 		},
 		onError: (error) => {
-			toast.error(`An error occurred while deleting the attendance record for ${attendee.member.name}`, {
+			toast.error(`An error occurred while deleting the attendance record for ${attendanceEntry.member.name}`, {
 				description: error.message,
 				id: toastId,
 			});
@@ -46,7 +46,7 @@ export function RowActionsDropdown({ attendee }: Props) {
 			<DropdownMenuContent align='end'>
 				<DropdownMenuItem
 					className='text-destructive focus:text-destructive focus:bg-destructive/10'
-					onClick={() => deleteAttendeeEntry.mutate(attendee)}
+					onClick={() => deleteAttendeeEntry.mutate([attendanceEntry])}
 				>
 					<TrashIcon className='h-4 w-4 mr-2' />
 					Delete

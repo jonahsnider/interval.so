@@ -14,7 +14,7 @@ export function MergeAttendanceEntriesItem({ table }: Props) {
 	const [toastId, setToastId] = useState<string | number | undefined>();
 	const selectedRows = table.getSelectedRowModel().rows;
 
-	const mutation = trpc.teams.members.mergeFinishedMeetings.useMutation({
+	const mutation = trpc.teams.members.attendance.mergeEntries.useMutation({
 		onMutate: () => {
 			setToastId(toast.loading(`Merging ${selectedRows.length} attendance entries...`, { id: toastId }));
 		},

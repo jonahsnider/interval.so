@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { inject } from '@adonisjs/core';
 import { TRPCError } from '@trpc/server';
-import { and, asc, count, eq, inArray, isNotNull, isNull, max, min } from 'drizzle-orm';
+import { and, asc, count, eq, isNotNull, isNull } from 'drizzle-orm';
 import postgres from 'postgres';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
@@ -9,7 +9,6 @@ import { injectHelper } from '../../util/inject_helper.js';
 import { AuthorizationService } from '../authorization/authorization_service.js';
 import { db } from '../db/db_service.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
-import type { MeetingAttendeeSchema } from '../team_meeting/schemas/team_meeting_schema.js';
 import { MemberRedisEvent } from './events/schemas/redis_event_schema.js';
 import { TeamMemberEventsService } from './events/team_member_events_service.js';
 import type { SimpleTeamMemberSchema, TeamMemberSchema } from './schemas/team_member_schema.js';
@@ -261,33 +260,6 @@ export class TeamMemberService {
 		}
 	}
 
-	async deleteFinishedMeeting(
-		bouncer: AppBouncer,
-		attendee: Pick<MeetingAttendeeSchema, 'attendanceId'>,
-	): Promise<void> {
-		await AuthorizationService.assertPermission(
-			bouncer.with('TeamMemberPolicy').allows('deleteFinishedMeetings', [attendee]),
-		);
-
-		const [deleted] = await db
-			.delete(Schema.memberAttendance)
-			.where(eq(Schema.memberAttendance.id, attendee.attendanceId))
-			.returning({
-				memberId: Schema.memberAttendance.memberId,
-			});
-
-		if (deleted) {
-			await this.eventsService.announceEvent(
-				[
-					{
-						id: deleted.memberId,
-					},
-				],
-				MemberRedisEvent.MemberAttendanceUpdated,
-			);
-		}
-	}
-
 	async getMember(
 		bouncer: AppBouncer,
 		member: Pick<TeamMemberSchema, 'id'>,
@@ -312,83 +284,6 @@ export class TeamMemberService {
 			archived: dbMember.archived,
 			atMeeting: Boolean(dbMember.atMeeting),
 		};
-	}
-
-	// TODO: Move this to a new TeamMemberAttendanceService & rename finishedMemberMeetings to teamMemberAttendance
-	async createFinishedMeeting(
-		bouncer: AppBouncer,
-		member: Pick<TeamMemberSchema, 'id'>,
-		data: Pick<MeetingAttendeeSchema, 'startedAt' | 'endedAt'>,
-	): Promise<void> {
-		await AuthorizationService.assertPermission(
-			bouncer.with('TeamMemberPolicy').allows('createFinishedMeeting', [member]),
-		);
-
-		await db.insert(Schema.memberAttendance).values({
-			startedAt: data.startedAt,
-			endedAt: data.endedAt,
-			memberId: member.id,
-		});
-
-		await this.eventsService.announceEvent([member], MemberRedisEvent.MemberAttendanceUpdated);
-	}
-
-	async mergeFinishedMeetings(bouncer: AppBouncer, data: Pick<MeetingAttendeeSchema, 'attendanceId'>[]): Promise<void> {
-		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('mergeFinishedMeetings', data));
-
-		// Get the earliest start time and the latest end time, delete all the the specified meetings, then insert a new one
-
-		const updatedMember = await db.transaction(async (tx) => {
-			const attendanceIds = data.map((entry) => entry.attendanceId);
-
-			const [result] = await tx
-				.select({
-					startedAt: min(Schema.memberAttendance.startedAt),
-					endedAt: max(Schema.memberAttendance.endedAt),
-					memberId: Schema.memberAttendance.memberId,
-				})
-				.from(Schema.memberAttendance)
-				.limit(1)
-				.groupBy(Schema.memberAttendance.memberId)
-				.where(inArray(Schema.memberAttendance.id, attendanceIds));
-
-			await tx.delete(Schema.memberAttendance).where(inArray(Schema.memberAttendance.id, attendanceIds));
-
-			assert(
-				result?.startedAt && result.endedAt,
-				new TRPCError({ code: 'NOT_FOUND', message: 'Attendance entries not found' }),
-			);
-
-			await tx.insert(Schema.memberAttendance).values({
-				startedAt: result.startedAt,
-				endedAt: result.endedAt,
-				memberId: result.memberId,
-			});
-
-			return { id: result.memberId };
-		});
-
-		await this.eventsService.announceEvent([updatedMember], MemberRedisEvent.MemberAttendanceUpdated);
-	}
-
-	async deleteManyFinishedMeetings(
-		bouncer: AppBouncer,
-		attendanceEntries: Pick<MeetingAttendeeSchema, 'attendanceId'>[],
-	): Promise<void> {
-		await AuthorizationService.assertPermission(
-			bouncer.with('TeamMemberPolicy').allows('deleteFinishedMeetings', attendanceEntries),
-		);
-
-		const attendanceIds = attendanceEntries.map((entry) => entry.attendanceId);
-
-		const affectedMembers = await db
-			.delete(Schema.memberAttendance)
-			.where(inArray(Schema.memberAttendance.id, attendanceIds))
-			.returning({
-				id: Schema.memberAttendance.memberId,
-			});
-
-		await this.eventsService.announceEvent(affectedMembers, MemberRedisEvent.MemberAttendanceUpdated);
 	}
 
 	async setName(

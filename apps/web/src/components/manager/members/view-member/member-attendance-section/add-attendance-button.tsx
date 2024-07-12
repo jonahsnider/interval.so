@@ -35,7 +35,7 @@ export function AddAttendanceButton({ className, member }: Props) {
 	});
 
 	const [toastId, setToastId] = useState<string | number | undefined>();
-	const createMeeting = trpc.teams.members.createFinishedMeeting.useMutation({
+	const createMeeting = trpc.teams.members.attendance.createEntry.useMutation({
 		onMutate: () => {
 			setToastId(toast.loading('Adding attendance entry...'));
 		},

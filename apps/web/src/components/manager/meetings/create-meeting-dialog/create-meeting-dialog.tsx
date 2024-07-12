@@ -90,7 +90,7 @@ export function CreateMeetingDialog({ team, className }: Props) {
 								<FormItem className='flex flex-col'>
 									<FormLabel>Meeting duration</FormLabel>
 									<FormControl>
-										<DateTimeRangePicker onSelect={field.onChange} {...field} className='max-w-min' />
+										<DateTimeRangePicker display='range' onSelect={field.onChange} {...field} className='max-w-min' />
 									</FormControl>
 
 									<FormMessage />

@@ -1,17 +1,17 @@
-import type { MeetingAttendeeSchema } from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
+import type { AttendanceEntrySchema } from '@hours.frc.sh/api/app/team_member_attendance/schemas/attendance_entry_schema';
 import { createContext, useMemo } from 'react';
 import { useMutative } from 'use-mutative';
 
-export type MeetingChange = Partial<Pick<MeetingAttendeeSchema, 'startedAt'> | Pick<MeetingAttendeeSchema, 'endedAt'>>;
+export type MeetingChange = Partial<Pick<AttendanceEntrySchema, 'startedAt'> | Pick<AttendanceEntrySchema, 'endedAt'>>;
 
 export type MeetingChangeMap = {
-	meetings: Record<MeetingAttendeeSchema['attendanceId'], Pick<MeetingAttendeeSchema, 'startedAt' | 'endedAt'>>;
+	meetings: Record<AttendanceEntrySchema['attendanceId'], Pick<AttendanceEntrySchema, 'startedAt' | 'endedAt'>>;
 };
 
 type ContextValue = {
 	updatedMeetings: MeetingChangeMap;
 	updateMeeting: (
-		meeting: Pick<MeetingAttendeeSchema, 'attendanceId' | 'startedAt' | 'endedAt'>,
+		meeting: Pick<AttendanceEntrySchema, 'attendanceId' | 'startedAt' | 'endedAt'>,
 		data: MeetingChange,
 	) => void;
 	clearUpdatedMeetings: () => void;
@@ -27,7 +27,7 @@ export function MeetingDialogChangesProvider({ children }: { children: React.Rea
 	const [updatedMeetings, setUpdatedMeetings] = useMutative<MeetingChangeMap>({ meetings: {} });
 
 	const updateMeeting = useMemo(
-		() => (original: Pick<MeetingAttendeeSchema, 'attendanceId' | 'startedAt' | 'endedAt'>, data: MeetingChange) => {
+		() => (original: Pick<AttendanceEntrySchema, 'attendanceId' | 'startedAt' | 'endedAt'>, data: MeetingChange) => {
 			// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: No obvious way to simplify this
 			setUpdatedMeetings((draft) => {
 				draft.meetings[original.attendanceId] ??= {

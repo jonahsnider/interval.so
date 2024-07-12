@@ -5,7 +5,7 @@ import { SortableHeader } from '@/src/components/data-tables/sortable-header';
 import { DateTimePicker } from '@/src/components/date-time-picker';
 import { TeamSlugContext } from '@/src/components/team-dashboard/team-slug-provider';
 import { formatDuration } from '@/src/utils/date-format';
-import type { MeetingAttendeeSchema } from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
+import type { AttendanceEntrySchema } from '@hours.frc.sh/api/app/team_member_attendance/schemas/attendance_entry_schema';
 import { Sort } from '@jonahsnider/util';
 import type { ColumnDef } from '@tanstack/react-table';
 import clsx from 'clsx';
@@ -15,7 +15,7 @@ import { useContext, useState } from 'react';
 import { MeetingDialogChangesContext } from '../meeting-dialog-changes-context';
 import { RowActionsDropdown } from './row-actions-dropdown';
 
-export const columns: ColumnDef<MeetingAttendeeSchema>[] = [
+export const columns: ColumnDef<AttendanceEntrySchema>[] = [
 	{
 		accessorKey: 'name',
 		header: ({ column }) => {
@@ -123,7 +123,7 @@ export const columns: ColumnDef<MeetingAttendeeSchema>[] = [
 	{
 		id: 'actions',
 		cell: ({ row }) => {
-			return <RowActionsDropdown attendee={row.original} />;
+			return <RowActionsDropdown attendanceEntry={row.original} />;
 		},
 	},
 ];

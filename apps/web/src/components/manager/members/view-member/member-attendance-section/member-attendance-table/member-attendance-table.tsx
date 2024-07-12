@@ -19,7 +19,7 @@ export function MemberAttendanceTable({ member, timeFilter }: Props) {
 }
 
 async function MemberAttendanceTableFetcher({ member, timeFilter }: Props) {
-	const initialMeetings = await trpcServer.teams.meetings.getMeetingsForMember.query({ member, timeFilter });
+	const initialMeetings = await trpcServer.teams.members.attendance.getEntriesForMember.query({ member, timeFilter });
 
 	return <MemberAttendanceTableClient loading={false} initialMeetings={initialMeetings} member={member} />;
 }

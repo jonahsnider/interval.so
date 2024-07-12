@@ -6,8 +6,8 @@ import { TablePagination } from '@/src/components/data-tables/table-pagination';
 import { TableSelectionStatus } from '@/src/components/data-tables/table-selection-status';
 import { toTimeFilter } from '@/src/components/manager/period-select/duration-slug';
 import { trpc } from '@/src/trpc/trpc-client';
-import type { MeetingAttendeeSchema } from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
 import type { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
+import type { AttendanceEntrySchema } from '@hours.frc.sh/api/app/team_member_attendance/schemas/attendance_entry_schema';
 import {
 	type SortingState,
 	flexRender,
@@ -24,7 +24,7 @@ import { columns } from './columns';
 type Props = {
 	member: Pick<TeamMemberSchema, 'id'>;
 	loading: boolean;
-	initialMeetings: Pick<MeetingAttendeeSchema, 'attendanceId' | 'startedAt' | 'endedAt'>[];
+	initialMeetings: Pick<AttendanceEntrySchema, 'attendanceId' | 'startedAt' | 'endedAt'>[];
 };
 
 function RowSkeleton() {
@@ -58,11 +58,14 @@ function RowSkeleton() {
 
 export function MemberAttendanceTableClient({ initialMeetings, member, loading }: Props) {
 	const [meetings, setMeetings] =
-		useState<Pick<MeetingAttendeeSchema, 'attendanceId' | 'startedAt' | 'endedAt'>[]>(initialMeetings);
+		useState<Pick<AttendanceEntrySchema, 'attendanceId' | 'startedAt' | 'endedAt'>[]>(initialMeetings);
 	const [searchParams] = useQueryStates(searchParamParsers);
 	const timeFilter = useMemo(() => toTimeFilter(searchParams), [searchParams]);
 
-	trpc.teams.meetings.meetingsForMemberSubscription.useSubscription({ member, timeFilter }, { onData: setMeetings });
+	trpc.teams.members.attendance.entriesForMemberSubscription.useSubscription(
+		{ member, timeFilter },
+		{ onData: setMeetings },
+	);
 
 	const [sorting, setSorting] = useState<SortingState>([
 		{

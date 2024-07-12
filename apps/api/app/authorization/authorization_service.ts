@@ -9,8 +9,8 @@ import { db } from '../db/db_service.js';
 import { GuestPasswordService } from '../guest_password/guest_password_service.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
 import { TeamManagerService } from '../team_manager/team_manager_service.js';
-import type { MeetingAttendeeSchema } from '../team_meeting/schemas/team_meeting_schema.js';
 import type { TeamMemberSchema } from '../team_member/schemas/team_member_schema.js';
+import type { AttendanceEntrySchema } from '../team_member_attendance/schemas/attendance_entry_schema.js';
 
 export type TeamRole = Schema.TeamManagerRole | 'guestToken';
 
@@ -96,7 +96,7 @@ export class AuthorizationService {
 
 	async hasRolesByMeetingIds(
 		actor: BouncerUser | undefined,
-		meetings: Pick<MeetingAttendeeSchema, 'attendanceId'>[],
+		meetings: Pick<AttendanceEntrySchema, 'attendanceId'>[],
 		roles: TeamRole[],
 	): Promise<boolean> {
 		if (!actor) {

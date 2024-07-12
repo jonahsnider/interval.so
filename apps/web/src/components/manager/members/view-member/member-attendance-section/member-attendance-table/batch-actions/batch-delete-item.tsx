@@ -42,7 +42,7 @@ export function BatchDeleteDialogContent({
 
 	const selectedRows = table.getSelectedRowModel().rows;
 
-	const deleteAttendance = trpc.teams.members.deleteManyFinishedMeetings.useMutation({
+	const deleteAttendance = trpc.teams.members.attendance.deleteEntries.useMutation({
 		onMutate: () => {
 			setToastId(toast.loading('Deleting attendance entries...', { id: toastId }));
 		},

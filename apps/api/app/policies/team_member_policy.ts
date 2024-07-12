@@ -5,7 +5,6 @@ import type { BouncerUser } from '#middleware/initialize_bouncer_middleware';
 import { injectHelper } from '../../util/inject_helper.js';
 import { AuthorizationService } from '../authorization/authorization_service.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
-import type { MeetingAttendeeSchema } from '../team_meeting/schemas/team_meeting_schema.js';
 import type { TeamMemberSchema } from '../team_member/schemas/team_member_schema.js';
 
 @inject()
@@ -47,34 +46,11 @@ export default class TeamMemberPolicy extends BasePolicy {
 		return this.authorizationService.hasRolesByTeamMembers(actor, teamMembers, ['admin', 'owner', 'editor']);
 	}
 
-	viewMeetingsForMembers(actor: BouncerUser, teamMembers: Pick<TeamMemberSchema, 'id'>[]): AuthorizerResponse {
-		return this.authorizationService.hasRolesByTeamMembers(actor, teamMembers, ['admin', 'owner', 'editor']);
-	}
-
 	delete(actor: BouncerUser, teamMembers: Pick<TeamMemberSchema, 'id'>[]): AuthorizerResponse {
 		return this.authorizationService.hasRolesByTeamMembers(actor, teamMembers, ['admin', 'owner', 'editor']);
 	}
 
 	signOutAll(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
 		return this.authorizationService.hasRoles(actor, team, ['owner', 'admin', 'editor']);
-	}
-
-	deleteFinishedMeetings(
-		actor: BouncerUser,
-		entries: Pick<MeetingAttendeeSchema, 'attendanceId'>[],
-	): AuthorizerResponse {
-		return this.authorizationService.hasRolesByMeetingIds(actor, entries, ['owner', 'admin', 'editor']);
-	}
-
-	createFinishedMeeting(actor: BouncerUser, data: Pick<TeamMemberSchema, 'id'>[]): AuthorizerResponse {
-		return this.authorizationService.hasRolesByTeamMembers(actor, data, ['owner', 'admin', 'editor']);
-	}
-
-	updateFinishedMeeting(actor: BouncerUser, data: Pick<MeetingAttendeeSchema, 'attendanceId'>[]): AuthorizerResponse {
-		return this.authorizationService.hasRolesByMeetingIds(actor, data, ['owner', 'admin', 'editor']);
-	}
-
-	mergeFinishedMeetings(actor: BouncerUser, data: Pick<MeetingAttendeeSchema, 'attendanceId'>[]): AuthorizerResponse {
-		return this.authorizationService.hasRolesByMeetingIds(actor, data, ['owner', 'admin', 'editor']);
 	}
 }

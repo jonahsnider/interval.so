@@ -2,14 +2,14 @@
 
 import { DateTimeRangePicker } from '@/src/components/date-time-range-picker';
 import { trpc } from '@/src/trpc/trpc-client';
-import type { MeetingAttendeeSchema } from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
+import type { AttendanceEntrySchema } from '@hours.frc.sh/api/app/team_member_attendance/schemas/attendance_entry_schema';
 import type { TimeRangeSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_range_schema';
 import { type ComponentProps, useState } from 'react';
 import { toast } from 'sonner';
 import { useDebouncedCallback } from 'use-debounce';
 
 type Props = {
-	meeting: Pick<MeetingAttendeeSchema, 'attendanceId' | 'startedAt' | 'endedAt'>;
+	meeting: Pick<AttendanceEntrySchema, 'attendanceId' | 'startedAt' | 'endedAt'>;
 } & Pick<
 	ComponentProps<typeof DateTimeRangePicker>,
 	'buttonProps' | 'className' | 'disabled' | 'verbose' | 'display' | 'fromDate' | 'icon' | 'picker'
@@ -19,7 +19,7 @@ type Props = {
 export function MeetingDateRangePicker({ meeting, disabled, ...pickerProps }: Props) {
 	const [optimisticValue, setOptimisticValue] = useState<Partial<TimeRangeSchema> | undefined>();
 
-	const updateAttendance = trpc.teams.members.updateFinishedMeetings.useMutation({
+	const updateAttendance = trpc.teams.members.attendance.updateEntry.useMutation({
 		onError: (error) => {
 			toast.error('An error occurred while saving your changes', {
 				description: error.message,
@@ -31,14 +31,11 @@ export function MeetingDateRangePicker({ meeting, disabled, ...pickerProps }: Pr
 
 	const doUpdate = useDebouncedCallback((value: Partial<{ start: Date; end: Date }>) => {
 		if (value.start && value.end) {
-			// TODO: Debounce this, it's kinda icky when you're typing
-			updateAttendance.mutate([
-				{
-					startedAt: value.start,
-					endedAt: value.end,
-					attendanceId: meeting.attendanceId,
-				},
-			]);
+			updateAttendance.mutate({
+				startedAt: value.start,
+				endedAt: value.end,
+				attendanceId: meeting.attendanceId,
+			});
 		}
 	}, 750);
 

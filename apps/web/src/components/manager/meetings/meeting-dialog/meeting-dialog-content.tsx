@@ -13,10 +13,8 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { trpc } from '@/src/trpc/trpc-client';
 import { formatDateRange } from '@/src/utils/date-format';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
-import type {
-	MeetingAttendeeSchema,
-	TeamMeetingSchema,
-} from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
+import type { TeamMeetingSchema } from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
+import type { AttendanceEntrySchema } from '@hours.frc.sh/api/app/team_member_attendance/schemas/attendance_entry_schema';
 import { useContext, useState } from 'react';
 import { toast } from 'sonner';
 import { MeetingAttendeeTable } from './meeting-attendee-table/meeting-attendee-table';
@@ -33,7 +31,8 @@ export function MeetingDialogContent({ meeting, closeDialog, team }: Props) {
 	const changes = useContext(MeetingDialogChangesContext);
 	const [toastId, setToastId] = useState<string | number | undefined>();
 
-	const submitChanges = trpc.teams.members.updateFinishedMeetings.useMutation({
+	// TODO: This needs to be refactored to disallow batch updates, every update should be one at a time, like the member attendance table
+	const submitChanges = trpc.teams.members.attendance.updateEntry.useMutation({
 		onMutate: (variables) => {
 			setToastId(toast.loading(`Updating ${variables.length === 1 ? 'meeting' : 'meetings'}...`));
 		},
@@ -50,13 +49,13 @@ export function MeetingDialogContent({ meeting, closeDialog, team }: Props) {
 	});
 
 	const onSubmit = () => {
-		const variables: Pick<MeetingAttendeeSchema, 'attendanceId' | 'startedAt' | 'endedAt'>[] = Object.entries(
+		const variables: Pick<AttendanceEntrySchema, 'attendanceId' | 'startedAt' | 'endedAt'>[] = Object.entries(
 			changes.updatedMeetings.meetings,
 		)
 			.filter(
 				(
 					entry,
-				): entry is [MeetingAttendeeSchema['attendanceId'], Pick<MeetingAttendeeSchema, 'startedAt' | 'endedAt'>] =>
+				): entry is [AttendanceEntrySchema['attendanceId'], Pick<AttendanceEntrySchema, 'startedAt' | 'endedAt'>] =>
 					Boolean(entry[1].startedAt && entry[1].endedAt),
 			)
 			.map(([attendanceId, dates]) => ({
