@@ -5,8 +5,9 @@ import { injectHelper } from '../../util/inject_helper.js';
 import { MeetingService } from '../meeting/meeting_service.js';
 import { MeetingSubscriptionService } from '../meeting/meeting_subscription_service.js';
 import { CreateTeamMeetingSchema } from '../meeting/schemas/create_team_meeting_schema.js';
-import { TeamMeetingSchema } from '../meeting/schemas/team_meeting_schema.js';
+import { MeetingAttendeeSchema, TeamMeetingSchema } from '../meeting/schemas/team_meeting_schema.js';
 import { TeamSchema } from '../team/schemas/team_schema.js';
+import { TeamMemberSchema } from '../team_member/schemas/team_member_schema.js';
 import { TimeFilterSchema } from '../team_stats/schemas/time_filter_schema.js';
 import { authedProcedure, router } from '../trpc/trpc_service.js';
 
@@ -31,6 +32,27 @@ export class MeetingRouter {
 				.subscription(({ ctx, input }): Promise<Observable<TeamMeetingSchema[], unknown>> => {
 					return this.meetingSubscriptionService.meetingsSubscribe(ctx.bouncer, input.team, input.timeFilter);
 				}),
+
+			getMeetingsForMember: authedProcedure
+				.input(z.object({ member: TeamMemberSchema.pick({ id: true }), timeFilter: TimeFilterSchema }).strict())
+				.output(MeetingAttendeeSchema.pick({ attendanceId: true, startedAt: true, endedAt: true }).array())
+				.query(({ ctx, input }) =>
+					this.meetingService.getMeetingsForMember(ctx.bouncer, input.member, input.timeFilter),
+				),
+			meetingsForMemberSubscription: authedProcedure
+				.input(z.object({ member: TeamMemberSchema.pick({ id: true }), timeFilter: TimeFilterSchema }).strict())
+				.subscription(
+					({
+						ctx,
+						input,
+					}): Promise<Observable<Pick<MeetingAttendeeSchema, 'attendanceId' | 'startedAt' | 'endedAt'>[], unknown>> => {
+						return this.meetingSubscriptionService.meetingsForMemberSubscribe(
+							ctx.bouncer,
+							input.member,
+							input.timeFilter,
+						);
+					},
+				),
 
 			create: authedProcedure
 				.input(CreateTeamMeetingSchema)

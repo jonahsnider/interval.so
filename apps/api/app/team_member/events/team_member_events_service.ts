@@ -1,7 +1,8 @@
 import { inject } from '@adonisjs/core';
 import logger from '@adonisjs/core/services/logger';
 import redis from '@adonisjs/redis/services/main';
-import { inArray } from 'drizzle-orm';
+import { TRPCError } from '@trpc/server';
+import { eq, inArray } from 'drizzle-orm';
 import { type Observable, from, map, mergeMap } from 'rxjs';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
@@ -64,10 +65,13 @@ export class TeamMemberEventsService {
 
 	constructor(private readonly teamService: TeamService) {}
 
-	async subscribeForTeam(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>): Promise<Observable<MemberRedisEvent>> {
+	async subscribeForTeam(
+		bouncer: AppBouncer,
+		team: Pick<TeamSchema, 'slug'> | Pick<TeamSchema, 'id'>,
+	): Promise<Observable<MemberRedisEvent>> {
 		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('viewSimpleMemberList', team));
 
-		const teamWithId = await this.teamService.getTeamBySlug(team);
+		const teamWithId = 'id' in team ? team : await this.teamService.getTeamBySlug(team);
 
 		return MultiSubscriptionManager.subscribe<MemberRedisEvent>(
 			TeamMemberEventsService.getRedisChannel(teamWithId),
@@ -83,6 +87,31 @@ export class TeamMemberEventsService {
 				),
 			),
 		);
+	}
+
+	async subscribeForTeamByMember(
+		bouncer: AppBouncer,
+		member: Pick<TeamMemberSchema, 'id'>,
+	): Promise<Observable<MemberRedisEvent>> {
+		await AuthorizationService.assertPermission(
+			bouncer.with('TeamMemberPolicy').allows('viewMeetingsForMembers', [member]),
+		);
+
+		const team = await db.query.teamMembers.findFirst({
+			columns: {
+				teamId: true,
+			},
+			where: eq(Schema.teamMembers.id, member.id),
+		});
+
+		if (!team) {
+			throw new TRPCError({
+				code: 'NOT_FOUND',
+				message: 'Member not found',
+			});
+		}
+
+		return this.subscribeForTeam(bouncer, { id: team.teamId });
 	}
 
 	private async announceEventByTeam(

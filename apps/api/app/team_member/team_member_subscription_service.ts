@@ -31,6 +31,21 @@ export class TeamMemberSubscriptionService {
 		);
 	}
 
+	async getMemberSubscription(
+		bouncer: AppBouncer,
+		member: Pick<TeamMemberSchema, 'id'>,
+	): Promise<Observable<Pick<TeamMemberSchema, 'archived' | 'atMeeting' | 'name'>>> {
+		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('view', [member]));
+		const memberChanges = await this.eventsService.subscribeForTeamByMember(bouncer, member);
+
+		return concat(
+			// Emit one event on subscribe
+			from(this.teamMemberService.getMember(bouncer, member)),
+			// Each time the team members change, emit a new event
+			memberChanges.pipe(mergeMap(() => from(this.teamMemberService.getMember(bouncer, member)))),
+		);
+	}
+
 	async fullTeamMemberListSubscribe(
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,

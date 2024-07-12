@@ -9,10 +9,11 @@ import { db } from '../db/db_service.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
 import { MemberRedisEvent } from '../team_member/events/schemas/redis_event_schema.js';
 import { TeamMemberEventsService } from '../team_member/events/team_member_events_service.js';
+import type { TeamMemberSchema } from '../team_member/schemas/team_member_schema.js';
 import type { TimeFilterSchema } from '../team_stats/schemas/time_filter_schema.js';
 import type { TimeRangeSchema } from '../team_stats/schemas/time_range_schema.js';
 import type { CreateTeamMeetingSchema } from './schemas/create_team_meeting_schema.js';
-import type { TeamMeetingSchema } from './schemas/team_meeting_schema.js';
+import type { MeetingAttendeeSchema, TeamMeetingSchema } from './schemas/team_meeting_schema.js';
 
 @inject()
 @injectHelper(TeamMemberEventsService)
@@ -84,8 +85,8 @@ export class MeetingService {
 				.select({
 					attendeeCount: countDistinct(s3.memberId).as('attendee_count'),
 					attendees: sql<
-						{ name: string; attendanceId: string; startedAt: string; endedAt: string }[]
-					>`jsonb_agg(jsonb_build_object('name', ${s3.memberName}, 'attendanceId', ${s3.attendanceId}, 'startedAt', ${s3.startedAt}, 'endedAt', ${s3.endedAt}))`.as(
+						{ memberName: string; memberId: string; attendanceId: string; startedAt: string; endedAt: string }[]
+					>`jsonb_agg(jsonb_build_object('memberName', ${s3.memberName}, 'memberId', ${s3.memberId}, 'attendanceId', ${s3.attendanceId}, 'startedAt', ${s3.startedAt}, 'endedAt', ${s3.endedAt}))`.as(
 						'attendees',
 					),
 					startedAt: min(s3.startedAt).as('started_at'),
@@ -120,7 +121,10 @@ export class MeetingService {
 				startedAt,
 				endedAt,
 				attendees: row.attendees.map((attendee) => ({
-					name: attendee.name,
+					member: {
+						name: attendee.memberName,
+						id: attendee.memberId,
+					},
 					attendanceId: attendee.attendanceId,
 					startedAt: new Date(attendee.startedAt),
 					endedAt: new Date(attendee.endedAt),
@@ -219,5 +223,36 @@ export class MeetingService {
 		);
 
 		await this.teamMemberEventsService.announceEvent(data.attendees, MemberRedisEvent.MemberAttendanceUpdated);
+	}
+
+	async getMeetingsForMember(
+		bouncer: AppBouncer,
+		member: Pick<TeamMemberSchema, 'id'>,
+		timeFilter: TimeFilterSchema,
+	): Promise<Pick<MeetingAttendeeSchema, 'attendanceId' | 'startedAt' | 'endedAt'>[]> {
+		await AuthorizationService.assertPermission(
+			bouncer.with('TeamMemberPolicy').allows('viewMeetingsForMembers', [member]),
+		);
+
+		const result = await db
+			.select({
+				attendanceId: Schema.finishedMemberMeetings.id,
+				startedAt: Schema.finishedMemberMeetings.startedAt,
+				endedAt: Schema.finishedMemberMeetings.endedAt,
+			})
+			.from(Schema.finishedMemberMeetings)
+			.where(
+				and(
+					eq(Schema.finishedMemberMeetings.memberId, member.id),
+					gt(Schema.finishedMemberMeetings.startedAt, timeFilter.start),
+					timeFilter.end && lt(Schema.finishedMemberMeetings.endedAt, timeFilter.end),
+				),
+			);
+
+		return result.map((row) => ({
+			attendanceId: row.attendanceId,
+			startedAt: row.startedAt,
+			endedAt: row.endedAt,
+		}));
 	}
 }

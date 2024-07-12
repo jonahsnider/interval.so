@@ -21,7 +21,26 @@ type Props = {
 	buttonProps?: ButtonProps;
 	icon?: boolean;
 	verbose?: boolean;
+	display: 'start' | 'end' | 'range';
+	disabled?: boolean;
 };
+
+function getUsedValue(input: {
+	value: Partial<TimeRangeSchema>;
+	display: 'start' | 'end' | 'range';
+	verbose: boolean;
+}): string | undefined {
+	switch (input.display) {
+		case 'start':
+			return input.value.start ? formatDate(input.value.start, input.verbose) : undefined;
+		case 'end':
+			return input.value.end ? formatDate(input.value.end, input.verbose) : undefined;
+		case 'range':
+			return input.value.start && input.value.end
+				? formatDateRange(input.value.start, input.value.end, input.verbose)
+				: undefined;
+	}
+}
 
 export function DateTimeRangePicker({
 	onSelect,
@@ -32,6 +51,8 @@ export function DateTimeRangePicker({
 	buttonProps,
 	icon = true,
 	verbose = false,
+	display,
+	disabled,
 }: Props) {
 	const [startInput, setStartInput] = useState(value.start ? formatDate(value.start) : '');
 	const [endInput, setEndInput] = useState(value.end ? formatDate(value.end) : '');
@@ -82,9 +103,9 @@ export function DateTimeRangePicker({
 	return (
 		<Popover>
 			<PopoverTrigger asChild={true}>
-				<Button variant='outline' {...buttonProps} className={cn('min-w-64', className)}>
+				<Button disabled={disabled} variant='outline' {...buttonProps} className={cn('min-w-64', className)}>
 					{icon && <CalendarIcon className='h-4 w-4 mr-2' />}
-					{value.start && value.end ? formatDateRange(value.start, value.end, verbose) : 'Select dates'}
+					{getUsedValue({ display, value, verbose }) ?? 'Select dates'}
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent className='flex flex-col gap-2 px-0 max-w-min py-2'>

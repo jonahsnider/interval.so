@@ -80,6 +80,27 @@ export class TeamMemberRouter {
 					return this.teamMemberService.setArchived(ctx.bouncer, input);
 				}),
 
+			getMember: authedProcedure
+				.input(TeamMemberSchema.pick({ id: true }).strict())
+				.output(TeamMemberSchema.pick({ name: true, archived: true, atMeeting: true }))
+				.query(({ ctx, input }) => {
+					return this.teamMemberService.getMember(ctx.bouncer, input);
+				}),
+			getMemberSubscription: authedProcedure
+				.input(TeamMemberSchema.pick({ id: true }).strict())
+				.subscription(
+					({ ctx, input }): Promise<Observable<Pick<TeamMemberSchema, 'archived' | 'atMeeting' | 'name'>, unknown>> => {
+						return this.teamMemberSubscriptionService.getMemberSubscription(ctx.bouncer, input);
+					},
+				),
+
+			setName: authedProcedure
+				.input(TeamMemberSchema.pick({ id: true, name: true }).strict())
+				.output(z.void())
+				.mutation(({ ctx, input }) => {
+					return this.teamMemberService.setName(ctx.bouncer, input, input);
+				}),
+
 			delete: authedProcedure
 				.input(TeamMemberSchema.pick({ id: true }).strict())
 				.output(z.void())
@@ -126,6 +147,24 @@ export class TeamMemberRouter {
 					return this.teamMemberBatchService.updateAttendanceMany(ctx.bouncer, input.members, input.data);
 				}),
 
+			createFinishedMeeting: authedProcedure
+				.input(
+					z.object({
+						member: TeamMemberSchema.pick({ id: true }),
+						data: MeetingAttendeeSchema.pick({ startedAt: true, endedAt: true }).strict(),
+					}),
+				)
+				.output(z.void())
+				.mutation(({ ctx, input }) => {
+					return this.teamMemberService.createFinishedMeeting(ctx.bouncer, input.member, input.data);
+				}),
+
+			deleteManyFinishedMeetings: authedProcedure
+				.input(MeetingAttendeeSchema.pick({ attendanceId: true }).array())
+				.output(z.void())
+				.mutation(({ ctx, input }) => {
+					return this.teamMemberService.deleteManyFinishedMeetings(ctx.bouncer, input);
+				}),
 			deleteFinishedMeeting: authedProcedure
 				.input(MeetingAttendeeSchema.pick({ attendanceId: true }))
 				.output(z.void())
@@ -137,6 +176,13 @@ export class TeamMemberRouter {
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
 					return this.teamMemberBatchService.updateManyMeetings(ctx.bouncer, input);
+				}),
+
+			mergeFinishedMeetings: authedProcedure
+				.input(z.array(MeetingAttendeeSchema.pick({ attendanceId: true })).min(2))
+				.output(z.void())
+				.mutation(({ ctx, input }) => {
+					return this.teamMemberService.mergeFinishedMeetings(ctx.bouncer, input);
 				}),
 		});
 	}

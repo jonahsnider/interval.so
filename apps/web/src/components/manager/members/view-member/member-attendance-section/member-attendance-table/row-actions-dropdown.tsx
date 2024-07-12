@@ -9,31 +9,40 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { trpc } from '@/src/trpc/trpc-client';
 import { EllipsisVerticalIcon, TrashIcon } from '@heroicons/react/16/solid';
-import type { MeetingAttendeeSchema } from '@hours.frc.sh/api/app/meeting/schemas/team_meeting_schema';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import type { MembersTableMeetingRow } from './columns';
 
 type Props = {
-	attendee: Pick<MeetingAttendeeSchema, 'attendanceId' | 'member'>;
+	row: Pick<MembersTableMeetingRow, 'attendanceId'>;
 };
 
-export function RowActionsDropdown({ attendee }: Props) {
+export function RowActionsDropdown({ row }: Props) {
 	const [toastId, setToastId] = useState<string | number | undefined>();
 
 	const deleteAttendeeEntry = trpc.teams.members.deleteFinishedMeeting.useMutation({
 		onMutate: () => {
-			setToastId(toast.loading(`Deleting attendance record for ${attendee.member.name}...`));
+			setToastId(toast.loading('Deleting attendance record...'));
 		},
 		onSuccess: () => {
-			toast.success(`Deleted attendance record for ${attendee.member.name}`, { id: toastId });
+			toast.success('Deleted attendance record', { id: toastId });
 		},
 		onError: (error) => {
-			toast.error(`An error occurred while deleting the attendance record for ${attendee.member.name}`, {
+			toast.error('An error occurred while deleting the attendance record', {
 				description: error.message,
 				id: toastId,
 			});
 		},
 	});
+
+	const onClick = () => {
+		const { attendanceId } = row;
+		if (!attendanceId) {
+			throw new TypeError('Expected attendance ID to be defined for non draft row');
+		}
+
+		deleteAttendeeEntry.mutate({ attendanceId });
+	};
 
 	return (
 		<DropdownMenu>
@@ -44,10 +53,7 @@ export function RowActionsDropdown({ attendee }: Props) {
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align='end'>
-				<DropdownMenuItem
-					className='text-destructive focus:text-destructive focus:bg-destructive/10'
-					onClick={() => deleteAttendeeEntry.mutate(attendee)}
-				>
+				<DropdownMenuItem className='text-destructive focus:text-destructive focus:bg-destructive/10' onClick={onClick}>
 					<TrashIcon className='h-4 w-4 mr-2' />
 					Delete
 				</DropdownMenuItem>
