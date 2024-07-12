@@ -1,5 +1,6 @@
 'use client';
 
+import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { TablePagination } from '@/src/components/data-tables/table-pagination';
 import { TableSelectionStatus } from '@/src/components/data-tables/table-selection-status';
@@ -16,10 +17,9 @@ import {
 	useReactTable,
 } from '@tanstack/react-table';
 import { useQueryStates } from 'nuqs';
-import { use, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { searchParamParsers } from '../../search-params';
 import { columns } from './columns';
-import { Skeleton } from '@/components/ui/skeleton';
 
 type Props = {
 	member: Pick<TeamMemberSchema, 'id'>;

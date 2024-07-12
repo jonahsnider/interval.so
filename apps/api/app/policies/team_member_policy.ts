@@ -59,7 +59,10 @@ export default class TeamMemberPolicy extends BasePolicy {
 		return this.authorizationService.hasRoles(actor, team, ['owner', 'admin', 'editor']);
 	}
 
-	deleteFinishedMeetings(actor: BouncerUser, entries: Pick<MeetingAttendeeSchema, 'attendanceId'>[]): AuthorizerResponse {
+	deleteFinishedMeetings(
+		actor: BouncerUser,
+		entries: Pick<MeetingAttendeeSchema, 'attendanceId'>[],
+	): AuthorizerResponse {
 		return this.authorizationService.hasRolesByMeetingIds(actor, entries, ['owner', 'admin', 'editor']);
 	}
 

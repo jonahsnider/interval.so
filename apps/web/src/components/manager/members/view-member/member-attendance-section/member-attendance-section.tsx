@@ -20,9 +20,7 @@ export function MemberAttendanceSection({ member }: Props) {
 			<div className='flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4'>
 				<div className='flex flex-col gap-2'>
 					<h2 className='text-2xl font-semibold'>Attendance</h2>
-					<p className='text-muted-foreground text-sm'>
-						View or edit meetings that this member signed in for.
-					</p>
+					<p className='text-muted-foreground text-sm'>View or edit meetings that this member signed in for.</p>
 				</div>
 
 				<div className='flex max-xs:flex-wrap gap-4 items-center justify-end'>

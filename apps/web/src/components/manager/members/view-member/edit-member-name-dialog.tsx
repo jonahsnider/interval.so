@@ -15,11 +15,10 @@ import { Input } from '@/components/ui/input';
 import { trpc } from '@/src/trpc/trpc-client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
-import { useRouter } from 'next/navigation';
-import { useState, type PropsWithChildren } from 'react';
+import { type PropsWithChildren, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { z } from 'zod';
+import type { z } from 'zod';
 
 type Props = PropsWithChildren<{
 	member: Pick<TeamMemberSchema, 'id' | 'name'>;

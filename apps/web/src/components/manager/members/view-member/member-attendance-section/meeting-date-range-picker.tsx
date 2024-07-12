@@ -6,7 +6,7 @@ import type { MeetingAttendeeSchema } from '@hours.frc.sh/api/app/meeting/schema
 import type { TimeRangeSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_range_schema';
 import { type ComponentProps, useState } from 'react';
 import { toast } from 'sonner';
-import { useDebounce, useDebouncedCallback } from 'use-debounce';
+import { useDebouncedCallback } from 'use-debounce';
 
 type Props = {
 	meeting: Pick<MeetingAttendeeSchema, 'attendanceId' | 'startedAt' | 'endedAt'>;
