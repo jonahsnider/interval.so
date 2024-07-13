@@ -13,7 +13,7 @@ type Props = {
 	members: SimpleTeamMemberSchema[];
 };
 
-export function LiveMemberCoutnTileClient({ team, members }: Props) {
+export function LiveMemberCountTileClient({ team, members }: Props) {
 	const [data, setData] = useState<SimpleTeamMemberSchema[]>(members);
 
 	trpc.teams.members.simpleMemberListSubscription.useSubscription(team, { onData: setData });
