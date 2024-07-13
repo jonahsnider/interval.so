@@ -6,6 +6,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { trpc } from '@/src/trpc/trpc-client';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import type { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
+import clsx from 'clsx';
 import { AnimatePresence, type Variants, motion } from 'framer-motion';
 import { use, useState } from 'react';
 
@@ -46,8 +47,8 @@ export function MemberAvatarsClient({ membersPromise, team }: Props) {
 				animate={members.length > 0 ? 'items' : 'noItems'}
 			>
 				<AnimatePresence initial={true}>
-					{members.map((member) => (
-						<MemberAvatar key={member.id} member={member} />
+					{members.map((member, index) => (
+						<MemberAvatar key={member.id} member={member} index={index} elements={members.length} />
 					))}
 				</AnimatePresence>
 			</motion.div>
@@ -74,21 +75,31 @@ const MotionAvatar = motion(Avatar);
 
 const FIRST_TWO_INTIALS_REGEXP = /^(\S)\S*\s*(\S)?/;
 
-function MemberAvatar({ member }: { member: Pick<TeamMemberSchema, 'name'> }) {
+function MemberAvatar({
+	member,
+	index,
+	elements,
+}: { member: Pick<TeamMemberSchema, 'name'>; index: number; elements: number }) {
 	const [, firstInitial, secondInitial] = FIRST_TWO_INTIALS_REGEXP.exec(member.name) ?? [];
-
-	// TODO: The items should be covering up the item after them, not the other way around
 
 	return (
 		<Tooltip>
-			<TooltipTrigger>
+			<TooltipTrigger asChild={true}>
 				<MotionAvatar
 					variants={avatarMotionVariants}
 					initial='hidden'
 					animate='visible'
 					exit='hidden'
 					layout={true}
-					className='-mr-3 hover:mr-0 transition-[margin] duration-200'
+					style={{
+						// Lower index is on top, higher index is on bottom
+						// @ts-expect-error This is a custom property
+						'--z-offset': elements - index,
+					}}
+					className={clsx('-mr-3 hover:mr-0 transition-[margin] duration-200 z-[var(--z-offset)]', {
+						// The first item doesn't need spacing on the left, since there's nothing covering it
+						'hover:ml-3': index !== 0,
+					})}
 				>
 					<AvatarFallback className='bg-background border-2 border-border truncate'>
 						{firstInitial}
