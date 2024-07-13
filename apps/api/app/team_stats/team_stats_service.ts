@@ -163,7 +163,19 @@ export class TeamStatsService {
 		return result?.count ?? 0;
 	}
 
-	/** Get the average number of hours spent by team members at meetings. */
+	/**
+	 * Get the average number of hours spent by team members at meetings.
+	 *
+	 * - Given a time filter, select all the attendance entries that started and ended within it. Calculate the duration of each entry.
+	 * - Then, generate a date series for the time filter. This might be by day, week, or month, depending on the total number of days in the filter.
+	 * - Group each attendance entry to a segment in the date series by its start time.
+	 * - Then, calculate the average duration for each segment.
+	 *
+	 * A very important detail is that if an attendance entry spans multiple days, it will be counted as a single day in the average.
+	 * Because the "simple" average doesn't use the same series logic, it can sometimes output a number that is different than what the time series average would output.
+	 * Ideally users aren't confused by this since a single attendance entry isn't supposed to span multiple days.
+	 */
+	// TODO: Handle this edge case by splitting multi-day/week/month attendance entries into multiple entries, depending on the series period
 	async getAverageHoursTimeSeries(
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
@@ -182,7 +194,6 @@ export class TeamStatsService {
 			.select({
 				memberId: Schema.memberAttendance.memberId,
 				startedAt: Schema.memberAttendance.startedAt,
-				endedAt: Schema.memberAttendance.endedAt,
 				durationSeconds:
 					sql<number>`EXTRACT(epoch FROM ${Schema.memberAttendance.endedAt} - ${Schema.memberAttendance.startedAt})`.as(
 						'duration_seconds',
@@ -208,11 +219,7 @@ export class TeamStatsService {
 		const result = await db
 			.select({
 				groupStart: seriesDate,
-				durationSeconds: sql`COALESCE(${avg(
-					sql`EXTRACT(epoch FROM ${meetingsForTeam.endedAt} - ${meetingsForTeam.startedAt})`,
-				)}, 0)`
-					.mapWith(Number)
-					.as('duration_seconds'),
+				durationSeconds: avg(meetingsForTeam.durationSeconds).as('average_duration_seconds'),
 			})
 			.from(
 				sql<Date>`generate_series(date_trunc(${dateField}, ${timeFilter.start.toISOString()}::timestamptz at time zone ${displayTimezone}) at time zone ${displayTimezone}, ${seriesEndDate.toISOString()}::timestamptz, ${interval}::interval, ${displayTimezone}) as series_date`,
@@ -230,10 +237,11 @@ export class TeamStatsService {
 
 		return result.map((row) => ({
 			date: row.groupStart,
-			averageHours: convert(row.durationSeconds, 's').to('hour'),
+			averageHours: convert(row.durationSeconds === null ? 0 : Number(row.durationSeconds), 's').to('hour'),
 		}));
 	}
 
+	/** Given a time filter, get the duration of all meetings within the filter. Then, average that, and return the result in hours. */
 	async getAverageHoursSimple(
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
@@ -243,11 +251,9 @@ export class TeamStatsService {
 
 		const [result] = await db
 			.select({
-				durationSeconds: sql`COALESCE(${avg(
-					sql`EXTRACT(epoch FROM ${Schema.memberAttendance.endedAt} - ${Schema.memberAttendance.startedAt})`,
-				)}, 0)`
-					.mapWith(Number)
-					.as('duration_seconds'),
+				durationSeconds: avg(
+					sql<number>`EXTRACT(epoch FROM ${Schema.memberAttendance.endedAt} - ${Schema.memberAttendance.startedAt})`,
+				).as('duration_seconds'),
 			})
 			.from(Schema.memberAttendance)
 			.innerJoin(
@@ -260,6 +266,6 @@ export class TeamStatsService {
 			)
 			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)));
 
-		return convert(result?.durationSeconds ?? 0, 's').to('hour');
+		return convert(Number(result?.durationSeconds ?? 0), 's').to('hour');
 	}
 }
