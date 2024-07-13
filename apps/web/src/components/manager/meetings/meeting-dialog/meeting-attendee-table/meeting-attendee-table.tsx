@@ -34,6 +34,7 @@ export function MeetingAttendeeTable({ meeting }: Props) {
 		getCoreRowModel: getCoreRowModel(),
 		onSortingChange: setSorting,
 		getSortedRowModel: getSortedRowModel(),
+		getRowId: (attendance) => attendance.attendanceId,
 		state: {
 			sorting,
 		},

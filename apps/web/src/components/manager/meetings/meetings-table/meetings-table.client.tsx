@@ -51,6 +51,7 @@ export function MeetingsTableClient({ initialDataPromise, team, timeFilter }: Pr
 		getSortedRowModel: getSortedRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
 		onPaginationChange: setPagination,
+		getRowId: (meeting) => meeting.startedAt.getTime().toString() + meeting.endedAt?.getTime().toString(),
 		state: {
 			sorting,
 			pagination,

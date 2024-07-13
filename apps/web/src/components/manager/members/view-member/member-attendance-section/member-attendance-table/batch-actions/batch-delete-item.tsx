@@ -50,7 +50,6 @@ export function BatchDeleteDialogContent({
 			toast.success(`Deleted ${selectedRows.length} attendance entries`, { id: toastId });
 
 			setDialogOpen(false);
-			table.toggleAllRowsSelected(false);
 		},
 		onError: (error) => {
 			toast.error('An error occurred while deleting the attendance entries', {

@@ -83,6 +83,7 @@ export function MemberAttendanceTableClient({ initialMeetings, member, loading }
 		onSortingChange: setSorting,
 		getSortedRowModel: getSortedRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
+		getRowId: (attendance) => attendance.attendanceId,
 		state: {
 			sorting,
 		},

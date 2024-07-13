@@ -37,7 +37,6 @@ export function BatchDeleteItem({ setDialogOpen, table, closeDropdown }: Props) 
 			toast.success(`Deleted ${selectedRows.length} members`, { id: toastId });
 			setDialogOpen(false);
 			closeDropdown();
-			table.toggleAllRowsSelected(false);
 		},
 		onError: (error) => {
 			toast.error('An error occurred while deleting the members', {

@@ -84,6 +84,7 @@ export function MembersTableClient({ initialData, loading, team }: Props) {
 		onColumnFiltersChange: setColumnFilters,
 		getPaginationRowModel: getPaginationRowModel(),
 		onPaginationChange: setPagination,
+		getRowId: (member) => member.id,
 		initialState: {
 			columnVisibility: {
 				// Used only for filtering
