@@ -110,7 +110,7 @@ export class TeamMemberAttendanceService {
 				.where(
 					and(
 						eq(Schema.memberAttendance.memberId, result.memberId),
-						sql`tstzrange(${Schema.memberAttendance.startedAt}, ${Schema.memberAttendance.endedAt}, '[]') && tstzrange(${data.startedAt.toISOString()}, ${data.endedAt.toISOString()}, '[]')`,
+						sql`tstzrange(${Schema.memberAttendance.startedAt}, ${Schema.memberAttendance.endedAt}, '[]') && tstzrange(${result.startedAt.toISOString()}, ${result.endedAt.toISOString()}, '[]')`,
 					),
 				);
 
