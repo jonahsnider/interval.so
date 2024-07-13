@@ -15,14 +15,15 @@ import { trpc } from '@/src/trpc/trpc-client';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import type { AverageHoursDatumSchema } from '@hours.frc.sh/api/app/team_stats/schemas/average_hours_datum_schema';
 import type { DatumPeriod } from '@hours.frc.sh/api/app/team_stats/schemas/datum_time_range_schema';
-import type { TimeFilterSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_filter_schema';
 import { toDigits } from '@jonahsnider/util';
+import { useQueryStates } from 'nuqs';
 import { use, useMemo, useState } from 'react';
 import { Area, AreaChart, CartesianGrid, type TooltipProps, XAxis, YAxis } from 'recharts';
+import { toTimeFilter } from '../../../period-select/duration-slug';
+import { searchParamParsers } from '../../search-params';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;
-	timeFilter: TimeFilterSchema;
 	dataPromise: Promise<AverageHoursDatumSchema[]>;
 	period: DatumPeriod;
 };
@@ -64,9 +65,11 @@ function HoursTooltip({
 	);
 }
 
-export function AverageHoursGraphClient({ dataPromise, period, team, timeFilter }: Props) {
+export function AverageHoursGraphClient({ dataPromise, period, team }: Props) {
 	const initialData = use(dataPromise);
 	const [data, setData] = useState(initialData);
+	const [searchParams] = useQueryStates(searchParamParsers);
+	const timeFilter = useMemo(() => toTimeFilter(searchParams), [searchParams]);
 
 	trpc.teams.stats.averageHours.subscribeTimeSeries.useSubscription({ team, timeFilter }, { onData: setData });
 

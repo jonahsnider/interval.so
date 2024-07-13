@@ -22,10 +22,7 @@ export const ManagerDashboardContext = createContext<ContextValue>({
 });
 
 export function ManagerDashboardProvider({ children }: PropsWithChildren) {
-	const [{ duration, end, start }, setQuery] = useQueryStates(searchParamParsers, {
-		// Data is rendered based off the query parameters, so we need to send those changes to the server
-		shallow: false,
-	});
+	const [{ duration, end, start }, setQuery] = useQueryStates(searchParamParsers);
 
 	const setDurationAndClearDates = useMemo(
 		() => (value: DurationSlug) => {

@@ -41,14 +41,7 @@ async function CombinedHoursTileFetcher({ team, currentTimeFilter, previousTimeF
 	]);
 
 	return (
-		<CombinedHoursTileClient
-			team={team}
-			currentTimeFilter={currentTimeFilter}
-			durationSlug={durationSlug}
-			previousTimeFilter={previousTimeFilter}
-			initialCurrent={current}
-			initialTrend={trend}
-		/>
+		<CombinedHoursTileClient team={team} durationSlug={durationSlug} initialCurrent={current} initialTrend={trend} />
 	);
 }
 

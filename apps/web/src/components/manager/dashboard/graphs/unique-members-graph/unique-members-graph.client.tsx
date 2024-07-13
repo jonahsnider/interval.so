@@ -14,18 +14,19 @@ import { formatXAxisDate } from '@/src/components/graphs/graph-utils';
 import { trpc } from '@/src/trpc/trpc-client';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import type { DatumPeriod } from '@hours.frc.sh/api/app/team_stats/schemas/datum_time_range_schema';
-import type { TimeFilterSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_filter_schema';
 import type { UniqueMembersDatumSchema } from '@hours.frc.sh/api/app/team_stats/schemas/unique_members_datum_schema';
 import { max } from '@jonahsnider/util';
+import { useQueryStates } from 'nuqs';
 import { use, useMemo, useState } from 'react';
 import { Area, AreaChart, CartesianGrid, type TooltipProps, XAxis, YAxis } from 'recharts';
+import { toTimeFilter } from '../../../period-select/duration-slug';
+import { searchParamParsers } from '../../search-params';
 
 type Props = {
 	dataPromise: Promise<UniqueMembersDatumSchema[]>;
 	maxMemberCountPromise: Promise<number>;
 	period: DatumPeriod;
 	team: Pick<TeamSchema, 'slug'>;
-	timeFilter: TimeFilterSchema;
 };
 
 type ChartDatum = {
@@ -65,9 +66,11 @@ function MembersTooltip({
 	);
 }
 
-export function UniqueMembersGraphClient({ dataPromise, period, maxMemberCountPromise, team, timeFilter }: Props) {
+export function UniqueMembersGraphClient({ dataPromise, period, maxMemberCountPromise, team }: Props) {
 	const initialData = use(dataPromise);
 	const [data, setData] = useState(initialData);
+	const [searchParams] = useQueryStates(searchParamParsers);
+	const timeFilter = useMemo(() => toTimeFilter(searchParams), [searchParams]);
 
 	trpc.teams.stats.uniqueMembers.subscribeTimeSeries.useSubscription({ team, timeFilter }, { onData: setData });
 

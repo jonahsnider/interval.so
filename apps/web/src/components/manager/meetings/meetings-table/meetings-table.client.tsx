@@ -5,7 +5,6 @@ import { TablePagination } from '@/src/components/data-tables/table-pagination';
 import { trpc } from '@/src/trpc/trpc-client';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import type { TeamMeetingSchema } from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
-import type { TimeFilterSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_filter_schema';
 import {
 	type PaginationState,
 	type SortingState,
@@ -15,7 +14,10 @@ import {
 	getSortedRowModel,
 	useReactTable,
 } from '@tanstack/react-table';
-import { use, useState } from 'react';
+import { useQueryStates } from 'nuqs';
+import { use, useMemo, useState } from 'react';
+import { toTimeFilter } from '../../period-select/duration-slug';
+import { searchParamParsers } from '../search-params';
 import { columns } from './columns';
 import { InnerTableContainer, OuterTableContainer } from './meetings-table-common';
 import { MeetingsTableFilters } from './meetings-table-filters';
@@ -23,14 +25,16 @@ import { MeetingsTableFilters } from './meetings-table-filters';
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;
 	initialDataPromise: Promise<TeamMeetingSchema[]>;
-	timeFilter: TimeFilterSchema;
 };
 
-export function MeetingsTableClient({ initialDataPromise, team, timeFilter }: Props) {
+export function MeetingsTableClient({ initialDataPromise, team }: Props) {
 	const initialData = use(initialDataPromise);
 	const [data, setData] = useState(initialData);
 
-	trpc.teams.meetings.meetingsSubscription.useSubscription({ team, timeFilter: timeFilter }, { onData: setData });
+	const [searchParams] = useQueryStates(searchParamParsers);
+	const timeFilter = useMemo(() => toTimeFilter(searchParams), [searchParams]);
+
+	trpc.teams.meetings.meetingsSubscription.useSubscription({ team, timeFilter }, { onData: setData });
 
 	const [sorting, setSorting] = useState<SortingState>([
 		{

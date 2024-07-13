@@ -2,10 +2,16 @@
 import type { RouterOutput } from '@/src/trpc/common';
 import { trpc } from '@/src/trpc/trpc-client';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
-import type { TimeFilterSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_filter_schema';
 import type { TimeRangeSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_range_schema';
-import { useState } from 'react';
-import { type DurationSlug, durationLabelPreviousPeriod } from '../../../period-select/duration-slug';
+import { useQueryStates } from 'nuqs';
+import { useMemo, useState } from 'react';
+import {
+	type DurationSlug,
+	durationLabelPreviousPeriod,
+	toTimeFilter,
+	toTimeRange,
+} from '../../../period-select/duration-slug';
+import { searchParamParsers } from '../../search-params';
 import { CombinedHoursTileBase } from './combined-hours-tile.shared';
 
 type Props = {
@@ -14,21 +20,16 @@ type Props = {
 	durationSlug: DurationSlug;
 
 	initialCurrent: RouterOutput['teams']['stats']['getCombinedHours'];
-	currentTimeFilter: TimeFilterSchema;
 
 	initialTrend?: RouterOutput['teams']['stats']['getCombinedHours'];
-	previousTimeFilter?: TimeRangeSchema;
 };
 
-export function CombinedHoursTileClient({
-	team,
-	currentTimeFilter,
-	previousTimeFilter,
-	initialCurrent,
-	initialTrend,
-	durationSlug,
-}: Props) {
+export function CombinedHoursTileClient({ team, initialCurrent, initialTrend, durationSlug }: Props) {
 	const [current, setCurrent] = useState(initialCurrent);
+	const [searchParams] = useQueryStates(searchParamParsers);
+
+	const currentTimeFilter = useMemo(() => toTimeFilter(searchParams), [searchParams]);
+	const previousTimeFilter = useMemo(() => toTimeRange(searchParams).previous, [searchParams]);
 
 	trpc.teams.stats.getCombinedHoursSubscription.useSubscription(
 		{ team, timeFilter: currentTimeFilter },
