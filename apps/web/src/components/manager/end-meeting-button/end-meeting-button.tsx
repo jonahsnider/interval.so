@@ -13,7 +13,7 @@ type Props = {
 export function EndMeetingButton({ width, team }: Props) {
 	const enabled = trpcServer.teams.members.simpleMemberList
 		.query({ slug: team.slug })
-		.then((members) => members.some((member) => member.atMeeting));
+		.then((members) => members.some((member) => member.signedInAt));
 	const meetingStart = trpcServer.teams.meetings.getCurrentMeetingStart.query(team);
 
 	return (

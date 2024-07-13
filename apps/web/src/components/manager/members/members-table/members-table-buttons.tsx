@@ -85,7 +85,7 @@ export function MembersTableButtons({ table, loading }: Props) {
 			<DataTableFacetedFilter
 				icon={UserIcon}
 				title='Signed in'
-				column={table.getColumn('atMeeting')}
+				column={table.getColumn('signedInAt')}
 				disabled={loading}
 				options={[
 					{

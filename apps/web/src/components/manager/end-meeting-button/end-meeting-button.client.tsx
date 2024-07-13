@@ -23,7 +23,7 @@ export function EndMeetingButtonClient({ width = 'auto', team, enabledPromise, m
 
 	trpc.teams.members.simpleMemberListSubscription.useSubscription(team, {
 		onData: (data) => {
-			setEnabled(data.some((member) => member.atMeeting));
+			setEnabled(data.some((member) => member.signedInAt));
 		},
 	});
 	trpc.teams.meetings.currentMeetingStartSubscription.useSubscription(team, {

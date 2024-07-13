@@ -6,13 +6,14 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { trpc } from '@/src/trpc/trpc-client';
 import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
 import type { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
+import { Sort } from '@jonahsnider/util';
 import clsx from 'clsx';
 import { AnimatePresence, type Variants, motion } from 'framer-motion';
 import { use, useState } from 'react';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;
-	membersPromise: Promise<Pick<TeamMemberSchema, 'name' | 'id'>[]>;
+	membersPromise: Promise<Pick<TeamMemberSchema, 'name' | 'id' | 'signedInAt'>[]>;
 };
 
 const containerMotionVariants: Variants = {
@@ -30,12 +31,16 @@ export function MemberAvatarsClient({ membersPromise, team }: Props) {
 
 	const [members, setMembers] = useState(initialMembers);
 
-	// TODO: Sort to have the most recently signed in members at the top
-	// This requires changing the query to have a signedInAt field
-	// Could be the simple or the full query
-	// Might be worth refactoring simple member list to use a signedInAt field instead of just atMeeting
 	trpc.teams.members.simpleMemberListSubscription.useSubscription(team, {
-		onData: (data) => setMembers(data.filter((member) => member.atMeeting)),
+		onData: (data) =>
+			setMembers(
+				data
+					.filter(
+						(member): member is typeof member & { signedInAt: NonNullable<(typeof member)['signedInAt']> } =>
+							member.signedInAt !== undefined,
+					)
+					.toSorted(Sort.descending((member) => member.signedInAt)),
+			),
 	});
 
 	return (

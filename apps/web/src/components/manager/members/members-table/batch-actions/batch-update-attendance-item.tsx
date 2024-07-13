@@ -29,7 +29,7 @@ export function BatchUpdateAttendanceItem({ table }: Props) {
 		},
 	});
 
-	const data = selectedRows.some((row) => row.original.atMeeting) ? { atMeeting: false } : { atMeeting: true };
+	const data = selectedRows.some((row) => row.original.signedInAt) ? { atMeeting: false } : { atMeeting: true };
 
 	return (
 		<DropdownMenuItem

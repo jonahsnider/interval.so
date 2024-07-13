@@ -8,10 +8,10 @@ export const TeamMemberSchema = z.object({
 		.min(1, { message: "Team member's name can't be empty" })
 		.max(128, { message: "Team member's name can't be longer than 128 characters" }),
 	archived: z.boolean(),
-	atMeeting: z.boolean(),
+	signedInAt: z.date().optional(),
 	lastSeenAt: z.optional(z.date().or(z.literal('now'))),
 });
 export type TeamMemberSchema = z.infer<typeof TeamMemberSchema>;
 
-export const SimpleTeamMemberSchema = TeamMemberSchema.pick({ id: true, name: true, atMeeting: true });
+export const SimpleTeamMemberSchema = TeamMemberSchema.pick({ id: true, name: true, signedInAt: true });
 export type SimpleTeamMemberSchema = z.infer<typeof SimpleTeamMemberSchema>;

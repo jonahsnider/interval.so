@@ -87,7 +87,7 @@ export function MembersTableClient({ initialData, loading, team }: Props) {
 		initialState: {
 			columnVisibility: {
 				// Used only for filtering
-				atMeeting: false,
+				signedInAt: false,
 			},
 		},
 		state: {
@@ -149,7 +149,7 @@ export function MembersTableClient({ initialData, loading, team }: Props) {
 								))
 							) : (
 								<TableRow>
-									{/* All columns except for the hidden "atMeeting" column */}
+									{/* All columns except for the hidden "signedInAt" column */}
 									<TableCell colSpan={columns.length - 1} className='h-24 text-center'>
 										No results
 									</TableCell>

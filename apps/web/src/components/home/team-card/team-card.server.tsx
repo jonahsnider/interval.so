@@ -16,7 +16,7 @@ type Props = {
 export function TeamCard({ team }: Props) {
 	const memberCountPromise = trpcServer.teams.members.simpleMemberList
 		.query(team)
-		.then((members) => count(members, (member) => member.atMeeting));
+		.then((members) => count(members, (member) => member.signedInAt !== undefined));
 
 	return (
 		<Link href={`/team/${team.slug}`} className='group'>

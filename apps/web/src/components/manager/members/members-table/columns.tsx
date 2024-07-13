@@ -78,9 +78,9 @@ export const columns: ColumnDef<TeamMemberSchema>[] = [
 		},
 	},
 	{
-		accessorKey: 'atMeeting',
+		accessorKey: 'signedInAt',
 		filterFn: (row, _columnId, filterValue: boolean[]) => {
-			return filterValue.includes(row.original.atMeeting);
+			return filterValue.includes(row.original.signedInAt !== undefined);
 		},
 	},
 	{

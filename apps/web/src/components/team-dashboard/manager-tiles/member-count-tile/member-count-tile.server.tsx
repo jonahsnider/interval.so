@@ -16,7 +16,7 @@ type Props = {
 export function MemberCountTile({ team }: Props) {
 	const dataPromise = trpcServer.teams.members.simpleMemberList
 		.query({ slug: team.slug })
-		.then((data) => count(data, (member) => member.atMeeting));
+		.then((data) => count(data, (member) => member.signedInAt !== undefined));
 
 	return (
 		<Card className='h-full w-full'>

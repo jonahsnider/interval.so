@@ -17,7 +17,7 @@ import { UpdateAttendanceItem } from './update-attendance-item';
 
 type Props = {
 	variant?: 'standalone' | 'table';
-	member: Pick<TeamMemberSchema, 'id' | 'name' | 'atMeeting' | 'archived'>;
+	member: Pick<TeamMemberSchema, 'id' | 'name' | 'signedInAt' | 'archived'>;
 };
 
 /** Dropdown with actions for a specific member. Used in the members table and on the standalone view member page. */

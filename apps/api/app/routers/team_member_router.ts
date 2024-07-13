@@ -46,7 +46,7 @@ export class TeamMemberRouter {
 
 			simpleMemberList: publicProcedure
 				.input(TeamSchema.pick({ slug: true }))
-				.output(TeamMemberSchema.pick({ id: true, name: true, atMeeting: true }).array())
+				.output(TeamMemberSchema.pick({ id: true, name: true, signedInAt: true }).array())
 				.query(({ ctx, input }) => {
 					return this.teamMemberService.getTeamMembersSimple(ctx.bouncer, input);
 				}),
@@ -57,10 +57,15 @@ export class TeamMemberRouter {
 					return this.teamMemberSubscriptionService.simpleTeamMemberListSubscribe(ctx.bouncer, input);
 				}),
 			updateAttendance: publicProcedure
-				.input(TeamMemberSchema.pick({ id: true, atMeeting: true }).strict())
+				.input(
+					z.object({
+						member: TeamMemberSchema.pick({ id: true }),
+						data: z.object({ atMeeting: z.boolean() }),
+					}),
+				)
 				.output(z.void())
 				.mutation(({ input, ctx }) => {
-					return this.teamMemberService.updateAttendance(ctx.bouncer, input, input);
+					return this.teamMemberService.updateAttendance(ctx.bouncer, input.member, input.data);
 				}),
 
 			endMeeting: authedProcedure
@@ -91,14 +96,17 @@ export class TeamMemberRouter {
 
 			getMember: authedProcedure
 				.input(TeamMemberSchema.pick({ id: true }).strict())
-				.output(TeamMemberSchema.pick({ name: true, archived: true, atMeeting: true }))
+				.output(TeamMemberSchema.pick({ name: true, archived: true, signedInAt: true }))
 				.query(({ ctx, input }) => {
 					return this.teamMemberService.getMember(ctx.bouncer, input);
 				}),
 			getMemberSubscription: authedProcedure
 				.input(TeamMemberSchema.pick({ id: true }).strict())
 				.subscription(
-					({ ctx, input }): Promise<Observable<Pick<TeamMemberSchema, 'archived' | 'atMeeting' | 'name'>, unknown>> => {
+					({
+						ctx,
+						input,
+					}): Promise<Observable<Pick<TeamMemberSchema, 'archived' | 'signedInAt' | 'name'>, unknown>> => {
 						return this.teamMemberSubscriptionService.getMemberSubscription(ctx.bouncer, input);
 					},
 				),
@@ -147,7 +155,7 @@ export class TeamMemberRouter {
 					z
 						.object({
 							members: TeamMemberSchema.pick({ id: true }).array().min(1),
-							data: TeamMemberSchema.pick({ atMeeting: true }).strict(),
+							data: z.object({ atMeeting: z.boolean() }).strict(),
 						})
 						.strict(),
 				)

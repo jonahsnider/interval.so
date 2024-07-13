@@ -29,7 +29,7 @@ const motionVariants: Variants = {
 	visible: { opacity: 1, height: 'auto', position: 'relative' },
 };
 
-type SimpleMember = Pick<TeamMemberSchema, 'id' | 'name' | 'atMeeting'>;
+type SimpleMember = Pick<TeamMemberSchema, 'id' | 'name' | 'signedInAt'>;
 
 type Props = {
 	initialData: SimpleMember[];
@@ -140,27 +140,27 @@ function InnerTable({ filteredMembers, members }: { filteredMembers: SimpleMembe
 
 function InnerTableRow({ visible, className, member }: { visible: boolean; className?: string; member: SimpleMember }) {
 	const [animating, setAnimating] = useState(false);
-	const [checked, setChecked] = useState(member.atMeeting);
+	const [checked, setChecked] = useState(Boolean(member.signedInAt));
 
 	// Trying to do this the more correct way with useOptimistic was complicated and didn't work
 	// I didn't want to spend more time debugging, so I just did it this way
 	// This allows users to see the switch reflect their action optimistically, but reverts to the server state whenever new information is received or the mutation errors
 	useEffect(() => {
-		setChecked(member.atMeeting);
-	}, [member.atMeeting]);
+		setChecked(Boolean(member.signedInAt));
+	}, [member.signedInAt]);
 
 	const mutation = trpc.teams.members.updateAttendance.useMutation({
-		onMutate: ({ atMeeting }) => {
-			setChecked(Boolean(atMeeting));
+		onMutate: ({ data }) => {
+			setChecked(data.atMeeting);
 		},
-		onError: (error, { atMeeting }) => {
-			const action = atMeeting ? 'in' : 'out';
+		onError: (error, { data }) => {
+			const action = data.atMeeting ? 'in' : 'out';
 			toast.error(`Unable to sign ${member.name} ${action}`, {
 				description: error.message,
 			});
 
 			// Revert state
-			setChecked(!atMeeting);
+			setChecked(!data.atMeeting);
 		},
 	});
 
@@ -186,7 +186,7 @@ function InnerTableRow({ visible, className, member }: { visible: boolean; class
 			<TableCell className='pr-8 text-right'>
 				<Switch
 					checked={checked}
-					onCheckedChange={(checked) => mutation.mutate({ id: member.id, atMeeting: checked })}
+					onCheckedChange={(checked) => mutation.mutate({ member, data: { atMeeting: checked } })}
 					disabled={mutation.isPending}
 					className={clsx({ 'opacity-0': !visible })}
 				/>

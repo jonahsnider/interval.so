@@ -15,7 +15,7 @@ export function TeamCardDescription({ team, initialMemberCountPromise }: Props) 
 	const [memberCount, setMemberCount] = useState(initialMemberCount);
 
 	trpc.teams.members.simpleMemberListSubscription.useSubscription(team, {
-		onData: (data) => setMemberCount(count(data, (member) => member.atMeeting)),
+		onData: (data) => setMemberCount(count(data, (member) => member.signedInAt !== undefined)),
 	});
 
 	switch (memberCount) {

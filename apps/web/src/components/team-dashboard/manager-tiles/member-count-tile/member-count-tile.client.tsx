@@ -16,7 +16,7 @@ export function MemberCountTileInner({ team, initialMemberCountPromise }: Props)
 
 	trpc.teams.members.simpleMemberListSubscription.useSubscription(team, {
 		onData: (data) => {
-			setMemberCount(count(data, (member) => member.atMeeting));
+			setMemberCount(count(data, (member) => member.signedInAt !== undefined));
 		},
 	});
 

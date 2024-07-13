@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { inject } from '@adonisjs/core';
 import { TRPCError } from '@trpc/server';
-import { and, asc, count, eq, isNotNull, isNull } from 'drizzle-orm';
+import { and, asc, count, eq, isNull } from 'drizzle-orm';
 import postgres from 'postgres';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
@@ -32,9 +32,7 @@ export class TeamMemberService {
 					columns: {
 						id: true,
 						name: true,
-					},
-					extras: {
-						atMeeting: isNotNull(Schema.teamMembers.pendingSignIn).as('at_meeting'),
+						pendingSignIn: true,
 					},
 					orderBy: asc(Schema.teamMembers.name),
 					where: eq(Schema.teamMembers.archived, false),
@@ -46,7 +44,7 @@ export class TeamMemberService {
 			result?.members.map((member) => ({
 				id: member.id,
 				name: member.name,
-				atMeeting: member.atMeeting as boolean,
+				signedInAt: member.pendingSignIn ?? undefined,
 			})) ?? []
 		);
 	}
@@ -85,7 +83,7 @@ export class TeamMemberService {
 				name: member.name,
 				archived: member.archived,
 				createdAt: member.createdAt,
-				atMeeting: Boolean(member.pendingSignIn),
+				signedInAt: member.pendingSignIn ?? undefined,
 				// If signed in, mark them as last seen now
 				// Otherwise, use the last time they signed out
 				lastSeenAt: member.pendingSignIn ? 'now' : member.attendance[0]?.endedAt,
@@ -144,11 +142,7 @@ export class TeamMemberService {
 		await this.eventsService.announceEvent(team, MemberRedisEvent.MemberCreated);
 	}
 
-	async updateAttendance(
-		bouncer: AppBouncer,
-		teamMember: Pick<TeamMemberSchema, 'id'>,
-		data: Pick<TeamMemberSchema, 'atMeeting'>,
-	) {
+	async updateAttendance(bouncer: AppBouncer, teamMember: Pick<TeamMemberSchema, 'id'>, data: { atMeeting: boolean }) {
 		await AuthorizationService.assertPermission(
 			bouncer.with('TeamMemberPolicy').allows('updateAttendance', teamMember),
 		);
@@ -263,7 +257,7 @@ export class TeamMemberService {
 	async getMember(
 		bouncer: AppBouncer,
 		member: Pick<TeamMemberSchema, 'id'>,
-	): Promise<Pick<TeamMemberSchema, 'name' | 'archived' | 'atMeeting'>> {
+	): Promise<Pick<TeamMemberSchema, 'name' | 'archived' | 'signedInAt'>> {
 		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('view', [member]));
 
 		const dbMember = await db.query.teamMembers.findFirst({
@@ -271,9 +265,7 @@ export class TeamMemberService {
 			columns: {
 				name: true,
 				archived: true,
-			},
-			extras: {
-				atMeeting: isNotNull(Schema.teamMembers.pendingSignIn).as('at_meeting'),
+				pendingSignIn: true,
 			},
 		});
 
@@ -282,7 +274,7 @@ export class TeamMemberService {
 		return {
 			name: dbMember.name,
 			archived: dbMember.archived,
-			atMeeting: Boolean(dbMember.atMeeting),
+			signedInAt: dbMember.pendingSignIn ?? undefined,
 		};
 	}
 

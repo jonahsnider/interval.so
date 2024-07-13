@@ -7,7 +7,7 @@ import { MemberRowActionsDropdown } from '../../members-table/row-actions/row-ac
 
 type Props = {
 	member: Pick<TeamMemberSchema, 'id'>;
-	memberDataPromise: Promise<Pick<TeamMemberSchema, 'name' | 'atMeeting' | 'archived'>>;
+	memberDataPromise: Promise<Pick<TeamMemberSchema, 'name' | 'signedInAt' | 'archived'>>;
 };
 
 export function MemberActionsDropdownClient({ member, memberDataPromise }: Props) {

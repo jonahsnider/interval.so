@@ -18,7 +18,7 @@ export function LiveMemberCoutnTileClient({ team, members }: Props) {
 
 	trpc.teams.members.simpleMemberListSubscription.useSubscription(team, { onData: setData });
 
-	const current = count(data, (member) => member.atMeeting);
+	const current = count(data, (member) => member.signedInAt !== undefined);
 	const max = data.length;
 
 	return (

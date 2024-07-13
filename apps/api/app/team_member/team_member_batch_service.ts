@@ -149,7 +149,7 @@ export class TeamMemberBatchService {
 	async updateAttendanceMany(
 		bouncer: AppBouncer,
 		members: Pick<TeamMemberSchema, 'id'>[],
-		data: Pick<TeamMemberSchema, 'atMeeting'>,
+		data: { atMeeting: boolean },
 	): Promise<void> {
 		if (members.length === 0) {
 			return;

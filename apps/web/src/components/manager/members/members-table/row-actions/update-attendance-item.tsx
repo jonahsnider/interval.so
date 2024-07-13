@@ -6,21 +6,21 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 
 type Props = {
-	member: Pick<TeamMemberSchema, 'id' | 'name' | 'atMeeting'>;
+	member: Pick<TeamMemberSchema, 'id' | 'name' | 'signedInAt'>;
 };
 
 export function UpdateAttendanceItem({ member }: Props) {
 	const [toastId, setToastId] = useState<string | number | undefined>();
 
 	const mutation = trpc.teams.members.updateAttendance.useMutation({
-		onMutate: ({ atMeeting }) => {
-			setToastId(toast.loading(`Signing ${member.name} ${atMeeting ? 'out' : 'in'}...`));
+		onMutate: ({ data }) => {
+			setToastId(toast.loading(`Signing ${member.name} ${data.atMeeting ? 'out' : 'in'}...`));
 		},
-		onSuccess: (_data, { atMeeting }) => {
-			toast.success(`Signed ${member.name} ${atMeeting ? 'out' : 'in'}`, { id: toastId });
+		onSuccess: (_data, { data }) => {
+			toast.success(`Signed ${member.name} ${data.atMeeting ? 'out' : 'in'}`, { id: toastId });
 		},
-		onError: (error, { atMeeting }) => {
-			toast.error(`An error occurred while signing ${member.name} ${atMeeting ? 'out' : 'in'}`, {
+		onError: (error, { data }) => {
+			toast.error(`An error occurred while signing ${member.name} ${data.atMeeting ? 'out' : 'in'}`, {
 				description: error.message,
 				id: toastId,
 			});
@@ -28,17 +28,10 @@ export function UpdateAttendanceItem({ member }: Props) {
 	});
 
 	return (
-		<DropdownMenuItem
-			onClick={() =>
-				mutation.mutate({
-					id: member.id,
-					atMeeting: !member.atMeeting,
-				})
-			}
-		>
-			{member.atMeeting && <ArrowRightStartOnRectangleIcon className='h-4 w-4 mr-2' />}
-			{!member.atMeeting && <ArrowLeftEndOnRectangleIcon className='h-4 w-4 mr-2' />}
-			Sign {member.atMeeting ? 'out' : 'in'}
+		<DropdownMenuItem onClick={() => mutation.mutate({ member, data: { atMeeting: !member.signedInAt } })}>
+			{member.signedInAt && <ArrowRightStartOnRectangleIcon className='h-4 w-4 mr-2' />}
+			{!member.signedInAt && <ArrowLeftEndOnRectangleIcon className='h-4 w-4 mr-2' />}
+			Sign {member.signedInAt ? 'out' : 'in'}
 		</DropdownMenuItem>
 	);
 }

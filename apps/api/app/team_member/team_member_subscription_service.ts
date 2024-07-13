@@ -34,7 +34,7 @@ export class TeamMemberSubscriptionService {
 	async getMemberSubscription(
 		bouncer: AppBouncer,
 		member: Pick<TeamMemberSchema, 'id'>,
-	): Promise<Observable<Pick<TeamMemberSchema, 'archived' | 'atMeeting' | 'name'>>> {
+	): Promise<Observable<Pick<TeamMemberSchema, 'archived' | 'lastSeenAt' | 'name'>>> {
 		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('view', [member]));
 		const memberChanges = await this.eventsService.subscribeForTeamByMember(bouncer, member);
 
