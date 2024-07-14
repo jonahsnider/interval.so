@@ -45,7 +45,7 @@ export function CreateMeetingDialog({ team, className }: Props) {
 		},
 		onSuccess: () => {
 			toast.success('Meeting created', { id: toastId });
-			setDialogOpen(false);
+			onDialogOpenChange(false);
 		},
 		onError: (error) => {
 			toast.error('An error occurred while creating the meeting', {
