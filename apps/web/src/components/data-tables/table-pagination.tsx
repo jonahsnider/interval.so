@@ -19,7 +19,7 @@ export function TablePagination<TData>({ table, pageSizes = DEFAULT_PAGE_SIZES }
 	return (
 		<div className='flex items-center space-x-6 lg:space-x-8'>
 			{pageSizes.length > 1 && (
-				<div className='flex items-center space-x-2'>
+				<div className='flex items-baseline space-x-2'>
 					<p className='text-sm font-medium'>Rows per page</p>
 					<Select
 						value={`${table.getState().pagination.pageSize}`}

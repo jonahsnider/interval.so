@@ -143,7 +143,11 @@ export const columns: ColumnDef<TeamMemberSchema>[] = [
 	{
 		id: 'actions',
 		header: ({ table }) => {
-			return <BatchActionsDropdown table={table} />;
+			return (
+				<div className='text-right'>
+					<BatchActionsDropdown table={table} />
+				</div>
+			);
 		},
 		cell: ({ row }) => {
 			return <MemberRowActionsDropdown member={row.original} />;

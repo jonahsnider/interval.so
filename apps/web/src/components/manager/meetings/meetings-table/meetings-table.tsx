@@ -43,8 +43,8 @@ function MeetingsTableSkeleton() {
 				<Table>
 					<TableHeader>
 						<TableRow>
-							<TableHead className='w-96'>
-								<Skeleton className='w-full h-4' />
+							<TableHead>
+								<Skeleton className='w-32 h-4' />
 							</TableHead>
 							<TableHead>
 								<Skeleton className='w-full h-4' />
@@ -83,8 +83,8 @@ function MeetingsTableSkeleton() {
 function TableRowSkeleton() {
 	return (
 		<TableRow>
-			<TableCell>
-				<Skeleton className='w-full h-4' />
+			<TableCell className='w-96'>
+				<Skeleton className='w-64 h-4' />
 			</TableCell>
 			<TableCell>
 				<div className='flex justify-end items-center'>

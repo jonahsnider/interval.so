@@ -109,7 +109,12 @@ export function MembersTableClient({ initialData, loading, team }: Props) {
 							<TableRow key={headerGroup.id}>
 								{headerGroup.headers.map((header) => {
 									return (
-										<TableHead key={header.id}>
+										<TableHead
+											key={header.id}
+											className={clsx({
+												'w-full': header.id === 'name',
+											})}
+										>
 											{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
 										</TableHead>
 									);
@@ -137,14 +142,7 @@ export function MembersTableClient({ initialData, loading, team }: Props) {
 								table.getRowModel().rows.map((row) => (
 									<TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
 										{row.getVisibleCells().map((cell) => (
-											<TableCell
-												key={cell.id}
-												className={clsx({
-													'w-full': cell.column.columnDef.id === 'name',
-												})}
-											>
-												{flexRender(cell.column.columnDef.cell, cell.getContext())}
-											</TableCell>
+											<TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
 										))}
 									</TableRow>
 								))

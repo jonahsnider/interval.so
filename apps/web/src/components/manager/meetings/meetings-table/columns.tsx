@@ -176,7 +176,11 @@ export const columns: ColumnDef<TeamMeetingSchema>[] = [
 				throw new TypeError('Expected team Next.js route param to be defined');
 			}
 
-			return <RowActionsDropdown meeting={row.original} team={team} />;
+			return (
+				<div className='text-right'>
+					<RowActionsDropdown meeting={row.original} team={team} />
+				</div>
+			);
 		},
 	},
 ];

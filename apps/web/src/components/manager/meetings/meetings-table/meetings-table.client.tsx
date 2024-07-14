@@ -14,6 +14,7 @@ import {
 	getSortedRowModel,
 	useReactTable,
 } from '@tanstack/react-table';
+import clsx from 'clsx';
 import { useQueryStates } from 'nuqs';
 import { use, useMemo, useState } from 'react';
 import { toTimeFilter } from '../../period-select/duration-slug';
@@ -73,7 +74,12 @@ export function MeetingsTableClient({ initialDataPromise, team }: Props) {
 							<TableRow key={headerGroup.id}>
 								{headerGroup.headers.map((header) => {
 									return (
-										<TableHead key={header.id}>
+										<TableHead
+											key={header.id}
+											className={clsx({
+												'w-full': header.id === 'title',
+											})}
+										>
 											{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
 										</TableHead>
 									);
