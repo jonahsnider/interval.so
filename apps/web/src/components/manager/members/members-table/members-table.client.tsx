@@ -71,7 +71,7 @@ export function MembersTableClient({ initialData, loading, team }: Props) {
 	const [sorting, setSorting] = useState<SortingState>([
 		{
 			id: 'name',
-			desc: true,
+			desc: false,
 		},
 	]);
 
