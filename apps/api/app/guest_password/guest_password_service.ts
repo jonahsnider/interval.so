@@ -1,9 +1,10 @@
+import assert from 'node:assert/strict';
 import redis from '@adonisjs/redis/services/main';
 import type { Session } from '@adonisjs/session';
 import cuid2 from '@paralleldrive/cuid2';
 import { TRPCError } from '@trpc/server';
 import { convert } from 'convert';
-import { and, eq } from 'drizzle-orm';
+import { and, count, eq } from 'drizzle-orm';
 import * as Schema from '#database/schema';
 import { db } from '../db/db_service.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
@@ -62,27 +63,20 @@ export class GuestPasswordService {
 			return false;
 		}
 
-		let teamWithId: Pick<TeamSchema, 'id'>;
-
 		if ('id' in team) {
-			teamWithId = team;
-		} else {
-			// TODO: Instead of returning the ID from the query, ask the DB if there is a team with that slug & id
-			const dbTeam = await db.query.teams.findFirst({
-				where: eq(Schema.teams.slug, team.slug),
-				columns: {
-					id: true,
-				},
-			});
-
-			if (!dbTeam) {
-				return false;
-			}
-
-			teamWithId = dbTeam;
+			return tokenTeam.id === team.id;
 		}
 
-		return tokenTeam.id === teamWithId.id;
+		const [result] = await db
+			.select({
+				count: count(),
+			})
+			.from(Schema.teams)
+			.where(and(eq(Schema.teams.slug, team.slug), eq(Schema.teams.id, tokenTeam.id)));
+
+		assert(result);
+
+		return result.count > 0;
 	}
 
 	async getTeamFromToken(token: string): Promise<Pick<TeamSchema, 'id'> | undefined> {
