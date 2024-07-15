@@ -2,18 +2,19 @@
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { SortableHeader } from '@/src/components/data-tables/sortable-header';
-import { DateTimePicker } from '@/src/components/date-time-picker';
 import { TeamSlugContext } from '@/src/components/team-dashboard/team-slug-provider';
 import { formatDuration } from '@/src/utils/date-format';
 import type { AttendanceEntrySchema } from '@hours.frc.sh/api/app/team_member_attendance/schemas/attendance_entry_schema';
 import { Sort } from '@jonahsnider/util';
 import type { ColumnDef } from '@tanstack/react-table';
-import clsx from 'clsx';
 import { type Duration, intervalToDuration, milliseconds } from 'date-fns';
 import Link from 'next/link';
-import { useContext, useState } from 'react';
-import { MeetingDialogChangesContext } from '../meeting-dialog-changes-context';
+import { useContext } from 'react';
+import { MeetingDateRangePicker } from '../../../members/view-member/member-attendance-section/meeting-date-range-picker';
 import { RowActionsDropdown } from './row-actions-dropdown';
+
+// TODO: If you edit the start time of a the earliest entry, or the end time of the last entry, the modal will close because the start-end range is different
+// Ideally the client could tell when it was going to change the start/end time of the meeting, and update the selected modal time range to match the new time span
 
 export const columns: ColumnDef<AttendanceEntrySchema>[] = [
 	{
@@ -45,25 +46,14 @@ export const columns: ColumnDef<AttendanceEntrySchema>[] = [
 			return <SortableHeader column={column}>Signed in</SortableHeader>;
 		},
 		cell: ({ row }) => {
-			const changes = useContext(MeetingDialogChangesContext);
-			const [startedAt, setStartedAt] = useState<Date | undefined>(row.original.startedAt);
-
-			const onSelect = (value: Date | undefined) => {
-				setStartedAt(value);
-
-				changes.updateMeeting(row.original, { startedAt: value });
-			};
-
 			return (
-				<DateTimePicker
-					value={startedAt}
-					buttonProps={{ variant: 'link' }}
-					className={clsx('min-w-min w-full p-0 text-foreground font-normal', {
-						'bg-destructive-muted': !startedAt,
-					})}
-					onSelect={onSelect}
+				<MeetingDateRangePicker
+					display='start'
+					meeting={row.original}
 					icon={false}
 					verbose={true}
+					buttonProps={{ variant: 'link' }}
+					className={'min-w-min p-0 text-foreground font-normal'}
 				/>
 			);
 		},
@@ -75,25 +65,14 @@ export const columns: ColumnDef<AttendanceEntrySchema>[] = [
 			return <SortableHeader column={column}>Signed out</SortableHeader>;
 		},
 		cell: ({ row }) => {
-			const changes = useContext(MeetingDialogChangesContext);
-			const [endedAt, setEndedAt] = useState<Date | undefined>(row.original.endedAt);
-
-			const onSelect = (value: Date | undefined) => {
-				setEndedAt(value);
-
-				changes.updateMeeting(row.original, { endedAt: value });
-			};
-
 			return (
-				<DateTimePicker
-					value={endedAt}
-					buttonProps={{ variant: 'link' }}
-					className={clsx('min-w-min w-full p-0 text-foreground font-normal', {
-						'bg-destructive-muted': !endedAt,
-					})}
-					onSelect={onSelect}
+				<MeetingDateRangePicker
+					display='end'
+					meeting={row.original}
 					icon={false}
 					verbose={true}
+					buttonProps={{ variant: 'link' }}
+					className={'min-w-min p-0 text-foreground font-normal'}
 				/>
 			);
 		},
