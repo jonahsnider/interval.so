@@ -19,7 +19,8 @@ import {
 	useReactTable,
 } from '@tanstack/react-table';
 import clsx from 'clsx';
-import { useState } from 'react';
+import Fuse from 'fuse.js';
+import { useEffect, useState } from 'react';
 import { columns } from './columns';
 import { MembersTableButtons } from './members-table-buttons';
 import { InnerTableContainer, OuterTableContainer } from './members-table-common';
@@ -59,6 +60,12 @@ function TableRowSkeleton() {
 export function MembersTableClient({ initialData, loading, team }: Props) {
 	const [data, setData] = useState(initialData);
 
+	const [fuse] = useState(new Fuse(data, { keys: ['name'] }));
+
+	useEffect(() => {
+		fuse.setCollection(data);
+	}, [data, fuse]);
+
 	trpc.teams.members.fullMemberListSubscription.useSubscription(team, { onData: setData });
 
 	const [sorting, setSorting] = useState<SortingState>([
@@ -74,6 +81,10 @@ export function MembersTableClient({ initialData, loading, team }: Props) {
 		pageSize: 50,
 	});
 
+	const [globalFilter, setGlobalFilter] = useState('');
+
+	const [filteredRowIds, setFilteredRowIds] = useState<Set<string>>(new Set());
+
 	const table = useReactTable({
 		data,
 		columns,
@@ -85,6 +96,12 @@ export function MembersTableClient({ initialData, loading, team }: Props) {
 		getPaginationRowModel: getPaginationRowModel(),
 		onPaginationChange: setPagination,
 		getRowId: (member) => member.id,
+		enableGlobalFilter: true,
+		onGlobalFilterChange: (newFilter) => {
+			setFilteredRowIds(new Set(fuse.search(newFilter).map((result) => result.item.id)));
+			setGlobalFilter(newFilter);
+		},
+		globalFilterFn: (row) => filteredRowIds.has(row.original.id),
 		initialState: {
 			columnVisibility: {
 				// Used only for filtering
@@ -95,6 +112,7 @@ export function MembersTableClient({ initialData, loading, team }: Props) {
 			sorting,
 			columnFilters,
 			pagination,
+			globalFilter,
 		},
 	});
 

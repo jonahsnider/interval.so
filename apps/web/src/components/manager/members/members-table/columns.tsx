@@ -39,7 +39,6 @@ export const columns: ColumnDef<TeamMemberSchema>[] = [
 		enableHiding: false,
 	},
 	{
-		// TODO: Good fuzzy search
 		id: 'name',
 		accessorKey: 'name',
 		header: ({ column }) => <SortableHeader column={column}>Name</SortableHeader>,

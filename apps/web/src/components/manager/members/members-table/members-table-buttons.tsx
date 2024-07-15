@@ -56,8 +56,7 @@ export function MembersTableButtons({ table, loading }: Props) {
 		<div className='flex items-center gap-2 flex-wrap'>
 			<Input
 				placeholder='Filter members...'
-				value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
-				onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
+				onChange={(event) => table.setGlobalFilter(event.target.value)}
 				className='xs:max-w-36 md:max-w-64 bg-background xs:flex-grow flex-grow-0'
 				disabled={loading}
 			/>
