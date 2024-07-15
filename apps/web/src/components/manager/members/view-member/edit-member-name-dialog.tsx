@@ -1,15 +1,15 @@
 'use client';
 
-import {
-	AlertDialog,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-	AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
+import {
+	Dialog,
+	DialogClose,
+	DialogContent,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from '@/components/ui/dialog';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { trpc } from '@/src/trpc/trpc-client';
@@ -59,13 +59,13 @@ export function EditMemberNameDialog({ member, children }: Props) {
 	const [open, setOpen] = useState(false);
 
 	return (
-		<AlertDialog open={open} onOpenChange={setOpen}>
-			<AlertDialogTrigger asChild={true}>{children}</AlertDialogTrigger>
+		<Dialog open={open} onOpenChange={setOpen}>
+			<DialogTrigger asChild={true}>{children}</DialogTrigger>
 
-			<AlertDialogContent>
-				<AlertDialogHeader>
-					<AlertDialogTitle>Edit member name</AlertDialogTitle>
-				</AlertDialogHeader>
+			<DialogContent>
+				<DialogHeader>
+					<DialogTitle>Edit member name</DialogTitle>
+				</DialogHeader>
 
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className='grid gap-4'>
@@ -82,14 +82,16 @@ export function EditMemberNameDialog({ member, children }: Props) {
 								</FormItem>
 							)}
 						/>
-						<AlertDialogFooter className='sm:justify-between'>
-							<AlertDialogCancel>Cancel</AlertDialogCancel>
+						<DialogFooter className='sm:justify-between'>
+							<DialogClose asChild={true}>
+								<Button variant='outline'>Cancel</Button>
+							</DialogClose>
 
 							<Button type='submit'>Save</Button>
-						</AlertDialogFooter>
+						</DialogFooter>
 					</form>
 				</Form>
-			</AlertDialogContent>
-		</AlertDialog>
+			</DialogContent>
+		</Dialog>
 	);
 }

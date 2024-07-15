@@ -27,8 +27,6 @@ type Props = PropsWithChildren<{
 	meetingStart: Date | undefined;
 }>;
 
-// TODO: Refactor to use a regular dialog and not an alert
-
 export function EndMeetingAlert({ team, open, onOpenChange, children, meetingStart }: Props) {
 	const [date, setDate] = useState<Date | undefined>(new Date());
 
