@@ -17,12 +17,7 @@ export function AverageHoursGraph(props: Props) {
 
 	return (
 		<Suspense fallback={<div className='h-96' />}>
-			<AverageHoursGraphClient
-				dataPromise={dataPromise}
-				period={period}
-				team={props.team}
-				timeFilter={props.timeFilter}
-			/>
+			<AverageHoursGraphClient dataPromise={dataPromise} period={period} team={props.team} />
 		</Suspense>
 	);
 }
