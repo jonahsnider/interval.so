@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
 import { CalendarIcon } from '@heroicons/react/16/solid';
 import type { TimeRangeSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_range_schema';
 import { parseDate } from 'chrono-node';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { formatDate, formatDateRange } from '../utils/date-format';
 
 type Props = {
@@ -54,9 +54,21 @@ export function DateTimeRangePicker({
 	display,
 	disabled,
 }: Props) {
+	const [startInputFocused, setStartInputFocused] = useState(false);
+	const [endInputFocused, setEndInputFocused] = useState(false);
 	const [startInput, setStartInput] = useState(value.start ? formatDate(value.start) : '');
 	const [endInput, setEndInput] = useState(value.end ? formatDate(value.end) : '');
 	const now = new Date();
+
+	useEffect(() => {
+		// When value is updated externally (ex. reverting an invalid change), we trigger the calendar selection function
+		// This will update the text field values to ensure their state matches what is shown on the calendar
+
+		if (!(startInputFocused || endInputFocused)) {
+			// This is a hacky way to avoid the inputs effectively ignoring any changes that can't have a date extracted from them
+			onCalendarSelection(value);
+		}
+	}, [value, startInputFocused, endInputFocused]);
 
 	const onCalendarSelection = (range: Partial<TimeRangeSchema>) => {
 		if (range.start) {
@@ -140,6 +152,8 @@ export function DateTimeRangePicker({
 							value={startInput}
 							placeholder='Try "yesterday" or "3pm"'
 							onChange={(e) => onStartInput(e.target.value)}
+							onFocus={() => setStartInputFocused(true)}
+							onBlur={() => setStartInputFocused(false)}
 						/>
 					</div>
 
@@ -149,6 +163,8 @@ export function DateTimeRangePicker({
 							value={endInput}
 							placeholder='Try "yesterday" or "3pm"'
 							onChange={(e) => onEndInput(e.target.value)}
+							onFocus={() => setEndInputFocused(true)}
+							onBlur={() => setEndInputFocused(false)}
 						/>
 					</div>
 				</div>
