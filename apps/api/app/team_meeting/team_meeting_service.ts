@@ -79,7 +79,6 @@ export class TeamMeetingService {
 			.from(s2)
 			.as('s3');
 
-		// TODO: See if this can be done in a single query
 		const [completedMeetings, [pendingMeeting]] = await Promise.all([
 			db
 				.select({
