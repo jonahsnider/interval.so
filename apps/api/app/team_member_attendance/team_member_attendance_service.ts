@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { inject } from '@adonisjs/core';
 import { TRPCError } from '@trpc/server';
-import { and, count, eq, gt, inArray, lt, max, min, sql } from 'drizzle-orm';
+import { and, count, eq, gt, inArray, lt, max, min, not, sql } from 'drizzle-orm';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { injectHelper } from '../../util/inject_helper.js';
@@ -186,8 +186,7 @@ export class TeamMemberAttendanceService {
 				memberId: Schema.memberAttendance.memberId,
 			})
 			.from(Schema.memberAttendance)
-			.where(eq(Schema.memberAttendance.id, update.attendanceId))
-			.as('existing_entry');
+			.where(eq(Schema.memberAttendance.id, update.attendanceId));
 
 		const [overlappingEntries] = await db
 			.select({
@@ -196,7 +195,8 @@ export class TeamMemberAttendanceService {
 			.from(Schema.memberAttendance)
 			.where(
 				and(
-					eq(Schema.memberAttendance.memberId, existingEntry.memberId),
+					eq(Schema.memberAttendance.memberId, existingEntry),
+					not(eq(Schema.memberAttendance.id, update.attendanceId)),
 					sql`tstzrange(${Schema.memberAttendance.startedAt}, ${Schema.memberAttendance.endedAt}, '[]') && tstzrange(${update.startedAt.toISOString()}, ${update.endedAt.toISOString()}, '[]')`,
 				),
 			);
