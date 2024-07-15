@@ -41,7 +41,7 @@ async function TeamDropdownItem({
 }: {
 	currentTeam?: Pick<TeamSchema, 'slug'>;
 }) {
-	const user = await trpcServer.user.getSelf.query();
+	const { user } = await trpcServer.user.getSelf.query();
 
 	if (!user) {
 		return undefined;
