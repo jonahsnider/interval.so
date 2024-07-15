@@ -36,8 +36,10 @@ export function MeetingsTable({ team, timeFilter }: Props) {
 function MeetingsTableSkeleton() {
 	return (
 		<OuterTableContainer>
-			{/* Filter button */}
-			<Skeleton className='w-40 h-9' />
+			<div className='flex items-center justify-end'>
+				{/* Filter button */}
+				<Skeleton className='w-40 h-9' />
+			</div>
 
 			<InnerTableContainer>
 				<Table>

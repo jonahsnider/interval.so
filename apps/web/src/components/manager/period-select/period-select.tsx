@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { CalendarIcon } from '@heroicons/react/16/solid';
 import clsx from 'clsx';
-import { type ReactNode, useState } from 'react';
+import { type ComponentProps, type ReactNode, useState } from 'react';
 import type { SelectRangeEventHandler } from 'react-day-picker';
 import { DurationSlug, durationLabel } from './duration-slug';
 
@@ -27,6 +27,7 @@ type Props = {
 	emptyText?: ReactNode;
 	prefix?: ReactNode;
 	disabled?: boolean;
+	align?: ComponentProps<typeof DropdownMenuContent>['align'];
 
 	setDatesAndClearDuration: SelectRangeEventHandler;
 } & (
@@ -51,6 +52,7 @@ export function PeriodSelect({
 	optional,
 	emptyText = 'No dates selected',
 	disabled = false,
+	align,
 }: Props) {
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -90,7 +92,7 @@ export function PeriodSelect({
 					{(!duration || (duration === DurationSlug.Custom && !(start && end))) && emptyText}
 				</Button>
 			</DropdownMenuTrigger>
-			<DropdownMenuContent className='w-56'>
+			<DropdownMenuContent className='w-56' align={align}>
 				<DropdownMenuGroup>
 					{Object.values(DurationSlug)
 						.filter((duration) => duration !== DurationSlug.Custom)

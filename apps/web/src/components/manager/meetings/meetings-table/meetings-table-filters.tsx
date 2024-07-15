@@ -29,13 +29,16 @@ export function MeetingsTableFilters() {
 	);
 
 	return (
-		<PeriodSelect
-			duration={duration}
-			start={start ?? undefined}
-			end={end ?? undefined}
-			setDatesAndClearDuration={setDatesAndClearDuration}
-			setDurationAndClearDates={setDurationAndClearDates}
-			className='max-w-min'
-		/>
+		<div className='flex items-center justify-end'>
+			<PeriodSelect
+				duration={duration}
+				start={start ?? undefined}
+				end={end ?? undefined}
+				setDatesAndClearDuration={setDatesAndClearDuration}
+				setDurationAndClearDates={setDurationAndClearDates}
+				className='max-w-min'
+				align='end'
+			/>
+		</div>
 	);
 }
