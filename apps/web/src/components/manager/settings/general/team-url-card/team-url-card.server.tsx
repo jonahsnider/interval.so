@@ -16,8 +16,7 @@ export function TeamUrlCard({ team }: Props) {
 			<CardHeader>
 				<CardTitle>Team URL</CardTitle>
 				<CardDescription>
-					This is your team's URL on the interval.so platform. Team members can use this URL to access your team's
-					page.
+					This is your team's URL on the interval.so platform. Team members can use this URL to access your team's page.
 				</CardDescription>
 			</CardHeader>
 
