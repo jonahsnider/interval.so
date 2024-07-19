@@ -11,21 +11,6 @@ export function Footer() {
 							Jonah Snider
 						</a>
 					</p>
-					<div className='flex flex-col gap-3 min-w-min leading-none'>
-						<p className='font-semibold'>Other projects</p>
-
-						<a className='underline' href='https://frc.sh'>
-							frc.sh
-						</a>
-
-						<a className='underline' href='https://scores.frc.sh'>
-							scores.frc.sh
-						</a>
-
-						<a className='underline' href='https://frc-colors.com'>
-							FRC Colors
-						</a>
-					</div>
 				</div>
 
 				<ThemeSelect />
