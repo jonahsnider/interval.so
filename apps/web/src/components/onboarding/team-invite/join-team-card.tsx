@@ -1,7 +1,7 @@
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { trpcServer } from '@/src/trpc/trpc-server';
-import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { Suspense } from 'react';
 import { JoinTeamButton } from './join-team-button/join-team-button.server';
 
@@ -44,7 +44,7 @@ async function JoinTeamCardHeader({ team }: Props) {
 
 	return (
 		<>
-			<CardTitle>{dbTeam.owner.displayName} invited you to join them on hours.frc.sh</CardTitle>
+			<CardTitle>{dbTeam.owner.displayName} invited you to join them on Interval</CardTitle>
 			<CardDescription>
 				Start tracking meeting hours with {dbTeam.owner.displayName} and the rest of {dbTeam.team.displayName} below.
 			</CardDescription>

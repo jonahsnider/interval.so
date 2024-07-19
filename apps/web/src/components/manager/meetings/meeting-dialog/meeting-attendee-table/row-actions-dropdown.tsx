@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { trpc } from '@/src/trpc/trpc-client';
 import { EllipsisVerticalIcon, TrashIcon } from '@heroicons/react/16/solid';
-import type { AttendanceEntrySchema } from '@hours.frc.sh/api/app/team_member_attendance/schemas/attendance_entry_schema';
+import type { AttendanceEntrySchema } from '@interval.so/api/app/team_member_attendance/schemas/attendance_entry_schema';
 import { useState } from 'react';
 import { toast } from 'sonner';
 

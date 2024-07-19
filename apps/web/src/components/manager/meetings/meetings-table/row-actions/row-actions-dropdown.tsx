@@ -8,8 +8,8 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { EllipsisVerticalIcon } from '@heroicons/react/16/solid';
-import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
-import type { TeamMeetingSchema } from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
+import type { TeamMeetingSchema } from '@interval.so/api/app/team_meeting/schemas/team_meeting_schema';
 import { useState } from 'react';
 import { EndMeetingAlert } from '../../../end-meeting-alert';
 import { DeleteMeetingItem } from './delete-meeting-item';

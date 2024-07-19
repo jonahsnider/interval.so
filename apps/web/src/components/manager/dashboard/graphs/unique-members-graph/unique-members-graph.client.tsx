@@ -12,9 +12,9 @@ import {
 import { CustomTooltip, formatTooltipDate } from '@/src/components/graphs/custom-tooltip';
 import { formatXAxisDate } from '@/src/components/graphs/graph-utils';
 import { trpc } from '@/src/trpc/trpc-client';
-import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
-import type { DatumPeriod } from '@hours.frc.sh/api/app/team_stats/schemas/datum_time_range_schema';
-import type { UniqueMembersDatumSchema } from '@hours.frc.sh/api/app/team_stats/schemas/unique_members_datum_schema';
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
+import type { DatumPeriod } from '@interval.so/api/app/team_stats/schemas/datum_time_range_schema';
+import type { UniqueMembersDatumSchema } from '@interval.so/api/app/team_stats/schemas/unique_members_datum_schema';
 import { max } from '@jonahsnider/util';
 import { useQueryStates } from 'nuqs';
 import { use, useMemo, useState } from 'react';

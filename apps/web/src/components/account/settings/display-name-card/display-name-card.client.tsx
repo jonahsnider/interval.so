@@ -6,7 +6,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/component
 import { Input } from '@/components/ui/input';
 import { trpc } from '@/src/trpc/trpc-client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { UserSchema } from '@hours.frc.sh/api/app/user/schemas/user_schema';
+import { UserSchema } from '@interval.so/api/app/user/schemas/user_schema';
 import { useRouter } from 'next/navigation';
 import { use, useState } from 'react';
 import { useForm } from 'react-hook-form';

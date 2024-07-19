@@ -1,4 +1,4 @@
-import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { SlashIcon } from '@radix-ui/react-icons';
 import { Link } from 'next-view-transitions';
 import type { PropsWithChildren, ReactNode } from 'react';

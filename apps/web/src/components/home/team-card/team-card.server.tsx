@@ -2,7 +2,7 @@ import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/comp
 import { Skeleton } from '@/components/ui/skeleton';
 import { trpcServer } from '@/src/trpc/trpc-server';
 import { ArrowRightIcon } from '@heroicons/react/24/solid';
-import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { count } from '@jonahsnider/util';
 import { Link } from 'next-view-transitions';
 import { Suspense } from 'react';

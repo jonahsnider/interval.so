@@ -11,7 +11,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { ChevronUpDownIcon, PlusIcon } from '@heroicons/react/16/solid';
-import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import clsx from 'clsx';
 import { Link } from 'next-view-transitions';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';

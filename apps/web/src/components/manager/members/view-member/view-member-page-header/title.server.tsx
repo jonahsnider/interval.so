@@ -1,7 +1,7 @@
 import { EditMemberNameDialog } from '@/src/components/manager/members/view-member/edit-member-name-dialog';
 import { trpcServer } from '@/src/trpc/trpc-server';
 import { PencilSquareIcon } from '@heroicons/react/16/solid';
-import type { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
+import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
 import { TitleClient } from './title.client';
 
 type Props = {

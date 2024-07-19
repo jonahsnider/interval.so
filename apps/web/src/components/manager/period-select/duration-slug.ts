@@ -1,5 +1,5 @@
-import type { TimeFilterSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_filter_schema';
-import type { TimeRangeSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_range_schema';
+import type { TimeFilterSchema } from '@interval.so/api/app/team_stats/schemas/time_filter_schema';
+import type { TimeRangeSchema } from '@interval.so/api/app/team_stats/schemas/time_range_schema';
 import { type Duration, endOfDay, endOfYear, startOfDay, startOfYear, sub } from 'date-fns';
 
 export enum DurationSlug {

@@ -1,4 +1,4 @@
-import type { AttendanceEntrySchema } from '@hours.frc.sh/api/app/team_member_attendance/schemas/attendance_entry_schema';
+import type { AttendanceEntrySchema } from '@interval.so/api/app/team_member_attendance/schemas/attendance_entry_schema';
 import { createContext, useMemo } from 'react';
 import { useMutative } from 'use-mutative';
 

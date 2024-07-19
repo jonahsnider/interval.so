@@ -1,6 +1,6 @@
 import { trpcServer } from '@/src/trpc/trpc-server';
-import type { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
-import type { TimeFilterSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_filter_schema';
+import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
+import type { TimeFilterSchema } from '@interval.so/api/app/team_stats/schemas/time_filter_schema';
 import { Suspense } from 'react';
 import 'server-only';
 import { MemberAttendanceTableClient } from './member-attendance-table.client';

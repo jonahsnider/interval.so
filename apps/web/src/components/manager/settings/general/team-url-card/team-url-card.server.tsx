@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { CopyButtonInput } from '@/src/components/copy-button-input';
 import { SettingsCardContentSkeleton, SettingsCardFooterSkeleton } from '@/src/components/settings-card-skeleton';
 import { trpcServer } from '@/src/trpc/trpc-server';
-import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { Suspense } from 'react';
 import { TeamUrlCardEditForm } from './team-url-card.client';
 
@@ -16,7 +16,7 @@ export function TeamUrlCard({ team }: Props) {
 			<CardHeader>
 				<CardTitle>Team URL</CardTitle>
 				<CardDescription>
-					This is your team's URL on the hours.frc.sh platform. Team members can use this URL to access your team's
+					This is your team's URL on the interval.so platform. Team members can use this URL to access your team's
 					page.
 				</CardDescription>
 			</CardHeader>
@@ -43,7 +43,7 @@ async function TeamUrlCardFormFetcher({ team }: Props) {
 	if (teamManager.role === 'editor') {
 		return (
 			<CardContent>
-				<CopyButtonInput value={`https://hours.frc.sh/team/${team.slug}`} editable={false} />
+				<CopyButtonInput value={`https://interval.so/team/${team.slug}`} editable={false} />
 			</CardContent>
 		);
 	}

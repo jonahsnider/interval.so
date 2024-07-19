@@ -6,7 +6,7 @@ import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { CopyButtonInput } from '@/src/components/copy-button-input';
 import { trpc } from '@/src/trpc/trpc-client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
+import { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';

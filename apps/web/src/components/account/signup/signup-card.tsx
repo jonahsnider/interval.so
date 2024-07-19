@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { trpc } from '@/src/trpc/trpc-client';
 import { ArrowPathIcon } from '@heroicons/react/16/solid';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { UserSchema } from '@hours.frc.sh/api/app/user/schemas/user_schema';
+import { UserSchema } from '@interval.so/api/app/user/schemas/user_schema';
 import { WebAuthnError, startRegistration } from '@simplewebauthn/browser';
 import type { PublicKeyCredentialCreationOptionsJSON, RegistrationResponseJSON } from '@simplewebauthn/types';
 import { TRPCClientError } from '@trpc/client';

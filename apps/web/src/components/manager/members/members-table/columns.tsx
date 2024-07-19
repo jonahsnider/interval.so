@@ -8,7 +8,7 @@ import { SortableHeader } from '@/src/components/data-tables/sortable-header';
 import { TeamSlugContext } from '@/src/components/team-dashboard/team-slug-provider';
 import { formatDate } from '@/src/utils/date-format';
 import { ArchiveBoxIcon, UserIcon } from '@heroicons/react/16/solid';
-import type { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
+import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
 import { Sort } from '@jonahsnider/util';
 import type { ColumnDef } from '@tanstack/react-table';
 import { Link } from 'next-view-transitions';

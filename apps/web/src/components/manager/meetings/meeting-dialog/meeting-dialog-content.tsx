@@ -11,8 +11,8 @@ import {
 } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { formatDateRange } from '@/src/utils/date-format';
-import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
-import type { TeamMeetingSchema } from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
+import type { TeamMeetingSchema } from '@interval.so/api/app/team_meeting/schemas/team_meeting_schema';
 import { MeetingAttendeeTable } from './meeting-attendee-table/meeting-attendee-table';
 import { MeetingDialogActions } from './meeting-dialog-actions';
 

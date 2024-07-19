@@ -1,5 +1,5 @@
 import getBaseApiUrl from '@/shared';
-import type { AppRouterType } from '@hours.frc.sh/api/trpc_entry';
+import type { AppRouterType } from '@interval.so/api/trpc_entry';
 import { TRPCClientError } from '@trpc/client';
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
 

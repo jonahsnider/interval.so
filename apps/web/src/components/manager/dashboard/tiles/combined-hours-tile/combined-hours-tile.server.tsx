@@ -1,8 +1,8 @@
 import { Skeleton } from '@/components/ui/skeleton';
 import { trpcServer } from '@/src/trpc/trpc-server';
-import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
-import type { TimeFilterSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_filter_schema';
-import type { TimeRangeSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_range_schema';
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
+import type { TimeFilterSchema } from '@interval.so/api/app/team_stats/schemas/time_filter_schema';
+import type { TimeRangeSchema } from '@interval.so/api/app/team_stats/schemas/time_range_schema';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import type { DurationSlug } from '../../../period-select/duration-slug';

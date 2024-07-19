@@ -12,7 +12,7 @@ import { buttonVariants } from '@/components/ui/button';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { trpc } from '@/src/trpc/trpc-client';
 import { TrashIcon } from '@heroicons/react/16/solid';
-import type { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
+import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
 import type { Table } from '@tanstack/react-table';
 import { useState } from 'react';
 import { toast } from 'sonner';

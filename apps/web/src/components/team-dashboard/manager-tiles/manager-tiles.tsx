@@ -1,4 +1,4 @@
-import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { ManageTile } from './manage-tile';
 import { ManagerLinkTile } from './manager-link-tile';
 import { MemberCountTile } from './member-count-tile/member-count-tile.server';

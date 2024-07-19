@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { ReadonlyTextField } from '@/src/components/readonly-text-field';
 import { SettingsCardContentSkeleton, SettingsCardFooterSkeleton } from '@/src/components/settings-card-skeleton';
 import { trpcServer } from '@/src/trpc/trpc-server';
-import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { Suspense } from 'react';
 import { TeamDisplayNameEditForm } from './team-display-name-card.client';
 
@@ -15,7 +15,7 @@ export function TeamDisplayNameCard({ team }: Props) {
 		<Card>
 			<CardHeader>
 				<CardTitle>Team display name</CardTitle>
-				<CardDescription>This is your team's visible name within hours.frc.sh.</CardDescription>
+				<CardDescription>This is your team's visible name within Interval.</CardDescription>
 			</CardHeader>
 
 			<Suspense fallback={<TeamDisplayNameEditFormSkeleton />}>

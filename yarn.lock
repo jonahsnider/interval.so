@@ -1210,9 +1210,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hours.frc.sh/api@workspace:apps/api":
+"@interval.so/api@workspace:apps/api":
   version: 0.0.0-use.local
-  resolution: "@hours.frc.sh/api@workspace:apps/api"
+  resolution: "@interval.so/api@workspace:apps/api"
   dependencies:
     "@adonisjs/assembler": "npm:7.7.0"
     "@adonisjs/auth": "npm:9.2.3"
@@ -1257,9 +1257,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@hours.frc.sh/web@workspace:apps/web":
+"@interval.so/web@workspace:apps/web":
   version: 0.0.0-use.local
-  resolution: "@hours.frc.sh/web@workspace:apps/web"
+  resolution: "@interval.so/web@workspace:apps/web"
   dependencies:
     "@heroicons/react": "npm:2.1.4"
     "@hookform/resolvers": "npm:3.7.0"
@@ -7369,18 +7369,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hours.frc.sh@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "hours.frc.sh@workspace:."
-  dependencies:
-    "@biomejs/biome": "npm:1.8.3"
-    prettier: "npm:3.3.2"
-    prettier-plugin-packagejson: "npm:2.5.0"
-    turbo: "npm:2.0.6"
-    vercel: "npm:34.3.0"
-  languageName: unknown
-  linkType: soft
-
 "http-cache-semantics@npm:^4.1.1":
   version: 4.1.1
   resolution: "http-cache-semantics@npm:4.1.1"
@@ -7603,6 +7591,18 @@ __metadata:
   checksum: 10c0/8cedd57f07bbc22501516fbfc70447f0c6812871d471096fad9ea603516eacc2137b633633daf432c029712df0baefd793686388ddf5737e3ea15074b877f7ed
   languageName: node
   linkType: hard
+
+"interval.so@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "interval.so@workspace:."
+  dependencies:
+    "@biomejs/biome": "npm:1.8.3"
+    prettier: "npm:3.3.2"
+    prettier-plugin-packagejson: "npm:2.5.0"
+    turbo: "npm:2.0.6"
+    vercel: "npm:34.3.0"
+  languageName: unknown
+  linkType: soft
 
 "invariant@npm:^2.2.4":
   version: 2.2.4

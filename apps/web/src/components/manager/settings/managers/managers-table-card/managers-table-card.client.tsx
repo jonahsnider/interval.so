@@ -10,9 +10,9 @@ import {
 import { Select, SelectContent, SelectGroup, SelectItem, SelectSeparator, SelectTrigger } from '@/components/ui/select';
 import { trpc } from '@/src/trpc/trpc-client';
 import { EllipsisHorizontalIcon } from '@heroicons/react/16/solid';
-import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
-import { TeamManagerSchema } from '@hours.frc.sh/api/app/team_manager/schemas/team_manager_schema';
-import type { TeamManagerRole } from '@hours.frc.sh/api/database/schema';
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
+import { TeamManagerSchema } from '@interval.so/api/app/team_manager/schemas/team_manager_schema';
+import type { TeamManagerRole } from '@interval.so/api/database/schema';
 import { capitalize } from '@jonahsnider/util';
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';

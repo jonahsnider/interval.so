@@ -7,7 +7,7 @@ import { CopyButtonInput } from '@/src/components/copy-button-input';
 import { ReadonlyTextField } from '@/src/components/readonly-text-field';
 import { trpc } from '@/src/trpc/trpc-client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
+import { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -65,12 +65,12 @@ export function TeamUrlCardEditForm({ team }: Props) {
 							<FormItem {...field}>
 								<div className='flex'>
 									<ReadonlyTextField className='rounded-r-none'>
-										<span className='hidden sm:block'>https://</span>hours.frc.sh/team/
+										<span className='hidden sm:block'>https://</span>interval.so/team/
 									</ReadonlyTextField>
 									<CopyButtonInput
 										className='max-w-80'
 										innerClassName='rounded-l-none border-l-0'
-										copyValue={`https://hours.frc.sh/team/${field.value}`}
+										copyValue={`https://interval.so/team/${field.value}`}
 										{...field}
 									/>
 								</div>

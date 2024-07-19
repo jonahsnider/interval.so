@@ -7,7 +7,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import { CalendarIcon } from '@heroicons/react/16/solid';
-import type { TimeRangeSchema } from '@hours.frc.sh/api/app/team_stats/schemas/time_range_schema';
+import type { TimeRangeSchema } from '@interval.so/api/app/team_stats/schemas/time_range_schema';
 import { parseDate } from 'chrono-node';
 import { useEffect, useState } from 'react';
 import { formatDate, formatDateRange } from '../utils/date-format';

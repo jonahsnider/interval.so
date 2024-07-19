@@ -1,4 +1,4 @@
-import { UserTimezoneSchema } from '@hours.frc.sh/api/app/user/schemas/user_timezone_schema';
+import { UserTimezoneSchema } from '@interval.so/api/app/user/schemas/user_timezone_schema';
 
 export function getTimezone(): UserTimezoneSchema {
 	const raw = new Intl.DateTimeFormat().resolvedOptions().timeZone;

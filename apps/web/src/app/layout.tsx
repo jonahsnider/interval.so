@@ -10,14 +10,14 @@ import '../globals.css';
 import { TrpcProvider } from '../providers/trpc-provider';
 
 export const metadata: Metadata = {
-	title: 'hours.frc.sh',
+	title: 'Interval',
 	description: 'Track meeting attendance.',
-	metadataBase: new URL('https://hours.frc.sh'),
+	metadataBase: new URL('https://interval.so'),
 	openGraph: {
-		url: 'https://hours.frc.sh',
+		url: 'https://interval.so',
 		type: 'website',
-		title: 'hours.frc.sh',
-		siteName: 'hours.frc.sh',
+		title: 'Interval',
+		siteName: 'Interval',
 		description: 'Track meeting attendance.',
 	},
 };
@@ -42,7 +42,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 		<ViewTransitions>
 			<html lang='en' className='bg-background' suppressHydrationWarning={true}>
 				<head>
-					<PlausibleProvider domain='hours.frc.sh' />
+					<PlausibleProvider domain='interval.so' />
 				</head>
 				<body className='text-foreground bg-muted/40 antialiased'>
 					<ThemeProvider attribute='class' defaultTheme='system' enableSystem={true} disableTransitionOnChange={true}>

@@ -1,7 +1,7 @@
 'use client';
 import { PageHeaderTitle } from '@/src/components/page-header';
 import { trpc } from '@/src/trpc/trpc-client';
-import type { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
+import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
 import { useState } from 'react';
 
 type Props = {

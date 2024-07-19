@@ -3,8 +3,8 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { TablePagination } from '@/src/components/data-tables/table-pagination';
 import { trpc } from '@/src/trpc/trpc-client';
-import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
-import type { TeamMeetingSchema } from '@hours.frc.sh/api/app/team_meeting/schemas/team_meeting_schema';
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
+import type { TeamMeetingSchema } from '@interval.so/api/app/team_meeting/schemas/team_meeting_schema';
 import {
 	type PaginationState,
 	type SortingState,

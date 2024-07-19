@@ -1,10 +1,10 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import {
 	type TeamManagerSchema,
 	getAllowedRoleModifications,
-} from '@hours.frc.sh/api/app/team_manager/schemas/team_manager_schema';
+} from '@interval.so/api/app/team_manager/schemas/team_manager_schema';
 import 'server-only';
 import { Skeleton } from '@/components/ui/skeleton';
 import { trpcServer } from '@/src/trpc/trpc-server';

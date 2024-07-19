@@ -1,5 +1,5 @@
-# hours.frc.sh - Track meeting hours
+# interval.so - Track meeting hours
 
-**[hours.frc.sh](https://hours.frc.sh)**
+**[interval.so](https://interval.so)**
 
 A web app for tracking meeting attendance and hours.

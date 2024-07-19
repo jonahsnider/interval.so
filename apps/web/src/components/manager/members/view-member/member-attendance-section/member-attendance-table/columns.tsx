@@ -2,7 +2,7 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import { SortableHeader } from '@/src/components/data-tables/sortable-header';
 import { formatDuration } from '@/src/utils/date-format';
-import type { AttendanceEntrySchema } from '@hours.frc.sh/api/app/team_member_attendance/schemas/attendance_entry_schema';
+import type { AttendanceEntrySchema } from '@interval.so/api/app/team_member_attendance/schemas/attendance_entry_schema';
 import { Sort } from '@jonahsnider/util';
 import type { ColumnDef } from '@tanstack/react-table';
 import { type Duration, intervalToDuration, milliseconds } from 'date-fns';

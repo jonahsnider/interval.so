@@ -1,6 +1,6 @@
 {
 	"$schema": "https://openapi.vercel.sh/vercel.json",
-	"buildCommand": "yarn run build --filter=@hours.frc.sh/web",
+	"buildCommand": "yarn run build --filter=@interval.so/web",
 	"cleanUrls": true,
 	"framework": "nextjs",
 	"installCommand": "yarn install --immutable",

@@ -1,5 +1,5 @@
 {
-	"name": "hours.frc.sh",
+	"name": "interval.so",
 	"private": true,
 	"workspaces": [
 		"apps/*"

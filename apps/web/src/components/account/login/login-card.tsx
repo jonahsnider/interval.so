@@ -110,7 +110,7 @@ export function LoginCard() {
 			<CardHeader>
 				<CardTitle className='[view-transition-name:auth-card-title]'>Login</CardTitle>
 				<CardDescription className='[view-transition-name:auth-card-description]'>
-					Login to hours.frc.sh with your passkey.
+					Login to Interval with your passkey.
 				</CardDescription>
 			</CardHeader>
 			<CardFooter className='justify-center'>

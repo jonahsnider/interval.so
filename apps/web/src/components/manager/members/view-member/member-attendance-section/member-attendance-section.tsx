@@ -1,5 +1,5 @@
 import 'server-only';
-import type { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
+import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
 import { toTimeFilter } from '../../../period-select/duration-slug';
 import { searchParamCache } from '../search-params';
 import { AddAttendanceButton } from './add-attendance-button';

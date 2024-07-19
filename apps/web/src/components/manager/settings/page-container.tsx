@@ -1,4 +1,4 @@
-import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import type { PropsWithChildren } from 'react';
 import { SettingsSidebar, type SidebarEntryId } from './settings-sidebar';
 

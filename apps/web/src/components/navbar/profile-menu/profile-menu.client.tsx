@@ -8,8 +8,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
 import { trpc } from '@/src/trpc/trpc-client';
-import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
-import type { UserSchema } from '@hours.frc.sh/api/app/user/schemas/user_schema';
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
+import type { UserSchema } from '@interval.so/api/app/user/schemas/user_schema';
 import { Link } from 'next-view-transitions';
 import { useRouter } from 'next/navigation';
 import { Suspense, use } from 'react';

@@ -6,8 +6,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { trpc } from '@/src/trpc/trpc-client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import type { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
-import { TeamMemberSchema } from '@hours.frc.sh/api/app/team_member/schemas/team_member_schema';
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
+import { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
 import { type PropsWithChildren, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';

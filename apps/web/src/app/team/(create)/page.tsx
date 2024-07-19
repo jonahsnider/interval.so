@@ -7,7 +7,7 @@ import { CreateTeamPasswordCard } from '@/src/components/create-team/form/create
 import { CreateTeamUrlCard } from '@/src/components/create-team/form/create-team-url-card';
 import { trpc } from '@/src/trpc/trpc-client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { TeamSchema } from '@hours.frc.sh/api/app/team/schemas/team_schema';
+import { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { type UseFormReturn, useForm } from 'react-hook-form';
