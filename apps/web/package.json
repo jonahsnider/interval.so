@@ -9,7 +9,7 @@
 		"type-check": "tsc"
 	},
 	"dependencies": {
-		"@heroicons/react": "2.1.4",
+		"@heroicons/react": "2.1.5",
 		"@hookform/resolvers": "3.7.0",
 		"@jonahsnider/util": "11.0.0",
 		"@radix-ui/react-alert-dialog": "1.1.1",

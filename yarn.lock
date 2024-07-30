@@ -1185,12 +1185,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@heroicons/react@npm:2.1.4":
-  version: 2.1.4
-  resolution: "@heroicons/react@npm:2.1.4"
+"@heroicons/react@npm:2.1.5":
+  version: 2.1.5
+  resolution: "@heroicons/react@npm:2.1.5"
   peerDependencies:
     react: ">= 16"
-  checksum: 10c0/2f893d37f7a2c1e969b1d042ef1d5941847986f8bad77285318a73345c55dae1d423081f21f0fc8d5a6fe1899c41fcd98dc3c413d82e2a20374886bd720e4f34
+  checksum: 10c0/d0ca2d017545da103ed8e90e9e6679d46329c1b09bb4c06ff509b0fe7cfbba7034409ea24b0469fabd2a0a9b144e8e717f58de924615e0b0a1bed7b51fcc5940
   languageName: node
   linkType: hard
 
@@ -1261,7 +1261,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@interval.so/web@workspace:apps/web"
   dependencies:
-    "@heroicons/react": "npm:2.1.4"
+    "@heroicons/react": "npm:2.1.5"
     "@hookform/resolvers": "npm:3.7.0"
     "@jonahsnider/util": "npm:11.0.0"
     "@radix-ui/react-alert-dialog": "npm:1.1.1"
