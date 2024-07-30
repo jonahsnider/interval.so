@@ -16,7 +16,7 @@ export function BaseNavbar({ className, left, bottom, right }: Props) {
 			<div className='container max-w-6xl mx-auto'>
 				<div className='flex justify-between'>
 					<div className='flex justify-start items-center'>
-						<Link href='/' className='text-xl font-semibold leading-none lowercase'>
+						<Link href='/' className='text-xl font-semibold leading-none lowercase font-serif'>
 							Interval
 						</Link>
 

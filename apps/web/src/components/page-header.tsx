@@ -17,7 +17,9 @@ export function PageHeaderTitle({
 }>) {
 	return (
 		<Suspense fallback={<Skeleton className='h-7 sm:h-9 w-56' />}>
-			<h1 className={clsx('text-3xl sm:text-4xl leading-none sm:leading-none', className)}>{children}</h1>
+			<h1 className={clsx('text-3xl sm:text-4xl leading-none sm:leading-none font-serif font-medium', className)}>
+				{children}
+			</h1>
 		</Suspense>
 	);
 }

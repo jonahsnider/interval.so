@@ -2,59 +2,120 @@
 @tailwind components;
 @tailwind utilities;
 
-/* The colors from https://ui.shadcn.com/themes for green */
-/* But: */
-/* - The card background colors are taken from the preset for stone */
-/* - The primary/ring color has been set to the jade 9 color from Radix Colors. */
-/* - The primary foreground color for dark has been taken from the primary foreground color for light. */
-/* - The color for destructive for dark reuses the destructive for light. */
-
 @layer base {
 	:root {
-		--background: 0 0% 100%;
-		--foreground: 240 10% 3.9%;
-		--card: 0 0% 100%;
-		--card-foreground: 240 10% 3.9%;
-		--popover: 0 0% 100%;
-		--popover-foreground: 240 10% 3.9%;
-		--primary: 164 50% 40%;
-		--primary-foreground: 355.7 100% 97.3%;
-		--secondary: 240 4.8% 95.9%;
-		--secondary-foreground: 240 5.9% 10%;
-		--muted: 240 4.8% 95.9%;
-		--muted-foreground: 240 3.8% 46.1%;
-		--accent: 240 4.8% 95.9%;
-		--accent-foreground: 240 5.9% 10%;
-		--destructive: 0 84.2% 60.2%;
-		--destructive-muted: var(--destructive) / 0.2;
-		--destructive-foreground: 0 0% 98%;
-		--border: 240 5.9% 90%;
-		--input: 240 5.9% 90%;
-		--ring: 164 50% 40%;
+		/* Radix Colors brown 2 */
+		--background: 30deg 50% 97.6%;
+		/* Radix Colors sand 1 */
+		--background-muted: 60deg 20% 99%;
+		/* Radix Colors sand 12 */
+		--foreground: 48deg 8.2% 12%;
+		/* Radix Colors brown 1 */
+		--card: 30deg 50% 99.2%;
+		/* Radix Colors sand 12 */
+		--card-foreground: 48deg 8.2% 12%;
+		/* Radix Colors brown 1 */
+		--popover: 30deg 50% 99.2%;
+		/* Radix Colors sand 12 */
+		--popover-foreground: 48deg 8.2% 12%;
+		/* Radix Colors jade 11 */
+		--primary: 164deg 60.7% 32%;
+		/* Radix Colors custom 11 where the base color is Radix Colors jade 11 */
+		--primary-hover: 165deg 68.9% 29%;
+		/* White */
+		--primary-foreground: 0deg 0% 100%;
+		/* Radix Colors sand 3 */
+		--secondary: 30deg 6.67% 94.1%;
+		/* Radix Colors sand 4 */
+		--secondary-hover: 40deg 6.38% 90.8%;
+		/* Radix Colors sand 12 */
+		--secondary-foreground: 48deg 8.2% 12%;
+		/* Radix Colors sand 4 */
+		--muted: 40deg 6.38% 90.8%;
+		/* Radix Colors sand 11 */
+		--muted-foreground: 60deg 2.59% 37.8%;
+		/* Radix Colors sand 4 */
+		--accent: 40deg 6.38% 90.8%;
+		/* Radix Colors sand 12 */
+		--accent-foreground: 48deg 8.2% 12%;
+		/* Radix Colors tomato 9 */
+		--destructive: 10.2deg 77.9% 53.9%;
+		/* Radix Colors tomato 10 */
+		--destructive-hover: 10.1deg 73% 50.6%;
+		/* Radix Colors tomato 6 */
+		--destructive-muted: 10.8deg 100% 48.8% 0.314;
+		/* White */
+		--destructive-foreground: 0deg 0% 100%;
+		/* Radix Colors sand 6 */
+		--border: 45deg 5.13% 84.7%;
+		/* Radix Colors sand 1 (deviates from Radix Colors convention) */
+		--input: 60deg 20% 99%;
+		/* Radix Colors sand 7 */
+		--input-border: 48deg 4.95% 80.2%;
+		/* Radix Colors custom 8, where the base color is Radix Colors jade 11 */
+		--ring: 159deg 31.8% 57.5%;
+		/* Radix Colors sand 3 */
+		--menu-item: 30deg 6.67% 94.1%;
+		/* Radix Colors sand 1 (deviates from Radix Colors convention) */
+		--menu-item-selected: 60deg 20% 99%;
 		--radius: 0.5rem;
 	}
 
 	.dark {
-		--background: 20 14.3% 4.1%;
-		--foreground: 0 0% 95%;
-		--card: 20 14.3% 4.1%;
-		--card-foreground: 0 0% 95%;
-		--popover: 0 0% 9%;
-		--popover-foreground: 0 0% 95%;
-		--primary: 164 50% 40%;
-		--primary-foreground: 355.7 100% 97.3%;
-		--secondary: 240 3.7% 15.9%;
-		--secondary-foreground: 0 0% 98%;
-		--muted: 0 0% 15%;
-		--muted-foreground: 240 5% 64.9%;
-		--accent: 12 6.5% 15.1%;
-		--accent-foreground: 0 0% 98%;
-		--destructive: 0 84.2% 60.2%;
-		--destructive-muted: var(--destructive) / 0.2;
-		--destructive-foreground: 0 85.7% 97.3%;
-		--border: 240 3.7% 15.9%;
-		--input: 240 3.7% 15.9%;
-		--ring: 164 50% 40%;
+		/* Radix Colors brown 2 */
+		--background: 20deg 12% 9.8%;
+		/* Radix Colors sand 1 */
+		--background-muted: 60deg 3.03% 6.47%;
+		/* Radix Colors sand 12 */
+		--foreground: 60deg 5.56% 92.9%;
+		/* Radix Colors brown 1 */
+		--card: 40deg 9.09% 6.47%;
+		/* Radix Colors sand 12 */
+		--card-foreground: 60deg 5.56% 92.9%;
+		/* Radix Colors brown 1 */
+		--popover: 40deg 9.09% 6.47%;
+		/* Radix Colors sand 12 */
+		--popover-foreground: 60deg 5.56% 92.9%;
+		/* Radix Colors jade 11 */
+		--primary: 163deg 74.9% 48.4%;
+		/* Radix Colors custom 11 where the base color is Radix Colors jade 11 */
+		--primary-hover: 163deg 74.9% 48.4%;
+		/* Radix Colors sage 1 */
+		--primary-foreground: 150deg 5.88% 6.67%;
+		/* Radix Colors sand 3 */
+		--secondary: 60deg 1.49% 13.1%;
+		/* Radix Colors sand 4 */
+		--secondary-hover: 60deg 2.44% 16.1%;
+		/* Radix Colors sand 12 */
+		--secondary-foreground: 60deg 5.56% 92.9%;
+		/* Radix Colors sand 4 */
+		--muted: 60deg 2.44% 16.1%;
+		/* Radix Colors sand 11 */
+		--muted-foreground: 45deg 5.13% 69.4%;
+		/* Radix Colors sand 4 */
+		--accent: 60deg 2.44% 16.1%;
+		/* Radix Colors sand 12 */
+		--accent-foreground: 60deg 5.56% 92.9%;
+		/* Radix Colors tomato 9 */
+		--destructive: 10.2deg 77.9% 53.9%;
+		/* Radix Colors tomato 10 */
+		--destructive-hover: 10.9deg 81.7% 59.2%;
+		/* Radix Colors tomato 6 */
+		--destructive-muted: 6.92deg 54.9% 27.8%;
+		/* White */
+		--destructive-foreground: 0deg 0% 100%;
+		/* Radix Colors sand 6 */
+		--border: 45deg 3.51% 22.4%;
+		/* Radix Colors sand 1 (deviates from Radix Colors convention) */
+		--input: 60deg 3.03% 6.47%;
+		/* Radix Colors sand 7 */
+		--input-border: 48deg 3.55% 27.6%;
+		/* Radix Colors custom 8, where the base color is Radix Colors jade 11 */
+		--ring: 159deg 44.8% 34.1%;
+		/* Radix Colors sand 3 */
+		--menu-item: 60deg 1.49% 13.1%;
+		/* Radix Colors sand 1 (deviates from Radix Colors convention) */
+		--menu-item-selected: 60deg 3.03% 6.47%;
 	}
 }
 
@@ -66,19 +127,19 @@
 
 /* Charts */
 @layer base {
-  :root {
-    --chart-1: var(--primary);
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-  }
+	:root {
+		--chart-1: var(--primary);
+		--chart-2: 173 58% 39%;
+		--chart-3: 197 37% 24%;
+		--chart-4: 43 74% 66%;
+		--chart-5: 27 87% 67%;
+	}
 
-  .dark {
-    --chart-1: var(--primary);
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-  }
+	.dark {
+		--chart-1: var(--primary);
+		--chart-2: 160 60% 45%;
+		--chart-3: 30 80% 55%;
+		--chart-4: 280 65% 60%;
+		--chart-5: 340 75% 55%;
+	}
 }

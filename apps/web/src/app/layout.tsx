@@ -1,10 +1,12 @@
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Analytics } from '@vercel/analytics/react';
+import clsx from 'clsx';
 import type { Metadata, Viewport } from 'next';
 import PlausibleProvider from 'next-plausible';
 import { ThemeProvider } from 'next-themes';
 import { ViewTransitions } from 'next-view-transitions';
+import { Inter, Playfair_Display } from 'next/font/google';
 import { Footer } from '../components/footer/footer';
 import '../globals.css';
 import { TrpcProvider } from '../providers/trpc-provider';
@@ -36,6 +38,14 @@ export const viewport: Viewport = {
 	colorScheme: 'dark light',
 };
 
+const playfairDisplay = Playfair_Display({
+	subsets: ['latin'],
+	weight: 'variable',
+	variable: '--font-playfair-display',
+	display: 'swap',
+});
+const inter = Inter({ subsets: ['latin'], weight: 'variable', variable: '--font-inter', display: 'swap' });
+
 // biome-ignore lint/style/noDefaultExport: This has to be a default export
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
@@ -44,7 +54,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				<head>
 					<PlausibleProvider domain='interval.so' />
 				</head>
-				<body className='text-foreground bg-muted/40 antialiased'>
+				<body
+					className={clsx(
+						'text-foreground bg-background-muted antialiased font-sans',
+						inter.variable,
+						playfairDisplay.variable,
+					)}
+				>
 					<ThemeProvider attribute='class' defaultTheme='system' enableSystem={true} disableTransitionOnChange={true}>
 						<TrpcProvider>
 							<TooltipProvider>

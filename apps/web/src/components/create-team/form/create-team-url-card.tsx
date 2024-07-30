@@ -23,7 +23,7 @@ export function CreateTeamUrlCard({ form }: Props) {
 					render={({ field }) => (
 						<FormItem {...field}>
 							<div className='flex'>
-								<span className='flex h-9 items-center justify-center rounded-md border border-input bg-muted/40 px-3 py-1 text-sm shadow-sm transition-colors cursor-not-allowed rounded-r-none border-r-0 text-muted-foreground'>
+								<span className='flex h-9 items-center justify-center rounded-md border border-input-border bg-muted/40 px-3 py-1 text-sm shadow-sm transition-colors cursor-not-allowed rounded-r-none border-r-0 text-muted-foreground'>
 									https://interval.so/team/
 								</span>
 								<Input {...field} className='max-w-80 rounded-l-none' placeholder='team581' />

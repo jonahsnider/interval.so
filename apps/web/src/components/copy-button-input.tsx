@@ -79,7 +79,7 @@ function CopyButton({ value }: { value: string }) {
 				<Button
 					size='icon'
 					variant='outline'
-					className='rounded-l-none border-l-0 shadow-none border-input'
+					className='rounded-l-none border-l-0 shadow-none border-input-border'
 					type='button'
 					onClick={onClick}
 				>

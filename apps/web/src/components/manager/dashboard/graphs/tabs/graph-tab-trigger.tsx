@@ -130,6 +130,7 @@ const TAB_OPTIONS = {
 };
 
 export function GraphTabTrigger({ tabId, active, timeFilters, team }: Props) {
+	// TODO: This hasn't been updated since query states were changed to be shallow - need to refactor to be a client side component probably (seeded with initial server side query states and then updates with client side query states)
 	const queryStates = searchParamCache.all();
 	const queryString = searchParamSerializer(queryStates);
 
@@ -167,8 +168,8 @@ function GraphTabTriggerBase({
 			className={clsx(
 				'p-4 border-b-2 border-r flex flex-col gap-2 leading-none items-start',
 				{
-					'dark:bg-muted/30 border-b-transparent': !active,
-					'bg-background border-b-primary': active,
+					'border-b-transparent bg-menu-item': !active,
+					'border-b-primary bg-menu-item-selected': active,
 				},
 				className,
 			)}

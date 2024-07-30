@@ -4,6 +4,10 @@ module.exports = {
 	content: ['./pages/**/*.{ts,tsx}', './components/**/*.{ts,tsx}', './app/**/*.{ts,tsx}', './src/**/*.{ts,tsx}'],
 	prefix: '',
 	theme: {
+		fontFamily: {
+			serif: ['var(--font-playfair-display)'],
+			sans: ['var(--font-inter)'],
+		},
 		container: {
 			center: true,
 			padding: '1rem',
@@ -14,25 +18,36 @@ module.exports = {
 		extend: {
 			colors: {
 				border: 'hsl(var(--border))',
-				input: 'hsl(var(--input))',
+				input: {
+					// biome-ignore lint/style/useNamingConvention: This can't be renamed
+					DEFAULT: 'hsl(var(--input))',
+					border: 'hsl(var(--input-border))',
+				},
 				ring: 'hsl(var(--ring))',
-				background: 'hsl(var(--background))',
+				background: {
+					// biome-ignore lint/style/useNamingConvention: This can't be renamed
+					DEFAULT: 'hsl(var(--background))',
+					muted: 'hsl(var(--background-muted))',
+				},
 				foreground: 'hsl(var(--foreground))',
 				primary: {
 					// biome-ignore lint/style/useNamingConvention: This can't be renamed
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))',
+					hover: 'hsl(var(--primary-hover))',
 				},
 				secondary: {
 					// biome-ignore lint/style/useNamingConvention: This can't be renamed
 					DEFAULT: 'hsl(var(--secondary))',
 					foreground: 'hsl(var(--secondary-foreground))',
+					hover: 'hsl(var(--secondary-hover))',
 				},
 				destructive: {
 					// biome-ignore lint/style/useNamingConvention: This can't be renamed
 					DEFAULT: 'hsl(var(--destructive))',
 					foreground: 'hsl(var(--destructive-foreground))',
 					muted: 'hsl(var(--destructive-muted))',
+					hover: 'hsl(var(--destructive-hover))',
 				},
 				muted: {
 					// biome-ignore lint/style/useNamingConvention: This can't be renamed
@@ -53,6 +68,11 @@ module.exports = {
 					// biome-ignore lint/style/useNamingConvention: This can't be renamed
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))',
+				},
+				'menu-item': {
+					// biome-ignore lint/style/useNamingConvention: This can't be renamed
+					DEFAULT: 'hsl(var(--menu-item))',
+					selected: 'hsl(var(--menu-item-selected))',
 				},
 			},
 			borderRadius: {
