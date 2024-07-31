@@ -4,10 +4,10 @@
 
 @layer base {
 	:root {
-		/* Radix Colors brown 2 */
-		--background: 30deg 50% 97.6%;
 		/* Radix Colors sand 1 */
-		--background-muted: 60deg 20% 99%;
+		--background: 60deg 20% 99%;
+		/* Radix Colors brown 2 */
+		--background-muted: 30deg 50% 97.6%;
 		/* Radix Colors sand 12 */
 		--foreground: 48deg 8.2% 12%;
 		/* Radix Colors brown 1 */
@@ -43,7 +43,9 @@
 		/* Radix Colors tomato 10 */
 		--destructive-hover: 10.1deg 73% 50.6%;
 		/* Radix Colors tomato 6 */
-		--destructive-muted: 10.8deg 100% 48.8% 0.314;
+		--destructive-muted: 10.8deg 95.1% 83.9%;
+		/* Radix Colors tomato 7 */
+		--destructive-border: 10.3deg 82.3% 77.8%;
 		/* White */
 		--destructive-foreground: 0deg 0% 100%;
 		/* Radix Colors sand 6 */
@@ -54,18 +56,14 @@
 		--input-border: 48deg 4.95% 80.2%;
 		/* Radix Colors custom 8, where the base color is Radix Colors jade 11 */
 		--ring: 159deg 31.8% 57.5%;
-		/* Radix Colors sand 3 */
-		--menu-item: 30deg 6.67% 94.1%;
-		/* Radix Colors sand 1 (deviates from Radix Colors convention) */
-		--menu-item-selected: 60deg 20% 99%;
 		--radius: 0.5rem;
 	}
 
 	.dark {
-		/* Radix Colors brown 2 */
-		--background: 20deg 12% 9.8%;
 		/* Radix Colors sand 1 */
-		--background-muted: 60deg 3.03% 6.47%;
+		--background: 60deg 3.03% 6.47%;
+		/* Radix Colors brown 2 */
+		--background-muted: 20deg 12% 9.8%;
 		/* Radix Colors sand 12 */
 		--foreground: 60deg 5.56% 92.9%;
 		/* Radix Colors brown 1 */
@@ -76,12 +74,12 @@
 		--popover: 40deg 9.09% 6.47%;
 		/* Radix Colors sand 12 */
 		--popover-foreground: 60deg 5.56% 92.9%;
-		/* Radix Colors jade 11 */
-		--primary: 163deg 74.9% 48.4%;
-		/* Radix Colors custom 11 where the base color is Radix Colors jade 11 */
+		/* Radix Colors jade 9 (different than light version) */
+		--primary: 164deg 59.8% 40%;
+		/* Radix Colors jade 11 (different than light version) */
 		--primary-hover: 163deg 74.9% 48.4%;
-		/* Radix Colors sage 1 */
-		--primary-foreground: 150deg 5.88% 6.67%;
+		/* White */
+		--primary-foreground: 0deg 0% 100%;
 		/* Radix Colors sand 3 */
 		--secondary: 60deg 1.49% 13.1%;
 		/* Radix Colors sand 4 */
@@ -102,6 +100,8 @@
 		--destructive-hover: 10.9deg 81.7% 59.2%;
 		/* Radix Colors tomato 6 */
 		--destructive-muted: 6.92deg 54.9% 27.8%;
+		/* Radix Colors tomato 7 */
+		--destructive-border: 8.86deg 49.4% 34.9%;
 		/* White */
 		--destructive-foreground: 0deg 0% 100%;
 		/* Radix Colors sand 6 */
@@ -112,10 +112,6 @@
 		--input-border: 48deg 3.55% 27.6%;
 		/* Radix Colors custom 8, where the base color is Radix Colors jade 11 */
 		--ring: 159deg 44.8% 34.1%;
-		/* Radix Colors sand 3 */
-		--menu-item: 60deg 1.49% 13.1%;
-		/* Radix Colors sand 1 (deviates from Radix Colors convention) */
-		--menu-item-selected: 60deg 3.03% 6.47%;
 	}
 }
 

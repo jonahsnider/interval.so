@@ -45,7 +45,7 @@ export function DeleteTeamCardClient({ team }: Props) {
 	});
 
 	return (
-		<Card className='border-destructive-muted'>
+		<Card className='border-destructive-border'>
 			<CardHeader>
 				<CardTitle>Delete team</CardTitle>
 				<CardDescription>
@@ -53,7 +53,7 @@ export function DeleteTeamCardClient({ team }: Props) {
 					caution.
 				</CardDescription>
 			</CardHeader>
-			<CardFooter className='border-t px-6 py-4 bg-destructive-muted border-destructive-muted'>
+			<CardFooter className='border-t px-6 py-4 bg-destructive-muted border-destructive-border'>
 				<AlertDialog>
 					<AlertDialogContent>
 						<AlertDialogHeader>

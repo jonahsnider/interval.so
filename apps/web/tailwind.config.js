@@ -48,6 +48,7 @@ module.exports = {
 					foreground: 'hsl(var(--destructive-foreground))',
 					muted: 'hsl(var(--destructive-muted))',
 					hover: 'hsl(var(--destructive-hover))',
+					border: 'hsl(var(--destructive-border))',
 				},
 				muted: {
 					// biome-ignore lint/style/useNamingConvention: This can't be renamed
@@ -68,11 +69,6 @@ module.exports = {
 					// biome-ignore lint/style/useNamingConvention: This can't be renamed
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))',
-				},
-				'menu-item': {
-					// biome-ignore lint/style/useNamingConvention: This can't be renamed
-					DEFAULT: 'hsl(var(--menu-item))',
-					selected: 'hsl(var(--menu-item-selected))',
 				},
 			},
 			borderRadius: {

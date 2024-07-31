@@ -168,8 +168,8 @@ function GraphTabTriggerBase({
 			className={clsx(
 				'p-4 border-b-2 border-r flex flex-col gap-2 leading-none items-start',
 				{
-					'border-b-transparent bg-menu-item': !active,
-					'border-b-primary bg-menu-item-selected': active,
+					'border-b-transparent': !active,
+					'border-b-primary bg-card': active,
 				},
 				className,
 			)}

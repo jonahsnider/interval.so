@@ -37,45 +37,43 @@ export function DeleteAccountCard() {
 	});
 
 	return (
-		<>
-			<AlertDialog>
-				<Card className='border-destructive-muted'>
-					<CardHeader>
-						<CardTitle>Delete account</CardTitle>
-						<CardDescription>
-							Permanently delete your account and all of its contents. This action is not reversible, so please continue
-							with caution.
-						</CardDescription>
-					</CardHeader>
-					<CardFooter className='border-t px-6 py-4 bg-destructive-muted border-destructive-muted'>
-						<AlertDialogTrigger asChild={true}>
-							<Button variant='destructive' disabled={deleteAccount.isPending}>
-								Delete account
-							</Button>
-						</AlertDialogTrigger>
-					</CardFooter>
-				</Card>
-
-				<AlertDialogContent>
-					<AlertDialogHeader>
-						<AlertDialogTitle>Delete account</AlertDialogTitle>
-						<AlertDialogDescription>
-							This action cannot be undone. This will permanently delete your account and remove your data from our
-							servers.
-						</AlertDialogDescription>
-					</AlertDialogHeader>
-					<AlertDialogFooter>
-						<AlertDialogCancel>Cancel</AlertDialogCancel>
-						<AlertDialogAction
-							className={buttonVariants({ variant: 'destructive' })}
-							onClick={() => deleteAccount.mutate()}
-							disabled={deleteAccount.isPending}
-						>
+		<AlertDialog>
+			<Card className='border-destructive-border'>
+				<CardHeader>
+					<CardTitle>Delete account</CardTitle>
+					<CardDescription>
+						Permanently delete your account and all of its contents. This action is not reversible, so please continue
+						with caution.
+					</CardDescription>
+				</CardHeader>
+				<CardFooter className='border-t px-6 py-4 bg-destructive-muted border-destructive-border'>
+					<AlertDialogTrigger asChild={true}>
+						<Button variant='destructive' disabled={deleteAccount.isPending}>
 							Delete account
-						</AlertDialogAction>
-					</AlertDialogFooter>
-				</AlertDialogContent>
-			</AlertDialog>
-		</>
+						</Button>
+					</AlertDialogTrigger>
+				</CardFooter>
+			</Card>
+
+			<AlertDialogContent>
+				<AlertDialogHeader>
+					<AlertDialogTitle>Delete account</AlertDialogTitle>
+					<AlertDialogDescription>
+						This action cannot be undone. This will permanently delete your account and remove your data from our
+						servers.
+					</AlertDialogDescription>
+				</AlertDialogHeader>
+				<AlertDialogFooter>
+					<AlertDialogCancel>Cancel</AlertDialogCancel>
+					<AlertDialogAction
+						className={buttonVariants({ variant: 'destructive' })}
+						onClick={() => deleteAccount.mutate()}
+						disabled={deleteAccount.isPending}
+					>
+						Delete account
+					</AlertDialogAction>
+				</AlertDialogFooter>
+			</AlertDialogContent>
+		</AlertDialog>
 	);
 }
