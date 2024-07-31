@@ -1,0 +1,15 @@
+.dots {
+	/* https://screenspan.net/polka/ */
+
+	/* SVG is used to get proper subpixel rendering, since radial gradients have a Chrome bug that prevents them from rendering properly */
+	/* They use the color of the `border` CSS variable (Radix Colors sand 6 for dark, and sand 8 for light). */
+	background-image: url('/dots/dot-light.svg'), url('/dots/dot-light.svg');
+	background-position:
+		0px 0px,
+		25px 25px;
+	background-size: 50px 50px;
+}
+
+.dots:global:where(.dark, .dark *) {
+	background-image: url('/dots/dot-dark.svg'), url('/dots/dot-dark.svg');
+}

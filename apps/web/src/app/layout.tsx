@@ -7,6 +7,7 @@ import PlausibleProvider from 'next-plausible';
 import { ThemeProvider } from 'next-themes';
 import { ViewTransitions } from 'next-view-transitions';
 import { Inter, Playfair_Display } from 'next/font/google';
+import dotsStyles from '../components/dots/dots.module.css';
 import { Footer } from '../components/footer/footer';
 import '../globals.css';
 import { TrpcProvider } from '../providers/trpc-provider';
@@ -57,6 +58,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				<body
 					className={clsx(
 						'text-foreground bg-background-muted antialiased font-sans',
+						dotsStyles.dots,
 						inter.variable,
 						playfairDisplay.variable,
 					)}
