@@ -21,8 +21,12 @@ export function MemberAvatars({ team }: Props) {
 		);
 
 	return (
-		// No fallback, the avatars animate themselves on initial enter
-		<Suspense>
+		<Suspense
+			fallback={
+				/* Minimum height matches the minimum height of the avatar container (which in turn matches the height of the avatars) */
+				<div className='min-h-10' />
+			}
+		>
 			<MemberAvatarsClient membersPromise={membersPromise} team={team} />
 		</Suspense>
 	);

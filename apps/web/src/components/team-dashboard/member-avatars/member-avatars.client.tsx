@@ -16,16 +16,6 @@ type Props = {
 	membersPromise: Promise<Pick<TeamMemberSchema, 'name' | 'id' | 'signedInAt'>[]>;
 };
 
-const containerMotionVariants: Variants = {
-	noItems: {
-		height: 0,
-	},
-	items: {
-		// Height of the avatar components
-		height: '2.5rem',
-	},
-};
-
 export function MemberAvatarsClient({ membersPromise, team }: Props) {
 	const initialMembers = use(membersPromise);
 
@@ -45,18 +35,14 @@ export function MemberAvatarsClient({ membersPromise, team }: Props) {
 
 	return (
 		<ScrollArea className='w-full'>
-			<motion.div
-				className='w-full flex justify-start items-center'
-				layout='size'
-				variants={containerMotionVariants}
-				animate={members.length > 0 ? 'items' : 'noItems'}
-			>
+			{/* Minimum height matches the height of the avatars, to ensure that there is no height shift when going from 0 -> 1 members signed in */}
+			<div className='w-full flex justify-start items-center min-h-10'>
 				<AnimatePresence initial={true}>
 					{members.map((member, index) => (
 						<MemberAvatar key={member.id} member={member} index={index} elements={members.length} />
 					))}
 				</AnimatePresence>
-			</motion.div>
+			</div>
 			<ScrollBar orientation='horizontal' />
 		</ScrollArea>
 	);
