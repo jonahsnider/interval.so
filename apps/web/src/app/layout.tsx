@@ -7,14 +7,13 @@ import PlausibleProvider from 'next-plausible';
 import { ThemeProvider } from 'next-themes';
 import { ViewTransitions } from 'next-view-transitions';
 import { Inter, Playfair_Display } from 'next/font/google';
-import dotsStyles from '../components/dots/dots.module.css';
 import { Footer } from '../components/footer/footer';
 import '../globals.css';
 import { TrpcProvider } from '../providers/trpc-provider';
 
 export const metadata: Metadata = {
 	title: 'Interval',
-	description: 'Track meeting attendance.',
+	description: 'Analytics for attendance. More than just a sign-in sheet.',
 	metadataBase: new URL('https://interval.so'),
 	openGraph: {
 		url: 'https://interval.so',
