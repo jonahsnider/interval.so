@@ -57,7 +57,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				<body
 					className={clsx(
 						'text-foreground bg-background-muted antialiased font-sans',
-						dotsStyles.dots,
 						inter.variable,
 						playfairDisplay.variable,
 					)}
