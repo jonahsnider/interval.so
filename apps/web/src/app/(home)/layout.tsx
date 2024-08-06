@@ -1,3 +1,5 @@
+import { MainContent } from '@/src/components/main-content';
+import { Navbar } from '@/src/components/navbar/navbar';
 import { trpcServer } from '@/src/trpc/trpc-server';
 import { captureException } from '@sentry/nextjs';
 import { unstable_noStore as noStore } from 'next/cache';
@@ -15,7 +17,13 @@ export default async function TeamSelectConditionalLayout({ authed, landing }: P
 	try {
 		const { user } = await trpcServer.user.getSelf.query();
 
-		return user ? authed : landing;
+		return (
+			<>
+				<Navbar />
+
+				<MainContent>{user ? authed : landing}</MainContent>
+			</>
+		);
 	} catch (error) {
 		captureException(error);
 		return landing;

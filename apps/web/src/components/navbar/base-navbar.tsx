@@ -12,7 +12,7 @@ type Props = {
 
 export function BaseNavbar({ className, left, bottom, right }: Props) {
 	return (
-		<header className={cn('w-full py-4 bg-background border-b flex flex-col', className)}>
+		<header className={cn('w-full py-4 bg-background border-b flex flex-col text-foreground', className)}>
 			<div className='container max-w-6xl mx-auto'>
 				<div className='flex justify-between'>
 					<div className='flex justify-start items-center'>
