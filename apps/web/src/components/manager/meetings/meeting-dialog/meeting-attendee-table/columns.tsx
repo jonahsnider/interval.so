@@ -18,7 +18,7 @@ import { RowActionsDropdown } from './row-actions-dropdown';
 
 export const columns: ColumnDef<AttendanceEntrySchema>[] = [
 	{
-		accessorKey: 'name',
+		accessorKey: 'member.name',
 		header: ({ column }) => {
 			return <SortableHeader column={column}>Name</SortableHeader>;
 		},
