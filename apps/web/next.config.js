@@ -28,8 +28,8 @@ module.exports = withSentryConfig(
 		// For all available options, see:
 		// https://github.com/getsentry/sentry-webpack-plugin#options
 
-		org: 'frcsh',
-		project: 'hours-web',
+		org: 'interval-so',
+		project: 'interval-web',
 
 		// Only print logs for uploading source maps in CI
 		silent: !process.env.CI,
