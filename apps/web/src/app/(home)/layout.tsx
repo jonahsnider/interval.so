@@ -17,13 +17,17 @@ export default async function TeamSelectConditionalLayout({ authed, landing }: P
 	try {
 		const { user } = await trpcServer.user.getSelf.query();
 
-		return (
-			<>
-				<Navbar />
+		if (user) {
+			return (
+				<>
+					<Navbar />
 
-				<MainContent>{user ? authed : landing}</MainContent>
-			</>
-		);
+					<MainContent>{authed}</MainContent>
+				</>
+			);
+		}
+
+		return landing;
 	} catch (error) {
 		captureException(error);
 		return landing;
