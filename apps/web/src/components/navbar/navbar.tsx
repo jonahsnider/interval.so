@@ -1,12 +1,12 @@
 import { trpcServer } from '@/src/trpc/trpc-server';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
+import { unstable_noStore as noStore } from 'next/cache';
 import { type PropsWithChildren, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { GuestTeamNavbarItem } from '../team-dashboard/navbar/guest-team-navbar-item';
 import { TeamDropdown } from '../team-dashboard/navbar/team-dropdown/team-dropdown.server';
 import { BaseNavbar } from './base-navbar';
 import { ProfileMenu } from './profile-menu/profile-menu';
-import { unstable_noStore as noStore } from 'next/cache';
 
 type Props = {
 	className?: string;

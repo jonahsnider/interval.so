@@ -1,9 +1,13 @@
-import { buttonVariants } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { signupsEnabledFlag } from '@/src/flags';
 import clsx from 'clsx';
 import { Link } from 'next-view-transitions';
 import styles from './cta.module.css';
 
-export function LandingCtaSection() {
+export async function LandingCtaSection() {
+	const signupsEnabled = await signupsEnabledFlag();
+
 	return (
 		<section
 			className={clsx(
@@ -15,13 +19,31 @@ export function LandingCtaSection() {
 				Get started with <span className='lowercase'>Interval</span>
 			</h2>
 
-			<div className='light'>
-				<Link
-					className={clsx('text-foreground text-lg', buttonVariants({ variant: 'outline', size: 'xl' }))}
-					href='/signup'
-				>
-					Sign up
-				</Link>
+			<div className={clsx('light', { 'bg-[#111110]': !signupsEnabled })}>
+				{signupsEnabled && (
+					<Link
+						className={clsx('text-foreground text-lg', buttonVariants({ variant: 'outline', size: 'xl' }))}
+						href='/signup'
+					>
+						Sign up
+					</Link>
+				)}
+				{!signupsEnabled && (
+					<Tooltip>
+						<TooltipTrigger asChild={true}>
+							{/* biome-ignore lint/a11y/noNoninteractiveTabindex: This is interactive */}
+							<span tabIndex={0}>
+								<Button disabled={true} className='text-foreground text-lg' variant='outline' size='xl'>
+									Sign up
+								</Button>
+							</span>
+						</TooltipTrigger>
+
+						<TooltipContent>
+							<p className='text-sm'>Sign ups for Interval will be available soon</p>
+						</TooltipContent>
+					</Tooltip>
+				)}
 			</div>
 		</section>
 	);
