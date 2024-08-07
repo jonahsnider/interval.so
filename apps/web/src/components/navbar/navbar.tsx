@@ -6,6 +6,7 @@ import { GuestTeamNavbarItem } from '../team-dashboard/navbar/guest-team-navbar-
 import { TeamDropdown } from '../team-dashboard/navbar/team-dropdown/team-dropdown.server';
 import { BaseNavbar } from './base-navbar';
 import { ProfileMenu } from './profile-menu/profile-menu';
+import { unstable_noStore as noStore } from 'next/cache';
 
 type Props = {
 	className?: string;
@@ -41,6 +42,8 @@ async function TeamDropdownItem({
 }: {
 	currentTeam?: Pick<TeamSchema, 'slug'>;
 }) {
+	noStore();
+
 	const { user } = await trpcServer.user.getSelf.query();
 
 	if (!user) {

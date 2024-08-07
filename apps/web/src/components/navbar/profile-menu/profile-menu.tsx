@@ -14,6 +14,7 @@ import { Link } from 'next-view-transitions';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { MenuContentAuthed, MenuContentGuestAuth } from './profile-menu.client';
+import { unstable_noStore as noStore } from 'next/cache';
 
 function MenuContentUnauthed() {
 	return (
@@ -35,6 +36,8 @@ function MenuContentUnauthed() {
 }
 
 async function ProfileMenuContent() {
+	noStore();
+
 	const [{ user }, guestTeam] = await Promise.all([
 		trpcServer.user.getSelf.query(),
 		trpcServer.guestLogin.getCurrentGuestTeam.query(),
@@ -72,6 +75,8 @@ function ProfileMenuContentSkeleton() {
 
 export function ProfileMenu() {
 	'use client';
+
+	noStore();
 
 	return (
 		<DropdownMenu>
