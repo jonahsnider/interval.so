@@ -20,6 +20,10 @@ export function Footer() {
 					<a className='underline' href='mailto:support@interval.so'>
 						Contact
 					</a>
+
+					<a className='underline' href='https://github.com/jonahsnider/interval.so'>
+						GitHub
+					</a>
 				</div>
 
 				<ThemeSelect />
