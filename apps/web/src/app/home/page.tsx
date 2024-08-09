@@ -6,6 +6,10 @@ import { Navbar } from '@/src/components/navbar/navbar';
 import clsx from 'clsx';
 import type { Metadata } from 'next';
 import dotsStyles from '../../components/dots/dots.module.css';
+import { signupsEnabledFlag } from '@/src/flags';
+import { Link } from 'next-view-transitions';
+import { Button, buttonVariants } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 export const metadata: Metadata = {
 	title: 'Home',
@@ -15,7 +19,9 @@ export const metadata: Metadata = {
 };
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export
-export default function LandingPage() {
+export default async function LandingPage() {
+	const signupsEnabled = await signupsEnabledFlag();
+
 	return (
 		<>
 			<Navbar className='border-b-0 dark' />
@@ -38,6 +44,31 @@ export default function LandingPage() {
 					<p className='text-lg md:text-xl lg:text-2xl text-muted-foreground text-balance max-w-2xl'>
 						Interval combines a simple interface with powerful analytics for managing your team's attendance.
 					</p>
+
+					{signupsEnabled && (
+						<Link
+							className={clsx('text-foreground text-lg', buttonVariants({ variant: 'outline', size: 'xl' }))}
+							href='/signup'
+						>
+							Sign up
+						</Link>
+					)}
+					{!signupsEnabled && (
+						<Tooltip>
+							<TooltipTrigger asChild={true}>
+								{/* biome-ignore lint/a11y/noNoninteractiveTabindex: This is interactive */}
+								<span tabIndex={0}>
+									<Button disabled={true} className='text-foreground text-lg' variant='outline' size='xl'>
+										Sign up
+									</Button>
+								</span>
+							</TooltipTrigger>
+
+							<TooltipContent>
+								<p className='text-sm'>Sign ups for Interval will be available soon</p>
+							</TooltipContent>
+						</Tooltip>
+					)}
 				</div>
 			</section>
 
