@@ -1,16 +1,16 @@
+import { Button, buttonVariants } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { LandingAttendanceSection } from '@/src/components/landing/attendance/landing-attendance-section';
 import { LandingCtaSection } from '@/src/components/landing/cta/landing-cta-section';
 import { HeroGraphic } from '@/src/components/landing/hero-graphic/hero-graphic';
 import { LandingInsightsSection } from '@/src/components/landing/insights/landing-insights-section';
 import { Navbar } from '@/src/components/navbar/navbar';
+import { signupsEnabledFlag } from '@/src/flags';
+import { siteMetadata } from '@/src/site-metadata';
 import clsx from 'clsx';
 import type { Metadata } from 'next';
-import dotsStyles from '../../components/dots/dots.module.css';
-import { siteMetadata } from '@/src/site-metadata';
-import { signupsEnabledFlag } from '@/src/flags';
 import { Link } from 'next-view-transitions';
-import { Button, buttonVariants } from '@/components/ui/button';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import dotsStyles from '../../components/dots/dots.module.css';
 
 export const metadata: Metadata = {
 	title: { absolute: siteMetadata.siteName },
