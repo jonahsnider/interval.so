@@ -6,13 +6,14 @@ import { Navbar } from '@/src/components/navbar/navbar';
 import clsx from 'clsx';
 import type { Metadata } from 'next';
 import dotsStyles from '../../components/dots/dots.module.css';
+import { siteMetadata } from '@/src/site-metadata';
 import { signupsEnabledFlag } from '@/src/flags';
 import { Link } from 'next-view-transitions';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 export const metadata: Metadata = {
-	title: 'Home',
+	title: { absolute: siteMetadata.siteName },
 	alternates: {
 		canonical: '/home',
 	},

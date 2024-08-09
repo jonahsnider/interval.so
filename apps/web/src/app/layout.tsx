@@ -10,29 +10,34 @@ import { Inter, Playfair_Display } from 'next/font/google';
 import { Footer } from '../components/footer/footer';
 import '../globals.css';
 import { TrpcProvider } from '../providers/trpc-provider';
+import { siteMetadata } from '../site-metadata';
 
 export const metadata: Metadata = {
-	title: 'Interval',
-	description: 'Analytics for attendance. More than just a sign-in sheet.',
-	metadataBase: new URL('https://interval.so'),
+	title: {
+		absolute: siteMetadata.siteName,
+		template: `%s | ${siteMetadata.siteName}`,
+	},
+	description: siteMetadata.description,
+	metadataBase: siteMetadata.siteUrl,
 	openGraph: {
-		url: 'https://interval.so',
+		url: siteMetadata.siteUrl.toString(),
 		type: 'website',
-		title: 'Interval',
-		siteName: 'Interval',
-		description: 'Track meeting attendance.',
+		title: siteMetadata.siteName,
+		siteName: siteMetadata.siteName,
+		description: siteMetadata.description,
 	},
 };
 
 export const viewport: Viewport = {
+	// The color is here "background", which matches the navbar color
 	themeColor: [
 		{
 			media: '(prefers-color-scheme: dark)',
-			color: '#101211',
+			color: '#111110',
 		},
 		{
 			media: '(prefers-color-scheme: light)',
-			color: '#ffffff',
+			color: '#fdfdfc',
 		},
 	],
 	colorScheme: 'dark light',
