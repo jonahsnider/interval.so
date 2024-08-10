@@ -10,7 +10,7 @@ export function LandingInsightsSection() {
 					width={768}
 					objectFit='cover'
 					alt='A screenshot of the Interval dashboard on a laptop'
-					quality={90}
+					quality={95}
 				/>
 
 				<div className='flex flex-col max-w-xl'>

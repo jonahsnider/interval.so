@@ -20,8 +20,8 @@ export function LandingAttendanceSection() {
 							src={screenshot}
 							height={640}
 							className='lg:pt-16'
-							quality={90}
-						/>
+							quality={95}
+							/>
 					</div>
 				</div>
 			</div>
