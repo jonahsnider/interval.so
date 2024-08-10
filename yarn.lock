@@ -1500,7 +1500,7 @@ __metadata:
     next: "npm:14.2.5"
     next-plausible: "npm:3.12.1"
     next-themes: "npm:0.3.0"
-    next-view-transitions: "npm:0.2.0"
+    next-view-transitions: "npm:0.3.0"
     nuqs: "npm:1.17.8"
     postcss: "npm:8.4.41"
     postcss-import: "npm:16.1.0"
@@ -8776,14 +8776,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next-view-transitions@npm:0.2.0":
-  version: 0.2.0
-  resolution: "next-view-transitions@npm:0.2.0"
+"next-view-transitions@npm:0.3.0":
+  version: 0.3.0
+  resolution: "next-view-transitions@npm:0.3.0"
   peerDependencies:
     next: ^14.0.0
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: 10c0/cc5dc5205402f1cd6acbedc7aeba68a0c164d7e627f57f69c3492dcf639632958eea046e796817fb77112e7172c321b742d5580d6936b0a6210e18ec0fa7d862
+  checksum: 10c0/5cba961d350090098eef41d182b64d725ad09043de3207d2315dc6d4ed80e6a5f2d04b2dc0b22331f8c8736039a5c3c12df51b8ac9b70b7adc550462a7e64bc8
   languageName: node
   linkType: hard
 
