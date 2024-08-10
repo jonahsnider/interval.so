@@ -768,6 +768,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@drizzle-team/brocli@npm:^0.8.2":
+  version: 0.8.2
+  resolution: "@drizzle-team/brocli@npm:0.8.2"
+  checksum: 10c0/2c7da275f79b0bf0e8f26579c9db76748fe57ccff1e6f057c3beaecd2b9ffbe71345a5f2fc6d5b709f26ecf814a7652e7ae851a408f66f45fb7466f7c8ff9ae9
+  languageName: node
+  linkType: hard
+
 "@edge-runtime/format@npm:2.2.1":
   version: 2.2.1
   resolution: "@edge-runtime/format@npm:2.2.1"
@@ -1423,7 +1430,7 @@ __metadata:
     crypto-random-string: "npm:5.0.0"
     date-fns: "npm:3.6.0"
     dotenv: "npm:16.4.5"
-    drizzle-kit: "npm:0.22.8"
+    drizzle-kit: "npm:0.24.0"
     drizzle-orm: "npm:0.33.0"
     execa: "npm:9.3.0"
     hot-hook: "npm:0.2.6"
@@ -6250,16 +6257,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"drizzle-kit@npm:0.22.8":
-  version: 0.22.8
-  resolution: "drizzle-kit@npm:0.22.8"
+"drizzle-kit@npm:0.24.0":
+  version: 0.24.0
+  resolution: "drizzle-kit@npm:0.24.0"
   dependencies:
+    "@drizzle-team/brocli": "npm:^0.8.2"
     "@esbuild-kit/esm-loader": "npm:^2.5.5"
     esbuild: "npm:^0.19.7"
     esbuild-register: "npm:^3.5.0"
   bin:
     drizzle-kit: bin.cjs
-  checksum: 10c0/e3bbda283de8d3985644d771fe773fcee3f31dd485cb3d32af077c52a088580921fcaae3f7b383279f8799b223d74701ebc4866b6e4952c8c813cd0cb5f80908
+  checksum: 10c0/6d4c2fc39586933f4aea6d3419d6a309c5467b149ad6aa41d780f4f09da8e3aa43510f66ca4b27153234ccc77a4c02e0b219c03b5be56adc713fa669eb64f06b
   languageName: node
   linkType: hard
 
