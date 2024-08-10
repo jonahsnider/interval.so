@@ -69,7 +69,7 @@
 		"drizzle-kit": "0.22.8",
 		"execa": "9.3.0",
 		"hot-hook": "0.2.6",
-		"pino-pretty": "11.2.1",
+		"pino-pretty": "11.2.2",
 		"prettier": "3.3.3",
 		"ts-node": "10.9.2",
 		"typescript": "5.5.4"
