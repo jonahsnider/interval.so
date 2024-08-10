@@ -66,7 +66,7 @@
 		"@types/pg": "8.11.6",
 		"@types/ws": "^8",
 		"dotenv": "16.4.5",
-		"drizzle-kit": "0.22.8",
+		"drizzle-kit": "0.24.0",
 		"execa": "9.3.0",
 		"hot-hook": "0.2.6",
 		"pino-pretty": "11.2.1",
