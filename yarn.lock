@@ -1210,12 +1210,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hookform/resolvers@npm:3.7.0":
-  version: 3.7.0
-  resolution: "@hookform/resolvers@npm:3.7.0"
+"@hookform/resolvers@npm:3.9.0":
+  version: 3.9.0
+  resolution: "@hookform/resolvers@npm:3.9.0"
   peerDependencies:
     react-hook-form: ^7.0.0
-  checksum: 10c0/0f64d5d9fedc5b0b7126f88185a1768cf3f80dafa351150dc3ba78b818e49c1f18df16b15628cf391849149c0f911c4130195987668e0337b8ab07224a718167
+  checksum: 10c0/0e0e55f63abbd212cf14abbd39afad1f9b6105d6b25ce827fc651b624ed2be467ebe9b186026e0f032062db59ce2370b14e9583b436ae2d057738bdd6f04356c
   languageName: node
   linkType: hard
 
@@ -1446,7 +1446,7 @@ __metadata:
   resolution: "@interval.so/web@workspace:apps/web"
   dependencies:
     "@heroicons/react": "npm:2.1.5"
-    "@hookform/resolvers": "npm:3.7.0"
+    "@hookform/resolvers": "npm:3.9.0"
     "@jonahsnider/util": "npm:11.0.0"
     "@radix-ui/react-alert-dialog": "npm:1.1.1"
     "@radix-ui/react-avatar": "npm:1.1.0"
