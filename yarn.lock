@@ -1489,7 +1489,7 @@ __metadata:
     dotenv: "npm:16.4.5"
     framer-motion: "npm:11.3.24"
     fuse.js: "npm:7.0.0"
-    mutative: "npm:1.0.6"
+    mutative: "npm:1.0.8"
     next: "npm:14.2.5"
     next-plausible: "npm:3.12.1"
     next-themes: "npm:0.3.0"
@@ -8713,10 +8713,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mutative@npm:1.0.6":
-  version: 1.0.6
-  resolution: "mutative@npm:1.0.6"
-  checksum: 10c0/9b3a0b0c7b3f132e4257bc16b6de2941b70368572a2d2ab44d1a7fdc88a0acfac093107e12a5793ecd116034668309c471ff801c44352bf157a20ddb34092d61
+"mutative@npm:1.0.8":
+  version: 1.0.8
+  resolution: "mutative@npm:1.0.8"
+  checksum: 10c0/18d61dbb89d9c7af0e00ec303bbd6d0d7286a01ffa6093943d186f15dbaa843be31ce6da66fb42f2b45fd6d107562df091c3ce6b0d14e71f2023d0cbd117fea3
   languageName: node
   linkType: hard
 
