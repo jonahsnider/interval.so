@@ -58,7 +58,7 @@ export default async function LandingPage() {
 						<Tooltip>
 							<TooltipTrigger asChild={true}>
 								{/* biome-ignore lint/a11y/noNoninteractiveTabindex: This is interactive */}
-								<span tabIndex={0}>
+								<span tabIndex={0} className='bg-background rounded-lg'>
 									<Button disabled={true} className='text-foreground text-lg' variant='outline' size='xl'>
 										Sign up
 									</Button>
