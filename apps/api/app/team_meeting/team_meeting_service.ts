@@ -28,16 +28,18 @@ export class TeamMeetingService {
 		await AuthorizationService.assertPermission(bouncer.with('MeetingPolicy').allows('viewList', team));
 
 		// The giant query for grouping the overlapping sign-ins is from https://wiki.postgresql.org/wiki/Range_aggregation
-		const s1 = db
+		// It requires (start, end) to be unique, so we add this s0 step and tweak some of the following steps as a workaround
+		const s0 = db
 			.select({
 				startedAt: Schema.memberAttendance.startedAt,
 				endedAt: Schema.memberAttendance.endedAt,
 				memberId: Schema.memberAttendance.memberId,
 				memberName: Schema.teamMembers.name,
 				attendanceId: Schema.memberAttendance.id,
-				le: sql<Date>`lag(${Schema.memberAttendance.endedAt}) OVER (ORDER BY ${Schema.memberAttendance.startedAt}, ${Schema.memberAttendance.endedAt})`.as(
-					'le',
-				),
+				rowId:
+					sql<number>`row_number() OVER (ORDER BY ${Schema.memberAttendance.startedAt}, ${Schema.memberAttendance.endedAt})`.as(
+						'row_id',
+					),
 			})
 			.from(Schema.memberAttendance)
 			.innerJoin(
@@ -50,6 +52,21 @@ export class TeamMeetingService {
 				),
 			)
 			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)))
+			.as('s0');
+
+		const s1 = db
+			.select({
+				startedAt: s0.startedAt,
+				endedAt: s0.endedAt,
+				memberId: s0.memberId,
+				memberName: s0.memberName,
+				attendanceId: s0.attendanceId,
+				id: s0.rowId,
+				le: sql<Date>`coalesce(lag(${s0.endedAt}) OVER (ORDER BY ${s0.startedAt}, ${s0.endedAt}, ${s0.rowId}), '0001-01-01 00:00:00 BC'::timestamptz)`.as(
+					'le',
+				),
+			})
+			.from(s0)
 			.as('s1');
 
 		const s2 = db
@@ -59,8 +76,9 @@ export class TeamMeetingService {
 				memberId: s1.memberId,
 				memberName: s1.memberName,
 				attendanceId: s1.attendanceId,
+				id: s1.id,
 				newStart:
-					sql<Date>`CASE WHEN ${s1.startedAt} < ${max(s1.le)} OVER (ORDER BY ${s1.startedAt}, ${s1.endedAt}) THEN null ELSE ${s1.startedAt} END`.as(
+					sql<Date>`CASE WHEN ${s1.startedAt} < ${max(s1.le)} OVER (ORDER BY ${s1.startedAt}, ${s1.endedAt}, ${s1.id}) THEN null ELSE ${s1.startedAt} END`.as(
 						'new_start',
 					),
 			})
@@ -74,7 +92,9 @@ export class TeamMeetingService {
 				memberId: s2.memberId,
 				memberName: s2.memberName,
 				attendanceId: s2.attendanceId,
-				leftEdge: sql<Date>`${max(s2.newStart)} OVER (ORDER BY ${s2.startedAt}, ${s2.endedAt})`.as('left_edge'),
+				leftEdge: sql<Date>`${max(s2.newStart)} OVER (ORDER BY ${s2.startedAt}, ${s2.endedAt}, ${s2.id})`.as(
+					'left_edge',
+				),
 			})
 			.from(s2)
 			.as('s3');
