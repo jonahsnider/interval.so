@@ -37,7 +37,7 @@ function SidebarEntry({
 	return (
 		<Link
 			href={href}
-			className={clsx('hover:bg-muted transition-colors py-2 px-3 rounded-md', {
+			className={clsx('hover:bg-muted transition-colors py-2 px-3 rounded-md bg-background-muted', {
 				'font-semibold text-foreground bg-muted/50': active,
 			})}
 		>
