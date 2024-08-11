@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
-import { MainContent } from '@/src/components/main-content';
 import { Navbar } from '@/src/components/navbar/navbar';
+import { MainContent } from '@/src/components/page-wrappers/main-content';
 
 import { PasswordLoginCard } from '@/src/components/team-dashboard/password-login/password-login-card';
 import { isTrpcClientError } from '@/src/trpc/common';

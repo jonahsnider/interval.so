@@ -1,7 +1,7 @@
-import { MainContent } from '@/src/components/main-content';
 import { MemberAttendanceSection } from '@/src/components/manager/members/view-member/member-attendance-section/member-attendance-section';
 import { searchParamCache } from '@/src/components/manager/members/view-member/search-params';
 import { ViewMemberPageHeader } from '@/src/components/manager/members/view-member/view-member-page-header/view-member-page-header';
+import { MainContent } from '@/src/components/page-wrappers/main-content';
 
 type Props = {
 	params: {

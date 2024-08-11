@@ -1,6 +1,6 @@
-import { MainContent } from '@/src/components/main-content';
 import { CreateMemberDialog } from '@/src/components/members/create-member/create-member-dialog';
 import { PageHeader } from '@/src/components/page-header';
+import { MainContent } from '@/src/components/page-wrappers/main-content';
 import { PlusIcon } from '@heroicons/react/16/solid';
 import type { PropsWithChildren } from 'react';
 

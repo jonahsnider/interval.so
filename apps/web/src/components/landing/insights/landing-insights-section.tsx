@@ -3,7 +3,7 @@ import screenshot from './screenshot.png';
 
 export function LandingInsightsSection() {
 	return (
-		<section className='bg-background-muted dark py-16'>
+		<section className='bg-background-muted py-16'>
 			<div className='mx-auto container flex flex-col-reverse items-center lg:items-start lg:flex-row lg:justify-between gap-8 text-foreground'>
 				<Image
 					src={screenshot}

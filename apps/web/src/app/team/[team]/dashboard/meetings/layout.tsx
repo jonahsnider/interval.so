@@ -1,6 +1,6 @@
-import { MainContent } from '@/src/components/main-content';
 import { CreateMeetingDialog } from '@/src/components/manager/meetings/create-meeting-dialog/create-meeting-dialog';
 import { PageHeader } from '@/src/components/page-header';
+import { MainContent } from '@/src/components/page-wrappers/main-content';
 import type { PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren<{

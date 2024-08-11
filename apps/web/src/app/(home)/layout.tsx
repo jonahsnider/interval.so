@@ -1,5 +1,6 @@
-import { MainContent } from '@/src/components/main-content';
 import { Navbar } from '@/src/components/navbar/navbar';
+import { FooterWrapper } from '@/src/components/page-wrappers/footer-wrapper';
+import { MainContent } from '@/src/components/page-wrappers/main-content';
 import { signupsEnabledFlag } from '@/src/flags';
 import { trpcServer } from '@/src/trpc/trpc-server';
 import { captureException } from '@sentry/nextjs';
@@ -26,11 +27,11 @@ export default async function TeamSelectConditionalLayout({ authed, landing }: P
 
 		if (user) {
 			return (
-				<>
+				<FooterWrapper>
 					<Navbar />
 
 					<MainContent>{authed}</MainContent>
-				</>
+				</FooterWrapper>
 			);
 		}
 

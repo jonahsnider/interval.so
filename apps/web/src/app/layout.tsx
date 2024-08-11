@@ -4,10 +4,8 @@ import { Analytics } from '@vercel/analytics/react';
 import clsx from 'clsx';
 import type { Metadata, Viewport } from 'next';
 import PlausibleProvider from 'next-plausible';
-import { ThemeProvider } from 'next-themes';
 import { ViewTransitions } from 'next-view-transitions';
 import { Inter, Playfair_Display } from 'next/font/google';
-import { Footer } from '../components/footer/footer';
 import '../globals.css';
 import { TrpcProvider } from '../providers/trpc-provider';
 import { siteMetadata } from '../site-metadata';
@@ -66,16 +64,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 						playfairDisplay.variable,
 					)}
 				>
-					<ThemeProvider attribute='class' defaultTheme='system' enableSystem={true} disableTransitionOnChange={true}>
-						<TrpcProvider>
-							<TooltipProvider>
-								<div className='min-h-screen flex flex-col'>
-									<div className='flex-1 w-full flex flex-col'>{children}</div>
-									<Footer />
-								</div>
-							</TooltipProvider>
-						</TrpcProvider>
-					</ThemeProvider>
+					<TrpcProvider>
+						<TooltipProvider>{children}</TooltipProvider>
+					</TrpcProvider>
 
 					<Toaster />
 

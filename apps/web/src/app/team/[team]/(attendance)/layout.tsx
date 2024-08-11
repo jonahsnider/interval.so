@@ -1,6 +1,6 @@
-import { MainContent } from '@/src/components/main-content';
 import { Navbar } from '@/src/components/navbar/navbar';
 import { NeedsAnyAuthScreen } from '@/src/components/needs-any-auth-screen';
+import { MainContent } from '@/src/components/page-wrappers/main-content';
 
 import { isTrpcClientError } from '@/src/trpc/common';
 import { trpcServer } from '@/src/trpc/trpc-server';

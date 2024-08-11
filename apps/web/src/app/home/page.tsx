@@ -5,6 +5,7 @@ import { LandingCtaSection } from '@/src/components/landing/cta/landing-cta-sect
 import { HeroGraphic } from '@/src/components/landing/hero-graphic/hero-graphic';
 import { LandingInsightsSection } from '@/src/components/landing/insights/landing-insights-section';
 import { Navbar } from '@/src/components/navbar/navbar';
+import { FooterWrapper } from '@/src/components/page-wrappers/footer-wrapper';
 import { signupsEnabledFlag } from '@/src/flags';
 import { siteMetadata } from '@/src/site-metadata';
 import clsx from 'clsx';
@@ -24,12 +25,12 @@ export default async function LandingPage() {
 	const signupsEnabled = await signupsEnabledFlag();
 
 	return (
-		<>
-			<Navbar className='border-b-0 dark' />
+		<FooterWrapper themeProps={{ forcedTheme: 'dark' }}>
+			<Navbar className='border-b-0' />
 
 			<section
 				className={clsx(
-					'flex flex-col items-center justify-center bg-[#111110] pt-8 pb-16 relative px-4 dark min-h-[85vh]',
+					'flex flex-col items-center justify-center bg-[#111110] pt-8 pb-16 relative px-4 min-h-[85vh]',
 					dotsStyles.dots,
 				)}
 			>
@@ -78,6 +79,6 @@ export default async function LandingPage() {
 			<LandingInsightsSection />
 
 			<LandingCtaSection />
-		</>
+		</FooterWrapper>
 	);
 }

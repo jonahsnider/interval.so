@@ -3,9 +3,10 @@
 import { Button } from '@/components/ui/button';
 import { captureException } from '@sentry/nextjs';
 import { useEffect } from 'react';
-import { MainContent } from '../components/main-content';
 import { BaseNavbar } from '../components/navbar/base-navbar';
 import { PageHeader } from '../components/page-header';
+import { FooterWrapper } from '../components/page-wrappers/footer-wrapper';
+import { MainContent } from '../components/page-wrappers/main-content';
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export
 export default function ErrorPage({
@@ -20,7 +21,7 @@ export default function ErrorPage({
 	}, [error]);
 
 	return (
-		<>
+		<FooterWrapper>
 			<BaseNavbar />
 
 			<PageHeader title='Error' />
@@ -32,6 +33,6 @@ export default function ErrorPage({
 					Reload
 				</Button>
 			</MainContent>
-		</>
+		</FooterWrapper>
 	);
 }

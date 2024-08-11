@@ -10,10 +10,7 @@ export async function LandingCtaSection() {
 
 	return (
 		<section
-			className={clsx(
-				'dark w-full bg-[#111110] py-20 px-8 flex flex-col items-center justify-center gap-4',
-				styles.cta,
-			)}
+			className={clsx('w-full bg-[#111110] py-20 px-8 flex flex-col items-center justify-center gap-4', styles.cta)}
 		>
 			<h2 className='text-3xl sm:text-4xl font-serif font-semibold text-foreground text-center'>
 				Get started with <span className='lowercase'>Interval</span>

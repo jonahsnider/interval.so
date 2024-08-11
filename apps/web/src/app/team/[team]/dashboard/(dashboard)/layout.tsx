@@ -1,8 +1,8 @@
-import { MainContent } from '@/src/components/main-content';
 import { ManagerDashboardProvider } from '@/src/components/manager/dashboard/manager-dashboard-context';
 import { ManagerDashboardPeriodSelect } from '@/src/components/manager/dashboard/period-select';
 import { EndMeetingButton } from '@/src/components/manager/end-meeting-button/end-meeting-button';
 import { PageHeader } from '@/src/components/page-header';
+import { MainContent } from '@/src/components/page-wrappers/main-content';
 import type { PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren<{
