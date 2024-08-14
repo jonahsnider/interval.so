@@ -22,6 +22,9 @@
 		"vercel": "36.0.0"
 	},
 	"packageManager": "yarn@4.4.0",
+	"engines": {
+		"node": "22.x"
+	},
 	"trustedDependencies": [
 		"@biomejs/biome"
 	]
