@@ -53,7 +53,7 @@ type Props = {
 
 export function SettingsSidebar({ team, pageId }: Props) {
 	return (
-		<nav className='flex flex-col gap-2 text-sm text-muted-foreground'>
+		<nav className='flex flex-col gap-2 text-muted-foreground'>
 			{ENTRIES.map((entry) => (
 				<SidebarEntry key={entry.label} entry={entry} team={team} active={pageId === entry.id} />
 			))}
