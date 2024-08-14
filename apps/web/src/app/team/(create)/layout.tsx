@@ -13,7 +13,7 @@ export default function TeamCreatePageLayout({ children }: PropsWithChildren) {
 
 			<PageHeader title='Create a team' />
 
-			<MainContent className='items-center'>
+			<MainContent>
 				<NeedsManagerAuthScreen>{children}</NeedsManagerAuthScreen>
 			</MainContent>
 		</FooterWrapper>

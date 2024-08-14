@@ -54,15 +54,17 @@ export default function CreateTeamPage() {
 	};
 
 	return (
-		<Form {...form}>
-			<form className='flex flex-col gap-4' onSubmit={form.handleSubmit(onSubmit)}>
-				<CreateTeamNameCard form={form} />
-				<CreateTeamUrlCard form={form} />
-				<CreateTeamPasswordCard form={form} />
-				<Button className='max-w-min mx-auto' size='lg' type='submit' disabled={createTeam.isPending}>
-					Create team
-				</Button>
-			</form>
-		</Form>
+		<div className='items-center flex justify-center'>
+			<Form {...form}>
+				<form className='flex flex-col gap-4 max-w-4xl' onSubmit={form.handleSubmit(onSubmit)}>
+					<CreateTeamNameCard form={form} />
+					<CreateTeamUrlCard form={form} />
+					<CreateTeamPasswordCard form={form} />
+					<Button className='max-w-min mx-auto' size='lg' type='submit' disabled={createTeam.isPending}>
+						Create team
+					</Button>
+				</form>
+			</Form>
+		</div>
 	);
 }
