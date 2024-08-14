@@ -27,6 +27,8 @@ export default await Env.create(new URL('../../../', import.meta.url), {
 	POSTGRES_URL: Env.schema.string(),
 	// biome-ignore lint/style/useNamingConvention: These are environment variables
 	REDIS_URL: Env.schema.string(),
+	// biome-ignore lint/style/useNamingConvention: These are environment variables
+	COOKIE_DOMAIN: Env.schema.string({ format: 'host' }),
 
 	/*
   |----------------------------------------------------------
