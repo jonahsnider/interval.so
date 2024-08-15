@@ -5,7 +5,12 @@ import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
 
 export const trpcUrl = new URL('/trpc', getBaseApiUrl());
 export const trpcWsUrl = new URL('/trpc', getBaseApiUrl());
-trpcWsUrl.protocol = 'ws';
+
+if (getBaseApiUrl().startsWith('https')) {
+	trpcWsUrl.protocol = 'wss';
+} else {
+	trpcWsUrl.protocol = 'ws';
+}
 
 export type RouterInput = inferRouterInputs<AppRouterType>;
 export type RouterOutput = inferRouterOutputs<AppRouterType>;
