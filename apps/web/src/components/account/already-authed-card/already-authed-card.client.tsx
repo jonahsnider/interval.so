@@ -2,22 +2,10 @@
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { trpc } from '@/src/trpc/trpc-client';
-import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
+import { useLogOut } from '@/src/hooks/log-out';
 
 export function AlreadyAuthedCardInner({ displayName, title }: { displayName: string; title: string }) {
-	const router = useRouter();
-
-	const signOut = trpc.accounts.logOut.useMutation({
-		onSuccess: () => {
-			router.refresh();
-			toast.success('You have been logged out');
-		},
-		onError: () => {
-			toast.error('An error occurred while logging you out');
-		},
-	});
+	const logOut = useLogOut();
 
 	return (
 		<Card className='[view-transition-name:auth-card]'>
@@ -32,11 +20,7 @@ export function AlreadyAuthedCardInner({ displayName, title }: { displayName: st
 			</CardContent>
 
 			<CardFooter className='justify-end'>
-				<Button
-					disabled={signOut.isPending}
-					onClick={() => signOut.mutate()}
-					className='[view-transition-name:auth-card-button]'
-				>
+				<Button disabled={logOut.isPending} onClick={logOut.logOut} className='[view-transition-name:auth-card-button]'>
 					Log out
 				</Button>
 			</CardFooter>

@@ -1,5 +1,5 @@
 import { Navbar } from '@/src/components/navbar/navbar';
-import { NeedsAnyAuthScreen } from '@/src/components/needs-any-auth-screen';
+import { NeedsAnyAuthScreen } from '@/src/components/needs-any-auth-screen/needs-any-auth-screen.server';
 import { MainContent } from '@/src/components/page-wrappers/main-content';
 
 import { isTrpcClientError } from '@/src/trpc/common';

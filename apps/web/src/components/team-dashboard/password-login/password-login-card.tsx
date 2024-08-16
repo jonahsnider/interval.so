@@ -55,7 +55,7 @@ export function PasswordLoginCard({ team }: Props) {
 	};
 
 	return (
-		<Card>
+		<Card className='[view-transition-name:auth-card]'>
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)}>
 					<CardHeader>

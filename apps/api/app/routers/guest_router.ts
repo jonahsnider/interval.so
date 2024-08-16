@@ -31,19 +31,21 @@ export class GuestRouter {
 				.mutation(async ({ ctx, input }) => {
 					await this.guestPasswordService.guestPasswordLogin(input, ctx.session);
 				}),
-			getCurrentGuestTeam: publicProcedure.output(TeamSchema.pick({ slug: true }).optional()).query(async ({ ctx }) => {
-				if (!ctx.guestToken) {
-					return undefined;
-				}
+			getCurrentGuestTeam: publicProcedure
+				.output(TeamSchema.pick({ slug: true, displayName: true }).optional())
+				.query(async ({ ctx }) => {
+					if (!ctx.guestToken) {
+						return undefined;
+					}
 
-				const team = await this.guestPasswordService.getTeamFromToken(ctx.guestToken);
+					const team = await this.guestPasswordService.getTeamFromToken(ctx.guestToken);
 
-				if (!team) {
-					return undefined;
-				}
+					if (!team) {
+						return undefined;
+					}
 
-				return this.teamService.getTeamById(team);
-			}),
+					return this.teamService.getTeamById(team);
+				}),
 		});
 	}
 }

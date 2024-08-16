@@ -113,11 +113,12 @@ export class TeamService {
 		return result;
 	}
 
-	async getTeamById(team: Pick<TeamSchema, 'id'>): Promise<Pick<TeamSchema, 'slug'> | undefined> {
+	async getTeamById(team: Pick<TeamSchema, 'id'>): Promise<Pick<TeamSchema, 'slug' | 'displayName'> | undefined> {
 		const result = await db.query.teams.findFirst({
 			where: eq(Schema.teams.id, team.id),
 			columns: {
 				slug: true,
+				displayName: true,
 			},
 		});
 

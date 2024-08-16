@@ -4,7 +4,8 @@ import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import clsx from 'clsx';
 import { Link } from 'next-view-transitions';
 import type { PropsWithChildren } from 'react';
-import { trpcServer } from '../trpc/trpc-server';
+import { trpcServer } from '../../trpc/trpc-server';
+import { NeedsDifferentTeamAuthCard } from './needs-any-auth-screen.client';
 
 function NeedsSignedInCard({ team }: { team: Pick<TeamSchema, 'slug' | 'displayName'> }) {
 	return (
@@ -30,18 +31,22 @@ type Props = PropsWithChildren<{
 }>;
 
 export async function NeedsAnyAuthScreen({ children, team, className }: Props) {
-	const [{ user }, isGuest] = await Promise.all([
+	const [{ user }, currentGuestTeam] = await Promise.all([
 		trpcServer.user.getSelf.query(),
-		trpcServer.guestLogin.isGuest.query({ slug: team.slug }),
+		trpcServer.guestLogin.getCurrentGuestTeam.query(),
 	]);
 
-	if (user || isGuest) {
+	if (user || currentGuestTeam?.slug === team.slug) {
 		return <>{children}</>;
 	}
 
 	return (
 		<div className={clsx('w-full flex items-center justify-center flex-1', className)}>
-			<NeedsSignedInCard team={team} />
+			{currentGuestTeam ? (
+				<NeedsDifferentTeamAuthCard currentTeam={currentGuestTeam} wantedTeam={team} />
+			) : (
+				<NeedsSignedInCard team={team} />
+			)}
 		</div>
 	);
 }
