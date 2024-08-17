@@ -8,7 +8,6 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
-import { signupsEnabledFlag } from '@/src/flags';
 import { trpcServer } from '@/src/trpc/trpc-server';
 import { UserCircleIcon } from '@heroicons/react/20/solid';
 import { Link } from 'next-view-transitions';
@@ -38,11 +37,6 @@ function MenuContentUnauthed() {
 
 async function ProfileMenuContent() {
 	noStore();
-	const signupsEnabled = await signupsEnabledFlag();
-
-	if (!signupsEnabled) {
-		return <DropdownMenuLabel>Sign ups for Interval will be available soon</DropdownMenuLabel>;
-	}
 
 	const [{ user }, guestTeam] = await Promise.all([
 		trpcServer.user.getSelf.query(),
