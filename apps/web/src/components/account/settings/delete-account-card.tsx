@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { isTrpcClientError } from '@/src/trpc/common';
 import { trpc } from '@/src/trpc/trpc-client';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -32,7 +33,18 @@ export function DeleteAccountCard() {
 			router.push('/');
 		},
 		onError: (error) => {
-			toast.error(error.message, { id: toastId });
+			if (isTrpcClientError(error) && error.data?.code === 'FORBIDDEN') {
+				toast.error('An error occurred while deleting your account', {
+					description:
+						"If you are the owner of a team, you can't delete your account. Transfer team ownership or delete the team first.",
+					id: toastId,
+				});
+			} else {
+				toast.error('An error occurred while deleting your account', {
+					description: error.message,
+					id: toastId,
+				});
+			}
 		},
 	});
 

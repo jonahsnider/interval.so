@@ -266,4 +266,16 @@ export class TeamService {
 			owner: { displayName: owner.user.displayName },
 		};
 	}
+
+	/** An internal method to check whether a user is an owner of any team. */
+	async internalIsAnyTeamOwner(user: Pick<UserSchema, 'id'>): Promise<boolean> {
+		const [result] = await db
+			.select({ count: count() })
+			.from(Schema.teamManagers)
+			.where(and(eq(Schema.teamManagers.userId, user.id), eq(Schema.teamManagers.role, 'owner')));
+
+		assert(result);
+
+		return result.count > 0;
+	}
 }
