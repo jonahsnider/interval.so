@@ -1,12 +1,14 @@
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { Analytics } from '@vercel/analytics/react';
 import clsx from 'clsx';
 import type { Metadata, Viewport } from 'next';
 import PlausibleProvider from 'next-plausible';
 import { ViewTransitions } from 'next-view-transitions';
 import { Inter, Playfair_Display } from 'next/font/google';
 import '../globals.css';
+import dynamic from 'next/dynamic';
+import { PostHogIdentityProvider } from '../providers/post-hog-identity-provider';
+import { CsPostHogProvider } from '../providers/post-hog-provider';
 import { TrpcProvider } from '../providers/trpc-provider';
 import { siteMetadata } from '../site-metadata';
 
@@ -49,29 +51,37 @@ const playfairDisplay = Playfair_Display({
 });
 const inter = Inter({ subsets: ['latin'], weight: 'variable', variable: '--font-inter', display: 'swap' });
 
+const PostHogPageView = dynamic(() => import('../providers/post-hog-page-view'), {
+	ssr: false,
+});
+
 // biome-ignore lint/style/noDefaultExport: This has to be a default export
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<ViewTransitions>
 			<html lang='en' className='bg-background' suppressHydrationWarning={true}>
-				<head>
-					<PlausibleProvider domain='interval.so' />
-				</head>
-				<body
-					className={clsx(
-						'text-foreground bg-background-muted antialiased font-sans',
-						inter.variable,
-						playfairDisplay.variable,
-					)}
-				>
-					<TrpcProvider>
-						<TooltipProvider>{children}</TooltipProvider>
-					</TrpcProvider>
+				<CsPostHogProvider>
+					<head>
+						<PlausibleProvider domain='interval.so' />
+					</head>
+					<body
+						className={clsx(
+							'text-foreground bg-background-muted antialiased font-sans',
+							inter.variable,
+							playfairDisplay.variable,
+						)}
+					>
+						<PostHogPageView />
 
-					<Toaster />
+						<TrpcProvider>
+							<TooltipProvider>
+								<PostHogIdentityProvider>{children}</PostHogIdentityProvider>
+							</TooltipProvider>
+						</TrpcProvider>
 
-					<Analytics />
-				</body>
+						<Toaster />
+					</body>
+				</CsPostHogProvider>
 			</html>
 		</ViewTransitions>
 	);

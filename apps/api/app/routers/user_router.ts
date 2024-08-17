@@ -15,13 +15,24 @@ export class UserRouter {
 			getSelf: publicProcedure
 				.output(
 					z.object({
-						user: UserSchema.pick({ displayName: true }).optional(),
+						user: UserSchema.pick({ displayName: true, id: true }).optional(),
 					}),
 				)
 				.query(async ({ ctx }) => {
 					if (ctx.user) {
+						const dbUser = await this.userService.getUser(ctx.bouncer, ctx.user);
+
+						if (!dbUser) {
+							return {
+								user: undefined,
+							};
+						}
+
 						return {
-							user: await this.userService.getUser(ctx.bouncer, ctx.user),
+							user: {
+								...dbUser,
+								id: ctx.user.id,
+							},
 						};
 					}
 

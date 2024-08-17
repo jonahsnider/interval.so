@@ -15,6 +15,7 @@ export function useLogOut({ redirectTo }: Props = {}): {
 } {
 	const [toastId, setToastId] = useState<string | number | undefined>();
 	const router = useRouter();
+	const utils = trpc.useUtils();
 
 	const logOut = trpc.accounts.logOut.useMutation({
 		onMutate: () => {
@@ -26,6 +27,9 @@ export function useLogOut({ redirectTo }: Props = {}): {
 			}
 			router.refresh();
 			toast.success('You have been logged out', { id: toastId });
+
+			// Invalidate tRPC context, used for analytics
+			utils.user.getSelf.invalidate();
 		},
 		onError: (error) => {
 			toast.error('An error occurred while logging you out', {
