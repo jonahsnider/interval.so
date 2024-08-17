@@ -139,7 +139,15 @@ export class TeamService {
 			await tx
 				.with(targetTeamCte)
 				.delete(Schema.memberAttendance)
-				.where(eq(Schema.memberAttendance.memberId, targetTeamSubquery));
+				.where(
+					eq(
+						Schema.memberAttendance.memberId,
+						tx
+							.select({ id: Schema.teamMembers.id })
+							.from(Schema.teamMembers)
+							.where(eq(Schema.teamMembers.teamId, targetTeamSubquery)),
+					),
+				);
 			// Delete team members
 			await tx.with(targetTeamCte).delete(Schema.teamMembers).where(eq(Schema.teamMembers.teamId, targetTeamSubquery));
 			// Delete team managers
