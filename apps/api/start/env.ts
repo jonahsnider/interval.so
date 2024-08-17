@@ -30,6 +30,11 @@ export default await Env.create(new URL('../../../', import.meta.url), {
 	// biome-ignore lint/style/useNamingConvention: These are environment variables
 	COOKIE_DOMAIN: Env.schema.string({ format: 'host' }),
 
+	// biome-ignore lint/style/useNamingConvention: These are environment variables
+	POSTHOG_HOST: Env.schema.string(),
+	// biome-ignore lint/style/useNamingConvention: These are environment variables
+	POSTHOG_KEY: Env.schema.string(),
+
 	/*
   |----------------------------------------------------------
   | Variables for configuring @rlanz/sentry package
