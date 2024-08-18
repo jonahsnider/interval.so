@@ -163,7 +163,6 @@ export class TeamService {
 			// Delete team members
 			await tx.with(targetTeamCte).delete(Schema.teamMembers).where(eq(Schema.teamMembers.teamId, targetTeamSubquery));
 
-			// TODO: This is probably broken if you have multiple managers
 			// Delete team managers
 			await tx
 				.with(targetTeamCte)
