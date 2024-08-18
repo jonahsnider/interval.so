@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { TRPCError } from '@trpc/server';
 import { cryptoRandomStringAsync } from 'crypto-random-string';
-import { and, count, eq } from 'drizzle-orm';
+import { and, count, eq, inArray } from 'drizzle-orm';
 import postgres from 'postgres';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
@@ -135,26 +135,41 @@ export class TeamService {
 
 			const targetTeamSubquery = tx.select({ id: targetTeamCte.id }).from(targetTeamCte);
 
-			// Delete team meetings
+			const targetMembersCte = tx.$with('target_members_cte').as(
+				tx
+					.select({ id: Schema.teamMembers.id })
+					.from(Schema.teamMembers)
+					.where(
+						eq(
+							Schema.teamMembers.teamId,
+							tx
+								.select({
+									id: Schema.teams.id,
+								})
+								.from(Schema.teams)
+								.where(eq(Schema.teams.slug, team.slug)),
+						),
+					),
+			);
+
+			// Delete member attendance for team members
 			await tx
-				.with(targetTeamCte)
+				.with(targetMembersCte)
 				.delete(Schema.memberAttendance)
 				.where(
-					eq(
-						Schema.memberAttendance.memberId,
-						tx
-							.select({ id: Schema.teamMembers.id })
-							.from(Schema.teamMembers)
-							.where(eq(Schema.teamMembers.teamId, targetTeamSubquery)),
-					),
+					inArray(Schema.memberAttendance.memberId, tx.select({ id: targetMembersCte.id }).from(targetMembersCte)),
 				);
+
 			// Delete team members
 			await tx.with(targetTeamCte).delete(Schema.teamMembers).where(eq(Schema.teamMembers.teamId, targetTeamSubquery));
+
+			// TODO: This is probably broken if you have multiple managers
 			// Delete team managers
 			await tx
 				.with(targetTeamCte)
 				.delete(Schema.teamManagers)
 				.where(eq(Schema.teamManagers.teamId, targetTeamSubquery));
+
 			// Delete team
 			await tx.delete(Schema.teams).where(eq(Schema.teams.slug, team.slug));
 		});
