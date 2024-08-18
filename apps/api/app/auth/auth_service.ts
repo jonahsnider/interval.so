@@ -17,6 +17,8 @@ import { eq } from 'drizzle-orm';
 import { origin, rpId, rpName } from '#config/auth';
 import * as Schema from '#database/schema';
 import { injectHelper } from '../../util/inject_helper.js';
+import { ph } from '../analytics/analytics_service.js';
+import { AnalyticsEvent } from '../analytics/schemas/analytics_event.js';
 import { db } from '../db/db_service.js';
 import { AuthChallengeService } from './auth_challenge/auth_challenge_service.js';
 
@@ -120,6 +122,11 @@ export class AuthService {
 
 		// Associate session with user
 		input.session.put('userId', userId);
+
+		ph.capture({
+			distinctId: userId,
+			event: AnalyticsEvent.UserSignedUp,
+		});
 	}
 
 	async getLoginOptions(session: Session) {
@@ -204,6 +211,11 @@ export class AuthService {
 			.where(eq(Schema.credentials.id, passkey.id));
 
 		assert(passkey.userId, new TypeError('Credential from passkey was not associated with a user'));
+
+		ph.capture({
+			distinctId: passkey.userId,
+			event: AnalyticsEvent.UserLoggedIn,
+		});
 
 		// Associate session with user
 		input.session.put('userId', passkey.userId);

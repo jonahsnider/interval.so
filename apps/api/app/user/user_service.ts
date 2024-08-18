@@ -2,6 +2,8 @@ import type { Session } from '@adonisjs/session';
 import { eq } from 'drizzle-orm';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
+import { ph } from '../analytics/analytics_service.js';
+import { AnalyticsEvent } from '../analytics/schemas/analytics_event.js';
 import { AuthorizationService } from '../authorization/authorization_service.js';
 import { db } from '../db/db_service.js';
 import type { UserSchema } from './schemas/user_schema.js';
@@ -28,6 +30,14 @@ export class UserService {
 		await AuthorizationService.assertPermission(bouncer.with('UserPolicy').allows('delete', user));
 
 		await db.delete(Schema.users).where(eq(Schema.users.id, user.id));
+
+		ph.capture({
+			distinctId: user.id,
+			event: AnalyticsEvent.UserDeleted,
+			properties: {
+				deleted: true,
+			},
+		});
 	}
 
 	async setDisplayName(
@@ -38,6 +48,14 @@ export class UserService {
 		await AuthorizationService.assertPermission(bouncer.with('UserPolicy').allows('update', user));
 
 		await db.update(Schema.users).set(updated).where(eq(Schema.users.id, user.id));
+
+		ph.capture({
+			distinctId: user.id,
+			event: AnalyticsEvent.UserNameChanged,
+			properties: {
+				name: updated.displayName,
+			},
+		});
 	}
 
 	getTimezone(session: Session): UserTimezoneSchema {
