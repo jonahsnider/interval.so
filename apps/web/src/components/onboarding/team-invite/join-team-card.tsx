@@ -1,15 +1,27 @@
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { isTrpcClientError } from '@/src/trpc/common';
 import { trpcServer } from '@/src/trpc/trpc-server';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { Suspense } from 'react';
+import { InvalidInviteCard } from './invalid-invite-card';
 import { JoinTeamButton } from './join-team-button/join-team-button.server';
 
 type Props = {
 	team: Pick<TeamSchema, 'inviteCode'>;
 };
 
-export function JoinTeamCard({ team }: Props) {
+export async function JoinTeamCard({ team }: Props) {
+	try {
+		await trpcServer.teams.getByInviteCode.query(team);
+	} catch (error) {
+		if (isTrpcClientError(error) && error.data?.code === 'FORBIDDEN') {
+			return <InvalidInviteCard />;
+		}
+
+		throw error;
+	}
+
 	return (
 		<Card className='w-full max-w-md'>
 			<CardHeader>
