@@ -35,6 +35,7 @@ export default defineConfig({
 		() => import('@adonisjs/session/session_provider'),
 		() => import('@adonisjs/bouncer/bouncer_provider'),
 		() => import('@rlanz/sentry/provider'),
+		() => import('./app/analytics/analytics_provider.js'),
 	],
 
 	/*

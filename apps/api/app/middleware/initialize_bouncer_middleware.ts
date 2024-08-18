@@ -2,6 +2,7 @@ import * as abilities from '#abilities/main';
 import { policies } from '#policies/main';
 
 import { Bouncer } from '@adonisjs/bouncer';
+import type { BouncerAbility, Constructor, LazyImport } from '@adonisjs/bouncer/types';
 import type { HttpContext } from '@adonisjs/core/http';
 import type { NextFn } from '@adonisjs/core/types/http';
 import type { Session } from '@adonisjs/session';
@@ -16,7 +17,7 @@ export type BouncerUser =
 			unvalidatedGuestToken: string;
 	  };
 
-export type AppBouncer = Bouncer<BouncerUser, typeof abilities, typeof policies>;
+export type AppBouncer = BouncerWithUser<BouncerUser, typeof abilities, typeof policies>;
 
 /**
  * Init bouncer middleware is used to create a bouncer instance
@@ -35,9 +36,30 @@ export default class InitializeBouncerMiddleware {
 	}
 }
 
+class BouncerWithUser<
+	// biome-ignore lint/suspicious/noExplicitAny: This is taken from AdonisJS typings
+	User extends Record<any, any>,
+	// biome-ignore lint/suspicious/noExplicitAny: This is taken from AdonisJS typings
+	Abilities extends Record<string, BouncerAbility<any>> | undefined = undefined,
+	// biome-ignore lint/suspicious/noExplicitAny: This is taken from AdonisJS typings
+	Policies extends Record<string, LazyImport<Constructor<any>>> | undefined = undefined,
+> extends Bouncer<User, Abilities, Policies> {
+	readonly user: User | null;
+
+	constructor(userOrResolver: User | (() => User | null) | null, abilities?: Abilities, policies?: Policies) {
+		super(userOrResolver, abilities, policies);
+
+		if (userOrResolver instanceof Function) {
+			this.user = userOrResolver();
+		} else {
+			this.user = userOrResolver;
+		}
+	}
+}
+
 export function createBouncer(session: Session): AppBouncer {
-	return new Bouncer(
-		(): BouncerUser | undefined => {
+	return new BouncerWithUser<BouncerUser, typeof abilities, typeof policies>(
+		(): BouncerUser | null => {
 			const userId = session.get('userId') as string | undefined;
 			const guestToken = session.get('guestToken') as string | undefined;
 
@@ -49,7 +71,7 @@ export function createBouncer(session: Session): AppBouncer {
 				return { id: undefined, unvalidatedGuestToken: guestToken };
 			}
 
-			return undefined;
+			return null;
 		},
 		abilities,
 		policies,
