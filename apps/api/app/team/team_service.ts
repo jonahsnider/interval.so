@@ -5,6 +5,8 @@ import { and, count, eq, inArray } from 'drizzle-orm';
 import postgres from 'postgres';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
+import { ph } from '../analytics/analytics_service.js';
+import { AnalyticsEvent } from '../analytics/schemas/analytics_event.js';
 import { AuthorizationService } from '../authorization/authorization_service.js';
 import { db } from '../db/db_service.js';
 import type { TeamManagerSchema } from '../team_manager/schemas/team_manager_schema.js';
@@ -61,6 +63,24 @@ export class TeamService {
 					userId: user.id,
 					role: 'owner',
 				});
+
+				ph.capture({
+					distinctId: user.id,
+					event: AnalyticsEvent.TeamCreated,
+					groups: {
+						company: team.id,
+					},
+				});
+				ph.groupIdentify({
+					groupKey: team.id,
+					groupType: 'company',
+					properties: {
+						name: input.displayName,
+						slug: input.slug,
+						// biome-ignore lint/style/useNamingConvention: This should be snake case
+						date_created: new Date(),
+					},
+				});
 			});
 		} catch (error) {
 			if (error instanceof postgres.PostgresError && error.code === '23505') {
@@ -97,7 +117,19 @@ export class TeamService {
 	): Promise<void> {
 		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('updateSettings', team));
 
-		await db.update(Schema.teams).set(data).where(eq(Schema.teams.slug, team.slug));
+		const [dbTeam] = await db.update(Schema.teams).set(data).where(eq(Schema.teams.slug, team.slug)).returning({
+			id: Schema.teams.id,
+		});
+
+		if (dbTeam) {
+			ph.groupIdentify({
+				groupKey: dbTeam.id,
+				groupType: 'company',
+				properties: {
+					name: data.displayName,
+				},
+			});
+		}
 	}
 
 	async getTeamBySlug(team: Pick<TeamSchema, 'slug'>): Promise<Pick<TeamSchema, 'id'>> {
@@ -170,7 +202,28 @@ export class TeamService {
 				.where(eq(Schema.teamManagers.teamId, targetTeamSubquery));
 
 			// Delete team
-			await tx.delete(Schema.teams).where(eq(Schema.teams.slug, team.slug));
+			const [dbTeam] = await tx.delete(Schema.teams).where(eq(Schema.teams.slug, team.slug)).returning({
+				id: Schema.teams.id,
+			});
+
+			if (dbTeam) {
+				if (bouncer.user?.id) {
+					ph.capture({
+						distinctId: bouncer.user.id,
+						event: AnalyticsEvent.TeamDeleted,
+						groups: {
+							company: dbTeam.id,
+						},
+					});
+				}
+				ph.groupIdentify({
+					groupKey: dbTeam.id,
+					groupType: 'company',
+					properties: {
+						deleted: true,
+					},
+				});
+			}
 		});
 	}
 
@@ -224,7 +277,19 @@ export class TeamService {
 		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('updateSettings', team));
 
 		try {
-			await db.update(Schema.teams).set(data).where(eq(Schema.teams.slug, team.slug));
+			const [dbTeam] = await db.update(Schema.teams).set(data).where(eq(Schema.teams.slug, team.slug)).returning({
+				id: Schema.teams.id,
+			});
+
+			if (dbTeam) {
+				ph.groupIdentify({
+					groupKey: dbTeam.id,
+					groupType: 'company',
+					properties: {
+						slug: data.slug,
+					},
+				});
+			}
 		} catch (error) {
 			if (error instanceof postgres.PostgresError && error.code === '23505') {
 				// Team slug collision
