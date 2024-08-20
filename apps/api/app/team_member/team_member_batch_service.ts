@@ -26,14 +26,14 @@ export class TeamMemberBatchService {
 			// Select members who are signed in and should be signed out
 			const members = await tx
 				.select({
-					id: Schema.teamMembers.id,
+					memberId: Schema.teamMembers.memberId,
 					pendingSignIn: Schema.teamMembers.pendingSignIn,
 				})
 				.from(Schema.teamMembers)
 				.innerJoin(
 					Schema.teams,
 					and(
-						eq(Schema.teamMembers.teamId, Schema.teams.id),
+						eq(Schema.teamMembers.teamId, Schema.teams.teamId),
 						eq(Schema.teams.slug, team.slug),
 						isNotNull(Schema.teamMembers.pendingSignIn),
 						// Make sure we only affect people who had signed in **before** the end time
@@ -59,7 +59,7 @@ export class TeamMemberBatchService {
 					);
 
 					return {
-						memberId: member.id,
+						memberId: member.memberId,
 						startedAt: pendingSignIn,
 						endedAt: endTime,
 					};
@@ -71,8 +71,8 @@ export class TeamMemberBatchService {
 				.set({ pendingSignIn: null })
 				.where(
 					inArray(
-						Schema.teamMembers.id,
-						members.map((member) => member.id),
+						Schema.teamMembers.memberId,
+						members.map((member) => member.memberId),
 					),
 				);
 		});
@@ -95,7 +95,7 @@ export class TeamMemberBatchService {
 			// Delete meetings
 			await tx.delete(Schema.memberAttendance).where(inArray(Schema.memberAttendance.memberId, memberIds));
 			// Delete member
-			teams = await tx.delete(Schema.teamMembers).where(inArray(Schema.teamMembers.id, memberIds)).returning({
+			teams = await tx.delete(Schema.teamMembers).where(inArray(Schema.teamMembers.memberId, memberIds)).returning({
 				id: Schema.teamMembers.teamId,
 			});
 		});
@@ -127,7 +127,7 @@ export class TeamMemberBatchService {
 				columns: {
 					pendingSignIn: true,
 				},
-				where: inArray(Schema.teamMembers.id, memberIds),
+				where: inArray(Schema.teamMembers.memberId, memberIds),
 			});
 
 			if (dbMembers.some((member) => member.pendingSignIn)) {
@@ -141,7 +141,7 @@ export class TeamMemberBatchService {
 		await db
 			.update(Schema.teamMembers)
 			.set({ archived: data.archived, pendingSignIn: null })
-			.where(inArray(Schema.teamMembers.id, memberIds));
+			.where(inArray(Schema.teamMembers.memberId, memberIds));
 
 		await this.eventsService.announceEvent(members, MemberRedisEvent.MemberUpdated);
 	}
@@ -176,7 +176,7 @@ export class TeamMemberBatchService {
 				and(
 					// In the list of members
 					inArray(
-						Schema.teamMembers.id,
+						Schema.teamMembers.memberId,
 						members.map((member) => member.id),
 					),
 					// Not already signed in
@@ -201,14 +201,14 @@ export class TeamMemberBatchService {
 
 			// Select members who are signed in and should be signed out
 			const dbMembers = await tx
-				.select({ id: Schema.teamMembers.id, pendingSignIn: Schema.teamMembers.pendingSignIn })
+				.select({ memberId: Schema.teamMembers.memberId, pendingSignIn: Schema.teamMembers.pendingSignIn })
 				.from(Schema.teamMembers)
 				.where(
 					and(
 						// Currently signed in
 						isNotNull(Schema.teamMembers.pendingSignIn),
 						// Not archived
-						inArray(Schema.teamMembers.id, memberIds),
+						inArray(Schema.teamMembers.memberId, memberIds),
 					),
 				);
 
@@ -223,14 +223,17 @@ export class TeamMemberBatchService {
 					assert(pendingSignIn, new TypeError('Expected pending sign in to be defined'));
 
 					return {
-						memberId: member.id,
+						memberId: member.memberId,
 						startedAt: pendingSignIn,
 						endedAt: endTime,
 					};
 				}),
 			);
 
-			await tx.update(Schema.teamMembers).set({ pendingSignIn: null }).where(inArray(Schema.teamMembers.id, memberIds));
+			await tx
+				.update(Schema.teamMembers)
+				.set({ pendingSignIn: null })
+				.where(inArray(Schema.teamMembers.memberId, memberIds));
 		});
 
 		await this.eventsService.announceEvent(members, MemberRedisEvent.MemberAttendanceUpdated);

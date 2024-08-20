@@ -53,13 +53,13 @@ export class TeamService {
 						password: input.password,
 						inviteCode: await TeamService.generateInviteCode(),
 					})
-					.returning({ id: Schema.teams.id });
+					.returning({ teamId: Schema.teams.teamId });
 
 				assert(team);
 
 				// Create team user
 				await tx.insert(Schema.teamManagers).values({
-					teamId: team.id,
+					teamId: team.teamId,
 					userId: user.id,
 					role: 'owner',
 				});
@@ -68,11 +68,11 @@ export class TeamService {
 					distinctId: user.id,
 					event: AnalyticsEvent.TeamCreated,
 					groups: {
-						company: team.id,
+						company: team.teamId,
 					},
 				});
 				ph.groupIdentify({
-					groupKey: team.id,
+					groupKey: team.teamId,
 					groupType: 'company',
 					properties: {
 						name: input.displayName,
@@ -118,12 +118,12 @@ export class TeamService {
 		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('updateSettings', team));
 
 		const [dbTeam] = await db.update(Schema.teams).set(data).where(eq(Schema.teams.slug, team.slug)).returning({
-			id: Schema.teams.id,
+			teamId: Schema.teams.teamId,
 		});
 
 		if (dbTeam) {
 			ph.groupIdentify({
-				groupKey: dbTeam.id,
+				groupKey: dbTeam.teamId,
 				groupType: 'company',
 				properties: {
 					name: data.displayName,
@@ -136,18 +136,20 @@ export class TeamService {
 		const result = await db.query.teams.findFirst({
 			where: eq(Schema.teams.slug, team.slug),
 			columns: {
-				id: true,
+				teamId: true,
 			},
 		});
 
 		assert(result, new TRPCError({ code: 'NOT_FOUND', message: 'Team not found' }));
 
-		return result;
+		return {
+			id: result.teamId,
+		};
 	}
 
 	async getTeamById(team: Pick<TeamSchema, 'id'>): Promise<Pick<TeamSchema, 'slug' | 'displayName'> | undefined> {
 		const result = await db.query.teams.findFirst({
-			where: eq(Schema.teams.id, team.id),
+			where: eq(Schema.teams.teamId, team.id),
 			columns: {
 				slug: true,
 				displayName: true,
@@ -163,20 +165,20 @@ export class TeamService {
 		await db.transaction(async (tx) => {
 			const targetTeamCte = tx
 				.$with('target_team_cte')
-				.as(tx.select({ id: Schema.teams.id }).from(Schema.teams).where(eq(Schema.teams.slug, team.slug)));
+				.as(tx.select({ teamId: Schema.teams.teamId }).from(Schema.teams).where(eq(Schema.teams.slug, team.slug)));
 
-			const targetTeamSubquery = tx.select({ id: targetTeamCte.id }).from(targetTeamCte);
+			const targetTeamSubquery = tx.select({ teamId: targetTeamCte.teamId }).from(targetTeamCte);
 
 			const targetMembersCte = tx.$with('target_members_cte').as(
 				tx
-					.select({ id: Schema.teamMembers.id })
+					.select({ memberId: Schema.teamMembers.memberId })
 					.from(Schema.teamMembers)
 					.where(
 						eq(
 							Schema.teamMembers.teamId,
 							tx
 								.select({
-									id: Schema.teams.id,
+									teamId: Schema.teams.teamId,
 								})
 								.from(Schema.teams)
 								.where(eq(Schema.teams.slug, team.slug)),
@@ -189,7 +191,10 @@ export class TeamService {
 				.with(targetMembersCte)
 				.delete(Schema.memberAttendance)
 				.where(
-					inArray(Schema.memberAttendance.memberId, tx.select({ id: targetMembersCte.id }).from(targetMembersCte)),
+					inArray(
+						Schema.memberAttendance.memberId,
+						tx.select({ memberId: targetMembersCte.memberId }).from(targetMembersCte),
+					),
 				);
 
 			// Delete team members
@@ -203,7 +208,7 @@ export class TeamService {
 
 			// Delete team
 			const [dbTeam] = await tx.delete(Schema.teams).where(eq(Schema.teams.slug, team.slug)).returning({
-				id: Schema.teams.id,
+				teamId: Schema.teams.teamId,
 			});
 
 			if (dbTeam) {
@@ -212,12 +217,12 @@ export class TeamService {
 						distinctId: bouncer.user.id,
 						event: AnalyticsEvent.TeamDeleted,
 						groups: {
-							company: dbTeam.id,
+							company: dbTeam.teamId,
 						},
 					});
 				}
 				ph.groupIdentify({
-					groupKey: dbTeam.id,
+					groupKey: dbTeam.teamId,
 					groupType: 'company',
 					properties: {
 						deleted: true,
@@ -278,12 +283,12 @@ export class TeamService {
 
 		try {
 			const [dbTeam] = await db.update(Schema.teams).set(data).where(eq(Schema.teams.slug, team.slug)).returning({
-				id: Schema.teams.id,
+				teamId: Schema.teams.teamId,
 			});
 
 			if (dbTeam) {
 				ph.groupIdentify({
-					groupKey: dbTeam.id,
+					groupKey: dbTeam.teamId,
 					groupType: 'company',
 					properties: {
 						slug: data.slug,

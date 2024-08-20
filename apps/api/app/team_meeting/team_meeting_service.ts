@@ -35,7 +35,7 @@ export class TeamMeetingService {
 				endedAt: Schema.memberAttendance.endedAt,
 				memberId: Schema.memberAttendance.memberId,
 				memberName: Schema.teamMembers.name,
-				attendanceId: Schema.memberAttendance.id,
+				attendanceId: Schema.memberAttendance.memberAttendanceId,
 				rowId:
 					sql<number>`row_number() OVER (ORDER BY ${Schema.memberAttendance.startedAt}, ${Schema.memberAttendance.endedAt})`.as(
 						'row_id',
@@ -45,13 +45,16 @@ export class TeamMeetingService {
 			.innerJoin(
 				Schema.teamMembers,
 				and(
-					eq(Schema.memberAttendance.memberId, Schema.teamMembers.id),
+					eq(Schema.memberAttendance.memberId, Schema.teamMembers.memberId),
 					gt(Schema.memberAttendance.startedAt, timeFilter.start),
 					// Need to manually stringify the date due to a Drizzle bug https://github.com/drizzle-team/drizzle-orm/issues/2009
 					timeFilter.end && lt(Schema.memberAttendance.endedAt, timeFilter.end),
 				),
 			)
-			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)))
+			.innerJoin(
+				Schema.teams,
+				and(eq(Schema.teamMembers.teamId, Schema.teams.teamId), eq(Schema.teams.slug, team.slug)),
+			)
 			.as('s0');
 
 		const s1 = db
@@ -61,7 +64,7 @@ export class TeamMeetingService {
 				memberId: s0.memberId,
 				memberName: s0.memberName,
 				attendanceId: s0.attendanceId,
-				id: s0.rowId,
+				rowId: s0.rowId,
 				le: sql<Date>`coalesce(lag(${s0.endedAt}) OVER (ORDER BY ${s0.startedAt}, ${s0.endedAt}, ${s0.rowId}), '0001-01-01 00:00:00 BC'::timestamptz)`.as(
 					'le',
 				),
@@ -76,9 +79,9 @@ export class TeamMeetingService {
 				memberId: s1.memberId,
 				memberName: s1.memberName,
 				attendanceId: s1.attendanceId,
-				id: s1.id,
+				rowId: s1.rowId,
 				newStart:
-					sql<Date>`CASE WHEN ${s1.startedAt} < ${max(s1.le)} OVER (ORDER BY ${s1.startedAt}, ${s1.endedAt}, ${s1.id}) THEN null ELSE ${s1.startedAt} END`.as(
+					sql<Date>`CASE WHEN ${s1.startedAt} < ${max(s1.le)} OVER (ORDER BY ${s1.startedAt}, ${s1.endedAt}, ${s1.rowId}) THEN null ELSE ${s1.startedAt} END`.as(
 						'new_start',
 					),
 			})
@@ -92,7 +95,7 @@ export class TeamMeetingService {
 				memberId: s2.memberId,
 				memberName: s2.memberName,
 				attendanceId: s2.attendanceId,
-				leftEdge: sql<Date>`${max(s2.newStart)} OVER (ORDER BY ${s2.startedAt}, ${s2.endedAt}, ${s2.id})`.as(
+				leftEdge: sql<Date>`${max(s2.newStart)} OVER (ORDER BY ${s2.startedAt}, ${s2.endedAt}, ${s2.rowId})`.as(
 					'left_edge',
 				),
 			})
@@ -116,14 +119,14 @@ export class TeamMeetingService {
 				.orderBy(s3.leftEdge),
 			db
 				.select({
-					attendeeCount: countDistinct(Schema.teamMembers.id).as('attendee_count'),
+					attendeeCount: countDistinct(Schema.teamMembers.memberId).as('attendee_count'),
 					startedAt: min(Schema.teamMembers.pendingSignIn).as('started_at'),
 				})
 				.from(Schema.teamMembers)
 				.innerJoin(
 					Schema.teams,
 					and(
-						eq(Schema.teamMembers.teamId, Schema.teams.id),
+						eq(Schema.teamMembers.teamId, Schema.teams.teamId),
 						eq(Schema.teams.slug, team.slug),
 						isNotNull(Schema.teamMembers.pendingSignIn),
 					),
@@ -168,13 +171,17 @@ export class TeamMeetingService {
 		await AuthorizationService.assertPermission(bouncer.with('MeetingPolicy').allows('delete', team));
 
 		const teamBySlug = db
-			.select({ id: Schema.teams.id })
+			.select({ teamId: Schema.teams.teamId })
 			.from(Schema.teams)
 			.where(eq(Schema.teams.slug, team.slug))
 			.as('input_team');
 
 		// Ongoing meeting, delete the pending sign in times
-		await db.update(Schema.teamMembers).set({ pendingSignIn: null }).where(eq(Schema.teamMembers.id, teamBySlug.id));
+		await db
+			.update(Schema.teamMembers)
+			.set({ pendingSignIn: null })
+			// TODO: This seems totally wrong, how did this ever work?
+			.where(eq(Schema.teamMembers.memberId, teamBySlug.teamId));
 
 		await this.teamMemberEventsService.announceEvent(team, MemberRedisEvent.MemberAttendanceUpdated);
 	}
@@ -188,25 +195,30 @@ export class TeamMeetingService {
 
 		const meetingsToDelete = db.$with('meetings_to_delete').as(
 			db
-				.select({ id: Schema.memberAttendance.id })
+				.select({ memberAttendanceId: Schema.memberAttendance.memberAttendanceId })
 				.from(Schema.memberAttendance)
 				.innerJoin(
 					Schema.teamMembers,
 					and(
-						eq(Schema.memberAttendance.memberId, Schema.teamMembers.id),
+						eq(Schema.memberAttendance.memberId, Schema.teamMembers.memberId),
 						gte(Schema.memberAttendance.startedAt, meeting.start),
 						lte(Schema.memberAttendance.endedAt, meeting.end),
 					),
 				)
-				.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug))),
+				.innerJoin(
+					Schema.teams,
+					and(eq(Schema.teamMembers.teamId, Schema.teams.teamId), eq(Schema.teams.slug, team.slug)),
+				),
 		);
 
-		const meetingsToDeleteSubquery = db.select({ id: meetingsToDelete.id }).from(meetingsToDelete);
+		const meetingsToDeleteSubquery = db
+			.select({ memberAttendanceId: meetingsToDelete.memberAttendanceId })
+			.from(meetingsToDelete);
 
 		await db
 			.with(meetingsToDelete)
 			.delete(Schema.memberAttendance)
-			.where(inArray(Schema.memberAttendance.id, meetingsToDeleteSubquery));
+			.where(inArray(Schema.memberAttendance.memberAttendanceId, meetingsToDeleteSubquery));
 
 		await this.teamMemberEventsService.announceEvent(team, MemberRedisEvent.MemberAttendanceUpdated);
 	}
@@ -219,7 +231,10 @@ export class TeamMeetingService {
 				startedAt: min(Schema.teamMembers.pendingSignIn),
 			})
 			.from(Schema.teamMembers)
-			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)));
+			.innerJoin(
+				Schema.teams,
+				and(eq(Schema.teamMembers.teamId, Schema.teams.teamId), eq(Schema.teams.slug, team.slug)),
+			);
 
 		return result?.startedAt ?? undefined;
 	}

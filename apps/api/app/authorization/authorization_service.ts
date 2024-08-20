@@ -74,7 +74,7 @@ export class AuthorizationService {
 		const teams = await db
 			.select({ teamId: Schema.teamMembers.teamId })
 			.from(Schema.teamMembers)
-			.where(inArray(Schema.teamMembers.id, memberIds))
+			.where(inArray(Schema.teamMembers.memberId, memberIds))
 			.groupBy(Schema.teamMembers.teamId);
 
 		if (teams.length === 0) {
@@ -108,12 +108,12 @@ export class AuthorizationService {
 				teamId: Schema.teamMembers.teamId,
 			})
 			.from(Schema.teamMembers)
-			.innerJoin(Schema.memberAttendance, eq(Schema.teamMembers.id, Schema.memberAttendance.memberId))
+			.innerJoin(Schema.memberAttendance, eq(Schema.teamMembers.memberId, Schema.memberAttendance.memberId))
 			.where(
 				and(
-					eq(Schema.memberAttendance.memberId, Schema.teamMembers.id),
+					eq(Schema.memberAttendance.memberId, Schema.teamMembers.memberId),
 					inArray(
-						Schema.memberAttendance.id,
+						Schema.memberAttendance.memberAttendanceId,
 						meetings.map((meeting) => meeting.attendanceId),
 					),
 				),

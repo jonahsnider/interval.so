@@ -34,14 +34,14 @@ export class TeamMemberEventsService {
 			return;
 		}
 
-		const teams = await db
+		const teams: Pick<TeamSchema, 'id'>[] = await db
 			.select({
 				id: Schema.teamMembers.teamId,
 			})
 			.from(Schema.teamMembers)
 			.where(
 				inArray(
-					Schema.teamMembers.id,
+					Schema.teamMembers.memberId,
 					members.map((member) => member.id),
 				),
 			)
@@ -101,7 +101,7 @@ export class TeamMemberEventsService {
 			columns: {
 				teamId: true,
 			},
-			where: eq(Schema.teamMembers.id, member.id),
+			where: eq(Schema.teamMembers.memberId, member.id),
 		});
 
 		if (!team) {

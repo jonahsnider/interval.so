@@ -41,7 +41,10 @@ export class TeamStatsService {
 				),
 			})
 			.from(Schema.teamMembers)
-			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)))
+			.innerJoin(
+				Schema.teams,
+				and(eq(Schema.teamMembers.teamId, Schema.teams.teamId), eq(Schema.teams.slug, team.slug)),
+			)
 			.where(
 				and(
 					gt(Schema.teamMembers.pendingSignIn, timeFilter.start),
@@ -60,8 +63,11 @@ export class TeamStatsService {
 					),
 			})
 			.from(Schema.memberAttendance)
-			.innerJoin(Schema.teamMembers, and(eq(Schema.teamMembers.id, Schema.memberAttendance.memberId)))
-			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)))
+			.innerJoin(Schema.teamMembers, and(eq(Schema.teamMembers.memberId, Schema.memberAttendance.memberId)))
+			.innerJoin(
+				Schema.teams,
+				and(eq(Schema.teamMembers.teamId, Schema.teams.teamId), eq(Schema.teams.slug, team.slug)),
+			)
 			.where(
 				and(
 					gt(Schema.memberAttendance.startedAt, timeFilter.start),
@@ -103,12 +109,15 @@ export class TeamStatsService {
 
 		const meetingsForTeam = db
 			.select({
-				memberId: Schema.teamMembers.id,
+				memberId: Schema.teamMembers.memberId,
 				startedAt: Schema.memberAttendance.startedAt,
 			})
 			.from(Schema.memberAttendance)
-			.innerJoin(Schema.teamMembers, eq(Schema.teamMembers.id, Schema.memberAttendance.memberId))
-			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)))
+			.innerJoin(Schema.teamMembers, eq(Schema.teamMembers.memberId, Schema.memberAttendance.memberId))
+			.innerJoin(
+				Schema.teams,
+				and(eq(Schema.teamMembers.teamId, Schema.teams.teamId), eq(Schema.teams.slug, team.slug)),
+			)
 			.as('meetings_for_team');
 
 		// We act as though the filter had ended now if it didn't have an end time included
@@ -129,7 +138,7 @@ export class TeamStatsService {
 					seriesDate,
 				),
 			)
-			.leftJoin(Schema.teamMembers, eq(meetingsForTeam.memberId, Schema.teamMembers.id))
+			.leftJoin(Schema.teamMembers, eq(meetingsForTeam.memberId, Schema.teamMembers.memberId))
 			.groupBy(seriesDate);
 
 		return result.map((row) => ({ date: row.groupStart, memberCount: row.memberCount }));
@@ -153,12 +162,15 @@ export class TeamStatsService {
 			.innerJoin(
 				Schema.teamMembers,
 				and(
-					eq(Schema.memberAttendance.memberId, Schema.teamMembers.id),
+					eq(Schema.memberAttendance.memberId, Schema.teamMembers.memberId),
 					gt(Schema.memberAttendance.startedAt, timeFilter.start),
 					timeFilter.end && lt(Schema.memberAttendance.endedAt, timeFilter.end),
 				),
 			)
-			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)));
+			.innerJoin(
+				Schema.teams,
+				and(eq(Schema.teamMembers.teamId, Schema.teams.teamId), eq(Schema.teams.slug, team.slug)),
+			);
 
 		return result?.count ?? 0;
 	}
@@ -203,12 +215,15 @@ export class TeamStatsService {
 			.innerJoin(
 				Schema.teamMembers,
 				and(
-					eq(Schema.memberAttendance.memberId, Schema.teamMembers.id),
+					eq(Schema.memberAttendance.memberId, Schema.teamMembers.memberId),
 					gt(Schema.memberAttendance.startedAt, timeFilter.start),
 					timeFilter.end && lt(Schema.memberAttendance.endedAt, timeFilter.end),
 				),
 			)
-			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)))
+			.innerJoin(
+				Schema.teams,
+				and(eq(Schema.teamMembers.teamId, Schema.teams.teamId), eq(Schema.teams.slug, team.slug)),
+			)
 			.as('meetings_for_team');
 
 		// TODO: Consider first summing the durations per member, and then averaging those, to avoid very short meetings from a member (ex. accidental sign in/out/in) tanking the average
@@ -231,7 +246,7 @@ export class TeamStatsService {
 					seriesDate,
 				),
 			)
-			.leftJoin(Schema.teamMembers, eq(meetingsForTeam.memberId, Schema.teamMembers.id))
+			.leftJoin(Schema.teamMembers, eq(meetingsForTeam.memberId, Schema.teamMembers.memberId))
 			.groupBy(seriesDate)
 			.orderBy(seriesDate);
 
@@ -259,12 +274,15 @@ export class TeamStatsService {
 			.innerJoin(
 				Schema.teamMembers,
 				and(
-					eq(Schema.memberAttendance.memberId, Schema.teamMembers.id),
+					eq(Schema.memberAttendance.memberId, Schema.teamMembers.memberId),
 					gt(Schema.memberAttendance.startedAt, timeFilter.start),
 					timeFilter.end && lt(Schema.memberAttendance.endedAt, timeFilter.end),
 				),
 			)
-			.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)));
+			.innerJoin(
+				Schema.teams,
+				and(eq(Schema.teamMembers.teamId, Schema.teams.teamId), eq(Schema.teams.slug, team.slug)),
+			);
 
 		return convert(Number(result?.durationSeconds ?? 0), 's').to('hour');
 	}

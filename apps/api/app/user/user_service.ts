@@ -17,7 +17,7 @@ export class UserService {
 		await AuthorizationService.assertPermission(bouncer.with('UserPolicy').allows('read', user));
 
 		const dbUser = await db.query.users.findFirst({
-			where: eq(Schema.users.id, user.id),
+			where: eq(Schema.users.userId, user.id),
 			columns: {
 				displayName: true,
 			},
@@ -29,7 +29,7 @@ export class UserService {
 	async deleteUser(bouncer: AppBouncer, user: Pick<UserSchema, 'id'>): Promise<void> {
 		await AuthorizationService.assertPermission(bouncer.with('UserPolicy').allows('delete', user));
 
-		await db.delete(Schema.users).where(eq(Schema.users.id, user.id));
+		await db.delete(Schema.users).where(eq(Schema.users.userId, user.id));
 
 		ph.capture({
 			distinctId: user.id,
@@ -47,7 +47,7 @@ export class UserService {
 	): Promise<void> {
 		await AuthorizationService.assertPermission(bouncer.with('UserPolicy').allows('update', user));
 
-		await db.update(Schema.users).set(updated).where(eq(Schema.users.id, user.id));
+		await db.update(Schema.users).set(updated).where(eq(Schema.users.userId, user.id));
 
 		ph.capture({
 			distinctId: user.id,

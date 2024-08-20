@@ -30,7 +30,7 @@ export class TeamMemberService {
 			with: {
 				members: {
 					columns: {
-						id: true,
+						memberId: true,
 						name: true,
 						pendingSignIn: true,
 					},
@@ -42,7 +42,7 @@ export class TeamMemberService {
 
 		return (
 			result?.members.map((member) => ({
-				id: member.id,
+				id: member.memberId,
 				name: member.name,
 				signedInAt: member.pendingSignIn ?? undefined,
 			})) ?? []
@@ -58,7 +58,7 @@ export class TeamMemberService {
 			with: {
 				members: {
 					columns: {
-						id: true,
+						memberId: true,
 						name: true,
 						archived: true,
 						createdAt: true,
@@ -79,7 +79,7 @@ export class TeamMemberService {
 
 		return (
 			result?.members.map((member) => ({
-				id: member.id,
+				id: member.memberId,
 				name: member.name,
 				archived: member.archived,
 				createdAt: member.createdAt,
@@ -101,14 +101,17 @@ export class TeamMemberService {
 		const [dbTeam, [members]] = await Promise.all([
 			db.query.teams.findFirst({
 				columns: {
-					id: true,
+					teamId: true,
 				},
 				where: eq(Schema.teams.slug, team.slug),
 			}),
 			db
 				.select({ count: count() })
 				.from(Schema.teamMembers)
-				.innerJoin(Schema.teams, and(eq(Schema.teamMembers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)))
+				.innerJoin(
+					Schema.teams,
+					and(eq(Schema.teamMembers.teamId, Schema.teams.teamId), eq(Schema.teams.slug, team.slug)),
+				)
 				.where(eq(Schema.teams.slug, team.slug)),
 		]);
 
@@ -124,7 +127,7 @@ export class TeamMemberService {
 
 		try {
 			await db.insert(Schema.teamMembers).values({
-				teamId: dbTeam.id,
+				teamId: dbTeam.teamId,
 				name: data.name,
 			});
 		} catch (error) {
@@ -155,8 +158,8 @@ export class TeamMemberService {
 
 		const teamQuery = await db.query.teamMembers.findFirst({
 			columns: {},
-			where: eq(Schema.teamMembers.id, teamMember.id),
-			with: { team: { columns: { id: true } } },
+			where: eq(Schema.teamMembers.memberId, teamMember.id),
+			with: { team: { columns: { teamId: true } } },
 		});
 
 		assert(teamQuery, new TypeError('Expected team to be associated with the team member'));
@@ -171,7 +174,7 @@ export class TeamMemberService {
 			.set({ pendingSignIn: new Date() })
 			.where(
 				and(
-					eq(Schema.teamMembers.id, teamMember.id),
+					eq(Schema.teamMembers.memberId, teamMember.id),
 					isNull(Schema.teamMembers.pendingSignIn),
 					eq(Schema.teamMembers.archived, false),
 				),
@@ -187,7 +190,7 @@ export class TeamMemberService {
 			const [pendingSignIn] = await tx
 				.select({ pendingSignIn: Schema.teamMembers.pendingSignIn })
 				.from(Schema.teamMembers)
-				.where(and(eq(Schema.teamMembers.id, teamMember.id), eq(Schema.teamMembers.archived, false)));
+				.where(and(eq(Schema.teamMembers.memberId, teamMember.id), eq(Schema.teamMembers.archived, false)));
 
 			if (!pendingSignIn?.pendingSignIn) {
 				return;
@@ -202,7 +205,7 @@ export class TeamMemberService {
 			await tx
 				.update(Schema.teamMembers)
 				.set({ pendingSignIn: null })
-				.where(and(eq(Schema.teamMembers.id, teamMember.id), eq(Schema.teamMembers.archived, false)));
+				.where(and(eq(Schema.teamMembers.memberId, teamMember.id), eq(Schema.teamMembers.archived, false)));
 		});
 
 		await this.eventsService.announceEvent([teamMember], MemberRedisEvent.MemberAttendanceUpdated);
@@ -216,7 +219,7 @@ export class TeamMemberService {
 				columns: {
 					pendingSignIn: true,
 				},
-				where: eq(Schema.teamMembers.id, member.id),
+				where: eq(Schema.teamMembers.memberId, member.id),
 			});
 
 			if (dbMember?.pendingSignIn) {
@@ -230,7 +233,7 @@ export class TeamMemberService {
 		await db
 			.update(Schema.teamMembers)
 			.set({ archived: member.archived, pendingSignIn: null })
-			.where(eq(Schema.teamMembers.id, member.id));
+			.where(eq(Schema.teamMembers.memberId, member.id));
 
 		await this.eventsService.announceEvent([member], MemberRedisEvent.MemberUpdated);
 	}
@@ -244,7 +247,7 @@ export class TeamMemberService {
 			// Delete meetings
 			await tx.delete(Schema.memberAttendance).where(eq(Schema.memberAttendance.memberId, member.id));
 			// Delete member
-			[team] = await tx.delete(Schema.teamMembers).where(eq(Schema.teamMembers.id, member.id)).returning({
+			[team] = await tx.delete(Schema.teamMembers).where(eq(Schema.teamMembers.memberId, member.id)).returning({
 				id: Schema.teamMembers.teamId,
 			});
 		});
@@ -261,7 +264,7 @@ export class TeamMemberService {
 		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('view', [member]));
 
 		const dbMember = await db.query.teamMembers.findFirst({
-			where: eq(Schema.teamMembers.id, member.id),
+			where: eq(Schema.teamMembers.memberId, member.id),
 			columns: {
 				name: true,
 				archived: true,
@@ -285,7 +288,7 @@ export class TeamMemberService {
 	): Promise<void> {
 		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('update', [member]));
 
-		await db.update(Schema.teamMembers).set(data).where(eq(Schema.teamMembers.id, member.id));
+		await db.update(Schema.teamMembers).set(data).where(eq(Schema.teamMembers.memberId, member.id));
 
 		await this.eventsService.announceEvent([member], MemberRedisEvent.MemberUpdated);
 	}

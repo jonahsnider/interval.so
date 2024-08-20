@@ -30,7 +30,7 @@ const citext = customType<{ data: string; notNull: false; default: false }>({
 });
 
 export const users = pgTable('users', {
-	id: uuid('id').notNull().primaryKey().defaultRandom(),
+	userId: uuid('id').notNull().primaryKey().defaultRandom(),
 	displayName: text('display_name').notNull(),
 	createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 });
@@ -38,11 +38,11 @@ export const users = pgTable('users', {
 export const credentials = pgTable(
 	'credentials',
 	{
-		id: text('id').primaryKey().notNull(),
+		credentialId: text('id').primaryKey().notNull(),
 		publicKey: bytea('public_key').notNull(),
 		userId: uuid('user_id')
 			.notNull()
-			.references(() => users.id, { onDelete: 'cascade' }),
+			.references(() => users.userId, { onDelete: 'cascade' }),
 		webauthnUserId: text('webauthn_user_id').notNull(),
 		counter: integer('counter').notNull().default(0),
 		deviceType: text('device_type').notNull(),
@@ -56,7 +56,7 @@ export const credentials = pgTable(
 );
 
 export const teams = pgTable('teams', {
-	id: uuid('id').primaryKey().defaultRandom(),
+	teamId: uuid('id').primaryKey().defaultRandom(),
 	slug: citext('slug').unique().notNull(),
 	createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 
@@ -71,10 +71,10 @@ export const teamManagers = pgTable(
 	{
 		teamId: uuid('team_id')
 			.notNull()
-			.references(() => teams.id),
+			.references(() => teams.teamId),
 		userId: uuid('user_id')
 			.notNull()
-			.references(() => users.id),
+			.references(() => users.userId),
 		role: teamManagerRole('role').notNull().default('admin'),
 	},
 	(teamManagers) => ({
@@ -86,10 +86,10 @@ export const teamManagers = pgTable(
 export const teamMembers = pgTable(
 	'team_members',
 	{
-		id: uuid('id').notNull().primaryKey().defaultRandom(),
+		memberId: uuid('id').notNull().primaryKey().defaultRandom(),
 		teamId: uuid('team_id')
 			.notNull()
-			.references(() => teams.id),
+			.references(() => teams.teamId),
 		name: text('name').notNull(),
 
 		archived: boolean('archived').notNull().default(false),
@@ -105,9 +105,9 @@ export const teamMembers = pgTable(
 export const memberAttendance = pgTable(
 	'member_attendance',
 	{
-		id: uuid('id').notNull().primaryKey().defaultRandom(),
+		memberAttendanceId: uuid('id').notNull().primaryKey().defaultRandom(),
 		memberId: uuid('member_id')
-			.references(() => teamMembers.id)
+			.references(() => teamMembers.memberId)
 			.notNull(),
 
 		startedAt: timestamp('started_at', { withTimezone: true }).notNull(),

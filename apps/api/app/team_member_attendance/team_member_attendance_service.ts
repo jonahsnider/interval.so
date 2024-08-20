@@ -28,9 +28,9 @@ export class TeamMemberAttendanceService {
 
 		const attendanceIds = attendanceEntries.map((entry) => entry.attendanceId);
 
-		const affectedMembers = await db
+		const affectedMembers: Pick<TeamMemberSchema, 'id'>[] = await db
 			.delete(Schema.memberAttendance)
-			.where(inArray(Schema.memberAttendance.id, attendanceIds))
+			.where(inArray(Schema.memberAttendance.memberAttendanceId, attendanceIds))
 			.returning({
 				id: Schema.memberAttendance.memberId,
 			});
@@ -81,7 +81,7 @@ export class TeamMemberAttendanceService {
 
 		// Get the earliest start time and the latest end time, delete all the the specified meetings, then insert a new one
 
-		const updatedMember = await db.transaction(async (tx) => {
+		const updatedMember: Pick<TeamMemberSchema, 'id'> = await db.transaction(async (tx) => {
 			const attendanceIds = data.map((entry) => entry.attendanceId);
 
 			const [result] = await tx
@@ -93,9 +93,11 @@ export class TeamMemberAttendanceService {
 				.from(Schema.memberAttendance)
 				.limit(1)
 				.groupBy(Schema.memberAttendance.memberId)
-				.where(inArray(Schema.memberAttendance.id, attendanceIds));
+				.where(inArray(Schema.memberAttendance.memberAttendanceId, attendanceIds));
 
-			await tx.delete(Schema.memberAttendance).where(inArray(Schema.memberAttendance.id, attendanceIds));
+			await tx
+				.delete(Schema.memberAttendance)
+				.where(inArray(Schema.memberAttendance.memberAttendanceId, attendanceIds));
 
 			assert(
 				result?.startedAt && result.endedAt,
@@ -146,7 +148,7 @@ export class TeamMemberAttendanceService {
 
 		const result = await db
 			.select({
-				attendanceId: Schema.memberAttendance.id,
+				attendanceId: Schema.memberAttendance.memberAttendanceId,
 				startedAt: Schema.memberAttendance.startedAt,
 				endedAt: Schema.memberAttendance.endedAt,
 			})
@@ -186,7 +188,7 @@ export class TeamMemberAttendanceService {
 				memberId: Schema.memberAttendance.memberId,
 			})
 			.from(Schema.memberAttendance)
-			.where(eq(Schema.memberAttendance.id, update.attendanceId));
+			.where(eq(Schema.memberAttendance.memberAttendanceId, update.attendanceId));
 
 		const [overlappingEntries] = await db
 			.select({
@@ -196,7 +198,7 @@ export class TeamMemberAttendanceService {
 			.where(
 				and(
 					eq(Schema.memberAttendance.memberId, existingEntry),
-					not(eq(Schema.memberAttendance.id, update.attendanceId)),
+					not(eq(Schema.memberAttendance.memberAttendanceId, update.attendanceId)),
 					sql`tstzrange(${Schema.memberAttendance.startedAt}, ${Schema.memberAttendance.endedAt}, '[]') && tstzrange(${update.startedAt.toISOString()}, ${update.endedAt.toISOString()}, '[]')`,
 				),
 			);
@@ -216,7 +218,7 @@ export class TeamMemberAttendanceService {
 				startedAt: update.startedAt,
 				endedAt: update.endedAt,
 			})
-			.where(eq(Schema.memberAttendance.id, update.attendanceId))
+			.where(eq(Schema.memberAttendance.memberAttendanceId, update.attendanceId))
 			.returning({
 				id: Schema.memberAttendance.memberId,
 			});

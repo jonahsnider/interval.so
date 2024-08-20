@@ -25,11 +25,17 @@ export class GuestPasswordService {
 		const result = await db.query.teams.findFirst({
 			where: and(eq(Schema.teams.slug, team.slug), eq(Schema.teams.password, password.password)),
 			columns: {
-				id: true,
+				teamId: true,
 			},
 		});
 
-		return result;
+		if (!result) {
+			return undefined;
+		}
+
+		return {
+			id: result.teamId,
+		};
 	}
 
 	/** Do a guest password login for a team. */
@@ -72,7 +78,7 @@ export class GuestPasswordService {
 				count: count(),
 			})
 			.from(Schema.teams)
-			.where(and(eq(Schema.teams.slug, team.slug), eq(Schema.teams.id, tokenTeam.id)));
+			.where(and(eq(Schema.teams.slug, team.slug), eq(Schema.teams.teamId, tokenTeam.id)));
 
 		assert(result);
 

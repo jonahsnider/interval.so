@@ -100,14 +100,14 @@ export class AuthService {
 				.values({
 					displayName: input.displayName,
 				})
-				.returning({ id: Schema.users.id });
+				.returning({ userId: Schema.users.userId });
 
 			assert(user);
 
 			await tx.insert(Schema.credentials).values({
-				userId: user.id,
+				userId: user.userId,
 				deviceType: verification.registrationInfo.credentialDeviceType,
-				id: verification.registrationInfo.credentialID,
+				credentialId: verification.registrationInfo.credentialID,
 				publicKey: Buffer.from(verification.registrationInfo.credentialPublicKey),
 				webauthnUserId: verification.registrationInfo.aaguid,
 				backedUp: verification.registrationInfo.credentialBackedUp,
@@ -115,7 +115,7 @@ export class AuthService {
 				transports: input.body.response.transports,
 			});
 
-			userId = user.id;
+			userId = user.userId;
 		});
 
 		assert(userId, new TypeError('User was not created'));
@@ -149,10 +149,10 @@ export class AuthService {
 		session: Session;
 	}) {
 		const passkey = await db.query.credentials.findFirst({
-			where: eq(Schema.credentials.id, input.body.id),
+			where: eq(Schema.credentials.credentialId, input.body.id),
 			columns: {
 				userId: true,
-				id: true,
+				credentialId: true,
 				publicKey: true,
 				counter: true,
 				transports: true,
@@ -188,7 +188,7 @@ export class AuthService {
 			expectedOrigin: origin,
 			authenticator: {
 				// biome-ignore lint/style/useNamingConvention: This can't be renamed
-				credentialID: passkey.id,
+				credentialID: passkey.credentialId,
 				credentialPublicKey: passkey.publicKey,
 				counter: passkey.counter,
 				transports: passkey.transports as AuthenticatorTransport[],
@@ -208,7 +208,7 @@ export class AuthService {
 			.set({
 				counter: verification.authenticationInfo.newCounter,
 			})
-			.where(eq(Schema.credentials.id, passkey.id));
+			.where(eq(Schema.credentials.credentialId, passkey.credentialId));
 
 		assert(passkey.userId, new TypeError('Credential from passkey was not associated with a user'));
 

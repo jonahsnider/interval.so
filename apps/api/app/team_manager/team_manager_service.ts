@@ -17,7 +17,7 @@ export class TeamManagerService {
 			.from(Schema.teamManagers)
 			.innerJoin(
 				Schema.teams,
-				and(eq(Schema.teamManagers.teamId, Schema.teams.id), eq(Schema.teamManagers.userId, user.id)),
+				and(eq(Schema.teamManagers.teamId, Schema.teams.teamId), eq(Schema.teamManagers.userId, user.id)),
 			)
 			.orderBy(asc(Schema.teams.displayName));
 
@@ -62,7 +62,7 @@ export class TeamManagerService {
 					Schema.teams,
 					and(
 						// User is on the team
-						eq(Schema.teamManagers.teamId, Schema.teams.id),
+						eq(Schema.teamManagers.teamId, Schema.teams.teamId),
 						// Team slug matches the input
 						eq(Schema.teams.slug, team.slug),
 					),
@@ -118,7 +118,7 @@ export class TeamManagerService {
 
 		const teams = db
 			.$with('team_input')
-			.as(db.select({ id: Schema.teams.id }).from(Schema.teams).where(eq(Schema.teams.slug, team.slug)));
+			.as(db.select({ teamId: Schema.teams.teamId }).from(Schema.teams).where(eq(Schema.teams.slug, team.slug)));
 
 		await db.with(teams).delete(Schema.teamManagers).where(eq(Schema.teamManagers.userId, user.id));
 	}
@@ -129,7 +129,7 @@ export class TeamManagerService {
 
 		const teams = db
 			.$with('team_input')
-			.as(db.select({ id: Schema.teams.id }).from(Schema.teams).where(eq(Schema.teams.slug, team.slug)));
+			.as(db.select({ teamId: Schema.teams.teamId }).from(Schema.teams).where(eq(Schema.teams.slug, team.slug)));
 
 		await db
 			.with(teams)
@@ -153,10 +153,13 @@ export class TeamManagerService {
 				role: Schema.teamManagers.role,
 			})
 			.from(Schema.teamManagers)
-			.innerJoin(Schema.teams, and(eq(Schema.teamManagers.teamId, Schema.teams.id), eq(Schema.teams.slug, team.slug)))
+			.innerJoin(
+				Schema.teams,
+				and(eq(Schema.teamManagers.teamId, Schema.teams.teamId), eq(Schema.teams.slug, team.slug)),
+			)
 			.innerJoin(
 				Schema.users,
-				and(eq(Schema.teamManagers.userId, Schema.users.id), eq(Schema.users.id, Schema.teamManagers.userId)),
+				and(eq(Schema.teamManagers.userId, Schema.users.userId), eq(Schema.users.userId, Schema.teamManagers.userId)),
 			)
 			.orderBy(asc(Schema.teamManagers.role), asc(Schema.users.displayName));
 
@@ -179,7 +182,7 @@ export class TeamManagerService {
 			bouncer.with('TeamPolicy').allows('updateUserRole', bouncer, team, target, change),
 		);
 
-		const teams = db.select({ id: Schema.teams.id }).from(Schema.teams).where(eq(Schema.teams.slug, team.slug));
+		const teams = db.select({ teamId: Schema.teams.teamId }).from(Schema.teams).where(eq(Schema.teams.slug, team.slug));
 
 		await db.transaction(async (tx) => {
 			if (change.role === 'owner') {
@@ -203,7 +206,7 @@ export class TeamManagerService {
 		user: Pick<UserSchema, 'id'>,
 	): Promise<Pick<TeamSchema, 'slug'>> {
 		const inputTeam = db
-			.select({ id: Schema.teams.id })
+			.select({ teamId: Schema.teams.teamId })
 			.from(Schema.teams)
 			.where(eq(Schema.teams.inviteCode, team.inviteCode));
 
@@ -224,7 +227,7 @@ export class TeamManagerService {
 			columns: {
 				slug: true,
 			},
-			where: eq(Schema.teams.id, newManager.teamId),
+			where: eq(Schema.teams.teamId, newManager.teamId),
 		});
 
 		assert(dbTeam, new TypeError('Expected team to be associated with the team manager'));
