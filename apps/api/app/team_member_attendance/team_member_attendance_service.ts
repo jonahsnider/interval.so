@@ -5,6 +5,8 @@ import { and, count, eq, gt, inArray, lt, max, min, not, sql } from 'drizzle-orm
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { injectHelper } from '../../util/inject_helper.js';
+import { ph } from '../analytics/analytics_service.js';
+import { AnalyticsEvent } from '../analytics/schemas/analytics_event.js';
 import { AuthorizationService } from '../authorization/authorization_service.js';
 import { db } from '../db/db_service.js';
 import { MemberRedisEvent } from '../team_member/events/schemas/redis_event_schema.js';
@@ -35,7 +37,26 @@ export class TeamMemberAttendanceService {
 				id: Schema.memberAttendance.memberId,
 			});
 
-		await this.eventsService.announceEvent(affectedMembers, MemberRedisEvent.MemberAttendanceUpdated);
+		const affectedTeams = await this.eventsService.announceEvent(
+			affectedMembers,
+			MemberRedisEvent.MemberAttendanceUpdated,
+		);
+
+		if (bouncer.user?.id) {
+			for (const affectedTeam of affectedTeams) {
+				ph.capture({
+					distinctId: bouncer.user.id,
+					// Kinda scuffed since this method is used for both batch and single deletes
+					event:
+						attendanceIds.length > 1
+							? AnalyticsEvent.TeamMemberAttendanceBatchDeleted
+							: AnalyticsEvent.TeamMemberAttendanceDeleted,
+					groups: {
+						company: affectedTeam.id,
+					},
+				});
+			}
+		}
 	}
 
 	async createEntry(
@@ -71,7 +92,17 @@ export class TeamMemberAttendanceService {
 			memberId: member.id,
 		});
 
-		await this.eventsService.announceEvent([member], MemberRedisEvent.MemberAttendanceUpdated);
+		const [affectedTeam] = await this.eventsService.announceEvent([member], MemberRedisEvent.MemberAttendanceUpdated);
+
+		if (bouncer.user?.id && affectedTeam) {
+			ph.capture({
+				distinctId: bouncer.user.id,
+				event: AnalyticsEvent.TeamMemberAttendanceCreated,
+				groups: {
+					company: affectedTeam.id,
+				},
+			});
+		}
 	}
 
 	async mergeEntries(bouncer: AppBouncer, data: Pick<AttendanceEntrySchema, 'attendanceId'>[]): Promise<void> {
@@ -134,7 +165,20 @@ export class TeamMemberAttendanceService {
 			return { id: result.memberId };
 		});
 
-		await this.eventsService.announceEvent([updatedMember], MemberRedisEvent.MemberAttendanceUpdated);
+		const [affectedTeam] = await this.eventsService.announceEvent(
+			[updatedMember],
+			MemberRedisEvent.MemberAttendanceUpdated,
+		);
+
+		if (bouncer.user?.id && affectedTeam) {
+			ph.capture({
+				distinctId: bouncer.user.id,
+				event: AnalyticsEvent.TeamMemberAttendanceMerged,
+				groups: {
+					company: affectedTeam.id,
+				},
+			});
+		}
 	}
 
 	async getEntriesForMember(
@@ -223,6 +267,18 @@ export class TeamMemberAttendanceService {
 				id: Schema.memberAttendance.memberId,
 			});
 
-		await this.eventsService.announceEvent(members, MemberRedisEvent.MemberAttendanceUpdated);
+		const affectedTeams = await this.eventsService.announceEvent(members, MemberRedisEvent.MemberAttendanceUpdated);
+
+		if (bouncer.user?.id) {
+			for (const affectedTeam of affectedTeams) {
+				ph.capture({
+					distinctId: bouncer.user.id,
+					event: AnalyticsEvent.TeamMemberAttendanceUpdated,
+					groups: {
+						company: affectedTeam.id,
+					},
+				});
+			}
+		}
 	}
 }

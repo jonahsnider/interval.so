@@ -22,6 +22,15 @@ export enum AnalyticsEvent {
 	TeamMembersBatchSignedIn = 'team_members_batch_signed_in',
 	TeamMembersBatchSignedOut = 'team_members_batch_signed_out',
 
+	/** A member attendance entry was updated. */
+	TeamMemberAttendanceUpdated = 'team_member_attendance_updated',
+	/** One member attendance entry was deleted. */
+	TeamMemberAttendanceDeleted = 'team_member_attendance_deleted',
+	/** Many member attendance entries were deleted. */
+	TeamMemberAttendanceBatchDeleted = 'team_member_attendance_batch_deleted',
+	TeamMemberAttendanceCreated = 'team_member_attendance_created',
+	TeamMemberAttendanceMerged = 'team_member_attendance_merged',
+
 	MeetingCreated = 'meeting_created',
 	MeetingDeleted = 'meeting_deleted',
 	/** The "End meeting" button was used. */
