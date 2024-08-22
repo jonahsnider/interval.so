@@ -18,8 +18,8 @@ export function BatchArchiveItem({ table }: Props) {
 		onMutate: ({ data }) => {
 			setToastId(toast.loading(`${data.archived ? 'Archiving' : 'Unarchiving'} members...`, { id: toastId }));
 		},
-		onSuccess: () => {
-			toast.success(`Archived ${selectedRows.length} members`, { id: toastId });
+		onSuccess: (_result, { data }) => {
+			toast.success(`${data.archived ? 'Archived' : 'Unarchived'} ${selectedRows.length} members`, { id: toastId });
 		},
 		onError: (error, { data }) => {
 			toast.error(`An error occurred while ${data.archived ? 'archiving' : 'unarchiving'} the members`, {
