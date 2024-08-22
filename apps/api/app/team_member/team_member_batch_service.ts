@@ -5,6 +5,8 @@ import { and, eq, inArray, isNotNull, isNull, lte } from 'drizzle-orm';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { injectHelper } from '../../util/inject_helper.js';
+import { ph } from '../analytics/analytics_service.js';
+import { AnalyticsEvent } from '../analytics/schemas/analytics_event.js';
 import { AuthorizationService } from '../authorization/authorization_service.js';
 import { db } from '../db/db_service.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
@@ -77,7 +79,17 @@ export class TeamMemberBatchService {
 				);
 		});
 
-		await this.eventsService.announceEvent(team, MemberRedisEvent.MemberAttendanceUpdated);
+		const affectedTeam = await this.eventsService.announceEvent(team, MemberRedisEvent.MemberAttendanceUpdated);
+
+		if (bouncer.user?.id) {
+			ph.capture({
+				distinctId: bouncer.user.id,
+				event: AnalyticsEvent.MeetingEnded,
+				groups: {
+					company: affectedTeam.id,
+				},
+			});
+		}
 	}
 
 	async deleteMany(bouncer: AppBouncer, members: Pick<TeamMemberSchema, 'id'>[]) {
@@ -102,11 +114,23 @@ export class TeamMemberBatchService {
 
 		const teamIds = new Set(teams.map((team) => team.id));
 
-		await Promise.all(
+		const affectedTeams = await Promise.all(
 			Array.from(teamIds).map((teamId) =>
 				this.eventsService.announceEvent({ id: teamId }, MemberRedisEvent.MemberDeleted),
 			),
 		);
+
+		if (bouncer.user?.id) {
+			for (const affectedTeam of affectedTeams) {
+				ph.capture({
+					distinctId: bouncer.user.id,
+					event: AnalyticsEvent.TeamMembersBatchDeleted,
+					groups: {
+						company: affectedTeam.id,
+					},
+				});
+			}
+		}
 	}
 
 	async setArchivedMany(
@@ -143,7 +167,22 @@ export class TeamMemberBatchService {
 			.set({ archived: data.archived, pendingSignIn: null })
 			.where(inArray(Schema.teamMembers.memberId, memberIds));
 
-		await this.eventsService.announceEvent(members, MemberRedisEvent.MemberUpdated);
+		const affectedTeams = await this.eventsService.announceEvent(members, MemberRedisEvent.MemberUpdated);
+
+		if (bouncer.user?.id) {
+			for (const affectedTeam of affectedTeams) {
+				ph.capture({
+					distinctId: bouncer.user.id,
+					event: AnalyticsEvent.TeamMembersBatchArchivedUpdated,
+					groups: {
+						company: affectedTeam.id,
+					},
+					properties: {
+						archived: data.archived,
+					},
+				});
+			}
+		}
 	}
 
 	async updateAttendanceMany(
@@ -158,13 +197,13 @@ export class TeamMemberBatchService {
 		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('update', members));
 
 		if (data.atMeeting) {
-			await this.signInMany(members);
+			await this.signInMany(bouncer, members);
 		} else {
-			await this.signOutMany(members, new Date());
+			await this.signOutMany(bouncer, members, new Date());
 		}
 	}
 
-	private async signInMany(members: Pick<TeamMemberSchema, 'id'>[]): Promise<void> {
+	private async signInMany(bouncer: AppBouncer, members: Pick<TeamMemberSchema, 'id'>[]): Promise<void> {
 		if (members.length === 0) {
 			return;
 		}
@@ -186,10 +225,26 @@ export class TeamMemberBatchService {
 				),
 			);
 
-		await this.eventsService.announceEvent(members, MemberRedisEvent.MemberAttendanceUpdated);
+		const affectedTeams = await this.eventsService.announceEvent(members, MemberRedisEvent.MemberAttendanceUpdated);
+
+		if (bouncer.user?.id) {
+			for (const affectedTeam of affectedTeams) {
+				ph.capture({
+					distinctId: bouncer.user.id,
+					event: AnalyticsEvent.TeamMembersBatchSignedIn,
+					groups: {
+						company: affectedTeam.id,
+					},
+				});
+			}
+		}
 	}
 
-	private async signOutMany(members: Pick<TeamMemberSchema, 'id'>[], endTime: Date): Promise<void> {
+	private async signOutMany(
+		bouncer: AppBouncer,
+		members: Pick<TeamMemberSchema, 'id'>[],
+		endTime: Date,
+	): Promise<void> {
 		if (members.length === 0) {
 			return;
 		}
@@ -236,6 +291,18 @@ export class TeamMemberBatchService {
 				.where(inArray(Schema.teamMembers.memberId, memberIds));
 		});
 
-		await this.eventsService.announceEvent(members, MemberRedisEvent.MemberAttendanceUpdated);
+		const affectedTeams = await this.eventsService.announceEvent(members, MemberRedisEvent.MemberAttendanceUpdated);
+
+		if (bouncer.user?.id) {
+			for (const affectedTeam of affectedTeams) {
+				ph.capture({
+					distinctId: bouncer.user.id,
+					event: AnalyticsEvent.TeamMembersBatchSignedOut,
+					groups: {
+						company: affectedTeam.id,
+					},
+				});
+			}
+		}
 	}
 }

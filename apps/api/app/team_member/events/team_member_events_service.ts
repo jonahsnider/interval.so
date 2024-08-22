@@ -29,9 +29,9 @@ export class TeamMemberEventsService {
 	private static async announceEventByMembers(
 		members: Pick<TeamMemberSchema, 'id'>[],
 		event: MemberRedisEvent,
-	): Promise<void> {
+	): Promise<Pick<TeamSchema, 'id'>[]> {
 		if (members.length === 0) {
-			return;
+			return [];
 		}
 
 		const teams: Pick<TeamSchema, 'id'>[] = await db
@@ -57,10 +57,12 @@ export class TeamMemberEventsService {
 				},
 			);
 
-			return;
+			return [];
 		}
 
 		await Promise.all(teams.map((team) => TeamMemberEventsService.announceEventRaw(team, event)));
+
+		return teams;
 	}
 
 	constructor(private readonly teamService: TeamService) {}
@@ -117,9 +119,11 @@ export class TeamMemberEventsService {
 	private async announceEventByTeam(
 		team: Pick<TeamSchema, 'id'> | Pick<TeamSchema, 'slug'>,
 		event: MemberRedisEvent,
-	): Promise<void> {
+	): Promise<Pick<TeamSchema, 'id'>> {
 		if ('id' in team) {
-			return TeamMemberEventsService.announceEventRaw(team, event);
+			await TeamMemberEventsService.announceEventRaw(team, event);
+
+			return team;
 		}
 
 		const teamWithId = await this.teamService.getTeamBySlug(team);
@@ -128,15 +132,20 @@ export class TeamMemberEventsService {
 			throw new Error(`Team with slug ${team.slug} not found`);
 		}
 
-		return TeamMemberEventsService.announceEventRaw(teamWithId, event);
+		await TeamMemberEventsService.announceEventRaw(teamWithId, event);
+
+		return teamWithId;
 	}
 
-	announceEvent(members: Pick<TeamMemberSchema, 'id'>[], event: MemberRedisEvent): Promise<void>;
-	announceEvent(team: Pick<TeamSchema, 'id'> | Pick<TeamSchema, 'slug'>, event: MemberRedisEvent): Promise<void>;
+	announceEvent(members: Pick<TeamMemberSchema, 'id'>[], event: MemberRedisEvent): Promise<Pick<TeamSchema, 'id'>[]>;
+	announceEvent(
+		team: Pick<TeamSchema, 'id'> | Pick<TeamSchema, 'slug'>,
+		event: MemberRedisEvent,
+	): Promise<Pick<TeamSchema, 'id'>>;
 	announceEvent(
 		teamOrMembers: Pick<TeamSchema, 'id'> | Pick<TeamSchema, 'slug'> | Pick<TeamMemberSchema, 'id'>[],
 		event: MemberRedisEvent,
-	): Promise<void> {
+	): Promise<Pick<TeamSchema, 'id'> | Pick<TeamSchema, 'id'>[]> {
 		if (Array.isArray(teamOrMembers)) {
 			return TeamMemberEventsService.announceEventByMembers(teamOrMembers, event);
 		}

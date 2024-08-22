@@ -1,3 +1,4 @@
+/** Event IDs used for PostHog. These should map to end-user actions, not internal or implementation-specific actions. */
 export enum AnalyticsEvent {
 	UserSignedUp = 'user_signed_up',
 	UserLoggedIn = 'user_logged_in',
@@ -15,4 +16,12 @@ export enum AnalyticsEvent {
 	TeamMemberDeleted = 'team_member_deleted',
 	TeamMemberArchivedUpdated = 'team_member_archived_updated',
 	TeamMemberNameUpdated = 'team_member_name_updated',
+
+	TeamMembersBatchDeleted = 'team_members_batch_deleted',
+	TeamMembersBatchArchivedUpdated = 'team_members_batch_archived_updated',
+	TeamMembersBatchSignedIn = 'team_members_batch_signed_in',
+	TeamMembersBatchSignedOut = 'team_members_batch_signed_out',
+
+	/** The "End meeting" button was used. */
+	MeetingEnded = 'meeting_ended',
 }
