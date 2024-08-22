@@ -9,9 +9,7 @@ export function PostHogIdentityProvider({ children }: PropsWithChildren) {
 
 	useEffect(() => {
 		if (data?.user) {
-			posthog.identify(data.user.id, {
-				name: data.user.displayName,
-			});
+			posthog.identify(data.user.id);
 		} else {
 			posthog.reset();
 		}
