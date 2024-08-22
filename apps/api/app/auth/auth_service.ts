@@ -123,14 +123,17 @@ export class AuthService {
 		// Associate session with user
 		input.session.put('userId', userId);
 
-		ph.capture({
+		ph.identify({
 			distinctId: userId,
-			event: AnalyticsEvent.UserSignedUp,
 			properties: {
 				name: input.displayName,
 				// biome-ignore lint/style/useNamingConvention: This should be snake case
 				date_created: new Date(),
 			},
+		});
+		ph.capture({
+			distinctId: userId,
+			event: AnalyticsEvent.UserSignedUp,
 		});
 	}
 
