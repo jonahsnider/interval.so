@@ -4,6 +4,8 @@ import { and, countDistinct, eq, gt, gte, inArray, isNotNull, lt, lte, max, min,
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { injectHelper } from '../../util/inject_helper.js';
+import { ph } from '../analytics/analytics_service.js';
+import { AnalyticsEvent } from '../analytics/schemas/analytics_event.js';
 import { AuthorizationService } from '../authorization/authorization_service.js';
 import { db } from '../db/db_service.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
@@ -183,7 +185,24 @@ export class TeamMeetingService {
 			// TODO: This seems totally wrong, how did this ever work?
 			.where(eq(Schema.teamMembers.memberId, teamBySlug.teamId));
 
-		await this.teamMemberEventsService.announceEvent(team, MemberRedisEvent.MemberAttendanceUpdated);
+		const affectedTeam = await this.teamMemberEventsService.announceEvent(
+			team,
+			MemberRedisEvent.MemberAttendanceUpdated,
+		);
+
+		if (bouncer.user?.id) {
+			ph.capture({
+				distinctId: bouncer.user.id,
+				event: AnalyticsEvent.MeetingDeleted,
+				groups: {
+					company: affectedTeam.id,
+				},
+				properties: {
+					// biome-ignore lint/style/useNamingConvention: This should be snake case
+					meeting_finished: false,
+				},
+			});
+		}
 	}
 
 	async deleteFinishedMeeting(
@@ -220,7 +239,24 @@ export class TeamMeetingService {
 			.delete(Schema.memberAttendance)
 			.where(inArray(Schema.memberAttendance.memberAttendanceId, meetingsToDeleteSubquery));
 
-		await this.teamMemberEventsService.announceEvent(team, MemberRedisEvent.MemberAttendanceUpdated);
+		const affectedTeam = await this.teamMemberEventsService.announceEvent(
+			team,
+			MemberRedisEvent.MemberAttendanceUpdated,
+		);
+
+		if (bouncer.user?.id) {
+			ph.capture({
+				distinctId: bouncer.user.id,
+				event: AnalyticsEvent.MeetingDeleted,
+				groups: {
+					company: affectedTeam.id,
+				},
+				properties: {
+					// biome-ignore lint/style/useNamingConvention: This should be snake case
+					meeting_finished: true,
+				},
+			});
+		}
 	}
 
 	async getCurrentMeetingStart(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>): Promise<Date | undefined> {
@@ -256,6 +292,21 @@ export class TeamMeetingService {
 			),
 		);
 
-		await this.teamMemberEventsService.announceEvent(data.attendees, MemberRedisEvent.MemberAttendanceUpdated);
+		const affectedTeams = await this.teamMemberEventsService.announceEvent(
+			data.attendees,
+			MemberRedisEvent.MemberAttendanceUpdated,
+		);
+
+		if (bouncer.user?.id) {
+			for (const affectedTeam of affectedTeams) {
+				ph.capture({
+					distinctId: bouncer.user.id,
+					event: AnalyticsEvent.MeetingCreated,
+					groups: {
+						company: affectedTeam.id,
+					},
+				});
+			}
+		}
 	}
 }

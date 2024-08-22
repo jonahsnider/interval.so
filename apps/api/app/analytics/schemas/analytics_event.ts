@@ -22,6 +22,8 @@ export enum AnalyticsEvent {
 	TeamMembersBatchSignedIn = 'team_members_batch_signed_in',
 	TeamMembersBatchSignedOut = 'team_members_batch_signed_out',
 
+	MeetingCreated = 'meeting_created',
+	MeetingDeleted = 'meeting_deleted',
 	/** The "End meeting" button was used. */
 	MeetingEnded = 'meeting_ended',
 }
