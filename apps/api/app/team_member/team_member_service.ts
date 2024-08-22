@@ -6,6 +6,8 @@ import postgres from 'postgres';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { injectHelper } from '../../util/inject_helper.js';
+import { ph } from '../analytics/analytics_service.js';
+import { AnalyticsEvent } from '../analytics/schemas/analytics_event.js';
 import { AuthorizationService } from '../authorization/authorization_service.js';
 import { db } from '../db/db_service.js';
 import type { TeamSchema } from '../team/schemas/team_schema.js';
@@ -143,6 +145,13 @@ export class TeamMemberService {
 		}
 
 		await this.eventsService.announceEvent(team, MemberRedisEvent.MemberCreated);
+
+		if (bouncer.user?.id) {
+			ph.capture({
+				distinctId: bouncer.user.id,
+				event: AnalyticsEvent.TeamMemberCreated,
+			});
+		}
 	}
 
 	async updateAttendance(bouncer: AppBouncer, teamMember: Pick<TeamMemberSchema, 'id'>, data: { atMeeting: boolean }) {
@@ -163,6 +172,13 @@ export class TeamMemberService {
 		});
 
 		assert(teamQuery, new TypeError('Expected team to be associated with the team member'));
+
+		if (bouncer.user?.id) {
+			ph.capture({
+				distinctId: bouncer.user.id,
+				event: data.atMeeting ? AnalyticsEvent.TeamMemberSignedIn : AnalyticsEvent.TeamMemberSignedOut,
+			});
+		}
 	}
 
 	private async signIn(teamMember: Pick<TeamMemberSchema, 'id'>): Promise<void> {
@@ -236,6 +252,13 @@ export class TeamMemberService {
 			.where(eq(Schema.teamMembers.memberId, member.id));
 
 		await this.eventsService.announceEvent([member], MemberRedisEvent.MemberUpdated);
+
+		if (bouncer.user?.id) {
+			ph.capture({
+				distinctId: bouncer.user.id,
+				event: AnalyticsEvent.TeamMemberArchivedUpdated,
+			});
+		}
 	}
 
 	async delete(bouncer: AppBouncer, member: Pick<TeamMemberSchema, 'id'>): Promise<void> {
@@ -254,6 +277,13 @@ export class TeamMemberService {
 
 		if (team) {
 			await this.eventsService.announceEvent(team, MemberRedisEvent.MemberDeleted);
+
+			if (bouncer.user?.id) {
+				ph.capture({
+					distinctId: bouncer.user.id,
+					event: AnalyticsEvent.TeamMemberDeleted,
+				});
+			}
 		}
 	}
 
@@ -291,5 +321,12 @@ export class TeamMemberService {
 		await db.update(Schema.teamMembers).set(data).where(eq(Schema.teamMembers.memberId, member.id));
 
 		await this.eventsService.announceEvent([member], MemberRedisEvent.MemberUpdated);
+
+		if (bouncer.user?.id) {
+			ph.capture({
+				distinctId: bouncer.user.id,
+				event: AnalyticsEvent.TeamMemberNameUpdated,
+			});
+		}
 	}
 }
