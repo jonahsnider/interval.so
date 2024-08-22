@@ -126,6 +126,11 @@ export class AuthService {
 		ph.capture({
 			distinctId: userId,
 			event: AnalyticsEvent.UserSignedUp,
+			properties: {
+				name: input.displayName,
+				// biome-ignore lint/style/useNamingConvention: This should be snake case
+				date_created: new Date(),
+			},
 		});
 	}
 
