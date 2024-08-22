@@ -175,15 +175,10 @@ export class TeamMeetingService {
 		const teamBySlug = db
 			.select({ teamId: Schema.teams.teamId })
 			.from(Schema.teams)
-			.where(eq(Schema.teams.slug, team.slug))
-			.as('input_team');
+			.where(eq(Schema.teams.slug, team.slug));
 
 		// Ongoing meeting, delete the pending sign in times
-		await db
-			.update(Schema.teamMembers)
-			.set({ pendingSignIn: null })
-			// TODO: This seems totally wrong, how did this ever work?
-			.where(eq(Schema.teamMembers.memberId, teamBySlug.teamId));
+		await db.update(Schema.teamMembers).set({ pendingSignIn: null }).where(eq(Schema.teamMembers.teamId, teamBySlug));
 
 		const affectedTeam = await this.teamMemberEventsService.announceEvent(
 			team,
