@@ -52,6 +52,9 @@ export class UserService {
 		ph.capture({
 			distinctId: user.id,
 			event: AnalyticsEvent.UserNameChanged,
+		});
+		ph.identify({
+			distinctId: user.id,
 			properties: {
 				name: updated.displayName,
 			},
