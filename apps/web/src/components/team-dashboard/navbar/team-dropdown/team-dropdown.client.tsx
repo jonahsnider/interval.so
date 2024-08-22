@@ -10,28 +10,35 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { PostHogTeamIdContext } from '@/src/providers/post-hog-team-id-provider';
 import { ChevronUpDownIcon, PlusIcon } from '@heroicons/react/16/solid';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import clsx from 'clsx';
 import { Link } from 'next-view-transitions';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { type ReactNode, use, useContext, useMemo } from 'react';
+import { type ReactNode, use, useContext, useEffect, useMemo } from 'react';
 import { TeamSlugContext } from '../../team-slug-provider';
 import { SlashSeparatedNavbarItem } from '../slash-separated-navbar-item';
 
 type Props = {
-	teamsPromise: Promise<Pick<TeamSchema, 'displayName' | 'slug'>[]>;
+	teamsPromise: Promise<Pick<TeamSchema, 'displayName' | 'slug' | 'id'>[]>;
 	currentTeam?: Pick<TeamSchema, 'slug'>;
 };
 
 export function TeamDropdownClient({ currentTeam, teamsPromise }: Props) {
 	const teams = use(teamsPromise);
 
+	const analytics = useContext(PostHogTeamIdContext);
 	const router = useRouter();
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
 	const currentTeamFull = currentTeam ? teams.find((team) => team.slug === currentTeam.slug) : undefined;
 	const { team: urlTeam } = useContext(TeamSlugContext);
+
+	// Feed the current team into PostHog to track analytics by group for the frontend
+	useEffect(() => {
+		analytics.setCurrentTeam(currentTeamFull);
+	}, [analytics, currentTeamFull]);
 
 	// TODO: Figure out if this can be done with regular links as a server component instead of dynamically + client side
 	const selectTeam = useMemo(

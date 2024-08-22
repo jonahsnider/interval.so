@@ -9,6 +9,7 @@ import '../globals.css';
 import dynamic from 'next/dynamic';
 import { PostHogIdentityProvider } from '../providers/post-hog-identity-provider';
 import { CsPostHogProvider } from '../providers/post-hog-provider';
+import { PostHogTeamIdProvider } from '../providers/post-hog-team-id-provider';
 import { TrpcProvider } from '../providers/trpc-provider';
 import { siteMetadata } from '../site-metadata';
 
@@ -75,7 +76,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 						<TrpcProvider>
 							<TooltipProvider>
-								<PostHogIdentityProvider>{children}</PostHogIdentityProvider>
+								<PostHogIdentityProvider>
+									<PostHogTeamIdProvider>{children}</PostHogTeamIdProvider>
+								</PostHogIdentityProvider>
 							</TooltipProvider>
 						</TrpcProvider>
 

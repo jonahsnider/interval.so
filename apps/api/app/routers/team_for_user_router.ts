@@ -19,7 +19,7 @@ export class TeamForUserRouter {
 				.mutation(({ input, ctx }) => this.teamManagerService.joinTeam(input, ctx.user)),
 
 			getTeamNames: authedProcedure
-				.output(TeamSchema.pick({ displayName: true, slug: true }).array())
+				.output(TeamSchema.pick({ displayName: true, slug: true, id: true }).array())
 				.query(({ ctx }) => {
 					return this.teamManagerService.teamNamesForUser(ctx.user);
 				}),

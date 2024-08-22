@@ -11,9 +11,9 @@ import type { TeamManagerSchema } from './schemas/team_manager_schema.js';
 
 /** Team managers are editors/admins of a team, who manage settings & attendance. */
 export class TeamManagerService {
-	async teamNamesForUser(user: Pick<UserSchema, 'id'>): Promise<Pick<TeamSchema, 'displayName' | 'slug'>[]> {
+	async teamNamesForUser(user: Pick<UserSchema, 'id'>): Promise<Pick<TeamSchema, 'displayName' | 'slug' | 'id'>[]> {
 		const result = await db
-			.select({ teamDisplayName: Schema.teams.displayName, teamSlug: Schema.teams.slug })
+			.select({ teamDisplayName: Schema.teams.displayName, teamSlug: Schema.teams.slug, teamId: Schema.teams.teamId })
 			.from(Schema.teamManagers)
 			.innerJoin(
 				Schema.teams,
@@ -24,6 +24,7 @@ export class TeamManagerService {
 		return result.map((element) => ({
 			displayName: element.teamDisplayName,
 			slug: element.teamSlug,
+			id: element.teamId,
 		}));
 	}
 
