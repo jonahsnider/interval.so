@@ -1423,7 +1423,7 @@ __metadata:
     "@swc/core": "npm:1.7.21"
     "@trpc/server": "npm:11.0.0-rc.487"
     "@types/node": "npm:20.16.2"
-    "@types/pg": "npm:8.11.7"
+    "@types/pg": "npm:8.11.8"
     "@types/ws": "npm:^8"
     "@vinejs/vine": "npm:2.1.0"
     convert: "npm:5.3.0"
@@ -4460,14 +4460,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pg@npm:8.11.7":
-  version: 8.11.7
-  resolution: "@types/pg@npm:8.11.7"
+"@types/pg@npm:8.11.8":
+  version: 8.11.8
+  resolution: "@types/pg@npm:8.11.8"
   dependencies:
     "@types/node": "npm:*"
     pg-protocol: "npm:*"
     pg-types: "npm:^4.0.1"
-  checksum: 10c0/45fb8eefca1387655a69bdf9d3a9c423b34839bca792979c7b85230a56df6c6889962f7d07ba961af9fadb08dedabaa703ffe40d5bd272e41465d47f20488950
+  checksum: 10c0/040eb04edda338a13dccee47585b4479549fd54561e1bc3768690545adb8708a089b178e04fab9241935d7bad361314fc57af3ad87b391cfb9dc0895dd049763
   languageName: node
   linkType: hard
 
