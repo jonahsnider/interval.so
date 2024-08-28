@@ -1436,7 +1436,7 @@ __metadata:
     hot-hook: "npm:0.2.6"
     pino-pretty: "npm:11.2.2"
     postgres: "npm:3.4.4"
-    posthog-node: "npm:4.1.1"
+    posthog-node: "npm:4.2.0"
     prettier: "npm:3.3.3"
     reflect-metadata: "npm:0.2.2"
     rxjs: "npm:7.8.1"
@@ -9631,13 +9631,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-node@npm:4.1.1":
-  version: 4.1.1
-  resolution: "posthog-node@npm:4.1.1"
+"posthog-node@npm:4.2.0":
+  version: 4.2.0
+  resolution: "posthog-node@npm:4.2.0"
   dependencies:
     axios: "npm:^1.7.4"
     rusha: "npm:^0.8.14"
-  checksum: 10c0/d8be4d4931dfa3eed935451513a0678aeb2ac704db4e56284741d56ac46c9711ba76d5f3024f038da7480badcedc73ca6826ad8d1ea37bd50cfdcf961e434d6c
+  checksum: 10c0/f04c4751d8cec880f4e13b95904822a80cd580ef51207743dd2be576b9adf6d264da08e910bc721acec4984d530d493ea0bf0773efb8f529b1f52ba64d2035b4
   languageName: node
   linkType: hard
 
