@@ -1485,6 +1485,7 @@ __metadata:
     "@types/node": "npm:20.16.1"
     "@types/react": "npm:18.3.4"
     "@types/react-dom": "npm:18.3.0"
+    "@vercel/speed-insights": "npm:1.0.12"
     autoprefixer: "npm:10.4.20"
     chrono-node: "npm:2.7.6"
     class-variance-authority: "npm:0.7.0"
@@ -4733,6 +4734,33 @@ __metadata:
   version: 2.1.0
   resolution: "@vercel/ruby@npm:2.1.0"
   checksum: 10c0/a8f708836a593fe486a2c7553e747a3207b3690801c82eb1ffd3250711683192b1d430bcf08d58c810731afaa4231fc7853350aa2c432d5a2c5e0ec5566b0414
+  languageName: node
+  linkType: hard
+
+"@vercel/speed-insights@npm:1.0.12":
+  version: 1.0.12
+  resolution: "@vercel/speed-insights@npm:1.0.12"
+  peerDependencies:
+    "@sveltejs/kit": ^1 || ^2
+    next: ">= 13"
+    react: ^18 || ^19
+    svelte: ^4
+    vue: ^3
+    vue-router: ^4
+  peerDependenciesMeta:
+    "@sveltejs/kit":
+      optional: true
+    next:
+      optional: true
+    react:
+      optional: true
+    svelte:
+      optional: true
+    vue:
+      optional: true
+    vue-router:
+      optional: true
+  checksum: 10c0/d1cc16952fdaddf8aff76e6c5909e8417cf11efe2458c70392e5172da620bcca39aea9eeaa8eb83b77fb2cb072a69047d62ba890f0c3a75cb110e3edb35b1648
   languageName: node
   linkType: hard
 

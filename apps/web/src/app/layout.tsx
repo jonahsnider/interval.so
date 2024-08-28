@@ -1,5 +1,6 @@
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import clsx from 'clsx';
 import type { Metadata, Viewport } from 'next';
 import PlausibleProvider from 'next-plausible';
@@ -83,6 +84,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 						</TrpcProvider>
 
 						<Toaster />
+						<SpeedInsights />
 					</body>
 				</CsPostHogProvider>
 			</html>
