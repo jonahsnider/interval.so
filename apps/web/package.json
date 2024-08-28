@@ -58,7 +58,7 @@
 		"nuqs": "1.17.8",
 		"postcss": "8.4.41",
 		"postcss-import": "16.1.0",
-		"posthog-js": "1.157.2",
+		"posthog-js": "1.158.3",
 		"radix-themes-tw": "0.2.3",
 		"react": "18.3.1",
 		"react-day-picker": "8.10.1",
