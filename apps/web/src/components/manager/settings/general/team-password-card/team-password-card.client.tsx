@@ -65,9 +65,10 @@ export function TeamPasswordEditForm({ team, initialTeamValue }: Props) {
 						Save
 					</Button>
 
-					<CardDescription>
+					{/* TODO: Add this back once this behavior is implemented. */}
+					{/* <CardDescription>
 						Changing the team password will sign out all devices using the old password.
-					</CardDescription>
+					</CardDescription> */}
 				</CardFooter>
 			</form>
 		</Form>
