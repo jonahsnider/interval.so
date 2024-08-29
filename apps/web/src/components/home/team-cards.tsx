@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Card, CardFooter, CardHeader } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { trpcServer } from '@/src/trpc/trpc-server';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
@@ -30,14 +30,15 @@ export function TeamCards() {
 
 function TeamCardSkeleton() {
 	return (
-		<Card>
+		<Card className='justify-between flex-col flex'>
 			<CardHeader>
-				<Skeleton className='h-4 w-72' />
+				<Skeleton className='h-4 w-40 max-w-full' />
+				<Skeleton className='h-4 w-full' />
 			</CardHeader>
 
-			<CardContent>
-				<Skeleton className='h-9 w-80' />
-			</CardContent>
+			<CardFooter>
+				<Skeleton className='h-10 w-36 max-w-full' />
+			</CardFooter>
 		</Card>
 	);
 }
