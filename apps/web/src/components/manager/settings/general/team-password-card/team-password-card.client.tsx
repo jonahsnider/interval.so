@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { CardContent, CardDescription, CardFooter } from '@/components/ui/card';
+import { CardContent, CardFooter } from '@/components/ui/card';
 import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { CopyButtonInput } from '@/src/components/copy-button-input';
 import { trpc } from '@/src/trpc/trpc-client';
