@@ -1511,7 +1511,7 @@ __metadata:
     next-plausible: "npm:3.12.2"
     next-themes: "npm:0.3.0"
     next-view-transitions: "npm:0.3.0"
-    nuqs: "npm:1.18.0"
+    nuqs: "npm:1.19.0"
     postcss: "npm:8.4.44"
     postcss-import: "npm:16.1.0"
     posthog-js: "npm:1.160.1"
@@ -8900,14 +8900,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nuqs@npm:1.18.0":
-  version: 1.18.0
-  resolution: "nuqs@npm:1.18.0"
+"nuqs@npm:1.19.0":
+  version: 1.19.0
+  resolution: "nuqs@npm:1.19.0"
   dependencies:
     mitt: "npm:^3.0.1"
   peerDependencies:
     next: ">=13.4 <14.0.2 || ^14.0.3"
-  checksum: 10c0/bb396869c3a2335c945c072fbdc0a64b268f3f0e0fe74b718b11980cad8f46697a31104b2d7b18e2368df46090c28accf3591e3f9d988a0bd4cec850241d8cfc
+  checksum: 10c0/93e2ac507758d897ae31e0ea6323bad450cd60703daf664d9fda8665e68f4fb25609022530f0ae1dd560f2c2f7a85dce0096b52d976343b403022d0cd12f4cec
   languageName: node
   linkType: hard
 
