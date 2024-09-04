@@ -37,7 +37,7 @@
 		"@trpc/client": "11.0.0-rc.498",
 		"@trpc/next": "11.0.0-rc.498",
 		"@trpc/react-query": "11.0.0-rc.498",
-		"@types/node": "20.16.4",
+		"@types/node": "20.16.5",
 		"@types/react": "18.3.5",
 		"@types/react-dom": "18.3.0",
 		"@vercel/speed-insights": "1.0.12",
