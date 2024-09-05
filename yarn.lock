@@ -5,22 +5,22 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
-"@adonisjs/ace@npm:^13.1.0":
-  version: 13.1.0
-  resolution: "@adonisjs/ace@npm:13.1.0"
+"@adonisjs/ace@npm:^13.2.0":
+  version: 13.2.0
+  resolution: "@adonisjs/ace@npm:13.2.0"
   dependencies:
-    "@poppinss/cliui": "npm:^6.3.0"
-    "@poppinss/hooks": "npm:^7.2.2"
-    "@poppinss/macroable": "npm:^1.0.1"
-    "@poppinss/prompts": "npm:^3.1.2"
-    "@poppinss/utils": "npm:^6.7.0"
+    "@poppinss/cliui": "npm:^6.4.1"
+    "@poppinss/hooks": "npm:^7.2.3"
+    "@poppinss/macroable": "npm:^1.0.2"
+    "@poppinss/prompts": "npm:^3.1.3"
+    "@poppinss/utils": "npm:^6.7.3"
     fastest-levenshtein: "npm:^1.0.16"
     jsonschema: "npm:^1.4.1"
-    string-width: "npm:^7.0.0"
+    string-width: "npm:^7.2.0"
     yargs-parser: "npm:^21.1.1"
     youch: "npm:^3.3.3"
     youch-terminal: "npm:^2.2.3"
-  checksum: 10c0/3f24dade65b84987d6f91ca29152044d678027e17d5722d0ee05b9f76b318c8697b1af7af1d70b361fd7d329129f9583ca3c6b1965483e92f131de2f00927ccd
+  checksum: 10c0/a6624b9d7ffe6f9853e1c20378f0ccb477a25455c0b6d4737e1675770c48026b45a382b08c830b59361a66452ed835166ea942134c2f19f7c72c70c983dac78e
   languageName: node
   linkType: hard
 
@@ -141,11 +141,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/core@npm:6.12.1":
-  version: 6.12.1
-  resolution: "@adonisjs/core@npm:6.12.1"
+"@adonisjs/core@npm:6.13.0":
+  version: 6.13.0
+  resolution: "@adonisjs/core@npm:6.13.0"
   dependencies:
-    "@adonisjs/ace": "npm:^13.1.0"
+    "@adonisjs/ace": "npm:^13.2.0"
     "@adonisjs/application": "npm:^8.3.1"
     "@adonisjs/bodyparser": "npm:^10.0.2"
     "@adonisjs/config": "npm:^5.0.2"
@@ -153,27 +153,27 @@ __metadata:
     "@adonisjs/env": "npm:^6.1.0"
     "@adonisjs/events": "npm:^9.0.2"
     "@adonisjs/fold": "npm:^10.1.2"
-    "@adonisjs/hash": "npm:^9.0.3"
+    "@adonisjs/hash": "npm:^9.0.4"
     "@adonisjs/health": "npm:^2.0.0"
     "@adonisjs/http-server": "npm:^7.2.3"
     "@adonisjs/logger": "npm:^6.0.3"
     "@adonisjs/repl": "npm:^4.0.1"
-    "@antfu/install-pkg": "npm:^0.3.3"
+    "@antfu/install-pkg": "npm:^0.4.1"
     "@paralleldrive/cuid2": "npm:^2.2.2"
     "@poppinss/macroable": "npm:^1.0.2"
     "@poppinss/utils": "npm:^6.7.3"
-    "@sindresorhus/is": "npm:^6.3.1"
+    "@sindresorhus/is": "npm:^7.0.0"
     "@types/he": "npm:^1.2.3"
     he: "npm:^1.2.0"
     parse-imports: "npm:^1.2.0"
     pretty-hrtime: "npm:^1.0.3"
-    string-width: "npm:^7.1.0"
+    string-width: "npm:^7.2.0"
     youch: "npm:^3.3.3"
     youch-terminal: "npm:^2.2.3"
   peerDependencies:
-    "@adonisjs/assembler": ^7.5.0
-    "@vinejs/vine": ^2.0.0
-    argon2: ^0.31.2 || ^0.40.0
+    "@adonisjs/assembler": ^7.8.0
+    "@vinejs/vine": ^2.1.0
+    argon2: ^0.31.2 || ^0.41.0
     bcrypt: ^5.1.1
     edge.js: ^6.0.1
   peerDependenciesMeta:
@@ -189,7 +189,7 @@ __metadata:
       optional: true
   bin:
     adonis-kit: build/toolkit/main.js
-  checksum: 10c0/d3d9616bcb4ee7e7fe086e200c49cd69324c50a123087b95fef49dee9ca29e733bf5e4f5c7ea3431966631f919e7490e15bfdd298621e1b3ca8e748112f1a4d9
+  checksum: 10c0/9a1ebb09f10e98469495d5f903f3d5268a89f7d13ee2a6f46947ab9108fc4134526e041ba6f1e99b0a0adf53802014a612ec2bb0e0b3ce23604e6a47d9d82149
   languageName: node
   linkType: hard
 
@@ -246,21 +246,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/hash@npm:^9.0.3":
-  version: 9.0.3
-  resolution: "@adonisjs/hash@npm:9.0.3"
+"@adonisjs/hash@npm:^9.0.4":
+  version: 9.0.4
+  resolution: "@adonisjs/hash@npm:9.0.4"
   dependencies:
     "@phc/format": "npm:^1.0.0"
     "@poppinss/utils": "npm:^6.7.3"
   peerDependencies:
-    argon2: ^0.31.2 || ^0.40.0
+    argon2: ^0.31.2 || ^0.41.0
     bcrypt: ^5.1.1
   peerDependenciesMeta:
     argon2:
       optional: true
     bcrypt:
       optional: true
-  checksum: 10c0/3334af2495f03243aeafb6315d27afa35e8b146529e17a8ec57e4b27c03bc920232e361768567b23ccd0ddfa47fe95975b225909d4d99aa31394dbab70fb56fc
+  checksum: 10c0/af20e725bd1fb12acbeb557885074e610a3ac83247d1ce53d71a9c72f584875c44e8b02da4440526f7eedee5cbe658e52b8987245307482a2ca687e5932879d9
   languageName: node
   linkType: hard
 
@@ -404,15 +404,6 @@ __metadata:
     "@jridgewell/gen-mapping": "npm:^0.3.5"
     "@jridgewell/trace-mapping": "npm:^0.3.24"
   checksum: 10c0/81d63cca5443e0f0c72ae18b544cc28c7c0ec2cea46e7cb888bb0e0f411a1191d0d6b7af798d54e30777d8d1488b2ec0732aac2be342d3d7d3ffd271c6f489ed
-  languageName: node
-  linkType: hard
-
-"@antfu/install-pkg@npm:^0.3.3":
-  version: 0.3.3
-  resolution: "@antfu/install-pkg@npm:0.3.3"
-  dependencies:
-    "@jsdevtools/ez-spawn": "npm:^3.0.4"
-  checksum: 10c0/e0b3444d5bbc6b24f93896d18d2ad48b833fe9664c977275afd947246debfc3411c7e511efcee9ff9d0d9ea1ec85b1d67dee4f8c92ddda81a3fecb08d58b16e1
   languageName: node
   linkType: hard
 
@@ -1418,7 +1409,7 @@ __metadata:
     "@adonisjs/assembler": "npm:7.8.2"
     "@adonisjs/auth": "npm:9.2.3"
     "@adonisjs/bouncer": "npm:3.1.3"
-    "@adonisjs/core": "npm:6.12.1"
+    "@adonisjs/core": "npm:6.13.0"
     "@adonisjs/cors": "npm:2.2.1"
     "@adonisjs/redis": "npm:9.1.0"
     "@adonisjs/session": "npm:7.4.2"
@@ -1613,18 +1604,6 @@ __metadata:
     "@jridgewell/resolve-uri": "npm:^3.1.0"
     "@jridgewell/sourcemap-codec": "npm:^1.4.14"
   checksum: 10c0/3d1ce6ebc69df9682a5a8896b414c6537e428a1d68b02fcc8363b04284a8ca0df04d0ee3013132252ab14f2527bc13bea6526a912ecb5658f0e39fd2860b4df4
-  languageName: node
-  linkType: hard
-
-"@jsdevtools/ez-spawn@npm:^3.0.4":
-  version: 3.0.4
-  resolution: "@jsdevtools/ez-spawn@npm:3.0.4"
-  dependencies:
-    call-me-maybe: "npm:^1.0.1"
-    cross-spawn: "npm:^7.0.3"
-    string-argv: "npm:^0.3.1"
-    type-detect: "npm:^4.0.8"
-  checksum: 10c0/fb56f99c4d09ccaeace4ebaecfa31ab1ff90517d5ca51dbd624f4b9ab489eee469504ab33a12a2bc8b5f0a35ee61e139cc087b242ad7947c61674454cb41c75e
   languageName: node
   linkType: hard
 
@@ -2229,7 +2208,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@poppinss/cliui@npm:^6.3.0, @poppinss/cliui@npm:^6.4.1":
+"@poppinss/cliui@npm:^6.4.1":
   version: 6.4.1
   resolution: "@poppinss/cliui@npm:6.4.1"
   dependencies:
@@ -2256,14 +2235,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@poppinss/hooks@npm:^7.2.2, @poppinss/hooks@npm:^7.2.3":
+"@poppinss/hooks@npm:^7.2.3":
   version: 7.2.3
   resolution: "@poppinss/hooks@npm:7.2.3"
   checksum: 10c0/0e9ca703361423b830d61823288fcd1e098db1e01c7d77a47963f224dc6b17c464c3c059d94b75b88d09506be36a61a12bbfb3be363a4cac965f542a17f84ab4
   languageName: node
   linkType: hard
 
-"@poppinss/macroable@npm:^1.0.1, @poppinss/macroable@npm:^1.0.2":
+"@poppinss/macroable@npm:^1.0.2":
   version: 1.0.2
   resolution: "@poppinss/macroable@npm:1.0.2"
   checksum: 10c0/69963c0cf6e1816ba54ed903f8def53e630f9da8624f73d02388ba61118f5fbeb4efc2a9ee48ff0918eb2b932cbe4cc21a884dbd632e8412091f1f25e31da312
@@ -2297,7 +2276,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@poppinss/prompts@npm:^3.1.2":
+"@poppinss/prompts@npm:^3.1.3":
   version: 3.1.3
   resolution: "@poppinss/prompts@npm:3.1.3"
   dependencies:
@@ -2308,7 +2287,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@poppinss/utils@npm:^6.7.0, @poppinss/utils@npm:^6.7.3":
+"@poppinss/utils@npm:^6.7.3":
   version: 6.7.3
   resolution: "@poppinss/utils@npm:6.7.3"
   dependencies:
@@ -4002,6 +3981,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sindresorhus/is@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "@sindresorhus/is@npm:7.0.0"
+  checksum: 10c0/005cc3a09a41d17073eeb55e0a2003648a6fcde23bef60f95830e5d8600a6b0aa157f167fd4ddce7fd34e8c8c2263dd642de892e33f8b68c816efe6c4393b7c9
+  languageName: node
+  linkType: hard
+
 "@sindresorhus/merge-streams@npm:^2.1.0":
   version: 2.3.0
   resolution: "@sindresorhus/merge-streams@npm:2.3.0"
@@ -5346,13 +5332,6 @@ __metadata:
     get-intrinsic: "npm:^1.2.4"
     set-function-length: "npm:^1.2.1"
   checksum: 10c0/a3ded2e423b8e2a265983dba81c27e125b48eefb2655e7dfab6be597088da3d47c47976c24bc51b8fd9af1061f8f87b4ab78a314f3c77784b2ae2ba535ad8b8d
-  languageName: node
-  linkType: hard
-
-"call-me-maybe@npm:^1.0.1":
-  version: 1.0.2
-  resolution: "call-me-maybe@npm:1.0.2"
-  checksum: 10c0/8eff5dbb61141ebb236ed71b4e9549e488bcb5451c48c11e5667d5c75b0532303788a1101e6978cafa2d0c8c1a727805599c2741e3e0982855c9f1d78cd06c9f
   languageName: node
   linkType: hard
 
@@ -10825,13 +10804,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"string-argv@npm:^0.3.1":
-  version: 0.3.2
-  resolution: "string-argv@npm:0.3.2"
-  checksum: 10c0/75c02a83759ad1722e040b86823909d9a2fc75d15dd71ec4b537c3560746e33b5f5a07f7332d1e3f88319909f82190843aa2f0a0d8c8d591ec08e93d5b8dec82
-  languageName: node
-  linkType: hard
-
 "string-width-cjs@npm:string-width@^4.2.0, string-width@npm:^1.0.2 || 2 || 3 || 4, string-width@npm:^4.1.0, string-width@npm:^4.2.0, string-width@npm:^4.2.3":
   version: 4.2.3
   resolution: "string-width@npm:4.2.3"
@@ -10854,7 +10826,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"string-width@npm:^7.0.0, string-width@npm:^7.1.0":
+"string-width@npm:^7.0.0, string-width@npm:^7.1.0, string-width@npm:^7.2.0":
   version: 7.2.0
   resolution: "string-width@npm:7.2.0"
   dependencies:
@@ -11412,13 +11384,6 @@ __metadata:
   bin:
     turbo: bin/turbo
   checksum: 10c0/16ba5214d14404993bf2a1c411ba5e6bd297c0f5c2c6c42fb3d7f5a5169bd673307c540684432d2a962377068c26c8bce5e759c3bd3b87f3234d321bbbef9eaf
-  languageName: node
-  linkType: hard
-
-"type-detect@npm:^4.0.8":
-  version: 4.0.8
-  resolution: "type-detect@npm:4.0.8"
-  checksum: 10c0/8fb9a51d3f365a7de84ab7f73b653534b61b622aa6800aecdb0f1095a4a646d3f5eb295322127b6573db7982afcd40ab492d038cf825a42093a58b1e1353e0bd
   languageName: node
   linkType: hard
 
