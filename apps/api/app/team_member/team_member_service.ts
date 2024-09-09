@@ -318,7 +318,19 @@ export class TeamMemberService {
 	): Promise<void> {
 		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('update', [member]));
 
-		await db.update(Schema.teamMembers).set(data).where(eq(Schema.teamMembers.memberId, member.id));
+		try {
+			await db.update(Schema.teamMembers).set(data).where(eq(Schema.teamMembers.memberId, member.id));
+		} catch (error) {
+			if (error instanceof postgres.PostgresError && error.code === '23505') {
+				// Team member name collision
+				throw new TRPCError({
+					code: 'UNPROCESSABLE_CONTENT',
+					message: 'A team member with that name already exists',
+				});
+			}
+
+			throw error;
+		}
 
 		await this.eventsService.announceEvent([member], MemberRedisEvent.MemberUpdated);
 
