@@ -54,8 +54,8 @@ const motionVariants: Variants = {
 	visible: { opacity: 1, scale: 1 },
 };
 
-const MotionClipboardIcon = motion(ClipboardIcon);
-const MotionCheckIcon = motion(CheckIcon);
+const MotionClipboardIcon = motion.create(ClipboardIcon);
+const MotionCheckIcon = motion.create(CheckIcon);
 
 function CopyButton({ value }: { value: string }) {
 	const [isCopied, setIsCopied] = useState(false);

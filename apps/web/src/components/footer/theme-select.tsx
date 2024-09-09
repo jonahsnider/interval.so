@@ -14,9 +14,9 @@ import { AnimatePresence, type Variants, motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 
-const MotionSunIcon = motion(SunIcon);
-const MotionMoonIcon = motion(MoonIcon);
-const MotionComputerDesktopIcon = motion(ComputerDesktopIcon);
+const MotionSunIcon = motion.create(SunIcon);
+const MotionMoonIcon = motion.create(MoonIcon);
+const MotionComputerDesktopIcon = motion.create(ComputerDesktopIcon);
 
 function ThemeIcon({ theme }: { theme: string | undefined }) {
 	return (

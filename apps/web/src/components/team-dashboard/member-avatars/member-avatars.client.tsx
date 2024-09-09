@@ -62,7 +62,7 @@ const avatarMotionVariants: Variants = {
 	},
 };
 
-const MotionAvatar = motion(Avatar);
+const MotionAvatar = motion.create(Avatar);
 
 const FIRST_TWO_INTIALS_REGEXP = /^(\S)\S*\s*(\S)?/;
 

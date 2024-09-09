@@ -15,8 +15,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 import { CreateMemberDialog } from '../../members/create-member/create-member-dialog';
 
-const MotionTableRow = motion(TableRow);
-const MotionTable = motion(Table);
+const MotionTableRow = motion.create(TableRow);
+const MotionTable = motion.create(Table);
 
 const motionVariants: Variants = {
 	hidden: {

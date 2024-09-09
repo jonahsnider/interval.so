@@ -26,9 +26,9 @@ const motionVariants: Variants = {
 	},
 };
 
-const MotionArrowUpIcon = motion(ArrowUpIcon);
-const MotionArrowDownIcon = motion(ArrowDownIcon);
-const MotionChevronUpDownIcon = motion(ChevronUpDownIcon);
+const MotionArrowUpIcon = motion.create(ArrowUpIcon);
+const MotionArrowDownIcon = motion.create(ArrowDownIcon);
+const MotionChevronUpDownIcon = motion.create(ChevronUpDownIcon);
 
 // biome-ignore lint/suspicious/noExplicitAny: This is in a generic type
 type Props<T extends Column<any, any>> = PropsWithChildren<{
