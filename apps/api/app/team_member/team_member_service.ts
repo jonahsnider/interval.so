@@ -150,6 +150,9 @@ export class TeamMemberService {
 			ph.capture({
 				distinctId: bouncer.user.id,
 				event: AnalyticsEvent.TeamMemberCreated,
+				groups: {
+					company: dbTeam.teamId,
+				},
 			});
 		}
 	}
@@ -177,6 +180,9 @@ export class TeamMemberService {
 			ph.capture({
 				distinctId: bouncer.user.id,
 				event: data.atMeeting ? AnalyticsEvent.TeamMemberSignedIn : AnalyticsEvent.TeamMemberSignedOut,
+				groups: {
+					company: teamQuery.team.teamId,
+				},
 			});
 		}
 	}
@@ -251,12 +257,15 @@ export class TeamMemberService {
 			.set({ archived: member.archived, pendingSignIn: null })
 			.where(eq(Schema.teamMembers.memberId, member.id));
 
-		await this.eventsService.announceEvent([member], MemberRedisEvent.MemberUpdated);
+		const [affectedTeam] = await this.eventsService.announceEvent([member], MemberRedisEvent.MemberUpdated);
 
-		if (bouncer.user?.id) {
+		if (bouncer.user?.id && affectedTeam) {
 			ph.capture({
 				distinctId: bouncer.user.id,
 				event: AnalyticsEvent.TeamMemberArchivedUpdated,
+				groups: {
+					company: affectedTeam.id,
+				},
 			});
 		}
 	}
@@ -282,6 +291,9 @@ export class TeamMemberService {
 				ph.capture({
 					distinctId: bouncer.user.id,
 					event: AnalyticsEvent.TeamMemberDeleted,
+					groups: {
+						company: team.id,
+					},
 				});
 			}
 		}
@@ -332,12 +344,15 @@ export class TeamMemberService {
 			throw error;
 		}
 
-		await this.eventsService.announceEvent([member], MemberRedisEvent.MemberUpdated);
+		const [affectedTeam] = await this.eventsService.announceEvent([member], MemberRedisEvent.MemberUpdated);
 
-		if (bouncer.user?.id) {
+		if (bouncer.user?.id && affectedTeam) {
 			ph.capture({
 				distinctId: bouncer.user.id,
 				event: AnalyticsEvent.TeamMemberNameUpdated,
+				groups: {
+					company: affectedTeam.id,
+				},
 			});
 		}
 	}
