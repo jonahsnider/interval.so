@@ -26,8 +26,6 @@ export default async function TeamAttendanceLayout({ children, params }: Props) 
 		throw error;
 	}
 
-	// TODO: The auth wall checks that you have an account, not if that account can access this team
-
 	return (
 		<>
 			<Navbar currentTeam={{ slug: params.team }} />

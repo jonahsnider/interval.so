@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import { Link } from 'next-view-transitions';
 import type { PropsWithChildren } from 'react';
 import { trpcServer } from '../../trpc/trpc-server';
-import { NeedsDifferentTeamAuthCard } from './needs-any-auth-screen.client';
+import { NeedsDifferentTeamAuthCard, NotManagerOfTeamCard } from './needs-any-auth-screen.client';
 
 function NeedsSignedInCard({ team }: { team: Pick<TeamSchema, 'slug' | 'displayName'> }) {
 	return (
@@ -27,6 +27,7 @@ function NeedsSignedInCard({ team }: { team: Pick<TeamSchema, 'slug' | 'displayN
 
 type Props = PropsWithChildren<{
 	className?: string;
+	/** The team to check if the user is signed in to. */
 	team: Pick<TeamSchema, 'slug' | 'displayName'>;
 }>;
 
@@ -36,17 +37,17 @@ export async function NeedsAnyAuthScreen({ children, team, className }: Props) {
 		trpcServer.guestLogin.getCurrentGuestTeam.query(),
 	]);
 
-	if (user || currentGuestTeam?.slug === team.slug) {
+	if ((user && Object.hasOwn(user.teams, team.slug)) || currentGuestTeam?.slug === team.slug) {
 		return <>{children}</>;
 	}
 
 	return (
 		<div className={clsx('w-full flex items-center justify-center flex-1', className)}>
-			{currentGuestTeam ? (
-				<NeedsDifferentTeamAuthCard currentTeam={currentGuestTeam} wantedTeam={team} />
-			) : (
-				<NeedsSignedInCard team={team} />
-			)}
+			<div className='flex items-center justify-center max-w-2xl'>
+				{currentGuestTeam && <NeedsDifferentTeamAuthCard currentTeam={currentGuestTeam} wantedTeam={team} />}
+				{user && <NotManagerOfTeamCard user={user} team={team} />}
+				{!(currentGuestTeam || user) && <NeedsSignedInCard team={team} />}
+			</div>
 		</div>
 	);
 }
