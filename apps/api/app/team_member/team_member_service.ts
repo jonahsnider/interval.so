@@ -2,7 +2,6 @@ import assert from 'node:assert/strict';
 import { inject } from '@adonisjs/core';
 import { TRPCError } from '@trpc/server';
 import { and, asc, count, eq, isNull } from 'drizzle-orm';
-import postgres from 'postgres';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { injectHelper } from '../../util/inject_helper.js';
@@ -127,22 +126,10 @@ export class TeamMemberService {
 			});
 		}
 
-		try {
-			await db.insert(Schema.teamMembers).values({
-				teamId: dbTeam.teamId,
-				name: data.name,
-			});
-		} catch (error) {
-			if (error instanceof postgres.PostgresError && error.code === '23505') {
-				// Team member name collision
-				throw new TRPCError({
-					code: 'UNPROCESSABLE_CONTENT',
-					message: 'A team member with that name already exists',
-				});
-			}
-
-			throw error;
-		}
+		await db.insert(Schema.teamMembers).values({
+			teamId: dbTeam.teamId,
+			name: data.name,
+		});
 
 		await this.eventsService.announceEvent(team, MemberRedisEvent.MemberCreated);
 
@@ -330,19 +317,7 @@ export class TeamMemberService {
 	): Promise<void> {
 		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('update', [member]));
 
-		try {
-			await db.update(Schema.teamMembers).set(data).where(eq(Schema.teamMembers.memberId, member.id));
-		} catch (error) {
-			if (error instanceof postgres.PostgresError && error.code === '23505') {
-				// Team member name collision
-				throw new TRPCError({
-					code: 'UNPROCESSABLE_CONTENT',
-					message: 'A team member with that name already exists',
-				});
-			}
-
-			throw error;
-		}
+		await db.update(Schema.teamMembers).set(data).where(eq(Schema.teamMembers.memberId, member.id));
 
 		const [affectedTeam] = await this.eventsService.announceEvent([member], MemberRedisEvent.MemberUpdated);
 

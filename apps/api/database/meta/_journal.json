@@ -43,6 +43,13 @@
 			"when": 1720762951723,
 			"tag": "0005_messy_edwin_jarvis",
 			"breakpoints": true
+		},
+		{
+			"idx": 6,
+			"version": "7",
+			"when": 1725871201644,
+			"tag": "0006_lame_shaman",
+			"breakpoints": true
 		}
 	]
 }
