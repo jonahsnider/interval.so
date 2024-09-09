@@ -16,7 +16,7 @@ const httpBatchOptions: HTTPBatchLinkOptions<AppRouterType['_def']['_config']['$
 	transformer: superjson,
 	url: trpcUrl,
 	headers() {
-		// Whenever the client sends a request (which is only really client-side mutations), we try setting a new timezone
+		// Whenever the client sends a request (usually client-side mutations or data subscriptions), we try setting a new timezone
 		// This is in case a user's timezone changes while they're signed in (ex. travelling)
 		return {
 			'x-set-timezone': getTimezone(),
