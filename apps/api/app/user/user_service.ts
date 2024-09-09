@@ -13,7 +13,7 @@ export class UserService {
 	async getUser(
 		bouncer: AppBouncer,
 		user: Pick<UserSchema, 'id'>,
-	): Promise<Pick<UserSchema, 'displayName'> | undefined> {
+	): Promise<Pick<UserSchema, 'displayName' | 'teams'> | undefined> {
 		await AuthorizationService.assertPermission(bouncer.with('UserPolicy').allows('read', user));
 
 		const dbUser = await db.query.users.findFirst({
@@ -21,9 +21,28 @@ export class UserService {
 			columns: {
 				displayName: true,
 			},
+			with: {
+				teamManagers: {
+					with: {
+						team: {
+							columns: {
+								slug: true,
+								displayName: true,
+							},
+						},
+					},
+				},
+			},
 		});
 
-		return dbUser;
+		return dbUser
+			? {
+					displayName: dbUser.displayName,
+					teams: Object.fromEntries(
+						dbUser.teamManagers.map((teamManager) => [teamManager.team.slug, teamManager.team]),
+					),
+				}
+			: undefined;
 	}
 
 	async deleteUser(bouncer: AppBouncer, user: Pick<UserSchema, 'id'>): Promise<void> {

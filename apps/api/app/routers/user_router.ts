@@ -15,7 +15,7 @@ export class UserRouter {
 			getSelf: publicProcedure
 				.output(
 					z.object({
-						user: UserSchema.pick({ displayName: true, id: true }).optional(),
+						user: UserSchema.pick({ displayName: true, id: true, teams: true }).optional(),
 					}),
 				)
 				.query(async ({ ctx }) => {
