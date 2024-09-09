@@ -2,7 +2,7 @@
 export enum AnalyticsEvent {
 	UserSignedUp = 'user_signed_up',
 	UserLoggedIn = 'user_logged_in',
-	UserNameChanged = 'user_name_changed',
+	UserNameUpdated = 'user_name_updated',
 	UserDeleted = 'user_deleted',
 
 	TeamCreated = 'team_created',

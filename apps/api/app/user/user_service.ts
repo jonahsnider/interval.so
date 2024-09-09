@@ -70,7 +70,7 @@ export class UserService {
 
 		ph.capture({
 			distinctId: user.id,
-			event: AnalyticsEvent.UserNameChanged,
+			event: AnalyticsEvent.UserNameUpdated,
 		});
 		ph.identify({
 			distinctId: user.id,
