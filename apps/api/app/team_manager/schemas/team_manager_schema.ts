@@ -4,7 +4,7 @@ import type { TeamManagerRole } from '#database/schema';
 import { UserSchema } from '../../user/schemas/user_schema.js';
 
 export const TeamManagerSchema = z.object({
-	user: UserSchema,
+	user: UserSchema.pick({ id: true, displayName: true }),
 	role: z.enum(['owner', 'admin', 'editor']),
 });
 export type TeamManagerSchema = z.infer<typeof TeamManagerSchema>;
