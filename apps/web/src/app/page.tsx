@@ -26,9 +26,9 @@ export default async function HomePage() {
 	noStore();
 
 	try {
-		const { user } = await trpcServer.user.getSelf.query();
+		const isAuthed = await trpcServer.user.isAuthedFast.query();
 
-		if (user) {
+		if (isAuthed) {
 			return <AuthedHomePage />;
 		}
 	} catch (error) {
