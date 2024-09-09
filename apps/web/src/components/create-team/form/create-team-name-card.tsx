@@ -20,7 +20,7 @@ export function CreateTeamNameCard({ form }: Props) {
 					name='displayName'
 					render={({ field }) => (
 						<FormItem {...field}>
-							<Input {...field} className='max-w-80' type='text' placeholder='Team 581' />
+							<Input {...field} className='max-w-80' type='text' placeholder='My Team' />
 
 							<FormMessage />
 						</FormItem>
