@@ -7,6 +7,10 @@ export enum AnalyticsEvent {
 
 	TeamCreated = 'team_created',
 	TeamDeleted = 'team_deleted',
+	TeamDisplayNameUpdated = 'team_display_name_updated',
+	TeamUrlUpdated = 'team_url_updated',
+	TeamPasswordUpdated = 'team_password_updated',
+	TeamInviteLinkUpdated = 'team_invite_link_updated',
 
 	/** One team member had their attendance signed in. */
 	TeamMemberSignedIn = 'team_member_signed_in',

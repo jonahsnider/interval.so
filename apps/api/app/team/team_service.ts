@@ -122,6 +122,15 @@ export class TeamService {
 		});
 
 		if (dbTeam) {
+			if (bouncer.user?.id) {
+				ph.capture({
+					distinctId: bouncer.user.id,
+					event: AnalyticsEvent.TeamDisplayNameUpdated,
+					groups: {
+						company: dbTeam.teamId,
+					},
+				});
+			}
 			ph.groupIdentify({
 				groupKey: dbTeam.teamId,
 				groupType: 'company',
@@ -250,7 +259,21 @@ export class TeamService {
 	async setPassword(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>, data: Pick<TeamSchema, 'password'>) {
 		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('updateSettings', team));
 
-		await db.update(Schema.teams).set(data).where(eq(Schema.teams.slug, team.slug));
+		const [dbTeam] = await db
+			.update(Schema.teams)
+			.set(data)
+			.where(eq(Schema.teams.slug, team.slug))
+			.returning({ teamId: Schema.teams.teamId });
+
+		if (dbTeam && bouncer.user?.id) {
+			ph.capture({
+				distinctId: bouncer.user.id,
+				event: AnalyticsEvent.TeamPasswordUpdated,
+				groups: {
+					company: dbTeam.teamId,
+				},
+			});
+		}
 	}
 
 	async getInviteCode(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>): Promise<Pick<TeamSchema, 'inviteCode'>> {
@@ -273,7 +296,23 @@ export class TeamService {
 
 		const newCode = await TeamService.generateInviteCode();
 
-		await db.update(Schema.teams).set({ inviteCode: newCode }).where(eq(Schema.teams.slug, team.slug));
+		const [dbTeam] = await db
+			.update(Schema.teams)
+			.set({ inviteCode: newCode })
+			.where(eq(Schema.teams.slug, team.slug))
+			.returning({
+				teamId: Schema.teams.teamId,
+			});
+
+		if (dbTeam && bouncer.user?.id) {
+			ph.capture({
+				distinctId: bouncer.user.id,
+				event: AnalyticsEvent.TeamInviteLinkUpdated,
+				groups: {
+					company: dbTeam.teamId,
+				},
+			});
+		}
 
 		return { inviteCode: newCode };
 	}
@@ -287,6 +326,15 @@ export class TeamService {
 			});
 
 			if (dbTeam) {
+				if (bouncer.user?.id) {
+					ph.capture({
+						distinctId: bouncer.user.id,
+						event: AnalyticsEvent.TeamUrlUpdated,
+						groups: {
+							company: dbTeam.teamId,
+						},
+					});
+				}
 				ph.groupIdentify({
 					groupKey: dbTeam.teamId,
 					groupType: 'company',
