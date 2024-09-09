@@ -45,7 +45,7 @@ export function EditMemberNameDialog({ member, children }: Props) {
 			setOpen(false);
 		},
 		onError: (error) => {
-			toast.error('An error occurred while updating the member name', {
+			toast.error("An error occurred while updating that member's name", {
 				description: error.message,
 				id: toastId,
 			});
