@@ -12,6 +12,14 @@ export class UserRouter {
 
 	getRouter() {
 		return router({
+			/**
+			 * Checks if the session is authenticated with a non-guest account.
+			 * Supposed to be very fast (just using Redis) to improve response times in any UI that blocks on checking if authed or unauthed
+			 * (ex. the home screen, which is a dashboard or a landing page).
+			 */
+			isAuthedFast: publicProcedure.output(z.boolean()).query(({ ctx }) => {
+				return ctx.user?.id !== undefined;
+			}),
 			getSelf: publicProcedure
 				.output(
 					z.object({
