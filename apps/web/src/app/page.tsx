@@ -5,8 +5,8 @@ import { MainContent } from '@/src/components/page-wrappers/main-content';
 import { trpcServer } from '@/src/trpc/trpc-server';
 import { captureException } from '@sentry/nextjs';
 import { unstable_noStore as noStore } from 'next/cache';
-import LandingPage from './home/page';
 import { cookies } from 'next/headers';
+import LandingPage from './home/page';
 
 function AuthedHomePage() {
 	return (
