@@ -6,7 +6,7 @@ import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import type { UserSchema } from '@interval.so/api/app/user/schemas/user_schema';
 import { useLogOut } from '../../hooks/log-out';
 
-export function NeedsDifferentTeamAuthCard({
+export function NeedsDifferentTeamGuestAuthCard({
 	currentTeam,
 	wantedTeam,
 }: {
@@ -16,7 +16,7 @@ export function NeedsDifferentTeamAuthCard({
 	const logOut = useLogOut();
 
 	return (
-		<Card>
+		<Card className='max-w-2xl'>
 			<CardHeader>
 				<CardTitle>Already signed in</CardTitle>
 			</CardHeader>
@@ -45,7 +45,7 @@ export function NotManagerOfTeamCard({
 	const logOut = useLogOut();
 
 	return (
-		<Card>
+		<Card className='max-w-2xl'>
 			<CardHeader>
 				<CardTitle>Missing access to {team.displayName}</CardTitle>
 			</CardHeader>

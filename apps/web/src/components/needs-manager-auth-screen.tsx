@@ -1,11 +1,14 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { captureException } from '@sentry/nextjs';
 import clsx from 'clsx';
 import { Link } from 'next-view-transitions';
 import { unstable_noStore as noStore } from 'next/cache';
 import type { PropsWithChildren } from 'react';
 import { trpcServer } from '../trpc/trpc-server';
+import { NotManagerOfTeamCard } from './needs-any-auth-screen/needs-any-auth-screen.client';
+import { MainContent } from './page-wrappers/main-content';
 
 function NeedsSignedInCard() {
 	return (
@@ -35,35 +38,45 @@ function NeedsSignedInCard() {
 
 type Props = PropsWithChildren<{
 	className?: string;
+	/** If specified, require the user to be a manager of this team. */
+	team?: Pick<TeamSchema, 'slug' | 'displayName'>;
 }>;
 
-export async function NeedsManagerAuthScreen({ children, className }: Props) {
+export async function NeedsManagerAuthScreen({ children, className, team }: Props) {
 	noStore();
 
 	try {
 		const { user } = await trpcServer.user.getSelf.query();
 
 		if (user) {
-			return <>{children}</>;
+			if (!team || Object.hasOwn(user.teams, team.slug)) {
+				return <>{children}</>;
+			}
+
+			return (
+				<MainContent className={clsx('items-center justify-center', className)}>
+					<NotManagerOfTeamCard user={user} team={team} />
+				</MainContent>
+			);
 		}
 	} catch (error) {
 		captureException(error);
 
 		return (
-			<div className={clsx('w-full flex items-center justify-center flex-1', className)}>
+			<MainContent className={clsx('items-center justify-center', className)}>
 				<Card>
 					<CardHeader>
 						<CardTitle>Error</CardTitle>
 						<CardDescription>An error occurred while loading your account.</CardDescription>
 					</CardHeader>
 				</Card>
-			</div>
+			</MainContent>
 		);
 	}
 
 	return (
-		<div className={clsx('w-full flex items-center justify-center flex-1', className)}>
+		<MainContent className={clsx('items-center justify-center', className)}>
 			<NeedsSignedInCard />
-		</div>
+		</MainContent>
 	);
 }
