@@ -149,7 +149,13 @@ export const columns: ColumnDef<TeamMemberSchema>[] = [
 			);
 		},
 		cell: ({ row }) => {
-			return <MemberRowActionsDropdown member={row.original} />;
+			const { team } = useContext(TeamSlugContext);
+
+			if (!team) {
+				throw new TypeError('Expected team Next.js route param to be defined');
+			}
+
+			return <MemberRowActionsDropdown member={row.original} team={team} />;
 		},
 	},
 ];
