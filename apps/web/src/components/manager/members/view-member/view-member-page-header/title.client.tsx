@@ -16,9 +16,5 @@ export function TitleClient({ member, initialMember }: Props) {
 		onData: (data) => setMemberName(data.name),
 	});
 
-	return (
-		<PageHeaderTitle className='whitespace-pre group-hover:bg-input transition-colors p-1 rounded-md'>
-			{memberName}
-		</PageHeaderTitle>
-	);
+	return <PageHeaderTitle className='whitespace-pre transition-colors p-1 rounded-md'>{memberName}</PageHeaderTitle>;
 }

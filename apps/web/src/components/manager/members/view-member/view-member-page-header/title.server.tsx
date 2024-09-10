@@ -18,10 +18,13 @@ export async function Title({ member }: Props) {
 				name: dbMember.name,
 			}}
 		>
-			<button type='button' className='cursor-text group flex items-center justify-center gap-2'>
+			<button
+				type='button'
+				className='group flex items-center justify-center gap-1 border-transparent hover:bg-muted rounded-md p-1 -ml-1'
+			>
 				<TitleClient member={member} initialMember={dbMember} />
 
-				<PencilSquareIcon className='h-6 w-6 -translate-x-2 opacity-0 group-hover:opacity-100 transition-all group-hover:translate-x-0' />
+				<PencilSquareIcon className='h-6 w-6 -translate-x-1 opacity-50 group-hover:opacity-100 transition-all group-hover:translate-x-0' />
 			</button>
 		</EditMemberNameDialog>
 	);
