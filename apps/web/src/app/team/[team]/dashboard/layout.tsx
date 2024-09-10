@@ -1,5 +1,5 @@
+import { AuthWall } from '@/src/components/auth-wall/auth-wall';
 import { ManagerNavbar } from '@/src/components/manager/navbar/manager-navbar';
-import { NeedsManagerAuthScreen } from '@/src/components/needs-manager-auth-screen';
 import { isTrpcClientError } from '@/src/trpc/common';
 import { trpcServer } from '@/src/trpc/trpc-server';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
@@ -31,9 +31,9 @@ export default async function ManagerLayout({ children, params }: Props) {
 	return (
 		<>
 			<ManagerNavbar currentTeam={team} />
-			<NeedsManagerAuthScreen className='pt-4' team={team}>
+			<AuthWall kind='manager' wantedTeam={team}>
 				{children}
-			</NeedsManagerAuthScreen>
+			</AuthWall>
 		</>
 	);
 }

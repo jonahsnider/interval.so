@@ -1,5 +1,5 @@
+import { AuthWall } from '@/src/components/auth-wall/auth-wall';
 import { Navbar } from '@/src/components/navbar/navbar';
-import { NeedsAnyAuthScreen } from '@/src/components/needs-any-auth-screen/needs-any-auth-screen.server';
 import { MainContent } from '@/src/components/page-wrappers/main-content';
 
 import { isTrpcClientError } from '@/src/trpc/common';
@@ -30,16 +30,15 @@ export default async function TeamAttendanceLayout({ children, params }: Props) 
 		<>
 			<Navbar currentTeam={{ slug: params.team }} />
 
-			<MainContent>
-				<NeedsAnyAuthScreen
-					team={{
-						slug: params.team,
-						displayName,
-					}}
-				>
-					{children}
-				</NeedsAnyAuthScreen>
-			</MainContent>
+			<AuthWall
+				kind='guestOrManager'
+				wantedTeam={{
+					slug: params.team,
+					displayName,
+				}}
+			>
+				<MainContent>{children}</MainContent>
+			</AuthWall>
 		</>
 	);
 }
