@@ -6,6 +6,7 @@ import { trpcServer } from '@/src/trpc/trpc-server';
 import { captureException } from '@sentry/nextjs';
 import { unstable_noStore as noStore } from 'next/cache';
 import LandingPage from './home/page';
+import { cookies } from 'next/headers';
 
 function AuthedHomePage() {
 	return (
@@ -25,8 +26,12 @@ function AuthedHomePage() {
 export default async function HomePage() {
 	noStore();
 
+	const userCookies = cookies();
+
 	try {
-		const isAuthed = await trpcServer.user.isAuthedFast.query();
+		// The user can't be signed in if they don't have a session cookie
+		// This optimization improves TTFB for first-time visitors
+		const isAuthed = userCookies.has('adonis-session') && (await trpcServer.user.isAuthedFast.query());
 
 		if (isAuthed) {
 			return <AuthedHomePage />;
