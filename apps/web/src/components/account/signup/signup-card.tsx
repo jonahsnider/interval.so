@@ -132,7 +132,7 @@ export function SignupCard() {
 	};
 
 	return (
-		<Card className='[view-transition-name:auth-card]'>
+		<Card className='[view-transition-name:auth-card] max-w-xl'>
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)}>
 					<CardHeader>
@@ -152,9 +152,12 @@ export function SignupCard() {
 									<FormControl>
 										<Input {...field} className='max-w-60' type='text' autoComplete='name' />
 									</FormControl>
-									<FormDescription>
-										Please enter your full name, or a display name you are comfortable with.
-									</FormDescription>
+									<div>
+										<FormDescription>
+											Please enter your full name, or a display name you are comfortable with.
+										</FormDescription>
+										<FormDescription>Don't worry, you can change this later!</FormDescription>
+									</div>
 									<FormMessage />
 								</FormItem>
 							)}
