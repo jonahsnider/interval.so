@@ -61,7 +61,7 @@ export function ManagersTableRoleSelect({
 	};
 
 	return (
-		<Select disabled={!allowedRoleModifications.length} onValueChange={onValueChange} value={manager.role}>
+		<Select disabled={allowedRoleModifications.length === 0} onValueChange={onValueChange} value={manager.role}>
 			<SelectTrigger className='min-w-48 max-w-min shadow-none'>{capitalize(manager.role)}</SelectTrigger>
 			<SelectContent>
 				<SelectGroup>
