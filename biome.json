@@ -1,7 +1,7 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.8.0/schema.json",
+	"$schema": "https://biomejs.dev/schemas/1.9.0/schema.json",
 	"files": {
-		"ignore": [".next", "node_modules", ".vercel", "**/package.json", "apps/api/build"]
+		"ignore": [".next", "node_modules", ".vercel", "**/package.json", "apps/api/build", ".turbo"]
 	},
 	"formatter": {
 		"formatWithErrors": true,
@@ -27,24 +27,22 @@
 		"rules": {
 			"all": true,
 			"complexity": {
-				"all": true,
 				"noStaticOnlyClass": "off",
 				"useLiteralKeys": "off"
 			},
 			"correctness": {
-				"noNodejsModules": "off"
-			},
-			"nursery": {
-				"all": false
+				"noNodejsModules": "off",
+				"noUndeclaredDependencies": "off",
+				"useImportExtensions": "off"
 			},
 			"style": {
-				"all": true,
 				"noNamespaceImport": "off",
-				"noParameterProperties": "off"
+				"noParameterProperties": "off",
+				"useDefaultSwitchClause": "off"
 			},
 			"suspicious": {
-				"all": true,
-				"noEmptyBlockStatements": "off"
+				"noEmptyBlockStatements": "off",
+				"noReactSpecificProps": "off"
 			}
 		}
 	}

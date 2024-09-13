@@ -42,6 +42,8 @@ function within7Days(date: Date) {
 	});
 }
 
+const INTL_FORMATTED_RANGE_SEPARATOR_AND_ENDING = / - .+$/;
+const INTL_FORMATTED_TIME_AT_TIME = / at .+$/;
 /**
  * Format a date range in the most concise way possible, and if the range was within ±7 days, format it relative to now.
  */
@@ -79,7 +81,7 @@ export function formatDateRange(start: Date, end?: Date, verbose = false): strin
 	) {
 		options.month = undefined;
 		options.day = undefined;
-		prefix = capitalize(formatRelative(start, now).replace(/ at .+$/, ', '));
+		prefix = capitalize(formatRelative(start, now).replace(INTL_FORMATTED_TIME_AT_TIME, ', '));
 	}
 
 	const formatter = new Intl.DateTimeFormat('en-US', options);
@@ -90,7 +92,7 @@ export function formatDateRange(start: Date, end?: Date, verbose = false): strin
 	});
 
 	if (!end) {
-		return formatted.replace(/ - .+$/, ' - now');
+		return formatted.replace(INTL_FORMATTED_RANGE_SEPARATOR_AND_ENDING, ' - now');
 	}
 
 	return formatted;

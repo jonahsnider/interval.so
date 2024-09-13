@@ -87,7 +87,7 @@ export const columns: ColumnDef<TeamMemberSchema>[] = [
 		sortingFn: Sort.ascending((row) =>
 			row.original.lastSeenAt === 'now'
 				? Number.POSITIVE_INFINITY
-				: row.original.lastSeenAt ?? Number.NEGATIVE_INFINITY,
+				: (row.original.lastSeenAt ?? Number.NEGATIVE_INFINITY),
 		),
 		sortUndefined: -1,
 		enableColumnFilter: true,
