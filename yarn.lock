@@ -1522,7 +1522,7 @@ __metadata:
     tailwindcss-animate: "npm:1.0.7"
     typescript: "npm:5.6.2"
     use-debounce: "npm:10.0.3"
-    use-mutative: "npm:1.1.6"
+    use-mutative: "npm:1.1.7"
     zod: "npm:3.23.8"
   languageName: unknown
   linkType: soft
@@ -11653,12 +11653,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"use-mutative@npm:1.1.6":
-  version: 1.1.6
-  resolution: "use-mutative@npm:1.1.6"
+"use-mutative@npm:1.1.7":
+  version: 1.1.7
+  resolution: "use-mutative@npm:1.1.7"
   peerDependencies:
-    mutative: ^1.0.8
-  checksum: 10c0/5419309b8f0071d4a9c2a50121fb8f2dd641fb599927a25fcdcc04b1bb17a16c7b9cdd7699d85425fcb3a66efcf2838ee5e8deb8a71bd2b4c131e91cce881f2a
+    mutative: ^1.0
+  checksum: 10c0/393a384b2b66093860815a65a42b793560a3b1ebd162732ae18c99d9befbbd4fc65f77eba71044b7865ad3d7875ddfba2968756f924fd32c3efc70eda5522d0b
   languageName: node
   linkType: hard
 
