@@ -1422,7 +1422,7 @@ __metadata:
     "@simplewebauthn/server": "npm:10.0.1"
     "@simplewebauthn/types": "npm:10.0.0"
     "@swc/core": "npm:1.7.26"
-    "@trpc/server": "npm:11.0.0-rc.502"
+    "@trpc/server": "npm:11.0.0-rc.522"
     "@types/node": "npm:20.16.5"
     "@types/pg": "npm:8.11.10"
     "@types/ws": "npm:^8"
@@ -1480,9 +1480,9 @@ __metadata:
     "@simplewebauthn/types": "npm:10.0.0"
     "@tanstack/react-query": "npm:5.56.2"
     "@tanstack/react-table": "npm:8.20.5"
-    "@trpc/client": "npm:11.0.0-rc.502"
-    "@trpc/next": "npm:11.0.0-rc.502"
-    "@trpc/react-query": "npm:11.0.0-rc.502"
+    "@trpc/client": "npm:11.0.0-rc.522"
+    "@trpc/next": "npm:11.0.0-rc.522"
+    "@trpc/react-query": "npm:11.0.0-rc.522"
     "@types/node": "npm:20.16.5"
     "@types/react": "npm:18.3.8"
     "@types/react-dom": "npm:18.3.0"
@@ -4195,23 +4195,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@trpc/client@npm:11.0.0-rc.502":
-  version: 11.0.0-rc.502
-  resolution: "@trpc/client@npm:11.0.0-rc.502"
+"@trpc/client@npm:11.0.0-rc.522":
+  version: 11.0.0-rc.522
+  resolution: "@trpc/client@npm:11.0.0-rc.522"
   peerDependencies:
-    "@trpc/server": 11.0.0-rc.502+2a8c56027
-  checksum: 10c0/1785a6fe90d70037629e52fe8dc6d9caae373c8a8306ce2a6f9976a853648ecedabf8d5ebe4f6d6ddfa6f32ad42b3f69d5e99e0b958b3dcc5505d79b91d93b67
+    "@trpc/server": 11.0.0-rc.522+b99c8b036
+  checksum: 10c0/f5a9f57f09b13c5b1848f88c229e5c2c5fa5a0d254d8f94be95940a27d32c9669907dbeccc7e09690579a8a95ca3fb9f4de9cf07627c00af9d30be04fb4548b0
   languageName: node
   linkType: hard
 
-"@trpc/next@npm:11.0.0-rc.502":
-  version: 11.0.0-rc.502
-  resolution: "@trpc/next@npm:11.0.0-rc.502"
+"@trpc/next@npm:11.0.0-rc.522":
+  version: 11.0.0-rc.522
+  resolution: "@trpc/next@npm:11.0.0-rc.522"
   peerDependencies:
-    "@tanstack/react-query": ^5.49.2
-    "@trpc/client": 11.0.0-rc.502+2a8c56027
-    "@trpc/react-query": 11.0.0-rc.502+2a8c56027
-    "@trpc/server": 11.0.0-rc.502+2a8c56027
+    "@tanstack/react-query": ^5.54.1
+    "@trpc/client": 11.0.0-rc.522+b99c8b036
+    "@trpc/react-query": 11.0.0-rc.522+b99c8b036
+    "@trpc/server": 11.0.0-rc.522+b99c8b036
     next: "*"
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
@@ -4220,27 +4220,27 @@ __metadata:
       optional: true
     "@trpc/react-query":
       optional: true
-  checksum: 10c0/2ebb92ffdd0cd83e469e9be8fb15d6d648f29f6cb6ce4e56f08369a5ddc011e57a6910fc0b7f3e6c1b68da369ae0712b07ba81d8b33f062c6b2c422343ba6648
+  checksum: 10c0/7b285cf56e66326640b22756285978fe15446c9a94cce4cd066c4391c7ff0a43eb5a7874fc42b9345072fba833363cfddd9375d092c974fff00244d0ce8a007f
   languageName: node
   linkType: hard
 
-"@trpc/react-query@npm:11.0.0-rc.502":
-  version: 11.0.0-rc.502
-  resolution: "@trpc/react-query@npm:11.0.0-rc.502"
+"@trpc/react-query@npm:11.0.0-rc.522":
+  version: 11.0.0-rc.522
+  resolution: "@trpc/react-query@npm:11.0.0-rc.522"
   peerDependencies:
-    "@tanstack/react-query": ^5.49.2
-    "@trpc/client": 11.0.0-rc.502+2a8c56027
-    "@trpc/server": 11.0.0-rc.502+2a8c56027
+    "@tanstack/react-query": ^5.54.1
+    "@trpc/client": 11.0.0-rc.522+b99c8b036
+    "@trpc/server": 11.0.0-rc.522+b99c8b036
     react: ">=18.2.0"
     react-dom: ">=18.2.0"
-  checksum: 10c0/fbdb2c93ea457b1b2bafd203b3c0f681b1b2a2fa91fbefe0c7a7d1e31393b8f088aa8c503683273f625f4b790f9651651a67c485d577929605786c5b6f71ca93
+  checksum: 10c0/1554403ba27bfd51c9ac83eb9ed37f3d36ae49698f9350fbba436a0f5a1e0f0e1f8ea64965594b4b4ced78c79799ae9dda2eee13aa220a962164741408a0013e
   languageName: node
   linkType: hard
 
-"@trpc/server@npm:11.0.0-rc.502":
-  version: 11.0.0-rc.502
-  resolution: "@trpc/server@npm:11.0.0-rc.502"
-  checksum: 10c0/f700d03549a8978138da56ff263f032de20a4b9d5c9131415a4c5e9dfdc3701b2cfc2fc7a88a563262fb2c2e525fc311450a84bb266f7b90589ff672d6817361
+"@trpc/server@npm:11.0.0-rc.522":
+  version: 11.0.0-rc.522
+  resolution: "@trpc/server@npm:11.0.0-rc.522"
+  checksum: 10c0/5d6b5dd3e8b70c6c8e1c13746d5c4b070d0d74ea0924570219cb78da54752275c672fa66cc757e65d363181d29faec0e4d17c00e8972e6ecfbc5183f733ad4b6
   languageName: node
   linkType: hard
 
