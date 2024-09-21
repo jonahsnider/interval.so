@@ -141,9 +141,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/core@npm:6.13.1":
-  version: 6.13.1
-  resolution: "@adonisjs/core@npm:6.13.1"
+"@adonisjs/core@npm:6.14.0":
+  version: 6.14.0
+  resolution: "@adonisjs/core@npm:6.14.0"
   dependencies:
     "@adonisjs/ace": "npm:^13.2.0"
     "@adonisjs/application": "npm:^8.3.1"
@@ -153,19 +153,22 @@ __metadata:
     "@adonisjs/env": "npm:^6.1.0"
     "@adonisjs/events": "npm:^9.0.2"
     "@adonisjs/fold": "npm:^10.1.2"
-    "@adonisjs/hash": "npm:^9.0.4"
+    "@adonisjs/hash": "npm:^9.0.5"
     "@adonisjs/health": "npm:^2.0.0"
     "@adonisjs/http-server": "npm:^7.2.3"
     "@adonisjs/logger": "npm:^6.0.3"
     "@adonisjs/repl": "npm:^4.0.1"
     "@antfu/install-pkg": "npm:^0.4.1"
     "@paralleldrive/cuid2": "npm:^2.2.2"
-    "@poppinss/macroable": "npm:^1.0.2"
-    "@poppinss/utils": "npm:^6.7.3"
-    "@sindresorhus/is": "npm:^7.0.0"
+    "@poppinss/colors": "npm:^4.1.3"
+    "@poppinss/dumper": "npm:^0.4.1"
+    "@poppinss/macroable": "npm:^1.0.3"
+    "@poppinss/utils": "npm:^6.8.3"
+    "@sindresorhus/is": "npm:^7.0.1"
     "@types/he": "npm:^1.2.3"
+    error-stack-parser-es: "npm:^0.1.5"
     he: "npm:^1.2.0"
-    parse-imports: "npm:^1.2.0"
+    parse-imports: "npm:^2.2.1"
     pretty-hrtime: "npm:^1.0.3"
     string-width: "npm:^7.2.0"
     youch: "npm:^3.3.3"
@@ -175,7 +178,7 @@ __metadata:
     "@vinejs/vine": ^2.1.0
     argon2: ^0.31.2 || ^0.41.0
     bcrypt: ^5.1.1
-    edge.js: ^6.0.1
+    edge.js: ^6.2.0
   peerDependenciesMeta:
     "@adonisjs/assembler":
       optional: true
@@ -189,7 +192,7 @@ __metadata:
       optional: true
   bin:
     adonis-kit: build/toolkit/main.js
-  checksum: 10c0/107788391db543d2e6df736a20bfc6a79fb2d58887962572a2693adfd058e78a868d698938dbd4c5166b8be526908e272dc3287b30c4dfe3f8d6341092e5a43a
+  checksum: 10c0/c9e5cc6d2d79991cef9d62eccaf0c309985ff38b02aee6f7ca9c16a4836aa221f1b9d4c5b96fa972bf03a9c0a28f894081d51233ab7dbb83e047f78168b52551
   languageName: node
   linkType: hard
 
@@ -246,12 +249,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/hash@npm:^9.0.4":
-  version: 9.0.4
-  resolution: "@adonisjs/hash@npm:9.0.4"
+"@adonisjs/hash@npm:^9.0.5":
+  version: 9.0.5
+  resolution: "@adonisjs/hash@npm:9.0.5"
   dependencies:
     "@phc/format": "npm:^1.0.0"
-    "@poppinss/utils": "npm:^6.7.3"
+    "@poppinss/utils": "npm:^6.8.3"
   peerDependencies:
     argon2: ^0.31.2 || ^0.41.0
     bcrypt: ^5.1.1
@@ -260,7 +263,7 @@ __metadata:
       optional: true
     bcrypt:
       optional: true
-  checksum: 10c0/af20e725bd1fb12acbeb557885074e610a3ac83247d1ce53d71a9c72f584875c44e8b02da4440526f7eedee5cbe658e52b8987245307482a2ca687e5932879d9
+  checksum: 10c0/10df185b7b5057af9c4ef4a3b9913d7d93332bf7c655aa96a079b6030922c9f87d12976635f660b03b1cb486a6d6941c6e9a9c543e62b65ac29a17c6dc6bd833
   languageName: node
   linkType: hard
 
@@ -1409,7 +1412,7 @@ __metadata:
     "@adonisjs/assembler": "npm:7.8.2"
     "@adonisjs/auth": "npm:9.2.3"
     "@adonisjs/bouncer": "npm:3.1.3"
-    "@adonisjs/core": "npm:6.13.1"
+    "@adonisjs/core": "npm:6.14.0"
     "@adonisjs/cors": "npm:2.2.1"
     "@adonisjs/redis": "npm:9.1.0"
     "@adonisjs/session": "npm:7.4.2"
@@ -2235,6 +2238,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@poppinss/dumper@npm:^0.4.1":
+  version: 0.4.2
+  resolution: "@poppinss/dumper@npm:0.4.2"
+  dependencies:
+    "@poppinss/colors": "npm:^4.1.3"
+    "@sindresorhus/is": "npm:^7.0.1"
+    supports-color: "npm:^9.4.0"
+  checksum: 10c0/b49d89d72808c5ec774146baea528018a9243793ceadb352b56dbd1f4222a12b9da166e24e942e2c9d02115ba2be5756e2356f465bc9abc92a522a4229b72c88
+  languageName: node
+  linkType: hard
+
 "@poppinss/hooks@npm:^7.2.3":
   version: 7.2.3
   resolution: "@poppinss/hooks@npm:7.2.3"
@@ -2246,6 +2260,13 @@ __metadata:
   version: 1.0.2
   resolution: "@poppinss/macroable@npm:1.0.2"
   checksum: 10c0/69963c0cf6e1816ba54ed903f8def53e630f9da8624f73d02388ba61118f5fbeb4efc2a9ee48ff0918eb2b932cbe4cc21a884dbd632e8412091f1f25e31da312
+  languageName: node
+  linkType: hard
+
+"@poppinss/macroable@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "@poppinss/macroable@npm:1.0.3"
+  checksum: 10c0/d024d8b80b003b577e84a0c79642a12eee73cddff0696cec09482c3497fd3f375b10fc2b5b0ef934d7c9fded1c4b73b146db987c2adabb6a87111864734cb9d8
   languageName: node
   linkType: hard
 
@@ -2304,6 +2325,26 @@ __metadata:
     slugify: "npm:^1.6.6"
     truncatise: "npm:^0.0.8"
   checksum: 10c0/b5e2a901b660e43ca6d71d790c01c94a64b5004f6caca366ba8bb99aef3fb9bc5f8c646a257f1aea78fc3ca7ec1c6ac317299b5265175fbeb413ab7adcc4ddc7
+  languageName: node
+  linkType: hard
+
+"@poppinss/utils@npm:^6.8.3":
+  version: 6.8.3
+  resolution: "@poppinss/utils@npm:6.8.3"
+  dependencies:
+    "@lukeed/ms": "npm:^2.0.2"
+    "@types/bytes": "npm:^3.1.4"
+    "@types/pluralize": "npm:^0.0.33"
+    bytes: "npm:^3.1.2"
+    case-anything: "npm:^3.1.0"
+    flattie: "npm:^1.1.1"
+    pluralize: "npm:^8.0.0"
+    safe-stable-stringify: "npm:^2.5.0"
+    secure-json-parse: "npm:^2.7.0"
+    slash: "npm:^5.1.0"
+    slugify: "npm:^1.6.6"
+    truncatise: "npm:^0.0.8"
+  checksum: 10c0/409bd7d15720e86fee2e6eef88b978f69f8441172affbadaaacf7c53c1649618290b63ffb765d02647e50b6d75712013a75e25b40addf8217dba14a80f8a1657
   languageName: node
   linkType: hard
 
@@ -3981,10 +4022,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sindresorhus/is@npm:^7.0.0":
-  version: 7.0.0
-  resolution: "@sindresorhus/is@npm:7.0.0"
-  checksum: 10c0/005cc3a09a41d17073eeb55e0a2003648a6fcde23bef60f95830e5d8600a6b0aa157f167fd4ddce7fd34e8c8c2263dd642de892e33f8b68c816efe6c4393b7c9
+"@sindresorhus/is@npm:^7.0.1":
+  version: 7.0.1
+  resolution: "@sindresorhus/is@npm:7.0.1"
+  checksum: 10c0/6d43a916d70d9b64066394c272883869b22faf21f4748aaf399c1b691ea704ea607d1668ff2eb5704e5be8809c4a7faafe16be048ce5e1a2ba6e8928b8e3461c
   languageName: node
   linkType: hard
 
@@ -5370,6 +5411,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"case-anything@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "case-anything@npm:3.1.0"
+  checksum: 10c0/b913c530169f2ff9a1046f604855593095a9ea2674121a6a8323ecd226ef983e2b908b5e3c7adbeb349656a299ab60a4f3e51dda38cfef970acaba3af25a4208
+  languageName: node
+  linkType: hard
+
 "chalk@npm:3.0.0":
   version: 3.0.0
   resolution: "chalk@npm:3.0.0"
@@ -6352,6 +6400,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"error-stack-parser-es@npm:^0.1.5":
+  version: 0.1.5
+  resolution: "error-stack-parser-es@npm:0.1.5"
+  checksum: 10c0/60331183269d5d5f2d80ce01be58387e7f7ef86ec821db7bba3e7aad201174b3f1b561973c678af7ec945542de8f2d1d23d5152ff8adf6154080eff02cd0e0b5
+  languageName: node
+  linkType: hard
+
 "es-define-property@npm:^1.0.0":
   version: 1.0.0
   resolution: "es-define-property@npm:1.0.0"
@@ -6375,7 +6430,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"es-module-lexer@npm:^1.5.2":
+"es-module-lexer@npm:^1.5.3":
   version: 1.5.4
   resolution: "es-module-lexer@npm:1.5.4"
   checksum: 10c0/300a469488c2f22081df1e4c8398c78db92358496e639b0df7f89ac6455462aaf5d8893939087c1a1cbcbf20eed4610c70e0bcb8f3e4b0d80a5d2611c539408c
@@ -9090,13 +9145,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"parse-imports@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "parse-imports@npm:1.2.0"
+"parse-imports@npm:^2.2.1":
+  version: 2.2.1
+  resolution: "parse-imports@npm:2.2.1"
   dependencies:
-    es-module-lexer: "npm:^1.5.2"
+    es-module-lexer: "npm:^1.5.3"
     slashes: "npm:^3.0.12"
-  checksum: 10c0/809297665107dd1f62da63a194145b0fb86dbb1fc9161e0a69609f72ef5ef1e0dafb9615670109c79902b025b35a3062773b1dd220595ca954148e207b1f1b43
+  checksum: 10c0/bc541ce4ef2ff77d53247de39a956e0ee7a1a4b9b175c3e0f898222fe7994595f011491154db4ed408cbaf5049ede9d0b6624125565be208e973a54420cbe069
   languageName: node
   linkType: hard
 
@@ -10310,6 +10365,13 @@ __metadata:
   version: 2.4.3
   resolution: "safe-stable-stringify@npm:2.4.3"
   checksum: 10c0/81dede06b8f2ae794efd868b1e281e3c9000e57b39801c6c162267eb9efda17bd7a9eafa7379e1f1cacd528d4ced7c80d7460ad26f62ada7c9e01dec61b2e768
+  languageName: node
+  linkType: hard
+
+"safe-stable-stringify@npm:^2.5.0":
+  version: 2.5.0
+  resolution: "safe-stable-stringify@npm:2.5.0"
+  checksum: 10c0/baea14971858cadd65df23894a40588ed791769db21bafb7fd7608397dbdce9c5aac60748abae9995e0fc37e15f2061980501e012cd48859740796bea2987f49
   languageName: node
   linkType: hard
 
