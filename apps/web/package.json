@@ -48,7 +48,7 @@
 		"cmdk": "^1.0.0",
 		"convert": "5.4.1",
 		"date-fns": "4.1.0",
-		"framer-motion": "11.7.0",
+		"framer-motion": "11.8.0",
 		"fuse.js": "7.0.0",
 		"mutative": "1.0.10",
 		"next": "14.2.13",
