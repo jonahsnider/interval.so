@@ -1443,7 +1443,7 @@ __metadata:
     drizzle-kit: "npm:0.24.2"
     drizzle-orm: "npm:0.33.0"
     execa: "npm:9.4.0"
-    hot-hook: "npm:0.2.6"
+    hot-hook: "npm:0.3.0"
     pino-pretty: "npm:11.2.2"
     postgres: "npm:3.4.4"
     posthog-node: "npm:4.2.0"
@@ -5490,6 +5490,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"chokidar@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "chokidar@npm:4.0.1"
+  dependencies:
+    readdirp: "npm:^4.0.1"
+  checksum: 10c0/4bb7a3adc304059810bb6c420c43261a15bb44f610d77c35547addc84faa0374265c3adc67f25d06f363d9a4571962b02679268c40de07676d260de1986efea9
+  languageName: node
+  linkType: hard
+
 "chownr@npm:^1.1.4":
   version: 1.1.4
   resolution: "chownr@npm:1.1.4"
@@ -7584,15 +7593,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hot-hook@npm:0.2.6":
-  version: 0.2.6
-  resolution: "hot-hook@npm:0.2.6"
+"hot-hook@npm:0.3.0":
+  version: 0.3.0
+  resolution: "hot-hook@npm:0.3.0"
   dependencies:
-    chokidar: "npm:^3.6.0"
+    chokidar: "npm:^4.0.1"
     fast-glob: "npm:^3.3.2"
+    parse-imports: "npm:^2.2.1"
     picomatch: "npm:^4.0.2"
     read-package-up: "npm:^11.0.0"
-  checksum: 10c0/4b63aec7f3e47712e7138f00710f272f195b64ab5c58cd1de23bb190e8a402d80518a67435aefe3e8c743b0618a4e3cfb61e998e63b89bd0a474a9b155d8f3c7
+  checksum: 10c0/512dcbe3c93fa1e3cb4d6bf1412584ad2dee14e42558bbedd0db4361e1d28425b7250ade58e411ae53097e03eab8cd40e62b9cbcf7a9c6513370b4cca9a10970
   languageName: node
   linkType: hard
 
@@ -10135,6 +10145,13 @@ __metadata:
   dependencies:
     readable-stream: "npm:^3.6.0"
   checksum: 10c0/533d5cd1580232a2c753e52a245be13fc552e6f82c5053a8a8da7ea1063d73a34f936a86b3d4433cdb4a13dd683835cfc87f230936cb96d329a1e28b6040f42e
+  languageName: node
+  linkType: hard
+
+"readdirp@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "readdirp@npm:4.0.1"
+  checksum: 10c0/e5a0b547015f68ecc918f115b62b75b2b840611480a9240cb3317090a0ddac01bb9b40315a8fa08acdf52a43eea17b808c89b645263cba3ab64dc557d7f801f1
   languageName: node
   linkType: hard
 
