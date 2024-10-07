@@ -1441,7 +1441,7 @@ __metadata:
     date-fns: "npm:4.1.0"
     dotenv: "npm:16.4.5"
     drizzle-kit: "npm:0.24.2"
-    drizzle-orm: "npm:0.33.0"
+    drizzle-orm: "npm:0.34.1"
     execa: "npm:9.4.0"
     hot-hook: "npm:0.3.0"
     pino-pretty: "npm:11.2.2"
@@ -6190,14 +6190,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"drizzle-orm@npm:0.33.0":
-  version: 0.33.0
-  resolution: "drizzle-orm@npm:0.33.0"
+"drizzle-orm@npm:0.34.1":
+  version: 0.34.1
+  resolution: "drizzle-orm@npm:0.34.1"
   peerDependencies:
     "@aws-sdk/client-rds-data": ">=3"
     "@cloudflare/workers-types": ">=3"
     "@electric-sql/pglite": ">=0.1.1"
-    "@libsql/client": "*"
+    "@libsql/client": ">=0.10.0"
     "@neondatabase/serverless": ">=0.1"
     "@op-engineering/op-sqlite": ">=2"
     "@opentelemetry/api": ^1.4.1
@@ -6278,7 +6278,7 @@ __metadata:
       optional: true
     sqlite3:
       optional: true
-  checksum: 10c0/62626e355c3962e963a62b3dbeb9279de709a7b00451ee6722b8b05605cf878bb54633f51d536a5df59d43efa1ae39645af7ddb4283bdbe66d9d467aee3d5b2e
+  checksum: 10c0/067b360d41994953bb958d216b827d78b8a9550517e12b3cdf85be7cb361e982817f511a9ac317c84184aaa096321e23b43481318ee8b3c4c80f77d243628730
   languageName: node
   linkType: hard
 
