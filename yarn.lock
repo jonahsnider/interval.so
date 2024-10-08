@@ -1443,7 +1443,7 @@ __metadata:
     drizzle-kit: "npm:0.24.2"
     drizzle-orm: "npm:0.34.1"
     execa: "npm:9.4.0"
-    hot-hook: "npm:0.3.0"
+    hot-hook: "patch:hot-hook@npm%3A0.3.0#~/.yarn/patches/hot-hook-npm-0.3.0-0c210b56e7.patch"
     pino-pretty: "npm:11.2.2"
     postgres: "npm:3.4.4"
     posthog-node: "npm:4.2.0"
@@ -7603,6 +7603,19 @@ __metadata:
     picomatch: "npm:^4.0.2"
     read-package-up: "npm:^11.0.0"
   checksum: 10c0/512dcbe3c93fa1e3cb4d6bf1412584ad2dee14e42558bbedd0db4361e1d28425b7250ade58e411ae53097e03eab8cd40e62b9cbcf7a9c6513370b4cca9a10970
+  languageName: node
+  linkType: hard
+
+"hot-hook@patch:hot-hook@npm%3A0.3.0#~/.yarn/patches/hot-hook-npm-0.3.0-0c210b56e7.patch":
+  version: 0.3.0
+  resolution: "hot-hook@patch:hot-hook@npm%3A0.3.0#~/.yarn/patches/hot-hook-npm-0.3.0-0c210b56e7.patch::version=0.3.0&hash=e9867c"
+  dependencies:
+    chokidar: "npm:^4.0.1"
+    fast-glob: "npm:^3.3.2"
+    parse-imports: "npm:^2.2.1"
+    picomatch: "npm:^4.0.2"
+    read-package-up: "npm:^11.0.0"
+  checksum: 10c0/3cba5d9cbb98e4890f7c5d61535093ee5d873e9579e409f424450bc4eb7eb3160f7b8fdc3d6d470877576c2f71a52ba46c8e5896b920c43e1b9ec15bb204841f
   languageName: node
   linkType: hard
 

@@ -1,0 +1,15 @@
+diff --git a/build/src/dynamic_import_checker.js b/build/src/dynamic_import_checker.js
+index fe57ea118e5f3b5b8507452b1f4a1ada9b17ed4d..02332d08d95ef9d9eb7f5fb0be4f5a0eaac43c8c 100644
+--- a/build/src/dynamic_import_checker.js
++++ b/build/src/dynamic_import_checker.js
+@@ -27,7 +27,9 @@ export class DynamicImportChecker {
+         const currentCache = this.cache.get(cacheKey) ?? new Map();
+         this.cache.set(cacheKey, currentCache.set(specifier, isFileDynamicallyImportedFromParent));
+         if (!isFileDynamicallyImportedFromParent) {
+-            throw new Error(`The import "${specifier}" is not imported dynamically from ${relative(this.projectRoot, parentPath)}.\nYou must use dynamic import to make it reloadable (HMR) with hot-hook.`);
++            // Making the refactors to avoid these errors means losing good inferred types from regular imports
++            // This totally breaks tRPC, and I don't think any of that code was actually having issues that this error is meant to catch
++            // throw new Error(`The import "${specifier}" is not imported dynamically from ${relative(this.projectRoot, parentPath)}.\nYou must use dynamic import to make it reloadable (HMR) with hot-hook.`);
+         }
+         return isFileDynamicallyImportedFromParent;
+     }
