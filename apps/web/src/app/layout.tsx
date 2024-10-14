@@ -11,6 +11,7 @@ import dynamic from 'next/dynamic';
 import { PostHogIdentityProvider } from '../providers/post-hog-identity-provider';
 import { CsPostHogProvider } from '../providers/post-hog-provider';
 import { PostHogTeamIdProvider } from '../providers/post-hog-team-id-provider';
+import { SentryIdentityProvider } from '../providers/sentry-identity-provider';
 import { TrpcProvider } from '../providers/trpc-provider';
 import { siteMetadata } from '../site-metadata';
 
@@ -80,7 +81,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 						<TrpcProvider>
 							<TooltipProvider>
 								<PostHogIdentityProvider>
-									<PostHogTeamIdProvider>{children}</PostHogTeamIdProvider>
+									<SentryIdentityProvider>
+										<PostHogTeamIdProvider>{children}</PostHogTeamIdProvider>
+									</SentryIdentityProvider>
 								</PostHogIdentityProvider>
 							</TooltipProvider>
 						</TrpcProvider>
