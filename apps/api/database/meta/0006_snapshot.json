@@ -1,0 +1,424 @@
+{
+	"id": "f2f92279-3492-44b1-8568-b7530161cbad",
+	"prevId": "8770c558-daa3-47c8-b2fb-c98bac76eaf3",
+	"version": "7",
+	"dialect": "postgresql",
+	"tables": {
+		"public.credentials": {
+			"name": "credentials",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "text",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"public_key": {
+					"name": "public_key",
+					"type": "bytea",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"user_id": {
+					"name": "user_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"webauthn_user_id": {
+					"name": "webauthn_user_id",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"counter": {
+					"name": "counter",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"default": 0
+				},
+				"device_type": {
+					"name": "device_type",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"backed_up": {
+					"name": "backed_up",
+					"type": "boolean",
+					"primaryKey": false,
+					"notNull": true,
+					"default": false
+				},
+				"transports": {
+					"name": "transports",
+					"type": "jsonb",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "'[]'::jsonb"
+				}
+			},
+			"indexes": {
+				"credentials_webauthn_user_id_index": {
+					"name": "credentials_webauthn_user_id_index",
+					"columns": [
+						{
+							"expression": "webauthn_user_id",
+							"isExpression": false,
+							"asc": true,
+							"nulls": "last"
+						}
+					],
+					"isUnique": false,
+					"concurrently": false,
+					"method": "btree",
+					"with": {}
+				}
+			},
+			"foreignKeys": {
+				"credentials_user_id_users_id_fk": {
+					"name": "credentials_user_id_users_id_fk",
+					"tableFrom": "credentials",
+					"tableTo": "users",
+					"columnsFrom": ["user_id"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"credentials_user_id_webauthn_user_id_unique": {
+					"name": "credentials_user_id_webauthn_user_id_unique",
+					"nullsNotDistinct": false,
+					"columns": ["user_id", "webauthn_user_id"]
+				}
+			}
+		},
+		"public.member_attendance": {
+			"name": "member_attendance",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"member_id": {
+					"name": "member_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"started_at": {
+					"name": "started_at",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"ended_at": {
+					"name": "ended_at",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": true
+				}
+			},
+			"indexes": {
+				"member_attendance_member_id_index": {
+					"name": "member_attendance_member_id_index",
+					"columns": [
+						{
+							"expression": "member_id",
+							"isExpression": false,
+							"asc": true,
+							"nulls": "last"
+						}
+					],
+					"isUnique": false,
+					"concurrently": false,
+					"method": "btree",
+					"with": {}
+				},
+				"member_attendance_started_at_index": {
+					"name": "member_attendance_started_at_index",
+					"columns": [
+						{
+							"expression": "started_at",
+							"isExpression": false,
+							"asc": true,
+							"nulls": "last"
+						}
+					],
+					"isUnique": false,
+					"concurrently": false,
+					"method": "btree",
+					"with": {}
+				},
+				"member_attendance_ended_at_index": {
+					"name": "member_attendance_ended_at_index",
+					"columns": [
+						{
+							"expression": "ended_at",
+							"isExpression": false,
+							"asc": true,
+							"nulls": "last"
+						}
+					],
+					"isUnique": false,
+					"concurrently": false,
+					"method": "btree",
+					"with": {}
+				}
+			},
+			"foreignKeys": {
+				"member_attendance_member_id_team_members_id_fk": {
+					"name": "member_attendance_member_id_team_members_id_fk",
+					"tableFrom": "member_attendance",
+					"tableTo": "team_members",
+					"columnsFrom": ["member_id"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
+		},
+		"public.team_users": {
+			"name": "team_users",
+			"schema": "",
+			"columns": {
+				"team_id": {
+					"name": "team_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"user_id": {
+					"name": "user_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"role": {
+					"name": "role",
+					"type": "team_user_role",
+					"typeSchema": "public",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "'admin'"
+				}
+			},
+			"indexes": {
+				"team_users_role_index": {
+					"name": "team_users_role_index",
+					"columns": [
+						{
+							"expression": "role",
+							"isExpression": false,
+							"asc": true,
+							"nulls": "last"
+						}
+					],
+					"isUnique": false,
+					"concurrently": false,
+					"method": "btree",
+					"with": {}
+				}
+			},
+			"foreignKeys": {
+				"team_users_team_id_teams_id_fk": {
+					"name": "team_users_team_id_teams_id_fk",
+					"tableFrom": "team_users",
+					"tableTo": "teams",
+					"columnsFrom": ["team_id"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				},
+				"team_users_user_id_users_id_fk": {
+					"name": "team_users_user_id_users_id_fk",
+					"tableFrom": "team_users",
+					"tableTo": "users",
+					"columnsFrom": ["user_id"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {
+				"team_users_team_id_user_id_pk": {
+					"name": "team_users_team_id_user_id_pk",
+					"columns": ["team_id", "user_id"]
+				}
+			},
+			"uniqueConstraints": {}
+		},
+		"public.team_members": {
+			"name": "team_members",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"team_id": {
+					"name": "team_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"name": {
+					"name": "name",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"archived": {
+					"name": "archived",
+					"type": "boolean",
+					"primaryKey": false,
+					"notNull": true,
+					"default": false
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"pending_sign_in": {
+					"name": "pending_sign_in",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"team_members_team_id_teams_id_fk": {
+					"name": "team_members_team_id_teams_id_fk",
+					"tableFrom": "team_members",
+					"tableTo": "teams",
+					"columnsFrom": ["team_id"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
+		},
+		"public.teams": {
+			"name": "teams",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"slug": {
+					"name": "slug",
+					"type": "citext",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"password": {
+					"name": "password",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"display_name": {
+					"name": "display_name",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"invite_code": {
+					"name": "invite_code",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"teams_slug_unique": {
+					"name": "teams_slug_unique",
+					"nullsNotDistinct": false,
+					"columns": ["slug"]
+				},
+				"teams_invite_code_unique": {
+					"name": "teams_invite_code_unique",
+					"nullsNotDistinct": false,
+					"columns": ["invite_code"]
+				}
+			}
+		},
+		"public.users": {
+			"name": "users",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"display_name": {
+					"name": "display_name",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
+		}
+	},
+	"enums": {
+		"public.team_user_role": {
+			"name": "team_user_role",
+			"schema": "public",
+			"values": ["owner", "admin", "editor"]
+		}
+	},
+	"schemas": {},
+	"sequences": {},
+	"_meta": {
+		"columns": {},
+		"schemas": {},
+		"tables": {}
+	}
+}
