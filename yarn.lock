@@ -7863,7 +7863,7 @@ __metadata:
     prettier: "npm:3.3.3"
     prettier-plugin-packagejson: "npm:2.5.3"
     turbo: "npm:2.2.3"
-    vercel: "npm:37.12.0"
+    vercel: "npm:37.12.1"
   languageName: unknown
   linkType: soft
 
@@ -11873,9 +11873,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vercel@npm:37.12.0":
-  version: 37.12.0
-  resolution: "vercel@npm:37.12.0"
+"vercel@npm:37.12.1":
+  version: 37.12.1
+  resolution: "vercel@npm:37.12.1"
   dependencies:
     "@vercel/build-utils": "npm:8.4.11"
     "@vercel/fun": "npm:1.1.0"
@@ -11892,7 +11892,7 @@ __metadata:
   bin:
     vc: dist/index.js
     vercel: dist/index.js
-  checksum: 10c0/7534435449440784b2ef81106aa9cfa5beaa6a9c78824e32d92f78b9c01ab83331a7076e5ead6ed250ca574a3d74c206189b966a4b5e01a1b3c87be88c3f09e5
+  checksum: 10c0/a718f511e9372aa172edadce12393f167850c53412a324c1ff08db6a622e330d4426d4286f6e545682a2f15f27f0d55539a97322b28c62ffc465666cfcda7aff
   languageName: node
   linkType: hard
 
