@@ -1511,7 +1511,7 @@ __metadata:
     next-plausible: "npm:3.12.2"
     next-themes: "npm:0.3.0"
     next-view-transitions: "npm:0.3.2"
-    nuqs: "npm:1.20.0"
+    nuqs: "npm:2.0.4"
     postcss: "npm:8.4.47"
     postcss-import: "npm:16.1.0"
     posthog-js: "npm:1.176.0"
@@ -9008,14 +9008,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nuqs@npm:1.20.0":
-  version: 1.20.0
-  resolution: "nuqs@npm:1.20.0"
+"nuqs@npm:2.0.4":
+  version: 2.0.4
+  resolution: "nuqs@npm:2.0.4"
   dependencies:
     mitt: "npm:^3.0.1"
   peerDependencies:
-    next: ">=13.4 <14.0.2 || ^14.0.3"
-  checksum: 10c0/8e1b67a96c6fda21023924db03b31f3eecf387097ee23685f35fbd1118ff202d1f8f3efd5e1e45bb5736e701a13da0d6cefc98cbe813315dc6462c2e38e2c93f
+    "@remix-run/react": ">= 2"
+    next: ">= 14.2.0"
+    react: ">= 18.2.0"
+    react-router-dom: ">= 6"
+  peerDependenciesMeta:
+    "@remix-run/react":
+      optional: true
+    next:
+      optional: true
+    react-router-dom:
+      optional: true
+  checksum: 10c0/5df69ad5676a4e00ba595f226c114106930b908de59305d25df415cd6772a323fc9fbe517b6fde972cc8ca90e0c3f758105c4b96283ccb66d51b479c78e6bd38
   languageName: node
   linkType: hard
 
