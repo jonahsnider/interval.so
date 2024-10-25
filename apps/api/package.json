@@ -50,7 +50,7 @@
 		"date-fns": "4.1.0",
 		"drizzle-kit": "0.26.2",
 		"drizzle-orm": "0.35.3",
-		"postgres": "3.4.4",
+		"postgres": "3.4.5",
 		"posthog-node": "4.2.1",
 		"reflect-metadata": "0.2.2",
 		"rxjs": "7.8.1",
