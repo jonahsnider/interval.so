@@ -83,24 +83,18 @@ export const teamManagers = pgTable(
 	}),
 );
 
-export const teamMembers = pgTable(
-	'team_members',
-	{
-		memberId: uuid('id').notNull().primaryKey().defaultRandom(),
-		teamId: uuid('team_id')
-			.notNull()
-			.references(() => teams.teamId),
-		name: text('name').notNull(),
+export const teamMembers = pgTable('team_members', {
+	memberId: uuid('id').notNull().primaryKey().defaultRandom(),
+	teamId: uuid('team_id')
+		.notNull()
+		.references(() => teams.teamId),
+	name: text('name').notNull(),
 
-		archived: boolean('archived').notNull().default(false),
-		createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+	archived: boolean('archived').notNull().default(false),
+	createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 
-		pendingSignIn: timestamp('pending_sign_in', { withTimezone: true }),
-	},
-	(teamMembers) => ({
-		unique: unique().on(teamMembers.teamId, teamMembers.name),
-	}),
-);
+	pendingSignIn: timestamp('pending_sign_in', { withTimezone: true }),
+});
 
 export const memberAttendance = pgTable(
 	'member_attendance',
