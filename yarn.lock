@@ -4773,15 +4773,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vercel/remix-builder@npm:2.2.12":
-  version: 2.2.12
-  resolution: "@vercel/remix-builder@npm:2.2.12"
+"@vercel/remix-builder@npm:2.2.13":
+  version: 2.2.13
+  resolution: "@vercel/remix-builder@npm:2.2.13"
   dependencies:
     "@vercel/error-utils": "npm:2.0.2"
     "@vercel/nft": "npm:0.27.3"
     "@vercel/static-config": "npm:3.0.0"
     ts-morph: "npm:12.0.0"
-  checksum: 10c0/fa17453d1d4baaca28e349609063d76e4e47e4ead267d82df0c1a109b94a767080cb8c62b603dffa2841d19d39cbb24a99a45e822432cbf29fc6b8234c32c22d
+  checksum: 10c0/f32feb540060d47ca06cc041b4395f53ae7356a372e1ba0c31709b680d5f302eae0bf3b92eab8ade8962d3537fe0ce8568b918bd9b085b708a198d576ba1aa0a
   languageName: node
   linkType: hard
 
@@ -7863,7 +7863,7 @@ __metadata:
     prettier: "npm:3.3.3"
     prettier-plugin-packagejson: "npm:2.5.3"
     turbo: "npm:2.2.3"
-    vercel: "npm:37.12.1"
+    vercel: "npm:37.13.0"
   languageName: unknown
   linkType: soft
 
@@ -11873,9 +11873,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vercel@npm:37.12.1":
-  version: 37.12.1
-  resolution: "vercel@npm:37.12.1"
+"vercel@npm:37.13.0":
+  version: 37.13.0
+  resolution: "vercel@npm:37.13.0"
   dependencies:
     "@vercel/build-utils": "npm:8.4.11"
     "@vercel/fun": "npm:1.1.0"
@@ -11885,14 +11885,14 @@ __metadata:
     "@vercel/node": "npm:3.2.23"
     "@vercel/python": "npm:4.3.1"
     "@vercel/redwood": "npm:2.1.8"
-    "@vercel/remix-builder": "npm:2.2.12"
+    "@vercel/remix-builder": "npm:2.2.13"
     "@vercel/ruby": "npm:2.1.0"
     "@vercel/static-build": "npm:2.5.33"
     chokidar: "npm:3.3.1"
   bin:
     vc: dist/index.js
     vercel: dist/index.js
-  checksum: 10c0/a718f511e9372aa172edadce12393f167850c53412a324c1ff08db6a622e330d4426d4286f6e545682a2f15f27f0d55539a97322b28c62ffc465666cfcda7aff
+  checksum: 10c0/1c0191a380aa36374ede1e80a9c160c4826af520aa3ac23e14c9c31bc9393782320dc0d63286595743784e2ff19349a0f8944cc2d057a6146e690d5cfa5fa2aa
   languageName: node
   linkType: hard
 
