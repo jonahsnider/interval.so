@@ -1432,7 +1432,7 @@ __metadata:
     "@simplewebauthn/types": "npm:10.0.0"
     "@swc/core": "npm:1.7.42"
     "@trpc/server": "npm:11.0.0-rc.604"
-    "@types/node": "npm:20.17.3"
+    "@types/node": "npm:20.17.5"
     "@types/pg": "npm:8.11.10"
     "@types/ws": "npm:^8"
     "@vinejs/vine": "npm:2.1.0"
@@ -1492,7 +1492,7 @@ __metadata:
     "@trpc/client": "npm:11.0.0-rc.604"
     "@trpc/next": "npm:11.0.0-rc.604"
     "@trpc/react-query": "npm:11.0.0-rc.604"
-    "@types/node": "npm:20.17.3"
+    "@types/node": "npm:20.17.5"
     "@types/react": "npm:18.3.12"
     "@types/react-dom": "npm:18.3.1"
     "@vercel/speed-insights": "npm:1.0.14"
@@ -4314,12 +4314,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:20.17.3":
-  version: 20.17.3
-  resolution: "@types/node@npm:20.17.3"
+"@types/node@npm:20.17.5":
+  version: 20.17.5
+  resolution: "@types/node@npm:20.17.5"
   dependencies:
     undici-types: "npm:~6.19.2"
-  checksum: 10c0/31e5076665e906fd5c04fbe840976947fdacb6e69613fde4b129778d54b7447999a96300d5c12f04cc177875b8d1e4c8f9f8fe604cab484efdfc1e33184a695b
+  checksum: 10c0/6e6bf7f84365a2ee95a369c48cdb47a93aae2b5029d19660183ba944d7bdbc193e54167076d64a3a11ff28e307b84c90eda350edf8e2029195d1fc27ae6055f4
   languageName: node
   linkType: hard
 
