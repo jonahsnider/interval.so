@@ -1441,7 +1441,7 @@ __metadata:
     date-fns: "npm:4.1.0"
     dotenv: "npm:16.4.5"
     drizzle-kit: "npm:0.27.0"
-    drizzle-orm: "npm:0.35.3"
+    drizzle-orm: "npm:0.36.0"
     execa: "npm:9.5.1"
     hot-hook: "patch:hot-hook@npm%3A0.3.0#~/.yarn/patches/hot-hook-npm-0.3.0-0c210b56e7.patch"
     pino-pretty: "npm:11.3.0"
@@ -6039,13 +6039,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"drizzle-orm@npm:0.35.3":
-  version: 0.35.3
-  resolution: "drizzle-orm@npm:0.35.3"
+"drizzle-orm@npm:0.36.0":
+  version: 0.36.0
+  resolution: "drizzle-orm@npm:0.36.0"
   peerDependencies:
     "@aws-sdk/client-rds-data": ">=3"
     "@cloudflare/workers-types": ">=3"
-    "@electric-sql/pglite": ">=0.1.1"
+    "@electric-sql/pglite": ">=0.2.0"
     "@libsql/client": ">=0.10.0"
     "@libsql/client-wasm": ">=0.10.0"
     "@neondatabase/serverless": ">=0.1"
@@ -6079,6 +6079,8 @@ __metadata:
     "@electric-sql/pglite":
       optional: true
     "@libsql/client":
+      optional: true
+    "@libsql/client-wasm":
       optional: true
     "@neondatabase/serverless":
       optional: true
@@ -6128,7 +6130,7 @@ __metadata:
       optional: true
     sqlite3:
       optional: true
-  checksum: 10c0/91b8beb6d5c34d8ee3c7d30116916d98f1f7e41988c609c9d766a3eec0fd9c7703a0e72e9e873ee887d16b274f571991a8e6e1afc51f496e5bce23398fc24c98
+  checksum: 10c0/a92cc827c41f2a0642546e004848f8dc220e9630f8e0913c35be3f83272d0d9d6384236d350115078adbd929764ca6194abd29eea50410bdec842f69389c047e
   languageName: node
   linkType: hard
 
