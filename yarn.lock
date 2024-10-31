@@ -1431,7 +1431,7 @@ __metadata:
     "@simplewebauthn/server": "npm:10.0.1"
     "@simplewebauthn/types": "npm:10.0.0"
     "@swc/core": "npm:1.7.40"
-    "@trpc/server": "npm:11.0.0-rc.601"
+    "@trpc/server": "npm:11.0.0-rc.604"
     "@types/node": "npm:20.17.3"
     "@types/pg": "npm:8.11.10"
     "@types/ws": "npm:^8"
@@ -1489,9 +1489,9 @@ __metadata:
     "@simplewebauthn/types": "npm:10.0.0"
     "@tanstack/react-query": "npm:5.59.16"
     "@tanstack/react-table": "npm:8.20.5"
-    "@trpc/client": "npm:11.0.0-rc.601"
-    "@trpc/next": "npm:11.0.0-rc.601"
-    "@trpc/react-query": "npm:11.0.0-rc.601"
+    "@trpc/client": "npm:11.0.0-rc.604"
+    "@trpc/next": "npm:11.0.0-rc.604"
+    "@trpc/react-query": "npm:11.0.0-rc.604"
     "@types/node": "npm:20.17.3"
     "@types/react": "npm:18.3.12"
     "@types/react-dom": "npm:18.3.1"
@@ -4082,24 +4082,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@trpc/client@npm:11.0.0-rc.601":
-  version: 11.0.0-rc.601
-  resolution: "@trpc/client@npm:11.0.0-rc.601"
+"@trpc/client@npm:11.0.0-rc.604":
+  version: 11.0.0-rc.604
+  resolution: "@trpc/client@npm:11.0.0-rc.604"
   peerDependencies:
-    "@trpc/server": 11.0.0-rc.601+5a96855d9
-  checksum: 10c0/dd2c7171eea5c067ff8fc50440004eca9b8a2bc0ae5a9442b1efccdfaf4643bdeb95e33d89dc8c84bd1dd149ae9619ff49e2014352782313be31f9c4a49ff95d
+    "@trpc/server": 11.0.0-rc.604+03cd991db
+  checksum: 10c0/42589626224b646b80934d3aae88aa637b617668321defd17641e0cc1897f602b80a160b03a28647514ae918465ca94b0d6f384a553df4e577532f669f9b20a5
   languageName: node
   linkType: hard
 
-"@trpc/next@npm:11.0.0-rc.601":
-  version: 11.0.0-rc.601
-  resolution: "@trpc/next@npm:11.0.0-rc.601"
+"@trpc/next@npm:11.0.0-rc.604":
+  version: 11.0.0-rc.604
+  resolution: "@trpc/next@npm:11.0.0-rc.604"
   peerDependencies:
     "@tanstack/react-query": ^5.59.15
-    "@trpc/client": 11.0.0-rc.601+5a96855d9
-    "@trpc/react-query": 11.0.0-rc.601+5a96855d9
-    "@trpc/server": 11.0.0-rc.601+5a96855d9
-    next: "*"
+    "@trpc/client": 11.0.0-rc.604+03cd991db
+    "@trpc/react-query": 11.0.0-rc.604+03cd991db
+    "@trpc/server": 11.0.0-rc.604+03cd991db
+    next: 15.0.2
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
   peerDependenciesMeta:
@@ -4107,27 +4107,27 @@ __metadata:
       optional: true
     "@trpc/react-query":
       optional: true
-  checksum: 10c0/5be5a63e593544b095a3525417e609530af97c98d9d360471b1dfbc4e8a37ba9f7dd187ae41f11a9da34e1dfb90f1cd3b7b67a050d8d7c26e07cd99017c9a5c2
+  checksum: 10c0/feedc4c50145ecc58e6021969ddc8b45ed091b2cdef5bc9d6663f3127e6f1c931fe45ce736a0968fbcbfbcd59b3e10ca00658b62de07f22fa5c5cc589c39c5cb
   languageName: node
   linkType: hard
 
-"@trpc/react-query@npm:11.0.0-rc.601":
-  version: 11.0.0-rc.601
-  resolution: "@trpc/react-query@npm:11.0.0-rc.601"
+"@trpc/react-query@npm:11.0.0-rc.604":
+  version: 11.0.0-rc.604
+  resolution: "@trpc/react-query@npm:11.0.0-rc.604"
   peerDependencies:
     "@tanstack/react-query": ^5.59.15
-    "@trpc/client": 11.0.0-rc.601+5a96855d9
-    "@trpc/server": 11.0.0-rc.601+5a96855d9
+    "@trpc/client": 11.0.0-rc.604+03cd991db
+    "@trpc/server": 11.0.0-rc.604+03cd991db
     react: ">=18.2.0"
     react-dom: ">=18.2.0"
-  checksum: 10c0/cde84e1397ed403bf5f24e9756ad94a0cfe1ffd228896b2dadd74f56d9171c6ef179ade31285bcf6f36f8274847fa96c5b7262943a276e01a523d5df6e589c2b
+  checksum: 10c0/ee6c6250d8c1b0bad24e63bf8ca10ac0517f947d19ddfaf7caca515b28e3e949045b6fff611523d1c608d1fb10a1384aa6d1b1033cb3fe9b3e29400d9a8256aa
   languageName: node
   linkType: hard
 
-"@trpc/server@npm:11.0.0-rc.601":
-  version: 11.0.0-rc.601
-  resolution: "@trpc/server@npm:11.0.0-rc.601"
-  checksum: 10c0/6817212a1fbc6a05af2b3e01e11a82b6d4fbe9a7084dc163d29c81a6bdaf1a5787b7d39dec4f009a169c781432f0615b5cd7d5b73dc6ed9958fc74ebd179c20d
+"@trpc/server@npm:11.0.0-rc.604":
+  version: 11.0.0-rc.604
+  resolution: "@trpc/server@npm:11.0.0-rc.604"
+  checksum: 10c0/2961cc0a0728c7857f45ab29a325d83a958d21a089dabd012a2bfff8551f2c54471ba26a4c903f56325f55fd2254decade8c93f2031db1b28ba20935fe94992f
   languageName: node
   linkType: hard
 
