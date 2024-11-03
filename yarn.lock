@@ -2603,7 +2603,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@radix-ui/react-dialog@npm:^1.1.1":
+"@radix-ui/react-dialog@npm:^1.1.2":
   version: 1.1.2
   resolution: "@radix-ui/react-dialog@npm:1.1.2"
   dependencies:
@@ -5460,17 +5460,17 @@ __metadata:
   linkType: hard
 
 "cmdk@npm:^1.0.0":
-  version: 1.0.1
-  resolution: "cmdk@npm:1.0.1"
+  version: 1.0.3
+  resolution: "cmdk@npm:1.0.3"
   dependencies:
-    "@radix-ui/react-dialog": "npm:^1.1.1"
+    "@radix-ui/react-dialog": "npm:^1.1.2"
     "@radix-ui/react-id": "npm:^1.1.0"
     "@radix-ui/react-primitive": "npm:^2.0.0"
     use-sync-external-store: "npm:^1.2.2"
   peerDependencies:
     react: ^18 || ^19 || ^19.0.0-rc
     react-dom: ^18 || ^19 || ^19.0.0-rc
-  checksum: 10c0/cd43cc1ab607d9e21bc21bd830d3cbfa5816922fe0f987ebe22fe19368a29b087314c257532c287d044f654f01e155425e357956da19b5e20c0ab095a2880ee0
+  checksum: 10c0/2593f289eba864fd8656b02ccc332c3ff23ea802b84f40fee52959a052bd9e4128a056ee5569b1cc28e09427bdce976cf0f5945589fc3860d2bba1962cc4d2e9
   languageName: node
   linkType: hard
 
