@@ -1509,7 +1509,7 @@ __metadata:
     mutative: "npm:1.0.11"
     next: "npm:14.2.16"
     next-plausible: "npm:3.12.3"
-    next-themes: "npm:0.4.1"
+    next-themes: "npm:0.4.3"
     next-view-transitions: "npm:0.3.2"
     nuqs: "npm:1.20.0"
     postcss: "npm:8.4.47"
@@ -8576,13 +8576,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next-themes@npm:0.4.1":
-  version: 0.4.1
-  resolution: "next-themes@npm:0.4.1"
+"next-themes@npm:0.4.3":
+  version: 0.4.3
+  resolution: "next-themes@npm:0.4.3"
   peerDependencies:
     react: ^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc
     react-dom: ^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc
-  checksum: 10c0/6ce1b11c3cc836755a130d8e668496cb8bb0e82a984fe7d8bbebd3a23668d8fa552a398898c22c76a341ffb9580d43f50bbe3bb7494f23f2e536fe670fb50f4e
+  checksum: 10c0/81dbe9efed2b10169e4ecd2ff59f3dedc091518c92a79354b863ccdcc444a061125de975af5c0c123ce9a1ebd7b20b05a1fdbfcf2aaeeb337fec03fe38fd8cb0
   languageName: node
   linkType: hard
 
