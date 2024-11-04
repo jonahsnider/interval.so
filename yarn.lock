@@ -1431,7 +1431,7 @@ __metadata:
     "@simplewebauthn/server": "npm:10.0.1"
     "@simplewebauthn/types": "npm:10.0.0"
     "@swc/core": "npm:1.7.42"
-    "@trpc/server": "npm:11.0.0-rc.604"
+    "@trpc/server": "npm:11.0.0-rc.608"
     "@types/node": "npm:20.17.6"
     "@types/pg": "npm:8.11.10"
     "@types/ws": "npm:^8"
@@ -1489,9 +1489,9 @@ __metadata:
     "@simplewebauthn/types": "npm:10.0.0"
     "@tanstack/react-query": "npm:5.59.19"
     "@tanstack/react-table": "npm:8.20.5"
-    "@trpc/client": "npm:11.0.0-rc.604"
-    "@trpc/next": "npm:11.0.0-rc.604"
-    "@trpc/react-query": "npm:11.0.0-rc.604"
+    "@trpc/client": "npm:11.0.0-rc.608"
+    "@trpc/next": "npm:11.0.0-rc.608"
+    "@trpc/react-query": "npm:11.0.0-rc.608"
     "@types/node": "npm:20.17.6"
     "@types/react": "npm:18.3.12"
     "@types/react-dom": "npm:18.3.1"
@@ -4082,23 +4082,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@trpc/client@npm:11.0.0-rc.604":
-  version: 11.0.0-rc.604
-  resolution: "@trpc/client@npm:11.0.0-rc.604"
+"@trpc/client@npm:11.0.0-rc.608":
+  version: 11.0.0-rc.608
+  resolution: "@trpc/client@npm:11.0.0-rc.608"
   peerDependencies:
-    "@trpc/server": 11.0.0-rc.604+03cd991db
-  checksum: 10c0/42589626224b646b80934d3aae88aa637b617668321defd17641e0cc1897f602b80a160b03a28647514ae918465ca94b0d6f384a553df4e577532f669f9b20a5
+    "@trpc/server": 11.0.0-rc.608+f75de97b3
+  checksum: 10c0/7e0b47e7d814fe70a2c44d6f33aebbd22f0cb903c7958618702be0035ca554f398eef9a1c3146e498b738884e7003a7adea936f4dfcfcd40f6311611cbb82dfb
   languageName: node
   linkType: hard
 
-"@trpc/next@npm:11.0.0-rc.604":
-  version: 11.0.0-rc.604
-  resolution: "@trpc/next@npm:11.0.0-rc.604"
+"@trpc/next@npm:11.0.0-rc.608":
+  version: 11.0.0-rc.608
+  resolution: "@trpc/next@npm:11.0.0-rc.608"
   peerDependencies:
     "@tanstack/react-query": ^5.59.15
-    "@trpc/client": 11.0.0-rc.604+03cd991db
-    "@trpc/react-query": 11.0.0-rc.604+03cd991db
-    "@trpc/server": 11.0.0-rc.604+03cd991db
+    "@trpc/client": 11.0.0-rc.608+f75de97b3
+    "@trpc/react-query": 11.0.0-rc.608+f75de97b3
+    "@trpc/server": 11.0.0-rc.608+f75de97b3
     next: 15.0.2
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
@@ -4107,27 +4107,27 @@ __metadata:
       optional: true
     "@trpc/react-query":
       optional: true
-  checksum: 10c0/feedc4c50145ecc58e6021969ddc8b45ed091b2cdef5bc9d6663f3127e6f1c931fe45ce736a0968fbcbfbcd59b3e10ca00658b62de07f22fa5c5cc589c39c5cb
+  checksum: 10c0/c498abb3b8810b9e0af089c8485b8082d061b072ff0d7cb4f5d6cff04ce5cc9ccb163e89617ee7196b71142a63fa5a7d2bb051ae3d9c7a859cffe467c742e8c8
   languageName: node
   linkType: hard
 
-"@trpc/react-query@npm:11.0.0-rc.604":
-  version: 11.0.0-rc.604
-  resolution: "@trpc/react-query@npm:11.0.0-rc.604"
+"@trpc/react-query@npm:11.0.0-rc.608":
+  version: 11.0.0-rc.608
+  resolution: "@trpc/react-query@npm:11.0.0-rc.608"
   peerDependencies:
     "@tanstack/react-query": ^5.59.15
-    "@trpc/client": 11.0.0-rc.604+03cd991db
-    "@trpc/server": 11.0.0-rc.604+03cd991db
+    "@trpc/client": 11.0.0-rc.608+f75de97b3
+    "@trpc/server": 11.0.0-rc.608+f75de97b3
     react: ">=18.2.0"
     react-dom: ">=18.2.0"
-  checksum: 10c0/ee6c6250d8c1b0bad24e63bf8ca10ac0517f947d19ddfaf7caca515b28e3e949045b6fff611523d1c608d1fb10a1384aa6d1b1033cb3fe9b3e29400d9a8256aa
+  checksum: 10c0/419164a23e5ef3cc8e722db4a1260b042196cccfc3738cb681d37d422271bc6bf50ab2247d2aaa2c2c098b0c04b7e1e0767f8baf917de14db9a01d1bd40f4e10
   languageName: node
   linkType: hard
 
-"@trpc/server@npm:11.0.0-rc.604":
-  version: 11.0.0-rc.604
-  resolution: "@trpc/server@npm:11.0.0-rc.604"
-  checksum: 10c0/2961cc0a0728c7857f45ab29a325d83a958d21a089dabd012a2bfff8551f2c54471ba26a4c903f56325f55fd2254decade8c93f2031db1b28ba20935fe94992f
+"@trpc/server@npm:11.0.0-rc.608":
+  version: 11.0.0-rc.608
+  resolution: "@trpc/server@npm:11.0.0-rc.608"
+  checksum: 10c0/4ad63bccf7a92fcce22d2ed3803e25b1324ca898d420fbe9d6a862a570e4dcd5e66958172432e65e87470ce0a12e154377d81042c8f41396bc1197b26ec4001d
   languageName: node
   linkType: hard
 
