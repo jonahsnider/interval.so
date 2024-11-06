@@ -1485,7 +1485,7 @@ __metadata:
     "@radix-ui/react-tabs": "npm:1.1.0"
     "@radix-ui/react-tooltip": "npm:1.1.2"
     "@sentry/nextjs": "npm:^8.15.0"
-    "@simplewebauthn/browser": "npm:10.0.0"
+    "@simplewebauthn/browser": "npm:11.0.0"
     "@simplewebauthn/types": "npm:10.0.0"
     "@tanstack/react-query": "npm:5.59.20"
     "@tanstack/react-table": "npm:8.20.5"
@@ -3821,12 +3821,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@simplewebauthn/browser@npm:10.0.0":
-  version: 10.0.0
-  resolution: "@simplewebauthn/browser@npm:10.0.0"
+"@simplewebauthn/browser@npm:11.0.0":
+  version: 11.0.0
+  resolution: "@simplewebauthn/browser@npm:11.0.0"
   dependencies:
-    "@simplewebauthn/types": "npm:^10.0.0"
-  checksum: 10c0/da7764df8c5d3d4201ace4847f89416fbbfac7db254c94530ffc7e8ed3c4530f013950e074f5eae83eeb9ac9c1323f25813487c21c7d4827da485e739b8c6261
+    "@simplewebauthn/types": "npm:^11.0.0"
+  checksum: 10c0/c3d1886b971af38d1aebb883b7901e73aaf8b433750df7e00e5881e932431263d4a5862df70faae237acc519aeb6419ef2adda5c661596af1dacd153ad6633da
   languageName: node
   linkType: hard
 
@@ -3851,6 +3851,13 @@ __metadata:
   version: 10.0.0
   resolution: "@simplewebauthn/types@npm:10.0.0"
   checksum: 10c0/364dd5add9001ef17e2b54dd0f54ff1901cc2c455b195fcb7bf2108eec792709bd2747c5095b69efbc834c82a8ec602ef7362564e214c482251fc3f9c0b16f41
+  languageName: node
+  linkType: hard
+
+"@simplewebauthn/types@npm:^11.0.0":
+  version: 11.0.0
+  resolution: "@simplewebauthn/types@npm:11.0.0"
+  checksum: 10c0/ae2ef16ed62aaae51f1ce98d16c5a4b1f0939679ff2af4d70631138291f67ed285ed735d8dc6f163784d4e621ba5cd05badfb7b1ec8d96b47fe05dd7191027dd
   languageName: node
   linkType: hard
 
