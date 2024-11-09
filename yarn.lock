@@ -1508,7 +1508,7 @@ __metadata:
     fuse.js: "npm:7.0.0"
     mutative: "npm:1.0.11"
     next: "npm:14.2.17"
-    next-plausible: "npm:3.12.3"
+    next-plausible: "npm:3.12.4"
     next-themes: "npm:0.4.3"
     next-view-transitions: "npm:0.3.2"
     nuqs: "npm:1.20.0"
@@ -8565,14 +8565,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next-plausible@npm:3.12.3":
-  version: 3.12.3
-  resolution: "next-plausible@npm:3.12.3"
+"next-plausible@npm:3.12.4":
+  version: 3.12.4
+  resolution: "next-plausible@npm:3.12.4"
   peerDependencies:
     next: "^11.1.0 || ^12.0.0 || ^13.0.0 || ^14.0.0 || ^15.0.0 "
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 10c0/828eb49fed14cc21f4c3458ab9a98870bf30364663849bd8369b06a71f42cb00651eb2701cf575216de1017507c007cb8f57fb9cb1d73cebbb3a4d72becae479
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: 10c0/70f1efd90ed5dc63089cd916e630883a62a03ec3319fde0b3a2a2303704a5e60b1843cf9f821e1b918514e3a9d5b0594eb8af6925a01132cb8705219db3bc99a
   languageName: node
   linkType: hard
 
