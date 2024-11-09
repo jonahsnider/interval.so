@@ -66,11 +66,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/auth@npm:9.2.3":
-  version: 9.2.3
-  resolution: "@adonisjs/auth@npm:9.2.3"
+"@adonisjs/auth@npm:9.2.4":
+  version: 9.2.4
+  resolution: "@adonisjs/auth@npm:9.2.4"
   dependencies:
     "@adonisjs/presets": "npm:^2.5.1"
+    "@poppinss/utils": "npm:^6.8.3"
     basic-auth: "npm:^2.0.1"
   peerDependencies:
     "@adonisjs/core": ^6.11.0
@@ -90,7 +91,7 @@ __metadata:
       optional: true
     "@japa/plugin-adonisjs":
       optional: true
-  checksum: 10c0/0bca5df20b08ad2a67798029a5af8b408fe1546ad26c18f642da3c1cb3e69b1c27d52e9e3c53dae33e8af630b2e4b5a6d5313a5d983b7dc85fdc93f47bb77ae2
+  checksum: 10c0/9c07858477d8703a818baf1e32b185c39e84de87f8f9da761dff963fa25340d828ff901359b1477ef21ed283327fad654c6b8eed106eb068c20ae5fe99f6f79b
   languageName: node
   linkType: hard
 
@@ -1416,7 +1417,7 @@ __metadata:
   resolution: "@interval.so/api@workspace:apps/api"
   dependencies:
     "@adonisjs/assembler": "npm:7.8.2"
-    "@adonisjs/auth": "npm:9.2.3"
+    "@adonisjs/auth": "npm:9.2.4"
     "@adonisjs/bouncer": "npm:3.1.3"
     "@adonisjs/core": "npm:6.14.1"
     "@adonisjs/cors": "npm:2.2.1"
