@@ -1481,7 +1481,7 @@ __metadata:
     date-fns: "npm:4.1.0"
     dotenv: "npm:16.4.5"
     drizzle-kit: "npm:0.28.1"
-    drizzle-orm: "npm:0.36.1"
+    drizzle-orm: "npm:0.36.2"
     execa: "npm:9.5.1"
     hot-hook: "patch:hot-hook@npm%3A0.3.0#~/.yarn/patches/hot-hook-npm-0.3.0-0c210b56e7.patch"
     pino-pretty: "npm:13.0.0"
@@ -6361,9 +6361,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"drizzle-orm@npm:0.36.1":
-  version: 0.36.1
-  resolution: "drizzle-orm@npm:0.36.1"
+"drizzle-orm@npm:0.36.2":
+  version: 0.36.2
+  resolution: "drizzle-orm@npm:0.36.2"
   peerDependencies:
     "@aws-sdk/client-rds-data": ">=3"
     "@cloudflare/workers-types": ">=3"
@@ -6384,7 +6384,7 @@ __metadata:
     "@xata.io/client": "*"
     better-sqlite3: ">=7"
     bun-types: "*"
-    expo-sqlite: ">=13.2.0"
+    expo-sqlite: ">=14.0.0"
     knex: "*"
     kysely: "*"
     mysql2: ">=2"
@@ -6452,7 +6452,7 @@ __metadata:
       optional: true
     sqlite3:
       optional: true
-  checksum: 10c0/36e823bc7aeab68c55b98ba6ab41aaaa5cc2ea19210b757215633743cb4de04f277bca06a6eea6c88ad7f184658be940b4aa0ce43990219b35aa867163ae65e3
+  checksum: 10c0/ffbdb46a9f0b99c2bf54c8fafc1023d8a28931b34075999219d32663e663193d4545f93db7ee222fa06228556058d57f5d0e2691f937033cda97b5139d6e9320
   languageName: node
   linkType: hard
 
