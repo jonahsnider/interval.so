@@ -1481,7 +1481,7 @@ __metadata:
     date-fns: "npm:4.1.0"
     dotenv: "npm:16.4.5"
     drizzle-kit: "npm:0.28.1"
-    drizzle-orm: "npm:0.36.2"
+    drizzle-orm: "npm:0.36.3"
     execa: "npm:9.5.1"
     hot-hook: "patch:hot-hook@npm%3A0.3.0#~/.yarn/patches/hot-hook-npm-0.3.0-0c210b56e7.patch"
     pino-pretty: "npm:13.0.0"
@@ -6361,9 +6361,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"drizzle-orm@npm:0.36.2":
-  version: 0.36.2
-  resolution: "drizzle-orm@npm:0.36.2"
+"drizzle-orm@npm:0.36.3":
+  version: 0.36.3
+  resolution: "drizzle-orm@npm:0.36.3"
   peerDependencies:
     "@aws-sdk/client-rds-data": ">=3"
     "@cloudflare/workers-types": ">=3"
@@ -6452,7 +6452,7 @@ __metadata:
       optional: true
     sqlite3:
       optional: true
-  checksum: 10c0/ffbdb46a9f0b99c2bf54c8fafc1023d8a28931b34075999219d32663e663193d4545f93db7ee222fa06228556058d57f5d0e2691f937033cda97b5139d6e9320
+  checksum: 10c0/a0029a7aaef80f443f122a2cd30ee0c2bc5bdf02f7e80dfecb2b8563fa3e36d7d34e2f64d4560b5012edf4461fd5d3585c7d6abc9f7a7c603c424c98fa1a735f
   languageName: node
   linkType: hard
 
