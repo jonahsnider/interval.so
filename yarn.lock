@@ -145,9 +145,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/core@npm:6.14.1":
-  version: 6.14.1
-  resolution: "@adonisjs/core@npm:6.14.1"
+"@adonisjs/core@npm:6.15.0":
+  version: 6.15.0
+  resolution: "@adonisjs/core@npm:6.15.0"
   dependencies:
     "@adonisjs/ace": "npm:^13.3.0"
     "@adonisjs/application": "npm:^8.3.1"
@@ -156,16 +156,16 @@ __metadata:
     "@adonisjs/encryption": "npm:^6.0.2"
     "@adonisjs/env": "npm:^6.1.0"
     "@adonisjs/events": "npm:^9.0.2"
-    "@adonisjs/fold": "npm:^10.1.2"
+    "@adonisjs/fold": "npm:^10.1.3"
     "@adonisjs/hash": "npm:^9.0.5"
     "@adonisjs/health": "npm:^2.0.0"
     "@adonisjs/http-server": "npm:^7.2.5"
-    "@adonisjs/logger": "npm:^6.0.3"
+    "@adonisjs/logger": "npm:^6.0.4"
     "@adonisjs/repl": "npm:^4.0.1"
     "@antfu/install-pkg": "npm:^0.4.1"
     "@paralleldrive/cuid2": "npm:^2.2.2"
     "@poppinss/colors": "npm:^4.1.3"
-    "@poppinss/dumper": "npm:^0.4.2"
+    "@poppinss/dumper": "npm:^0.6.1"
     "@poppinss/macroable": "npm:^1.0.3"
     "@poppinss/utils": "npm:^6.8.3"
     "@sindresorhus/is": "npm:^7.0.1"
@@ -196,7 +196,7 @@ __metadata:
       optional: true
   bin:
     adonis-kit: build/toolkit/main.js
-  checksum: 10c0/db84c87790a8b14a3cf6948d75cd4b8b2269f0bbb416ba3d75523863ac64740bd276b1cac0820319cd4312091592f98485d0ff33457cb3949d504dd2c3422805
+  checksum: 10c0/036067986bdcc0c4b69bcc1ade5d0f80a1d7b5ce3154fdf22e2cfa45468af49522532ced8ae24a1bc9e79e88d3051f49097ea46312a9569bb2378a204b5514b1
   languageName: node
   linkType: hard
 
@@ -244,12 +244,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/fold@npm:^10.1.2":
-  version: 10.1.2
-  resolution: "@adonisjs/fold@npm:10.1.2"
+"@adonisjs/fold@npm:^10.1.3":
+  version: 10.1.3
+  resolution: "@adonisjs/fold@npm:10.1.3"
   dependencies:
-    "@poppinss/utils": "npm:^6.7.3"
-  checksum: 10c0/4f6a5260afc7e135e63741315212bb8d48a621da998b61cdcdbf5dd8dc11163392b7226c0c9021151dcb1da7e7a341bc37a3b4769f8d8c843e14d659da9c679c
+    "@poppinss/utils": "npm:^6.8.3"
+  checksum: 10c0/7040ec49c6cce5cf8e481fa800583f083fd4a84187e05c3a3b121daa88043fe7c1dfc96fc8ff46d007be01b0abc90a7c200a1992abdaba0f223835394951ca0e
   languageName: node
   linkType: hard
 
@@ -316,14 +316,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/logger@npm:^6.0.3":
-  version: 6.0.3
-  resolution: "@adonisjs/logger@npm:6.0.3"
+"@adonisjs/logger@npm:^6.0.4":
+  version: 6.0.4
+  resolution: "@adonisjs/logger@npm:6.0.4"
   dependencies:
     "@poppinss/utils": "npm:^6.7.3"
     abstract-logging: "npm:^2.0.1"
     pino: "npm:^8.20.0"
-  checksum: 10c0/76577b22b5b9daf235febe3932df69fceffc55cf23715d20d08798cc3f02b73fe9bba027615d5137bf5bcaca0850c406106999147067f228b5c49903458d26a1
+  peerDependencies:
+    pino-pretty: ^11.0.0 || ^12.0.0
+  peerDependenciesMeta:
+    pino-pretty:
+      optional: true
+  checksum: 10c0/c12072311abd4b14aa0e5d5fa80d3dfaa38df883263890113fb49fdd4281e0b8702402678ec3d404f1c7d307611c9f769fbb0bb343fb27411062c740d646ef68
   languageName: node
   linkType: hard
 
@@ -1458,7 +1463,7 @@ __metadata:
     "@adonisjs/assembler": "npm:7.8.2"
     "@adonisjs/auth": "npm:9.2.4"
     "@adonisjs/bouncer": "npm:3.1.4"
-    "@adonisjs/core": "npm:6.14.1"
+    "@adonisjs/core": "npm:6.15.0"
     "@adonisjs/cors": "npm:2.2.1"
     "@adonisjs/redis": "npm:9.1.0"
     "@adonisjs/session": "npm:7.5.0"
@@ -2492,14 +2497,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@poppinss/dumper@npm:^0.4.2":
-  version: 0.4.2
-  resolution: "@poppinss/dumper@npm:0.4.2"
+"@poppinss/dumper@npm:^0.6.1":
+  version: 0.6.1
+  resolution: "@poppinss/dumper@npm:0.6.1"
   dependencies:
     "@poppinss/colors": "npm:^4.1.3"
     "@sindresorhus/is": "npm:^7.0.1"
     supports-color: "npm:^9.4.0"
-  checksum: 10c0/b49d89d72808c5ec774146baea528018a9243793ceadb352b56dbd1f4222a12b9da166e24e942e2c9d02115ba2be5756e2356f465bc9abc92a522a4229b72c88
+  checksum: 10c0/91d9aab996a654cc0953b3dd268c44841e78ca7b18b1f02310a997768ea7a81a40c04794cb66fb6feda037023588f4661500d15d9f2f95d3f295a74bafec7869
   languageName: node
   linkType: hard
 
