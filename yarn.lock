@@ -1549,7 +1549,7 @@ __metadata:
     convert: "npm:5.6.1"
     date-fns: "npm:4.1.0"
     dotenv: "npm:16.4.5"
-    framer-motion: "npm:11.11.17"
+    framer-motion: "npm:11.12.0"
     fuse.js: "npm:7.0.0"
     mutative: "npm:1.1.0"
     next: "npm:14.2.18"
@@ -7467,9 +7467,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:11.11.17":
-  version: 11.11.17
-  resolution: "framer-motion@npm:11.11.17"
+"framer-motion@npm:11.12.0":
+  version: 11.12.0
+  resolution: "framer-motion@npm:11.12.0"
   dependencies:
     tslib: "npm:^2.4.0"
   peerDependencies:
@@ -7483,7 +7483,7 @@ __metadata:
       optional: true
     react-dom:
       optional: true
-  checksum: 10c0/4ec88a568e636c5409a238668770a7d0237270b4b58fdf27d0cab1f9094a4fdd22d25d827a1bba51e52f01e9d2db65544b32a5feb8eff9a63c8798f2e64677d0
+  checksum: 10c0/9d1cfa356f5230b9bbed2107cbef50d38a7afa4c9d03fc7820c8d7bd8be697046af0e5b45f01d926c6b784f789858ad683afb361073271f826e63f29af4b05fb
   languageName: node
   linkType: hard
 
