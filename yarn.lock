@@ -145,9 +145,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/core@npm:6.15.1":
-  version: 6.15.1
-  resolution: "@adonisjs/core@npm:6.15.1"
+"@adonisjs/core@npm:6.15.2":
+  version: 6.15.2
+  resolution: "@adonisjs/core@npm:6.15.2"
   dependencies:
     "@adonisjs/ace": "npm:^13.3.0"
     "@adonisjs/application": "npm:^8.3.1"
@@ -179,7 +179,7 @@ __metadata:
     youch-terminal: "npm:^2.2.3"
   peerDependencies:
     "@adonisjs/assembler": ^7.8.0
-    "@vinejs/vine": ^2.1.0
+    "@vinejs/vine": ^2.1.0 || ^3.0.0
     argon2: ^0.31.2 || ^0.41.0
     bcrypt: ^5.1.1
     edge.js: ^6.2.0
@@ -196,7 +196,7 @@ __metadata:
       optional: true
   bin:
     adonis-kit: build/toolkit/main.js
-  checksum: 10c0/7ae94767e76b655b91ebbb5c64734ac3304209319af45ed60648c497deff1cfc27df9e9824070b31fa995ff5f0aee4ed9b0d5dea297cb8be8f5e708d62403846
+  checksum: 10c0/99f78b4da376c444bc18782097a5ae032e678028cc6c86fa458d5d8d1b8d8cb5e2058671e9b304fbafea7aa59522f8c0dda9a15a16d38045deb3a0b2dada8ae9
   languageName: node
   linkType: hard
 
@@ -1468,7 +1468,7 @@ __metadata:
     "@adonisjs/assembler": "npm:7.8.2"
     "@adonisjs/auth": "npm:9.2.4"
     "@adonisjs/bouncer": "npm:3.1.4"
-    "@adonisjs/core": "npm:6.15.1"
+    "@adonisjs/core": "npm:6.15.2"
     "@adonisjs/cors": "npm:2.2.1"
     "@adonisjs/redis": "npm:9.1.0"
     "@adonisjs/session": "npm:7.5.0"
