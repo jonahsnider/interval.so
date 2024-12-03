@@ -67,7 +67,7 @@
 		"@types/node": "20.17.9",
 		"@types/pg": "8.11.10",
 		"@types/ws": "^8",
-		"dotenv": "16.4.5",
+		"dotenv": "16.4.6",
 		"execa": "9.5.1",
 		"hot-hook": "patch:hot-hook@npm%3A0.3.0#~/.yarn/patches/hot-hook-npm-0.3.0-0c210b56e7.patch",
 		"pino-pretty": "13.0.0",
