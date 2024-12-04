@@ -1560,7 +1560,7 @@ __metadata:
     next: "npm:14.2.19"
     next-plausible: "npm:3.12.4"
     next-themes: "npm:0.4.3"
-    next-view-transitions: "npm:0.3.2"
+    next-view-transitions: "npm:0.3.4"
     nuqs: "npm:1.20.0"
     postcss: "npm:8.4.49"
     postcss-import: "npm:16.1.0"
@@ -9084,14 +9084,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next-view-transitions@npm:0.3.2":
-  version: 0.3.2
-  resolution: "next-view-transitions@npm:0.3.2"
+"next-view-transitions@npm:0.3.4":
+  version: 0.3.4
+  resolution: "next-view-transitions@npm:0.3.4"
   peerDependencies:
-    next: ^14.0.0
+    next: ">=14.0.0"
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: 10c0/b7e2869fb586cb40da1e3dee032bdd377039e748464e48a2fdf6a74284a0192e4a1100de2949e6c936513ebef1aff74f3b1808494800d216dba10e24d7cc1aa0
+  checksum: 10c0/8a566f66de2e98e7c4a5c2ad27bc4121d0042d1a9bc0af350b8568595b4df612d453cd6338cd869ecf98fa7e13692185c4452ce991f22609ded5b2213ceb89d3
   languageName: node
   linkType: hard
 
