@@ -23,7 +23,7 @@
 	},
 	"packageManager": "yarn@4.5.3",
 	"engines": {
-		"node": "20.x"
+		"node": "22.x"
 	},
 	"trustedDependencies": [
 		"@biomejs/biome"
