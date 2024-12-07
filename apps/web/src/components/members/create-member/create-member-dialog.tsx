@@ -8,22 +8,21 @@ import { trpc } from '@/src/trpc/trpc-client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
-import { type PropsWithChildren, useEffect, useState } from 'react';
+import { type PropsWithChildren, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import type { z } from 'zod';
 
 const formSchema = TeamMemberSchema.pick({ name: true });
 
-function CreateMemberDialogContent({
-	team,
-	closeDialog,
-	open,
-}: {
-	team: Pick<TeamSchema, 'slug'>;
-	closeDialog: () => void;
-	open: boolean;
-}) {
+type Props = PropsWithChildren<
+	{
+		team: Pick<TeamSchema, 'slug'>;
+	} & ButtonProps
+>;
+
+export function CreateMemberDialog({ team, children, ...buttonProps }: Props) {
+	const [open, setOpenRaw] = useState(false);
 	const form = useForm({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -32,18 +31,19 @@ function CreateMemberDialogContent({
 	});
 	const [toastId, setToastId] = useState<string | number | undefined>();
 
-	useEffect(() => {
+	const setOpen = (open: boolean) => {
 		if (!open) {
 			form.reset();
 		}
-	}, [open, form]);
+		setOpenRaw(open);
+	};
 
 	const mutation = trpc.teams.members.create.useMutation({
 		onMutate: () => {
 			setToastId(toast.loading('Creating member...'));
 		},
 		onSuccess: () => {
-			closeDialog();
+			setOpen(false);
 			toast.success('A new member was created', { id: toastId });
 		},
 		onError: (error) => {
@@ -59,55 +59,41 @@ function CreateMemberDialogContent({
 	};
 
 	return (
-		<DialogContent>
-			<Form {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)} className='grid gap-4'>
-					<DialogHeader>
-						<DialogTitle>Add member</DialogTitle>
-					</DialogHeader>
-					<FormField
-						control={form.control}
-						name='name'
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Name</FormLabel>
-								<FormControl>
-									<Input className='max-w-80' type='text' autoComplete='off' {...field} placeholder='Member name' />
-								</FormControl>
-
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-
-					<DialogFooter>
-						<Button type='submit' disabled={mutation.isPending}>
-							Add
-						</Button>
-					</DialogFooter>
-				</form>
-			</Form>
-		</DialogContent>
-	);
-}
-
-type Props = PropsWithChildren<
-	{
-		team: Pick<TeamSchema, 'slug'>;
-	} & ButtonProps
->;
-
-export function CreateMemberDialog({ team, children, ...buttonProps }: Props) {
-	const [open, setOpen] = useState(false);
-
-	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild={true}>
 				<Button variant='outline' disabled={open} {...buttonProps}>
 					{children}
 				</Button>
 			</DialogTrigger>
-			<CreateMemberDialogContent team={team} closeDialog={() => setOpen(false)} open={open} />
+			<DialogContent>
+				<Form {...form}>
+					<form onSubmit={form.handleSubmit(onSubmit)} className='grid gap-4'>
+						<DialogHeader>
+							<DialogTitle>Add member</DialogTitle>
+						</DialogHeader>
+						<FormField
+							control={form.control}
+							name='name'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Name</FormLabel>
+									<FormControl>
+										<Input className='max-w-80' type='text' autoComplete='off' {...field} placeholder='Member name' />
+									</FormControl>
+
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
+						<DialogFooter>
+							<Button type='submit' disabled={mutation.isPending}>
+								Add
+							</Button>
+						</DialogFooter>
+					</form>
+				</Form>
+			</DialogContent>
 		</Dialog>
 	);
 }
