@@ -15,8 +15,6 @@ import { SentryIdentityProvider } from '../providers/sentry-identity-provider';
 import { TrpcProvider } from '../providers/trpc-provider';
 import { siteMetadata } from '../site-metadata';
 
-export const runtime = 'edge';
-
 export const metadata: Metadata = {
 	title: {
 		absolute: siteMetadata.siteName,
