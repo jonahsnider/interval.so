@@ -804,13 +804,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@date-fns/tz@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "@date-fns/tz@npm:1.2.0"
-  checksum: 10c0/411e9d4303b10951f6fd0189d18fb845f0d934a575df2176bc10daf664282c765fb6b057a977e446bbb1229151d89e7788978600a019f1fc24b5c75276d496bd
-  languageName: node
-  linkType: hard
-
 "@drizzle-team/brocli@npm:^0.10.2":
   version: 0.10.2
   resolution: "@drizzle-team/brocli@npm:0.10.2"
@@ -1586,7 +1579,7 @@ __metadata:
     posthog-js: "npm:1.215.4"
     radix-themes-tw: "npm:0.2.3"
     react: "npm:19.0.0"
-    react-day-picker: "npm:9.4.2"
+    react-day-picker: "npm:8.10.1"
     react-dom: "npm:19.0.0"
     react-error-boundary: "npm:4.1.2"
     react-hook-form: "npm:7.54.0"
@@ -6597,7 +6590,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:4.1.0, date-fns@npm:^4.1.0":
+"date-fns@npm:4.1.0":
   version: 4.1.0
   resolution: "date-fns@npm:4.1.0"
   checksum: 10c0/b79ff32830e6b7faa009590af6ae0fb8c3fd9ffad46d930548fbb5acf473773b4712ae887e156ba91a7b3dc30591ce0f517d69fd83bd9c38650fdc03b4e0bac8
@@ -10872,15 +10865,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-day-picker@npm:9.4.2":
-  version: 9.4.2
-  resolution: "react-day-picker@npm:9.4.2"
-  dependencies:
-    "@date-fns/tz": "npm:^1.2.0"
-    date-fns: "npm:^4.1.0"
+"react-day-picker@npm:8.10.1":
+  version: 8.10.1
+  resolution: "react-day-picker@npm:8.10.1"
   peerDependencies:
-    react: ">=16.8.0"
-  checksum: 10c0/afd04c4056536e1f26596f3fd9903bd1031bc47491374fb35d815be225a2ac3f4c2e9f34a8c824fa0fb1634f473d9227085a4ccb9fc344fff22bd3b997184073
+    date-fns: ^2.28.0 || ^3.0.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 10c0/a0ff28c4b61b3882e6a825b19e5679e2fdf3256cf1be8eb0a0c028949815c1ae5a6561474c2c19d231c010c8e0e0b654d3a322610881e0655abca05a2e03d9df
   languageName: node
   linkType: hard
 
