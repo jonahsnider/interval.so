@@ -7,6 +7,7 @@ import PlausibleProvider from 'next-plausible';
 import { ViewTransitions } from 'next-view-transitions';
 import { Inter, Playfair_Display } from 'next/font/google';
 import '../globals.css';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { PostHogIdentityProvider } from '../providers/post-hog-identity-provider';
 import PostHogPageView from '../providers/post-hog-page-view';
 import { CsPostHogProvider } from '../providers/post-hog-provider';
@@ -70,20 +71,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 							playfairDisplay.variable,
 						)}
 					>
-						<PostHogPageView />
+						<NuqsAdapter>
+							<PostHogPageView />
 
-						<TrpcProvider>
-							<TooltipProvider>
-								<PostHogIdentityProvider>
-									<SentryIdentityProvider>
-										<PostHogTeamIdProvider>{children}</PostHogTeamIdProvider>
-									</SentryIdentityProvider>
-								</PostHogIdentityProvider>
-							</TooltipProvider>
-						</TrpcProvider>
+							<TrpcProvider>
+								<TooltipProvider>
+									<PostHogIdentityProvider>
+										<SentryIdentityProvider>
+											<PostHogTeamIdProvider>{children}</PostHogTeamIdProvider>
+										</SentryIdentityProvider>
+									</PostHogIdentityProvider>
+								</TooltipProvider>
+							</TrpcProvider>
 
-						<Toaster />
-						<SpeedInsights />
+							<Toaster />
+							<SpeedInsights />
+						</NuqsAdapter>
 					</body>
 				</CsPostHogProvider>
 			</html>
