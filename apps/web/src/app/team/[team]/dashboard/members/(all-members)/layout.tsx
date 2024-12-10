@@ -5,13 +5,17 @@ import { PlusIcon } from '@heroicons/react/16/solid';
 import type { PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren<{
-	params: {
+	params: Promise<{
 		team: string;
-	};
+	}>;
 }>;
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export
-export default function ManagerMembersPageLayout({ children, params }: Props) {
+export default async function ManagerMembersPageLayout(props: Props) {
+	const params = await props.params;
+
+	const { children } = props;
+
 	const team = { slug: params.team };
 
 	return (

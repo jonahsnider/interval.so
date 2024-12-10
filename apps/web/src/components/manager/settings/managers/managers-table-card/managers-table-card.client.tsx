@@ -85,7 +85,6 @@ function SelectItemRole({ managerRole, destructive }: { managerRole: TeamManager
 	return (
 		<SelectItem
 			value={managerRole}
-			role='checkbox'
 			className={clsx({
 				'text-destructive focus:text-destructive focus:bg-destructive/10': destructive,
 			})}

@@ -7,8 +7,8 @@ import PlausibleProvider from 'next-plausible';
 import { ViewTransitions } from 'next-view-transitions';
 import { Inter, Playfair_Display } from 'next/font/google';
 import '../globals.css';
-import dynamic from 'next/dynamic';
 import { PostHogIdentityProvider } from '../providers/post-hog-identity-provider';
+import PostHogPageView from '../providers/post-hog-page-view';
 import { CsPostHogProvider } from '../providers/post-hog-provider';
 import { PostHogTeamIdProvider } from '../providers/post-hog-team-id-provider';
 import { SentryIdentityProvider } from '../providers/sentry-identity-provider';
@@ -53,10 +53,6 @@ const playfairDisplay = Playfair_Display({
 	display: 'swap',
 });
 const inter = Inter({ subsets: ['latin'], weight: 'variable', variable: '--font-inter', display: 'swap' });
-
-const PostHogPageView = dynamic(() => import('../providers/post-hog-page-view'), {
-	ssr: false,
-});
 
 // biome-ignore lint/style/noDefaultExport: This has to be a default export
 export default function RootLayout({ children }: { children: React.ReactNode }) {

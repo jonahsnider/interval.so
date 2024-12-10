@@ -12,7 +12,11 @@ type Props = PropsWithChildren<{
 }>;
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export
-export default function ManagerDashboardLayout({ children, params }: Props) {
+export default async function ManagerDashboardLayout(props: Props) {
+	const params = await props.params;
+
+	const { children } = props;
+
 	const team = { slug: params.team };
 
 	return (

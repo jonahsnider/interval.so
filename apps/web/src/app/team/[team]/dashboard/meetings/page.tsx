@@ -4,14 +4,16 @@ import { toTimeFilter } from '@/src/components/manager/period-select/duration-sl
 import type { SearchParams } from 'nuqs/parsers';
 
 type Props = {
-	params: {
+	params: Promise<{
 		team: string;
-	};
+	}>;
 	searchParams: SearchParams;
 };
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export
-export default function ManagerMeetingsPage({ params, searchParams }: Props) {
+export default async function ManagerMeetingsPage(props: Props) {
+	const searchParams = await props.searchParams;
+	const params = await props.params;
 	const parsedSearchParams = searchParamCache.parse(searchParams);
 	const timeFilter = toTimeFilter(parsedSearchParams);
 
