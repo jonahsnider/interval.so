@@ -96,13 +96,13 @@ export function ThemeSelect() {
 			</DropdownMenuTrigger>
 			<DropdownMenuContent>
 				<DropdownMenuGroup>
-					<DropdownMenuCheckboxItem checked={theme === 'light'} onClick={() => setTheme('light')} role='checkbox'>
+					<DropdownMenuCheckboxItem checked={theme === 'light'} onClick={() => setTheme('light')}>
 						Light
 					</DropdownMenuCheckboxItem>
-					<DropdownMenuCheckboxItem checked={theme === 'dark'} onClick={() => setTheme('dark')} role='checkbox'>
+					<DropdownMenuCheckboxItem checked={theme === 'dark'} onClick={() => setTheme('dark')}>
 						Dark
 					</DropdownMenuCheckboxItem>
-					<DropdownMenuCheckboxItem checked={theme === 'system'} onClick={() => setTheme('system')} role='checkbox'>
+					<DropdownMenuCheckboxItem checked={theme === 'system'} onClick={() => setTheme('system')}>
 						System
 					</DropdownMenuCheckboxItem>
 				</DropdownMenuGroup>

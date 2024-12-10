@@ -14,7 +14,11 @@ type Props = PropsWithChildren<{
 }>;
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export
-export default async function TeamAttendanceLayout({ children, params }: Props) {
+export default async function TeamAttendanceLayout(props: Props) {
+	const params = await props.params;
+
+	const { children } = props;
+
 	let displayName: string;
 	try {
 		displayName = await trpcServer.teams.settings.getDisplayName.query({ slug: params.team });

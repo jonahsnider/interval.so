@@ -26,7 +26,7 @@ function AuthedHomePage() {
 export default async function HomePage() {
 	noStore();
 
-	const userCookies = cookies();
+	const userCookies = await cookies();
 
 	try {
 		// The user can't be signed in if they don't have a session cookie

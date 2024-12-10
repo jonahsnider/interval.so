@@ -4,15 +4,17 @@ import { ViewMemberPageHeader } from '@/src/components/manager/members/view-memb
 import { MainContent } from '@/src/components/page-wrappers/main-content';
 
 type Props = {
-	params: {
+	params: Promise<{
 		team: string;
 		member: string;
-	};
-	searchParams: { [key: string]: string | string[] | undefined };
+	}>;
+	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export
-export default function ViewMemberPage({ params, searchParams }: Props) {
+export default async function ViewMemberPage(props: Props) {
+	const searchParams = await props.searchParams;
+	const params = await props.params;
 	searchParamCache.parse(searchParams);
 
 	const member = { id: params.member };

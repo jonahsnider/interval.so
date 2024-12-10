@@ -9,7 +9,11 @@ type Props = PropsWithChildren<{
 }>;
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export
-export default function TeamPageLayout({ params, children }: Props) {
+export default async function TeamPageLayout(props: Props) {
+	const params = await props.params;
+
+	const { children } = props;
+
 	return (
 		<FooterWrapper>
 			<TeamSlugProvider team={{ slug: params.team }}>{children}</TeamSlugProvider>

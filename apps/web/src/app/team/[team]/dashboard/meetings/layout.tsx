@@ -4,13 +4,17 @@ import { MainContent } from '@/src/components/page-wrappers/main-content';
 import type { PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren<{
-	params: {
+	params: Promise<{
 		team: string;
-	};
+	}>;
 }>;
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export
-export default function ManagerMeetingsPageLayout({ children, params }: Props) {
+export default async function ManagerMeetingsPageLayout(props: Props) {
+	const params = await props.params;
+
+	const { children } = props;
+
 	const team = { slug: params.team };
 
 	return (
