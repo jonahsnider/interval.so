@@ -1,13 +1,13 @@
 import { MeetingsTable } from '@/src/components/manager/meetings/meetings-table/meetings-table';
 import { searchParamCache } from '@/src/components/manager/meetings/search-params';
 import { toTimeFilter } from '@/src/components/manager/period-select/duration-slug';
-import type { SearchParams } from 'nuqs/parsers';
+import type { SearchParams } from 'nuqs';
 
 type Props = {
 	params: Promise<{
 		team: string;
 	}>;
-	searchParams: SearchParams;
+	searchParams: Promise<SearchParams>;
 };
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export
