@@ -9,9 +9,9 @@ export const trpcServer = createTRPCClient<AppRouterType>({
 		unstable_httpBatchStreamLink({
 			transformer: superjson,
 			url: trpcUrl,
-			headers() {
+			async headers() {
 				try {
-					const requestCookies = cookies();
+					const requestCookies = await cookies();
 
 					return {
 						cookie: requestCookies.toString(),

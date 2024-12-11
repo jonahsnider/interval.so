@@ -5,9 +5,9 @@ import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { Suspense } from 'react';
 
 type Props = {
-	params: {
+	params: Promise<{
 		team: string;
-	};
+	}>;
 };
 
 async function ManagerTilesWrapper({ team }: { team: Pick<TeamSchema, 'slug'> }) {
@@ -21,7 +21,8 @@ async function ManagerTilesWrapper({ team }: { team: Pick<TeamSchema, 'slug'> })
 }
 
 // biome-ignore lint/style/noDefaultExport: This has to be a default export
-export default async function TeamAttendancePage({ params }: Props) {
+export default async function TeamAttendancePage(props: Props) {
+	const params = await props.params;
 	const team = { slug: params.team };
 	const initialMembers = await trpcServer.teams.members.simpleMemberList.query(team);
 

@@ -2,13 +2,17 @@ import { TeamSettingsPageContainer } from '@/src/components/manager/settings/pag
 import type { PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren<{
-	params: {
+	params: Promise<{
 		team: string;
-	};
+	}>;
 }>;
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export
-export default function TeamSettingsGeneralLayout({ children, params }: Props) {
+export default async function TeamSettingsGeneralLayout(props: Props) {
+	const params = await props.params;
+
+	const { children } = props;
+
 	return (
 		<TeamSettingsPageContainer team={{ slug: params.team }} pageId='general'>
 			{children}
