@@ -3,9 +3,9 @@ import { TeamSlugProvider } from '@/src/components/team-dashboard/team-slug-prov
 import type { PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren<{
-	params: {
+	params: Promise<{
 		team: string;
-	};
+	}>;
 }>;
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export
