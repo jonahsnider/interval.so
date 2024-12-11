@@ -7,9 +7,9 @@ import { notFound } from 'next/navigation';
 import type { PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren<{
-	params: {
+	params: Promise<{
 		team: string;
-	};
+	}>;
 }>;
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export
