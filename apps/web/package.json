@@ -76,7 +76,7 @@
 		"typescript": "5.7.2",
 		"use-debounce": "10.0.4",
 		"use-mutative": "1.2.0",
-		"zod": "3.23.8"
+		"zod": "3.24.1"
 	},
 	"devDependencies": {
 		"@simplewebauthn/types": "10.0.0",
