@@ -145,9 +145,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/core@npm:6.16.0":
-  version: 6.16.0
-  resolution: "@adonisjs/core@npm:6.16.0"
+"@adonisjs/core@npm:6.17.0":
+  version: 6.17.0
+  resolution: "@adonisjs/core@npm:6.17.0"
   dependencies:
     "@adonisjs/ace": "npm:^13.3.0"
     "@adonisjs/application": "npm:^8.3.1"
@@ -159,7 +159,7 @@ __metadata:
     "@adonisjs/fold": "npm:^10.1.3"
     "@adonisjs/hash": "npm:^9.0.5"
     "@adonisjs/health": "npm:^2.0.0"
-    "@adonisjs/http-server": "npm:^7.3.0"
+    "@adonisjs/http-server": "npm:^7.4.0"
     "@adonisjs/logger": "npm:^6.0.5"
     "@adonisjs/repl": "npm:^4.0.1"
     "@antfu/install-pkg": "npm:^0.5.0"
@@ -196,7 +196,7 @@ __metadata:
       optional: true
   bin:
     adonis-kit: build/toolkit/main.js
-  checksum: 10c0/1c5b7ab256d06a9e857b42ca7943fe15d2317ce8bbf2a4880d21f452e7b91988d3a4c1235ee60afad411a999a9c597e264362a00d9da0048a0badee5eb3030d1
+  checksum: 10c0/333af1fa29238a5172ae6e8e87f6d6da8ea562357ec8bcffcb993a533b6a472081059746ec1e0b03b3df9debce85dbef32cfcb26266e91af582edf5679589b9d
   languageName: node
   linkType: hard
 
@@ -281,9 +281,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/http-server@npm:^7.3.0":
-  version: 7.3.0
-  resolution: "@adonisjs/http-server@npm:7.3.0"
+"@adonisjs/http-server@npm:^7.4.0":
+  version: 7.4.0
+  resolution: "@adonisjs/http-server@npm:7.4.0"
   dependencies:
     "@paralleldrive/cuid2": "npm:^2.2.2"
     "@poppinss/macroable": "npm:^1.0.3"
@@ -312,7 +312,7 @@ __metadata:
     "@adonisjs/events": ^9.0.0
     "@adonisjs/fold": ^10.0.1
     "@adonisjs/logger": ^6.0.1
-  checksum: 10c0/c64a53d9a6d5e33de292c0a80e358a031e496b7fd74f4cf4706b3337107edf28c6a89e122bd7c61d1788eb590b12f9e8171ff17ce68b9828b9208def34adeefe
+  checksum: 10c0/26a6b8dc7e6b19af8fe6d45f3d613855506fae016080779387aa03bdef443b9cab7653b19eb437a43300a0cde5e89e817647a49d55e89d7aa8039b17916a5456
   languageName: node
   linkType: hard
 
@@ -1468,7 +1468,7 @@ __metadata:
     "@adonisjs/assembler": "npm:7.8.2"
     "@adonisjs/auth": "npm:9.2.4"
     "@adonisjs/bouncer": "npm:3.1.4"
-    "@adonisjs/core": "npm:6.16.0"
+    "@adonisjs/core": "npm:6.17.0"
     "@adonisjs/cors": "npm:2.2.1"
     "@adonisjs/redis": "npm:9.1.0"
     "@adonisjs/session": "npm:7.5.0"
