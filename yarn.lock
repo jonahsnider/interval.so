@@ -66,11 +66,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/auth@npm:9.2.4":
-  version: 9.2.4
-  resolution: "@adonisjs/auth@npm:9.2.4"
+"@adonisjs/auth@npm:9.3.0":
+  version: 9.3.0
+  resolution: "@adonisjs/auth@npm:9.3.0"
   dependencies:
-    "@adonisjs/presets": "npm:^2.5.1"
+    "@adonisjs/presets": "npm:^2.6.3"
     "@poppinss/utils": "npm:^6.8.3"
     basic-auth: "npm:^2.0.1"
   peerDependencies:
@@ -91,7 +91,7 @@ __metadata:
       optional: true
     "@japa/plugin-adonisjs":
       optional: true
-  checksum: 10c0/9c07858477d8703a818baf1e32b185c39e84de87f8f9da761dff963fa25340d828ff901359b1477ef21ed283327fad654c6b8eed106eb068c20ae5fe99f6f79b
+  checksum: 10c0/98ecc717860602d12915b0a0816654c4e0b8d27ae6e36997db930a61773a89800a656739d0d5b0d45aa0668443fa6c319217b01cde74538e46ce2ce19ed8f89c
   languageName: node
   linkType: hard
 
@@ -327,18 +327,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/presets@npm:^2.5.1":
-  version: 2.6.1
-  resolution: "@adonisjs/presets@npm:2.6.1"
+"@adonisjs/presets@npm:^2.6.3":
+  version: 2.6.3
+  resolution: "@adonisjs/presets@npm:2.6.3"
   dependencies:
     "@poppinss/utils": "npm:^6.7.3"
   peerDependencies:
-    "@adonisjs/assembler": ^7.4.0
-    "@adonisjs/core": ^6.5.0
+    "@adonisjs/assembler": ^7.8.2
+    "@adonisjs/core": ^6.13.0
   peerDependenciesMeta:
     "@adonisjs/assembler":
       optional: true
-  checksum: 10c0/dacabdd27ff58ac30ccecbdea84a40ed5074cbc71c521fc1c01a46da762267900ef289d2bf414c8b0313ad22709a9ad3bc08e0c88b6b20545def5a00b9ee3c88
+  checksum: 10c0/1f8a64749564d304457e6a5ca079ffc418b613ccb9a68479075ae392077fd426396d294ae10dcf8541e72ac2dacd1220d16b5f4240206622822e365616fa69be
   languageName: node
   linkType: hard
 
@@ -1466,7 +1466,7 @@ __metadata:
   resolution: "@interval.so/api@workspace:apps/api"
   dependencies:
     "@adonisjs/assembler": "npm:7.8.2"
-    "@adonisjs/auth": "npm:9.2.4"
+    "@adonisjs/auth": "npm:9.3.0"
     "@adonisjs/bouncer": "npm:3.1.4"
     "@adonisjs/core": "npm:6.17.0"
     "@adonisjs/cors": "npm:2.2.1"
