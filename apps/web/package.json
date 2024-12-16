@@ -38,7 +38,7 @@
 		"@trpc/next": "11.0.0-rc.630",
 		"@trpc/react-query": "11.0.0-rc.630",
 		"@types/node": "20.17.10",
-		"@types/react": "18.3.16",
+		"@types/react": "18.3.17",
 		"@types/react-dom": "18.3.5",
 		"@vercel/speed-insights": "1.1.0",
 		"autoprefixer": "10.4.20",
