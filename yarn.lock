@@ -1478,8 +1478,8 @@ __metadata:
     "@rlanz/sentry": "npm:^0.1.0"
     "@sentry/node": "npm:8.45.1"
     "@sentry/profiling-node": "npm:8.45.1"
-    "@simplewebauthn/server": "npm:10.0.1"
-    "@simplewebauthn/types": "npm:10.0.0"
+    "@simplewebauthn/server": "npm:13.0.0"
+    "@simplewebauthn/types": "npm:12.0.0"
     "@swc/core": "npm:1.10.1"
     "@trpc/server": "npm:11.0.0-rc.630"
     "@types/node": "npm:20.17.10"
@@ -1535,8 +1535,8 @@ __metadata:
     "@radix-ui/react-tabs": "npm:1.1.1"
     "@radix-ui/react-tooltip": "npm:1.1.3"
     "@sentry/nextjs": "npm:^8.15.0"
-    "@simplewebauthn/browser": "npm:10.0.0"
-    "@simplewebauthn/types": "npm:10.0.0"
+    "@simplewebauthn/browser": "npm:13.0.0"
+    "@simplewebauthn/types": "npm:12.0.0"
     "@tanstack/react-query": "npm:5.62.10"
     "@tanstack/react-table": "npm:8.20.6"
     "@trpc/client": "npm:11.0.0-rc.630"
@@ -3931,18 +3931,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@simplewebauthn/browser@npm:10.0.0":
-  version: 10.0.0
-  resolution: "@simplewebauthn/browser@npm:10.0.0"
-  dependencies:
-    "@simplewebauthn/types": "npm:^10.0.0"
-  checksum: 10c0/da7764df8c5d3d4201ace4847f89416fbbfac7db254c94530ffc7e8ed3c4530f013950e074f5eae83eeb9ac9c1323f25813487c21c7d4827da485e739b8c6261
+"@simplewebauthn/browser@npm:13.0.0":
+  version: 13.0.0
+  resolution: "@simplewebauthn/browser@npm:13.0.0"
+  checksum: 10c0/6ee8ba226ea2a8e1e26b44c78858990881983c601b5c9733141301fbd22b1b7da1bb93b413d73f64d1b1d468aef33b886f7810e52884c96e7e4b0779decd3ef1
   languageName: node
   linkType: hard
 
-"@simplewebauthn/server@npm:10.0.1":
-  version: 10.0.1
-  resolution: "@simplewebauthn/server@npm:10.0.1"
+"@simplewebauthn/server@npm:13.0.0":
+  version: 13.0.0
+  resolution: "@simplewebauthn/server@npm:13.0.0"
   dependencies:
     "@hexagon/base64": "npm:^1.1.27"
     "@levischuck/tiny-cbor": "npm:^0.2.2"
@@ -3951,16 +3949,15 @@ __metadata:
     "@peculiar/asn1-rsa": "npm:^2.3.8"
     "@peculiar/asn1-schema": "npm:^2.3.8"
     "@peculiar/asn1-x509": "npm:^2.3.8"
-    "@simplewebauthn/types": "npm:^10.0.0"
     cross-fetch: "npm:^4.0.0"
-  checksum: 10c0/27bc37160f6324528d605c4eb3c4bcabffa2200b914d24919512e168fdac12f514c8d1f3f43c01ea8d6b503d1841eb1acece18c9c4b5966ea40c3ce33d894baa
+  checksum: 10c0/4b4583b2f69c721faa524e7e968ec91e9fe11bdfdde46d8eeea9e1556e90df4aafdd53aa8344d7bc5a9587a1123b070c27a5c11794787c0e55c0db7c14cfb4ef
   languageName: node
   linkType: hard
 
-"@simplewebauthn/types@npm:10.0.0, @simplewebauthn/types@npm:^10.0.0":
-  version: 10.0.0
-  resolution: "@simplewebauthn/types@npm:10.0.0"
-  checksum: 10c0/364dd5add9001ef17e2b54dd0f54ff1901cc2c455b195fcb7bf2108eec792709bd2747c5095b69efbc834c82a8ec602ef7362564e214c482251fc3f9c0b16f41
+"@simplewebauthn/types@npm:12.0.0":
+  version: 12.0.0
+  resolution: "@simplewebauthn/types@npm:12.0.0"
+  checksum: 10c0/b7ce0ae692ea1e069ad9cb028fc1ccfe3f37e0f197825ba9e468e60194f463e88f5db254ddea296019b470a465ffaffa96fe27bb5e1e5d5d14bfcd068b04abed
   languageName: node
   linkType: hard
 
