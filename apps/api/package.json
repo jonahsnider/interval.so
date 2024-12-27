@@ -63,7 +63,7 @@
 		"@adonisjs/assembler": "7.8.2",
 		"@adonisjs/tsconfig": "1.4.0",
 		"@simplewebauthn/types": "10.0.0",
-		"@swc/core": "1.10.2",
+		"@swc/core": "1.10.3",
 		"@types/node": "20.17.10",
 		"@types/pg": "8.11.10",
 		"@types/ws": "^8",
