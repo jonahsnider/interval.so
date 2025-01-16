@@ -377,18 +377,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/session@npm:7.5.0":
-  version: 7.5.0
-  resolution: "@adonisjs/session@npm:7.5.0"
+"@adonisjs/session@npm:7.5.1":
+  version: 7.5.1
+  resolution: "@adonisjs/session@npm:7.5.1"
   dependencies:
-    "@poppinss/macroable": "npm:^1.0.3"
-    "@poppinss/utils": "npm:^6.8.3"
+    "@poppinss/macroable": "npm:^1.0.4"
+    "@poppinss/utils": "npm:^6.9.2"
   peerDependencies:
     "@adonisjs/core": ^6.6.0
     "@adonisjs/redis": ^8.0.1 || ^9.0.0
     "@aws-sdk/client-dynamodb": ^3.658.0
     "@aws-sdk/util-dynamodb": ^3.658.0
-    "@japa/api-client": ^2.0.3
+    "@japa/api-client": ^2.0.3 || ^3.0.0
     "@japa/browser-client": ^2.0.3
     edge.js: ^6.0.2
   peerDependenciesMeta:
@@ -404,7 +404,7 @@ __metadata:
       optional: true
     edge.js:
       optional: true
-  checksum: 10c0/156291b0da7a3885cb9aa5ff545d5af6bd79c468228e207e0f8a5400927794f1bc4bc43a7b442b3d1bfbde8b6194cddbfb6054e5d4873fde4c00165048b92e21
+  checksum: 10c0/536674fa1530db8aa809f786e200c723e3167f56345577edc416d2c68235462bccb12f5f06948683108c91fdf6e6ed4751d55e3484fe7c02bf667cceb15ec4e3
   languageName: node
   linkType: hard
 
@@ -1483,7 +1483,7 @@ __metadata:
     "@adonisjs/core": "npm:6.17.1"
     "@adonisjs/cors": "npm:2.2.1"
     "@adonisjs/redis": "npm:9.1.0"
-    "@adonisjs/session": "npm:7.5.0"
+    "@adonisjs/session": "npm:7.5.1"
     "@adonisjs/tsconfig": "npm:1.4.0"
     "@jonahsnider/util": "npm:11.0.0"
     "@paralleldrive/cuid2": "npm:2.2.2"
