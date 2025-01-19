@@ -66,20 +66,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/auth@npm:9.3.0":
-  version: 9.3.0
-  resolution: "@adonisjs/auth@npm:9.3.0"
+"@adonisjs/auth@npm:9.3.1":
+  version: 9.3.1
+  resolution: "@adonisjs/auth@npm:9.3.1"
   dependencies:
-    "@adonisjs/presets": "npm:^2.6.3"
-    "@poppinss/utils": "npm:^6.8.3"
+    "@adonisjs/presets": "npm:^2.6.4"
+    "@poppinss/utils": "npm:^6.9.2"
     basic-auth: "npm:^2.0.1"
   peerDependencies:
     "@adonisjs/core": ^6.11.0
     "@adonisjs/lucid": ^20.0.0 || ^21.0.1
     "@adonisjs/session": ^7.4.1
-    "@japa/api-client": ^2.0.3
+    "@japa/api-client": ^2.0.3 || ^3.0.0
     "@japa/browser-client": ^2.0.3
-    "@japa/plugin-adonisjs": ^3.0.1
+    "@japa/plugin-adonisjs": ^3.0.1 || ^4.0.0
   peerDependenciesMeta:
     "@adonisjs/lucid":
       optional: true
@@ -91,7 +91,7 @@ __metadata:
       optional: true
     "@japa/plugin-adonisjs":
       optional: true
-  checksum: 10c0/98ecc717860602d12915b0a0816654c4e0b8d27ae6e36997db930a61773a89800a656739d0d5b0d45aa0668443fa6c319217b01cde74538e46ce2ce19ed8f89c
+  checksum: 10c0/894af322ef3d792622d9fc59c6138a90b1268068705474c6451982d8e3225c3cf8efd8911b9531d94cee04210b1e0d553d93d6f5adb6e99d8fe4273d4f27b6ff
   languageName: node
   linkType: hard
 
@@ -339,9 +339,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/presets@npm:^2.6.3":
-  version: 2.6.3
-  resolution: "@adonisjs/presets@npm:2.6.3"
+"@adonisjs/presets@npm:^2.6.4":
+  version: 2.6.4
+  resolution: "@adonisjs/presets@npm:2.6.4"
   dependencies:
     "@poppinss/utils": "npm:^6.7.3"
   peerDependencies:
@@ -350,7 +350,7 @@ __metadata:
   peerDependenciesMeta:
     "@adonisjs/assembler":
       optional: true
-  checksum: 10c0/1f8a64749564d304457e6a5ca079ffc418b613ccb9a68479075ae392077fd426396d294ae10dcf8541e72ac2dacd1220d16b5f4240206622822e365616fa69be
+  checksum: 10c0/4be02d567b39ce4c64e7168b9472b86edd73b95230c087ac13cab4b8dce94fb7eabb06d0e7fd3ce420e2c6a9858ec2f3a0723b360c88231440f0615fa872ce2a
   languageName: node
   linkType: hard
 
@@ -1478,7 +1478,7 @@ __metadata:
   resolution: "@interval.so/api@workspace:apps/api"
   dependencies:
     "@adonisjs/assembler": "npm:7.8.2"
-    "@adonisjs/auth": "npm:9.3.0"
+    "@adonisjs/auth": "npm:9.3.1"
     "@adonisjs/bouncer": "npm:3.1.4"
     "@adonisjs/core": "npm:6.17.1"
     "@adonisjs/cors": "npm:2.2.1"
