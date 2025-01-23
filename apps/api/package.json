@@ -65,7 +65,7 @@
 		"@simplewebauthn/types": "10.0.0",
 		"@swc/core": "1.10.9",
 		"@types/node": "20.17.16",
-		"@types/pg": "8.11.10",
+		"@types/pg": "8.11.11",
 		"@types/ws": "^8",
 		"dotenv": "16.4.7",
 		"execa": "9.5.2",
