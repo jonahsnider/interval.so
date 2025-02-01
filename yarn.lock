@@ -354,16 +354,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/redis@npm:9.1.0":
-  version: 9.1.0
-  resolution: "@adonisjs/redis@npm:9.1.0"
+"@adonisjs/redis@npm:9.1.1":
+  version: 9.1.1
+  resolution: "@adonisjs/redis@npm:9.1.1"
   dependencies:
-    "@poppinss/utils": "npm:^6.7.3"
-    emittery: "npm:^1.0.3"
-    ioredis: "npm:^5.4.1"
+    "@poppinss/utils": "npm:^6.9.2"
+    emittery: "npm:^1.1.0"
+    ioredis: "npm:^5.4.2"
   peerDependencies:
     "@adonisjs/core": ^6.2.0
-  checksum: 10c0/a92158883a160f3a37387e6732edea76cba36f23fcdd73b44c6c0c460f84a57fd5bc469ae51addecce4c66a8b5fce247e109a09bfd20cf8464d50ade77e9d9f1
+  checksum: 10c0/59eb84e727604d2577840a548f995e09d2d1960a9abd7cbbb34b78c2109ab2d8469932f048f60c533a057e63aa14838ed0611852d0b95d3b48541193f9be7f2c
   languageName: node
   linkType: hard
 
@@ -1482,7 +1482,7 @@ __metadata:
     "@adonisjs/bouncer": "npm:3.1.5"
     "@adonisjs/core": "npm:6.17.1"
     "@adonisjs/cors": "npm:2.2.1"
-    "@adonisjs/redis": "npm:9.1.0"
+    "@adonisjs/redis": "npm:9.1.1"
     "@adonisjs/session": "npm:7.5.1"
     "@adonisjs/tsconfig": "npm:1.4.0"
     "@jonahsnider/util": "npm:11.0.0"
@@ -6525,6 +6525,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"emittery@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "emittery@npm:1.1.0"
+  checksum: 10c0/645d4d7307b52c81bb2d2f9f320aa6a3c0225f53a4bfef2d337be8086df975746f7dd619f1dd7b2ffd4f2288103f28019e7b8567718677600e47507496d3af5f
+  languageName: node
+  linkType: hard
+
 "emoji-regex@npm:^10.3.0":
   version: 10.3.0
   resolution: "emoji-regex@npm:10.3.0"
@@ -8189,9 +8196,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ioredis@npm:^5.4.1":
-  version: 5.4.1
-  resolution: "ioredis@npm:5.4.1"
+"ioredis@npm:^5.4.2":
+  version: 5.4.2
+  resolution: "ioredis@npm:5.4.2"
   dependencies:
     "@ioredis/commands": "npm:^1.1.1"
     cluster-key-slot: "npm:^1.1.0"
@@ -8202,7 +8209,7 @@ __metadata:
     redis-errors: "npm:^1.2.0"
     redis-parser: "npm:^3.0.0"
     standard-as-callback: "npm:^2.1.0"
-  checksum: 10c0/5d28b7c89a3cab5b76d75923d7d4ce79172b3a1ca9be690133f6e8e393a7a4b4ffd55513e618bbb5504fed80d9e1395c9d9531a7c5c5c84aa4c4e765cca75456
+  checksum: 10c0/e59d2cceb43ed74b487d7b50fa91b93246e734e5d4835c7e62f64e44da072f12ab43b044248012e6f8b76c61a7c091a2388caad50e8ad69a8ce5515a730b23b8
   languageName: node
   linkType: hard
 
