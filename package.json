@@ -26,7 +26,7 @@
 	},
 	"packageManager": "yarn@4.6.0",
 	"engines": {
-		"node": "20.x"
+		"node": "22.x"
 	},
 	"trustedDependencies": [
 		"@biomejs/biome"
