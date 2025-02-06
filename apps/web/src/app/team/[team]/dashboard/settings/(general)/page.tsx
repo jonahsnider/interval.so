@@ -5,13 +5,14 @@ import { TeamPasswordCard } from '@/src/components/manager/settings/general/team
 import { TeamUrlCard } from '@/src/components/manager/settings/general/team-url-card/team-url-card.server';
 
 type Props = {
-	params: {
+	params: Promise<{
 		team: string;
-	};
+	}>;
 };
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export
-export default function TeamSettingsGeneralPage({ params }: Props) {
+export default async function TeamSettingsGeneralPage(props: Props) {
+	const params = await props.params;
 	const team = { slug: params.team };
 
 	return (

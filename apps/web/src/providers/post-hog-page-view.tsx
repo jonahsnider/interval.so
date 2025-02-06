@@ -3,10 +3,9 @@
 
 import { usePathname, useSearchParams } from 'next/navigation';
 import { usePostHog } from 'posthog-js/react';
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 
-// biome-ignore lint/style/noDefaultExport: This must be a default export
-export default function PostHogPageView(): undefined {
+function RawPostHogPageView(): undefined {
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
 	const posthog = usePostHog();
@@ -23,4 +22,12 @@ export default function PostHogPageView(): undefined {
 			});
 		}
 	}, [pathname, searchParams, posthog]);
+}
+
+export function PostHogPageView() {
+	return (
+		<Suspense>
+			<RawPostHogPageView />
+		</Suspense>
+	);
 }

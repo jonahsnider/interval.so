@@ -2,13 +2,14 @@ import { ManagerInviteLinkCard } from '@/src/components/manager/settings/manager
 import { ManagersTableCard } from '@/src/components/manager/settings/managers/managers-table-card/managers-table-card.server';
 
 type Props = {
-	params: {
+	params: Promise<{
 		team: string;
-	};
+	}>;
 };
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export
-export default function TeamSettingsManagersPage({ params }: Props) {
+export default async function TeamSettingsManagersPage(props: Props) {
+	const params = await props.params;
 	const team = { slug: params.team };
 
 	return (

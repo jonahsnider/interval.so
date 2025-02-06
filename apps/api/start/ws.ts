@@ -16,8 +16,10 @@ const wss = new WebSocketServer({ server: adonisServer.getNodeServer() });
 const address = wss.address();
 if (typeof address === 'string') {
 	logger.info('started WS server on %s', address);
-} else {
+} else if (address) {
 	logger.info('started WS server on %s:%s', address.address, address.port);
+} else {
+	logger.info('started WS server');
 }
 
 const appRouter = await app.container.make(AppRouter);

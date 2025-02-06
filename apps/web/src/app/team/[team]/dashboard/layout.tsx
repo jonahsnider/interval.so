@@ -7,13 +7,17 @@ import { notFound } from 'next/navigation';
 import type { PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren<{
-	params: {
+	params: Promise<{
 		team: string;
-	};
+	}>;
 }>;
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export
-export default async function ManagerLayout({ children, params }: Props) {
+export default async function ManagerLayout(props: Props) {
+	const params = await props.params;
+
+	const { children } = props;
+
 	let teamDisplayName: string;
 
 	try {

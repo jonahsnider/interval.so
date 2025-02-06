@@ -4,9 +4,9 @@ import { MainContent } from '@/src/components/page-wrappers/main-content';
 import type { PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren<{
-	params: {
+	params: Promise<{
 		inviteCode: string;
-	};
+	}>;
 }>;
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export

@@ -12,9 +12,9 @@ import { Link } from 'next-view-transitions';
 import { notFound } from 'next/navigation';
 
 type Props = {
-	params: {
+	params: Promise<{
 		team: string;
-	};
+	}>;
 };
 
 async function Inner({ team }: { team: Pick<TeamSchema, 'slug' | 'displayName'> }) {
@@ -30,7 +30,8 @@ async function Inner({ team }: { team: Pick<TeamSchema, 'slug' | 'displayName'> 
 }
 
 // biome-ignore lint/style/noDefaultExport: This must be a default export
-export default async function TeamLoginPage({ params }: Props) {
+export default async function TeamLoginPage(props: Props) {
+	const params = await props.params;
 	let displayName: string;
 	try {
 		displayName = await trpcServer.teams.settings.getDisplayName.query({ slug: params.team });
