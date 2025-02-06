@@ -1582,7 +1582,7 @@ __metadata:
     react-day-picker: "npm:8.10.1"
     react-dom: "npm:19.0.0"
     react-error-boundary: "npm:4.1.2"
-    react-hook-form: "npm:7.54.0"
+    react-hook-form: "npm:7.54.2"
     recharts: "npm:^2.14.1"
     server-only: "npm:0.0.1"
     sharp: "npm:0.33.5"
@@ -10845,12 +10845,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:7.54.0":
-  version: 7.54.0
-  resolution: "react-hook-form@npm:7.54.0"
+"react-hook-form@npm:7.54.2":
+  version: 7.54.2
+  resolution: "react-hook-form@npm:7.54.2"
   peerDependencies:
     react: ^16.8.0 || ^17 || ^18 || ^19
-  checksum: 10c0/8dbc68e8b82aafda1271bbc291052b5efb091505865cd10e3d7dd618ca3870bd05596d7ba68f128427d47ff11e0d9f03089fd7afb88d2a8865ff81f21af417a0
+  checksum: 10c0/6eebead2900e3d369a989e7a20429f390dc75b3897142aa3107f1f6dabb9ae64fed201ea98cdcd8676e40466c97748aeb0c0d83264f5bd3a84dbc0b8e4863415
   languageName: node
   linkType: hard
 
