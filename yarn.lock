@@ -354,16 +354,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/redis@npm:9.1.1":
-  version: 9.1.1
-  resolution: "@adonisjs/redis@npm:9.1.1"
+"@adonisjs/redis@npm:9.2.0":
+  version: 9.2.0
+  resolution: "@adonisjs/redis@npm:9.2.0"
   dependencies:
     "@poppinss/utils": "npm:^6.9.2"
     emittery: "npm:^1.1.0"
     ioredis: "npm:^5.4.2"
   peerDependencies:
     "@adonisjs/core": ^6.2.0
-  checksum: 10c0/59eb84e727604d2577840a548f995e09d2d1960a9abd7cbbb34b78c2109ab2d8469932f048f60c533a057e63aa14838ed0611852d0b95d3b48541193f9be7f2c
+  checksum: 10c0/337ede97ca5f8edd02abcca1973e35358806671b492dcf6f59788e8e7ad8aa65d2a84549ad236afbe014cc1862c35b98d81e7b4797a0ece9d719c322db39fa2a
   languageName: node
   linkType: hard
 
@@ -1482,7 +1482,7 @@ __metadata:
     "@adonisjs/bouncer": "npm:3.1.5"
     "@adonisjs/core": "npm:6.17.1"
     "@adonisjs/cors": "npm:2.2.1"
-    "@adonisjs/redis": "npm:9.1.1"
+    "@adonisjs/redis": "npm:9.2.0"
     "@adonisjs/session": "npm:7.5.1"
     "@adonisjs/tsconfig": "npm:1.4.0"
     "@jonahsnider/util": "npm:11.0.0"
