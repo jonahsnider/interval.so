@@ -1557,7 +1557,7 @@ __metadata:
     "@types/node": "npm:22.13.1"
     "@types/react": "npm:19.0.1"
     "@types/react-dom": "npm:19.0.2"
-    "@vercel/speed-insights": "npm:1.1.0"
+    "@vercel/speed-insights": "npm:1.2.0"
     autoprefixer: "npm:10.4.20"
     chrono-node: "npm:2.7.8"
     class-variance-authority: "npm:0.7.1"
@@ -5297,9 +5297,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vercel/speed-insights@npm:1.1.0":
-  version: 1.1.0
-  resolution: "@vercel/speed-insights@npm:1.1.0"
+"@vercel/speed-insights@npm:1.2.0":
+  version: 1.2.0
+  resolution: "@vercel/speed-insights@npm:1.2.0"
   peerDependencies:
     "@sveltejs/kit": ^1 || ^2
     next: ">= 13"
@@ -5320,7 +5320,7 @@ __metadata:
       optional: true
     vue-router:
       optional: true
-  checksum: 10c0/2bfaef328b30b1d8a5a1b65e201875a78076b0223f6719a4cac04dd24e9f336da8f1648f8b33b0fe05624f25f957b67f46b7d6c3c290ac53c6ac3dac4540922a
+  checksum: 10c0/2fb4c4a46330949182d6f63691c51310b636fc3cc464bde3c0f24f100b712c3c4ec57a9fedcd6dc3cc75951064b3295b3cb616c80ff7179fbe310cd4314fffaa
   languageName: node
   linkType: hard
 
