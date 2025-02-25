@@ -48,7 +48,7 @@
 		"convert": "5.8.0",
 		"crypto-random-string": "5.0.0",
 		"date-fns": "4.1.0",
-		"drizzle-kit": "0.30.4",
+		"drizzle-kit": "0.30.5",
 		"drizzle-orm": "0.39.3",
 		"postgres": "3.4.5",
 		"posthog-node": "4.7.0",
