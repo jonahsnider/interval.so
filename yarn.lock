@@ -1508,7 +1508,7 @@ __metadata:
     hot-hook: "patch:hot-hook@npm%3A0.3.0#~/.yarn/patches/hot-hook-npm-0.3.0-0c210b56e7.patch"
     pino-pretty: "npm:13.0.0"
     postgres: "npm:3.4.5"
-    posthog-node: "npm:4.9.0"
+    posthog-node: "npm:4.10.0"
     prettier: "npm:3.5.3"
     reflect-metadata: "npm:0.2.2"
     rxjs: "npm:7.8.2"
@@ -10560,12 +10560,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-node@npm:4.9.0":
-  version: 4.9.0
-  resolution: "posthog-node@npm:4.9.0"
+"posthog-node@npm:4.10.0":
+  version: 4.10.0
+  resolution: "posthog-node@npm:4.10.0"
   dependencies:
     axios: "npm:^1.7.4"
-  checksum: 10c0/7206599d63229b03268ad37174f8b0e83c07c01be5a17636e60bb6e53909d11e2bc17f488cd94000ef09c6feeb55ad908c44fc8a9b8c9fd0e3632cee7ad79c3d
+  checksum: 10c0/74dff282e76090561d2bc3ce73178c7b1a51a90b7b8b902de0e56cf7f226d9e2815c6cbead1450f63fc25d356afe78915f43162179936eaa4fda79c31e281e3b
   languageName: node
   linkType: hard
 
