@@ -1566,7 +1566,7 @@ __metadata:
     convert: "npm:5.8.0"
     date-fns: "npm:4.1.0"
     dotenv: "npm:16.4.7"
-    framer-motion: "npm:12.4.11"
+    framer-motion: "npm:12.5.0"
     fuse.js: "npm:7.1.0"
     mutative: "npm:1.1.0"
     next: "npm:15.0.4"
@@ -7942,12 +7942,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:12.4.11":
-  version: 12.4.11
-  resolution: "framer-motion@npm:12.4.11"
+"framer-motion@npm:12.5.0":
+  version: 12.5.0
+  resolution: "framer-motion@npm:12.5.0"
   dependencies:
-    motion-dom: "npm:^12.4.11"
-    motion-utils: "npm:^12.4.10"
+    motion-dom: "npm:^12.5.0"
+    motion-utils: "npm:^12.5.0"
     tslib: "npm:^2.4.0"
   peerDependencies:
     "@emotion/is-prop-valid": "*"
@@ -7960,7 +7960,7 @@ __metadata:
       optional: true
     react-dom:
       optional: true
-  checksum: 10c0/6305bfb32bf30c198c32980183b858cc3e20d4c7d08b70a5b929b3b76f2c634e531257fa6014d7bc784c5dffcd589ee6dd2030d0e996f7093778932a4a6d2936
+  checksum: 10c0/ac632ea3a452e473abf9adad1d6777522b1dd2ed8cf567078a9997f07a388d7b9e68a3e9c102b1807e1e88af3d83eb2eb0d9476032059f4803a0c32bded9bf74
   languageName: node
   linkType: hard
 
@@ -9415,19 +9415,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"motion-dom@npm:^12.4.11":
-  version: 12.4.11
-  resolution: "motion-dom@npm:12.4.11"
+"motion-dom@npm:^12.5.0":
+  version: 12.5.0
+  resolution: "motion-dom@npm:12.5.0"
   dependencies:
-    motion-utils: "npm:^12.4.10"
-  checksum: 10c0/2097a952429809629109adcb0dfba283a582b839c8abd51d7cb6d04f80de5283eead5d92b33751ef63d2d35d2b970f53b6b2a62d0c4ec0345cb02d6566a3b008
+    motion-utils: "npm:^12.5.0"
+  checksum: 10c0/32e6029a14c23a82392253ecd5349f3d7c603edac6e214357c6657560c90dff42163b40d7a9d93cd31c6eaded39765e115a1abf137496baec27942803f4bc56e
   languageName: node
   linkType: hard
 
-"motion-utils@npm:^12.4.10":
-  version: 12.4.10
-  resolution: "motion-utils@npm:12.4.10"
-  checksum: 10c0/5788836c42fad17a07c877cf4a7e407570e2f3125bc821f6673ee3f0e81b6b9c6b8faaa38c8c17c5a82d2b07484fc50162f29de2c69d80f685213fb0012b257b
+"motion-utils@npm:^12.5.0":
+  version: 12.5.0
+  resolution: "motion-utils@npm:12.5.0"
+  checksum: 10c0/f556240efda96a4bb86b13bb0e6cad689b2665ca688b2616585a7c7db182e3b8d93377ff1fb3782ca0088a4a8aa6dd5e47e81fda5c19ab334f01812eade639ef
   languageName: node
   linkType: hard
 
