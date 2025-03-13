@@ -22,7 +22,7 @@
 		"prettier": "3.5.3",
 		"prettier-plugin-packagejson": "2.5.6",
 		"turbo": "2.3.3",
-		"vercel": "41.4.0"
+		"vercel": "41.4.1"
 	},
 	"packageManager": "yarn@4.7.0",
 	"engines": {
