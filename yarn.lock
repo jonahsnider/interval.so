@@ -1576,7 +1576,7 @@ __metadata:
     nuqs: "npm:2.4.1"
     postcss: "npm:8.5.3"
     postcss-import: "npm:16.1.0"
-    posthog-js: "npm:1.230.2"
+    posthog-js: "npm:1.230.4"
     radix-themes-tw: "npm:0.2.3"
     react: "npm:19.0.0"
     react-day-picker: "npm:8.10.1"
@@ -10547,14 +10547,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-js@npm:1.230.2":
-  version: 1.230.2
-  resolution: "posthog-js@npm:1.230.2"
+"posthog-js@npm:1.230.4":
+  version: 1.230.4
+  resolution: "posthog-js@npm:1.230.4"
   dependencies:
     core-js: "npm:^3.38.1"
     fflate: "npm:^0.4.8"
     preact: "npm:^10.19.3"
-    web-vitals: "npm:^4.2.0"
+    web-vitals: "npm:^4.2.4"
   peerDependencies:
     "@rrweb/types": 2.0.0-alpha.17
     rrweb-snapshot: 2.0.0-alpha.17
@@ -10563,7 +10563,7 @@ __metadata:
       optional: true
     rrweb-snapshot:
       optional: true
-  checksum: 10c0/03fed511b39a5e4dc4be649fa6461670a6b52c028f0affb6e2642c0cac93a0fb08a9ed93601307883262f9dcd53054d01836d3173de748a4b079992617e22508
+  checksum: 10c0/b722cfb65066f21f1dcf94f2c2fb5f4af08ae6cdc97661407c4392162bb920710100636b0eb98fef4647669d11a56a5e6b937e90b23691178c268e3da6ec48eb
   languageName: node
   linkType: hard
 
@@ -12886,10 +12886,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web-vitals@npm:^4.2.0":
-  version: 4.2.3
-  resolution: "web-vitals@npm:4.2.3"
-  checksum: 10c0/905bdb9434f365435c3c00e5f473ce088980fcd61068906e20a575bae9590e1cc28dab0f90958c66717591e2f4c9b809ec8025cef5796fa4bc1304d50332f125
+"web-vitals@npm:^4.2.4":
+  version: 4.2.4
+  resolution: "web-vitals@npm:4.2.4"
+  checksum: 10c0/383c9281d5b556bcd190fde3c823aeb005bb8cf82e62c75b47beb411014a4ed13fa5c5e0489ed0f1b8d501cd66b0bebcb8624c1a75750bd5df13e2a3b1b2d194
   languageName: node
   linkType: hard
 
