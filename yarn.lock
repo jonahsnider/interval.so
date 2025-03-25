@@ -1566,7 +1566,7 @@ __metadata:
     convert: "npm:5.8.0"
     date-fns: "npm:4.1.0"
     dotenv: "npm:16.4.7"
-    framer-motion: "npm:12.5.0"
+    framer-motion: "npm:12.6.0"
     fuse.js: "npm:7.1.0"
     mutative: "npm:1.1.0"
     next: "npm:15.0.4"
@@ -8112,11 +8112,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:12.5.0":
-  version: 12.5.0
-  resolution: "framer-motion@npm:12.5.0"
+"framer-motion@npm:12.6.0":
+  version: 12.6.0
+  resolution: "framer-motion@npm:12.6.0"
   dependencies:
-    motion-dom: "npm:^12.5.0"
+    motion-dom: "npm:^12.6.0"
     motion-utils: "npm:^12.5.0"
     tslib: "npm:^2.4.0"
   peerDependencies:
@@ -8130,7 +8130,7 @@ __metadata:
       optional: true
     react-dom:
       optional: true
-  checksum: 10c0/ac632ea3a452e473abf9adad1d6777522b1dd2ed8cf567078a9997f07a388d7b9e68a3e9c102b1807e1e88af3d83eb2eb0d9476032059f4803a0c32bded9bf74
+  checksum: 10c0/7df86a66dee0d715814ec969b3c8b17be97ad20cb351257e77e3d805e0e41d44fd8126431c046f079a0c6727037a02e3f76b74ae5cbe36b8916bb0d2ccb3762c
   languageName: node
   linkType: hard
 
@@ -9585,12 +9585,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"motion-dom@npm:^12.5.0":
-  version: 12.5.0
-  resolution: "motion-dom@npm:12.5.0"
+"motion-dom@npm:^12.6.0":
+  version: 12.6.0
+  resolution: "motion-dom@npm:12.6.0"
   dependencies:
     motion-utils: "npm:^12.5.0"
-  checksum: 10c0/32e6029a14c23a82392253ecd5349f3d7c603edac6e214357c6657560c90dff42163b40d7a9d93cd31c6eaded39765e115a1abf137496baec27942803f4bc56e
+  checksum: 10c0/5fe6469f723089a2c68796fe3a2389b4bc5a9c898d386891c02023c46f5001d14b8009696c454450a97fdd56f4832b0226b5edc088b20b048e69d20fd9c921a9
   languageName: node
   linkType: hard
 
