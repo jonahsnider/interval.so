@@ -1502,7 +1502,7 @@ __metadata:
     crypto-random-string: "npm:5.0.0"
     date-fns: "npm:4.1.0"
     dotenv: "npm:16.4.7"
-    drizzle-kit: "npm:0.30.5"
+    drizzle-kit: "npm:0.30.6"
     drizzle-orm: "npm:0.41.0"
     execa: "npm:9.5.2"
     hot-hook: "patch:hot-hook@npm%3A0.3.0#~/.yarn/patches/hot-hook-npm-0.3.0-0c210b56e7.patch"
@@ -6959,9 +6959,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"drizzle-kit@npm:0.30.5":
-  version: 0.30.5
-  resolution: "drizzle-kit@npm:0.30.5"
+"drizzle-kit@npm:0.30.6":
+  version: 0.30.6
+  resolution: "drizzle-kit@npm:0.30.6"
   dependencies:
     "@drizzle-team/brocli": "npm:^0.10.2"
     "@esbuild-kit/esm-loader": "npm:^2.5.5"
@@ -6970,7 +6970,7 @@ __metadata:
     gel: "npm:^2.0.0"
   bin:
     drizzle-kit: bin.cjs
-  checksum: 10c0/9bb64214d795e12e6ef941c5bc46fe0fbf2de0f8e56dbb16eb69ee2d02655907f291aa0d17ae19c0adf399f6fcc833630fe4f969e093936d8baac0069df4a542
+  checksum: 10c0/a210a8349654b2baf3767fe7b3d4cc90aaae52810437d97f70c4e9f17b37543a0e460f94c643dba23f512d2298772eb6485ecd26599ffcdef9ef5cf90c4885f1
   languageName: node
   linkType: hard
 
