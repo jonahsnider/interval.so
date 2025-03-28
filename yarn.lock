@@ -1514,7 +1514,7 @@ __metadata:
     rxjs: "npm:7.8.2"
     superjson: "npm:2.2.2"
     ts-node: "npm:10.9.2"
-    ts-pattern: "npm:5.6.2"
+    ts-pattern: "npm:5.7.0"
     typescript: "npm:5.8.2"
     ws: "npm:8.18.1"
     zod: "npm:3.24.2"
@@ -12618,10 +12618,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-pattern@npm:5.6.2":
-  version: 5.6.2
-  resolution: "ts-pattern@npm:5.6.2"
-  checksum: 10c0/f7b2442d9694fb94070acd7e564589744a581a252ab8a33bdda7b018f280cfa5ee247aa1a8a1eb8e2c843542cc07e36f491cbeb838abfc626eaeff1cc801ac2d
+"ts-pattern@npm:5.7.0":
+  version: 5.7.0
+  resolution: "ts-pattern@npm:5.7.0"
+  checksum: 10c0/6a49d2b502a916def7b07ed66d5675aaf5159dd09b9dbdb334ebfc464af6307e33ae9fbec8ece9182f7ae6a9b2589087da5924d35a74bd52323c3f3745b15d1e
   languageName: node
   linkType: hard
 
