@@ -42,7 +42,7 @@
 		"@types/react-dom": "19.0.2",
 		"@vercel/speed-insights": "1.2.0",
 		"autoprefixer": "10.4.21",
-		"chrono-node": "2.7.9",
+		"chrono-node": "2.8.0",
 		"class-variance-authority": "0.7.1",
 		"clsx": "2.1.1",
 		"cmdk": "^1.0.0",
