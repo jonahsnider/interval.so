@@ -1699,7 +1699,7 @@ __metadata:
     hot-hook: "patch:hot-hook@npm%3A0.3.0#~/.yarn/patches/hot-hook-npm-0.3.0-0c210b56e7.patch"
     pino-pretty: "npm:13.0.0"
     postgres: "npm:3.4.5"
-    posthog-node: "npm:4.11.1"
+    posthog-node: "npm:4.11.2"
     prettier: "npm:3.5.3"
     reflect-metadata: "npm:0.2.2"
     rxjs: "npm:7.8.2"
@@ -6074,14 +6074,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.7.4":
-  version: 1.7.4
-  resolution: "axios@npm:1.7.4"
+"axios@npm:^1.8.2":
+  version: 1.8.4
+  resolution: "axios@npm:1.8.4"
   dependencies:
     follow-redirects: "npm:^1.15.6"
     form-data: "npm:^4.0.0"
     proxy-from-env: "npm:^1.1.0"
-  checksum: 10c0/5ea1a93140ca1d49db25ef8e1bd8cfc59da6f9220159a944168860ad15a2743ea21c5df2967795acb15cbe81362f5b157fdebbea39d53117ca27658bab9f7f17
+  checksum: 10c0/450993c2ba975ffccaf0d480b68839a3b2435a5469a71fa2fb0b8a55cdb2c2ae47e609360b9c1e2b2534b73dfd69e2733a1cf9f8215bee0bcd729b72f801b0ce
   languageName: node
   linkType: hard
 
@@ -10928,12 +10928,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-node@npm:4.11.1":
-  version: 4.11.1
-  resolution: "posthog-node@npm:4.11.1"
+"posthog-node@npm:4.11.2":
+  version: 4.11.2
+  resolution: "posthog-node@npm:4.11.2"
   dependencies:
-    axios: "npm:^1.7.4"
-  checksum: 10c0/6ed414ebb6e999dd273c05dfb29e7664c74b088d425ba9c19d7b9625a05554ff3f8aca99d44b206575e227e0084dbff40fbdcadc33d890f401829a79a6bb5469
+    axios: "npm:^1.8.2"
+  checksum: 10c0/a842b68f151f8904d5d50e3a095204794f4a8ea12f75a9b09cd6cd74fff0e2efde6730b212b9cedce7377988980caab6d3dd949da8c9b0c64ae4f4a729eceb91
   languageName: node
   linkType: hard
 
