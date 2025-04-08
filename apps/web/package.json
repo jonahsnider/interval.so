@@ -67,7 +67,7 @@
 		"react-hook-form": "7.54.0",
 		"recharts": "^2.14.1",
 		"server-only": "0.0.1",
-		"sharp": "0.34.0",
+		"sharp": "0.34.1",
 		"sonner": "1.7.4",
 		"superjson": "2.2.2",
 		"tailwind-merge": "3.2.0",
