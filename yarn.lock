@@ -1740,7 +1740,7 @@ __metadata:
     "@sentry/nextjs": "npm:^8.42.0"
     "@simplewebauthn/browser": "npm:10.0.0"
     "@simplewebauthn/types": "npm:10.0.0"
-    "@tanstack/react-query": "npm:5.72.0"
+    "@tanstack/react-query": "npm:5.72.1"
     "@tanstack/react-table": "npm:8.21.2"
     "@trpc/client": "npm:11.0.0-rc.630"
     "@trpc/next": "npm:11.0.0-rc.630"
@@ -5036,21 +5036,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.72.0":
-  version: 5.72.0
-  resolution: "@tanstack/query-core@npm:5.72.0"
-  checksum: 10c0/a22a4536d90069718a8e1d46832ca27d870a5080e98f37021163d4fea4fe2ea499fd7cd3452de340b8805c2378f56f5967bf924eb66105d626f731804500f206
+"@tanstack/query-core@npm:5.72.1":
+  version: 5.72.1
+  resolution: "@tanstack/query-core@npm:5.72.1"
+  checksum: 10c0/e89963af090a35db5b11859cd54c5940cb7c47cfef121e3ed9260c06c42328e58b69805ffa4fd962fc39ad8c74f2e97a35787685e546a1357d9e4316ae8a9462
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:5.72.0":
-  version: 5.72.0
-  resolution: "@tanstack/react-query@npm:5.72.0"
+"@tanstack/react-query@npm:5.72.1":
+  version: 5.72.1
+  resolution: "@tanstack/react-query@npm:5.72.1"
   dependencies:
-    "@tanstack/query-core": "npm:5.72.0"
+    "@tanstack/query-core": "npm:5.72.1"
   peerDependencies:
     react: ^18 || ^19
-  checksum: 10c0/e6b1963bb3a8cd5f68fde8b9a22222450137bf1384fd242c9757ff37feb70abd2627c24763a70d79aa6492f52b4763cff48787bce796662d8359db95e8e33ab9
+  checksum: 10c0/2e07d47b559ef6cdd29376c01a40c50241bcd730ea4b6b71fc6d0138d6609b762ddd3ecafa39f4dad670a8f5a45db890f9088120fdf918402b8e0973ce4dec0d
   languageName: node
   linkType: hard
 
