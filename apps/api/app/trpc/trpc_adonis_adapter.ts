@@ -56,7 +56,7 @@ export function createTrpcHandlerAdonis<TRouter extends AnyTRPCRouter>(options: 
 		const trpcResponse = await resolveResponse({
 			router,
 			path,
-			req: incomingMessageToRequest(request.request, { maxBodySize: null }),
+			req: incomingMessageToRequest(request.request, response.response, { maxBodySize: null }),
 			createContext({ info }) {
 				return createContext({ context, info });
 			},
