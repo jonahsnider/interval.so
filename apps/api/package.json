@@ -45,7 +45,7 @@
 		"@simplewebauthn/server": "10.0.1",
 		"@trpc/server": "11.1.1",
 		"@vinejs/vine": "3.0.1",
-		"convert": "5.10.0",
+		"convert": "5.11.0",
 		"crypto-random-string": "5.0.0",
 		"date-fns": "4.1.0",
 		"drizzle-kit": "0.31.0",
