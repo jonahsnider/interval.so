@@ -1746,7 +1746,7 @@ __metadata:
     postcss: "npm:8.5.3"
     postcss-import: "npm:16.1.0"
     posthog-js: "npm:1.236.7"
-    radix-themes-tw: "npm:0.2.3"
+    radix-themes-tw: "npm:1.1.0"
     react: "npm:19.0.0"
     react-day-picker: "npm:8.10.1"
     react-dom: "npm:19.0.0"
@@ -10605,10 +10605,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"radix-themes-tw@npm:0.2.3":
-  version: 0.2.3
-  resolution: "radix-themes-tw@npm:0.2.3"
-  checksum: 10c0/4ba617102825a111f94687736548108f05e46cd7253e6b84ba6587e33902e4cc7576b765c4c99c7910791251f2733bc347c300a4d77d3238eaf5f8ae80f367a7
+"radix-themes-tw@npm:1.1.0":
+  version: 1.1.0
+  resolution: "radix-themes-tw@npm:1.1.0"
+  checksum: 10c0/a8f2b9494bab17cf4ed8a012887b5d72ebd84d0db3965b3116786dba6600eaddd5b98f4e560a7063464fdfae3561f32a816cbd9601dd0307d52ea884e9f6b8c7
   languageName: node
   linkType: hard
 
