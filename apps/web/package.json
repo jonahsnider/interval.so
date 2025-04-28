@@ -59,7 +59,6 @@
 		"postcss": "8.5.3",
 		"postcss-import": "16.1.0",
 		"posthog-js": "1.236.7",
-		"radix-themes-tw": "0.2.3",
 		"react": "19.0.0",
 		"react-day-picker": "8.10.1",
 		"react-dom": "19.0.0",
