@@ -9,7 +9,7 @@ import { ArrowPathIcon } from '@heroicons/react/16/solid';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UserSchema } from '@interval.so/api/app/user/schemas/user_schema';
 import { WebAuthnError, startRegistration } from '@simplewebauthn/browser';
-import type { PublicKeyCredentialCreationOptionsJSON, RegistrationResponseJSON } from '@simplewebauthn/types';
+import type { PublicKeyCredentialCreationOptionsJSON, RegistrationResponseJSON } from '@simplewebauthn/browser';
 import { TRPCClientError } from '@trpc/client';
 import { useRouter } from 'next/navigation';
 import { useQueryStates } from 'nuqs';
@@ -73,7 +73,8 @@ export function SignupCard() {
 
 	const wrappedStartRegistration = async (registrationOptions: PublicKeyCredentialCreationOptionsJSON) => {
 		try {
-			return await startRegistration(registrationOptions);
+			// biome-ignore lint/style/useNamingConvention: This can't be renamed
+			return await startRegistration({ optionsJSON: registrationOptions });
 		} catch (error) {
 			if (error instanceof Error) {
 				if (

@@ -8,7 +8,7 @@ export function LandingInsightsSection() {
 				<Image
 					src={screenshot}
 					width={768}
-					objectFit='cover'
+					style={{ objectFit: 'cover', height: 'auto' }}
 					alt='A screenshot of the Interval dashboard on a laptop'
 					quality={95}
 				/>
