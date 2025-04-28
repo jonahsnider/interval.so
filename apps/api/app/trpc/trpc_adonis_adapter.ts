@@ -71,7 +71,7 @@ export function createTrpcHandlerAdonis<TRouter extends AnyTRPCRouter>(options: 
 		response.status(trpcResponse.status);
 
 		if (trpcResponse.body !== null) {
-			// @ts-expect-error Not sure why the types have stopped acting like iterables are a thing, but this works
+			// @ts-ignore Sometimes this acts like iterables don't exist, other times it doesn't
 			response.stream(Readable.fromWeb(trpcResponse.body));
 		}
 	};

@@ -9,9 +9,10 @@ import {
 } from '@simplewebauthn/server';
 import type {
 	AuthenticationResponseJSON,
+	AuthenticatorTransport,
 	PublicKeyCredentialCreationOptionsJSON,
 	RegistrationResponseJSON,
-} from '@simplewebauthn/types';
+} from '@simplewebauthn/server';
 import { TRPCError } from '@trpc/server';
 import { eq } from 'drizzle-orm';
 import { origin, rpId, rpName } from '#config/auth';
@@ -107,12 +108,12 @@ export class AuthService {
 			await tx.insert(Schema.credentials).values({
 				userId: user.userId,
 				deviceType: verification.registrationInfo.credentialDeviceType,
-				credentialId: verification.registrationInfo.credentialID,
-				publicKey: Buffer.from(verification.registrationInfo.credentialPublicKey),
+				credentialId: verification.registrationInfo.credential.id,
+				publicKey: Buffer.from(verification.registrationInfo.credential.publicKey),
 				webauthnUserId: verification.registrationInfo.aaguid,
 				backedUp: verification.registrationInfo.credentialBackedUp,
-				counter: verification.registrationInfo.counter,
-				transports: input.body.response.transports,
+				counter: verification.registrationInfo.credential.counter,
+				transports: verification.registrationInfo.credential.transports,
 			});
 
 			userId = user.userId;
@@ -194,10 +195,9 @@ export class AuthService {
 			// biome-ignore lint/style/useNamingConvention: This can't be renamed
 			expectedRPID: rpId,
 			expectedOrigin: origin,
-			authenticator: {
-				// biome-ignore lint/style/useNamingConvention: This can't be renamed
-				credentialID: passkey.credentialId,
-				credentialPublicKey: passkey.publicKey,
+			credential: {
+				id: passkey.credentialId,
+				publicKey: passkey.publicKey,
 				counter: passkey.counter,
 				transports: passkey.transports as AuthenticatorTransport[],
 			},
