@@ -51,7 +51,7 @@
 		"drizzle-kit": "0.31.0",
 		"drizzle-orm": "0.43.1",
 		"postgres": "3.4.5",
-		"posthog-node": "4.16.0",
+		"posthog-node": "4.17.0",
 		"reflect-metadata": "0.2.2",
 		"rxjs": "7.8.2",
 		"superjson": "2.2.2",
