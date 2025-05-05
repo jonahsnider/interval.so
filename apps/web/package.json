@@ -75,7 +75,7 @@
 		"typescript": "5.8.3",
 		"use-debounce": "10.0.4",
 		"use-mutative": "1.1.8",
-		"zod": "3.24.3"
+		"zod": "3.24.4"
 	},
 	"devDependencies": {
 		"dotenv": "16.5.0"
