@@ -30,6 +30,7 @@ const emitterService = await app.container.make('emitter');
 const sentryMiddleware = new SentryMiddleware();
 
 const handler = applyWSSHandler({
+	// @ts-expect-error tRPC ws types are out of date
 	wss,
 	router: appRouter.getRouter(),
 	createContext: async (options) => {

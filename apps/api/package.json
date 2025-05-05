@@ -65,7 +65,7 @@
 		"@swc/core": "1.10.1",
 		"@types/node": "22.15.3",
 		"@types/pg": "8.11.10",
-		"@types/ws": "^8.5.13",
+		"@types/ws": "8.18.1",
 		"dotenv": "16.5.0",
 		"execa": "9.5.2",
 		"hot-hook": "patch:hot-hook@npm%3A0.3.0#~/.yarn/patches/hot-hook-npm-0.3.0-0c210b56e7.patch",
