@@ -23,6 +23,7 @@ type Props = {
 	verbose?: boolean;
 	display: 'start' | 'end' | 'range';
 	disabled?: boolean;
+	onOpenChange?: (open: boolean) => void;
 };
 
 function getUsedValue(input: {
@@ -53,6 +54,7 @@ export function DateTimeRangePicker({
 	verbose = false,
 	display,
 	disabled,
+	onOpenChange,
 }: Props) {
 	const [startInputFocused, setStartInputFocused] = useState(false);
 	const [endInputFocused, setEndInputFocused] = useState(false);
@@ -113,7 +115,7 @@ export function DateTimeRangePicker({
 	};
 
 	return (
-		<Popover>
+		<Popover onOpenChange={onOpenChange}>
 			<PopoverTrigger asChild={true}>
 				<Button disabled={disabled} variant='outline' {...buttonProps} className={cn('min-w-64', className)}>
 					{icon && <CalendarIcon className='h-4 w-4 mr-2' />}
