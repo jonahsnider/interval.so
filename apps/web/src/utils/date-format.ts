@@ -87,6 +87,7 @@ export function formatDateRange(start: Date, end?: Date, verbose = false): strin
 	const formatter = new Intl.DateTimeFormat('en-US', options);
 
 	const formatted = multiReplace(prefix + formatter.formatRange(start, end ?? new Date()), {
+		'\u202f': ' ',
 		'\u2009': ' ',
 		'\u2013': '-',
 	});
