@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { trpc } from '@/src/trpc/trpc-client';
-import { formatDateRange } from '@/src/utils/date-format';
+import { formatDate } from '@/src/utils/date-format';
 import { ArrowDownTrayIcon } from '@heroicons/react/16/solid';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import type { TeamMeetingSchema } from '@interval.so/api/app/team_meeting/schemas/team_meeting_schema';
@@ -25,7 +25,7 @@ export function DownloadMeetingsCsvButton({ team }: Props) {
 		timeFilter,
 	});
 
-	const csvUrl = `data:text/csv;charset=utf-8,${meetingsToCsv(meetings ?? [])}`;
+	const csvUrl = `data:text/csv;charset=utf-8,${encodeURIComponent(meetingsToCsv(meetings ?? []))}`;
 
 	return (
 		<Button asChild={true} variant='outline'>
@@ -36,6 +36,10 @@ export function DownloadMeetingsCsvButton({ team }: Props) {
 		</Button>
 	);
 }
+
+const CSV_HEADER_SEPARATOR = '-';
+const CSV_ROW_SEPARATOR = '';
+const TRAILING_SEPARATOR_REGEXP = /(,|,"-")$/gm;
 
 function meetingsToCsv(meetings: TeamMeetingSchema[]) {
 	const meetingsToAttendees = meetings.map(
@@ -50,7 +54,11 @@ function meetingsToCsv(meetings: TeamMeetingSchema[]) {
 
 	const headerRow = [
 		'Name',
-		...meetings.map((meeting) => encodeCsvValue(formatDateRange(meeting.startedAt, meeting.endedAt, true))),
+		...meetings.flatMap((meeting) => [
+			encodeCsvValue(formatDate(meeting.startedAt, true)),
+			encodeCsvValue(formatDate(meeting.endedAt ?? new Date(), true)),
+			encodeCsvValue(CSV_HEADER_SEPARATOR),
+		]),
 	].join(',');
 
 	const memberToAttendance = new Map<string, string[]>();
@@ -61,14 +69,16 @@ function meetingsToCsv(meetings: TeamMeetingSchema[]) {
 
 			const memberAttendance = memberToAttendance.get(memberId);
 
-			const attendanceForMeetingString = attendanceForMeeting
-				? encodeCsvValue(formatDateRange(attendanceForMeeting.startedAt, attendanceForMeeting.endedAt, true))
-				: '';
+			const attendanceForMeetingString = [
+				attendanceForMeeting ? encodeCsvValue(formatDate(attendanceForMeeting.startedAt, true)) : '',
+				attendanceForMeeting ? encodeCsvValue(formatDate(attendanceForMeeting.endedAt ?? new Date(), true)) : '',
+				CSV_ROW_SEPARATOR,
+			];
 
 			if (memberAttendance) {
-				memberAttendance.push(attendanceForMeetingString);
+				memberAttendance.push(...attendanceForMeetingString);
 			} else {
-				memberToAttendance.set(memberId, [attendanceForMeetingString]);
+				memberToAttendance.set(memberId, attendanceForMeetingString);
 			}
 		}
 	}
@@ -82,10 +92,16 @@ function meetingsToCsv(meetings: TeamMeetingSchema[]) {
 	// biome-ignore lint/style/noNonNullAssertion: This is safe
 	memberRows.sort(([a], [b]) => a!.localeCompare(b!));
 
-	return `${headerRow}\n${memberRows.map((row) => row.join(',')).join('\n')}\n`;
+	const lines = memberRows.map((columns) => columns.join(','));
+
+	return `${headerRow}\n${lines.join('\n')}\n`.replaceAll(TRAILING_SEPARATOR_REGEXP, '');
 }
 
 function encodeCsvValue(value: string) {
+	if (value === '') {
+		return '';
+	}
+
 	return `"${multiReplace(value, {
 		'"': '\\"',
 	})}"`;
