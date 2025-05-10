@@ -6,7 +6,6 @@ import type { AttendanceEntrySchema } from '@interval.so/api/app/team_member_att
 import type { TimeRangeSchema } from '@interval.so/api/app/team_stats/schemas/time_range_schema';
 import { type ComponentProps, useState } from 'react';
 import { toast } from 'sonner';
-import { useDebouncedCallback } from 'use-debounce';
 
 type Props = {
 	meeting: Pick<AttendanceEntrySchema, 'attendanceId' | 'startedAt' | 'endedAt'>;
@@ -29,7 +28,7 @@ export function MeetingDateRangePicker({ meeting, disabled, ...pickerProps }: Pr
 		},
 	});
 
-	const doUpdate = useDebouncedCallback((value: Partial<{ start: Date; end: Date }>) => {
+	const doUpdate = (value: Partial<{ start: Date; end: Date }>) => {
 		if (value.start && value.end) {
 			updateAttendance.mutate({
 				startedAt: value.start,
@@ -37,13 +36,17 @@ export function MeetingDateRangePicker({ meeting, disabled, ...pickerProps }: Pr
 				attendanceId: meeting.attendanceId,
 			});
 		}
-	}, 750);
+	};
 
 	const onSelect = (value: Partial<TimeRangeSchema>) => {
 		setOptimisticValue(value);
+	};
 
-		// Do nothing if the user didn't select a range, since a range is required
-		doUpdate(value);
+	const onOpenChange = (open: boolean) => {
+		// Commit changes when closed
+		if (!open && optimisticValue) {
+			doUpdate(optimisticValue);
+		}
 	};
 
 	const disabledOrPending = disabled || updateAttendance.isPending;
@@ -58,6 +61,7 @@ export function MeetingDateRangePicker({ meeting, disabled, ...pickerProps }: Pr
 			}
 			onSelect={onSelect}
 			disabled={disabledOrPending}
+			onOpenChange={onOpenChange}
 			{...pickerProps}
 		/>
 	);
