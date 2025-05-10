@@ -63,7 +63,7 @@
 		"@adonisjs/assembler": "7.8.2",
 		"@adonisjs/tsconfig": "1.4.0",
 		"@swc/core": "1.11.24",
-		"@types/node": "22.15.14",
+		"@types/node": "22.15.17",
 		"@types/pg": "8.12.0",
 		"@types/ws": "8.18.1",
 		"dotenv": "16.5.0",
