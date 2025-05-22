@@ -2,8 +2,8 @@ import {
 	type HTTPBatchLinkOptions,
 	createWSClient,
 	httpBatchLink,
+	httpBatchStreamLink,
 	splitLink,
-	unstable_httpBatchStreamLink,
 	wsLink,
 } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
@@ -52,7 +52,7 @@ export const trpc = createTRPCNext<AppRouterType>({
 					// Mutations for auth will totally break and cause session stuff to stop working if you use streaming, since the backend can't set cookies via header properly
 					condition: (op) => op.type === 'mutation',
 					true: httpBatchLink(httpBatchOptions),
-					false: unstable_httpBatchStreamLink(httpBatchOptions),
+					false: httpBatchStreamLink(httpBatchOptions),
 				}),
 			}),
 		],
