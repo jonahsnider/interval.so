@@ -5541,9 +5541,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vercel/node@npm:5.2.2":
-  version: 5.2.2
-  resolution: "@vercel/node@npm:5.2.2"
+"@vercel/node@npm:5.3.0":
+  version: 5.3.0
+  resolution: "@vercel/node@npm:5.3.0"
   dependencies:
     "@edge-runtime/node-utils": "npm:2.3.0"
     "@edge-runtime/primitives": "npm:4.1.0"
@@ -5566,7 +5566,7 @@ __metadata:
     ts-node: "npm:10.9.1"
     typescript: "npm:4.9.5"
     undici: "npm:5.28.4"
-  checksum: 10c0/c5c75cd1fe70b8ab165a1cc58525ef2e363f4e6a0440135e8b3c37429303d0e16aae62737564b6300772d6c138d9edb8b19bee6300b0302ddef0f36a8a93b49e
+  checksum: 10c0/3bc4032d6a95d6f2d2dc5046de0aa36f593b395257dfb7e60ebb5383c42d6fc5e0a004f9c2fb88b495d1fe44cab25a928cb46d0068ecc24a43398739d67be693
   languageName: node
   linkType: hard
 
@@ -8562,7 +8562,7 @@ __metadata:
     prettier: "npm:3.5.3"
     prettier-plugin-packagejson: "npm:2.5.11"
     turbo: "npm:2.5.4"
-    vercel: "npm:43.1.0"
+    vercel: "npm:43.3.0"
   languageName: unknown
   linkType: soft
 
@@ -12633,9 +12633,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vercel@npm:43.1.0":
-  version: 43.1.0
-  resolution: "vercel@npm:43.1.0"
+"vercel@npm:43.3.0":
+  version: 43.3.0
+  resolution: "vercel@npm:43.3.0"
   dependencies:
     "@vercel/blob": "npm:1.0.2"
     "@vercel/build-utils": "npm:10.6.1"
@@ -12643,7 +12643,7 @@ __metadata:
     "@vercel/go": "npm:3.2.1"
     "@vercel/hydrogen": "npm:1.2.2"
     "@vercel/next": "npm:4.9.0"
-    "@vercel/node": "npm:5.2.2"
+    "@vercel/node": "npm:5.3.0"
     "@vercel/python": "npm:4.7.2"
     "@vercel/redwood": "npm:2.3.3"
     "@vercel/remix-builder": "npm:5.4.9"
@@ -12654,7 +12654,7 @@ __metadata:
   bin:
     vc: dist/vc.js
     vercel: dist/vc.js
-  checksum: 10c0/9a5a986048fd2e875ba7ae794b984d3cc21cacbb114d037ff1f04cf3b2301a626eb8cbf6b271130c350561fbf60142e3e8db4524f3e5e4f56d22793d4f2c72b3
+  checksum: 10c0/4a0876a8eb886036a6e1d09fea28987c22e0a0947590c31e3c6cb3bf298cee188d6424e934e5b19128687876b52d232ff0a92e8980db72a7e3f79e6949527ed4
   languageName: node
   linkType: hard
 
