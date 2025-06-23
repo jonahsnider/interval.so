@@ -62,7 +62,7 @@
 	"devDependencies": {
 		"@adonisjs/assembler": "7.8.2",
 		"@adonisjs/tsconfig": "1.4.1",
-		"@swc/core": "1.12.1",
+		"@swc/core": "1.12.5",
 		"@types/node": "22.15.32",
 		"@types/pg": "8.15.4",
 		"@types/ws": "8.18.1",
