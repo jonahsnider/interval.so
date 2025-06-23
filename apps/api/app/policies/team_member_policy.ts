@@ -34,7 +34,10 @@ export default class TeamMemberPolicy extends BasePolicy {
 		);
 	}
 
-	viewFullMemberList(actor: BouncerUser, team: Pick<TeamSchema, 'slug'> | Pick<TeamSchema, 'id'>): Promise<AuthorizerResponse> {
+	viewFullMemberList(
+		actor: BouncerUser,
+		team: Pick<TeamSchema, 'slug'> | Pick<TeamSchema, 'id'>,
+	): Promise<AuthorizerResponse> {
 		return this.authorizationService.hasRoles(actor, team, ['owner', 'admin', 'editor']);
 	}
 

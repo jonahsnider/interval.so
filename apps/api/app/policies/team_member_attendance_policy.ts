@@ -19,7 +19,10 @@ export default class TeamMemberAttendancePolicy extends BasePolicy {
 		return this.authorizationService.hasRolesByTeamMembers(actor, teamMembers, ['admin', 'owner', 'editor']);
 	}
 
-	deleteEntries(actor: BouncerUser, entries: Pick<AttendanceEntrySchema, 'attendanceId'>[]): Promise<AuthorizerResponse> {
+	deleteEntries(
+		actor: BouncerUser,
+		entries: Pick<AttendanceEntrySchema, 'attendanceId'>[],
+	): Promise<AuthorizerResponse> {
 		return this.authorizationService.hasRolesByMeetingIds(actor, entries, ['owner', 'admin', 'editor']);
 	}
 
