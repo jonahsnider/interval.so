@@ -15,15 +15,15 @@ export default class MeetingPolicy extends BasePolicy {
 		super();
 	}
 
-	viewList(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
+	viewList(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): Promise<AuthorizerResponse> {
 		return this.authorizationService.hasRoles(actor, team, ['owner', 'admin', 'editor']);
 	}
 
-	create(actor: BouncerUser, attendees: Pick<TeamMemberSchema, 'id'>[]): AuthorizerResponse {
+	create(actor: BouncerUser, attendees: Pick<TeamMemberSchema, 'id'>[]): Promise<AuthorizerResponse> {
 		return this.authorizationService.hasRolesByTeamMembers(actor, attendees, ['owner', 'admin', 'editor']);
 	}
 
-	delete(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
+	delete(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): Promise<AuthorizerResponse> {
 		return this.authorizationService.hasRoles(actor, team, ['owner', 'admin', 'editor']);
 	}
 }
