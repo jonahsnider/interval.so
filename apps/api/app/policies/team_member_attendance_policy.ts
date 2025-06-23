@@ -15,23 +15,23 @@ export default class TeamMemberAttendancePolicy extends BasePolicy {
 		super();
 	}
 
-	viewEntriesForMembers(actor: BouncerUser, teamMembers: Pick<TeamMemberSchema, 'id'>[]): AuthorizerResponse {
+	viewEntriesForMembers(actor: BouncerUser, teamMembers: Pick<TeamMemberSchema, 'id'>[]): Promise<AuthorizerResponse> {
 		return this.authorizationService.hasRolesByTeamMembers(actor, teamMembers, ['admin', 'owner', 'editor']);
 	}
 
-	deleteEntries(actor: BouncerUser, entries: Pick<AttendanceEntrySchema, 'attendanceId'>[]): AuthorizerResponse {
+	deleteEntries(actor: BouncerUser, entries: Pick<AttendanceEntrySchema, 'attendanceId'>[]): Promise<AuthorizerResponse> {
 		return this.authorizationService.hasRolesByMeetingIds(actor, entries, ['owner', 'admin', 'editor']);
 	}
 
-	createEntryForMembers(actor: BouncerUser, data: Pick<TeamMemberSchema, 'id'>[]): AuthorizerResponse {
+	createEntryForMembers(actor: BouncerUser, data: Pick<TeamMemberSchema, 'id'>[]): Promise<AuthorizerResponse> {
 		return this.authorizationService.hasRolesByTeamMembers(actor, data, ['owner', 'admin', 'editor']);
 	}
 
-	updateEntries(actor: BouncerUser, data: Pick<AttendanceEntrySchema, 'attendanceId'>[]): AuthorizerResponse {
+	updateEntries(actor: BouncerUser, data: Pick<AttendanceEntrySchema, 'attendanceId'>[]): Promise<AuthorizerResponse> {
 		return this.authorizationService.hasRolesByMeetingIds(actor, data, ['owner', 'admin', 'editor']);
 	}
 
-	mergeEntries(actor: BouncerUser, data: Pick<AttendanceEntrySchema, 'attendanceId'>[]): AuthorizerResponse {
+	mergeEntries(actor: BouncerUser, data: Pick<AttendanceEntrySchema, 'attendanceId'>[]): Promise<AuthorizerResponse> {
 		return this.authorizationService.hasRolesByMeetingIds(actor, data, ['owner', 'admin', 'editor']);
 	}
 }

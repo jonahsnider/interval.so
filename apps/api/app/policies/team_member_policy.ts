@@ -15,18 +15,18 @@ export default class TeamMemberPolicy extends BasePolicy {
 		super();
 	}
 
-	create(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
+	create(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): Promise<AuthorizerResponse> {
 		return this.authorizationService.hasRoles(actor, team, ['admin', 'owner', 'editor', 'guestToken']);
 	}
 
 	viewSimpleMemberList(
 		actor: BouncerUser,
 		team: Pick<TeamSchema, 'slug'> | Pick<TeamSchema, 'id'>,
-	): AuthorizerResponse {
+	): Promise<AuthorizerResponse> {
 		return this.authorizationService.hasRoles(actor, team, ['admin', 'owner', 'editor', 'guestToken']);
 	}
 
-	updateAttendance(actor: BouncerUser, teamMember: Pick<TeamMemberSchema, 'id'>): AuthorizerResponse {
+	updateAttendance(actor: BouncerUser, teamMember: Pick<TeamMemberSchema, 'id'>): Promise<AuthorizerResponse> {
 		return this.authorizationService.hasRolesByTeamMembers(
 			actor,
 			[teamMember],
@@ -34,23 +34,23 @@ export default class TeamMemberPolicy extends BasePolicy {
 		);
 	}
 
-	viewFullMemberList(actor: BouncerUser, team: Pick<TeamSchema, 'slug'> | Pick<TeamSchema, 'id'>): AuthorizerResponse {
+	viewFullMemberList(actor: BouncerUser, team: Pick<TeamSchema, 'slug'> | Pick<TeamSchema, 'id'>): Promise<AuthorizerResponse> {
 		return this.authorizationService.hasRoles(actor, team, ['owner', 'admin', 'editor']);
 	}
 
-	view(actor: BouncerUser, teamMembers: Pick<TeamMemberSchema, 'id'>[]): AuthorizerResponse {
+	view(actor: BouncerUser, teamMembers: Pick<TeamMemberSchema, 'id'>[]): Promise<AuthorizerResponse> {
 		return this.authorizationService.hasRolesByTeamMembers(actor, teamMembers, ['admin', 'owner', 'editor']);
 	}
 
-	update(actor: BouncerUser, teamMembers: Pick<TeamMemberSchema, 'id'>[]): AuthorizerResponse {
+	update(actor: BouncerUser, teamMembers: Pick<TeamMemberSchema, 'id'>[]): Promise<AuthorizerResponse> {
 		return this.authorizationService.hasRolesByTeamMembers(actor, teamMembers, ['admin', 'owner', 'editor']);
 	}
 
-	delete(actor: BouncerUser, teamMembers: Pick<TeamMemberSchema, 'id'>[]): AuthorizerResponse {
+	delete(actor: BouncerUser, teamMembers: Pick<TeamMemberSchema, 'id'>[]): Promise<AuthorizerResponse> {
 		return this.authorizationService.hasRolesByTeamMembers(actor, teamMembers, ['admin', 'owner', 'editor']);
 	}
 
-	signOutAll(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
+	signOutAll(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): Promise<AuthorizerResponse> {
 		return this.authorizationService.hasRoles(actor, team, ['owner', 'admin', 'editor']);
 	}
 }

@@ -22,7 +22,7 @@ export default class UserPolicy extends BasePolicy {
 		return actor.id === user.id;
 	}
 
-	async delete(actor: BouncerUser, user: Pick<UserSchema, 'id'>): Promise<boolean> {
+	async delete(actor: BouncerUser, user: Pick<UserSchema, 'id'>): Promise<AuthorizerResponse> {
 		if (actor.id !== user.id) {
 			return false;
 		}

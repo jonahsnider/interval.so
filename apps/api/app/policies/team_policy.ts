@@ -22,23 +22,23 @@ export default class TeamPolicy extends BasePolicy {
 		super();
 	}
 
-	viewInsights(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
+	viewInsights(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): Promise<AuthorizerResponse> {
 		return this.authorizationService.hasRoles(actor, team, ['owner', 'admin', 'editor']);
 	}
 
-	viewInviteUrl(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
+	viewInviteUrl(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): Promise<AuthorizerResponse> {
 		return this.authorizationService.hasRoles(actor, team, ['owner', 'admin']);
 	}
 
-	resetInviteUrl(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
+	resetInviteUrl(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): Promise<AuthorizerResponse> {
 		return this.authorizationService.hasRoles(actor, team, ['owner', 'admin']);
 	}
 
-	viewSettings(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
+	viewSettings(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): Promise<AuthorizerResponse> {
 		return this.authorizationService.hasRoles(actor, team, ['owner', 'admin', 'editor']);
 	}
 
-	updateSettings(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
+	updateSettings(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): Promise<AuthorizerResponse> {
 		return this.authorizationService.hasRoles(actor, team, ['owner', 'admin']);
 	}
 
@@ -48,7 +48,7 @@ export default class TeamPolicy extends BasePolicy {
 		team: Pick<TeamSchema, 'slug'>,
 		targetUser: Pick<UserSchema, 'id'>,
 		change: Pick<TeamManagerSchema, 'role'>,
-	): Promise<boolean> {
+	): Promise<AuthorizerResponse> {
 		const targetUserRole = await this.teamManagerService.getUserRole(bouncer, team, targetUser);
 
 		/** The roles allowed to perform this operation, or `false` if the operation is not allowed no matter what. */
@@ -78,7 +78,7 @@ export default class TeamPolicy extends BasePolicy {
 		bouncer: AppBouncer,
 		team: Pick<TeamSchema, 'slug'>,
 		targetUser: Pick<UserSchema, 'id'>,
-	): Promise<boolean> {
+	): Promise<AuthorizerResponse> {
 		const targetUserRole = await this.teamManagerService.getUserRole(bouncer, team, targetUser);
 
 		const allowedRoles = rolesThatCanManageOther(targetUserRole);
@@ -86,7 +86,7 @@ export default class TeamPolicy extends BasePolicy {
 		return this.authorizationService.hasRoles(actor, team, allowedRoles);
 	}
 
-	delete(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): AuthorizerResponse {
+	delete(actor: BouncerUser, team: Pick<TeamSchema, 'slug'>): Promise<AuthorizerResponse> {
 		return this.authorizationService.hasRoles(actor, team, ['owner']);
 	}
 }
