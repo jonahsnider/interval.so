@@ -3,7 +3,7 @@
 import { CalendarIcon } from '@heroicons/react/16/solid';
 import type { TimeRangeSchema } from '@interval.so/api/app/team_stats/schemas/time_range_schema';
 import { parseDate } from 'chrono-node';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Button, type ButtonProps } from '@/components/ui/button';
 import { Calendar, type CalendarProps } from '@/components/ui/calendar';
 import { Input } from '@/components/ui/input';
@@ -62,17 +62,7 @@ export function DateTimeRangePicker({
 	const [endInput, setEndInput] = useState(value.end ? formatDate(value.end) : '');
 	const now = new Date();
 
-	useEffect(() => {
-		// When value is updated externally (ex. reverting an invalid change), we trigger the calendar selection function
-		// This will update the text field values to ensure their state matches what is shown on the calendar
-
-		if (!(startInputFocused || endInputFocused)) {
-			// This is a hacky way to avoid the inputs effectively ignoring any changes that can't have a date extracted from them
-			onCalendarSelection(value);
-		}
-	}, [value, startInputFocused, endInputFocused]);
-
-	const onCalendarSelection = (range: Partial<TimeRangeSchema>) => {
+	const onCalendarSelection = useCallback((range: Partial<TimeRangeSchema>) => {
 		if (range.start) {
 			setStartInput(formatDate(range.start, true));
 		} else {
@@ -84,7 +74,17 @@ export function DateTimeRangePicker({
 		} else {
 			setEndInput('');
 		}
-	};
+	}, []);
+
+	useEffect(() => {
+		// When value is updated externally (ex. reverting an invalid change), we trigger the calendar selection function
+		// This will update the text field values to ensure their state matches what is shown on the calendar
+
+		if (!(startInputFocused || endInputFocused)) {
+			// This is a hacky way to avoid the inputs effectively ignoring any changes that can't have a date extracted from them
+			onCalendarSelection(value);
+		}
+	}, [value, startInputFocused, endInputFocused, onCalendarSelection]);
 
 	const onStartInput = (date: string) => {
 		setStartInput(date);
