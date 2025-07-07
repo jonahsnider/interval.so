@@ -1,15 +1,15 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { trpc } from '@/src/trpc/trpc-client';
 import { ArrowPathIcon } from '@heroicons/react/16/solid';
 import type { AuthenticationResponseJSON, PublicKeyCredentialRequestOptionsJSON } from '@simplewebauthn/browser';
-import { WebAuthnError, startAuthentication } from '@simplewebauthn/browser';
+import { startAuthentication, WebAuthnError } from '@simplewebauthn/browser';
 import { TRPCClientError } from '@trpc/client';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { Button } from '@/components/ui/button';
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { trpc } from '@/src/trpc/trpc-client';
 
 export function LoginCard() {
 	const router = useRouter();
@@ -45,7 +45,6 @@ export function LoginCard() {
 
 	const wrappedStartAuthentication = async (loginOptions: PublicKeyCredentialRequestOptionsJSON) => {
 		try {
-			// biome-ignore lint/style/useNamingConvention: This can't be renamed
 			return await startAuthentication({ optionsJSON: loginOptions });
 		} catch (error) {
 			if (error instanceof Error) {

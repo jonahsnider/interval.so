@@ -1,14 +1,14 @@
 import 'server-only';
 
-import { Skeleton } from '@/components/ui/skeleton';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { trpcServer } from '@/src/trpc/trpc-server';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import type { TimeFilterSchema } from '@interval.so/api/app/team_stats/schemas/time_filter_schema';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { InnerTableContainer, OuterTableContainer } from './meetings-table-common';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { trpcServer } from '@/src/trpc/trpc-server';
 import { MeetingsTableClient } from './meetings-table.client';
+import { InnerTableContainer, OuterTableContainer } from './meetings-table-common';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;

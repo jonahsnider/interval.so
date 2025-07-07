@@ -13,14 +13,9 @@
 */
 
 export const policies = {
-	// biome-ignore lint/style/useNamingConvention: Convention is to use PascalCase
 	TeamMemberPolicy: () => import('./team_member_policy.js'),
-	// biome-ignore lint/style/useNamingConvention: Convention is to use PascalCase
 	UserPolicy: () => import('./user_policy.js'),
-	// biome-ignore lint/style/useNamingConvention: Convention is to use PascalCase
 	TeamPolicy: () => import('./team_policy.js'),
-	// biome-ignore lint/style/useNamingConvention: Convention is to use PascalCase
 	MeetingPolicy: () => import('./meeting_policy.js'),
-	// biome-ignore lint/style/useNamingConvention: Convention is to use PascalCase
 	TeamMemberAttendancePolicy: () => import('./team_member_attendance_policy.js'),
 };

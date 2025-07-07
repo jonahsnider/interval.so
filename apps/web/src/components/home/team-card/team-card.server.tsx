@@ -1,11 +1,11 @@
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { trpcServer } from '@/src/trpc/trpc-server';
 import { ArrowRightIcon } from '@heroicons/react/24/solid';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { count } from '@jonahsnider/util';
 import { Link } from 'next-view-transitions';
 import { Suspense } from 'react';
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import { trpcServer } from '@/src/trpc/trpc-server';
 import { MemberAvatars } from '../../team-dashboard/member-avatars/member-avatars.server';
 import { TeamCardDescription } from './team-card.client';
 

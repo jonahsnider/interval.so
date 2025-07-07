@@ -1,8 +1,5 @@
 import 'server-only';
 
-import { Badge } from '@/components/ui/badge';
-import { Skeleton } from '@/components/ui/skeleton';
-import { trpcServer } from '@/src/trpc/trpc-server';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import type { TimeFilterSchema } from '@interval.so/api/app/team_stats/schemas/time_filter_schema';
 import type { TimeRangeSchema } from '@interval.so/api/app/team_stats/schemas/time_range_schema';
@@ -10,6 +7,9 @@ import { toDigits } from '@jonahsnider/util';
 import clsx from 'clsx';
 import { Link } from 'next-view-transitions';
 import { type ReactNode, Suspense } from 'react';
+import { Badge } from '@/components/ui/badge';
+import { Skeleton } from '@/components/ui/skeleton';
+import { trpcServer } from '@/src/trpc/trpc-server';
 import { searchParamCache, searchParamSerializer } from '../../search-params';
 
 type TabId = 'members' | 'hours';

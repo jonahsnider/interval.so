@@ -1,7 +1,7 @@
-import { trpcServer } from '@/src/trpc/trpc-server';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import clsx from 'clsx';
 import type { PropsWithChildren } from 'react';
+import { trpcServer } from '@/src/trpc/trpc-server';
 import { MainContent } from '../page-wrappers/main-content';
 import { NeedsGuestOrManagerCard } from './needs-guest-or-manager-card';
 import { NeedsManagerAuthCard } from './needs-manager-auth-card';

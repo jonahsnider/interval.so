@@ -1,7 +1,7 @@
-import { Skeleton } from '@/components/ui/skeleton';
-import { cn } from '@/lib/utils';
 import clsx from 'clsx';
 import { type PropsWithChildren, type ReactNode, Suspense } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
+import { cn } from '@/lib/utils';
 
 type Props = PropsWithChildren<{
 	title: ReactNode;

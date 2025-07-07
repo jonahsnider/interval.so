@@ -1,26 +1,26 @@
 'use client';
 
-import { Skeleton } from '@/components/ui/skeleton';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { TablePagination } from '@/src/components/data-tables/table-pagination';
-import { TableSelectionStatus } from '@/src/components/data-tables/table-selection-status';
-import { trpc } from '@/src/trpc/trpc-client';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
 import {
 	type ColumnFiltersState,
-	type PaginationState,
-	type SortingState,
 	flexRender,
 	getCoreRowModel,
 	getFilteredRowModel,
 	getPaginationRowModel,
 	getSortedRowModel,
+	type PaginationState,
+	type SortingState,
 	useReactTable,
 } from '@tanstack/react-table';
 import clsx from 'clsx';
 import Fuse from 'fuse.js';
 import { useEffect, useState } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { TablePagination } from '@/src/components/data-tables/table-pagination';
+import { TableSelectionStatus } from '@/src/components/data-tables/table-selection-status';
+import { trpc } from '@/src/trpc/trpc-client';
 import { columns } from './columns';
 import { MembersTableButtons } from './members-table-buttons';
 import { InnerTableContainer, OuterTableContainer } from './members-table-common';

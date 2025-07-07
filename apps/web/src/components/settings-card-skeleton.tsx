@@ -1,7 +1,7 @@
+import clsx from 'clsx';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
-import clsx from 'clsx';
 
 type Props = {
 	className?: string;

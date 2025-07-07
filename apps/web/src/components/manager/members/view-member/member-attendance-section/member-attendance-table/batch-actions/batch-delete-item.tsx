@@ -1,3 +1,7 @@
+import { TrashIcon } from '@heroicons/react/16/solid';
+import type { Table } from '@tanstack/react-table';
+import { useState } from 'react';
+import { toast } from 'sonner';
 import {
 	AlertDialogCancel,
 	AlertDialogContent,
@@ -9,17 +13,9 @@ import {
 import { Button } from '@/components/ui/button';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { trpc } from '@/src/trpc/trpc-client';
-import { TrashIcon } from '@heroicons/react/16/solid';
-import type { Table } from '@tanstack/react-table';
-import { useState } from 'react';
-import { toast } from 'sonner';
 import type { MembersTableMeetingRow } from '../columns';
 
-export function BatchDeleteItem({
-	setDialogOpen,
-}: {
-	setDialogOpen: (open: boolean) => void;
-}) {
+export function BatchDeleteItem({ setDialogOpen }: { setDialogOpen: (open: boolean) => void }) {
 	return (
 		<DropdownMenuItem
 			className='text-destructive focus:text-destructive focus:bg-destructive/10'

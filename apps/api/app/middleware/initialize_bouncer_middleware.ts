@@ -1,11 +1,10 @@
-import * as abilities from '#abilities/main';
-import { policies } from '#policies/main';
-
 import { Bouncer } from '@adonisjs/bouncer';
 import type { BouncerAbility, Constructor, LazyImport } from '@adonisjs/bouncer/types';
 import type { HttpContext } from '@adonisjs/core/http';
 import type { NextFn } from '@adonisjs/core/types/http';
 import type { Session } from '@adonisjs/session';
+import * as abilities from '#abilities/main';
+import { policies } from '#policies/main';
 import type { UserSchema } from '../user/schemas/user_schema.js';
 
 export type BouncerUser =
@@ -23,7 +22,6 @@ export type AppBouncer = BouncerWithUser<BouncerUser, typeof abilities, typeof p
  * Init bouncer middleware is used to create a bouncer instance
  * during an HTTP request
  */
-// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default class InitializeBouncerMiddleware {
 	handle(ctx: HttpContext, next: NextFn) {
 		/**

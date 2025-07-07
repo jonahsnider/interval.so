@@ -1,7 +1,7 @@
-import { SettingsCardSkeleton } from '@/src/components/settings-card-skeleton';
-import { trpcServer } from '@/src/trpc/trpc-server';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { Suspense } from 'react';
+import { SettingsCardSkeleton } from '@/src/components/settings-card-skeleton';
+import { trpcServer } from '@/src/trpc/trpc-server';
 import { DeleteTeamCardClient } from './delete-team-card.client';
 
 type Props = {

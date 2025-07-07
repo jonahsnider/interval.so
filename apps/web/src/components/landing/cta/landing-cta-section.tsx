@@ -1,6 +1,6 @@
-import { buttonVariants } from '@/components/ui/button';
 import clsx from 'clsx';
 import { Link } from 'next-view-transitions';
+import { buttonVariants } from '@/components/ui/button';
 import styles from './cta.module.css';
 
 export function LandingCtaSection() {

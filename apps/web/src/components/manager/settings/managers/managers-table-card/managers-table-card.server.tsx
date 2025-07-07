@@ -1,14 +1,14 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import {
-	type TeamManagerSchema,
 	getAllowedRoleModifications,
+	type TeamManagerSchema,
 } from '@interval.so/api/app/team_manager/schemas/team_manager_schema';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import 'server-only';
+import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { trpcServer } from '@/src/trpc/trpc-server';
-import { Suspense } from 'react';
 import { ManagersTableRoleSelect, ManagersTableRowActions } from './managers-table-card.client';
 
 type Props = {

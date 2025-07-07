@@ -2,7 +2,7 @@
 
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import posthog from 'posthog-js';
-import { type PropsWithChildren, createContext, useCallback, useMemo, useState } from 'react';
+import { createContext, type PropsWithChildren, useCallback, useMemo, useState } from 'react';
 
 type ContextValue = {
 	currentTeam: Pick<TeamSchema, 'id'> | undefined;

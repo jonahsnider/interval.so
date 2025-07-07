@@ -1,15 +1,10 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { trpc } from '@/src/trpc/trpc-client';
 import { ArrowPathIcon } from '@heroicons/react/16/solid';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UserSchema } from '@interval.so/api/app/user/schemas/user_schema';
-import { WebAuthnError, startRegistration } from '@simplewebauthn/browser';
 import type { PublicKeyCredentialCreationOptionsJSON, RegistrationResponseJSON } from '@simplewebauthn/browser';
+import { startRegistration, WebAuthnError } from '@simplewebauthn/browser';
 import { TRPCClientError } from '@trpc/client';
 import { useRouter } from 'next/navigation';
 import { useQueryStates } from 'nuqs';
@@ -17,6 +12,11 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import type { z } from 'zod';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { trpc } from '@/src/trpc/trpc-client';
 import { searchParamParsers } from '../search-params';
 
 const formSchema = UserSchema.pick({ displayName: true });
@@ -73,7 +73,6 @@ export function SignupCard() {
 
 	const wrappedStartRegistration = async (registrationOptions: PublicKeyCredentialCreationOptionsJSON) => {
 		try {
-			// biome-ignore lint/style/useNamingConvention: This can't be renamed
 			return await startRegistration({ optionsJSON: registrationOptions });
 		} catch (error) {
 			if (error instanceof Error) {

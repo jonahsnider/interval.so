@@ -1,5 +1,9 @@
 'use client';
 
+import { TrashIcon } from '@heroicons/react/16/solid';
+import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
+import { useState } from 'react';
+import { toast } from 'sonner';
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -14,10 +18,6 @@ import {
 import { buttonVariants } from '@/components/ui/button';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { trpc } from '@/src/trpc/trpc-client';
-import { TrashIcon } from '@heroicons/react/16/solid';
-import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
-import { useState } from 'react';
-import { toast } from 'sonner';
 
 type Props = {
 	member: Pick<TeamMemberSchema, 'id' | 'name'>;

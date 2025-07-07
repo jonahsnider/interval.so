@@ -1,9 +1,9 @@
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { trpc } from '@/src/trpc/trpc-client';
 import { Square3Stack3DIcon } from '@heroicons/react/16/solid';
 import type { Table } from '@tanstack/react-table';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
+import { trpc } from '@/src/trpc/trpc-client';
 import type { MembersTableMeetingRow } from '../columns';
 
 type Props = {

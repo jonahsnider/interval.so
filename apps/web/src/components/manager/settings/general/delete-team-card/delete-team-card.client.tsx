@@ -1,5 +1,9 @@
 'use client';
 
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { toast } from 'sonner';
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -14,10 +18,6 @@ import {
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { trpc } from '@/src/trpc/trpc-client';
-import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { toast } from 'sonner';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;

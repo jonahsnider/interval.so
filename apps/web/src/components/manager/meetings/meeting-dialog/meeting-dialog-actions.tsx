@@ -1,3 +1,8 @@
+import { EllipsisVerticalIcon, TrashIcon } from '@heroicons/react/16/solid';
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
+import type { TeamMeetingSchema } from '@interval.so/api/app/team_meeting/schemas/team_meeting_schema';
+import { useState } from 'react';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
@@ -6,11 +11,6 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { trpc } from '@/src/trpc/trpc-client';
-import { EllipsisVerticalIcon, TrashIcon } from '@heroicons/react/16/solid';
-import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
-import type { TeamMeetingSchema } from '@interval.so/api/app/team_meeting/schemas/team_meeting_schema';
-import { useState } from 'react';
-import { toast } from 'sonner';
 
 type Props = {
 	meeting: TeamMeetingSchema;

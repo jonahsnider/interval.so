@@ -1,3 +1,7 @@
+import { PlusIcon } from '@heroicons/react/16/solid';
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
+import { Link } from 'next-view-transitions';
+import { Suspense } from 'react';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -7,10 +11,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
 import { trpcServer } from '@/src/trpc/trpc-server';
-import { PlusIcon } from '@heroicons/react/16/solid';
-import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
-import { Link } from 'next-view-transitions';
-import { Suspense } from 'react';
 import { TeamDropdownClient, TeamDropdownTrigger } from './team-dropdown.client';
 
 function TeamDropdownSkeleton({ currentTeam }: { currentTeam?: Pick<TeamSchema, 'slug'> }) {

@@ -1,9 +1,9 @@
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
+import { Suspense } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { CopyButtonInput } from '@/src/components/copy-button-input';
 import { SettingsCardContentSkeleton, SettingsCardSkeleton } from '@/src/components/settings-card-skeleton';
 import { trpcServer } from '@/src/trpc/trpc-server';
-import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
-import { Suspense } from 'react';
 import { ManageInviteLinkCardButton } from './manager-invite-link-card.client';
 import { inviteLinkUrl } from './shared';
 

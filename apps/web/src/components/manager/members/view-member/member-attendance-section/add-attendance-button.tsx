@@ -1,10 +1,5 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { DateTimeRangePicker } from '@/src/components/date-time-range-picker';
-import { trpc } from '@/src/trpc/trpc-client';
 import { PlusIcon } from '@heroicons/react/16/solid';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
@@ -13,6 +8,11 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { DateTimeRangePicker } from '@/src/components/date-time-range-picker';
+import { trpc } from '@/src/trpc/trpc-client';
 
 type Props = {
 	member: Pick<TeamMemberSchema, 'id'>;

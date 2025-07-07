@@ -9,7 +9,6 @@ import type { AttendanceEntrySchema } from '../team_member_attendance/schemas/at
 
 @inject()
 @injectHelper(AuthorizationService)
-// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default class TeamMemberAttendancePolicy extends BasePolicy {
 	constructor(private readonly authorizationService: AuthorizationService) {
 		super();

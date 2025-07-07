@@ -1,6 +1,6 @@
+import type { PropsWithChildren } from 'react';
 import { FooterWrapper } from '@/src/components/page-wrappers/footer-wrapper';
 import { TeamSlugProvider } from '@/src/components/team-dashboard/team-slug-provider';
-import type { PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren<{
 	params: Promise<{
@@ -8,7 +8,6 @@ type Props = PropsWithChildren<{
 	}>;
 }>;
 
-// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default async function TeamPageLayout(props: Props) {
 	const params = await props.params;
 

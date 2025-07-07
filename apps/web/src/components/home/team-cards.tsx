@@ -1,8 +1,8 @@
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
+import { Suspense, use } from 'react';
 import { Card, CardFooter, CardHeader } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { trpcServer } from '@/src/trpc/trpc-server';
-import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
-import { Suspense, use } from 'react';
 import { CreateTeamCard } from './create-team-card';
 import { TeamCard } from './team-card/team-card.server';
 
@@ -43,11 +43,7 @@ function TeamCardSkeleton() {
 	);
 }
 
-function TeamCardsInner({
-	teamsPromise,
-}: {
-	teamsPromise: Promise<Pick<TeamSchema, 'displayName' | 'slug'>[]>;
-}) {
+function TeamCardsInner({ teamsPromise }: { teamsPromise: Promise<Pick<TeamSchema, 'displayName' | 'slug'>[]> }) {
 	const teams = use(teamsPromise);
 
 	return (

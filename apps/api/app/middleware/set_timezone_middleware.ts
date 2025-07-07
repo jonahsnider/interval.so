@@ -5,7 +5,6 @@ import { UserTimezoneSchema } from '../user/schemas/user_timezone_schema.js';
 /**
  * Users can include a "X-Set-Timezone" header in their request to set their timezone. This allows clients to set the timezone automatically & without prompting the user.
  */
-// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default class SetTimezoneMiddleware {
 	handle(ctx: HttpContext, next: NextFn) {
 		const setTimezoneHeader = ctx.request.header('x-set-timezone');

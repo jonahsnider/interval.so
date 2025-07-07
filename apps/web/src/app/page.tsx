@@ -1,11 +1,11 @@
+import { captureException } from '@sentry/nextjs';
+import { unstable_noStore as noStore } from 'next/cache';
+import { cookies } from 'next/headers';
 import { TeamCards } from '@/src/components/home/team-cards';
 import { Navbar } from '@/src/components/navbar/navbar';
 import { FooterWrapper } from '@/src/components/page-wrappers/footer-wrapper';
 import { MainContent } from '@/src/components/page-wrappers/main-content';
 import { trpcServer } from '@/src/trpc/trpc-server';
-import { captureException } from '@sentry/nextjs';
-import { unstable_noStore as noStore } from 'next/cache';
-import { cookies } from 'next/headers';
 import LandingPage from './home/page';
 
 function AuthedHomePage() {
@@ -22,7 +22,6 @@ function AuthedHomePage() {
 	);
 }
 
-// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default async function HomePage() {
 	noStore();
 

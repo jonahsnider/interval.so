@@ -1,3 +1,6 @@
+import clsx from 'clsx';
+import type { Metadata } from 'next';
+import { Link } from 'next-view-transitions';
 import { buttonVariants } from '@/components/ui/button';
 import { LandingAttendanceSection } from '@/src/components/landing/attendance/landing-attendance-section';
 import { LandingCtaSection } from '@/src/components/landing/cta/landing-cta-section';
@@ -6,9 +9,6 @@ import { LandingInsightsSection } from '@/src/components/landing/insights/landin
 import { Navbar } from '@/src/components/navbar/navbar';
 import { FooterWrapper } from '@/src/components/page-wrappers/footer-wrapper';
 import { siteMetadata } from '@/src/site-metadata';
-import clsx from 'clsx';
-import type { Metadata } from 'next';
-import { Link } from 'next-view-transitions';
 import dotsStyles from '../../components/dots/dots.module.css';
 
 export const metadata: Metadata = {
@@ -18,7 +18,6 @@ export const metadata: Metadata = {
 	},
 };
 
-// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default function LandingPage() {
 	return (
 		<FooterWrapper themeProps={{ forcedTheme: 'dark' }}>

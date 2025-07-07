@@ -9,7 +9,6 @@ import type { NextFn } from '@adonisjs/core/types/http';
  * - We bind "HttpContext" class to the "ctx" object
  * - And bind "Logger" class to the "ctx.logger" object
  */
-// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default class ContainerBindingsMiddleware {
 	handle(ctx: HttpContext, next: NextFn) {
 		ctx.containerResolver.bindValue(HttpContext, ctx);

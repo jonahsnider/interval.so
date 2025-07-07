@@ -1,6 +1,6 @@
+import { Suspense } from 'react';
 import { SettingsCardSkeleton } from '@/src/components/settings-card-skeleton';
 import { trpcServer } from '@/src/trpc/trpc-server';
-import { Suspense } from 'react';
 import { DisplayNameCardInner } from './display-name-card.client';
 
 export function DisplayNameCard() {

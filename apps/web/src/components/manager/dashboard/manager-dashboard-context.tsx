@@ -1,7 +1,7 @@
 'use client';
 
 import { useQueryStates } from 'nuqs';
-import { type PropsWithChildren, createContext, useMemo } from 'react';
+import { createContext, type PropsWithChildren, useMemo } from 'react';
 import type { SelectRangeEventHandler } from 'react-day-picker';
 import { DurationSlug } from '../period-select/duration-slug';
 import { searchParamParsers } from './search-params';

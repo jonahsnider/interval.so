@@ -77,7 +77,6 @@ export class TeamService {
 					properties: {
 						name: input.displayName,
 						slug: input.slug,
-						// biome-ignore lint/style/useNamingConvention: This should be snake case
 						date_created: new Date(),
 					},
 				});

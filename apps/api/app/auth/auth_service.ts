@@ -1,17 +1,17 @@
 import assert from 'node:assert/strict';
 import { inject } from '@adonisjs/core';
 import type { Session } from '@adonisjs/session';
-import {
-	generateAuthenticationOptions,
-	generateRegistrationOptions,
-	verifyAuthenticationResponse,
-	verifyRegistrationResponse,
-} from '@simplewebauthn/server';
 import type {
 	AuthenticationResponseJSON,
 	AuthenticatorTransport,
 	PublicKeyCredentialCreationOptionsJSON,
 	RegistrationResponseJSON,
+} from '@simplewebauthn/server';
+import {
+	generateAuthenticationOptions,
+	generateRegistrationOptions,
+	verifyAuthenticationResponse,
+	verifyRegistrationResponse,
 } from '@simplewebauthn/server';
 import { TRPCError } from '@trpc/server';
 import { eq } from 'drizzle-orm';
@@ -34,7 +34,6 @@ export class AuthService {
 	}): Promise<PublicKeyCredentialCreationOptionsJSON> {
 		const options: PublicKeyCredentialCreationOptionsJSON = await generateRegistrationOptions({
 			rpName: rpName,
-			// biome-ignore lint/style/useNamingConvention: This can't be renamed
 			rpID: rpId,
 			userName: input.displayName,
 			userDisplayName: input.displayName,
@@ -76,7 +75,6 @@ export class AuthService {
 			response: input.body,
 			expectedChallenge: existingChallenge,
 			expectedOrigin: origin,
-			// biome-ignore lint/style/useNamingConvention: This can't be renamed
 			expectedRPID: rpId,
 			requireUserVerification: true,
 		});
@@ -128,7 +126,6 @@ export class AuthService {
 			distinctId: userId,
 			properties: {
 				name: input.displayName,
-				// biome-ignore lint/style/useNamingConvention: This should be snake case
 				date_created: new Date(),
 			},
 		});
@@ -140,7 +137,6 @@ export class AuthService {
 
 	async getLoginOptions(session: Session) {
 		const options = await generateAuthenticationOptions({
-			// biome-ignore lint/style/useNamingConvention: This can't be renamed
 			rpID: rpId,
 			userVerification: 'preferred',
 			// Empty array allows users to auth with any passkeys they have available
@@ -153,10 +149,7 @@ export class AuthService {
 		return options;
 	}
 
-	async verifyLogin(input: {
-		body: AuthenticationResponseJSON;
-		session: Session;
-	}) {
+	async verifyLogin(input: { body: AuthenticationResponseJSON; session: Session }) {
 		const passkey = await db.query.credentials.findFirst({
 			where: eq(Schema.credentials.credentialId, input.body.id),
 			columns: {
@@ -192,7 +185,6 @@ export class AuthService {
 		const verification = await verifyAuthenticationResponse({
 			response: input.body,
 			expectedChallenge: currentChallenge,
-			// biome-ignore lint/style/useNamingConvention: This can't be renamed
 			expectedRPID: rpId,
 			expectedOrigin: origin,
 			credential: {

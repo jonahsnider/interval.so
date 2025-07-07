@@ -1,6 +1,6 @@
+import type { ReactNode } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import type { ReactNode } from 'react';
 
 export function LiveMemberCountTileBase({ progressBar, value }: { progressBar: ReactNode; value: ReactNode }) {
 	return (

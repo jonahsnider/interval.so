@@ -1,15 +1,14 @@
+import { ArrowRightIcon } from '@heroicons/react/16/solid';
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
+import { notFound } from 'next/navigation';
+import { Link } from 'next-view-transitions';
 import { Button } from '@/components/ui/button';
 import { Navbar } from '@/src/components/navbar/navbar';
 import { MainContent } from '@/src/components/page-wrappers/main-content';
 import { AlreadyAuthedCard } from '@/src/components/team-dashboard/password-login/already-authed-card';
-
 import { PasswordLoginCard } from '@/src/components/team-dashboard/password-login/password-login-card';
 import { isTrpcClientError } from '@/src/trpc/common';
 import { trpcServer } from '@/src/trpc/trpc-server';
-import { ArrowRightIcon } from '@heroicons/react/16/solid';
-import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
-import { Link } from 'next-view-transitions';
-import { notFound } from 'next/navigation';
 
 type Props = {
 	params: Promise<{
@@ -29,7 +28,6 @@ async function Inner({ team }: { team: Pick<TeamSchema, 'slug' | 'displayName'> 
 	return <PasswordLoginCard team={team} />;
 }
 
-// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default async function TeamLoginPage(props: Props) {
 	const params = await props.params;
 	let displayName: string;

@@ -1,8 +1,8 @@
+import { PlusIcon } from '@heroicons/react/16/solid';
+import type { PropsWithChildren } from 'react';
 import { CreateMemberDialog } from '@/src/components/members/create-member/create-member-dialog';
 import { PageHeader } from '@/src/components/page-header';
 import { MainContent } from '@/src/components/page-wrappers/main-content';
-import { PlusIcon } from '@heroicons/react/16/solid';
-import type { PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren<{
 	params: Promise<{
@@ -10,7 +10,6 @@ type Props = PropsWithChildren<{
 	}>;
 }>;
 
-// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default async function ManagerMembersPageLayout(props: Props) {
 	const params = await props.params;
 

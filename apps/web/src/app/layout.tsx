@@ -1,12 +1,12 @@
-import { Toaster } from '@/components/ui/sonner';
-import { TooltipProvider } from '@/components/ui/tooltip';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import clsx from 'clsx';
 import type { Metadata, Viewport } from 'next';
+import { Inter, Playfair_Display } from 'next/font/google';
 import PlausibleProvider from 'next-plausible';
 import { ViewTransitions } from 'next-view-transitions';
-import { Inter, Playfair_Display } from 'next/font/google';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
+import { Toaster } from '@/components/ui/sonner';
+import { TooltipProvider } from '@/components/ui/tooltip';
 import '../globals.css';
 import { PostHogIdentityProvider } from '../providers/post-hog-identity-provider';
 import { PostHogPageView } from '../providers/post-hog-page-view';
@@ -55,7 +55,6 @@ const playfairDisplay = Playfair_Display({
 });
 const inter = Inter({ subsets: ['latin'], weight: 'variable', variable: '--font-inter', display: 'swap' });
 
-// biome-ignore lint/style/noDefaultExport: This has to be a default export
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<ViewTransitions>

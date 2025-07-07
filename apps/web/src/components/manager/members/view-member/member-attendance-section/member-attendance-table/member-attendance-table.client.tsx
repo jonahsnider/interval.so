@@ -1,23 +1,23 @@
 'use client';
 
+import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
+import type { AttendanceEntrySchema } from '@interval.so/api/app/team_member_attendance/schemas/attendance_entry_schema';
+import {
+	flexRender,
+	getCoreRowModel,
+	getPaginationRowModel,
+	getSortedRowModel,
+	type SortingState,
+	useReactTable,
+} from '@tanstack/react-table';
+import { useQueryStates } from 'nuqs';
+import { useMemo, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { TablePagination } from '@/src/components/data-tables/table-pagination';
 import { TableSelectionStatus } from '@/src/components/data-tables/table-selection-status';
 import { toTimeFilter } from '@/src/components/manager/period-select/duration-slug';
 import { trpc } from '@/src/trpc/trpc-client';
-import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
-import type { AttendanceEntrySchema } from '@interval.so/api/app/team_member_attendance/schemas/attendance_entry_schema';
-import {
-	type SortingState,
-	flexRender,
-	getCoreRowModel,
-	getPaginationRowModel,
-	getSortedRowModel,
-	useReactTable,
-} from '@tanstack/react-table';
-import { useQueryStates } from 'nuqs';
-import { useMemo, useState } from 'react';
 import { searchParamParsers } from '../../search-params';
 import { columns } from './columns';
 

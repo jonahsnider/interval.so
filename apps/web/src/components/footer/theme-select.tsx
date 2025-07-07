@@ -1,5 +1,9 @@
 'use client';
 
+import { ComputerDesktopIcon, MoonIcon, SunIcon } from '@heroicons/react/16/solid';
+import { AnimatePresence, motion, type Variants } from 'framer-motion';
+import { useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
@@ -9,10 +13,6 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ComputerDesktopIcon, MoonIcon, SunIcon } from '@heroicons/react/16/solid';
-import { AnimatePresence, type Variants, motion } from 'framer-motion';
-import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
 
 const MotionSunIcon = motion.create(SunIcon);
 const MotionMoonIcon = motion.create(MoonIcon);

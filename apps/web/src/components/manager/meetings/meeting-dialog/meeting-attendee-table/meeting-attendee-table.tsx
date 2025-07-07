@@ -1,15 +1,15 @@
 'use client';
 
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import type { TeamMeetingSchema } from '@interval.so/api/app/team_meeting/schemas/team_meeting_schema';
 import {
-	type SortingState,
 	flexRender,
 	getCoreRowModel,
 	getSortedRowModel,
+	type SortingState,
 	useReactTable,
 } from '@tanstack/react-table';
 import { useState } from 'react';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { columns } from './columns';
 
 type Props = {

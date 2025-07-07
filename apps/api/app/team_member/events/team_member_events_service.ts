@@ -3,7 +3,7 @@ import logger from '@adonisjs/core/services/logger';
 import redis from '@adonisjs/redis/services/main';
 import { TRPCError } from '@trpc/server';
 import { eq, inArray } from 'drizzle-orm';
-import { type Observable, from, map, mergeMap } from 'rxjs';
+import { from, map, mergeMap, type Observable } from 'rxjs';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { injectHelper } from '../../../util/inject_helper.js';

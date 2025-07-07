@@ -9,7 +9,6 @@ import type { TeamMemberSchema } from '../team_member/schemas/team_member_schema
 
 @inject()
 @injectHelper(AuthorizationService)
-// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default class TeamMemberPolicy extends BasePolicy {
 	constructor(private readonly authorizationService: AuthorizationService) {
 		super();

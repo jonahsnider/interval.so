@@ -1,5 +1,9 @@
 'use client';
 
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
+import type { UserSchema } from '@interval.so/api/app/user/schemas/user_schema';
+import { Link } from 'next-view-transitions';
+import { Suspense, use } from 'react';
 import {
 	DropdownMenuGroup,
 	DropdownMenuItem,
@@ -8,10 +12,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useLogOut } from '@/src/hooks/log-out';
-import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
-import type { UserSchema } from '@interval.so/api/app/user/schemas/user_schema';
-import { Link } from 'next-view-transitions';
-import { Suspense, use } from 'react';
 
 export function MenuContentAuthed({ user }: { user: Pick<UserSchema, 'displayName'> }) {
 	const logOut = useLogOut({ redirectTo: '/' });
@@ -47,7 +47,9 @@ function DisplayName({ displayNamePromise }: { displayNamePromise: Promise<TeamS
 
 export function MenuContentGuestAuth({
 	displayNamePromise,
-}: { displayNamePromise: Promise<TeamSchema['displayName']> }) {
+}: {
+	displayNamePromise: Promise<TeamSchema['displayName']>;
+}) {
 	const logOut = useLogOut({ redirectTo: '/' });
 
 	return (

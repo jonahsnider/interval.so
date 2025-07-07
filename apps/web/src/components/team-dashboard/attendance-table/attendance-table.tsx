@@ -1,18 +1,18 @@
 'use client';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/flex-table';
-import { Input } from '@/components/ui/input';
-import { Switch } from '@/components/ui/switch';
-import { trpc } from '@/src/trpc/trpc-client';
 import { PlusIcon } from '@heroicons/react/16/solid';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
 import { concatIterables } from '@jonahsnider/util';
 import clsx from 'clsx';
-import { AnimatePresence, type Variants, motion } from 'framer-motion';
+import { AnimatePresence, motion, type Variants } from 'framer-motion';
 import Fuse from 'fuse.js/basic';
 import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/flex-table';
+import { Input } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
+import { trpc } from '@/src/trpc/trpc-client';
 import { CreateMemberDialog } from '../../members/create-member/create-member-dialog';
 
 const MotionTableRow = motion.create(TableRow);

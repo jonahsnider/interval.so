@@ -1,16 +1,16 @@
 'use client';
 
+import type { TeamMeetingSchema } from '@interval.so/api/app/team_meeting/schemas/team_meeting_schema';
+import { Sort } from '@jonahsnider/util';
+import type { ColumnDef } from '@tanstack/react-table';
+import { type Duration, intervalToDuration, milliseconds } from 'date-fns';
+import { type PropsWithChildren, useContext } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { SortableHeader } from '@/src/components/data-tables/sortable-header';
 import { TeamSlugContext } from '@/src/components/team-dashboard/team-slug-provider';
 import { formatDate, formatDateRange, formatDuration } from '@/src/utils/date-format';
-import type { TeamMeetingSchema } from '@interval.so/api/app/team_meeting/schemas/team_meeting_schema';
-import { Sort } from '@jonahsnider/util';
-import type { ColumnDef } from '@tanstack/react-table';
-import { type Duration, intervalToDuration, milliseconds } from 'date-fns';
-import { type PropsWithChildren, useContext } from 'react';
 import { MeetingDialog } from '../meeting-dialog/meeting-dialog';
 import { RowActionsDropdown } from './row-actions/row-actions-dropdown';
 

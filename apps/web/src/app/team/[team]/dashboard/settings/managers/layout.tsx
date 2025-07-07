@@ -1,5 +1,5 @@
-import { TeamSettingsPageContainer } from '@/src/components/manager/settings/page-container';
 import type { PropsWithChildren } from 'react';
+import { TeamSettingsPageContainer } from '@/src/components/manager/settings/page-container';
 
 type Props = PropsWithChildren<{
 	params: Promise<{
@@ -7,7 +7,6 @@ type Props = PropsWithChildren<{
 	}>;
 }>;
 
-// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default async function TeamSettingsManagersLayout(props: Props) {
 	const params = await props.params;
 

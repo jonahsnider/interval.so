@@ -1,5 +1,9 @@
 'use client';
 
+import { EllipsisVerticalIcon } from '@heroicons/react/16/solid';
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
+import type { TeamMeetingSchema } from '@interval.so/api/app/team_meeting/schemas/team_meeting_schema';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
@@ -7,10 +11,6 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { EllipsisVerticalIcon } from '@heroicons/react/16/solid';
-import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
-import type { TeamMeetingSchema } from '@interval.so/api/app/team_meeting/schemas/team_meeting_schema';
-import { useState } from 'react';
 import { EndMeetingAlert } from '../../../end-meeting-alert';
 import { DeleteMeetingItem } from './delete-meeting-item';
 import { EndMeetingItem } from './end-meeting-item';

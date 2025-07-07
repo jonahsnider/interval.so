@@ -1,8 +1,8 @@
 import 'server-only';
 
-import { trpcServer } from '@/src/trpc/trpc-server';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { Suspense } from 'react';
+import { trpcServer } from '@/src/trpc/trpc-server';
 import { MembersTableClient } from './members-table.client';
 
 type Props = {

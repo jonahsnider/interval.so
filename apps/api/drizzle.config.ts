@@ -11,7 +11,6 @@ const postgresUrl = process.env.POSTGRES_URL;
 
 assert(postgresUrl, new TypeError('POSTGRES_URL environment variable was not set'));
 
-// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default defineConfig({
 	schema: path.join('database', 'schema.ts'),
 	dialect: 'postgresql',

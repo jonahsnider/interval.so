@@ -1,7 +1,7 @@
 'use client';
 
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
-import { type PropsWithChildren, createContext } from 'react';
+import { createContext, type PropsWithChildren } from 'react';
 
 type ContextValue = {
 	team?: Pick<TeamSchema, 'slug'>;

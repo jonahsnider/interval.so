@@ -19,31 +19,26 @@ module.exports = {
 			colors: {
 				border: 'hsl(var(--border))',
 				input: {
-					// biome-ignore lint/style/useNamingConvention: This can't be renamed
 					DEFAULT: 'hsl(var(--input))',
 					border: 'hsl(var(--input-border))',
 				},
 				ring: 'hsl(var(--ring))',
 				background: {
-					// biome-ignore lint/style/useNamingConvention: This can't be renamed
 					DEFAULT: 'hsl(var(--background))',
 					muted: 'hsl(var(--background-muted))',
 				},
 				foreground: 'hsl(var(--foreground))',
 				primary: {
-					// biome-ignore lint/style/useNamingConvention: This can't be renamed
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))',
 					hover: 'hsl(var(--primary-hover))',
 				},
 				secondary: {
-					// biome-ignore lint/style/useNamingConvention: This can't be renamed
 					DEFAULT: 'hsl(var(--secondary))',
 					foreground: 'hsl(var(--secondary-foreground))',
 					hover: 'hsl(var(--secondary-hover))',
 				},
 				destructive: {
-					// biome-ignore lint/style/useNamingConvention: This can't be renamed
 					DEFAULT: 'hsl(var(--destructive))',
 					foreground: 'hsl(var(--destructive-foreground))',
 					muted: 'hsl(var(--destructive-muted))',
@@ -51,22 +46,18 @@ module.exports = {
 					border: 'hsl(var(--destructive-border))',
 				},
 				muted: {
-					// biome-ignore lint/style/useNamingConvention: This can't be renamed
 					DEFAULT: 'hsl(var(--muted))',
 					foreground: 'hsl(var(--muted-foreground))',
 				},
 				accent: {
-					// biome-ignore lint/style/useNamingConvention: This can't be renamed
 					DEFAULT: 'hsl(var(--accent))',
 					foreground: 'hsl(var(--accent-foreground))',
 				},
 				popover: {
-					// biome-ignore lint/style/useNamingConvention: This can't be renamed
 					DEFAULT: 'hsl(var(--popover))',
 					foreground: 'hsl(var(--popover-foreground))',
 				},
 				card: {
-					// biome-ignore lint/style/useNamingConvention: This can't be renamed
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))',
 				},

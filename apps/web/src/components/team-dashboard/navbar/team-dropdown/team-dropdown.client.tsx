@@ -1,5 +1,11 @@
 'use client';
 
+import { ChevronUpDownIcon, PlusIcon } from '@heroicons/react/16/solid';
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
+import clsx from 'clsx';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Link } from 'next-view-transitions';
+import { type ReactNode, use, useContext, useEffect, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
@@ -11,12 +17,6 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { PostHogTeamIdContext } from '@/src/providers/post-hog-team-id-provider';
-import { ChevronUpDownIcon, PlusIcon } from '@heroicons/react/16/solid';
-import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
-import clsx from 'clsx';
-import { Link } from 'next-view-transitions';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { type ReactNode, use, useContext, useEffect, useMemo } from 'react';
 import { TeamSlugContext } from '../../team-slug-provider';
 import { SlashSeparatedNavbarItem } from '../slash-separated-navbar-item';
 

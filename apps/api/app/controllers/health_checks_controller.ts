@@ -2,7 +2,6 @@ import type { HttpContext } from '@adonisjs/core/http';
 import logger from '@adonisjs/core/services/logger';
 import { healthChecks } from '#start/health';
 
-// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default class HealthChecksController {
 	async handle({ response }: HttpContext) {
 		const report = await healthChecks.run();

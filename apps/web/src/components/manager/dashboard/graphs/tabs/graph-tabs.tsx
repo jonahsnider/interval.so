@@ -1,8 +1,8 @@
 import 'server-only';
 
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { ErrorBoundary } from 'react-error-boundary';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { toTimeFilter, toTimeRange } from '../../../period-select/duration-slug';
 import { searchParamCache } from '../../search-params';
 import { AverageHoursGraph } from '../average-hours-graph/average-hours-graph.server';
