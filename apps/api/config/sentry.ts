@@ -2,7 +2,6 @@ import app from '@adonisjs/core/services/app';
 import { defineConfig } from '@rlanz/sentry';
 import env from '#start/env';
 
-// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default defineConfig({
 	/**
 	 * Enable or disable Sentry

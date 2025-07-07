@@ -1,14 +1,5 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectSeparator, SelectTrigger } from '@/components/ui/select';
-import { trpc } from '@/src/trpc/trpc-client';
 import { EllipsisHorizontalIcon } from '@heroicons/react/16/solid';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { TeamManagerSchema } from '@interval.so/api/app/team_manager/schemas/team_manager_schema';
@@ -18,6 +9,15 @@ import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { Button } from '@/components/ui/button';
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectSeparator, SelectTrigger } from '@/components/ui/select';
+import { trpc } from '@/src/trpc/trpc-client';
 
 export function ManagersTableRoleSelect({
 	manager,

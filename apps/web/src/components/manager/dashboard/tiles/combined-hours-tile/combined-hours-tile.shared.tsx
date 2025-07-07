@@ -1,6 +1,6 @@
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import clsx from 'clsx';
 import type { ReactNode } from 'react';
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
 export function CombinedHoursTileBase({ trend, value }: { trend?: ReactNode; value: ReactNode }) {
 	return (

@@ -1,5 +1,9 @@
 'use client';
 
+import { CalendarIcon } from '@heroicons/react/16/solid';
+import clsx from 'clsx';
+import { type ComponentProps, type ReactNode, useState } from 'react';
+import type { SelectRangeEventHandler } from 'react-day-picker';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -14,10 +18,6 @@ import {
 	DropdownMenuSubTrigger,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { CalendarIcon } from '@heroicons/react/16/solid';
-import clsx from 'clsx';
-import { type ComponentProps, type ReactNode, useState } from 'react';
-import type { SelectRangeEventHandler } from 'react-day-picker';
 import { DurationSlug, durationLabel } from './duration-slug';
 
 type Props = {

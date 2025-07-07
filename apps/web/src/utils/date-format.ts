@@ -1,7 +1,7 @@
 import { capitalize, multiReplace } from '@jonahsnider/util';
 import {
-	type Duration,
 	add,
+	type Duration,
 	formatDistance as formatDistanceDateFns,
 	formatRelative,
 	isWithinInterval,

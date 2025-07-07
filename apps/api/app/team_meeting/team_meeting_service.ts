@@ -193,7 +193,6 @@ export class TeamMeetingService {
 					company: affectedTeam.id,
 				},
 				properties: {
-					// biome-ignore lint/style/useNamingConvention: This should be snake case
 					meeting_finished: false,
 				},
 			});
@@ -247,7 +246,6 @@ export class TeamMeetingService {
 					company: affectedTeam.id,
 				},
 				properties: {
-					// biome-ignore lint/style/useNamingConvention: This should be snake case
 					meeting_finished: true,
 				},
 			});

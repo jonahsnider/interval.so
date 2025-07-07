@@ -1,9 +1,9 @@
 'use client';
 
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useLogOut } from '@/src/hooks/log-out';
-import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 
 export function NotGuestOrManagerOfTeamCard({
 	user,

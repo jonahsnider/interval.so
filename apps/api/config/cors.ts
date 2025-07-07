@@ -16,5 +16,4 @@ const corsConfig = defineConfig({
 	maxAge: 90,
 });
 
-// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default corsConfig;

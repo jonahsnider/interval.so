@@ -1,3 +1,8 @@
+import { UserCircleIcon } from '@heroicons/react/20/solid';
+import { unstable_noStore as noStore } from 'next/cache';
+import { Link } from 'next-view-transitions';
+import { Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
@@ -9,11 +14,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
 import { trpcServer } from '@/src/trpc/trpc-server';
-import { UserCircleIcon } from '@heroicons/react/20/solid';
-import { Link } from 'next-view-transitions';
-import { unstable_noStore as noStore } from 'next/cache';
-import { Suspense } from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
 import { MenuContentAuthed, MenuContentGuestAuth } from './profile-menu.client';
 
 function MenuContentUnauthed() {

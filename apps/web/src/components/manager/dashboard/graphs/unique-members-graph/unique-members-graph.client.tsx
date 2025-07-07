@@ -1,5 +1,12 @@
 'use client';
 
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
+import type { DatumPeriod } from '@interval.so/api/app/team_stats/schemas/datum_time_range_schema';
+import type { UniqueMembersDatumSchema } from '@interval.so/api/app/team_stats/schemas/unique_members_datum_schema';
+import { max } from '@jonahsnider/util';
+import { useQueryStates } from 'nuqs';
+import { use, useMemo, useState } from 'react';
+import { Area, AreaChart, CartesianGrid, type TooltipProps, XAxis, YAxis } from 'recharts';
 import { type ChartConfig, ChartContainer, ChartTooltip } from '@/components/ui/chart';
 import {
 	areaChartProps,
@@ -12,13 +19,6 @@ import {
 import { CustomTooltip, formatTooltipDate } from '@/src/components/graphs/custom-tooltip';
 import { formatXAxisDate } from '@/src/components/graphs/graph-utils';
 import { trpc } from '@/src/trpc/trpc-client';
-import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
-import type { DatumPeriod } from '@interval.so/api/app/team_stats/schemas/datum_time_range_schema';
-import type { UniqueMembersDatumSchema } from '@interval.so/api/app/team_stats/schemas/unique_members_datum_schema';
-import { max } from '@jonahsnider/util';
-import { useQueryStates } from 'nuqs';
-import { use, useMemo, useState } from 'react';
-import { Area, AreaChart, CartesianGrid, type TooltipProps, XAxis, YAxis } from 'recharts';
 import { toTimeFilter } from '../../../period-select/duration-slug';
 import { searchParamParsers } from '../../search-params';
 
@@ -41,13 +41,7 @@ const chartConfig = {
 	},
 } satisfies ChartConfig;
 
-function MembersTooltip({
-	period,
-	tooltipProps,
-}: {
-	tooltipProps: TooltipProps<number, string>;
-	period: DatumPeriod;
-}) {
+function MembersTooltip({ period, tooltipProps }: { tooltipProps: TooltipProps<number, string>; period: DatumPeriod }) {
 	const entry = tooltipProps.payload?.[0];
 
 	if (!entry) {

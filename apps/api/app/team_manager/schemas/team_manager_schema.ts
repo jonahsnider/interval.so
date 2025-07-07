@@ -1,4 +1,4 @@
-import { P, match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 import { z } from 'zod';
 import type { TeamManagerRole } from '#database/schema';
 import { UserSchema } from '../../user/schemas/user_schema.js';

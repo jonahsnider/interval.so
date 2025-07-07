@@ -1,11 +1,11 @@
 'use client';
 
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { trpc } from '@/src/trpc/trpc-client';
 import { ArchiveBoxArrowDownIcon } from '@heroicons/react/16/solid';
 import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
+import { trpc } from '@/src/trpc/trpc-client';
 
 type Props = {
 	member: Pick<TeamMemberSchema, 'id' | 'name' | 'archived'>;

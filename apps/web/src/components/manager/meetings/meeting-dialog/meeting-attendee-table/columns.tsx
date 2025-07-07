@@ -1,15 +1,15 @@
 'use client';
-import { buttonVariants } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { SortableHeader } from '@/src/components/data-tables/sortable-header';
-import { TeamSlugContext } from '@/src/components/team-dashboard/team-slug-provider';
-import { formatDuration } from '@/src/utils/date-format';
 import type { AttendanceEntrySchema } from '@interval.so/api/app/team_member_attendance/schemas/attendance_entry_schema';
 import { Sort } from '@jonahsnider/util';
 import type { ColumnDef } from '@tanstack/react-table';
 import { type Duration, intervalToDuration, milliseconds } from 'date-fns';
 import Link from 'next/link';
 import { useContext } from 'react';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { SortableHeader } from '@/src/components/data-tables/sortable-header';
+import { TeamSlugContext } from '@/src/components/team-dashboard/team-slug-provider';
+import { formatDuration } from '@/src/utils/date-format';
 import { MeetingDateRangePicker } from '../../../members/view-member/member-attendance-section/meeting-date-range-picker';
 import { RowActionsDropdown } from './row-actions-dropdown';
 

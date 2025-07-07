@@ -1,6 +1,5 @@
 import { DatumPeriod } from '@interval.so/api/app/team_stats/schemas/datum_time_range_schema';
 
-// biome-ignore lint/style/useNamingConvention: This is camelcase
 export function formatXAxisDate(date: Date, period: DatumPeriod): string {
 	const now = new Date();
 	const options: Intl.DateTimeFormatOptions = {

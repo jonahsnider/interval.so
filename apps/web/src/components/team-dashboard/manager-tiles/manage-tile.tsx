@@ -1,5 +1,5 @@
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { EndMeetingButton } from '../../manager/end-meeting-button/end-meeting-button';
 
 type Props = {

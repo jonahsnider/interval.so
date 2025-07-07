@@ -6,7 +6,6 @@ import type { NextFn } from '@adonisjs/core/types/http';
  * from the server. This will force the internals of the framework like
  * validator errors or auth errors to return a JSON response.
  */
-// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default class ForceJsonResponseMiddleware {
 	handle({ request }: HttpContext, next: NextFn) {
 		const headers = request.headers();

@@ -8,7 +8,6 @@ import type { UserSchema } from '../user/schemas/user_schema.js';
 
 @inject()
 @injectHelper(TeamService)
-// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default class UserPolicy extends BasePolicy {
 	constructor(private readonly teamService: TeamService) {
 		super();

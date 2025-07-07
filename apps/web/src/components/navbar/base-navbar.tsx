@@ -1,6 +1,6 @@
-import { cn } from '@/lib/utils';
 import { Link } from 'next-view-transitions';
 import type { ReactNode } from 'react';
+import { cn } from '@/lib/utils';
 
 type Props = {
 	className?: string;

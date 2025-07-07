@@ -1,11 +1,5 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Form } from '@/components/ui/form';
-import { CreateTeamNameCard } from '@/src/components/create-team/form/create-team-name-card';
-import { CreateTeamPasswordCard } from '@/src/components/create-team/form/create-team-password';
-import { CreateTeamUrlCard } from '@/src/components/create-team/form/create-team-url-card';
-import { trpc } from '@/src/trpc/trpc-client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { useRouter } from 'next/navigation';
@@ -13,12 +7,17 @@ import { useState } from 'react';
 import { type UseFormReturn, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import type { z } from 'zod';
+import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
+import { CreateTeamNameCard } from '@/src/components/create-team/form/create-team-name-card';
+import { CreateTeamPasswordCard } from '@/src/components/create-team/form/create-team-password';
+import { CreateTeamUrlCard } from '@/src/components/create-team/form/create-team-url-card';
+import { trpc } from '@/src/trpc/trpc-client';
 
 const formSchema = TeamSchema.pick({ displayName: true, password: true, slug: true });
 
 export type CreateTeamFormType = UseFormReturn<z.infer<typeof formSchema>, unknown, undefined>;
 
-// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default function CreateTeamPage() {
 	const router = useRouter();
 	const form: CreateTeamFormType = useForm({

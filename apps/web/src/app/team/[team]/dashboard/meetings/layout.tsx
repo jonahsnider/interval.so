@@ -1,8 +1,8 @@
+import type { PropsWithChildren } from 'react';
 import { CreateMeetingDialog } from '@/src/components/manager/meetings/create-meeting-dialog/create-meeting-dialog';
 import { DownloadMeetingsCsvButton } from '@/src/components/manager/meetings/download-meetings-csv-button';
 import { PageHeader } from '@/src/components/page-header';
 import { MainContent } from '@/src/components/page-wrappers/main-content';
-import type { PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren<{
 	params: Promise<{
@@ -10,7 +10,6 @@ type Props = PropsWithChildren<{
 	}>;
 }>;
 
-// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default async function ManagerMeetingsPageLayout(props: Props) {
 	const params = await props.params;
 

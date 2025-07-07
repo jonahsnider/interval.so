@@ -1,5 +1,8 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { toast } from 'sonner';
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -15,9 +18,6 @@ import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { isTrpcClientError } from '@/src/trpc/common';
 import { trpc } from '@/src/trpc/trpc-client';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { toast } from 'sonner';
 
 export function DeleteAccountCard() {
 	const router = useRouter();

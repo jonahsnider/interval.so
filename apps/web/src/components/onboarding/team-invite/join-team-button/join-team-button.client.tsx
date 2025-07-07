@@ -1,14 +1,14 @@
 'use client';
 
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
+import clsx from 'clsx';
+import { useRouter } from 'next/navigation';
+import { Link } from 'next-view-transitions';
+import { use, useState } from 'react';
+import { toast } from 'sonner';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { searchParamSerializer } from '@/src/components/account/search-params';
 import { trpc } from '@/src/trpc/trpc-client';
-import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
-import clsx from 'clsx';
-import { Link } from 'next-view-transitions';
-import { useRouter } from 'next/navigation';
-import { use, useState } from 'react';
-import { toast } from 'sonner';
 
 type Props = {
 	className?: string;

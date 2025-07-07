@@ -6,7 +6,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 
 // Adapted from https://ui.shadcn.com/docs/components/data-table#reusable-components
 
-// biome-ignore lint/style/useNamingConvention: This is in pascal case
 interface TablePaginationProps<TData> {
 	table: Table<TData>;
 	pageSizes?: readonly number[];
@@ -14,7 +13,6 @@ interface TablePaginationProps<TData> {
 
 const DEFAULT_PAGE_SIZES = [10, 25, 50] as const;
 
-// biome-ignore lint/style/useNamingConvention: This is in pascal case
 export function TablePagination<TData>({ table, pageSizes = DEFAULT_PAGE_SIZES }: TablePaginationProps<TData>) {
 	return (
 		<div className='flex items-center space-x-6 lg:space-x-8'>

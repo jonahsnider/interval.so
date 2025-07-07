@@ -1,6 +1,5 @@
 import { defineConfig } from '@adonisjs/core/app';
 
-// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default defineConfig({
 	/*
   |--------------------------------------------------------------------------

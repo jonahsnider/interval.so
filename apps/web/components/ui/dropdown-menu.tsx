@@ -1,11 +1,10 @@
 'use client';
 
+import { CheckIcon, ChevronRightIcon } from '@heroicons/react/16/solid';
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
 import { DotFilledIcon } from '@radix-ui/react-icons';
 import * as React from 'react';
-
 import { cn } from '@/lib/utils';
-import { CheckIcon, ChevronRightIcon } from '@heroicons/react/16/solid';
 
 const DropdownMenu = DropdownMenuPrimitive.Root;
 

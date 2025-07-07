@@ -1,6 +1,6 @@
 import {
-	type HTTPBatchLinkOptions,
 	createWSClient,
+	type HTTPBatchLinkOptions,
 	httpBatchLink,
 	httpBatchStreamLink,
 	splitLink,

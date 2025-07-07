@@ -1,5 +1,10 @@
 'use client';
 
+import { ArrowDownIcon, ArrowUpIcon, ChevronUpDownIcon } from '@heroicons/react/16/solid';
+import type { Column } from '@tanstack/react-table';
+import clsx from 'clsx';
+import { AnimatePresence, motion, type Variants } from 'framer-motion';
+import type { PropsWithChildren } from 'react';
 import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
@@ -7,11 +12,6 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { ArrowDownIcon, ArrowUpIcon, ChevronUpDownIcon } from '@heroicons/react/16/solid';
-import type { Column } from '@tanstack/react-table';
-import clsx from 'clsx';
-import { AnimatePresence, type Variants, motion } from 'framer-motion';
-import type { PropsWithChildren } from 'react';
 
 const motionVariants: Variants = {
 	hidden: {

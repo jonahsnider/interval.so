@@ -12,11 +12,8 @@ module.exports = withSentryConfig(
 	withPlausibleProxy()({
 		productionBrowserSourceMaps: true,
 		env: {
-			// biome-ignore lint/style/useNamingConvention: This is an environment variable
 			NEXT_PUBLIC_API_URL: getBaseApiUrl(),
-			// biome-ignore lint/style/useNamingConvention: This is an environment variable
 			POSTHOG_HOST: process.env.POSTHOG_HOST,
-			// biome-ignore lint/style/useNamingConvention: This is an environment variable
 			POSTHOG_KEY: process.env.POSTHOG_KEY,
 		},
 		// Needed for a Next.js bug https://github.com/vercel/next.js/discussions/32237#discussioncomment-4793595

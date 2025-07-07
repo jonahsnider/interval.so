@@ -1,7 +1,7 @@
 'use client';
 
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { ArrowRightStartOnRectangleIcon } from '@heroicons/react/16/solid';
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 
 type Props = {
 	setDialogOpen: (open: boolean) => void;

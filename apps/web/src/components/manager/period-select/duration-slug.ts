@@ -45,11 +45,7 @@ export function toTimeFilter(searchParams: {
 	};
 }
 
-export function toTimeRange(searchParams: {
-	duration: DurationSlug;
-	start?: Date | null;
-	end?: Date | null;
-}): {
+export function toTimeRange(searchParams: { duration: DurationSlug; start?: Date | null; end?: Date | null }): {
 	current: TimeRangeSchema;
 	previous?: TimeRangeSchema;
 } {

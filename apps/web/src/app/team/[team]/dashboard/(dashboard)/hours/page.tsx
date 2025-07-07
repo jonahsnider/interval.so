@@ -8,7 +8,6 @@ type Props = {
 	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default async function ManagerPageHoursTab(props: Props) {
 	const searchParams = await props.searchParams;
 	const params = await props.params;

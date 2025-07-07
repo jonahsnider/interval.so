@@ -1,7 +1,7 @@
-import { trpcServer } from '@/src/trpc/trpc-server';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { Sort } from '@jonahsnider/util';
 import { Suspense } from 'react';
+import { trpcServer } from '@/src/trpc/trpc-server';
 import { MemberAvatarsClient } from './member-avatars.client';
 
 type Props = {

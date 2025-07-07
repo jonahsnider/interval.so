@@ -1,5 +1,11 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
+import { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
+import { type PropsWithChildren, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import type { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import {
 	Dialog,
@@ -13,12 +19,6 @@ import {
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { trpc } from '@/src/trpc/trpc-client';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
-import { type PropsWithChildren, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
-import type { z } from 'zod';
 
 type Props = PropsWithChildren<{
 	member: Pick<TeamMemberSchema, 'id' | 'name'>;

@@ -1,8 +1,8 @@
-import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import type { TeamMeetingSchema } from '@interval.so/api/app/team_meeting/schemas/team_meeting_schema';
 import { useQueryStates } from 'nuqs';
 import { type PropsWithChildren, useContext } from 'react';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { searchParamParsers } from '../search-params';
 import { MeetingDialogChangesContext, MeetingDialogChangesProvider } from './meeting-dialog-changes-context';
 import { MeetingDialogContent } from './meeting-dialog-content';

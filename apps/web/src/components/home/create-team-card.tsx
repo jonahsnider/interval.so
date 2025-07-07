@@ -1,6 +1,6 @@
-import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { PlusIcon } from '@heroicons/react/24/solid';
 import { Link } from 'next-view-transitions';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 export function CreateTeamCard() {
 	return (

@@ -1,8 +1,8 @@
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
 import { Link } from 'next-view-transitions';
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;

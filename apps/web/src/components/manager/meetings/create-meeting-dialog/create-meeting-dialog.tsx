@@ -1,9 +1,5 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { trpc } from '@/src/trpc/trpc-client';
 import { PlusIcon } from '@heroicons/react/16/solid';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
@@ -13,6 +9,10 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import type { z } from 'zod';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { trpc } from '@/src/trpc/trpc-client';
 import { DateTimeRangePicker } from '../../../date-time-range-picker';
 import { AttendeesSelect } from './attendees-select';
 

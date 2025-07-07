@@ -1,8 +1,8 @@
-import { trpcServer } from '@/src/trpc/trpc-server';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { unstable_noStore as noStore } from 'next/cache';
 import { type PropsWithChildren, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
+import { trpcServer } from '@/src/trpc/trpc-server';
 import { GuestTeamNavbarItem } from '../team-dashboard/navbar/guest-team-navbar-item';
 import { TeamDropdown } from '../team-dashboard/navbar/team-dropdown/team-dropdown.server';
 import { BaseNavbar } from './base-navbar';
@@ -37,11 +37,7 @@ export function Navbar({ children, currentTeam, className }: PropsWithChildren<P
 	);
 }
 
-async function TeamDropdownItem({
-	currentTeam,
-}: {
-	currentTeam?: Pick<TeamSchema, 'slug'>;
-}) {
+async function TeamDropdownItem({ currentTeam }: { currentTeam?: Pick<TeamSchema, 'slug'> }) {
 	noStore();
 
 	const { user } = await trpcServer.user.getSelf.query();

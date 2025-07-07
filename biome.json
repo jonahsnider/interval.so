@@ -1,7 +1,15 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.9.0/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.0.6/schema.json",
 	"files": {
-		"ignore": [".next", "node_modules", ".vercel", "**/package.json", "apps/api/build", ".turbo"]
+		"includes": [
+			"**",
+			"!**/.next",
+			"!**/node_modules",
+			"!**/.vercel",
+			"!**/package.json",
+			"!**/apps/api/build",
+			"!**/.turbo"
+		]
 	},
 	"formatter": {
 		"formatWithErrors": true,
@@ -23,9 +31,8 @@
 		}
 	},
 	"linter": {
-		"ignore": ["apps/api/app/user/schemas/postgres_timezones.ts"],
+		"includes": ["**", "!**/apps/api/app/user/schemas/postgres_timezones.ts"],
 		"rules": {
-			"all": true,
 			"complexity": {
 				"noStaticOnlyClass": "off",
 				"useLiteralKeys": "off"
@@ -36,7 +43,6 @@
 				"useImportExtensions": "off"
 			},
 			"style": {
-				"noNamespaceImport": "off",
 				"noParameterProperties": "off",
 				"useDefaultSwitchClause": "off"
 			},

@@ -1,7 +1,7 @@
-import getBaseApiUrl from '@/shared';
 import type { AppRouterType } from '@interval.so/api/trpc_entry';
 import { TRPCClientError } from '@trpc/client';
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
+import getBaseApiUrl from '@/shared';
 
 export const trpcUrl = new URL('/trpc', getBaseApiUrl());
 export const trpcWsUrl = new URL('/trpc', getBaseApiUrl());

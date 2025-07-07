@@ -1,11 +1,9 @@
 'use client';
 
+import { CheckIcon, ChevronDownIcon, ChevronUpDownIcon, ChevronUpIcon } from '@heroicons/react/16/solid';
 import * as SelectPrimitive from '@radix-ui/react-select';
 import * as React from 'react';
-
 import { cn } from '@/lib/utils';
-
-import { CheckIcon, ChevronDownIcon, ChevronUpDownIcon, ChevronUpIcon } from '@heroicons/react/16/solid';
 
 const Select = SelectPrimitive.Root;
 

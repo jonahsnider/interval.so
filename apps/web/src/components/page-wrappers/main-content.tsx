@@ -1,5 +1,5 @@
-import { cn } from '@/lib/utils';
 import type { PropsWithChildren } from 'react';
+import { cn } from '@/lib/utils';
 import dotsStyles from '../dots/dots.module.css';
 
 type Props = PropsWithChildren<{

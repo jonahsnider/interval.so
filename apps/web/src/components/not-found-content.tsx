@@ -1,6 +1,6 @@
-import { Button } from '@/components/ui/button';
-import { Link } from 'next-view-transitions';
 import { unstable_noStore as noStore } from 'next/cache';
+import { Link } from 'next-view-transitions';
+import { Button } from '@/components/ui/button';
 import { trpcServer } from '../trpc/trpc-server';
 
 export async function NotFoundPageContent() {

@@ -1,7 +1,6 @@
 import { Exception } from '@adonisjs/core/exceptions';
 import { ExceptionHandler, type HttpContext } from '@adonisjs/core/http';
 
-// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default class HttpExceptionHandler extends ExceptionHandler {
 	/**
 	 * In debug mode, the exception handler will display verbose errors

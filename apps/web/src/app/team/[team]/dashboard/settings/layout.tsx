@@ -1,8 +1,7 @@
+import type { PropsWithChildren } from 'react';
 import { PageHeader } from '@/src/components/page-header';
 import { MainContent } from '@/src/components/page-wrappers/main-content';
-import type { PropsWithChildren } from 'react';
 
-// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default function SettingsLayout({ children }: PropsWithChildren) {
 	return (
 		<>

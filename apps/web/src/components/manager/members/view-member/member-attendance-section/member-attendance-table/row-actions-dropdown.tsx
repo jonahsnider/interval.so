@@ -1,5 +1,8 @@
 'use client';
 
+import { EllipsisVerticalIcon, TrashIcon } from '@heroicons/react/16/solid';
+import { useState } from 'react';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
@@ -8,9 +11,6 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { trpc } from '@/src/trpc/trpc-client';
-import { EllipsisVerticalIcon, TrashIcon } from '@heroicons/react/16/solid';
-import { useState } from 'react';
-import { toast } from 'sonner';
 import type { MembersTableMeetingRow } from './columns';
 
 type Props = {

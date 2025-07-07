@@ -1,4 +1,9 @@
 'use client';
+import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
+import clsx from 'clsx';
+import type { PropsWithChildren } from 'react';
+import { useState } from 'react';
+import { toast } from 'sonner';
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -13,11 +18,6 @@ import {
 import { buttonVariants } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { trpc } from '@/src/trpc/trpc-client';
-import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
-import clsx from 'clsx';
-import type { PropsWithChildren } from 'react';
-import { useState } from 'react';
-import { toast } from 'sonner';
 import { DateTimePicker } from '../date-time-picker';
 
 type Props = PropsWithChildren<{
@@ -94,13 +94,7 @@ function EndMeetingAlertContent({
 	);
 }
 
-function EndMeetingDialogAction({
-	date,
-	team,
-}: {
-	date?: Date;
-	team: Pick<TeamSchema, 'slug'>;
-}) {
+function EndMeetingDialogAction({ date, team }: { date?: Date; team: Pick<TeamSchema, 'slug'> }) {
 	const [toastId, setToastId] = useState<string | number | undefined>();
 
 	const signOutAll = trpc.teams.members.endMeeting.useMutation({

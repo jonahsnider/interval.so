@@ -1,5 +1,5 @@
 import { inject } from '@adonisjs/core';
-import { type Observable, concat, from, mergeMap } from 'rxjs';
+import { concat, from, mergeMap, type Observable } from 'rxjs';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { injectHelper } from '../../util/inject_helper.js';
 import { AuthorizationService } from '../authorization/authorization_service.js';

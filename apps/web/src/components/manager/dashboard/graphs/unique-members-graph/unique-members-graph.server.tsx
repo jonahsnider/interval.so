@@ -1,8 +1,8 @@
-import { trpcServer } from '@/src/trpc/trpc-server';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { timeFilterToDatumPeriod } from '@interval.so/api/app/team_stats/schemas/datum_time_range_schema';
 import type { TimeFilterSchema } from '@interval.so/api/app/team_stats/schemas/time_filter_schema';
 import { Suspense } from 'react';
+import { trpcServer } from '@/src/trpc/trpc-server';
 import { UniqueMembersGraphClient } from './unique-members-graph.client';
 
 type Props = {

@@ -1,5 +1,8 @@
 'use client';
 
+import { EllipsisVerticalIcon } from '@heroicons/react/16/solid';
+import type { Table } from '@tanstack/react-table';
+import { useState } from 'react';
 import { AlertDialog } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import {
@@ -8,9 +11,6 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { EllipsisVerticalIcon } from '@heroicons/react/16/solid';
-import type { Table } from '@tanstack/react-table';
-import { useState } from 'react';
 import type { MembersTableMeetingRow } from '../columns';
 import { BatchDeleteDialogContent, BatchDeleteItem } from './batch-delete-item';
 import { MergeAttendanceEntriesItem } from './merge-attendance-entries-item';

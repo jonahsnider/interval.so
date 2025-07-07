@@ -1,10 +1,10 @@
 'use client';
-import type { RouterOutput } from '@/src/trpc/common';
-import { trpc } from '@/src/trpc/trpc-client';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import type { TimeRangeSchema } from '@interval.so/api/app/team_stats/schemas/time_range_schema';
 import { useQueryStates } from 'nuqs';
 import { useMemo, useState } from 'react';
+import type { RouterOutput } from '@/src/trpc/common';
+import { trpc } from '@/src/trpc/trpc-client';
 import {
 	type DurationSlug,
 	durationLabelPreviousPeriod,

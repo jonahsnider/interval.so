@@ -1,11 +1,10 @@
 'use client';
 
-import { AnimatePresence, type Variants, motion } from 'framer-motion';
-
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import clsx from 'clsx';
-import { Link } from 'next-view-transitions';
+import { AnimatePresence, motion, type Variants } from 'framer-motion';
 import { usePathname } from 'next/navigation';
+import { Link } from 'next-view-transitions';
 
 type NavbarEntryData = {
 	label: string;

@@ -1,12 +1,10 @@
 import type { Table } from '@tanstack/react-table';
 import clsx from 'clsx';
 
-// biome-ignore lint/style/useNamingConvention: This is in pascal case
 type Props<TData> = {
 	table: Table<TData>;
 };
 
-// biome-ignore lint/style/useNamingConvention: This is in pascal case
 export function TableSelectionStatus<TData>({ table }: Props<TData>) {
 	return (
 		<div

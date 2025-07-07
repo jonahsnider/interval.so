@@ -1,5 +1,7 @@
 'use client';
 
+import { CheckIcon } from '@heroicons/react/16/solid';
+import type { Column } from '@tanstack/react-table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -14,10 +16,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
-import { CheckIcon } from '@heroicons/react/16/solid';
-import type { Column } from '@tanstack/react-table';
 
-// biome-ignore lint/style/useNamingConvention: This is PascalCase
 interface DataTableFacetedFilterProps<TData, TValue> {
 	column?: Column<TData, TValue>;
 	title?: string;
@@ -31,7 +30,6 @@ interface DataTableFacetedFilterProps<TData, TValue> {
 	className?: string;
 }
 
-// biome-ignore lint/style/useNamingConvention: This is PascalCase
 export function DataTableFacetedFilter<TData, TValue>({
 	column,
 	title,

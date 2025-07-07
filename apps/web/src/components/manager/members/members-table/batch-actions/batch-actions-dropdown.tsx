@@ -1,5 +1,9 @@
 'use client';
 
+import { EllipsisVerticalIcon } from '@heroicons/react/16/solid';
+import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
+import type { Table } from '@tanstack/react-table';
+import { useState } from 'react';
 import { AlertDialog } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import {
@@ -8,10 +12,6 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { EllipsisVerticalIcon } from '@heroicons/react/16/solid';
-import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
-import type { Table } from '@tanstack/react-table';
-import { useState } from 'react';
 import { BatchArchiveItem } from './batch-archive-item';
 import { BatchDeleteDialogContent, BatchDeleteItem } from './batch-delete-item';
 import { BatchUpdateAttendanceItem } from './batch-update-attendance-item';

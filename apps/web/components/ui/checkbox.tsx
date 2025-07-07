@@ -1,10 +1,9 @@
 'use client';
 
+import { CheckIcon, MinusIcon } from '@heroicons/react/16/solid';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import * as React from 'react';
-
 import { cn } from '@/lib/utils';
-import { CheckIcon, MinusIcon } from '@heroicons/react/16/solid';
 
 const Checkbox = React.forwardRef<
 	React.ElementRef<typeof CheckboxPrimitive.Root>,

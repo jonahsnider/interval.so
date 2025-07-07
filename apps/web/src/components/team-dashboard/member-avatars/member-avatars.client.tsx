@@ -1,15 +1,15 @@
 'use client';
 
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { trpc } from '@/src/trpc/trpc-client';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
 import { Sort } from '@jonahsnider/util';
 import clsx from 'clsx';
-import { AnimatePresence, type Variants, motion } from 'framer-motion';
+import { AnimatePresence, motion, type Variants } from 'framer-motion';
 import { use, useState } from 'react';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { trpc } from '@/src/trpc/trpc-client';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;
@@ -70,7 +70,11 @@ function MemberAvatar({
 	member,
 	index,
 	elements,
-}: { member: Pick<TeamMemberSchema, 'name'>; index: number; elements: number }) {
+}: {
+	member: Pick<TeamMemberSchema, 'name'>;
+	index: number;
+	elements: number;
+}) {
 	const [, firstInitial, secondInitial] = FIRST_TWO_INTIALS_REGEXP.exec(member.name) ?? [];
 
 	return (

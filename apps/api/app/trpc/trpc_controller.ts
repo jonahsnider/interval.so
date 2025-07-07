@@ -3,12 +3,11 @@ import type { HttpContext } from '@adonisjs/core/http';
 import logger from '@adonisjs/core/services/logger';
 import { injectHelper } from '../../util/inject_helper.js';
 import { AppRouter } from '../routers/app_router.js';
-import { type TrpcHandlerAdonis, createTrpcHandlerAdonis } from './trpc_adonis_adapter.js';
+import { createTrpcHandlerAdonis, type TrpcHandlerAdonis } from './trpc_adonis_adapter.js';
 import { createHttpContext } from './trpc_context.js';
 
 @inject()
 @injectHelper(AppRouter)
-// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default class TrpcController {
 	private readonly handler: TrpcHandlerAdonis;
 

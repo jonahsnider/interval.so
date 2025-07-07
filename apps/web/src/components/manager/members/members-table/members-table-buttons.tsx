@@ -1,11 +1,11 @@
 'use client';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { DataTableFacetedFilter } from '@/src/components/data-tables/faceted-filter';
 import { ArchiveBoxIcon, CheckIcon, UserIcon, XMarkIcon } from '@heroicons/react/16/solid';
 import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
 import type { Table } from '@tanstack/react-table';
 import type { SelectRangeEventHandler } from 'react-day-picker';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { DataTableFacetedFilter } from '@/src/components/data-tables/faceted-filter';
 import { DurationSlug } from '../../period-select/duration-slug';
 import { PeriodSelect } from '../../period-select/period-select';
 

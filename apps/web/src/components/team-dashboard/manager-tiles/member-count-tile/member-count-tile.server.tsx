@@ -1,9 +1,9 @@
-import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { trpcServer } from '@/src/trpc/trpc-server';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { count } from '@jonahsnider/util';
 import { Suspense } from 'react';
+import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import { trpcServer } from '@/src/trpc/trpc-server';
 import { MemberAvatars } from '../../member-avatars/member-avatars.server';
 import { MemberCountTileInner } from './member-count-tile.client';
 

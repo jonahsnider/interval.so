@@ -6,7 +6,6 @@ type Props = {
 	}>;
 };
 
-// biome-ignore lint/style/noDefaultExport: This must be a default export
 export default async function ManagerMembersPage(props: Props) {
 	const params = await props.params;
 	const team = { slug: params.team };

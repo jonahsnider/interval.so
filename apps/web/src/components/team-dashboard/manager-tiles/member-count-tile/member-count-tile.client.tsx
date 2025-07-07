@@ -1,9 +1,9 @@
 'use client';
 
-import { trpc } from '@/src/trpc/trpc-client';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { count } from '@jonahsnider/util';
 import { use, useState } from 'react';
+import { trpc } from '@/src/trpc/trpc-client';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;

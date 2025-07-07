@@ -1,12 +1,12 @@
 'use client';
 
+import { CheckIcon, ClipboardIcon } from '@heroicons/react/16/solid';
+import clsx from 'clsx';
+import { AnimatePresence, motion, type Variants } from 'framer-motion';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { CheckIcon, ClipboardIcon } from '@heroicons/react/16/solid';
-import clsx from 'clsx';
-import { AnimatePresence, type Variants, motion } from 'framer-motion';
-import { useState } from 'react';
 import { ReadonlyTextField } from './readonly-text-field';
 
 type Props = {

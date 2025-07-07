@@ -1,6 +1,6 @@
-import { Card, CardTitle } from '@/components/ui/card';
 import { DatumPeriod } from '@interval.so/api/app/team_stats/schemas/datum_time_range_schema';
 import type { ReactNode } from 'react';
+import { Card, CardTitle } from '@/components/ui/card';
 
 export function formatTooltipDate(date: Date, period: DatumPeriod): string {
 	const now = new Date();

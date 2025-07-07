@@ -2,7 +2,7 @@ import { Readable } from 'node:stream';
 import type { HttpContext } from '@adonisjs/core/http';
 import type { AnyTRPCRouter, inferRouterContext } from '@trpc/server';
 import { incomingMessageToRequest } from '@trpc/server/adapters/node-http';
-import { type TRPCRequestInfo, resolveResponse } from '@trpc/server/http';
+import { resolveResponse, type TRPCRequestInfo } from '@trpc/server/http';
 import type { HTTPErrorHandler, MaybePromise } from '@trpc/server/unstable-core-do-not-import';
 
 export type CreateAdonisContextOptions = {
@@ -10,7 +10,6 @@ export type CreateAdonisContextOptions = {
 	info: TRPCRequestInfo;
 };
 
-// biome-ignore lint/style/useNamingConvention: This is in pascal case
 export type AdonisContextFn<TRouter extends AnyTRPCRouter> = (
 	opts: CreateAdonisContextOptions,
 ) => MaybePromise<inferRouterContext<TRouter>>;
@@ -33,7 +32,6 @@ function normalizePrefix(prefix: string): string {
 
 export type TrpcHandlerAdonis = (context: HttpContext) => Promise<void>;
 
-// biome-ignore lint/style/useNamingConvention: This is in pascal case
 export function createTrpcHandlerAdonis<TRouter extends AnyTRPCRouter>(options: {
 	router: TRouter;
 	prefix: string;

@@ -1,10 +1,10 @@
-import { Skeleton } from '@/components/ui/skeleton';
-import { trpcServer } from '@/src/trpc/trpc-server';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import type { TimeFilterSchema } from '@interval.so/api/app/team_stats/schemas/time_filter_schema';
 import type { TimeRangeSchema } from '@interval.so/api/app/team_stats/schemas/time_range_schema';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
+import { Skeleton } from '@/components/ui/skeleton';
+import { trpcServer } from '@/src/trpc/trpc-server';
 import type { DurationSlug } from '../../../period-select/duration-slug';
 import { CombinedHoursTileClient } from './combined-hours-tile.client';
 import { CombinedHoursTileBase } from './combined-hours-tile.shared';

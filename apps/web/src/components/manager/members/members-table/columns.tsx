@@ -1,5 +1,11 @@
 'use client';
 
+import { ArchiveBoxIcon, UserIcon } from '@heroicons/react/16/solid';
+import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
+import { Sort } from '@jonahsnider/util';
+import type { ColumnDef } from '@tanstack/react-table';
+import { Link } from 'next-view-transitions';
+import { useContext } from 'react';
 import { buttonVariants } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
@@ -7,12 +13,6 @@ import { cn } from '@/lib/utils';
 import { SortableHeader } from '@/src/components/data-tables/sortable-header';
 import { TeamSlugContext } from '@/src/components/team-dashboard/team-slug-provider';
 import { formatDate } from '@/src/utils/date-format';
-import { ArchiveBoxIcon, UserIcon } from '@heroicons/react/16/solid';
-import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
-import { Sort } from '@jonahsnider/util';
-import type { ColumnDef } from '@tanstack/react-table';
-import { Link } from 'next-view-transitions';
-import { useContext } from 'react';
 import { toTimeRange } from '../../period-select/duration-slug';
 import { BatchActionsDropdown } from './batch-actions/batch-actions-dropdown';
 import type { LastSeenAtFilter } from './members-table-buttons';

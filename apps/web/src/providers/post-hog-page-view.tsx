@@ -17,7 +17,6 @@ function RawPostHogPageView(): undefined {
 				url += `?${searchParams.toString()}`;
 			}
 			posthog.capture('$pageview', {
-				// biome-ignore lint/style/useNamingConvention: This can't be renamed
 				$current_url: url,
 			});
 		}

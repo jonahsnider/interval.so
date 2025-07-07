@@ -1,8 +1,8 @@
-import { Skeleton } from '@/components/ui/skeleton';
-import { trpcServer } from '@/src/trpc/trpc-server';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { Suspense, use } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
+import { Skeleton } from '@/components/ui/skeleton';
+import { trpcServer } from '@/src/trpc/trpc-server';
 import { SlashSeparatedNavbarItem } from './slash-separated-navbar-item';
 
 type Props = {
@@ -21,11 +21,7 @@ export function GuestTeamNavbarItem() {
 	);
 }
 
-function GuestTeamNavbarItemInner({
-	teamPromise,
-}: {
-	teamPromise: Promise<Pick<TeamSchema, 'slug'> | undefined>;
-}) {
+function GuestTeamNavbarItemInner({ teamPromise }: { teamPromise: Promise<Pick<TeamSchema, 'slug'> | undefined> }) {
 	const team = use(teamPromise);
 
 	if (!team) {
