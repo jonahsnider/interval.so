@@ -24,6 +24,9 @@ module.exports = withSentryConfig(
 
 			return config;
 		},
+		experimental: {
+			ppr: true,
+		},
 	}),
 	{
 		// For all available options, see:
