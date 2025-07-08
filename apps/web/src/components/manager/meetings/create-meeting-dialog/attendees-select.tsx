@@ -18,8 +18,8 @@ import { trpc } from '@/src/trpc/trpc-client';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;
-	value: Pick<TeamMemberSchema, 'id' | 'name'>[];
-	onChange: (value: Pick<TeamMemberSchema, 'id' | 'name'>[]) => void;
+	value: Pick<TeamMemberSchema, 'id'>[];
+	onChange: (value: Pick<TeamMemberSchema, 'id'>[]) => void;
 	className?: string;
 };
 
