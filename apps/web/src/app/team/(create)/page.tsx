@@ -16,7 +16,7 @@ import { trpc } from '@/src/trpc/trpc-client';
 
 const formSchema = TeamSchema.pick({ displayName: true, password: true, slug: true });
 
-export type CreateTeamFormType = UseFormReturn<z.infer<typeof formSchema>, unknown, undefined>;
+export type CreateTeamFormType = UseFormReturn<z.infer<typeof formSchema>, unknown, z.infer<typeof formSchema>>;
 
 export default function CreateTeamPage() {
 	const router = useRouter();
