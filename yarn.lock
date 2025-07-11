@@ -5510,12 +5510,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vercel/next@npm:4.9.5":
-  version: 4.9.5
-  resolution: "@vercel/next@npm:4.9.5"
+"@vercel/next@npm:4.10.0":
+  version: 4.10.0
+  resolution: "@vercel/next@npm:4.10.0"
   dependencies:
     "@vercel/nft": "npm:0.29.2"
-  checksum: 10c0/3f4ef56ac64e4c75e6438b4cdc025ec65f9ce1210307dcfa1e1485ee44912e93a5253ef559b7f5c68128a849ff76f68316cd74455f569668715fc3ef744d3aae
+  checksum: 10c0/899c81b98eacef0aed27bc82331cfa449655c1eeb57f35e91a7e4a275616700cf8e9125abcacf37dea66a83417f26337d87bbb38df5877aada37c07e0ec176f2
   languageName: node
   linkType: hard
 
@@ -8553,7 +8553,7 @@ __metadata:
     prettier: "npm:3.6.2"
     prettier-plugin-packagejson: "npm:2.5.18"
     turbo: "npm:2.5.4"
-    vercel: "npm:44.2.13"
+    vercel: "npm:44.4.0"
   languageName: unknown
   linkType: soft
 
@@ -12614,16 +12614,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vercel@npm:44.2.13":
-  version: 44.2.13
-  resolution: "vercel@npm:44.2.13"
+"vercel@npm:44.4.0":
+  version: 44.4.0
+  resolution: "vercel@npm:44.4.0"
   dependencies:
     "@vercel/blob": "npm:1.0.2"
     "@vercel/build-utils": "npm:10.6.5"
     "@vercel/fun": "npm:1.1.6"
     "@vercel/go": "npm:3.2.1"
     "@vercel/hydrogen": "npm:1.2.2"
-    "@vercel/next": "npm:4.9.5"
+    "@vercel/next": "npm:4.10.0"
     "@vercel/node": "npm:5.3.4"
     "@vercel/python": "npm:4.7.2"
     "@vercel/redwood": "npm:2.3.3"
@@ -12635,7 +12635,7 @@ __metadata:
   bin:
     vc: dist/vc.js
     vercel: dist/vc.js
-  checksum: 10c0/4688bbfd4f1f4e6b4aade88c3087e37c8fa03c4bedde0263d7e2a04a5c73e3e2a5fbbaf4a70e0f3a1de4be0868a0d39b7877d872f0dbc4edefe0e34e9eb2cf66
+  checksum: 10c0/09dea59fccff0b0e90323f815af561806fe788cdabd1d3d08cee8012b362aae8ea6774c5edf92533a72e079dcfac36be493e235655d0d0d1a676a13ac902bc48
   languageName: node
   linkType: hard
 
