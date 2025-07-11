@@ -1697,7 +1697,7 @@ __metadata:
     nuqs: "npm:2.4.3"
     postcss: "npm:8.5.6"
     postcss-import: "npm:16.1.1"
-    posthog-js: "npm:1.255.1"
+    posthog-js: "npm:1.257.0"
     react: "npm:19.1.0"
     react-day-picker: "npm:8.10.1"
     react-dom: "npm:19.1.0"
@@ -10322,9 +10322,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-js@npm:1.255.1":
-  version: 1.255.1
-  resolution: "posthog-js@npm:1.255.1"
+"posthog-js@npm:1.257.0":
+  version: 1.257.0
+  resolution: "posthog-js@npm:1.257.0"
   dependencies:
     core-js: "npm:^3.38.1"
     fflate: "npm:^0.4.8"
@@ -10338,7 +10338,7 @@ __metadata:
       optional: true
     rrweb-snapshot:
       optional: true
-  checksum: 10c0/313c9df0cabbc2025db4a7aa9bffdd1006e29c2f04331a9176c7237035a5d64ae8f40541fd8e322abbf09bf84470f067dbfd6329684e0644f03fcd099cd1ef13
+  checksum: 10c0/a2471791a6c0ae1fb10ccc36941c111c3e63ca06202d74e727627c887a15c48f1b0d3c177884c49b8fad56148b499ab91e2064baf184e0957af982696096eb59
   languageName: node
   linkType: hard
 
