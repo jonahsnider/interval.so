@@ -39,7 +39,7 @@
 		"@adonisjs/session": "7.5.1",
 		"@jonahsnider/util": "11.0.0",
 		"@paralleldrive/cuid2": "2.2.2",
-		"@rlanz/sentry": "^0.2.0",
+		"@rlanz/sentry": "^0.3.0",
 		"@sentry/node": "9.37.0",
 		"@sentry/profiling-node": "9.37.0",
 		"@simplewebauthn/server": "13.1.2",
