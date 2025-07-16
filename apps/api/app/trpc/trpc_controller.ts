@@ -1,6 +1,7 @@
 import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 import logger from '@adonisjs/core/services/logger';
+import { Sentry } from '@rlanz/sentry';
 import { injectHelper } from '../../util/inject_helper.js';
 import { AppRouter } from '../routers/app_router.js';
 import { createTrpcHandlerAdonis, type TrpcHandlerAdonis } from './trpc_adonis_adapter.js';
@@ -19,7 +20,7 @@ export default class TrpcController {
 			onError(options) {
 				if (options.error.code === 'INTERNAL_SERVER_ERROR') {
 					// Log error and have tRPC respond like normal
-					options.ctx?.sentry.captureException(options.error);
+					Sentry.captureException(options.error);
 					logger.error(options.error);
 
 					options.error.message = 'Internal server error';

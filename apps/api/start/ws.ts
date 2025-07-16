@@ -4,7 +4,7 @@ import logger from '@adonisjs/core/services/logger';
 import adonisServer from '@adonisjs/core/services/server';
 import { Session } from '@adonisjs/session';
 import SentryMiddleware from '@rlanz/sentry/middleware';
-import { captureException } from '@sentry/node';
+import { Sentry } from '@rlanz/sentry';
 import { applyWSSHandler } from '@trpc/server/adapters/ws';
 import { WebSocketServer } from 'ws';
 import sessionConfig from '#config/session';
@@ -51,7 +51,6 @@ const handler = applyWSSHandler({
 		return {
 			bouncer: createBouncer(session).setContainerResolver(adonisHttpContext.containerResolver),
 			session,
-			sentry: adonisHttpContext.sentry,
 		};
 	},
 	keepAlive: {
@@ -65,11 +64,7 @@ const handler = applyWSSHandler({
 		if (options.error.code === 'INTERNAL_SERVER_ERROR') {
 			// Log error and have tRPC respond like normal
 			logger.error(options.error);
-			if (options.ctx?.sentry) {
-				options.ctx.sentry.captureException(options.error);
-			} else {
-				captureException(options.error);
-			}
+			Sentry.captureException(options.error);
 			options.error.message = 'Internal server error';
 			options.error.stack = undefined;
 		}
