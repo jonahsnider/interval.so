@@ -1683,7 +1683,7 @@ __metadata:
     "@adonisjs/redis": "npm:9.2.0"
     "@adonisjs/session": "npm:7.5.1"
     "@adonisjs/tsconfig": "npm:1.4.1"
-    "@jonahsnider/util": "npm:11.0.0"
+    "@jonahsnider/util": "npm:12.0.0"
     "@paralleldrive/cuid2": "npm:2.2.2"
     "@rlanz/sentry": "npm:^0.3.0"
     "@sentry/node": "npm:9.37.0"
@@ -1724,7 +1724,7 @@ __metadata:
   dependencies:
     "@heroicons/react": "npm:2.2.0"
     "@hookform/resolvers": "npm:5.1.1"
-    "@jonahsnider/util": "npm:11.0.0"
+    "@jonahsnider/util": "npm:12.0.0"
     "@radix-ui/react-alert-dialog": "npm:1.1.14"
     "@radix-ui/react-avatar": "npm:1.1.10"
     "@radix-ui/react-checkbox": "npm:^1.1.2"
@@ -1822,10 +1822,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jonahsnider/util@npm:11.0.0":
-  version: 11.0.0
-  resolution: "@jonahsnider/util@npm:11.0.0"
-  checksum: 10c0/f701a4425bde23a34899fae159411841ce19504c43e4cf14181225e231253c96ffb09a1ddb9d4f00266023b2694652c8467c8850c1a937b17aba37be74afca90
+"@jonahsnider/util@npm:12.0.0":
+  version: 12.0.0
+  resolution: "@jonahsnider/util@npm:12.0.0"
+  checksum: 10c0/c4565b710c26bb7f65ef369ef9ffdf89c6ee0153092bdb2236fa43db00f79f472bcf6a878d764367fc6dd814b47a694bfbd7eb64f4dd13aa96eac89f2915e973
   languageName: node
   linkType: hard
 
