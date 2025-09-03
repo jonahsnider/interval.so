@@ -1769,7 +1769,7 @@ __metadata:
     next-plausible: "npm:3.12.4"
     next-themes: "npm:0.4.6"
     next-view-transitions: "npm:0.3.4"
-    nuqs: "npm:2.4.3"
+    nuqs: "npm:2.5.2"
     postcss: "npm:8.5.6"
     postcss-import: "npm:16.1.1"
     posthog-js: "npm:1.257.0"
@@ -4912,6 +4912,13 @@ __metadata:
   version: 4.0.0
   resolution: "@sindresorhus/merge-streams@npm:4.0.0"
   checksum: 10c0/482ee543629aa1933b332f811a1ae805a213681ecdd98c042b1c1b89387df63e7812248bb4df3910b02b3cc5589d3d73e4393f30e197c9dde18046ccd471fc6b
+  languageName: node
+  linkType: hard
+
+"@standard-schema/spec@npm:1.0.0":
+  version: 1.0.0
+  resolution: "@standard-schema/spec@npm:1.0.0"
+  checksum: 10c0/a1ab9a8bdc09b5b47aa8365d0e0ec40cc2df6437be02853696a0e377321653b0d3ac6f079a8c67d5ddbe9821025584b1fb71d9cc041a6666a96f1fadf2ece15f
   languageName: node
   linkType: hard
 
@@ -9351,13 +9358,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mitt@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "mitt@npm:3.0.1"
-  checksum: 10c0/3ab4fdecf3be8c5255536faa07064d05caa3dd332bd318ff02e04621f7b3069ca1de9106cfe8e7ced675abfc2bec2ce4c4ef321c4a1bb1fb29df8ae090741913
-  languageName: node
-  linkType: hard
-
 "mkdirp@npm:^1.0.3, mkdirp@npm:^1.0.4":
   version: 1.0.4
   resolution: "mkdirp@npm:1.0.4"
@@ -9739,13 +9739,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nuqs@npm:2.4.3":
-  version: 2.4.3
-  resolution: "nuqs@npm:2.4.3"
+"nuqs@npm:2.5.2":
+  version: 2.5.2
+  resolution: "nuqs@npm:2.5.2"
   dependencies:
-    mitt: "npm:^3.0.1"
+    "@standard-schema/spec": "npm:1.0.0"
   peerDependencies:
     "@remix-run/react": ">=2"
+    "@tanstack/react-router": ^1
     next: ">=14.2.0"
     react: ">=18.2.0 || ^19.0.0-0"
     react-router: ^6 || ^7
@@ -9753,13 +9754,15 @@ __metadata:
   peerDependenciesMeta:
     "@remix-run/react":
       optional: true
+    "@tanstack/react-router":
+      optional: true
     next:
       optional: true
     react-router:
       optional: true
     react-router-dom:
       optional: true
-  checksum: 10c0/29a911749a74a1b2933942f7de7952ddf6158ec2f19c2a0a849111f894b9d0745848b84095e5e0549ad9f2690303a122392b76296e6018c3bb540b4ea68a58c8
+  checksum: 10c0/c1e567d6b0cf3674e827f5f1f865433b30840e6adf3eeb989e3982f36bfae0418271db3c72df259dd8ad03e2affc0e869585013ae7b0d02df05dff8b8e43d77b
   languageName: node
   linkType: hard
 
