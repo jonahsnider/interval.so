@@ -77,6 +77,6 @@
 		"zod": "4.0.5"
 	},
 	"devDependencies": {
-		"dotenv": "17.2.1"
+		"dotenv": "17.2.2"
 	}
 }
