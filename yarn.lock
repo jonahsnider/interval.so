@@ -1772,7 +1772,7 @@ __metadata:
     nuqs: "npm:2.5.2"
     postcss: "npm:8.5.6"
     postcss-import: "npm:16.1.1"
-    posthog-js: "npm:1.257.0"
+    posthog-js: "npm:1.261.6"
     react: "npm:19.1.1"
     react-day-picker: "npm:8.10.1"
     react-dom: "npm:19.1.1"
@@ -3230,6 +3230,13 @@ __metadata:
   version: 2.1.0
   resolution: "@poppinss/validator-lite@npm:2.1.0"
   checksum: 10c0/2d3d06e2595d8010ab0143aee8662903b0ce39821724258569b43acb5bb57320abd8ddef6cf94e9c402a2ba3bfd38b75de06c69f6ed3a982fe4e643eacbc1c0f
+  languageName: node
+  linkType: hard
+
+"@posthog/core@npm:1.0.2":
+  version: 1.0.2
+  resolution: "@posthog/core@npm:1.0.2"
+  checksum: 10c0/b6cb66df077230c5cbd0de15b708b7e6fa47dac20a1bcfe5308d5c1b1ec487e57c923e22a51d6f8d45acea8239562fa9546c528d5c2bef1487419c70d3a76a43
   languageName: node
   linkType: hard
 
@@ -10413,10 +10420,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-js@npm:1.257.0":
-  version: 1.257.0
-  resolution: "posthog-js@npm:1.257.0"
+"posthog-js@npm:1.261.6":
+  version: 1.261.6
+  resolution: "posthog-js@npm:1.261.6"
   dependencies:
+    "@posthog/core": "npm:1.0.2"
     core-js: "npm:^3.38.1"
     fflate: "npm:^0.4.8"
     preact: "npm:^10.19.3"
@@ -10429,7 +10437,7 @@ __metadata:
       optional: true
     rrweb-snapshot:
       optional: true
-  checksum: 10c0/a2471791a6c0ae1fb10ccc36941c111c3e63ca06202d74e727627c887a15c48f1b0d3c177884c49b8fad56148b499ab91e2064baf184e0957af982696096eb59
+  checksum: 10c0/0829932b9f0e8bce942c9402f85992832913c4dab37b61aac83a8fbac0eda4afdae49a739234f0a2610d0599ed44c2db1cb4ae03dcea58e1642a2bde37591b72
   languageName: node
   linkType: hard
 
