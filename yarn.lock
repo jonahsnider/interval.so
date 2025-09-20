@@ -1762,7 +1762,7 @@ __metadata:
     convert: "npm:5.12.0"
     date-fns: "npm:4.1.0"
     dotenv: "npm:17.2.2"
-    framer-motion: "npm:12.23.12"
+    framer-motion: "npm:12.23.16"
     fuse.js: "npm:7.1.0"
     mutative: "npm:1.2.0"
     next: "npm:15.4.0-canary.129"
@@ -8061,9 +8061,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:12.23.12":
-  version: 12.23.12
-  resolution: "framer-motion@npm:12.23.12"
+"framer-motion@npm:12.23.16":
+  version: 12.23.16
+  resolution: "framer-motion@npm:12.23.16"
   dependencies:
     motion-dom: "npm:^12.23.12"
     motion-utils: "npm:^12.23.6"
@@ -8079,7 +8079,7 @@ __metadata:
       optional: true
     react-dom:
       optional: true
-  checksum: 10c0/40dfb57bf714075c4f6dd0bbe5b84dd11310114474ebf603846ef9b888ed475fa653271c1fd98ec57a6a1d0b781cdf8b3ebcd5e2c6a3620e934b46304ae0fd39
+  checksum: 10c0/a154b614581f9e4d359a16cd590da7331e27857ac099c83908b5ec2b6bd7092d12192d989ecf17029355e64290d119e508342b5a6b0db69462df36727c674781
   languageName: node
   linkType: hard
 
