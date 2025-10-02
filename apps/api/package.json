@@ -49,7 +49,7 @@
 		"crypto-random-string": "5.0.0",
 		"date-fns": "4.1.0",
 		"drizzle-kit": "0.31.5",
-		"drizzle-orm": "0.44.5",
+		"drizzle-orm": "0.44.6",
 		"postgres": "3.4.7",
 		"posthog-node": "5.8.6",
 		"reflect-metadata": "0.2.2",
