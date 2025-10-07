@@ -1776,7 +1776,7 @@ __metadata:
     next-plausible: "npm:3.12.4"
     next-themes: "npm:0.4.6"
     next-view-transitions: "npm:0.3.4"
-    nuqs: "npm:2.6.0"
+    nuqs: "npm:2.7.1"
     postcss: "npm:8.5.6"
     postcss-import: "npm:16.1.1"
     posthog-js: "npm:1.271.0"
@@ -9758,9 +9758,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nuqs@npm:2.6.0":
-  version: 2.6.0
-  resolution: "nuqs@npm:2.6.0"
+"nuqs@npm:2.7.1":
+  version: 2.7.1
+  resolution: "nuqs@npm:2.7.1"
   dependencies:
     "@standard-schema/spec": "npm:1.0.0"
   peerDependencies:
@@ -9781,7 +9781,7 @@ __metadata:
       optional: true
     react-router-dom:
       optional: true
-  checksum: 10c0/b97647fc26cdcb34ae562befdea0bc663660be117715b31ffd7189ffcbed3b432818d48b98ccb503e1064cb9c4e674d8fdfeb0b78e88a27064cf2d978ee4f04a
+  checksum: 10c0/dbc7affc1a4cf19dc4d4dd327baa4ac6d1e998dd6303a44d916316433cf71e1c2d2e1ff1b3808c4729a78a8b9b89b65b78814cda003621768ce8f695527b8a82
   languageName: node
   linkType: hard
 
