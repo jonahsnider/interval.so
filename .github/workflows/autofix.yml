@@ -24,6 +24,8 @@ jobs:
         run: yarn install --immutable
       - name: Format with Prettier
         run: yarn format:write
+      - name: Migrate Biome schema
+        run: yarn biome migrate --write
       - name: Format with Biome
         run: yarn lint:fix
       - name: Run autofix.ci
