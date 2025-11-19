@@ -66,9 +66,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/auth@npm:9.5.0":
-  version: 9.5.0
-  resolution: "@adonisjs/auth@npm:9.5.0"
+"@adonisjs/auth@npm:9.5.1":
+  version: 9.5.1
+  resolution: "@adonisjs/auth@npm:9.5.1"
   dependencies:
     "@adonisjs/presets": "npm:^2.6.4"
     "@poppinss/utils": "npm:^6.10.1"
@@ -91,7 +91,7 @@ __metadata:
       optional: true
     "@japa/plugin-adonisjs":
       optional: true
-  checksum: 10c0/8f588c4846c41b7825e1c56e141cea379ceb5c8244a88444f7512a280e0b624b451d8daf0e9891db2b777118170722a46c2d8f79d17c2cdf880bb45ac638a4ed
+  checksum: 10c0/e939a185216b5a71a034c13cf1fe00019caf8156fcaa4a153c360a247a6996f3c01acf266c52b3e95b42b87b833e59ca40d2efafb5ab55c4cab8a732f9c8fa6e
   languageName: node
   linkType: hard
 
@@ -1683,7 +1683,7 @@ __metadata:
   resolution: "@interval.so/api@workspace:apps/api"
   dependencies:
     "@adonisjs/assembler": "npm:7.8.2"
-    "@adonisjs/auth": "npm:9.5.0"
+    "@adonisjs/auth": "npm:9.5.1"
     "@adonisjs/bouncer": "npm:3.1.6"
     "@adonisjs/core": "npm:6.19.0"
     "@adonisjs/cors": "npm:2.2.1"
