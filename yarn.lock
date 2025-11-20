@@ -1691,7 +1691,7 @@ __metadata:
     "@adonisjs/session": "npm:7.5.1"
     "@adonisjs/tsconfig": "npm:1.4.1"
     "@jonahsnider/util": "npm:12.0.0"
-    "@paralleldrive/cuid2": "npm:2.2.2"
+    "@paralleldrive/cuid2": "npm:2.3.1"
     "@rlanz/sentry": "npm:^0.3.0"
     "@sentry/node": "npm:10.1.0"
     "@sentry/profiling-node": "npm:10.1.0"
@@ -2857,7 +2857,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@paralleldrive/cuid2@npm:2.2.2, @paralleldrive/cuid2@npm:^2.2.2":
+"@paralleldrive/cuid2@npm:2.3.1":
+  version: 2.3.1
+  resolution: "@paralleldrive/cuid2@npm:2.3.1"
+  dependencies:
+    "@noble/hashes": "npm:^1.1.5"
+  checksum: 10c0/6576b73de49d826b0f33cbab88424dec1f6fa454a9e59a7b621f78c2cfdd2e59d7f48175826d698940a717f45eeb5e87a508583a7316e608f6a05a861a40c129
+  languageName: node
+  linkType: hard
+
+"@paralleldrive/cuid2@npm:^2.2.2":
   version: 2.2.2
   resolution: "@paralleldrive/cuid2@npm:2.2.2"
   dependencies:
