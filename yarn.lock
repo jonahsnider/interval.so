@@ -1716,7 +1716,7 @@ __metadata:
     prettier: "npm:3.6.2"
     reflect-metadata: "npm:0.2.2"
     rxjs: "npm:7.8.2"
-    superjson: "npm:2.2.2"
+    superjson: "npm:2.2.5"
     ts-node: "npm:10.9.2"
     ts-pattern: "npm:5.7.1"
     typescript: "npm:5.8.3"
@@ -1789,7 +1789,7 @@ __metadata:
     server-only: "npm:0.0.1"
     sharp: "npm:0.34.4"
     sonner: "npm:2.0.7"
-    superjson: "npm:2.2.2"
+    superjson: "npm:2.2.5"
     tailwind-merge: "npm:3.3.1"
     tailwindcss: "npm:3.4.18"
     tailwindcss-animate: "npm:1.0.7"
@@ -6683,12 +6683,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"copy-anything@npm:^3.0.2":
-  version: 3.0.5
-  resolution: "copy-anything@npm:3.0.5"
+"copy-anything@npm:^4":
+  version: 4.0.5
+  resolution: "copy-anything@npm:4.0.5"
   dependencies:
-    is-what: "npm:^4.1.8"
-  checksum: 10c0/01eadd500c7e1db71d32d95a3bfaaedcb839ef891c741f6305ab0461398056133de08f2d1bf4c392b364e7bdb7ce498513896e137a7a183ac2516b065c28a4fe
+    is-what: "npm:^5.2.0"
+  checksum: 10c0/d0a4a4102334399dae8504a2c2e13f45ad05746a9fd5cc0df349a554e3749a05e8a6d62b3724a8049cd59fc0bbbf4f54c4edc94a428edc76211dffe3ac0af586
   languageName: node
   linkType: hard
 
@@ -8817,10 +8817,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-what@npm:^4.1.8":
-  version: 4.1.16
-  resolution: "is-what@npm:4.1.16"
-  checksum: 10c0/611f1947776826dcf85b57cfb7bd3b3ea6f4b94a9c2f551d4a53f653cf0cb9d1e6518846648256d46ee6c91d114b6d09d2ac8a07306f7430c5900f87466aae5b
+"is-what@npm:^5.2.0":
+  version: 5.5.0
+  resolution: "is-what@npm:5.5.0"
+  checksum: 10c0/065c8a4ac651988a495cc0211c2754c198788383c9fe1bbfdf6d237c423114a0c5f2fc3e26ad7ea43a63cd4169f4503f584305acbac91706d5308cc14dedd1bd
   languageName: node
   linkType: hard
 
@@ -11875,12 +11875,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"superjson@npm:2.2.2":
-  version: 2.2.2
-  resolution: "superjson@npm:2.2.2"
+"superjson@npm:2.2.5":
+  version: 2.2.5
+  resolution: "superjson@npm:2.2.5"
   dependencies:
-    copy-anything: "npm:^3.0.2"
-  checksum: 10c0/aa49ebe6653e963020bc6a1ed416d267dfda84cfcc3cbd3beffd75b72e44eb9df7327215f3e3e77528f6e19ad8895b16a4964fdcd56d1799d14350db8c92afbc
+    copy-anything: "npm:^4"
+  checksum: 10c0/3813cbf3d0a0d8b0b05c5ba38ab17a5f38258ff611372a702ed21fe73dc7fb798babb7bed08014d937c7f1823bb15f4ba25cf6dd6402c0ddb755e69f9bc73bf3
   languageName: node
   linkType: hard
 
