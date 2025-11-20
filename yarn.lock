@@ -5,9 +5,9 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
-"@adonisjs/ace@npm:^13.3.0":
-  version: 13.3.0
-  resolution: "@adonisjs/ace@npm:13.3.0"
+"@adonisjs/ace@npm:^13.4.0":
+  version: 13.4.0
+  resolution: "@adonisjs/ace@npm:13.4.0"
   dependencies:
     "@poppinss/cliui": "npm:^6.4.1"
     "@poppinss/hooks": "npm:^7.2.4"
@@ -20,13 +20,13 @@ __metadata:
     yargs-parser: "npm:^21.1.1"
     youch: "npm:^3.3.4"
     youch-terminal: "npm:^2.2.3"
-  checksum: 10c0/4eb28745098a44e248c4ea17beff55db1671daedcec0ab1cd97ecdf8349a24966ae701186f06665167122c1bd346a09f0c8ddd218a6ae364d581d04451992918
+  checksum: 10c0/7319df452ded95b05aa2acbc0ec2d40ef062ecfed6f287122a021a922201de03116eed7c994a675b84ba0508f012de2c1c2f091b75a2edf802685141f671c507
   languageName: node
   linkType: hard
 
-"@adonisjs/application@npm:^8.4.1":
-  version: 8.4.1
-  resolution: "@adonisjs/application@npm:8.4.1"
+"@adonisjs/application@npm:^8.4.2":
+  version: 8.4.2
+  resolution: "@adonisjs/application@npm:8.4.2"
   dependencies:
     "@poppinss/hooks": "npm:^7.2.5"
     "@poppinss/macroable": "npm:^1.0.4"
@@ -36,7 +36,7 @@ __metadata:
   peerDependencies:
     "@adonisjs/config": ^5.0.0
     "@adonisjs/fold": ^10.0.0
-  checksum: 10c0/0b5a79fbc220645f8fda489aca6cd1f5976b2d46ffcc483084369407bf82c86617585fe61b5305480d7868124ee35d665c2c2a86c4bcef4e7e4c70df8a82da52
+  checksum: 10c0/d79f8c32332583ce3e619d55544ea4362756758fc5826554a9eb8ad474394fb4c037dca402512bcc40962ebe325cc4ac689e39a6815de8f2113d6bcaefab3699
   languageName: node
   linkType: hard
 
@@ -145,12 +145,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/core@npm:6.19.0":
-  version: 6.19.0
-  resolution: "@adonisjs/core@npm:6.19.0"
+"@adonisjs/core@npm:6.19.1":
+  version: 6.19.1
+  resolution: "@adonisjs/core@npm:6.19.1"
   dependencies:
-    "@adonisjs/ace": "npm:^13.3.0"
-    "@adonisjs/application": "npm:^8.4.1"
+    "@adonisjs/ace": "npm:^13.4.0"
+    "@adonisjs/application": "npm:^8.4.2"
     "@adonisjs/bodyparser": "npm:^10.1.0"
     "@adonisjs/config": "npm:^5.0.3"
     "@adonisjs/encryption": "npm:^6.0.2"
@@ -161,14 +161,14 @@ __metadata:
     "@adonisjs/health": "npm:^2.0.0"
     "@adonisjs/http-server": "npm:^7.7.0"
     "@adonisjs/logger": "npm:^6.0.6"
-    "@adonisjs/repl": "npm:^4.1.0"
+    "@adonisjs/repl": "npm:^4.1.2"
     "@antfu/install-pkg": "npm:^1.1.0"
     "@paralleldrive/cuid2": "npm:^2.2.2"
-    "@poppinss/colors": "npm:^4.1.4"
-    "@poppinss/dumper": "npm:^0.6.3"
-    "@poppinss/macroable": "npm:^1.0.4"
-    "@poppinss/utils": "npm:^6.10.0"
-    "@sindresorhus/is": "npm:^7.0.2"
+    "@poppinss/colors": "npm:^4.1.5"
+    "@poppinss/dumper": "npm:^0.6.4"
+    "@poppinss/macroable": "npm:^1.1.0"
+    "@poppinss/utils": "npm:^6.10.1"
+    "@sindresorhus/is": "npm:^7.1.0"
     "@types/he": "npm:^1.2.3"
     error-stack-parser-es: "npm:^1.0.5"
     he: "npm:^1.2.0"
@@ -179,8 +179,8 @@ __metadata:
     youch-terminal: "npm:^2.2.3"
   peerDependencies:
     "@adonisjs/assembler": ^7.8.0
-    "@vinejs/vine": ^2.1.0 || ^3.0.0
-    argon2: ^0.31.2 || ^0.41.0 || ^0.43.0
+    "@vinejs/vine": ^2.1.0 || ^3.0.0 || ^4.0.0
+    argon2: ^0.31.2 || ^0.41.0 || ^0.43.0 || ^0.44.0
     bcrypt: ^5.1.1 || ^6.0.0
     edge.js: ^6.2.0
   peerDependenciesMeta:
@@ -196,7 +196,7 @@ __metadata:
       optional: true
   bin:
     adonis-kit: build/toolkit/main.js
-  checksum: 10c0/433bcfb790c542ab09fcd6c69713876c51c0410d739fb3a5701edc12338ae81725060c0088c2a5be0945bad20f20e7c940289b202a45ed0f78e4ada86aeb5cae
+  checksum: 10c0/40f640452802ade8e281e6b6ee684c594e17501791b713b49f941399290653267a20c245f4cb339dfc5910886db9f6a5cbdc031ebe52d9545913f457ba06deb6
   languageName: node
   linkType: hard
 
@@ -368,13 +368,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/repl@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "@adonisjs/repl@npm:4.1.0"
+"@adonisjs/repl@npm:^4.1.2":
+  version: 4.1.2
+  resolution: "@adonisjs/repl@npm:4.1.2"
   dependencies:
-    "@poppinss/colors": "npm:^4.1.4"
+    "@poppinss/colors": "npm:^4.1.5"
     string-width: "npm:^7.2.0"
-  checksum: 10c0/dcca33ab732b9215f7373b923f5a41bd2d1d0105586df05ff1d08920c60fea5b80985b391f07f102c84134001f2f47f6d22e386fd03e980efc7eb0b8158709aa
+  checksum: 10c0/19aa74bb6b7b38f7af3e5b759eab74e957379b4ccf93dfc50ad8fa0c50e182675716b3e4c284f6dae7729d19a436c69c3d59abace16333ffab655dc8862916ce
   languageName: node
   linkType: hard
 
@@ -1685,7 +1685,7 @@ __metadata:
     "@adonisjs/assembler": "npm:7.8.2"
     "@adonisjs/auth": "npm:9.5.1"
     "@adonisjs/bouncer": "npm:3.1.6"
-    "@adonisjs/core": "npm:6.19.0"
+    "@adonisjs/core": "npm:6.19.1"
     "@adonisjs/cors": "npm:2.2.1"
     "@adonisjs/redis": "npm:9.2.0"
     "@adonisjs/session": "npm:7.5.1"
@@ -2988,23 +2988,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@poppinss/colors@npm:^4.1.4":
-  version: 4.1.4
-  resolution: "@poppinss/colors@npm:4.1.4"
+"@poppinss/colors@npm:^4.1.5":
+  version: 4.1.5
+  resolution: "@poppinss/colors@npm:4.1.5"
   dependencies:
     kleur: "npm:^4.1.5"
-  checksum: 10c0/31d358a53cc2ecc138646365fc8e7df8596f74f8bd9f4d2fe03013e5adafaca38f701383d1b8f035a6f14f60492a05b9acbc2694b363785fe22e3caaa3e7e5fc
+  checksum: 10c0/e9d5c9e9a8c1eb7cd37e9b431bda7b7573476be7395123b26815d758f38ca93db0ba62bb2831281f4f04a6e1620b4d4f9377268d32c61c2c9f6599a02c2112b7
   languageName: node
   linkType: hard
 
-"@poppinss/dumper@npm:^0.6.3":
-  version: 0.6.3
-  resolution: "@poppinss/dumper@npm:0.6.3"
+"@poppinss/dumper@npm:^0.6.4":
+  version: 0.6.5
+  resolution: "@poppinss/dumper@npm:0.6.5"
   dependencies:
-    "@poppinss/colors": "npm:^4.1.4"
-    "@sindresorhus/is": "npm:^7.0.1"
+    "@poppinss/colors": "npm:^4.1.5"
+    "@sindresorhus/is": "npm:^7.0.2"
     supports-color: "npm:^10.0.0"
-  checksum: 10c0/26c0addeb39ba0b6ccb0ffd34cdc1214c5a6ea43e8ff2e96d13d8952a0adb1b321d5265855e8cb650a1963f74d398cc5faa0620d1835adac8398d1ff7ec06afc
+  checksum: 10c0/7a0916fe4ce543cac1e61f09218e5c88b903ad0d853301b790686c772b7f5c595a04beccbf13172e0c77dc64b132b27ad438b888816fd7f6128c816290f9dc1f
   languageName: node
   linkType: hard
 
@@ -3054,6 +3054,13 @@ __metadata:
   version: 1.0.4
   resolution: "@poppinss/macroable@npm:1.0.4"
   checksum: 10c0/017a6155a4764ed9454eb38a2241cdf5d52eb1229e424d16816b7f81a1a44ba701cb9cf91e80caad1fac61e9c540a1c2c7e639f598f0a5393fc7ead21c943ecf
+  languageName: node
+  linkType: hard
+
+"@poppinss/macroable@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@poppinss/macroable@npm:1.1.0"
+  checksum: 10c0/fdf2f14bd56293bac78795cac9052530b0dcce535fe3c572766bc9d6524939ef587a7be4170e983f3aa7ee4e9402a5ea18d696d3b07c8d8b9b0fdece10751a0a
   languageName: node
   linkType: hard
 
@@ -4922,17 +4929,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sindresorhus/is@npm:^7.0.1":
-  version: 7.0.1
-  resolution: "@sindresorhus/is@npm:7.0.1"
-  checksum: 10c0/6d43a916d70d9b64066394c272883869b22faf21f4748aaf399c1b691ea704ea607d1668ff2eb5704e5be8809c4a7faafe16be048ce5e1a2ba6e8928b8e3461c
-  languageName: node
-  linkType: hard
-
 "@sindresorhus/is@npm:^7.0.2":
   version: 7.0.2
   resolution: "@sindresorhus/is@npm:7.0.2"
   checksum: 10c0/50881c9b651e189972087de9104e0d259a2a0dc93c604e863b3be1847e31c3dce685e76a41c0ae92198ae02b36d30d07b723a2d72015ce3cf910afc6dc337ff5
+  languageName: node
+  linkType: hard
+
+"@sindresorhus/is@npm:^7.1.0":
+  version: 7.1.1
+  resolution: "@sindresorhus/is@npm:7.1.1"
+  checksum: 10c0/96f021b8c5680e0687ceba5619c2e56fe6b089b190b3149280a1e418e6315c66839e3f1519cf1c89f7a888b5a0017a0ef1db17436d783ee398b7d5a515caa3ef
   languageName: node
   linkType: hard
 
