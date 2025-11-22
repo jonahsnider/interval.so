@@ -1816,7 +1816,7 @@ __metadata:
     nuqs: "npm:2.8.0"
     postcss: "npm:8.5.6"
     postcss-import: "npm:16.1.1"
-    posthog-js: "npm:1.275.1"
+    posthog-js: "npm:1.297.2"
     react: "npm:19.2.0"
     react-day-picker: "npm:8.10.1"
     react-dom: "npm:19.2.0"
@@ -3333,13 +3333,6 @@ __metadata:
   version: 2.1.0
   resolution: "@poppinss/validator-lite@npm:2.1.0"
   checksum: 10c0/2d3d06e2595d8010ab0143aee8662903b0ce39821724258569b43acb5bb57320abd8ddef6cf94e9c402a2ba3bfd38b75de06c69f6ed3a982fe4e643eacbc1c0f
-  languageName: node
-  linkType: hard
-
-"@posthog/core@npm:1.2.4":
-  version: 1.2.4
-  resolution: "@posthog/core@npm:1.2.4"
-  checksum: 10c0/8b301b945b409a65436c795a7e3e992f5a77ced4493238603d0014e01a1360ff6a587d00331d8aa64ca2b6d4f8aa9fc7c28e210fdd3380514820cf0b9105a99f
   languageName: node
   linkType: hard
 
@@ -10477,24 +10470,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-js@npm:1.275.1":
-  version: 1.275.1
-  resolution: "posthog-js@npm:1.275.1"
+"posthog-js@npm:1.297.2":
+  version: 1.297.2
+  resolution: "posthog-js@npm:1.297.2"
   dependencies:
-    "@posthog/core": "npm:1.2.4"
+    "@posthog/core": "npm:1.5.5"
     core-js: "npm:^3.38.1"
     fflate: "npm:^0.4.8"
     preact: "npm:^10.19.3"
     web-vitals: "npm:^4.2.4"
-  peerDependencies:
-    "@rrweb/types": 2.0.0-alpha.17
-    rrweb-snapshot: 2.0.0-alpha.17
-  peerDependenciesMeta:
-    "@rrweb/types":
-      optional: true
-    rrweb-snapshot:
-      optional: true
-  checksum: 10c0/97aa0d0f9adb64ac77a870d42fb1ae8a855410d3af095410023a1972785d32b38e7fbd2962f012b62c487282c11b341a4e5b3dcc704819f7acb88fcf955f3257
+  checksum: 10c0/4053628bde6f467afa263182b7386a7707c825a972722e92b3e837d9873af67d53d7d36c6e8dd71da8addcacb49ca680c47d9d16e8e58e9f08d92cb971b75b47
   languageName: node
   linkType: hard
 
