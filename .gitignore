@@ -253,3 +253,6 @@ designs.tldr
 
 # Sentry secrets
 .env.sentry-build-plugin
+
+# Next
+next-env.d.ts
