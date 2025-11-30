@@ -1918,7 +1918,7 @@ __metadata:
     "@paralleldrive/cuid2": "npm:2.3.1"
     "@rlanz/sentry": "npm:^0.3.0"
     "@sentry/node": "npm:10.26.0"
-    "@sentry/profiling-node": "npm:10.26.0"
+    "@sentry/profiling-node": "npm:10.27.0"
     "@simplewebauthn/server": "npm:13.1.2"
     "@swc/core": "npm:1.15.3"
     "@trpc/server": "npm:11.4.3"
@@ -5709,16 +5709,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/profiling-node@npm:10.26.0":
-  version: 10.26.0
-  resolution: "@sentry/profiling-node@npm:10.26.0"
+"@sentry/profiling-node@npm:10.27.0":
+  version: 10.27.0
+  resolution: "@sentry/profiling-node@npm:10.27.0"
   dependencies:
     "@sentry-internal/node-cpu-profiler": "npm:^2.2.0"
-    "@sentry/core": "npm:10.26.0"
-    "@sentry/node": "npm:10.26.0"
+    "@sentry/core": "npm:10.27.0"
+    "@sentry/node": "npm:10.27.0"
   bin:
     sentry-prune-profiler-binaries: scripts/prune-profiler-binaries.js
-  checksum: 10c0/d246f8b1499a3ecd5ae0db3d7b6b5417518425be684921aa660a661531058e3f2a9766665e3249a94f25304cd9542c56f299e6237c0a93b89eb5e86290ac5d1e
+  checksum: 10c0/e681b84f75b7fbd26f755b9f5a182d552bc9dd4c0a07dabd8e445b242c6243f0693373a7e763ad4c43d03ec79c2c1846347fcef782d15090a61fe0fd1935d8a8
   languageName: node
   linkType: hard
 
