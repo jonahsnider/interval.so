@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import redis from '@adonisjs/redis/services/main';
 import type { Session } from '@adonisjs/session';
-import cuid2 from '@paralleldrive/cuid2';
+import * as cuid2 from '@paralleldrive/cuid2';
 import { TRPCError } from '@trpc/server';
 import { convert } from 'convert';
 import { and, count, eq } from 'drizzle-orm';
