@@ -6,7 +6,7 @@
 		"build": "NODE_ENV=production next build --webpack",
 		"dev": "PORT=3000 next dev --webpack",
 		"start": "next start",
-		"type-check": "tsc"
+		"type-check": "next typegen && tsc"
 	},
 	"dependencies": {
 		"@heroicons/react": "2.2.0",
