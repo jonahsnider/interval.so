@@ -10,7 +10,7 @@
 	background-size: 50px 50px;
 }
 
-/* biome-ignore lint/correctness/noUnknownPseudoClass: This is valid CSS Modules syntax */
-.dots:global:where(.dark, .dark *) {
+:global(.dark) .dots,
+:global(.dark *) .dots {
 	background-image: url("/dots/dot-dark.svg"), url("/dots/dot-dark.svg");
 }
