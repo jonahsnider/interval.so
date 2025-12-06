@@ -264,3 +264,6 @@ service-account-key.json
 
 # AdonisJS build
 apps/api/build
+
+# Next.js
+next-env.d.ts

@@ -13,7 +13,8 @@
 			"!**/.vercel",
 			"!**/package.json",
 			"!**/apps/api/build",
-			"!**/.turbo"
+			"!**/.turbo",
+			"!**/next-env.d.ts"
 		]
 	},
 	"formatter": {
