@@ -26,6 +26,11 @@ module.exports = withSentryConfig(
 		},
 		experimental: {
 			ppr: true,
+			extensionAlias: {
+				'.js': ['.ts', '.tsx', '.js'],
+				'.mjs': ['.mts', '.mjs'],
+				'.cjs': ['.cts', '.cjs'],
+			},
 		},
 	}),
 	{
