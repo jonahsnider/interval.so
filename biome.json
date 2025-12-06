@@ -1,5 +1,10 @@
 {
 	"$schema": "https://biomejs.dev/schemas/2.1.4/schema.json",
+	"css": {
+		"parser": {
+			"cssModules": true
+		}
+	},
 	"files": {
 		"includes": [
 			"**",
