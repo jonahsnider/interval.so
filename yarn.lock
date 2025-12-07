@@ -1745,7 +1745,7 @@ __metadata:
     hot-hook: "patch:hot-hook@npm%3A0.3.0#~/.yarn/patches/hot-hook-npm-0.3.0-0c210b56e7.patch"
     pino-pretty: "npm:13.1.2"
     postgres: "npm:3.4.7"
-    posthog-node: "npm:5.13.2"
+    posthog-node: "npm:5.17.2"
     prettier: "npm:3.6.2"
     reflect-metadata: "npm:0.2.2"
     rxjs: "npm:7.8.2"
@@ -3687,6 +3687,15 @@ __metadata:
   dependencies:
     cross-spawn: "npm:^7.0.6"
   checksum: 10c0/f71b08fa26b26c7a478e2a848deb26690e6bb03b48cf10593dc30fee54af010e173c07ad46780be303f3aa9f9f3ab17f86c514b37d3b99776fa936447c57f536
+  languageName: node
+  linkType: hard
+
+"@posthog/core@npm:1.7.1":
+  version: 1.7.1
+  resolution: "@posthog/core@npm:1.7.1"
+  dependencies:
+    cross-spawn: "npm:^7.0.6"
+  checksum: 10c0/4c496078b59eb60adbf18257c36d13b91b7f2a58c24c0d0464c826cfb2a8714c8d16c695737e5578495a2854efb7caa5251fc914971bf298e24f4f2eac27e2e8
   languageName: node
   linkType: hard
 
@@ -11402,12 +11411,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-node@npm:5.13.2":
-  version: 5.13.2
-  resolution: "posthog-node@npm:5.13.2"
+"posthog-node@npm:5.17.2":
+  version: 5.17.2
+  resolution: "posthog-node@npm:5.17.2"
   dependencies:
-    "@posthog/core": "npm:1.5.5"
-  checksum: 10c0/17c4b54943587a23ef7e61154c94ec5408471657ea4bfc2bf0417f4cc94931d2b3c96a7c8e1e87dab19b25a54145bd516a93121d94ffa4bb9642f8389f6418b1
+    "@posthog/core": "npm:1.7.1"
+  checksum: 10c0/fd68100456ee7500de16478dd875e6aa5d0e2abb0a094d1766843fbcaccf5aca623e4360ae29dfc9b1699d19c80059fbe149c1bd0d82ebf9ee74d584bdbd7ed9
   languageName: node
   linkType: hard
 
