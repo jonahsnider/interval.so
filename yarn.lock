@@ -1749,7 +1749,7 @@ __metadata:
     prettier: "npm:3.6.2"
     reflect-metadata: "npm:0.2.2"
     rxjs: "npm:7.8.2"
-    superjson: "npm:2.2.5"
+    superjson: "npm:2.2.6"
     ts-node: "npm:10.9.2"
     ts-pattern: "npm:5.9.0"
     typescript: "npm:5.8.3"
@@ -1822,7 +1822,7 @@ __metadata:
     server-only: "npm:0.0.1"
     sharp: "npm:0.34.5"
     sonner: "npm:2.0.7"
-    superjson: "npm:2.2.5"
+    superjson: "npm:2.2.6"
     tailwind-merge: "npm:3.4.0"
     tailwindcss: "npm:3.4.18"
     tailwindcss-animate: "npm:1.0.7"
@@ -12860,12 +12860,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"superjson@npm:2.2.5":
-  version: 2.2.5
-  resolution: "superjson@npm:2.2.5"
+"superjson@npm:2.2.6":
+  version: 2.2.6
+  resolution: "superjson@npm:2.2.6"
   dependencies:
     copy-anything: "npm:^4"
-  checksum: 10c0/3813cbf3d0a0d8b0b05c5ba38ab17a5f38258ff611372a702ed21fe73dc7fb798babb7bed08014d937c7f1823bb15f4ba25cf6dd6402c0ddb755e69f9bc73bf3
+  checksum: 10c0/b63587656cc27effd12c9e13a66da673a7a1b3e1af41f17820fd37f07a4f29503e1f58eae6bd229039331b475e1be6990336fa887654e6adc80684ae4eed7965
   languageName: node
   linkType: hard
 

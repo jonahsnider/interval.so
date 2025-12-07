@@ -54,7 +54,7 @@
 		"posthog-node": "5.13.2",
 		"reflect-metadata": "0.2.2",
 		"rxjs": "7.8.2",
-		"superjson": "2.2.5",
+		"superjson": "2.2.6",
 		"ts-pattern": "5.9.0",
 		"ws": "8.18.3",
 		"zod": "4.1.12"
