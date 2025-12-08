@@ -12,7 +12,7 @@ const loggerConfig = defineConfig({
 	loggers: {
 		app: {
 			enabled: true,
-			name: 'hours-api',
+			name: 'interval-api',
 			level: env.get('LOG_LEVEL', 'trace'),
 			transport: {
 				targets: targets()
