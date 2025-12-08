@@ -1,5 +1,6 @@
 import app from '@adonisjs/core/services/app';
 import { defineConfig } from '@rlanz/sentry';
+import { nodeProfilingIntegration } from '@sentry/profiling-node';
 import env from '#start/env';
 
 export default defineConfig({
@@ -22,9 +23,7 @@ export default defineConfig({
 	 * Additional integrations to use with the Sentry SDK
 	 * @see https://docs.sentry.io/platforms/javascript/guides/node/configuration/integrations/#available-integrations
 	 */
-	integrations: [
-		// TODO: Add node profiling integration here once @rlanz/sentry is updated to Sentry v8 - https://github.com/RomainLanz/sentry/issues/1
-	],
+	integrations: [nodeProfilingIntegration],
 
 	/**
 	 * The sample rate of traces to send to Sentry
