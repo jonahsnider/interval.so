@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/node';
 import { initTRPC, TRPCError } from '@trpc/server';
 import superjson from 'superjson';
 import type { createHttpContext } from './trpc_context.js';
@@ -9,9 +10,15 @@ const t = initTRPC.context<typeof createHttpContext>().create({
 	isDev: false,
 });
 
+const sentryMiddleware = t.middleware(
+	Sentry.trpcMiddleware({
+		attachRpcInput: true,
+	}),
+);
+
 export const router = t.router;
 
-export const publicProcedure = t.procedure.use(({ ctx, next }) => {
+export const publicProcedure = t.procedure.use(sentryMiddleware).use(({ ctx, next }) => {
 	const userId = ctx.session.get('userId') as undefined | string;
 	const guestToken = ctx.session.get('guestToken') as undefined | string;
 
