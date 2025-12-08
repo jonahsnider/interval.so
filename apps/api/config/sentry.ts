@@ -6,9 +6,7 @@ export default defineConfig({
 	/**
 	 * Enable or disable Sentry
 	 */
-	// TODO: Turning Sentry on causes critical errors with drizzle-orm :(
-	// See: https://github.com/drizzle-team/drizzle-orm/issues/4079 and https://github.com/drizzle-team/drizzle-orm/issues/3726
-	enabled: false,
+	enabled: true,
 
 	/**
 	 * The environment Sentry is running in
