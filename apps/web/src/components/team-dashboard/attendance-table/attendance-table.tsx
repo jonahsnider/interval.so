@@ -4,7 +4,7 @@ import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
 import { concatIterables } from '@jonahsnider/util';
 import clsx from 'clsx';
-import { AnimatePresence, motion, type Variants } from 'framer-motion';
+import { AnimatePresence, motion, type Variants } from 'motion/react';
 import Fuse from 'fuse.js/basic';
 import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';

@@ -1,7 +1,7 @@
 'use client';
 
 import { ComputerDesktopIcon, MoonIcon, SunIcon } from '@heroicons/react/16/solid';
-import { AnimatePresence, motion, type Variants } from 'framer-motion';
+import { AnimatePresence, motion, type Variants } from 'motion/react';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';

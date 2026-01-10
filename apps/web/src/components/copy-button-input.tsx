@@ -2,7 +2,7 @@
 
 import { CheckIcon, ClipboardIcon } from '@heroicons/react/16/solid';
 import clsx from 'clsx';
-import { AnimatePresence, motion, type Variants } from 'framer-motion';
+import { AnimatePresence, motion, type Variants } from 'motion/react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';

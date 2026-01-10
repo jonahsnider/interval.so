@@ -3,7 +3,7 @@
 import { ArrowDownIcon, ArrowUpIcon, ChevronUpDownIcon } from '@heroicons/react/16/solid';
 import type { Column } from '@tanstack/react-table';
 import clsx from 'clsx';
-import { AnimatePresence, motion, type Variants } from 'framer-motion';
+import { AnimatePresence, motion, type Variants } from 'motion/react';
 import type { PropsWithChildren } from 'react';
 import { Button } from '@/components/ui/button';
 import {

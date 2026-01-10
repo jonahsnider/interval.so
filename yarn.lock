@@ -2027,8 +2027,8 @@ __metadata:
     convert: "npm:5.14.1"
     date-fns: "npm:4.1.0"
     dotenv: "npm:17.2.3"
-    framer-motion: "npm:12.25.0"
     fuse.js: "npm:7.1.0"
+    motion: "npm:12.25.0"
     mutative: "npm:1.3.0"
     next: "npm:15.6.0-canary.60"
     next-plausible: "npm:3.12.5"
@@ -9131,7 +9131,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:12.25.0":
+"framer-motion@npm:^12.25.0":
   version: 12.25.0
   resolution: "framer-motion@npm:12.25.0"
   dependencies:
@@ -10556,6 +10556,27 @@ __metadata:
   version: 12.24.10
   resolution: "motion-utils@npm:12.24.10"
   checksum: 10c0/b73e2e414480b0b162a5cbc9195856d113b5e7c23a055b1613143176694fdfabe87a6a41c3c2f205549e368ca541b609455344bd774d7d836f09a551562042e2
+  languageName: node
+  linkType: hard
+
+"motion@npm:12.25.0":
+  version: 12.25.0
+  resolution: "motion@npm:12.25.0"
+  dependencies:
+    framer-motion: "npm:^12.25.0"
+    tslib: "npm:^2.4.0"
+  peerDependencies:
+    "@emotion/is-prop-valid": "*"
+    react: ^18.0.0 || ^19.0.0
+    react-dom: ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@emotion/is-prop-valid":
+      optional: true
+    react:
+      optional: true
+    react-dom:
+      optional: true
+  checksum: 10c0/27c91355ac95a09026198e57e2b4028209dbfa800c80b6fff11c2e73b4aa5a0446149f59f13a549e92f39cb60067d798da860ed272fda7047d29e93564592445
   languageName: node
   linkType: hard
 
