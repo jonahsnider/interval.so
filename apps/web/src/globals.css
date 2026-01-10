@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/suspicious/noUnknownAtRules: These are Tailwind 3 directives */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
