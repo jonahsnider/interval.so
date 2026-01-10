@@ -69,6 +69,8 @@ export function createTrpcHandlerAdonis<TRouter extends AnyTRPCRouter>(options: 
 		response.status(trpcResponse.status);
 
 		if (trpcResponse.body !== null) {
+			// biome-ignore lint/suspicious/noTsIgnore: This is fine
+			// @ts-ignore Sometimes this acts like iterables don't exist, other times it doesn't
 			response.stream(Readable.fromWeb(trpcResponse.body));
 		}
 	};
