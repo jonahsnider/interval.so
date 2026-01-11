@@ -2033,7 +2033,7 @@ __metadata:
     next: "npm:15.6.0-canary.60"
     next-plausible: "npm:3.12.5"
     next-themes: "npm:0.4.6"
-    next-view-transitions: "npm:0.3.4"
+    next-view-transitions: "npm:0.3.5"
     nuqs: "npm:2.8.1"
     postcss: "npm:8.5.6"
     postcss-import: "npm:16.1.1"
@@ -10681,14 +10681,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next-view-transitions@npm:0.3.4":
-  version: 0.3.4
-  resolution: "next-view-transitions@npm:0.3.4"
+"next-view-transitions@npm:0.3.5":
+  version: 0.3.5
+  resolution: "next-view-transitions@npm:0.3.5"
   peerDependencies:
     next: ">=14.0.0"
-    react: ^18.2.0
-    react-dom: ^18.2.0
-  checksum: 10c0/8a566f66de2e98e7c4a5c2ad27bc4121d0042d1a9bc0af350b8568595b4df612d453cd6338cd869ecf98fa7e13692185c4452ce991f22609ded5b2213ceb89d3
+    react: ">=18.2.0 || ^19.0.0"
+    react-dom: ">=18.2.0 || ^19.0.0"
+  checksum: 10c0/8e8a265160e4c123009a9f3a44c3ca2ef1550d905aa2e6ea24da3c5410328142d08512c51d952107319498aee9b1c880bd92398356f036f3045c4c71f5495bda
   languageName: node
   linkType: hard
 
