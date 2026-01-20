@@ -1960,7 +1960,7 @@ __metadata:
     "@types/pg": "npm:8.16.0"
     "@types/ws": "npm:8.18.1"
     "@vinejs/vine": "npm:4.2.0"
-    convert: "npm:5.14.1"
+    convert: "npm:6.0.0"
     crypto-random-string: "npm:5.0.0"
     date-fns: "npm:4.1.0"
     dotenv: "npm:17.2.3"
@@ -2024,7 +2024,7 @@ __metadata:
     class-variance-authority: "npm:0.7.1"
     clsx: "npm:2.1.1"
     cmdk: "npm:^1.0.0"
-    convert: "npm:5.14.1"
+    convert: "npm:6.0.0"
     date-fns: "npm:4.1.0"
     dotenv: "npm:17.2.3"
     fuse.js: "npm:7.1.0"
@@ -7484,10 +7484,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"convert@npm:5.14.1":
-  version: 5.14.1
-  resolution: "convert@npm:5.14.1"
-  checksum: 10c0/39eb9951f444476556e42c7e333667c245a0fac07f6394be9e3747a11251295b16fdc00e5276ec3a13ddd7de80d700de251a5f684bf7ebcf19bec97ac85491af
+"convert@npm:6.0.0":
+  version: 6.0.0
+  resolution: "convert@npm:6.0.0"
+  checksum: 10c0/4e0e0d00ebc8ce44e7ef9daaa884de33ba647f0b9c76fc0cc17f1d91f76331cd807923bd3f5f85d2a4de9ad79720986b1685363f54e1affa979dc9dc9e4a70ed
   languageName: node
   linkType: hard
 
