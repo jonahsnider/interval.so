@@ -1970,7 +1970,7 @@ __metadata:
     hot-hook: "patch:hot-hook@npm%3A0.3.0#~/.yarn/patches/hot-hook-npm-0.3.0-0c210b56e7.patch"
     pino-pretty: "npm:13.1.3"
     postgres: "npm:3.4.8"
-    posthog-node: "npm:5.20.0"
+    posthog-node: "npm:5.24.2"
     prettier: "npm:3.7.4"
     reflect-metadata: "npm:0.2.2"
     rxjs: "npm:7.8.2"
@@ -3646,21 +3646,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@posthog/core@npm:1.14.0":
+  version: 1.14.0
+  resolution: "@posthog/core@npm:1.14.0"
+  dependencies:
+    cross-spawn: "npm:^7.0.6"
+  checksum: 10c0/a06bd6ff7f81e949123acc8fd4931a572bdf126cd830194af6aae8155ad6c828de74af819a6c74ffc0a4078c5a851bf3ef91afd1f16fedb81f5993d744a807ed
+  languageName: node
+  linkType: hard
+
 "@posthog/core@npm:1.5.5":
   version: 1.5.5
   resolution: "@posthog/core@npm:1.5.5"
   dependencies:
     cross-spawn: "npm:^7.0.6"
   checksum: 10c0/f71b08fa26b26c7a478e2a848deb26690e6bb03b48cf10593dc30fee54af010e173c07ad46780be303f3aa9f9f3ab17f86c514b37d3b99776fa936447c57f536
-  languageName: node
-  linkType: hard
-
-"@posthog/core@npm:1.9.1":
-  version: 1.9.1
-  resolution: "@posthog/core@npm:1.9.1"
-  dependencies:
-    cross-spawn: "npm:^7.0.6"
-  checksum: 10c0/fc46bd4369c82834fc37e594d2432bb8eca1173d54896f229e9c88024b0597b89fbfc38b595c461a9a8eea3f2b4bc852f96d9acbafbeeb64e03de34c2dbbf8b2
   languageName: node
   linkType: hard
 
@@ -11631,12 +11631,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-node@npm:5.20.0":
-  version: 5.20.0
-  resolution: "posthog-node@npm:5.20.0"
+"posthog-node@npm:5.24.2":
+  version: 5.24.2
+  resolution: "posthog-node@npm:5.24.2"
   dependencies:
-    "@posthog/core": "npm:1.9.1"
-  checksum: 10c0/07451d0ce900eb891251f15f288ada0f2a7f23f85445fb86d74793c2e6fd294b3e56acba37ed8b61b4249a4eb8d2304e212f254f1823fb24105b4ddcab15174a
+    "@posthog/core": "npm:1.14.0"
+  checksum: 10c0/e08c9e4a890e2a1ef169adfd149706829f99bf301ff0143fbe836738c9268acc1bcf69152a2c23a1ffab98aa673c56cafa4ce03ea734ce8ffc44e069e3e27a7d
   languageName: node
   linkType: hard
 
