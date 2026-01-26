@@ -1949,7 +1949,7 @@ __metadata:
     "@adonisjs/session": "npm:7.7.1"
     "@adonisjs/tsconfig": "npm:1.4.1"
     "@jonahsnider/util": "npm:13.0.0"
-    "@paralleldrive/cuid2": "npm:3.1.0"
+    "@paralleldrive/cuid2": "npm:3.3.0"
     "@rlanz/sentry": "npm:^0.3.3"
     "@sentry/node": "npm:10.32.1"
     "@sentry/profiling-node": "npm:10.32.1"
@@ -3194,16 +3194,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@paralleldrive/cuid2@npm:3.1.0":
-  version: 3.1.0
-  resolution: "@paralleldrive/cuid2@npm:3.1.0"
+"@paralleldrive/cuid2@npm:3.3.0":
+  version: 3.3.0
+  resolution: "@paralleldrive/cuid2@npm:3.3.0"
   dependencies:
     "@noble/hashes": "npm:^2.0.1"
     bignumber.js: "npm:^9.3.1"
     error-causes: "npm:^3.0.2"
   bin:
     cuid2: bin/cuid2.js
-  checksum: 10c0/4c32b56ef187c0ee3f6a2f7dd8cfe1fcee6cf58ed276e5d4f6ab0ab9be92ace8a86071112ed02562083281fb1eb5b4bca963ea22f7eebc35821f77f95a7d888c
+  checksum: 10c0/a1c71f73f3c7cec1233c1fc3325a9ae19c4ca37c05f89dabaff650064cb84d048856b38c2fcfb5cc3a11d0711896d26cb8ba85b402cb33ea725e45d0aee276ca
   languageName: node
   linkType: hard
 
