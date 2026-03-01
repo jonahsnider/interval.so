@@ -34,7 +34,7 @@
 		"@adonisjs/auth": "9.5.1",
 		"@adonisjs/bouncer": "3.1.6",
 		"@adonisjs/core": "6.19.3",
-		"@adonisjs/cors": "2.2.1",
+		"@adonisjs/cors": "3.0.0",
 		"@adonisjs/redis": "9.2.0",
 		"@adonisjs/session": "7.7.1",
 		"@jonahsnider/util": "13.0.0",
