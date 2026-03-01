@@ -200,12 +200,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/cors@npm:2.2.1":
-  version: 2.2.1
-  resolution: "@adonisjs/cors@npm:2.2.1"
+"@adonisjs/cors@npm:3.0.0":
+  version: 3.0.0
+  resolution: "@adonisjs/cors@npm:3.0.0"
   peerDependencies:
-    "@adonisjs/core": ^6.2.0
-  checksum: 10c0/eb5ec4dc53a6029ad6b070c5848411333eeff9f359baf27c33ac46fef121d5002d0ee0b3f7bca8969e6acc8f0da68e927009dd032b2ce28fcc07e6012ec0e415
+    "@adonisjs/assembler": ^8.0.0-next.7 || ^8.0.0
+    "@adonisjs/core": ^7.0.0-next.0 || ^7.0.0
+  peerDependenciesMeta:
+    "@adonisjs/assembler":
+      optional: true
+  checksum: 10c0/51c47223efe7f57ca4772b06d36b7049db742f04e7a907369812c6ae6d18a239e4cae56dfcdb2f1b0d26aabe9a9820c1ad645f38a106aa6fee7aec77d8890b5d
   languageName: node
   linkType: hard
 
@@ -1950,7 +1954,7 @@ __metadata:
     "@adonisjs/auth": "npm:9.5.1"
     "@adonisjs/bouncer": "npm:3.1.6"
     "@adonisjs/core": "npm:6.19.3"
-    "@adonisjs/cors": "npm:2.2.1"
+    "@adonisjs/cors": "npm:3.0.0"
     "@adonisjs/redis": "npm:9.2.0"
     "@adonisjs/session": "npm:8.0.0"
     "@adonisjs/tsconfig": "npm:1.4.1"
