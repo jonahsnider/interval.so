@@ -1972,7 +1972,7 @@ __metadata:
     "@types/node": "npm:24.10.13"
     "@types/pg": "npm:8.16.0"
     "@types/ws": "npm:8.18.1"
-    "@vinejs/vine": "npm:4.2.0"
+    "@vinejs/vine": "npm:4.3.0"
     convert: "npm:7.0.0"
     crypto-random-string: "npm:5.0.0"
     date-fns: "npm:4.1.0"
@@ -5654,10 +5654,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@standard-schema/spec@npm:1.0.0, @standard-schema/spec@npm:^1.0.0":
+"@standard-schema/spec@npm:1.0.0":
   version: 1.0.0
   resolution: "@standard-schema/spec@npm:1.0.0"
   checksum: 10c0/a1ab9a8bdc09b5b47aa8365d0e0ec40cc2df6437be02853696a0e377321653b0d3ac6f079a8c67d5ddbe9821025584b1fb71d9cc041a6666a96f1fadf2ece15f
+  languageName: node
+  linkType: hard
+
+"@standard-schema/spec@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@standard-schema/spec@npm:1.1.0"
+  checksum: 10c0/d90f55acde4b2deb983529c87e8025fa693de1a5e8b49ecc6eb84d1fd96328add0e03d7d551442156c7432fd78165b2c26ff561b970a9a881f046abb78d6a526
   languageName: node
   linkType: hard
 
@@ -6646,28 +6653,28 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vinejs/compiler@npm:^4.1.2":
-  version: 4.1.2
-  resolution: "@vinejs/compiler@npm:4.1.2"
-  checksum: 10c0/068460b0c39faae4453433984ac2cb985117aa93d695a6071da15e12067b5e4b659c1bd8c361bb5aaf471d9c6af914b163ae7b4105db8f3610f73b2048d252d1
+"@vinejs/compiler@npm:^4.1.3":
+  version: 4.1.3
+  resolution: "@vinejs/compiler@npm:4.1.3"
+  checksum: 10c0/0df4e92bbca5bea6a94135d78f886d0f5c1a5676d7e9965288b161d6857a43c656a0a17d862e6707c017b586085f7b81f9f62523f6028b067d7dc5bcc3890e72
   languageName: node
   linkType: hard
 
-"@vinejs/vine@npm:4.2.0":
-  version: 4.2.0
-  resolution: "@vinejs/vine@npm:4.2.0"
+"@vinejs/vine@npm:4.3.0":
+  version: 4.3.0
+  resolution: "@vinejs/vine@npm:4.3.0"
   dependencies:
     "@poppinss/macroable": "npm:^1.1.0"
     "@poppinss/types": "npm:^1.2.1"
-    "@standard-schema/spec": "npm:^1.0.0"
+    "@standard-schema/spec": "npm:^1.1.0"
     "@types/validator": "npm:^13.15.10"
-    "@vinejs/compiler": "npm:^4.1.2"
+    "@vinejs/compiler": "npm:^4.1.3"
     camelcase: "npm:^9.0.0"
     dayjs: "npm:^1.11.19"
     dlv: "npm:^1.1.3"
-    normalize-url: "npm:^8.1.0"
-    validator: "npm:^13.15.23"
-  checksum: 10c0/0d7be1994ff96f973f99d254781f909785c5fa4e581fecd0734a886daceb12a9c472f8fe10e20f4e68aaea6518b4cdcbbe1dfc2b57733632df0c96a323e7aae9
+    normalize-url: "npm:^8.1.1"
+    validator: "npm:^13.15.26"
+  checksum: 10c0/23b376524bc5fce113e6307122139c03caa1da1e5bfec689526764a5a0977cf44317da8e520ea6cccbf9495a10a2c115db04cabb52d91388473f67137af09184
   languageName: node
   linkType: hard
 
@@ -10913,10 +10920,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"normalize-url@npm:^8.1.0":
-  version: 8.1.0
-  resolution: "normalize-url@npm:8.1.0"
-  checksum: 10c0/e9b68db5f0264ce74fc083e2120b4a40fb3248e5dceec5f795bddcee0311b3613f858c9a65f258614fac2776b8e9957023bea8fe7299db1496b3cd1c75976cfe
+"normalize-url@npm:^8.1.1":
+  version: 8.1.1
+  resolution: "normalize-url@npm:8.1.1"
+  checksum: 10c0/1beb700ce42acb2288f39453cdf8001eead55bbf046d407936a40404af420b8c1c6be97a869884ae9e659d7b1c744e40e905c875ac9290644eec2e3e6fb0b370
   languageName: node
   linkType: hard
 
@@ -13988,7 +13995,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"validator@npm:^13.15.23":
+"validator@npm:^13.15.26":
   version: 13.15.26
   resolution: "validator@npm:13.15.26"
   checksum: 10c0/d66041685c531423f6b514d0481228503b96682fe30ed7925ad77ff3cd08c3983dc94f45e18457e44f62f89027b94a3342009d65421800ce65f6e0d2c6eaf7fc
