@@ -66,21 +66,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/auth@npm:9.5.1":
-  version: 9.5.1
-  resolution: "@adonisjs/auth@npm:9.5.1"
+"@adonisjs/auth@npm:10.0.0":
+  version: 10.0.0
+  resolution: "@adonisjs/auth@npm:10.0.0"
   dependencies:
-    "@adonisjs/presets": "npm:^2.6.4"
-    "@poppinss/utils": "npm:^6.10.1"
+    "@adonisjs/presets": "npm:^3.0.0"
     basic-auth: "npm:^2.0.1"
   peerDependencies:
-    "@adonisjs/core": ^6.11.0
-    "@adonisjs/lucid": ^20.0.0 || ^21.0.1
-    "@adonisjs/session": ^7.4.1
-    "@japa/api-client": ^2.0.3 || ^3.0.0
-    "@japa/browser-client": ^2.0.3
-    "@japa/plugin-adonisjs": ^3.0.1 || ^4.0.0
+    "@adonisjs/assembler": ^8.0.0-next.26 || ^8.0.0
+    "@adonisjs/core": ^7.0.0-next.16 || ^7.0.0
+    "@adonisjs/i18n": ^3.0.0-next.2 || ^3.0.0
+    "@adonisjs/lucid": ^22.0.0-next.1 || ^22.0.0
+    "@adonisjs/session": ^8.0.0-next.1 || ^8.0.0
+    "@japa/api-client": ^3.1.1
+    "@japa/browser-client": ^2.2.0
+    "@japa/plugin-adonisjs": ^5.1.0-next.0 || ^5.1.0
   peerDependenciesMeta:
+    "@adonisjs/assembler":
+      optional: true
+    "@adonisjs/i18n":
+      optional: true
     "@adonisjs/lucid":
       optional: true
     "@adonisjs/session":
@@ -91,7 +96,7 @@ __metadata:
       optional: true
     "@japa/plugin-adonisjs":
       optional: true
-  checksum: 10c0/e939a185216b5a71a034c13cf1fe00019caf8156fcaa4a153c360a247a6996f3c01acf266c52b3e95b42b87b833e59ca40d2efafb5ab55c4cab8a732f9c8fa6e
+  checksum: 10c0/186248385376b9e084aeb652101d73ea4ace4c30d96af95d522560d7067405f60031cf08be24d83dc10f582dd445e7a08e40e62c504fb38a1ff4edcfcf683db7
   languageName: node
   linkType: hard
 
@@ -344,18 +349,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/presets@npm:^2.6.4":
-  version: 2.6.4
-  resolution: "@adonisjs/presets@npm:2.6.4"
-  dependencies:
-    "@poppinss/utils": "npm:^6.7.3"
+"@adonisjs/presets@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@adonisjs/presets@npm:3.0.0"
   peerDependencies:
-    "@adonisjs/assembler": ^7.8.2
-    "@adonisjs/core": ^6.13.0
+    "@adonisjs/assembler": ^8.0.0-next.9 || ^8.0.0
+    "@adonisjs/core": ^7.0.0-next.1 || ^7.0.0
   peerDependenciesMeta:
     "@adonisjs/assembler":
       optional: true
-  checksum: 10c0/4be02d567b39ce4c64e7168b9472b86edd73b95230c087ac13cab4b8dce94fb7eabb06d0e7fd3ce420e2c6a9858ec2f3a0723b360c88231440f0615fa872ce2a
+  checksum: 10c0/11b8c5228c45ad8db2fdfc1dbd61b6c7bc83496aa6bb6a3d4ed746412c353e106a2399cc654afbea57112c967532f6a10e06d86a45a97511fab5f1ef4a6bc434
   languageName: node
   linkType: hard
 
@@ -1951,7 +1954,7 @@ __metadata:
   resolution: "@interval.so/api@workspace:apps/api"
   dependencies:
     "@adonisjs/assembler": "npm:7.8.2"
-    "@adonisjs/auth": "npm:9.5.1"
+    "@adonisjs/auth": "npm:10.0.0"
     "@adonisjs/bouncer": "npm:3.1.6"
     "@adonisjs/core": "npm:6.19.3"
     "@adonisjs/cors": "npm:3.0.0"
