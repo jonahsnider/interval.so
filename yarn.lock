@@ -362,16 +362,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/redis@npm:9.2.0":
-  version: 9.2.0
-  resolution: "@adonisjs/redis@npm:9.2.0"
+"@adonisjs/redis@npm:10.0.0":
+  version: 10.0.0
+  resolution: "@adonisjs/redis@npm:10.0.0"
   dependencies:
-    "@poppinss/utils": "npm:^6.9.2"
-    emittery: "npm:^1.1.0"
-    ioredis: "npm:^5.4.2"
+    "@poppinss/utils": "npm:^7.0.0"
+    emittery: "npm:^1.2.0"
+    ioredis: "npm:^5.9.3"
   peerDependencies:
-    "@adonisjs/core": ^6.2.0
-  checksum: 10c0/337ede97ca5f8edd02abcca1973e35358806671b492dcf6f59788e8e7ad8aa65d2a84549ad236afbe014cc1862c35b98d81e7b4797a0ece9d719c322db39fa2a
+    "@adonisjs/core": ^7.0.0-next.0 || ^7.0.0
+  checksum: 10c0/d45bc691e9e823652ab16216c90755a139b4038401ebacf2c181be666aedf2a9ddbdc37ae3174b5761afb99bea64cd36c9a3c44e08ca3ebc48c460005023cc01
   languageName: node
   linkType: hard
 
@@ -1958,7 +1958,7 @@ __metadata:
     "@adonisjs/bouncer": "npm:3.1.6"
     "@adonisjs/core": "npm:6.19.3"
     "@adonisjs/cors": "npm:3.0.0"
-    "@adonisjs/redis": "npm:9.2.0"
+    "@adonisjs/redis": "npm:10.0.0"
     "@adonisjs/session": "npm:8.0.0"
     "@adonisjs/tsconfig": "npm:1.4.1"
     "@jonahsnider/util": "npm:13.0.0"
@@ -2070,10 +2070,10 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ioredis/commands@npm:^1.1.1":
-  version: 1.2.0
-  resolution: "@ioredis/commands@npm:1.2.0"
-  checksum: 10c0/a5d3c29dd84d8a28b7c67a441ac1715cbd7337a7b88649c0f17c345d89aa218578d2b360760017c48149ef8a70f44b051af9ac0921a0622c2b479614c4f65b36
+"@ioredis/commands@npm:1.5.1":
+  version: 1.5.1
+  resolution: "@ioredis/commands@npm:1.5.1"
+  checksum: 10c0/cb8f6d13cff0753e3e7ef001fb895491985d9a623248192538f13bc2fd9bfdfde3c18cf2ba6f20ec8ceaa681b0771070d3a09b82eed044c798bcfef5e3ae54b3
   languageName: node
   linkType: hard
 
@@ -8118,10 +8118,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"emittery@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "emittery@npm:1.1.0"
-  checksum: 10c0/645d4d7307b52c81bb2d2f9f320aa6a3c0225f53a4bfef2d337be8086df975746f7dd619f1dd7b2ffd4f2288103f28019e7b8567718677600e47507496d3af5f
+"emittery@npm:^1.2.0":
+  version: 1.2.1
+  resolution: "emittery@npm:1.2.1"
+  checksum: 10c0/188f6ee8725589df6d49a8ed18b216709dfda3574547860c122bc0223570d839bb2c8ca5cd95483a6b064636af195d7c6ab99a35a317f9734d8bc455f644c785
   languageName: node
   linkType: hard
 
@@ -9838,11 +9838,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"ioredis@npm:^5.4.2":
-  version: 5.4.2
-  resolution: "ioredis@npm:5.4.2"
+"ioredis@npm:^5.9.3":
+  version: 5.10.0
+  resolution: "ioredis@npm:5.10.0"
   dependencies:
-    "@ioredis/commands": "npm:^1.1.1"
+    "@ioredis/commands": "npm:1.5.1"
     cluster-key-slot: "npm:^1.1.0"
     debug: "npm:^4.3.4"
     denque: "npm:^2.1.0"
@@ -9851,7 +9851,7 @@ __metadata:
     redis-errors: "npm:^1.2.0"
     redis-parser: "npm:^3.0.0"
     standard-as-callback: "npm:^2.1.0"
-  checksum: 10c0/e59d2cceb43ed74b487d7b50fa91b93246e734e5d4835c7e62f64e44da072f12ab43b044248012e6f8b76c61a7c091a2388caad50e8ad69a8ce5515a730b23b8
+  checksum: 10c0/294e8cdef963f922b04ad023d4165f1d399b27279b9890f3e1311da57fb2a082c8dca52d18bd14a54acd6fb82853783641a0c47ff18661a8756221049f807e88
   languageName: node
   linkType: hard
 
