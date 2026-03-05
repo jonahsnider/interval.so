@@ -133,7 +133,9 @@ export class TeamMemberService {
 				name: data.name,
 			});
 		} catch (error) {
-			if (error instanceof postgres.PostgresError && error.code === '23505') {
+			const cause = error instanceof Error ? error.cause : undefined;
+
+			if (cause instanceof postgres.PostgresError && cause.code === '23505') {
 				// Team member name collision
 				throw new TRPCError({
 					code: 'UNPROCESSABLE_CONTENT',
@@ -333,7 +335,9 @@ export class TeamMemberService {
 		try {
 			await db.update(Schema.teamMembers).set(data).where(eq(Schema.teamMembers.memberId, member.id));
 		} catch (error) {
-			if (error instanceof postgres.PostgresError && error.code === '23505') {
+			const cause = error instanceof Error ? error.cause : undefined;
+
+			if (cause instanceof postgres.PostgresError && cause.code === '23505') {
 				// Team member name collision
 				throw new TRPCError({
 					code: 'UNPROCESSABLE_CONTENT',

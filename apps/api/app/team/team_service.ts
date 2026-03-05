@@ -82,7 +82,9 @@ export class TeamService {
 				});
 			});
 		} catch (error) {
-			if (error instanceof postgres.PostgresError && error.code === '23505') {
+			const cause = error instanceof Error ? error.cause : undefined;
+
+			if (cause instanceof postgres.PostgresError && cause.code === '23505') {
 				// Team slug collision
 				throw new TRPCError({
 					code: 'UNPROCESSABLE_CONTENT',
@@ -343,7 +345,9 @@ export class TeamService {
 				});
 			}
 		} catch (error) {
-			if (error instanceof postgres.PostgresError && error.code === '23505') {
+			const cause = error instanceof Error ? error.cause : undefined;
+
+			if (cause instanceof postgres.PostgresError && cause.code === '23505') {
 				// Team slug collision
 				throw new TRPCError({
 					code: 'UNPROCESSABLE_CONTENT',
