@@ -2040,7 +2040,7 @@ __metadata:
     convert: "npm:7.0.0"
     date-fns: "npm:4.1.0"
     dotenv: "npm:17.2.3"
-    fuse.js: "npm:7.1.0"
+    fuse.js: "npm:7.3.0"
     motion: "npm:12.29.2"
     mutative: "npm:1.3.0"
     next: "npm:15.6.0-canary.60"
@@ -9261,10 +9261,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fuse.js@npm:7.1.0":
-  version: 7.1.0
-  resolution: "fuse.js@npm:7.1.0"
-  checksum: 10c0/c0d1b1d192a4bdf3eade897453ddd28aff96b70bf3e49161a45880f9845ebaee97265595db633776700a5bcf8942223c752754a848d70c508c3c9fd997faad1e
+"fuse.js@npm:7.3.0":
+  version: 7.3.0
+  resolution: "fuse.js@npm:7.3.0"
+  checksum: 10c0/5e60b6687f3f23dc242d387f355ba970caf6f5cbaedb5767e849ef4014fa71a6109c71810ff06a1c3d4f05e4a6ab7d1fc3c8e2ef98e286a60ff0052ae30e930a
   languageName: node
   linkType: hard
 
