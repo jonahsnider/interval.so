@@ -385,12 +385,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/session@npm:8.0.0":
-  version: 8.0.0
-  resolution: "@adonisjs/session@npm:8.0.0"
+"@adonisjs/session@npm:8.1.0":
+  version: 8.1.0
+  resolution: "@adonisjs/session@npm:8.1.0"
   dependencies:
-    "@poppinss/macroable": "npm:^1.1.0"
-    "@poppinss/utils": "npm:^7.0.0"
+    "@poppinss/macroable": "npm:^1.1.2"
+    "@poppinss/utils": "npm:^7.0.1"
   peerDependencies:
     "@adonisjs/assembler": ^8.0.0-next.26 || ^8.0.0
     "@adonisjs/core": ^7.0.0-next.16 || ^7.0.0
@@ -421,7 +421,7 @@ __metadata:
       optional: true
     edge.js:
       optional: true
-  checksum: 10c0/d43b2214310bebfd9bc15b8f7d7e38d0a26b1299ab94aa38ff273cc39873f11bbe177e7470544667a4581d68520b1c1ad1a4c670da007d7eb81ee6598a236500
+  checksum: 10c0/d85c0325747921f78010b067a4733bd913f65d3e62abd2e9194e73b8d68b182a594c20037cb5dc48d197cb949e5cbd76ee86770c0341a5dd54f630862e00c484
   languageName: node
   linkType: hard
 
@@ -1924,7 +1924,7 @@ __metadata:
     "@adonisjs/core": "npm:6.19.3"
     "@adonisjs/cors": "npm:3.0.0"
     "@adonisjs/redis": "npm:10.0.0"
-    "@adonisjs/session": "npm:8.0.0"
+    "@adonisjs/session": "npm:8.1.0"
     "@adonisjs/tsconfig": "npm:2.0.0"
     "@jonahsnider/util": "npm:13.0.0"
     "@paralleldrive/cuid2": "npm:3.3.0"
@@ -3584,6 +3584,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@poppinss/macroable@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "@poppinss/macroable@npm:1.1.2"
+  checksum: 10c0/70ff049095309c696660b6c2993c963a938fa3348bee83cf22659a5b34208ee02e24d6f18aff33af1b4c900dce7d8613bdb1abf188b26bc2775757cd03b1505a
+  languageName: node
+  linkType: hard
+
 "@poppinss/matchit@npm:^3.1.2":
   version: 3.1.2
   resolution: "@poppinss/matchit@npm:3.1.2"
@@ -3762,7 +3769,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@poppinss/utils@npm:^7.0.0":
+"@poppinss/utils@npm:^7.0.0, @poppinss/utils@npm:^7.0.1":
   version: 7.0.1
   resolution: "@poppinss/utils@npm:7.0.1"
   dependencies:
