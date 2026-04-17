@@ -1958,7 +1958,7 @@ __metadata:
     execa: "npm:9.6.1"
     hot-hook: "patch:hot-hook@npm%3A0.3.0#~/.yarn/patches/hot-hook-npm-0.3.0-0c210b56e7.patch"
     pino-pretty: "npm:13.1.3"
-    postgres: "npm:3.4.8"
+    postgres: "npm:3.4.9"
     posthog-node: "npm:5.24.2"
     prettier: "npm:3.8.3"
     reflect-metadata: "npm:0.2.2"
@@ -11754,10 +11754,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postgres@npm:3.4.8":
-  version: 3.4.8
-  resolution: "postgres@npm:3.4.8"
-  checksum: 10c0/fc737d79cd50d7be76750dfffc71e6322c64fe6a8fa8ed38001f2d969de0200302216ffbfd252560a3a2fa72d3f2fad6d1bdafc493c4e64020653a7c363df348
+"postgres@npm:3.4.9":
+  version: 3.4.9
+  resolution: "postgres@npm:3.4.9"
+  checksum: 10c0/b767dd2258df0f6523ce1ec0bce0a87e93c6fb961c97be0059f8ea2bc4c57c6057689258361a0988f0bb61d636483d35f0c591620566218f7083c78ab7955862
   languageName: node
   linkType: hard
 
