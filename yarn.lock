@@ -1957,7 +1957,7 @@ __metadata:
     ts-pattern: "npm:5.9.0"
     typescript: "npm:5.9.3"
     ws: "npm:8.20.0"
-    zod: "npm:4.3.6"
+    zod: "npm:4.4.1"
   languageName: unknown
   linkType: soft
 
@@ -2031,7 +2031,7 @@ __metadata:
     tailwindcss-animate: "npm:1.0.7"
     typescript: "npm:5.9.3"
     use-mutative: "npm:1.3.1"
-    zod: "npm:4.3.6"
+    zod: "npm:4.4.1"
   languageName: unknown
   linkType: soft
 
@@ -14565,7 +14565,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:4.3.6, zod@npm:^4.1.1":
+"zod@npm:4.4.1":
+  version: 4.4.1
+  resolution: "zod@npm:4.4.1"
+  checksum: 10c0/55714c4bea81f7851ac46bf9edfde7c63ed6677a6cc8971ed3a526a079de3ffbe2bd56160327d22e070f72854fc4485b98ab7373255b6b69d64d9067caec864e
+  languageName: node
+  linkType: hard
+
+"zod@npm:^4.1.1":
   version: 4.3.6
   resolution: "zod@npm:4.3.6"
   checksum: 10c0/860d25a81ab41d33aa25f8d0d07b091a04acb426e605f396227a796e9e800c44723ed96d0f53a512b57be3d1520f45bf69c0cb3b378a232a00787a2609625307
