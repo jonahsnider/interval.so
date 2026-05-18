@@ -121,23 +121,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/bouncer@npm:3.1.6":
-  version: 3.1.6
-  resolution: "@adonisjs/bouncer@npm:3.1.6"
+"@adonisjs/bouncer@npm:4.0.0":
+  version: 4.0.0
+  resolution: "@adonisjs/bouncer@npm:4.0.0"
   dependencies:
-    "@poppinss/utils": "npm:^6.9.4"
+    "@poppinss/utils": "npm:^7.0.0"
   peerDependencies:
-    "@adonisjs/core": ^6.17.1
-    "@adonisjs/i18n": ^2.2.0
-    edge.js: ^6.2.1
+    "@adonisjs/assembler": ^8.0.0-next.26 || ^8.0.0
+    "@adonisjs/core": ^7.0.0-next.16 || ^7.0.0
+    "@adonisjs/i18n": ^3.0.0-next.2 || ^3.0.0
+    edge.js: ^6.4.0
   peerDependenciesMeta:
-    "@adonisjs/core":
+    "@adonisjs/assembler":
       optional: true
     "@adonisjs/i18n":
       optional: true
     edge.js:
       optional: true
-  checksum: 10c0/872918adce89b3312402ee3cbb2bbef5ca83b6ebcf3077ae28d3f16f6fbd67b99233617292a06d1deb2ef905788add0090c2f4f328af8546d7a674bf12048756
+  checksum: 10c0/091c04e58024513fde4289acba0daf54f9b24337fa0906dd08ee1c26f41d937261debd9936e746f5367d8797ac151537d38b548995bd1b5801e4bc5ab4bd990c
   languageName: node
   linkType: hard
 
@@ -1920,7 +1921,7 @@ __metadata:
   dependencies:
     "@adonisjs/assembler": "npm:7.8.2"
     "@adonisjs/auth": "npm:10.1.0"
-    "@adonisjs/bouncer": "npm:3.1.6"
+    "@adonisjs/bouncer": "npm:4.0.0"
     "@adonisjs/core": "npm:6.21.0"
     "@adonisjs/cors": "npm:3.0.0"
     "@adonisjs/redis": "npm:10.0.0"
