@@ -1976,7 +1976,7 @@ __metadata:
     hot-hook: "patch:hot-hook@npm%3A0.3.0#~/.yarn/patches/hot-hook-npm-0.3.0-0c210b56e7.patch"
     pino-pretty: "npm:13.1.3"
     postgres: "npm:3.4.9"
-    posthog-node: "npm:5.34.10"
+    posthog-node: "npm:5.35.0"
     prettier: "npm:3.8.3"
     reflect-metadata: "npm:0.2.2"
     rxjs: "npm:7.8.2"
@@ -3800,12 +3800,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@posthog/core@npm:1.29.7":
-  version: 1.29.7
-  resolution: "@posthog/core@npm:1.29.7"
+"@posthog/core@npm:1.29.8":
+  version: 1.29.8
+  resolution: "@posthog/core@npm:1.29.8"
   dependencies:
-    "@posthog/types": "npm:1.374.4"
-  checksum: 10c0/7efa90a48463496801d389812130862dc1edd5c2ab389d1385b2b32cb4f3a110684fecf9ea6a9895da5d194ade2940e7fdb7116630db70895c79df1d977c8e04
+    "@posthog/types": "npm:1.375.0"
+  checksum: 10c0/c2ac17f96d8eb0f5e060ec938b57158f5789456285cadc48d8f0075793c2bdd60ba79c1012ebd09aafc054803e377d492cd36651de28e47f84a7af04e1ad6181
   languageName: node
   linkType: hard
 
@@ -3818,10 +3818,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@posthog/types@npm:1.374.4":
-  version: 1.374.4
-  resolution: "@posthog/types@npm:1.374.4"
-  checksum: 10c0/95feed4740900a230fb2457108d9ec91c7f4b4e1b292222df54bdd9ca773616397c36ffef464b5001443017c935369d6c0976508706f77a1675e661f16a3aab2
+"@posthog/types@npm:1.375.0":
+  version: 1.375.0
+  resolution: "@posthog/types@npm:1.375.0"
+  checksum: 10c0/1651f68034ba94eb05b2c46c8d8539015ace814e2de9bb960a9586c2e5de6fca8abe745185f37bf7692f99681d2dd54127b77116392771f53a980fc63edfdb39
   languageName: node
   linkType: hard
 
@@ -12288,17 +12288,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-node@npm:5.34.10":
-  version: 5.34.10
-  resolution: "posthog-node@npm:5.34.10"
+"posthog-node@npm:5.35.0":
+  version: 5.35.0
+  resolution: "posthog-node@npm:5.35.0"
   dependencies:
-    "@posthog/core": "npm:1.29.7"
+    "@posthog/core": "npm:1.29.8"
   peerDependencies:
     rxjs: ^7.0.0
   peerDependenciesMeta:
     rxjs:
       optional: true
-  checksum: 10c0/fbc66ba84f65273ebb765474790248ba70e49eabfed9659b40fcb18a26c64fef550e5dfac6e6b6ad5298383bbdb5ffb4ed3743ce7b0cae4d8630c0024160ff47
+  checksum: 10c0/22d027640126688783c7ef981e0185367d2e527a7a022814a3724022c06b6692c29e1522235f61ca5be89c4daa18d985f06a1e0f457fd298fb97944678caf64c
   languageName: node
   linkType: hard
 
