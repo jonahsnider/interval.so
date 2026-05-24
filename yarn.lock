@@ -1988,7 +1988,7 @@ __metadata:
     "@radix-ui/react-tooltip": "npm:1.2.8"
     "@sentry/nextjs": "npm:^10.0.0"
     "@simplewebauthn/browser": "npm:13.1.2"
-    "@tanstack/react-query": "npm:5.100.13"
+    "@tanstack/react-query": "npm:5.100.14"
     "@tanstack/react-table": "npm:8.21.3"
     "@trpc/client": "npm:11.17.0"
     "@trpc/next": "npm:11.17.0"
@@ -5863,21 +5863,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.100.13":
-  version: 5.100.13
-  resolution: "@tanstack/query-core@npm:5.100.13"
-  checksum: 10c0/74fe49afa493d18915341c6182e825c7178dd6f6a40620c33f1b0b9a88fdeb88e8d43fddb3734973801b0f4fac98bfdd79bbd5b90f182894be9f6b66b87c154c
+"@tanstack/query-core@npm:5.100.14":
+  version: 5.100.14
+  resolution: "@tanstack/query-core@npm:5.100.14"
+  checksum: 10c0/947942b1499169b279faf4eddd570719db5d6863c89db4ec2d54e1eb3fb66a679cfa87a15c9f2e9d5de523e4bcc1782c020fba913ead461b73ecec4fdd986c59
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:5.100.13":
-  version: 5.100.13
-  resolution: "@tanstack/react-query@npm:5.100.13"
+"@tanstack/react-query@npm:5.100.14":
+  version: 5.100.14
+  resolution: "@tanstack/react-query@npm:5.100.14"
   dependencies:
-    "@tanstack/query-core": "npm:5.100.13"
+    "@tanstack/query-core": "npm:5.100.14"
   peerDependencies:
     react: ^18 || ^19
-  checksum: 10c0/7e3bdb17fb878e5c16dd25455386dcb941792078246af1c2b07d3de1bb9cc309d254f73fe65859afc3c6cfc6e35ae42842be52945d3cb5db8b38760d537baff1
+  checksum: 10c0/f124e7671f5731a88241a71a6ce7da54f0bafb960ec4107d1eb24d0fc25136d10cd02ebd68956eb0605a29e60d925e82bfb52386b25cbe2e1cb4c166017cbf2a
   languageName: node
   linkType: hard
 
