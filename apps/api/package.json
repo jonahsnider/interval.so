@@ -47,7 +47,7 @@
 		"@vinejs/vine": "4.4.0",
 		"convert": "7.0.0",
 		"crypto-random-string": "5.0.0",
-		"date-fns": "4.2.1",
+		"date-fns": "4.3.0",
 		"drizzle-kit": "0.31.10",
 		"drizzle-orm": "0.45.2",
 		"postgres": "3.4.9",
