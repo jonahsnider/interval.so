@@ -62,7 +62,7 @@
 		"react": "19.2.6",
 		"react-day-picker": "8.10.2",
 		"react-dom": "19.2.6",
-		"react-error-boundary": "6.1.1",
+		"react-error-boundary": "6.1.2",
 		"react-hook-form": "7.76.1",
 		"recharts": "^2.15.4",
 		"server-only": "0.0.1",
