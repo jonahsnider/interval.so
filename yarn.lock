@@ -1926,7 +1926,7 @@ __metadata:
     "@vinejs/vine": "npm:4.4.0"
     convert: "npm:7.0.0"
     crypto-random-string: "npm:5.0.0"
-    date-fns: "npm:4.3.0"
+    date-fns: "npm:4.4.0"
     dotenv: "npm:17.4.2"
     drizzle-kit: "npm:0.31.10"
     drizzle-orm: "npm:0.45.2"
@@ -1989,7 +1989,7 @@ __metadata:
     clsx: "npm:2.1.1"
     cmdk: "npm:^1.0.0"
     convert: "npm:7.0.0"
-    date-fns: "npm:4.3.0"
+    date-fns: "npm:4.4.0"
     dotenv: "npm:17.4.2"
     fuse.js: "npm:7.3.0"
     motion: "npm:12.40.0"
@@ -7842,10 +7842,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:4.3.0":
-  version: 4.3.0
-  resolution: "date-fns@npm:4.3.0"
-  checksum: 10c0/f1e8ec36270dd4c9e32d93195fb02a109ff46b397690a68f4a0c3bea0a1882e38a67969004db0a28f890b15bcdd6b323faa2f07cde3b67a2edfacc3fe078f95e
+"date-fns@npm:4.4.0":
+  version: 4.4.0
+  resolution: "date-fns@npm:4.4.0"
+  checksum: 10c0/988f0a13db183f5dfc85c36bbb6847a9c135a9225888bbea4005876ec15539a8613c21a07370a4e7ea543918d5a1cafb423c528b42cdbbde5fdfddb178126b21
   languageName: node
   linkType: hard
 
