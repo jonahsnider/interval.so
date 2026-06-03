@@ -24,7 +24,7 @@
 		"turbo": "2.9.16",
 		"vercel": "54.7.1"
 	},
-	"packageManager": "yarn@4.15.0",
+	"packageManager": "yarn@4.16.0",
 	"engines": {
 		"node": "24.x"
 	},
