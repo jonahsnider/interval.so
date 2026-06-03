@@ -2001,7 +2001,7 @@ __metadata:
     nuqs: "npm:2.8.9"
     postcss: "npm:8.5.15"
     postcss-import: "npm:16.1.1"
-    posthog-js: "npm:1.376.6"
+    posthog-js: "npm:1.378.1"
     react: "npm:19.2.7"
     react-day-picker: "npm:8.10.2"
     react-dom: "npm:19.2.7"
@@ -3588,28 +3588,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@posthog/core@npm:1.29.15":
-  version: 1.29.15
-  resolution: "@posthog/core@npm:1.29.15"
-  dependencies:
-    "@posthog/types": "npm:1.376.6"
-  checksum: 10c0/72bbabaf26120b66bb1caf75171767fe93d285882d31ad86d4dd2b5f11f4a2be38f08eefa99113c81af9537cbc8f8bfa7e6e79458e5818ea7be2c742a684c175
-  languageName: node
-  linkType: hard
-
 "@posthog/core@npm:1.30.2":
   version: 1.30.2
   resolution: "@posthog/core@npm:1.30.2"
   dependencies:
     "@posthog/types": "npm:1.378.1"
   checksum: 10c0/37658d62aaac78b16269c54500f05d8403cdb0554ea1787c8a15b8d5cbb745d2adadf4b087c7e32fc3be58267731f080c44ffd3389a096e4918501d4faefd346
-  languageName: node
-  linkType: hard
-
-"@posthog/types@npm:1.376.6":
-  version: 1.376.6
-  resolution: "@posthog/types@npm:1.376.6"
-  checksum: 10c0/8ddec43998ea3ccc1c4c93b3f6b3ccb8f6cfb466ff16bb758912003e05e7d4200bf0c2cacd0628f30ed835f4db3dbcdbfdc23c6b7e46a47fdbaae25b8bd3f57b
   languageName: node
   linkType: hard
 
@@ -11790,24 +11774,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-js@npm:1.376.6":
-  version: 1.376.6
-  resolution: "posthog-js@npm:1.376.6"
+"posthog-js@npm:1.378.1":
+  version: 1.378.1
+  resolution: "posthog-js@npm:1.378.1"
   dependencies:
     "@opentelemetry/api": "npm:^1.9.0"
     "@opentelemetry/api-logs": "npm:^0.208.0"
     "@opentelemetry/exporter-logs-otlp-http": "npm:^0.208.0"
     "@opentelemetry/resources": "npm:^2.2.0"
     "@opentelemetry/sdk-logs": "npm:^0.208.0"
-    "@posthog/core": "npm:1.29.15"
-    "@posthog/types": "npm:1.376.6"
+    "@posthog/core": "npm:1.30.2"
+    "@posthog/types": "npm:1.378.1"
     core-js: "npm:^3.38.1"
     dompurify: "npm:^3.3.2"
     fflate: "npm:^0.4.8"
     preact: "npm:^10.28.2"
     query-selector-shadow-dom: "npm:^1.0.1"
     web-vitals: "npm:^5.1.0"
-  checksum: 10c0/d931a2f6b1b8d1cc14f9122928771628b5310c11dd800ae805cff69da0d3020da6ac48fcca8f9face98afbf912f933b80bf7fae5a53d3811482a7d8f108a8855
+  checksum: 10c0/10599728d9505683a9ae6a544ca0c6a7e9e6ba83ddf6826dc408983b06d439b3d64a9e48b43c218e256d39c8b03f5121c99fe35d70472ede112fae0be19aca81
   languageName: node
   linkType: hard
 
