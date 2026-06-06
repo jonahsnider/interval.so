@@ -1934,7 +1934,7 @@ __metadata:
     hot-hook: "patch:hot-hook@npm%3A0.3.0#~/.yarn/patches/hot-hook-npm-0.3.0-0c210b56e7.patch"
     pino-pretty: "npm:13.1.3"
     postgres: "npm:3.4.9"
-    posthog-node: "npm:5.36.2"
+    posthog-node: "npm:5.36.3"
     prettier: "npm:3.8.3"
     reflect-metadata: "npm:0.2.2"
     rxjs: "npm:7.8.2"
@@ -3589,10 +3589,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@posthog/core@npm:1.30.9":
+  version: 1.30.9
+  resolution: "@posthog/core@npm:1.30.9"
+  dependencies:
+    "@posthog/types": "npm:1.381.0"
+  checksum: 10c0/33a88ad20d727cb08bea213a7e9f1cd15898604601294aa2a994602442dd35939798173e14cf73c0f6eadf60a6612c0d7b15527b332d282f5a367e4c988d541f
+  languageName: node
+  linkType: hard
+
 "@posthog/types@npm:1.380.1":
   version: 1.380.1
   resolution: "@posthog/types@npm:1.380.1"
   checksum: 10c0/01648c2aa20024dfc2a42b70e6eaff475da96f15c10a07fdc0dc979ab4de2511a2d7e8d99a12fd0eb45caf5a42baec7b3f7be1d196f69d48bf3b855b28fc0163
+  languageName: node
+  linkType: hard
+
+"@posthog/types@npm:1.381.0":
+  version: 1.381.0
+  resolution: "@posthog/types@npm:1.381.0"
+  checksum: 10c0/6a7df2ef915127b8f0a396153c24afc9da96c9b24827bfe398b9f89839fb628cc19f854a70dbcda9829823de74ac2da97267dfe0eb38c9ebeea2de07d84d4386
   languageName: node
   linkType: hard
 
@@ -11753,17 +11769,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-node@npm:5.36.2":
-  version: 5.36.2
-  resolution: "posthog-node@npm:5.36.2"
+"posthog-node@npm:5.36.3":
+  version: 5.36.3
+  resolution: "posthog-node@npm:5.36.3"
   dependencies:
-    "@posthog/core": "npm:1.30.8"
+    "@posthog/core": "npm:1.30.9"
   peerDependencies:
     rxjs: ^7.0.0
   peerDependenciesMeta:
     rxjs:
       optional: true
-  checksum: 10c0/414c08554315ff978f296e17238adf844535f72d980d32b31fd1dac3f27fb8f424a81079ce4c821cdca52f9db80a3359ae6b56b1ee4fb8d43a164190f54cd49d
+  checksum: 10c0/25be54062a4c38ab8e196baaf6772bc5b13884308837b0a52c87be4210bb8f1269edef7df1ff54242b7b94845b9933f73410ad350d9980a01702da6d3b01ad55
   languageName: node
   linkType: hard
 
