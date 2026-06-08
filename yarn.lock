@@ -1934,7 +1934,7 @@ __metadata:
     hot-hook: "patch:hot-hook@npm%3A0.3.0#~/.yarn/patches/hot-hook-npm-0.3.0-0c210b56e7.patch"
     pino-pretty: "npm:13.1.3"
     postgres: "npm:3.4.9"
-    posthog-node: "npm:5.36.3"
+    posthog-node: "npm:5.36.4"
     prettier: "npm:3.8.3"
     reflect-metadata: "npm:0.2.2"
     rxjs: "npm:7.8.2"
@@ -3580,6 +3580,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@posthog/core@npm:1.30.10":
+  version: 1.30.10
+  resolution: "@posthog/core@npm:1.30.10"
+  dependencies:
+    "@posthog/types": "npm:1.382.0"
+  checksum: 10c0/edcf8758caafa7de2680bdb0a5c9edf2cf77ea43853b8ec7b845eaf83f99b17815b8c8c849f55ec769219bf469eb8d2db483ffeeda7c290c6f503f85d4b6bd91
+  languageName: node
+  linkType: hard
+
 "@posthog/core@npm:1.30.9":
   version: 1.30.9
   resolution: "@posthog/core@npm:1.30.9"
@@ -3593,6 +3602,13 @@ __metadata:
   version: 1.381.0
   resolution: "@posthog/types@npm:1.381.0"
   checksum: 10c0/6a7df2ef915127b8f0a396153c24afc9da96c9b24827bfe398b9f89839fb628cc19f854a70dbcda9829823de74ac2da97267dfe0eb38c9ebeea2de07d84d4386
+  languageName: node
+  linkType: hard
+
+"@posthog/types@npm:1.382.0":
+  version: 1.382.0
+  resolution: "@posthog/types@npm:1.382.0"
+  checksum: 10c0/5dce78c534251d1580f9f84884b7ca4543253e0890fe2f4a4a516ef723ff676888b271f5a071d83b0baff9875d5426e9f974466c55a09144e9049d102db94c9c
   languageName: node
   linkType: hard
 
@@ -11683,17 +11699,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-node@npm:5.36.3":
-  version: 5.36.3
-  resolution: "posthog-node@npm:5.36.3"
+"posthog-node@npm:5.36.4":
+  version: 5.36.4
+  resolution: "posthog-node@npm:5.36.4"
   dependencies:
-    "@posthog/core": "npm:1.30.9"
+    "@posthog/core": "npm:1.30.10"
   peerDependencies:
     rxjs: ^7.0.0
   peerDependenciesMeta:
     rxjs:
       optional: true
-  checksum: 10c0/25be54062a4c38ab8e196baaf6772bc5b13884308837b0a52c87be4210bb8f1269edef7df1ff54242b7b94845b9933f73410ad350d9980a01702da6d3b01ad55
+  checksum: 10c0/d714503ea12e4298ff80b69fa59c585bbc565bb21f558ff5e7e43e6611c8030507250570fdc5f1f33b83e5e9364708331a91d68d8c40f3e5a67425974ca2edaa
   languageName: node
   linkType: hard
 
