@@ -2001,7 +2001,7 @@ __metadata:
     nuqs: "npm:2.8.9"
     postcss: "npm:8.5.15"
     postcss-import: "npm:16.1.1"
-    posthog-js: "npm:1.383.1"
+    posthog-js: "npm:1.386.6"
     react: "npm:19.2.7"
     react-day-picker: "npm:8.10.2"
     react-dom: "npm:19.2.7"
@@ -3589,10 +3589,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@posthog/core@npm:^1.32.3":
+  version: 1.32.3
+  resolution: "@posthog/core@npm:1.32.3"
+  dependencies:
+    "@posthog/types": "npm:1.386.3"
+  checksum: 10c0/11d2219c861c437a1ac4f4287a31c77b0d858cccce83589fbcc1c14d779f0372a7964f84e0c15fd096cacbc5fd3e72f2e0a67464a4b9b8030336c9753b540025
+  languageName: node
+  linkType: hard
+
 "@posthog/types@npm:1.383.1":
   version: 1.383.1
   resolution: "@posthog/types@npm:1.383.1"
   checksum: 10c0/bf3c97946ce71befe5479ce0652d19d9487e50eec243b05c66e12da2fe9ab45b365a4284f0d011d88e8d6ece7302d8627b2e52769c8cb5afac436fda4f68245d
+  languageName: node
+  linkType: hard
+
+"@posthog/types@npm:1.386.3, @posthog/types@npm:^1.386.3":
+  version: 1.386.3
+  resolution: "@posthog/types@npm:1.386.3"
+  checksum: 10c0/5bc676e11f34bc57d95fc4acf98ec669a350b350b847ca702728e794836cda03c521b8baf339f94d93b1868132ad08d6cf4d20338b3ad1c4c279fd49c290a313
   languageName: node
   linkType: hard
 
@@ -11667,19 +11683,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-js@npm:1.383.1":
-  version: 1.383.1
-  resolution: "posthog-js@npm:1.383.1"
+"posthog-js@npm:1.386.6":
+  version: 1.386.6
+  resolution: "posthog-js@npm:1.386.6"
   dependencies:
-    "@posthog/core": "npm:1.30.12"
-    "@posthog/types": "npm:1.383.1"
+    "@posthog/core": "npm:^1.32.3"
+    "@posthog/types": "npm:^1.386.3"
     core-js: "npm:^3.38.1"
     dompurify: "npm:^3.3.2"
     fflate: "npm:^0.4.8"
     preact: "npm:^10.28.2"
     query-selector-shadow-dom: "npm:^1.0.1"
     web-vitals: "npm:^5.1.0"
-  checksum: 10c0/4ab10c636ffe26025af75b3df05f55e43966343b898f6f00e5d00ee78ff2e43163f88c922a2d2761c8aac5af9348386a70abe85cc7a68280b9dce2861e194c2c
+  checksum: 10c0/b4965c3200e547722a3977fbda9eaf454d103fc018dcf7f65e5ee4381e86911a070c27a9f35a0cd45f33812e05be0aedb8bd450eb1f5682efe9f126ef6ca0e4d
   languageName: node
   linkType: hard
 
