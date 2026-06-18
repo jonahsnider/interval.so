@@ -1,0 +1,8 @@
+#:schema https://developers.openai.com/codex/config-schema.json
+[mcp_servers.sentry]
+type = "http"
+url = "https://mcp.sentry.dev/mcp/interval-so"
+
+[mcp_servers.railway]
+command = "railway"
+args = ["mcp"]

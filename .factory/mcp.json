@@ -1,0 +1,13 @@
+{
+	"mcpServers": {
+		"railway": {
+			"type": "stdio",
+			"command": "railway",
+			"args": ["mcp"]
+		},
+		"sentry": {
+			"type": "http",
+			"url": "https://mcp.sentry.dev/mcp/interval-so"
+		}
+	}
+}
