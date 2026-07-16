@@ -189,7 +189,7 @@ export class AuthService {
 			expectedOrigin: origin,
 			credential: {
 				id: passkey.credentialId,
-				publicKey: passkey.publicKey,
+				publicKey: new Uint8Array(passkey.publicKey),
 				counter: passkey.counter,
 				transports: passkey.transports as AuthenticatorTransport[],
 			},
