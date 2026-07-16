@@ -42,3 +42,12 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}-
       - name: Build and test
         run: yarn test
+      - name: Smoke-test production API
+        run: |
+          yarn workspaces focus --production @interval.so/api
+
+          HOST=127.0.0.1 PORT=3333 NODE_ENV=production node --env-file=.env apps/api/build/bin/server.js &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+
+          curl --fail --retry 10 --retry-connrefused --retry-delay 1 --retry-max-time 30 http://127.0.0.1:3333/health

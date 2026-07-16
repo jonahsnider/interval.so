@@ -31,7 +31,7 @@
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
-		"@adonisjs/auth": "10.1.0",
+		"@adonisjs/auth": "9.5.1",
 		"@adonisjs/bouncer": "3.1.6",
 		"@adonisjs/core": "6.21.0",
 		"@adonisjs/cors": "3.0.0",
