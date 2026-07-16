@@ -200,16 +200,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/cors@npm:3.0.0":
-  version: 3.0.0
-  resolution: "@adonisjs/cors@npm:3.0.0"
+"@adonisjs/cors@npm:2.2.1":
+  version: 2.2.1
+  resolution: "@adonisjs/cors@npm:2.2.1"
   peerDependencies:
-    "@adonisjs/assembler": ^8.0.0-next.7 || ^8.0.0
-    "@adonisjs/core": ^7.0.0-next.0 || ^7.0.0
-  peerDependenciesMeta:
-    "@adonisjs/assembler":
-      optional: true
-  checksum: 10c0/51c47223efe7f57ca4772b06d36b7049db742f04e7a907369812c6ae6d18a239e4cae56dfcdb2f1b0d26aabe9a9820c1ad645f38a106aa6fee7aec77d8890b5d
+    "@adonisjs/core": ^6.2.0
+  checksum: 10c0/eb5ec4dc53a6029ad6b070c5848411333eeff9f359baf27c33ac46fef121d5002d0ee0b3f7bca8969e6acc8f0da68e927009dd032b2ce28fcc07e6012ec0e415
   languageName: node
   linkType: hard
 
@@ -359,16 +355,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/redis@npm:10.0.0":
-  version: 10.0.0
-  resolution: "@adonisjs/redis@npm:10.0.0"
+"@adonisjs/redis@npm:9.2.0":
+  version: 9.2.0
+  resolution: "@adonisjs/redis@npm:9.2.0"
   dependencies:
-    "@poppinss/utils": "npm:^7.0.0"
-    emittery: "npm:^1.2.0"
-    ioredis: "npm:^5.9.3"
+    "@poppinss/utils": "npm:^6.9.2"
+    emittery: "npm:^1.1.0"
+    ioredis: "npm:^5.4.2"
   peerDependencies:
-    "@adonisjs/core": ^7.0.0-next.0 || ^7.0.0
-  checksum: 10c0/d45bc691e9e823652ab16216c90755a139b4038401ebacf2c181be666aedf2a9ddbdc37ae3174b5761afb99bea64cd36c9a3c44e08ca3ebc48c460005023cc01
+    "@adonisjs/core": ^6.2.0
+  checksum: 10c0/337ede97ca5f8edd02abcca1973e35358806671b492dcf6f59788e8e7ad8aa65d2a84549ad236afbe014cc1862c35b98d81e7b4797a0ece9d719c322db39fa2a
   languageName: node
   linkType: hard
 
@@ -382,26 +378,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/session@npm:8.1.0":
-  version: 8.1.0
-  resolution: "@adonisjs/session@npm:8.1.0"
+"@adonisjs/session@npm:7.7.1":
+  version: 7.7.1
+  resolution: "@adonisjs/session@npm:7.7.1"
   dependencies:
-    "@poppinss/macroable": "npm:^1.1.2"
-    "@poppinss/utils": "npm:^7.0.1"
+    "@poppinss/macroable": "npm:^1.1.0"
+    "@poppinss/utils": "npm:^6.10.1"
   peerDependencies:
-    "@adonisjs/assembler": ^8.0.0-next.26 || ^8.0.0
-    "@adonisjs/core": ^7.0.0-next.16 || ^7.0.0
-    "@adonisjs/lucid": ^22.0.0-next.0 || ^22.0.0
-    "@adonisjs/redis": ^10.0.0-next.2 || ^10.0.0
-    "@aws-sdk/client-dynamodb": ^3.955.0
-    "@aws-sdk/util-dynamodb": ^3.955.0
-    "@japa/api-client": ^3.1.0
+    "@adonisjs/core": ^6.6.0
+    "@adonisjs/lucid": ^21.0.0
+    "@adonisjs/redis": ^8.0.1 || ^9.0.0
+    "@aws-sdk/client-dynamodb": ^3.658.0
+    "@aws-sdk/util-dynamodb": ^3.658.0
+    "@japa/api-client": ^2.0.3 || ^3.0.0
     "@japa/browser-client": ^2.0.3
-    "@japa/plugin-adonisjs": ^5.1.0-next.0 || ^5.1.0
-    edge.js: ^6.4.0
+    edge.js: ^6.0.2
   peerDependenciesMeta:
-    "@adonisjs/assembler":
-      optional: true
     "@adonisjs/lucid":
       optional: true
     "@adonisjs/redis":
@@ -414,11 +406,9 @@ __metadata:
       optional: true
     "@japa/browser-client":
       optional: true
-    "@japa/plugin-adonisjs":
-      optional: true
     edge.js:
       optional: true
-  checksum: 10c0/d85c0325747921f78010b067a4733bd913f65d3e62abd2e9194e73b8d68b182a594c20037cb5dc48d197cb949e5cbd76ee86770c0341a5dd54f630862e00c484
+  checksum: 10c0/c643efddf9f9f9b9aab0ae93f52ece19bb8f1686bcdabad5904c28023f6789ffbb08dfd4827bdf6dd1fe0ef9bbfa386d2c1c62ae83af5fe2d41c37e544df45b7
   languageName: node
   linkType: hard
 
@@ -2159,9 +2149,9 @@ __metadata:
     "@adonisjs/auth": "npm:9.5.1"
     "@adonisjs/bouncer": "npm:3.1.6"
     "@adonisjs/core": "npm:6.21.0"
-    "@adonisjs/cors": "npm:3.0.0"
-    "@adonisjs/redis": "npm:10.0.0"
-    "@adonisjs/session": "npm:8.1.0"
+    "@adonisjs/cors": "npm:2.2.1"
+    "@adonisjs/redis": "npm:9.2.0"
+    "@adonisjs/session": "npm:7.7.1"
     "@adonisjs/tsconfig": "npm:2.0.0"
     "@jonahsnider/util": "npm:13.0.0"
     "@paralleldrive/cuid2": "npm:3.3.0"
@@ -2272,10 +2262,10 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ioredis/commands@npm:1.5.1":
-  version: 1.5.1
-  resolution: "@ioredis/commands@npm:1.5.1"
-  checksum: 10c0/cb8f6d13cff0753e3e7ef001fb895491985d9a623248192538f13bc2fd9bfdfde3c18cf2ba6f20ec8ceaa681b0771070d3a09b82eed044c798bcfef5e3ae54b3
+"@ioredis/commands@npm:1.10.0":
+  version: 1.10.0
+  resolution: "@ioredis/commands@npm:1.10.0"
+  checksum: 10c0/baf91e62d0e64ef2b5f7ca4413dc2456fe250e87483beac4a1c8ef1fe5ad0d2fcdeb9b89d4556d8ef6c7455c64a964359d729601fdb06b2f4c76c35dd59afa99
   languageName: node
   linkType: hard
 
@@ -3710,13 +3700,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@poppinss/macroable@npm:^1.1.2":
-  version: 1.1.2
-  resolution: "@poppinss/macroable@npm:1.1.2"
-  checksum: 10c0/70ff049095309c696660b6c2993c963a938fa3348bee83cf22659a5b34208ee02e24d6f18aff33af1b4c900dce7d8613bdb1abf188b26bc2775757cd03b1505a
-  languageName: node
-  linkType: hard
-
 "@poppinss/matchit@npm:^3.1.2":
   version: 3.1.2
   resolution: "@poppinss/matchit@npm:3.1.2"
@@ -3892,19 +3875,6 @@ __metadata:
     safe-stable-stringify: "npm:^2.5.0"
     secure-json-parse: "npm:^3.0.1"
   checksum: 10c0/d90e3dad3f72255417d34dd13005905cca55782314bb2f02ff5c18d537f120107765696ead1471c47f20c63a6b443c0203d22a4f24d5f3d8842bb2b2fbb0c309
-  languageName: node
-  linkType: hard
-
-"@poppinss/utils@npm:^7.0.0, @poppinss/utils@npm:^7.0.1":
-  version: 7.0.1
-  resolution: "@poppinss/utils@npm:7.0.1"
-  dependencies:
-    "@poppinss/exception": "npm:^1.2.3"
-    "@poppinss/object-builder": "npm:^1.1.0"
-    "@poppinss/string": "npm:^1.7.1"
-    "@poppinss/types": "npm:^1.2.1"
-    flattie: "npm:^1.1.1"
-  checksum: 10c0/fed3b6f830a3812eff263dbd3c4a8109fb69d336164f1791ebad394cfa3124debfec65f23efa627dbd94855a1bd2321742555ef709435d851c18cae54f7e88c9
   languageName: node
   linkType: hard
 
@@ -7677,10 +7647,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cluster-key-slot@npm:^1.1.0":
-  version: 1.1.2
-  resolution: "cluster-key-slot@npm:1.1.2"
-  checksum: 10c0/d7d39ca28a8786e9e801eeb8c770e3c3236a566625d7299a47bb71113fb2298ce1039596acb82590e598c52dbc9b1f088c8f587803e697cb58e1867a95ff94d3
+"cluster-key-slot@npm:1.1.1":
+  version: 1.1.1
+  resolution: "cluster-key-slot@npm:1.1.1"
+  checksum: 10c0/079b1ae86b20e2d53308a877b08de5e830722a45c07810569d0dab4955bed569da33ac9f79998289d014adf02cca7223a0647cb0ee6548a12ab3c4f9beac1377
   languageName: node
   linkType: hard
 
@@ -8091,7 +8061,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:^4.3.5, debug@npm:^4.4.1, debug@npm:^4.4.3":
+"debug@npm:4.4.3, debug@npm:^4.3.5, debug@npm:^4.4.1, debug@npm:^4.4.3":
   version: 4.4.3
   resolution: "debug@npm:4.4.3"
   dependencies:
@@ -8140,7 +8110,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"denque@npm:^2.1.0":
+"denque@npm:2.1.0":
   version: 2.1.0
   resolution: "denque@npm:2.1.0"
   checksum: 10c0/f9ef81aa0af9c6c614a727cb3bd13c5d7db2af1abf9e6352045b86e85873e629690f6222f4edd49d10e4ccf8f078bbeec0794fafaf61b659c0589d0c511ec363
@@ -8441,7 +8411,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"emittery@npm:^1.2.0":
+"emittery@npm:^1.1.0":
   version: 1.2.1
   resolution: "emittery@npm:1.2.1"
   checksum: 10c0/188f6ee8725589df6d49a8ed18b216709dfda3574547860c122bc0223570d839bb2c8ca5cd95483a6b064636af195d7c6ab99a35a317f9734d8bc455f644c785
@@ -9974,20 +9944,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"ioredis@npm:^5.9.3":
-  version: 5.10.0
-  resolution: "ioredis@npm:5.10.0"
+"ioredis@npm:^5.4.2":
+  version: 5.11.1
+  resolution: "ioredis@npm:5.11.1"
   dependencies:
-    "@ioredis/commands": "npm:1.5.1"
-    cluster-key-slot: "npm:^1.1.0"
-    debug: "npm:^4.3.4"
-    denque: "npm:^2.1.0"
-    lodash.defaults: "npm:^4.2.0"
-    lodash.isarguments: "npm:^3.1.0"
-    redis-errors: "npm:^1.2.0"
-    redis-parser: "npm:^3.0.0"
-    standard-as-callback: "npm:^2.1.0"
-  checksum: 10c0/294e8cdef963f922b04ad023d4165f1d399b27279b9890f3e1311da57fb2a082c8dca52d18bd14a54acd6fb82853783641a0c47ff18661a8756221049f807e88
+    "@ioredis/commands": "npm:1.10.0"
+    cluster-key-slot: "npm:1.1.1"
+    debug: "npm:4.4.3"
+    denque: "npm:2.1.0"
+    redis-errors: "npm:1.2.0"
+    redis-parser: "npm:3.0.0"
+    standard-as-callback: "npm:2.1.0"
+  checksum: 10c0/a8b27043cf2c045dfc93f40a32ce24cf9f8b57799a37f4234c4b925c365ccf131629590f94a512f546fda2ba8ed034009c94c4933ecd44c50bc166636d929fd6
   languageName: node
   linkType: hard
 
@@ -10340,20 +10308,6 @@ __metadata:
   dependencies:
     p-locate: "npm:^5.0.0"
   checksum: 10c0/d3972ab70dfe58ce620e64265f90162d247e87159b6126b01314dd67be43d50e96a50b517bce2d9452a79409c7614054c277b5232377de50416564a77ac7aad3
-  languageName: node
-  linkType: hard
-
-"lodash.defaults@npm:^4.2.0":
-  version: 4.2.0
-  resolution: "lodash.defaults@npm:4.2.0"
-  checksum: 10c0/d5b77aeb702caa69b17be1358faece33a84497bcca814897383c58b28a2f8dfc381b1d9edbec239f8b425126a3bbe4916223da2a576bb0411c2cefd67df80707
-  languageName: node
-  linkType: hard
-
-"lodash.isarguments@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "lodash.isarguments@npm:3.1.0"
-  checksum: 10c0/5e8f95ba10975900a3920fb039a3f89a5a79359a1b5565e4e5b4310ed6ebe64011e31d402e34f577eca983a1fc01ff86c926e3cbe602e1ddfc858fdd353e62d8
   languageName: node
   linkType: hard
 
@@ -12474,14 +12428,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redis-errors@npm:^1.0.0, redis-errors@npm:^1.2.0":
+"redis-errors@npm:1.2.0, redis-errors@npm:^1.0.0":
   version: 1.2.0
   resolution: "redis-errors@npm:1.2.0"
   checksum: 10c0/5b316736e9f532d91a35bff631335137a4f974927bb2fb42bf8c2f18879173a211787db8ac4c3fde8f75ed6233eb0888e55d52510b5620e30d69d7d719c8b8a7
   languageName: node
   linkType: hard
 
-"redis-parser@npm:^3.0.0":
+"redis-parser@npm:3.0.0":
   version: 3.0.0
   resolution: "redis-parser@npm:3.0.0"
   dependencies:
@@ -13456,7 +13410,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"standard-as-callback@npm:^2.1.0":
+"standard-as-callback@npm:2.1.0":
   version: 2.1.0
   resolution: "standard-as-callback@npm:2.1.0"
   checksum: 10c0/012677236e3d3fdc5689d29e64ea8a599331c4babe86956bf92fc5e127d53f85411c5536ee0079c52c43beb0026b5ce7aa1d834dd35dd026e82a15d1bcaead1f
