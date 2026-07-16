@@ -154,6 +154,9 @@ dist
 # Docusaurus cache and generated files
 .docusaurus
 
+# AdonisJS generated indexes
+**/.adonisjs
+
 # Serverless directories
 .serverless/
 

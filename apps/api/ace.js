@@ -8,20 +8,15 @@
 |
 | See docs.adonisjs.com/guides/typescript-build-process#creating-production-build
 |
-| Since, we cannot run TypeScript source code using "node" binary, we need
-| a JavaScript entrypoint to run ace commands.
-|
-| This file registers the "ts-node/esm" hook with the Node.js module system
-| and then imports the "bin/console.ts" file.
+| This file registers a TypeScript execution hook and then imports the
+| "bin/console.ts" file.
 |
 */
 
 /**
- * Register hook to process TypeScript files using ts-node
+ * Register hook to process TypeScript files using ts-exec
  */
-import { register } from 'node:module';
-
-register('ts-node/esm', import.meta.url);
+import '@poppinss/ts-exec';
 
 /**
  * Import ace console entrypoint
