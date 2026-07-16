@@ -378,22 +378,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/session@npm:7.7.1":
-  version: 7.7.1
-  resolution: "@adonisjs/session@npm:7.7.1"
+"@adonisjs/session@npm:8.1.0":
+  version: 8.1.0
+  resolution: "@adonisjs/session@npm:8.1.0"
   dependencies:
-    "@poppinss/macroable": "npm:^1.1.0"
-    "@poppinss/utils": "npm:^6.10.1"
+    "@poppinss/macroable": "npm:^1.1.2"
+    "@poppinss/utils": "npm:^7.0.1"
   peerDependencies:
-    "@adonisjs/core": ^6.6.0
-    "@adonisjs/lucid": ^21.0.0
-    "@adonisjs/redis": ^8.0.1 || ^9.0.0
-    "@aws-sdk/client-dynamodb": ^3.658.0
-    "@aws-sdk/util-dynamodb": ^3.658.0
-    "@japa/api-client": ^2.0.3 || ^3.0.0
+    "@adonisjs/assembler": ^8.0.0-next.26 || ^8.0.0
+    "@adonisjs/core": ^7.0.0-next.16 || ^7.0.0
+    "@adonisjs/lucid": ^22.0.0-next.0 || ^22.0.0
+    "@adonisjs/redis": ^10.0.0-next.2 || ^10.0.0
+    "@aws-sdk/client-dynamodb": ^3.955.0
+    "@aws-sdk/util-dynamodb": ^3.955.0
+    "@japa/api-client": ^3.1.0
     "@japa/browser-client": ^2.0.3
-    edge.js: ^6.0.2
+    "@japa/plugin-adonisjs": ^5.1.0-next.0 || ^5.1.0
+    edge.js: ^6.4.0
   peerDependenciesMeta:
+    "@adonisjs/assembler":
+      optional: true
     "@adonisjs/lucid":
       optional: true
     "@adonisjs/redis":
@@ -406,9 +410,11 @@ __metadata:
       optional: true
     "@japa/browser-client":
       optional: true
+    "@japa/plugin-adonisjs":
+      optional: true
     edge.js:
       optional: true
-  checksum: 10c0/c643efddf9f9f9b9aab0ae93f52ece19bb8f1686bcdabad5904c28023f6789ffbb08dfd4827bdf6dd1fe0ef9bbfa386d2c1c62ae83af5fe2d41c37e544df45b7
+  checksum: 10c0/d85c0325747921f78010b067a4733bd913f65d3e62abd2e9194e73b8d68b182a594c20037cb5dc48d197cb949e5cbd76ee86770c0341a5dd54f630862e00c484
   languageName: node
   linkType: hard
 
@@ -2151,7 +2157,7 @@ __metadata:
     "@adonisjs/core": "npm:6.21.0"
     "@adonisjs/cors": "npm:2.2.1"
     "@adonisjs/redis": "npm:9.2.0"
-    "@adonisjs/session": "npm:7.7.1"
+    "@adonisjs/session": "npm:8.1.0"
     "@adonisjs/tsconfig": "npm:2.0.0"
     "@jonahsnider/util": "npm:13.0.0"
     "@paralleldrive/cuid2": "npm:3.3.0"
@@ -3700,6 +3706,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@poppinss/macroable@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "@poppinss/macroable@npm:1.1.2"
+  checksum: 10c0/70ff049095309c696660b6c2993c963a938fa3348bee83cf22659a5b34208ee02e24d6f18aff33af1b4c900dce7d8613bdb1abf188b26bc2775757cd03b1505a
+  languageName: node
+  linkType: hard
+
 "@poppinss/matchit@npm:^3.1.2":
   version: 3.1.2
   resolution: "@poppinss/matchit@npm:3.1.2"
@@ -3888,6 +3901,19 @@ __metadata:
     "@poppinss/types": "npm:^1.2.1"
     flattie: "npm:^1.1.1"
   checksum: 10c0/ba9a76feb5549c0b1c73c1c2a21c2ec94c75d8837bf36bf378e45ec443597c3455fc046abfdaa49055c938d096680aad2dbf5de6e3ee126dc9455bd34a841cab
+  languageName: node
+  linkType: hard
+
+"@poppinss/utils@npm:^7.0.1":
+  version: 7.0.1
+  resolution: "@poppinss/utils@npm:7.0.1"
+  dependencies:
+    "@poppinss/exception": "npm:^1.2.3"
+    "@poppinss/object-builder": "npm:^1.1.0"
+    "@poppinss/string": "npm:^1.7.1"
+    "@poppinss/types": "npm:^1.2.1"
+    flattie: "npm:^1.1.1"
+  checksum: 10c0/fed3b6f830a3812eff263dbd3c4a8109fb69d336164f1791ebad394cfa3124debfec65f23efa627dbd94855a1bd2321742555ef709435d851c18cae54f7e88c9
   languageName: node
   linkType: hard
 
