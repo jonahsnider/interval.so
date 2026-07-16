@@ -355,16 +355,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/redis@npm:9.2.0":
-  version: 9.2.0
-  resolution: "@adonisjs/redis@npm:9.2.0"
+"@adonisjs/redis@npm:10.0.0":
+  version: 10.0.0
+  resolution: "@adonisjs/redis@npm:10.0.0"
   dependencies:
-    "@poppinss/utils": "npm:^6.9.2"
-    emittery: "npm:^1.1.0"
-    ioredis: "npm:^5.4.2"
+    "@poppinss/utils": "npm:^7.0.0"
+    emittery: "npm:^1.2.0"
+    ioredis: "npm:^5.9.3"
   peerDependencies:
-    "@adonisjs/core": ^6.2.0
-  checksum: 10c0/337ede97ca5f8edd02abcca1973e35358806671b492dcf6f59788e8e7ad8aa65d2a84549ad236afbe014cc1862c35b98d81e7b4797a0ece9d719c322db39fa2a
+    "@adonisjs/core": ^7.0.0-next.0 || ^7.0.0
+  checksum: 10c0/d45bc691e9e823652ab16216c90755a139b4038401ebacf2c181be666aedf2a9ddbdc37ae3174b5761afb99bea64cd36c9a3c44e08ca3ebc48c460005023cc01
   languageName: node
   linkType: hard
 
@@ -2150,7 +2150,7 @@ __metadata:
     "@adonisjs/bouncer": "npm:3.1.6"
     "@adonisjs/core": "npm:6.21.0"
     "@adonisjs/cors": "npm:2.2.1"
-    "@adonisjs/redis": "npm:9.2.0"
+    "@adonisjs/redis": "npm:10.0.0"
     "@adonisjs/session": "npm:7.7.1"
     "@adonisjs/tsconfig": "npm:2.0.0"
     "@jonahsnider/util": "npm:13.0.0"
@@ -3875,6 +3875,19 @@ __metadata:
     safe-stable-stringify: "npm:^2.5.0"
     secure-json-parse: "npm:^3.0.1"
   checksum: 10c0/d90e3dad3f72255417d34dd13005905cca55782314bb2f02ff5c18d537f120107765696ead1471c47f20c63a6b443c0203d22a4f24d5f3d8842bb2b2fbb0c309
+  languageName: node
+  linkType: hard
+
+"@poppinss/utils@npm:^7.0.0":
+  version: 7.0.1
+  resolution: "@poppinss/utils@npm:7.0.1"
+  dependencies:
+    "@poppinss/exception": "npm:^1.2.3"
+    "@poppinss/object-builder": "npm:^1.1.0"
+    "@poppinss/string": "npm:^1.7.1"
+    "@poppinss/types": "npm:^1.2.1"
+    flattie: "npm:^1.1.1"
+  checksum: 10c0/fed3b6f830a3812eff263dbd3c4a8109fb69d336164f1791ebad394cfa3124debfec65f23efa627dbd94855a1bd2321742555ef709435d851c18cae54f7e88c9
   languageName: node
   linkType: hard
 
@@ -8411,7 +8424,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"emittery@npm:^1.1.0":
+"emittery@npm:^1.2.0":
   version: 1.2.1
   resolution: "emittery@npm:1.2.1"
   checksum: 10c0/188f6ee8725589df6d49a8ed18b216709dfda3574547860c122bc0223570d839bb2c8ca5cd95483a6b064636af195d7c6ab99a35a317f9734d8bc455f644c785
@@ -9944,7 +9957,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"ioredis@npm:^5.4.2":
+"ioredis@npm:^5.9.3":
   version: 5.11.1
   resolution: "ioredis@npm:5.11.1"
   dependencies:
