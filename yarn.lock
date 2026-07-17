@@ -2214,7 +2214,7 @@ __metadata:
     hot-hook: "patch:hot-hook@npm%3A0.3.0#~/.yarn/patches/hot-hook-npm-0.3.0-0c210b56e7.patch"
     pino-pretty: "npm:13.1.3"
     postgres: "npm:3.4.9"
-    posthog-node: "npm:5.43.0"
+    posthog-node: "npm:5.44.0"
     prettier: "npm:3.9.5"
     reflect-metadata: "npm:0.2.2"
     rxjs: "npm:7.8.2"
@@ -3950,15 +3950,6 @@ __metadata:
   version: 2.1.0
   resolution: "@poppinss/validator-lite@npm:2.1.0"
   checksum: 10c0/2d3d06e2595d8010ab0143aee8662903b0ce39821724258569b43acb5bb57320abd8ddef6cf94e9c402a2ba3bfd38b75de06c69f6ed3a982fe4e643eacbc1c0f
-  languageName: node
-  linkType: hard
-
-"@posthog/core@npm:^1.42.0":
-  version: 1.42.0
-  resolution: "@posthog/core@npm:1.42.0"
-  dependencies:
-    "@posthog/types": "npm:^1.395.0"
-  checksum: 10c0/aed7a0eab25d1e7bb7ae2bde79f16181c94d4408c840412025de140b02a77d51f7376dccc442b786f8f4e2d1c4cc290fb413cddb293f248f4e3005c2cbed7ef5
   languageName: node
   linkType: hard
 
@@ -11923,17 +11914,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-node@npm:5.43.0":
-  version: 5.43.0
-  resolution: "posthog-node@npm:5.43.0"
+"posthog-node@npm:5.44.0":
+  version: 5.44.0
+  resolution: "posthog-node@npm:5.44.0"
   dependencies:
-    "@posthog/core": "npm:^1.42.0"
+    "@posthog/core": "npm:^1.42.1"
   peerDependencies:
     rxjs: ^7.0.0
   peerDependenciesMeta:
     rxjs:
       optional: true
-  checksum: 10c0/b35b74707390822018d6af2e2d37a83e40fbbd7c0d66a27bffb4201dcc75d91115c8101b9ae852357d0e2908605de2eeed11bfa5131d3fc4e9c2c90eb75a0bdf
+  checksum: 10c0/2879fb111429704a94c757b01acae7140979fffa61b1905519abd4f54295dc7591a73250e28de377b56b3cd093d187796ac7ee95a4d6f785182dba1115d6e958
   languageName: node
   linkType: hard
 
