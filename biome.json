@@ -11,6 +11,7 @@
 			"**",
 			"!**/.next",
 			"!**/node_modules",
+			"!**/.adonisjs",
 			"!**/.vercel",
 			"!**/package.json",
 			"!**/apps/api/build",

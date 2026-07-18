@@ -1,6 +1,7 @@
 import { Bouncer } from '@adonisjs/bouncer';
-import type { BouncerAbility, Constructor, LazyImport } from '@adonisjs/bouncer/types';
+import type { BouncerAbility } from '@adonisjs/bouncer/types';
 import type { HttpContext } from '@adonisjs/core/http';
+import type { Constructor, LazyImport } from '@adonisjs/core/types/common';
 import type { NextFn } from '@adonisjs/core/types/http';
 import type { Session } from '@adonisjs/session';
 import * as abilities from '#abilities/main';

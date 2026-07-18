@@ -1,3 +1,5 @@
+import { indexPolicies } from '@adonisjs/bouncer';
+import { indexEntities } from '@adonisjs/core';
 import { defineConfig } from '@adonisjs/core/app';
 
 export default defineConfig({
@@ -9,8 +11,12 @@ export default defineConfig({
   | List of ace commands to register from packages. The application commands
   | will be scanned automatically from the "./commands" directory.
   |
-  */
+	*/
 	commands: [() => import('@adonisjs/core/commands'), () => import('@adonisjs/bouncer/commands')],
+
+	hooks: {
+		init: [indexEntities(), indexPolicies()],
+	},
 
 	/*
   |--------------------------------------------------------------------------
