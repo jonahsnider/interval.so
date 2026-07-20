@@ -2404,7 +2404,7 @@ __metadata:
     next-plausible: "npm:3.12.5"
     next-themes: "npm:0.4.6"
     next-view-transitions: "npm:0.3.5"
-    nuqs: "npm:2.9.0"
+    nuqs: "npm:2.9.1"
     postcss: "npm:8.5.19"
     postcss-import: "npm:16.1.1"
     posthog-js: "npm:1.404.1"
@@ -5737,14 +5737,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@standard-schema/spec@npm:1.0.0":
-  version: 1.0.0
-  resolution: "@standard-schema/spec@npm:1.0.0"
-  checksum: 10c0/a1ab9a8bdc09b5b47aa8365d0e0ec40cc2df6437be02853696a0e377321653b0d3ac6f079a8c67d5ddbe9821025584b1fb71d9cc041a6666a96f1fadf2ece15f
-  languageName: node
-  linkType: hard
-
-"@standard-schema/spec@npm:^1.1.0":
+"@standard-schema/spec@npm:1.1.0, @standard-schema/spec@npm:^1.1.0":
   version: 1.1.0
   resolution: "@standard-schema/spec@npm:1.1.0"
   checksum: 10c0/d90f55acde4b2deb983529c87e8025fa693de1a5e8b49ecc6eb84d1fd96328add0e03d7d551442156c7432fd78165b2c26ff561b970a9a881f046abb78d6a526
@@ -10882,11 +10875,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nuqs@npm:2.9.0":
-  version: 2.9.0
-  resolution: "nuqs@npm:2.9.0"
+"nuqs@npm:2.9.1":
+  version: 2.9.1
+  resolution: "nuqs@npm:2.9.1"
   dependencies:
-    "@standard-schema/spec": "npm:1.0.0"
+    "@standard-schema/spec": "npm:1.1.0"
   peerDependencies:
     "@remix-run/react": ">=2"
     "@tanstack/react-router": ^1
@@ -10905,7 +10898,7 @@ __metadata:
       optional: true
     react-router-dom:
       optional: true
-  checksum: 10c0/a2f60cf57dbfdff68e9313876ac42ce3ba6240e72a79b3d5baf4fa1c84f2bb61945c937f66128555f6da45c7947dc5bfe6c62bf8ecd35159bb96b5c0edeea984
+  checksum: 10c0/338b71bf6b19a64f52f27dd6f0e369cc81bc186da24807e8507f12997a9f6202472a5fcf389f78b8592ae22ac4837047cbe4fb16b9a0ae31e08955973798d206
   languageName: node
   linkType: hard
 
