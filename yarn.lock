@@ -2390,7 +2390,7 @@ __metadata:
     "@types/react-dom": "npm:19.2.3"
     "@vercel/speed-insights": "npm:2.0.0"
     autoprefixer: "npm:10.5.4"
-    chrono-node: "npm:2.10.0"
+    chrono-node: "npm:2.10.1"
     class-variance-authority: "npm:0.7.1"
     clsx: "npm:2.1.1"
     cmdk: "npm:^1.0.0"
@@ -7492,10 +7492,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chrono-node@npm:2.10.0":
-  version: 2.10.0
-  resolution: "chrono-node@npm:2.10.0"
-  checksum: 10c0/1b743a0e373aaccfa9fdcb341a71dbf47e9d1afcf5a6301cdead957a072cfc43e9e972c1f110e2c5df34af004b5737ec2d149b97d18ab7a9de2e90ba2bb7e0c7
+"chrono-node@npm:2.10.1":
+  version: 2.10.1
+  resolution: "chrono-node@npm:2.10.1"
+  checksum: 10c0/bb3a7259b8fd5b8657486db0482c352e2a5959000042a0962660474a438c3ffc90a85ad807bea4b0bc23f319a5e92362d0394ed093c6291c737612d3990dcd00
   languageName: node
   linkType: hard
 
