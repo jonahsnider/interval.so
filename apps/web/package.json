@@ -32,7 +32,7 @@
 		"@radix-ui/react-tooltip": "1.2.13",
 		"@sentry/nextjs": "^10.0.0",
 		"@simplewebauthn/browser": "13.3.0",
-		"@tanstack/react-query": "5.101.2",
+		"@tanstack/react-query": "5.101.3",
 		"@tanstack/react-table": "8.21.3",
 		"@trpc/client": "11.18.0",
 		"@trpc/next": "11.18.0",
