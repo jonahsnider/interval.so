@@ -9699,7 +9699,7 @@ __metadata:
     prettier: "npm:3.9.5"
     prettier-plugin-packagejson: "npm:3.0.2"
     turbo: "npm:2.10.5"
-    vercel: "npm:56.4.0"
+    vercel: "npm:56.4.1"
   languageName: unknown
   linkType: soft
 
@@ -13938,9 +13938,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vercel@npm:56.4.0":
-  version: 56.4.0
-  resolution: "vercel@npm:56.4.0"
+"vercel@npm:56.4.1":
+  version: 56.4.1
+  resolution: "vercel@npm:56.4.1"
   dependencies:
     "@vercel/backends": "npm:0.8.25"
     "@vercel/blob": "npm:2.4.0"
@@ -13977,10 +13977,69 @@ __metadata:
     smol-toml: "npm:1.5.2"
     undici: "npm:5.29.0"
     zod: "npm:4.1.11"
+  peerDependencies:
+    "@vercel/backends": 0.8.25
+    "@vercel/container": 0.0.5
+    "@vercel/elysia": 0.1.102
+    "@vercel/express": 0.1.116
+    "@vercel/fastify": 0.1.105
+    "@vercel/go": 3.10.2
+    "@vercel/h3": 0.1.111
+    "@vercel/hono": 0.2.105
+    "@vercel/hydrogen": 1.4.0
+    "@vercel/koa": 0.1.85
+    "@vercel/nestjs": 0.2.106
+    "@vercel/next": 4.20.4
+    "@vercel/node": 5.8.26
+    "@vercel/python": 6.51.0
+    "@vercel/redwood": 2.5.0
+    "@vercel/remix-builder": 5.9.1
+    "@vercel/ruby": 2.5.1
+    "@vercel/rust": 1.4.0
+    "@vercel/static-build": 2.11.8
+  peerDependenciesMeta:
+    "@vercel/backends":
+      optional: true
+    "@vercel/container":
+      optional: true
+    "@vercel/elysia":
+      optional: true
+    "@vercel/express":
+      optional: true
+    "@vercel/fastify":
+      optional: true
+    "@vercel/go":
+      optional: true
+    "@vercel/h3":
+      optional: true
+    "@vercel/hono":
+      optional: true
+    "@vercel/hydrogen":
+      optional: true
+    "@vercel/koa":
+      optional: true
+    "@vercel/nestjs":
+      optional: true
+    "@vercel/next":
+      optional: true
+    "@vercel/node":
+      optional: true
+    "@vercel/python":
+      optional: true
+    "@vercel/redwood":
+      optional: true
+    "@vercel/remix-builder":
+      optional: true
+    "@vercel/ruby":
+      optional: true
+    "@vercel/rust":
+      optional: true
+    "@vercel/static-build":
+      optional: true
   bin:
     vc: dist/vc.js
     vercel: dist/vc.js
-  checksum: 10c0/ae13fab695b4fd02eb1a40cb2d27f0e4acd810055370ff2a48dcbc7ed7e39d54b06e192d37d3aa1ac85f087ab3692eae762cce0447f5e1639fd52c123956270e
+  checksum: 10c0/30d942e94291a86c394c9fbfc68008d0a3ce539d06117279fc5ebef247c4f3fc920db89c9766f17b6f59be94df4fe6d5221cbed06878bc7bd5d955212085a2e0
   languageName: node
   linkType: hard
 
