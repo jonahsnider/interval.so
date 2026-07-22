@@ -2340,7 +2340,7 @@ __metadata:
     hot-hook: "npm:1.0.0"
     pino-pretty: "npm:13.1.3"
     postgres: "npm:3.4.9"
-    posthog-node: "npm:5.45.2"
+    posthog-node: "npm:5.46.0"
     prettier: "npm:3.9.5"
     reflect-metadata: "npm:0.2.2"
     rxjs: "npm:7.8.2"
@@ -3914,28 +3914,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@posthog/core@npm:^1.43.1":
-  version: 1.43.1
-  resolution: "@posthog/core@npm:1.43.1"
-  dependencies:
-    "@posthog/types": "npm:^1.396.0"
-  checksum: 10c0/625bf09578259cbd165081abfb506d10e960a9e8fc4780af002b48fbcad420dbbcc6c5e674a4567ac75aa0f5c3f533294bca7412d82bf41ae21996078bcffd2b
-  languageName: node
-  linkType: hard
-
 "@posthog/core@npm:^1.44.0":
   version: 1.44.0
   resolution: "@posthog/core@npm:1.44.0"
   dependencies:
     "@posthog/types": "npm:^1.397.0"
   checksum: 10c0/05e7082936d424a020315aa88474b935c18292fb8afab7897adb0399c5c7bc6e42b66e6075fe88af7ce8553d6a87dbe83ec5a3d428dae09955d608a21bd336b8
-  languageName: node
-  linkType: hard
-
-"@posthog/types@npm:^1.396.0":
-  version: 1.396.0
-  resolution: "@posthog/types@npm:1.396.0"
-  checksum: 10c0/6cf17da442822cab875143ed924104a30b33b2381e2d9533bc36c28848224e8181d2f6ea6d5c28a7b2cf8b819f8d942a935159db5fe3a12efd48cca640ff194c
   languageName: node
   linkType: hard
 
@@ -11666,17 +11650,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-node@npm:5.45.2":
-  version: 5.45.2
-  resolution: "posthog-node@npm:5.45.2"
+"posthog-node@npm:5.46.0":
+  version: 5.46.0
+  resolution: "posthog-node@npm:5.46.0"
   dependencies:
-    "@posthog/core": "npm:^1.43.1"
+    "@posthog/core": "npm:^1.44.0"
   peerDependencies:
     rxjs: ^7.0.0
   peerDependenciesMeta:
     rxjs:
       optional: true
-  checksum: 10c0/941fb96e57b9eba3d17fe48ef1829f06ec8070e5eb511dc460cb86c8e46bc233cbbdf65bc312f21a8897405bebb4150ddd8f1cae710e5e0d46d06775dce09145
+  checksum: 10c0/aeff406a1af0db8b8c6ec714f1c8c9bd19228532195c8d4aabf634597d0714aa267490e64e7183aa45d8d3ce05fbb308b750dd1d27f6dea64ed9ec771fb88dae
   languageName: node
   linkType: hard
 
