@@ -58,7 +58,7 @@
 		"nuqs": "2.9.1",
 		"postcss": "8.5.22",
 		"postcss-import": "16.1.1",
-		"posthog-js": "1.406.2",
+		"posthog-js": "1.407.0",
 		"react": "19.2.7",
 		"react-day-picker": "8.10.2",
 		"react-dom": "19.2.7",
