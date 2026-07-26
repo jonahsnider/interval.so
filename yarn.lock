@@ -1823,9 +1823,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hookform/resolvers@npm:5.4.2":
-  version: 5.4.2
-  resolution: "@hookform/resolvers@npm:5.4.2"
+"@hookform/resolvers@npm:5.4.3":
+  version: 5.4.3
+  resolution: "@hookform/resolvers@npm:5.4.3"
   dependencies:
     "@standard-schema/utils": "npm:^0.3.0"
   peerDependencies:
@@ -1903,7 +1903,7 @@ __metadata:
       optional: true
     zod:
       optional: true
-  checksum: 10c0/263ea358ba60920aabbce8dc3bc7b6403fb890a52ca599ea27908dc4f365f6137d038b4c88d158d9f3b44b0be79ea095a76e471972aaab41c6c800183457c76b
+  checksum: 10c0/7b1cea06a95835215462893710d934de10c9d93765a9bb3683a775630470c12bdf2abb1b70ddbbc6ada9be28b4fe6a8f84fdb8583b6985d2dd15250f14f4be8d
   languageName: node
   linkType: hard
 
@@ -2431,7 +2431,7 @@ __metadata:
   resolution: "@interval.so/web@workspace:apps/web"
   dependencies:
     "@heroicons/react": "npm:2.2.0"
-    "@hookform/resolvers": "npm:5.4.2"
+    "@hookform/resolvers": "npm:5.4.3"
     "@jonahsnider/util": "npm:13.0.0"
     "@radix-ui/react-alert-dialog": "npm:1.1.23"
     "@radix-ui/react-avatar": "npm:1.2.6"
