@@ -2480,7 +2480,7 @@ __metadata:
     nuqs: "npm:2.9.2"
     postcss: "npm:8.5.25"
     postcss-import: "npm:16.1.1"
-    posthog-js: "npm:1.407.8"
+    posthog-js: "npm:1.408.0"
     react: "npm:19.2.8"
     react-day-picker: "npm:8.10.2"
     react-dom: "npm:19.2.8"
@@ -4019,6 +4019,13 @@ __metadata:
   version: 1.398.0
   resolution: "@posthog/types@npm:1.398.0"
   checksum: 10c0/72f5aaa51373e1ccbfa99981dca9ac22465661c37b8d14099e2b6463706605f8dd5909bb6967bd92686713bd1e698bd931235e57f2901cc0ee4242d1d030f3d5
+  languageName: node
+  linkType: hard
+
+"@posthog/types@npm:^1.399.0":
+  version: 1.399.0
+  resolution: "@posthog/types@npm:1.399.0"
+  checksum: 10c0/c779b3407d6cbc767f2971fd7200121e3d61a38efe8cdb07e77dd22095b7222f7c61e1c2639d033b6f05a40716aab1345f4bc0c684e738f0c901c28a0524daf0
   languageName: node
   linkType: hard
 
@@ -11755,20 +11762,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-js@npm:1.407.8":
-  version: 1.407.8
-  resolution: "posthog-js@npm:1.407.8"
+"posthog-js@npm:1.408.0":
+  version: 1.408.0
+  resolution: "posthog-js@npm:1.408.0"
   dependencies:
     "@posthog/browser-common": "npm:^0.2.4"
     "@posthog/core": "npm:^1.45.2"
-    "@posthog/types": "npm:^1.398.0"
+    "@posthog/types": "npm:^1.399.0"
     core-js: "npm:^3.49.0"
     dompurify: "npm:^3.3.2"
     fflate: "npm:^0.4.8"
     preact: "npm:^10.29.3"
     query-selector-shadow-dom: "npm:^1.0.1"
     web-vitals: "npm:^5.3.0"
-  checksum: 10c0/201522e43b3489eb90f2c9f95d9d838a286e0acdf3bb467d4c001fef583ed5e1cf2385a257130eb8a311165f9708344052414b88fc0f068f0887a4664a253bad
+  checksum: 10c0/148e929533e7032d63e9a0f7a0dc54e62d845b8a7be8cbf0e373748fd609f475356b08297a4752410d64aaf0b43970585bd1204bbd692050c35abfba7cadd2c2
   languageName: node
   linkType: hard
 
