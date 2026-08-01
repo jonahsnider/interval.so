@@ -2413,7 +2413,7 @@ __metadata:
     hot-hook: "npm:1.0.0"
     pino-pretty: "npm:13.1.3"
     postgres: "npm:3.4.9"
-    posthog-node: "npm:5.46.1"
+    posthog-node: "npm:5.47.2"
     prettier: "npm:3.9.6"
     reflect-metadata: "npm:0.2.2"
     rxjs: "npm:7.8.2"
@@ -3997,15 +3997,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@posthog/core@npm:^1.45.1":
-  version: 1.45.1
-  resolution: "@posthog/core@npm:1.45.1"
-  dependencies:
-    "@posthog/types": "npm:^1.398.0"
-  checksum: 10c0/57fb318e05e18efb9493706ed344918110f0ee19421871a59ffeb8872e68c0b8d1eb300da0bb193369a4cf0045df44d79ebb59ce70ddba96e6885d775a54f915
-  languageName: node
-  linkType: hard
-
 "@posthog/core@npm:^1.45.3, @posthog/core@npm:^1.46.0":
   version: 1.46.0
   resolution: "@posthog/core@npm:1.46.0"
@@ -4015,10 +4006,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@posthog/types@npm:^1.398.0":
-  version: 1.398.0
-  resolution: "@posthog/types@npm:1.398.0"
-  checksum: 10c0/72f5aaa51373e1ccbfa99981dca9ac22465661c37b8d14099e2b6463706605f8dd5909bb6967bd92686713bd1e698bd931235e57f2901cc0ee4242d1d030f3d5
+"@posthog/core@npm:^1.46.1":
+  version: 1.46.1
+  resolution: "@posthog/core@npm:1.46.1"
+  dependencies:
+    "@posthog/types": "npm:^1.399.0"
+  checksum: 10c0/cf8cbab67429c937ef10afcf104d90d6bec66099047af4c874ccf1aa101dea9ecda0ed675025186c3580e44f52d3c276e83d516fd559e718706b1df0492ccec9
   languageName: node
   linkType: hard
 
@@ -11743,17 +11736,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-node@npm:5.46.1":
-  version: 5.46.1
-  resolution: "posthog-node@npm:5.46.1"
+"posthog-node@npm:5.47.2":
+  version: 5.47.2
+  resolution: "posthog-node@npm:5.47.2"
   dependencies:
-    "@posthog/core": "npm:^1.45.1"
+    "@posthog/core": "npm:^1.46.1"
   peerDependencies:
     rxjs: ^7.0.0
   peerDependenciesMeta:
     rxjs:
       optional: true
-  checksum: 10c0/723cd8341b5e70c5c0b5da38fe0bf87168483829dc67e51576e0e3529f21a3384cc97d8dda31177e4228d69049c68b60c6eb91ceb71b406e8a48e51ffcda0ef1
+  checksum: 10c0/ffbaf643087d91e4e887cfafa1ecd91fbd49744aabc6a65334f08ad48ca3ceab02104498e4bcdb58d3a5e26c11bf5278268c1a63e64df76168836ebb4d4a7481
   languageName: node
   linkType: hard
 
