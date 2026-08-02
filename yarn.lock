@@ -2400,7 +2400,7 @@ __metadata:
     "@simplewebauthn/server": "npm:13.3.2"
     "@trpc/server": "npm:11.18.0"
     "@types/node": "npm:24.13.3"
-    "@types/pg": "npm:8.20.0"
+    "@types/pg": "npm:8.20.2"
     "@types/ws": "npm:8.18.1"
     "@vinejs/vine": "npm:4.4.0"
     convert: "npm:7.0.2"
@@ -6376,14 +6376,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pg@npm:8.20.0":
-  version: 8.20.0
-  resolution: "@types/pg@npm:8.20.0"
+"@types/pg@npm:8.20.2":
+  version: 8.20.2
+  resolution: "@types/pg@npm:8.20.2"
   dependencies:
     "@types/node": "npm:*"
     pg-protocol: "npm:*"
     pg-types: "npm:^2.2.0"
-  checksum: 10c0/c8b5aa794ea074aa20d0c1ef6c721ce0fe16f2c084d0ccc32b7f12909a08ec969e6b01a094ce8e7019cc425381c4b59f261bd0133daf0c6d4aca5c6c492e8312
+  checksum: 10c0/e735264620f8c0ca08b560f8dad3e11a641a1b09327551084fbbbbd142e1635582fbc62e3c5d491165ff3d3bc9c6ddf815c8e3e2a77fc7ce700c51d457f4a312
   languageName: node
   linkType: hard
 
