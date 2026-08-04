@@ -2480,7 +2480,7 @@ __metadata:
     nuqs: "npm:2.9.4"
     postcss: "npm:8.5.25"
     postcss-import: "npm:16.1.1"
-    posthog-js: "npm:1.410.1"
+    posthog-js: "npm:1.410.4"
     react: "npm:19.2.8"
     react-day-picker: "npm:8.10.2"
     react-dom: "npm:19.2.8"
@@ -4006,21 +4006,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@posthog/core@npm:^1.46.3":
-  version: 1.46.3
-  resolution: "@posthog/core@npm:1.46.3"
-  dependencies:
-    "@posthog/types": "npm:^1.400.0"
-  checksum: 10c0/96d9f397c9351ebd0cd37c2f9e7c63ebe45df2adbf7e4d7ba809f693a772998651e65392d9be4e5d47846b8f95692b15b3294f45203b7ee16e7f641895f49f97
-  languageName: node
-  linkType: hard
-
 "@posthog/core@npm:^1.46.4":
   version: 1.46.4
   resolution: "@posthog/core@npm:1.46.4"
   dependencies:
     "@posthog/types": "npm:^1.400.0"
   checksum: 10c0/1f2b91202c843bbe1166ce5fca7086a180526ad97f9610783ebf8f17571e8954f2a5e3602359dd48f0f463fdb55a3cbcff0705e3d339413ff1a04deb863d6011
+  languageName: node
+  linkType: hard
+
+"@posthog/core@npm:^1.46.5":
+  version: 1.46.5
+  resolution: "@posthog/core@npm:1.46.5"
+  dependencies:
+    "@posthog/types": "npm:^1.400.0"
+  checksum: 10c0/00e7085fd3022fbeb796254c6dc209e631eb6d41090251feec61fd7d5fe835ee99ccaee19d188dee50abfcf32dea9693b2fa0464e0c4ff0118bcc8d2fbe91a59
   languageName: node
   linkType: hard
 
@@ -11735,12 +11735,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-js@npm:1.410.1":
-  version: 1.410.1
-  resolution: "posthog-js@npm:1.410.1"
+"posthog-js@npm:1.410.4":
+  version: 1.410.4
+  resolution: "posthog-js@npm:1.410.4"
   dependencies:
     "@posthog/browser-common": "npm:^0.3.1"
-    "@posthog/core": "npm:^1.46.3"
+    "@posthog/core": "npm:^1.46.5"
     "@posthog/types": "npm:^1.400.0"
     core-js: "npm:^3.49.0"
     dompurify: "npm:^3.3.2"
@@ -11748,7 +11748,7 @@ __metadata:
     preact: "npm:^10.29.3"
     query-selector-shadow-dom: "npm:^1.0.1"
     web-vitals: "npm:^5.3.0"
-  checksum: 10c0/d7266729f72b000015c4a79f02604afaa859106683c6c0965ea0ea7662ca60473d609fab03cf52ac2cf4800c98d97da62742fa6224553024bd45cc5e1d4061c9
+  checksum: 10c0/b6ac61b48b92ffe4352fa82e1b36b5227a93a41c93dda3dcfd57eff18fbfdd201c9294b8b6adfe496821c1f3a43476d3e408b9e68258e3a8edfc2d54452ee7d2
   languageName: node
   linkType: hard
 
