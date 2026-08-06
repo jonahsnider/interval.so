@@ -2480,7 +2480,7 @@ __metadata:
     nuqs: "npm:2.9.4"
     postcss: "npm:8.5.25"
     postcss-import: "npm:16.1.1"
-    posthog-js: "npm:1.412.0"
+    posthog-js: "npm:1.412.1"
     react: "npm:19.2.8"
     react-day-picker: "npm:8.10.2"
     react-dom: "npm:19.2.8"
@@ -4006,15 +4006,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@posthog/core@npm:^1.46.7":
-  version: 1.46.7
-  resolution: "@posthog/core@npm:1.46.7"
-  dependencies:
-    "@posthog/types": "npm:^1.401.0"
-  checksum: 10c0/5d1bb056e50deb19f0a2311fb9bcec505e30f7a514788bbe6659ed964b83506eead759d496abdde1760100677fd58bf8dc5f5fb8ebc16929458fd9cd407459aa
-  languageName: node
-  linkType: hard
-
 "@posthog/core@npm:^1.46.8":
   version: 1.46.8
   resolution: "@posthog/core@npm:1.46.8"
@@ -4028,13 +4019,6 @@ __metadata:
   version: 1.399.0
   resolution: "@posthog/types@npm:1.399.0"
   checksum: 10c0/c779b3407d6cbc767f2971fd7200121e3d61a38efe8cdb07e77dd22095b7222f7c61e1c2639d033b6f05a40716aab1345f4bc0c684e738f0c901c28a0524daf0
-  languageName: node
-  linkType: hard
-
-"@posthog/types@npm:^1.401.0":
-  version: 1.401.0
-  resolution: "@posthog/types@npm:1.401.0"
-  checksum: 10c0/e8f66daff112efe39717b7f2ce4e6c06566dd07bdc836a71601698a88891c5e22344016742ad980866c51d360b4ecd3f182c61311e43a9883c09c1c229b96300
   languageName: node
   linkType: hard
 
@@ -8206,15 +8190,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dompurify@npm:^3.3.2":
-  version: 3.4.6
-  resolution: "dompurify@npm:3.4.6"
+"dompurify@npm:^3.4.12":
+  version: 3.4.13
+  resolution: "dompurify@npm:3.4.13"
   dependencies:
     "@types/trusted-types": "npm:^2.0.7"
   dependenciesMeta:
     "@types/trusted-types":
       optional: true
-  checksum: 10c0/3af8de7c5cec913f08038682982cbcb2bfc33d0d48806d95a23e9f6f6913b74414a8b8a63e2b71de2039af558ccad8208d67d2bb7ab9ec244178340e99cd5ed9
+  checksum: 10c0/9c2a1a71e1a1d8b77953db7a39ffc935ef4ed4f10fe40770232128c2cbfd4c3dc677d3d7bae51eb24cc52d9ff3548612dc540ecb4343e89b26e809d2be2e0cfe
   languageName: node
   linkType: hard
 
@@ -11742,21 +11726,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-js@npm:1.412.0":
-  version: 1.412.0
-  resolution: "posthog-js@npm:1.412.0"
+"posthog-js@npm:1.412.1":
+  version: 1.412.1
+  resolution: "posthog-js@npm:1.412.1"
   dependencies:
     "@posthog/browser-common": "npm:^0.3.1"
-    "@posthog/core": "npm:^1.46.7"
-    "@posthog/types": "npm:^1.401.0"
+    "@posthog/core": "npm:^1.46.8"
+    "@posthog/types": "npm:^1.401.1"
     core-js: "npm:^3.49.0"
-    dompurify: "npm:^3.3.2"
+    dompurify: "npm:^3.4.12"
     fflate: "npm:^0.4.8"
     preact: "npm:^10.29.3"
     query-selector-shadow-dom: "npm:^1.0.1"
     web-vitals: "npm:^5.3.0"
     web-vitals-soft-navs: "npm:web-vitals@6.0.0"
-  checksum: 10c0/e854cc357ad8056a21337d291c706275fdb0ddd4b56298adc0b5505ff89b36269845cf91ad53f86aa6d1b6c536e94e3f0050ae0ff9d6a90b534c282582bd41cb
+  checksum: 10c0/31b849f7969df1e8c5c6aa103cc17cd371f530043ed6f0f1b6f7cbf0187136487d01a2adcb63fe4c734cd6844dfe8efb6a986bef41160f83392a9c9b7985ead6
   languageName: node
   linkType: hard
 
