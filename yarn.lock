@@ -2413,7 +2413,7 @@ __metadata:
     hot-hook: "npm:1.0.0"
     pino-pretty: "npm:13.1.3"
     postgres: "npm:3.4.9"
-    posthog-node: "npm:5.47.11"
+    posthog-node: "npm:5.48.0"
     prettier: "npm:3.9.6"
     reflect-metadata: "npm:0.2.2"
     rxjs: "npm:7.8.2"
@@ -11763,9 +11763,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-node@npm:5.47.11":
-  version: 5.47.11
-  resolution: "posthog-node@npm:5.47.11"
+"posthog-node@npm:5.48.0":
+  version: 5.48.0
+  resolution: "posthog-node@npm:5.48.0"
   dependencies:
     "@posthog/core": "npm:^1.46.8"
   peerDependencies:
@@ -11773,7 +11773,7 @@ __metadata:
   peerDependenciesMeta:
     rxjs:
       optional: true
-  checksum: 10c0/f113b46c911cb61bf2a859b9e8fe3b25e471b3eac0028eb3ed44e66c2563f0183ea0a67e241a6676665ad36cd01dda0b2c1c7dde28e4711b864f4e830f53e7dd
+  checksum: 10c0/355136f862b55d2a294718cb0cc9b803c0656703d864614ddb5833951b0421dfcf8094aac2905e6815d863f0f3efd2c3cad72377ae7e04cbf3a93752bb5265fc
   languageName: node
   linkType: hard
 
