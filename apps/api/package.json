@@ -62,7 +62,7 @@
 		"zod": "4.4.3"
 	},
 	"devDependencies": {
-		"@adonisjs/assembler": "8.4.0",
+		"@adonisjs/assembler": "8.5.0",
 		"@adonisjs/tsconfig": "2.0.0",
 		"@poppinss/ts-exec": "1.4.4",
 		"@types/node": "24.13.3",
