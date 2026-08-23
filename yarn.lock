@@ -24,11 +24,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/application@npm:^9.0.1":
-  version: 9.0.1
-  resolution: "@adonisjs/application@npm:9.0.1"
+"@adonisjs/application@npm:^9.1.0":
+  version: 9.1.0
+  resolution: "@adonisjs/application@npm:9.1.0"
   dependencies:
-    "@poppinss/hooks": "npm:^7.3.0"
+    "@poppinss/hooks": "npm:^7.3.1"
     "@poppinss/macroable": "npm:^1.1.2"
     "@poppinss/utils": "npm:^7.0.1"
     glob-parent: "npm:^6.0.2"
@@ -40,7 +40,7 @@ __metadata:
   peerDependenciesMeta:
     "@adonisjs/assembler":
       optional: true
-  checksum: 10c0/a3d37a1a530c4baf776bb206cff4fde7559b5f8b4ee942451f239845cf6a173577f979b5b35a39637a2277f5da35dd7b49f938b8e7b19e2c21654ff07cbcb732
+  checksum: 10c0/35c1536e896087362e7232b9f31dfaec34beb629045d90c5a839def6ae3d6b1a06608a3458ff0523a73cedefcecbdea5d41a2512511094a8db895ff6c463aadf
   languageName: node
   linkType: hard
 
@@ -158,12 +158,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/core@npm:7.4.0":
-  version: 7.4.0
-  resolution: "@adonisjs/core@npm:7.4.0"
+"@adonisjs/core@npm:7.5.0":
+  version: 7.5.0
+  resolution: "@adonisjs/core@npm:7.5.0"
   dependencies:
     "@adonisjs/ace": "npm:^14.1.0"
-    "@adonisjs/application": "npm:^9.0.1"
+    "@adonisjs/application": "npm:^9.1.0"
     "@adonisjs/bodyparser": "npm:^11.0.4"
     "@adonisjs/config": "npm:^6.1.0"
     "@adonisjs/env": "npm:^7.0.0"
@@ -211,7 +211,7 @@ __metadata:
       optional: true
   bin:
     adonis-kit: build/toolkit/main.js
-  checksum: 10c0/9cc4363fa95652fa9c424df2e7a0cdfc4f313005ebd0d0b07074b751931d568a69e0ed4b58651193e493d39c5262974633c43a0410d391d03923e3feda7c50b7
+  checksum: 10c0/3cf06dcb48f62948ba4697659814c809f7946b827a89b9762d647b8b5d5c705b98a4c485c344388879c41fe5fc867959551262224537ff0a099b8a9ad3aafe01
   languageName: node
   linkType: hard
 
@@ -2387,7 +2387,7 @@ __metadata:
     "@adonisjs/assembler": "npm:8.4.0"
     "@adonisjs/auth": "npm:10.1.0"
     "@adonisjs/bouncer": "npm:4.0.0"
-    "@adonisjs/core": "npm:7.4.0"
+    "@adonisjs/core": "npm:7.5.0"
     "@adonisjs/cors": "npm:3.0.0"
     "@adonisjs/redis": "npm:10.0.0"
     "@adonisjs/session": "npm:8.1.0"
@@ -3841,6 +3841,13 @@ __metadata:
   version: 7.3.0
   resolution: "@poppinss/hooks@npm:7.3.0"
   checksum: 10c0/e5c946327ba312139bc17ef32d3fd5cf7dec31f91dee1aa336263615456fbab075e790a3ed9c9038c4bb0d78f33c5788c8fbe0598ede8937bafa9503277e5537
+  languageName: node
+  linkType: hard
+
+"@poppinss/hooks@npm:^7.3.1":
+  version: 7.3.1
+  resolution: "@poppinss/hooks@npm:7.3.1"
+  checksum: 10c0/d5552b6502bd162a11b3766ef7f870d4232bda214ccc2d447a45b7c800a8c43170bc13d29c6243ca398639eaea962c910b844ea5af9389571141c42d4dd5e00b
   languageName: node
   linkType: hard
 
