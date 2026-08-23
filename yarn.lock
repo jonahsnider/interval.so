@@ -128,11 +128,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adonisjs/bouncer@npm:4.0.0":
-  version: 4.0.0
-  resolution: "@adonisjs/bouncer@npm:4.0.0"
+"@adonisjs/bouncer@npm:4.0.1":
+  version: 4.0.1
+  resolution: "@adonisjs/bouncer@npm:4.0.1"
   dependencies:
-    "@poppinss/utils": "npm:^7.0.0"
+    "@poppinss/utils": "npm:^7.0.1"
   peerDependencies:
     "@adonisjs/assembler": ^8.0.0-next.26 || ^8.0.0
     "@adonisjs/core": ^7.0.0-next.16 || ^7.0.0
@@ -145,7 +145,7 @@ __metadata:
       optional: true
     edge.js:
       optional: true
-  checksum: 10c0/091c04e58024513fde4289acba0daf54f9b24337fa0906dd08ee1c26f41d937261debd9936e746f5367d8797ac151537d38b548995bd1b5801e4bc5ab4bd990c
+  checksum: 10c0/4600be0737349cd6131e914f7842251a4fcd638442bf7333547d91f7568c72f74c0c97fa5a1057fb8ad66f2ab6110438dc1a7d85d4ca2d0b80970b327c17bbaa
   languageName: node
   linkType: hard
 
@@ -2386,7 +2386,7 @@ __metadata:
   dependencies:
     "@adonisjs/assembler": "npm:8.4.0"
     "@adonisjs/auth": "npm:10.1.0"
-    "@adonisjs/bouncer": "npm:4.0.0"
+    "@adonisjs/bouncer": "npm:4.0.1"
     "@adonisjs/core": "npm:7.5.0"
     "@adonisjs/cors": "npm:3.0.0"
     "@adonisjs/redis": "npm:10.0.0"
