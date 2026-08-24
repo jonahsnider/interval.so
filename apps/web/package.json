@@ -39,7 +39,7 @@
 		"@trpc/react-query": "11.18.0",
 		"@types/node": "24.13.3",
 		"@types/react": "19.2.18",
-		"@types/react-dom": "19.2.4",
+		"@types/react-dom": "19.2.5",
 		"@vercel/speed-insights": "2.0.0",
 		"autoprefixer": "10.5.4",
 		"chrono-node": "2.10.1",
