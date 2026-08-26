@@ -2481,7 +2481,7 @@ __metadata:
     nuqs: "npm:2.10.1"
     postcss: "npm:8.5.26"
     postcss-import: "npm:16.2.0"
-    posthog-js: "npm:1.419.0"
+    posthog-js: "npm:1.419.2"
     react: "npm:19.2.8"
     react-day-picker: "npm:8.10.2"
     react-dom: "npm:19.2.8"
@@ -11829,9 +11829,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-js@npm:1.419.0":
-  version: 1.419.0
-  resolution: "posthog-js@npm:1.419.0"
+"posthog-js@npm:1.419.2":
+  version: 1.419.2
+  resolution: "posthog-js@npm:1.419.2"
   dependencies:
     "@posthog/browser-common": "npm:^0.5.2"
     "@posthog/core": "npm:^1.48.11"
@@ -11843,7 +11843,15 @@ __metadata:
     query-selector-shadow-dom: "npm:^1.0.1"
     web-vitals: "npm:^5.3.0"
     web-vitals-soft-navs: "npm:web-vitals@6.0.0"
-  checksum: 10c0/754fcccf4a9f7d8d0b1df88a132469502f1801c9a6fd69ead7c85838e14ae7eacbe13bcd49b5f599cfc6f9e83425536624f7d3b457d524c6e9a6869f743a7640
+  peerDependencies:
+    "@types/react": ">=16.8.0"
+    react: ">=16.8.0"
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    react:
+      optional: true
+  checksum: 10c0/760ab3a7b5c9114cd5c843318dae306042dc629a2321a4e60b2d47cc06a131cea0ab25d53e265d8cb3a4864945dfd91156e76c488b769db779309e8aaca5ab07
   languageName: node
   linkType: hard
 
