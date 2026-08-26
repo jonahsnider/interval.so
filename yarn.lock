@@ -2481,7 +2481,7 @@ __metadata:
     nuqs: "npm:2.10.1"
     postcss: "npm:8.5.26"
     postcss-import: "npm:16.2.0"
-    posthog-js: "npm:1.419.2"
+    posthog-js: "npm:1.419.4"
     react: "npm:19.2.8"
     react-day-picker: "npm:8.10.2"
     react-dom: "npm:19.2.8"
@@ -3995,13 +3995,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@posthog/browser-common@npm:^0.5.2":
-  version: 0.5.2
-  resolution: "@posthog/browser-common@npm:0.5.2"
+"@posthog/browser-common@npm:^0.6.0":
+  version: 0.6.0
+  resolution: "@posthog/browser-common@npm:0.6.0"
   dependencies:
     "@posthog/core": "npm:^1.48.11"
-    "@posthog/types": "npm:^1.405.3"
-  checksum: 10c0/0003509f68515b1861e26fd384ad3cc8eab0b924748d181bde98101f78ea25ea80fa2295e664751feedee3721473341a882d854702d5a0db6f8f4980e4e82e55
+    "@posthog/types": "npm:^1.406.1"
+  checksum: 10c0/893a6c83fad11327ada910fcf21d82260aa797126888be01f1b6c3e8bd1df740ea7e55ba1011c27f4e4a053650273dc162e5f79c9dac5115fd9df4955bf76ed0
   languageName: node
   linkType: hard
 
@@ -4021,10 +4021,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@posthog/types@npm:^1.406.0":
-  version: 1.406.0
-  resolution: "@posthog/types@npm:1.406.0"
-  checksum: 10c0/ac14ab516d9a49dfbc3cf16d5788a3f42270484d37a82576023cf5c53f091e6968e2633e634bb3c145ddd436e2b700927a94a8c68c47902a423c2cb64e86d784
+"@posthog/types@npm:^1.406.1":
+  version: 1.406.1
+  resolution: "@posthog/types@npm:1.406.1"
+  checksum: 10c0/f0a1a7a3b3cd9f97ace07356137accb43e7a71f0a8b4a6f15b203975e2238d79a6d1e6aa251cdba867c45b4124c4a84a231ee5d3a7e4b87df874e869ffde6f36
   languageName: node
   linkType: hard
 
@@ -11829,13 +11829,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-js@npm:1.419.2":
-  version: 1.419.2
-  resolution: "posthog-js@npm:1.419.2"
+"posthog-js@npm:1.419.4":
+  version: 1.419.4
+  resolution: "posthog-js@npm:1.419.4"
   dependencies:
-    "@posthog/browser-common": "npm:^0.5.2"
+    "@posthog/browser-common": "npm:^0.6.0"
     "@posthog/core": "npm:^1.48.11"
-    "@posthog/types": "npm:^1.406.0"
+    "@posthog/types": "npm:^1.406.1"
     core-js: "npm:^3.49.0"
     dompurify: "npm:^3.4.13"
     fflate: "npm:^0.4.8"
@@ -11851,7 +11851,7 @@ __metadata:
       optional: true
     react:
       optional: true
-  checksum: 10c0/760ab3a7b5c9114cd5c843318dae306042dc629a2321a4e60b2d47cc06a131cea0ab25d53e265d8cb3a4864945dfd91156e76c488b769db779309e8aaca5ab07
+  checksum: 10c0/49d11e8fd795acd6f274fe5fca996408295b7f9567a345910d57d829e635994c13e2a213ca5f7ea992843062bdd8894645bf5146bce760b4da683bcf4edc8f76
   languageName: node
   linkType: hard
 
