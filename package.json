@@ -21,7 +21,7 @@
 		"@biomejs/biome": "2.5.10",
 		"prettier": "3.9.6",
 		"prettier-plugin-packagejson": "3.0.2",
-		"turbo": "2.10.11",
+		"turbo": "2.10.12",
 		"vercel": "59.5.0"
 	},
 	"packageManager": "yarn@4.18.0",
