@@ -1,4 +1,4 @@
-import { defineRailway, github, group, postgres, preserve, project, redis, service, volume } from 'railway/iac';
+import { database, defineRailway, github, group, preserve, project, redis, service, volume } from 'railway/iac';
 
 const GB = 1e9;
 
@@ -11,7 +11,12 @@ export default defineRailway(() => {
 			containers: { cpu: 1, memoryBytes: 1 * GB, diskBytes: 100 * GB },
 		},
 	};
-	const Postgres = postgres('Postgres', { region });
+	const Postgres = database('Postgres', 'postgres', {
+		image: 'ghcr.io/railwayapp-templates/postgres-ssl:16',
+		output: 'DATABASE_URL',
+		defaultMountPath: '/var/lib/postgresql/data',
+		region,
+	});
 	Postgres.deploy = {
 		limitOverride: {
 			containers: { cpu: 1, memoryBytes: 1 * GB, diskBytes: 100 * GB },
