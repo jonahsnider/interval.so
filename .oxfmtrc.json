@@ -1,0 +1,17 @@
+{
+	"$schema": "./node_modules/oxfmt/configuration_schema.json",
+	"singleQuote": true,
+	"jsxSingleQuote": true,
+	"useTabs": true,
+	"printWidth": 120,
+	"sortPackageJson": {},
+	"ignorePatterns": [
+		"pnpm-lock.yaml",
+		"**/.next",
+		"**/.adonisjs",
+		"**/.vercel",
+		"apps/api/build",
+		"**/.turbo",
+		"**/next-env.d.ts"
+	]
+}

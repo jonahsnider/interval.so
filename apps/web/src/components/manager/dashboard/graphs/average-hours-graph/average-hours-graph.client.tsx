@@ -69,12 +69,10 @@ export function AverageHoursGraphClient({ dataPromise, period, team }: Props) {
 
 	const chartData = useMemo(
 		() =>
-			data.map(
-				(datum): ChartDatum => ({
-					timestamp: datum.date.getTime(),
-					averageHours: toDigits(datum.averageHours, 1),
-				}),
-			),
+			data.map((datum): ChartDatum => ({
+				timestamp: datum.date.getTime(),
+				averageHours: toDigits(datum.averageHours, 1),
+			})),
 		[data],
 	);
 

@@ -78,12 +78,10 @@ export function UniqueMembersGraphClient({ dataPromise, period, maxMemberCountPr
 
 	const chartData = useMemo(
 		() =>
-			data.map(
-				(datum): ChartDatum => ({
-					timestamp: datum.date.getTime(),
-					memberCount: datum.memberCount,
-				}),
-			),
+			data.map((datum): ChartDatum => ({
+				timestamp: datum.date.getTime(),
+				memberCount: datum.memberCount,
+			})),
 		[data],
 	);
 

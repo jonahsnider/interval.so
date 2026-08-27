@@ -1,0 +1,15 @@
+{
+	"$schema": "./node_modules/oxlint/configuration_schema.json",
+	"ignorePatterns": [
+		"**/.next",
+		"**/.adonisjs",
+		"**/.vercel",
+		"apps/api/build",
+		"**/.turbo",
+		"**/next-env.d.ts",
+		"apps/api/app/user/schemas/postgres_timezones.ts"
+	],
+	"rules": {
+		"no-unused-vars": ["warn", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }]
+	}
+}

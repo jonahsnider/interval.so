@@ -79,7 +79,7 @@ function EndMeetingAlertContent({
 				<AlertDialogCancel>Cancel</AlertDialogCancel>
 				<Tooltip open={date === undefined ? undefined : false}>
 					<TooltipTrigger asChild={true}>
-						{/* biome-ignore lint/a11y/noNoninteractiveTabindex: This is interactive */}
+						{/* oxlint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- This is interactive */}
 						<span tabIndex={0}>
 							<EndMeetingDialogAction date={date} team={team} />
 						</span>

@@ -34,7 +34,7 @@ export function EndMeetingButtonClient({ width = 'auto', team, enabledPromise, m
 		<EndMeetingAlert team={team} meetingStart={meetingStart}>
 			<Tooltip>
 				<TooltipTrigger asChild={true}>
-					{/* biome-ignore lint/a11y/noNoninteractiveTabindex: This is interactive */}
+					{/* oxlint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- This is interactive */}
 					<span tabIndex={0} className={clsx({ 'w-full': width === 'full' })}>
 						<EndMeetingAlertTrigger>
 							<Button className='w-full' variant='outline' disabled={!enabled}>

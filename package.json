@@ -7,23 +7,18 @@
 	"scripts": {
 		"build": "turbo run build",
 		"dev": "turbo run dev",
-		"format": "prettier --check .",
-		"format:write": "pnpm format --write",
-		"lint": "biome check .",
-		"lint:fix": "biome check . --write --unsafe",
+		"format": "oxfmt --check",
+		"format:write": "oxfmt --write",
+		"lint": "oxlint",
+		"lint:fix": "oxlint --fix --fix-suggestions --fix-dangerously",
 		"test": "pnpm lint && pnpm format && turbo run build type-check",
 		"type-check": "turbo run type-check"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.5.10",
-		"prettier": "3.9.6",
-		"prettier-plugin-packagejson": "3.0.2",
+		"oxfmt": "0.65.0",
+		"oxlint": "1.80.0",
 		"turbo": "2.10.12",
 		"vercel": "59.5.0"
-	},
-	"packageManager": "pnpm@12.0.0",
-	"engines": {
-		"node": "24.x"
 	},
 	"devEngines": {
 		"runtime": {
@@ -31,5 +26,9 @@
 			"version": "24.x",
 			"onFail": "download"
 		}
-	}
+	},
+	"engines": {
+		"node": "24.x"
+	},
+	"packageManager": "pnpm@12.0.0"
 }

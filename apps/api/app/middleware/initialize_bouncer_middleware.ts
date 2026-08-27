@@ -36,11 +36,11 @@ export default class InitializeBouncerMiddleware {
 }
 
 class BouncerWithUser<
-	// biome-ignore lint/suspicious/noExplicitAny: This is taken from AdonisJS typings
+	// oxlint-disable-next-line typescript/no-explicit-any -- This is taken from AdonisJS typings
 	User extends Record<any, any>,
-	// biome-ignore lint/suspicious/noExplicitAny: This is taken from AdonisJS typings
+	// oxlint-disable-next-line typescript/no-explicit-any -- This is taken from AdonisJS typings
 	Abilities extends Record<string, BouncerAbility<any>> | undefined = undefined,
-	// biome-ignore lint/suspicious/noExplicitAny: This is taken from AdonisJS typings
+	// oxlint-disable-next-line typescript/no-explicit-any -- This is taken from AdonisJS typings
 	Policies extends Record<string, LazyImport<Constructor<any>>> | undefined = undefined,
 > extends Bouncer<User, Abilities, Policies> {
 	readonly user: User | null;

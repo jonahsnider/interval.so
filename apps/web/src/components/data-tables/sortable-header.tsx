@@ -30,13 +30,13 @@ const MotionArrowUpIcon = motion.create(ArrowUpIcon);
 const MotionArrowDownIcon = motion.create(ArrowDownIcon);
 const MotionChevronUpDownIcon = motion.create(ChevronUpDownIcon);
 
-// biome-ignore lint/suspicious/noExplicitAny: This is in a generic type
+// oxlint-disable-next-line typescript/no-explicit-any -- This is in a generic type
 type Props<T extends Column<any, any>> = PropsWithChildren<{
 	column: T;
 	side?: 'left' | 'right';
 }>;
 
-// biome-ignore lint/suspicious/noExplicitAny: This is in a generic type
+// oxlint-disable-next-line typescript/no-explicit-any -- This is in a generic type
 export function SortableHeader<T extends Column<any, any>>({ column, children, side = 'left' }: Props<T>) {
 	return (
 		<div className={clsx({ 'text-right': side === 'right' })}>

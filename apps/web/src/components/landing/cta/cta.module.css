@@ -1,5 +1,5 @@
 .cta {
-	background-image: url("/home/cta/text-segment.svg"), url("/home/cta/text-segment.svg");
+	background-image: url('/home/cta/text-segment.svg'), url('/home/cta/text-segment.svg');
 	background-size:
 		127px 64px,
 		127px 64px;

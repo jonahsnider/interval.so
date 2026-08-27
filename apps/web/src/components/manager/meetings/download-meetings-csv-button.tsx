@@ -85,11 +85,11 @@ function meetingsToCsv(meetings: TeamMeetingSchema[]) {
 
 	const memberRows: string[][] = memberToAttendance
 		.entries()
-		// biome-ignore lint/style/noNonNullAssertion: This is safe
+		// oxlint-disable-next-line typescript/no-non-null-assertion -- This is safe
 		.map(([memberId, attendance]) => [memberIdToName.get(memberId)!, ...attendance])
 		.toArray();
 
-	// biome-ignore lint/style/noNonNullAssertion: This is safe
+	// oxlint-disable-next-line typescript/no-non-null-assertion -- This is safe
 	memberRows.sort(([a], [b]) => a!.localeCompare(b!));
 
 	const lines = memberRows.map((columns) => columns.join(','));
