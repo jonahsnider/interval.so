@@ -429,8 +429,8 @@ importers:
         specifier: 16.2.0
         version: 16.2.0(postcss@8.5.26)
       posthog-js:
-        specifier: 1.420.0
-        version: 1.420.0(@types/react@19.2.18)(react@19.2.8)
+        specifier: 1.421.0
+        version: 1.421.0(@types/react@19.2.18)(react@19.2.8)
       react:
         specifier: 19.2.8
         version: 19.2.8
@@ -2887,6 +2887,9 @@ packages:
 
   '@posthog/types@1.406.2':
     resolution: {integrity: sha512-RNNoKD7+ZD2v5uzIDp1SOKK1CseZ+YgNPRYCoPlVKuu+wTB/Tb41JCprMjX9E24gPcsdDg8B47dsEsmO0nwEfw==}
+
+  '@posthog/types@1.407.0':
+    resolution: {integrity: sha512-7J/aFVi7JWFt/ekGVsMFvkTcADoE9MTNf1N9cpBSMUQ/SPLiBjbg386Fzk5OlgWG/u5OemBy4wlgD7YebqeppQ==}
 
   '@prisma/instrumentation@6.11.1':
     resolution: {integrity: sha512-mrZOev24EDhnefmnZX7WVVT7v+r9LttPRqf54ONvj6re4XMF7wFTpK2tLJi4XHB7fFp/6xhYbgRel8YV7gQiyA==}
@@ -6298,8 +6301,8 @@ packages:
     resolution: {integrity: sha512-GD3qdB0x1z9xgFI6cdRD6xu2Sp2WCOEoe3mtnyB5Ee0XrrL5Pe+e4CCnJrRMnL1zYtRDZmQQVbvOttLnKDLnaw==}
     engines: {node: '>=12'}
 
-  posthog-js@1.420.0:
-    resolution: {integrity: sha512-tIfyJhOCD177n6s5k+0thh7US2x7ZYD0rLJlOIYikDXtjpMIqeSILuZckVedlX9kuZSdpUQvRqoQZpGx4iCqbw==}
+  posthog-js@1.421.0:
+    resolution: {integrity: sha512-MXXVvAphK7rXg8bPGTBHWG/I5784wMyRev6sjjQPRXLoMy3JJcvaZuBHrlLqNLCw8r6YtD12ubNBo/2ZdaElIQ==}
     peerDependencies:
       '@types/react': '>=16.8.0'
       react: '>=16.8.0'
@@ -9058,7 +9061,7 @@ snapshots:
   '@posthog/browser-common@0.6.0':
     dependencies:
       '@posthog/core': 1.48.11
-      '@posthog/types': 1.406.1
+      '@posthog/types': 1.406.2
 
   '@posthog/core@1.48.11':
     dependencies:
@@ -9067,6 +9070,8 @@ snapshots:
   '@posthog/types@1.406.1': {}
 
   '@posthog/types@1.406.2': {}
+
+  '@posthog/types@1.407.0': {}
 
   '@prisma/instrumentation@6.11.1(@opentelemetry/api@1.9.1)(supports-color@10.2.2)':
     dependencies:
@@ -12280,11 +12285,11 @@ snapshots:
 
   postgres@3.4.9: {}
 
-  posthog-js@1.420.0(@types/react@19.2.18)(react@19.2.8):
+  posthog-js@1.421.0(@types/react@19.2.18)(react@19.2.8):
     dependencies:
       '@posthog/browser-common': 0.6.0
       '@posthog/core': 1.48.11
-      '@posthog/types': 1.406.2
+      '@posthog/types': 1.407.0
       core-js: 3.50.0
       dompurify: 3.4.14
       fflate: 0.4.9
