@@ -54,10 +54,10 @@ export default defineRailway(() => {
 			APP_KEY: preserve(),
 			COOKIE_DOMAIN: 'interval.so',
 			NODE_ENV: 'production',
-			POSTGRES_URL: db.env.DATABASE_PUBLIC_URL,
+			POSTGRES_URL: db.env.DATABASE_URL,
 			POSTHOG_HOST: 'https://us.i.posthog.com',
 			POSTHOG_KEY: preserve(),
-			REDIS_URL: cache.env.REDIS_PUBLIC_URL,
+			REDIS_URL: cache.env.REDIS_URL,
 			SENTRY_DSN_API: preserve(),
 		},
 	});
