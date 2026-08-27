@@ -1,1 +1,1 @@
-release: yarn migrate:apply
+release: pnpm --filter @interval.so/api migrate:apply

@@ -12,24 +12,19 @@ jobs:
     steps:
       - name: Checkout Git repository
         uses: actions/checkout@v7
-      - name: Setup Yarn
-        uses: yarnpkg/setup-action@main
-      - name: Setup Node.js
-        uses: actions/setup-node@v7
+      - name: Setup pnpm
+        uses: pnpm/setup@v2
         with:
-          node-version: '24.x'
-          cache: 'yarn'
-      - name: Install dependencies
-        run: yarn install --immutable
+          cache: true
       - name: Format with Prettier
         continue-on-error: true
-        run: yarn format:write
+        run: pnpm format:write
       - name: Migrate Biome schema
         continue-on-error: true
-        run: yarn biome migrate --write
+        run: pnpm biome migrate --write
       - name: Format with Biome
         continue-on-error: true
-        run: yarn lint:fix
+        run: pnpm lint:fix
       - name: Run autofix.ci
         uses: autofix-ci/action@v1
         with:
