@@ -57,12 +57,12 @@ export default defineRailway(() => {
 		networking: { privateNetworkEndpoint: 'intervalso' },
 		env: {
 			APP_KEY: preserve(),
-			COOKIE_DOMAIN: preserve(),
-			NODE_ENV: preserve(),
-			POSTGRES_URL: preserve(),
-			POSTHOG_HOST: preserve(),
+			COOKIE_DOMAIN: 'interval.so',
+			NODE_ENV: 'production',
+			POSTGRES_URL: Postgres.env.DATABASE_PUBLIC_URL,
+			POSTHOG_HOST: 'https://us.i.posthog.com',
 			POSTHOG_KEY: preserve(),
-			REDIS_URL: preserve(),
+			REDIS_URL: Redis.env.REDIS_PUBLIC_URL,
 			SENTRY_DSN_API: preserve(),
 		},
 	});
