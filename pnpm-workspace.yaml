@@ -1,0 +1,15 @@
+packages:
+  - apps/*
+
+nodeLinker: hoisted
+
+overrides:
+  react-is: ^19.0.0-rc-69d4b800-20241021
+
+allowBuilds:
+  '@sentry/cli': true
+  '@sentry/node-cpu-profiler': true
+  '@swc/core': true
+  core-js: true
+  esbuild: true
+  sharp: true

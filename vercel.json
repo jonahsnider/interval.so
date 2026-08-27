@@ -1,8 +1,8 @@
 {
 	"$schema": "https://openapi.vercel.sh/vercel.json",
-	"buildCommand": "yarn run build --filter=@interval.so/web",
+	"buildCommand": "pnpm build --filter=@interval.so/web",
 	"cleanUrls": true,
 	"framework": "nextjs",
-	"installCommand": "yarn install --immutable",
+	"installCommand": "pnpm install --frozen-lockfile",
 	"outputDirectory": "apps/web/.next"
 }

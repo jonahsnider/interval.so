@@ -8,14 +8,11 @@
 		"build": "turbo run build",
 		"dev": "turbo run dev",
 		"format": "prettier --check .",
-		"format:write": "yarn format --write",
+		"format:write": "pnpm format --write",
 		"lint": "biome check .",
 		"lint:fix": "biome check . --write --unsafe",
-		"test": "yarn lint && yarn format && turbo run build type-check",
+		"test": "pnpm lint && pnpm format && turbo run build type-check",
 		"type-check": "turbo run type-check"
-	},
-	"resolutions": {
-		"react-is": "^19.0.0-rc-69d4b800-20241021"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.5.10",
@@ -24,11 +21,15 @@
 		"turbo": "2.10.12",
 		"vercel": "59.5.0"
 	},
-	"packageManager": "yarn@4.18.0",
+	"packageManager": "pnpm@12.0.0",
 	"engines": {
 		"node": "24.x"
 	},
-	"trustedDependencies": [
-		"@biomejs/biome"
-	]
+	"devEngines": {
+		"runtime": {
+			"name": "node",
+			"version": "24.x",
+			"onFail": "download"
+		}
+	}
 }

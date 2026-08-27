@@ -5,10 +5,10 @@ name = "interval.so"
 [setup]
 script = '''
 cp $CODEX_SOURCE_TREE_PATH/.env $CODEX_WORKTREE_PATH
-yarn install
+pnpm install
 '''
 
 [[actions]]
 name = "Start dev server"
 icon = "tool"
-command = "yarn dev"
+command = "pnpm dev"
