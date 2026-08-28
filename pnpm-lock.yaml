@@ -429,8 +429,8 @@ importers:
         specifier: 16.2.0
         version: 16.2.0(postcss@8.5.26)
       posthog-js:
-        specifier: 1.422.0
-        version: 1.422.0(@types/react@19.2.18)(react@19.2.8)
+        specifier: 1.422.1
+        version: 1.422.1(@types/react@19.2.18)(react@19.2.8)
       react:
         specifier: 19.2.8
         version: 19.2.8
@@ -3006,14 +3006,14 @@ packages:
   '@poppinss/validator-lite@2.1.2':
     resolution: {integrity: sha512-UhSG1ouT6r67VbEFHK/8ax3EMZYHioew9PqGmEZjV41G15aPZi6cyhXtBVvF9xqkHMflA5V680k7bQzV0kfD5w==}
 
-  '@posthog/browser-common@0.6.0':
-    resolution: {integrity: sha512-d6yBE7VeoU3JTpaab3CaCoDCseh0Ytx7sTe0v2ZxhtHNxoKk7rdqr92+bUz9F1T2CuJO5/OTkes4HWT2VHNrTA==}
+  '@posthog/browser-common@0.6.1':
+    resolution: {integrity: sha512-dhx4CFm9FnyfJYiEGFtH5HWvhDm/6zAUPUG+euDBO8rYE92fAoBtplmxoqe6E3RD49HyOIyDJv93iBwrcxxBrQ==}
 
   '@posthog/core@1.48.12':
     resolution: {integrity: sha512-W/5d6QQD67Dq/Hhzg3lSG7fIXhbiiYGa/YwAoFI9iXKXDpaZkTmwDsEJAGPgTb2eb3lbLHXgGftuWGF2K6lU3g==}
 
-  '@posthog/core@1.49.0':
-    resolution: {integrity: sha512-+Ejf6sZ2wI9F37rOrPxoI90mydOw5O/YKjAgWMkkuuQRHGwyfXugxsD/+CVI4Yymg8LujHr0C/KXJvWDJYgwWQ==}
+  '@posthog/core@1.49.1':
+    resolution: {integrity: sha512-jdZh85tG56OXLH881CVwBZyiXCPPaZasfYeWwm9kVUvxC/Rb+lz7wYN9GuqSEmNPJgVnK4v8wS0bCaFc3OmVEA==}
 
   '@posthog/types@1.407.0':
     resolution: {integrity: sha512-7J/aFVi7JWFt/ekGVsMFvkTcADoE9MTNf1N9cpBSMUQ/SPLiBjbg386Fzk5OlgWG/u5OemBy4wlgD7YebqeppQ==}
@@ -6435,8 +6435,8 @@ packages:
     resolution: {integrity: sha512-GD3qdB0x1z9xgFI6cdRD6xu2Sp2WCOEoe3mtnyB5Ee0XrrL5Pe+e4CCnJrRMnL1zYtRDZmQQVbvOttLnKDLnaw==}
     engines: {node: '>=12'}
 
-  posthog-js@1.422.0:
-    resolution: {integrity: sha512-m2mg6SLFZs9L2/L+a8+aeraR0LyijMrXLuwSbgfSeBLjHe99C4IR11Q2DV7R5qktVTwSx0Dg2kdMosx35/FfwQ==}
+  posthog-js@1.422.1:
+    resolution: {integrity: sha512-T0jOnq85RV0tvlmoFTShqulU753Yd9v5QdfbT7mxZnloky9feTqtUULxl28KHQdhpbgfZnj4WJkMBXhNH2z+TA==}
     peerDependencies:
       '@types/react': '>=16.8.0'
       react: '>=16.8.0'
@@ -9259,16 +9259,16 @@ snapshots:
 
   '@poppinss/validator-lite@2.1.2': {}
 
-  '@posthog/browser-common@0.6.0':
+  '@posthog/browser-common@0.6.1':
     dependencies:
-      '@posthog/core': 1.49.0
+      '@posthog/core': 1.49.1
       '@posthog/types': 1.407.0
 
   '@posthog/core@1.48.12':
     dependencies:
       '@posthog/types': 1.407.0
 
-  '@posthog/core@1.49.0':
+  '@posthog/core@1.49.1':
     dependencies:
       '@posthog/types': 1.407.0
 
@@ -12545,10 +12545,10 @@ snapshots:
 
   postgres@3.4.9: {}
 
-  posthog-js@1.422.0(@types/react@19.2.18)(react@19.2.8):
+  posthog-js@1.422.1(@types/react@19.2.18)(react@19.2.8):
     dependencies:
-      '@posthog/browser-common': 0.6.0
-      '@posthog/core': 1.49.0
+      '@posthog/browser-common': 0.6.1
+      '@posthog/core': 1.49.1
       '@posthog/types': 1.407.0
       core-js: 3.50.0
       dompurify: 3.4.14
