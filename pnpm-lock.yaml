@@ -218,8 +218,8 @@ importers:
         specifier: 3.4.9
         version: 3.4.9
       posthog-node:
-        specifier: 5.51.3
-        version: 5.51.3(rxjs@7.8.2)
+        specifier: 5.51.4
+        version: 5.51.4(rxjs@7.8.2)
       reflect-metadata:
         specifier: 0.2.2
         version: 0.2.2
@@ -3008,9 +3008,6 @@ packages:
 
   '@posthog/browser-common@0.6.1':
     resolution: {integrity: sha512-dhx4CFm9FnyfJYiEGFtH5HWvhDm/6zAUPUG+euDBO8rYE92fAoBtplmxoqe6E3RD49HyOIyDJv93iBwrcxxBrQ==}
-
-  '@posthog/core@1.48.12':
-    resolution: {integrity: sha512-W/5d6QQD67Dq/Hhzg3lSG7fIXhbiiYGa/YwAoFI9iXKXDpaZkTmwDsEJAGPgTb2eb3lbLHXgGftuWGF2K6lU3g==}
 
   '@posthog/core@1.49.1':
     resolution: {integrity: sha512-jdZh85tG56OXLH881CVwBZyiXCPPaZasfYeWwm9kVUvxC/Rb+lz7wYN9GuqSEmNPJgVnK4v8wS0bCaFc3OmVEA==}
@@ -6446,8 +6443,8 @@ packages:
       react:
         optional: true
 
-  posthog-node@5.51.3:
-    resolution: {integrity: sha512-11bPNCIAec9cjVdaX6vllYTtGviIX6k/qdF3IXG5dbbmXalym91nmkFy9npalSv8DQi8jcbEkhVz3AD7qrhaww==}
+  posthog-node@5.51.4:
+    resolution: {integrity: sha512-gI6JMBnU3vjDNclUBWonw3y7k8Y0UPIAVO4AQ2zu9eyW+7sY8UQRofx4JIA7IGYLMEbs4gykfogOmXp16+oUdg==}
     engines: {node: ^20.20.0 || >=22.22.0}
     peerDependencies:
       rxjs: ^7.0.0
@@ -9262,10 +9259,6 @@ snapshots:
   '@posthog/browser-common@0.6.1':
     dependencies:
       '@posthog/core': 1.49.1
-      '@posthog/types': 1.407.0
-
-  '@posthog/core@1.48.12':
-    dependencies:
       '@posthog/types': 1.407.0
 
   '@posthog/core@1.49.1':
@@ -12563,9 +12556,9 @@ snapshots:
     transitivePeerDependencies:
       - preact-render-to-string
 
-  posthog-node@5.51.3(rxjs@7.8.2):
+  posthog-node@5.51.4(rxjs@7.8.2):
     dependencies:
-      '@posthog/core': 1.48.12
+      '@posthog/core': 1.49.1
     optionalDependencies:
       rxjs: 7.8.2
 
