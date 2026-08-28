@@ -429,8 +429,8 @@ importers:
         specifier: 16.2.0
         version: 16.2.0(postcss@8.5.26)
       posthog-js:
-        specifier: 1.421.2
-        version: 1.421.2(@types/react@19.2.18)(react@19.2.8)
+        specifier: 1.422.0
+        version: 1.422.0(@types/react@19.2.18)(react@19.2.8)
       react:
         specifier: 19.2.8
         version: 19.2.8
@@ -6432,8 +6432,8 @@ packages:
     resolution: {integrity: sha512-GD3qdB0x1z9xgFI6cdRD6xu2Sp2WCOEoe3mtnyB5Ee0XrrL5Pe+e4CCnJrRMnL1zYtRDZmQQVbvOttLnKDLnaw==}
     engines: {node: '>=12'}
 
-  posthog-js@1.421.2:
-    resolution: {integrity: sha512-+/U0nFypfzNA7z3vrCMWDqgYIYDaethuShUYh6Hbkz20azHdhEQeAWTCqA5yveFRc/RwvibvUFMAvYzIAqvMmg==}
+  posthog-js@1.422.0:
+    resolution: {integrity: sha512-m2mg6SLFZs9L2/L+a8+aeraR0LyijMrXLuwSbgfSeBLjHe99C4IR11Q2DV7R5qktVTwSx0Dg2kdMosx35/FfwQ==}
     peerDependencies:
       '@types/react': '>=16.8.0'
       react: '>=16.8.0'
@@ -9258,7 +9258,7 @@ snapshots:
 
   '@posthog/browser-common@0.6.0':
     dependencies:
-      '@posthog/core': 1.48.12
+      '@posthog/core': 1.49.0
       '@posthog/types': 1.407.0
 
   '@posthog/core@1.48.12':
@@ -12539,7 +12539,7 @@ snapshots:
 
   postgres@3.4.9: {}
 
-  posthog-js@1.421.2(@types/react@19.2.18)(react@19.2.8):
+  posthog-js@1.422.0(@types/react@19.2.18)(react@19.2.8):
     dependencies:
       '@posthog/browser-common': 0.6.0
       '@posthog/core': 1.49.0
