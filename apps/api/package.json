@@ -59,7 +59,7 @@
 		"superjson": "2.2.6",
 		"ts-pattern": "5.9.0",
 		"ws": "8.21.3",
-		"zod": "4.4.3"
+		"zod": "4.5.1"
 	},
 	"devDependencies": {
 		"@adonisjs/assembler": "8.5.0",
