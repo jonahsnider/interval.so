@@ -24,12 +24,9 @@
 	"devEngines": {
 		"runtime": {
 			"name": "node",
-			"version": "24.x",
+			"version": "26.x",
 			"onFail": "download"
 		}
-	},
-	"engines": {
-		"node": "24.x"
 	},
 	"packageManager": "pnpm@12.2.1"
 }
