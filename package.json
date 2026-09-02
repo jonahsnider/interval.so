@@ -19,7 +19,7 @@
 		"oxlint": "1.81.0",
 		"railway": "3.11.0",
 		"turbo": "2.10.12",
-		"vercel": "59.11.0"
+		"vercel": "59.11.1"
 	},
 	"devEngines": {
 		"runtime": {
