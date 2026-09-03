@@ -18,6 +18,7 @@ export function LandingAttendanceSection() {
 						alt='A screenshot of the Interval attendance form on a smartphone'
 						src={screenshot}
 						height={640}
+						style={{ width: 'auto' }}
 						className='lg:pt-16'
 						quality={95}
 					/>

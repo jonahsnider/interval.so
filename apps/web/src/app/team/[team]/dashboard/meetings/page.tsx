@@ -3,6 +3,10 @@ import { MeetingsTable } from '@/src/components/manager/meetings/meetings-table/
 import { searchParamCache } from '@/src/components/manager/meetings/search-params';
 import { toTimeFilter } from '@/src/components/manager/period-select/duration-slug';
 
+// TODO: Cache Components adoption. Refactor this route so this opt-out can be removed.
+// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
+export const instant = false;
+
 type Props = {
 	params: Promise<{
 		team: string;

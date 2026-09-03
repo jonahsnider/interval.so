@@ -1,5 +1,9 @@
 import { MembersTable } from '@/src/components/manager/members/members-table/members-table';
 
+// TODO: Cache Components adoption. Refactor this route so this opt-out can be removed.
+// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
+export const instant = false;
+
 type Props = {
 	params: Promise<{
 		team: string;

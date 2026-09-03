@@ -16,6 +16,10 @@ import { SentryIdentityProvider } from '../providers/sentry-identity-provider';
 import { TrpcProvider } from '../providers/trpc-provider';
 import { siteMetadata } from '../site-metadata';
 
+// TODO: Cache Components adoption. Refactor this route so this opt-out can be removed.
+// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
+export const instant = false;
+
 export const metadata: Metadata = {
 	title: {
 		absolute: siteMetadata.siteName,

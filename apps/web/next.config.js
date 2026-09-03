@@ -10,6 +10,10 @@ dotenv.config({ path: path.join(__dirname, '..', '..', '.env') });
 
 module.exports = withSentryConfig(
 	withPlausibleProxy()({
+		cacheComponents: true,
+		images: {
+			qualities: [75, 95],
+		},
 		productionBrowserSourceMaps: true,
 		env: {
 			NEXT_PUBLIC_API_URL: getBaseApiUrl(),
@@ -25,7 +29,6 @@ module.exports = withSentryConfig(
 			return config;
 		},
 		experimental: {
-			ppr: true,
 			extensionAlias: {
 				'.js': ['.ts', '.tsx', '.js'],
 				'.mjs': ['.mts', '.mjs'],

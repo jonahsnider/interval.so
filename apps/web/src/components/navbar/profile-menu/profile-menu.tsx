@@ -1,5 +1,5 @@
 import { UserCircleIcon } from '@heroicons/react/20/solid';
-import { unstable_noStore as noStore } from 'next/cache';
+import { connection } from 'next/server';
 import { Link } from 'next-view-transitions';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -36,7 +36,7 @@ function MenuContentUnauthed() {
 }
 
 async function ProfileMenuContent() {
-	noStore();
+	await connection();
 
 	const [{ user }, guestTeam] = await Promise.all([
 		trpcServer.user.getSelf.query(),
@@ -75,8 +75,6 @@ function ProfileMenuContentSkeleton() {
 
 export function ProfileMenu() {
 	'use client';
-
-	noStore();
 
 	return (
 		<DropdownMenu>

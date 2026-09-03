@@ -1,5 +1,5 @@
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
-import { unstable_noStore as noStore } from 'next/cache';
+import { connection } from 'next/server';
 import { type PropsWithChildren, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { trpcServer } from '@/src/trpc/trpc-server';
@@ -13,7 +13,9 @@ type Props = {
 	currentTeam?: Pick<TeamSchema, 'slug'>;
 };
 
-export function Navbar({ children, currentTeam, className }: PropsWithChildren<Props>) {
+export async function Navbar({ children, currentTeam, className }: PropsWithChildren<Props>) {
+	await connection();
+
 	return (
 		<BaseNavbar
 			className={className}
@@ -38,7 +40,7 @@ export function Navbar({ children, currentTeam, className }: PropsWithChildren<P
 }
 
 async function TeamDropdownItem({ currentTeam }: { currentTeam?: Pick<TeamSchema, 'slug'> }) {
-	noStore();
+	await connection();
 
 	const { user } = await trpcServer.user.getSelf.query();
 

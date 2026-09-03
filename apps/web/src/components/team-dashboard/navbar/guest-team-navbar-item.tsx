@@ -1,4 +1,5 @@
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
+import { connection } from 'next/server';
 import { Suspense, use } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -9,7 +10,9 @@ type Props = {
 	team: Pick<TeamSchema, 'slug'>;
 };
 
-export function GuestTeamNavbarItem() {
+export async function GuestTeamNavbarItem() {
+	await connection();
+
 	const teamPromise = trpcServer.guestLogin.getCurrentGuestTeam.query();
 
 	return (
@@ -45,6 +48,8 @@ function GuestTeamNavbarItemInner({ teamPromise }: { teamPromise: Promise<Pick<T
 }
 
 async function DisplayName({ team }: Props) {
+	await connection();
+
 	const displayName = await trpcServer.teams.settings.getDisplayName.query(team);
 
 	return displayName;
