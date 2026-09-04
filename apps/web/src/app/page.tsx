@@ -25,8 +25,8 @@ function AuthedHomePage() {
 
 function HomePageFallback() {
 	return (
-		<FooterWrapper>
-			<Navbar />
+		<FooterWrapper className='dark bg-background-muted text-foreground'>
+			<Navbar className='border-b-0' />
 
 			<MainContent />
 		</FooterWrapper>
