@@ -4,7 +4,7 @@ import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import clsx from 'clsx';
 import { AnimatePresence, motion, type Variants } from 'motion/react';
 import { usePathname } from 'next/navigation';
-import { Link } from 'next-view-transitions';
+import Link from 'next/link';
 
 type NavbarEntryData = {
 	label: string;

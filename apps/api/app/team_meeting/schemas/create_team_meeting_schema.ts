@@ -1,8 +1,8 @@
 import { convert } from 'convert';
 import { intervalToDuration, milliseconds } from 'date-fns';
 import { z } from 'zod';
-import { TeamMemberSchema } from '../../team_member/schemas/team_member_schema.js';
-import { TimeRangeSchema } from '../../team_stats/schemas/time_range_schema.js';
+import { TeamMemberSchema } from '../../team_member/schemas/team_member_schema.ts';
+import { TimeRangeSchema } from '../../team_stats/schemas/time_range_schema.ts';
 
 export const CreateTeamMeetingSchema = z.object({
 	timeRange: TimeRangeSchema.refine(

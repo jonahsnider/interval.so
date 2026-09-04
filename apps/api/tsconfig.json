@@ -1,8 +1,10 @@
 {
 	"extends": "@adonisjs/tsconfig/tsconfig.app.json",
 	"compilerOptions": {
+		"allowImportingTsExtensions": true,
 		"rootDir": "./",
 		"outDir": "./build",
+		"rewriteRelativeImportExtensions": true,
 		"strict": true,
 		"lib": ["DOM.Iterable", "ESNext"],
 		"noUncheckedIndexedAccess": true

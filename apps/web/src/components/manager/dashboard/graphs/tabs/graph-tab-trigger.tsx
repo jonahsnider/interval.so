@@ -5,7 +5,7 @@ import type { TimeFilterSchema } from '@interval.so/api/app/team_stats/schemas/t
 import type { TimeRangeSchema } from '@interval.so/api/app/team_stats/schemas/time_range_schema';
 import { toDigits } from '@jonahsnider/util';
 import clsx from 'clsx';
-import { Link } from 'next-view-transitions';
+import Link from 'next/link';
 import { type ReactNode, Suspense } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';

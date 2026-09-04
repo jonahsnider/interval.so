@@ -17,11 +17,11 @@ import { TRPCError } from '@trpc/server';
 import { eq } from 'drizzle-orm';
 import { origin, rpId, rpName } from '#config/auth';
 import * as Schema from '#database/schema';
-import { injectHelper } from '../../util/inject_helper.js';
-import { ph } from '../analytics/analytics_service.js';
-import { AnalyticsEvent } from '../analytics/schemas/analytics_event.js';
-import { db } from '../db/db_service.js';
-import { AuthChallengeService } from './auth_challenge/auth_challenge_service.js';
+import { injectHelper } from '../../util/inject_helper.ts';
+import { ph } from '../analytics/analytics_service.ts';
+import { AnalyticsEvent } from '../analytics/schemas/analytics_event.ts';
+import { db } from '../db/db_service.ts';
+import { AuthChallengeService } from './auth_challenge/auth_challenge_service.ts';
 
 @inject()
 @injectHelper(AuthChallengeService)

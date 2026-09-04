@@ -1,7 +1,7 @@
 import { ArrowRightIcon } from '@heroicons/react/24/solid';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { count } from '@jonahsnider/util';
-import { Link } from 'next-view-transitions';
+import Link from 'next/link';
 import { Suspense } from 'react';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';

@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import type { Metadata } from 'next';
-import { Link } from 'next-view-transitions';
+import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 import { LandingAttendanceSection } from '@/src/components/landing/attendance/landing-attendance-section';
 import { LandingCtaSection } from '@/src/components/landing/cta/landing-cta-section';
@@ -10,10 +10,6 @@ import { Navbar } from '@/src/components/navbar/navbar';
 import { FooterWrapper } from '@/src/components/page-wrappers/footer-wrapper';
 import { siteMetadata } from '@/src/site-metadata';
 import dotsStyles from '../../components/dots/dots.module.css';
-
-// TODO: Cache Components adoption. Refactor this route so this opt-out can be removed.
-// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
-export const instant = false;
 
 export const metadata: Metadata = {
 	title: { absolute: siteMetadata.siteName },

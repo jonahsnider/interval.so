@@ -5,13 +5,13 @@ import { and, count, eq, inArray } from 'drizzle-orm';
 import postgres from 'postgres';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
-import { ph } from '../analytics/analytics_service.js';
-import { AnalyticsEvent } from '../analytics/schemas/analytics_event.js';
-import { AuthorizationService } from '../authorization/authorization_service.js';
-import { db } from '../db/db_service.js';
-import type { TeamManagerSchema } from '../team_manager/schemas/team_manager_schema.js';
-import type { UserSchema } from '../user/schemas/user_schema.js';
-import type { TeamSchema } from './schemas/team_schema.js';
+import { ph } from '../analytics/analytics_service.ts';
+import { AnalyticsEvent } from '../analytics/schemas/analytics_event.ts';
+import { AuthorizationService } from '../authorization/authorization_service.ts';
+import { db } from '../db/db_service.ts';
+import type { TeamManagerSchema } from '../team_manager/schemas/team_manager_schema.ts';
+import type { UserSchema } from '../user/schemas/user_schema.ts';
+import type { TeamSchema } from './schemas/team_schema.ts';
 
 export class TeamService {
 	private static readonly MAX_TEAMS_PER_USER = 10;

@@ -9,7 +9,7 @@ import { applyWSSHandler } from '@trpc/server/adapters/ws';
 import { WebSocketServer } from 'ws';
 import sessionConfig from '#config/session';
 import { createBouncer } from '#middleware/initialize_bouncer_middleware';
-import { AppRouter } from '../app/routers/app_router.js';
+import { AppRouter } from '../app/routers/app_router.ts';
 
 const wss = new WebSocketServer({ server: adonisServer.getNodeServer() });
 

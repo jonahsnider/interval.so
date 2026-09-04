@@ -1,5 +1,5 @@
 import { PlusIcon } from '@heroicons/react/24/solid';
-import { Link } from 'next-view-transitions';
+import Link from 'next/link';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 export function CreateTeamCard() {

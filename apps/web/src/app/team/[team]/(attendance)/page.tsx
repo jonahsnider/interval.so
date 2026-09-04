@@ -4,10 +4,6 @@ import { AttendanceTable } from '@/src/components/team-dashboard/attendance-tabl
 import { ManagerTiles } from '@/src/components/team-dashboard/manager-tiles/manager-tiles';
 import { trpcServer } from '@/src/trpc/trpc-server';
 
-// TODO: Cache Components adoption. Refactor this route so this opt-out can be removed.
-// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
-export const instant = false;
-
 type Props = {
 	params: Promise<{
 		team: string;
@@ -24,7 +20,7 @@ async function ManagerTilesWrapper({ team }: { team: Pick<TeamSchema, 'slug'> })
 	return undefined;
 }
 
-export default async function TeamAttendancePage(props: Props) {
+async function TeamAttendancePageContent(props: Props) {
 	const params = await props.params;
 	const team = { slug: params.team };
 	const initialMembers = await trpcServer.teams.members.simpleMemberList.query(team);
@@ -41,5 +37,13 @@ export default async function TeamAttendancePage(props: Props) {
 				<AttendanceTable initialData={initialMembers} team={team} />
 			</div>
 		</div>
+	);
+}
+
+export default function TeamAttendancePage(props: Props) {
+	return (
+		<Suspense>
+			<TeamAttendancePageContent {...props} />
+		</Suspense>
 	);
 }

@@ -1,6 +1,6 @@
 import { PlusIcon } from '@heroicons/react/16/solid';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
-import { Link } from 'next-view-transitions';
+import Link from 'next/link';
 import { Suspense } from 'react';
 import {
 	DropdownMenu,

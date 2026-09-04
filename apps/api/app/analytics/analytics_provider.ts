@@ -1,5 +1,5 @@
 import type { ApplicationService } from '@adonisjs/core/types';
-import { ph } from './analytics_service.js';
+import { ph } from './analytics_service.ts';
 
 export default class AnalyticsProvider {
 	constructor(protected app: ApplicationService) {}

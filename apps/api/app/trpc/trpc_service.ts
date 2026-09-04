@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/node';
 import { initTRPC, TRPCError } from '@trpc/server';
 import superjson from 'superjson';
-import type { createHttpContext } from './trpc_context.js';
+import type { createHttpContext } from './trpc_context.ts';
 
 const t = initTRPC.context<typeof createHttpContext>().create({
 	transformer: superjson,

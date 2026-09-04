@@ -4,12 +4,12 @@ import { inject } from '@adonisjs/core';
 import { match, P } from 'ts-pattern';
 import type { TeamManagerRole } from '#database/schema';
 import type { AppBouncer, BouncerUser } from '#middleware/initialize_bouncer_middleware';
-import { injectHelper } from '../../util/inject_helper.js';
-import { AuthorizationService } from '../authorization/authorization_service.js';
-import type { TeamSchema } from '../team/schemas/team_schema.js';
-import { rolesThatCanManageOther, type TeamManagerSchema } from '../team_manager/schemas/team_manager_schema.js';
-import { TeamManagerService } from '../team_manager/team_manager_service.js';
-import type { UserSchema } from '../user/schemas/user_schema.js';
+import { injectHelper } from '../../util/inject_helper.ts';
+import { AuthorizationService } from '../authorization/authorization_service.ts';
+import type { TeamSchema } from '../team/schemas/team_schema.ts';
+import { rolesThatCanManageOther, type TeamManagerSchema } from '../team_manager/schemas/team_manager_schema.ts';
+import { TeamManagerService } from '../team_manager/team_manager_service.ts';
+import type { UserSchema } from '../user/schemas/user_schema.ts';
 
 @inject()
 @injectHelper(AuthorizationService, TeamManagerService)

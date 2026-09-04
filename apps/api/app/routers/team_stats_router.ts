@@ -1,15 +1,15 @@
 import { inject } from '@adonisjs/core';
 import type { Observable } from '@trpc/server/observable';
 import { z } from 'zod';
-import { injectHelper } from '../../util/inject_helper.js';
-import { TeamSchema } from '../team/schemas/team_schema.js';
-import { AverageHoursDatumSchema } from '../team_stats/schemas/average_hours_datum_schema.js';
-import { TimeFilterSchema } from '../team_stats/schemas/time_filter_schema.js';
-import { UniqueMembersDatumSchema } from '../team_stats/schemas/unique_members_datum_schema.js';
-import { TeamStatsService } from '../team_stats/team_stats_service.js';
-import { TeamStatsSubscriptionService } from '../team_stats/team_stats_subscription_service.js';
-import { authedProcedure, router } from '../trpc/trpc_service.js';
-import { UserService } from '../user/user_service.js';
+import { injectHelper } from '../../util/inject_helper.ts';
+import { TeamSchema } from '../team/schemas/team_schema.ts';
+import { AverageHoursDatumSchema } from '../team_stats/schemas/average_hours_datum_schema.ts';
+import { TimeFilterSchema } from '../team_stats/schemas/time_filter_schema.ts';
+import { UniqueMembersDatumSchema } from '../team_stats/schemas/unique_members_datum_schema.ts';
+import { TeamStatsService } from '../team_stats/team_stats_service.ts';
+import { TeamStatsSubscriptionService } from '../team_stats/team_stats_subscription_service.ts';
+import { authedProcedure, router } from '../trpc/trpc_service.ts';
+import { UserService } from '../user/user_service.ts';
 
 @inject()
 @injectHelper(TeamStatsService, UserService, TeamStatsSubscriptionService)

@@ -3,18 +3,18 @@ import { inject } from '@adonisjs/core';
 import { and, countDistinct, eq, gt, gte, inArray, isNotNull, lt, lte, max, min, sql } from 'drizzle-orm';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
-import { injectHelper } from '../../util/inject_helper.js';
-import { ph } from '../analytics/analytics_service.js';
-import { AnalyticsEvent } from '../analytics/schemas/analytics_event.js';
-import { AuthorizationService } from '../authorization/authorization_service.js';
-import { db } from '../db/db_service.js';
-import type { TeamSchema } from '../team/schemas/team_schema.js';
-import { MemberRedisEvent } from '../team_member/events/schemas/redis_event_schema.js';
-import { TeamMemberEventsService } from '../team_member/events/team_member_events_service.js';
-import type { TimeFilterSchema } from '../team_stats/schemas/time_filter_schema.js';
-import type { TimeRangeSchema } from '../team_stats/schemas/time_range_schema.js';
-import type { CreateTeamMeetingSchema } from './schemas/create_team_meeting_schema.js';
-import type { TeamMeetingSchema } from './schemas/team_meeting_schema.js';
+import { injectHelper } from '../../util/inject_helper.ts';
+import { ph } from '../analytics/analytics_service.ts';
+import { AnalyticsEvent } from '../analytics/schemas/analytics_event.ts';
+import { AuthorizationService } from '../authorization/authorization_service.ts';
+import { db } from '../db/db_service.ts';
+import type { TeamSchema } from '../team/schemas/team_schema.ts';
+import { MemberRedisEvent } from '../team_member/events/schemas/redis_event_schema.ts';
+import { TeamMemberEventsService } from '../team_member/events/team_member_events_service.ts';
+import type { TimeFilterSchema } from '../team_stats/schemas/time_filter_schema.ts';
+import type { TimeRangeSchema } from '../team_stats/schemas/time_range_schema.ts';
+import type { CreateTeamMeetingSchema } from './schemas/create_team_meeting_schema.ts';
+import type { TeamMeetingSchema } from './schemas/team_meeting_schema.ts';
 
 @inject()
 @injectHelper(TeamMemberEventsService)

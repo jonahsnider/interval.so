@@ -14,13 +14,13 @@ export function UpdateAttendanceItem({ member }: Props) {
 
 	const mutation = trpc.teams.members.updateAttendance.useMutation({
 		onMutate: ({ data }) => {
-			setToastId(toast.loading(`Signing ${member.name} ${data.atMeeting ? 'out' : 'in'}...`));
+			setToastId(toast.loading(`Signing ${member.name} ${data.atMeeting ? 'in' : 'out'}...`));
 		},
 		onSuccess: (_data, { data }) => {
-			toast.success(`Signed ${member.name} ${data.atMeeting ? 'out' : 'in'}`, { id: toastId });
+			toast.success(`Signed ${member.name} ${data.atMeeting ? 'in' : 'out'}`, { id: toastId });
 		},
 		onError: (error, { data }) => {
-			toast.error(`An error occurred while signing ${member.name} ${data.atMeeting ? 'out' : 'in'}`, {
+			toast.error(`An error occurred while signing ${member.name} ${data.atMeeting ? 'in' : 'out'}`, {
 				description: error.message,
 				id: toastId,
 			});

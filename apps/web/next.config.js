@@ -22,21 +22,6 @@ module.exports = withSentryConfig(
 			POSTHOG_HOST: process.env.POSTHOG_HOST,
 			POSTHOG_KEY: process.env.POSTHOG_KEY,
 		},
-		// Needed for a Next.js bug https://github.com/vercel/next.js/discussions/32237#discussioncomment-4793595
-		webpack: (config) => {
-			config.resolve.extensionAlias = {
-				'.js': ['.ts', '.tsx', '.js'],
-			};
-
-			return config;
-		},
-		experimental: {
-			extensionAlias: {
-				'.js': ['.ts', '.tsx', '.js'],
-				'.mjs': ['.mts', '.mjs'],
-				'.cjs': ['.cts', '.cjs'],
-			},
-		},
 	}),
 	{
 		// For all available options, see:

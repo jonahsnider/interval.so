@@ -1,16 +1,13 @@
 import { ArrowRightIcon } from '@heroicons/react/16/solid';
 import { connection } from 'next/server';
-import { Link } from 'next-view-transitions';
+import Link from 'next/link';
+import { Suspense } from 'react';
 import { Button } from '@/components/ui/button';
 import { AlreadyAuthedCard } from '@/src/components/account/already-authed-card/already-authed-card';
 import { SignupCard } from '@/src/components/account/signup/signup-card';
 import { trpcServer } from '@/src/trpc/trpc-server';
 
-// TODO: Cache Components adoption. Refactor this route so this opt-out can be removed.
-// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
-export const instant = false;
-
-export default async function SignupPage() {
+async function SignupPageContent() {
 	await connection();
 
 	const { user } = await trpcServer.user.getSelf.query();
@@ -34,5 +31,13 @@ export default async function SignupPage() {
 				)}
 			</div>
 		</div>
+	);
+}
+
+export default function SignupPage() {
+	return (
+		<Suspense>
+			<SignupPageContent />
+		</Suspense>
 	);
 }

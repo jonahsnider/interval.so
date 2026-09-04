@@ -1,16 +1,16 @@
 import { inject } from '@adonisjs/core';
 import type { Observable } from '@trpc/server/observable';
 import { z } from 'zod';
-import { injectHelper } from '../../util/inject_helper.js';
-import { TeamSchema } from '../team/schemas/team_schema.js';
-import { TeamMemberEventsService } from '../team_member/events/team_member_events_service.js';
-import { NowOrEarlierSchema } from '../team_member/schemas/now_or_earlier_schema.js';
-import { type SimpleTeamMemberSchema, TeamMemberSchema } from '../team_member/schemas/team_member_schema.js';
-import { TeamMemberBatchService } from '../team_member/team_member_batch_service.js';
-import { TeamMemberService } from '../team_member/team_member_service.js';
-import { TeamMemberSubscriptionService } from '../team_member/team_member_subscription_service.js';
-import { authedProcedure, publicProcedure, router } from '../trpc/trpc_service.js';
-import { TeamMemberAttendanceRouter } from './team_member_attendance_router.js';
+import { injectHelper } from '../../util/inject_helper.ts';
+import { TeamSchema } from '../team/schemas/team_schema.ts';
+import { TeamMemberEventsService } from '../team_member/events/team_member_events_service.ts';
+import { NowOrEarlierSchema } from '../team_member/schemas/now_or_earlier_schema.ts';
+import { type SimpleTeamMemberSchema, TeamMemberSchema } from '../team_member/schemas/team_member_schema.ts';
+import { TeamMemberBatchService } from '../team_member/team_member_batch_service.ts';
+import { TeamMemberService } from '../team_member/team_member_service.ts';
+import { TeamMemberSubscriptionService } from '../team_member/team_member_subscription_service.ts';
+import { authedProcedure, publicProcedure, router } from '../trpc/trpc_service.ts';
+import { TeamMemberAttendanceRouter } from './team_member_attendance_router.ts';
 
 @inject()
 @injectHelper(

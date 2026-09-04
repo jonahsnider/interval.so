@@ -1,16 +1,13 @@
 import { captureException } from '@sentry/nextjs';
 import { cookies } from 'next/headers';
 import { connection } from 'next/server';
+import { Suspense } from 'react';
 import { TeamCards } from '@/src/components/home/team-cards';
 import { Navbar } from '@/src/components/navbar/navbar';
 import { FooterWrapper } from '@/src/components/page-wrappers/footer-wrapper';
 import { MainContent } from '@/src/components/page-wrappers/main-content';
 import { trpcServer } from '@/src/trpc/trpc-server';
 import LandingPage from './home/page';
-
-// TODO: Cache Components adoption. Refactor this route so this opt-out can be removed.
-// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
-export const instant = false;
 
 function AuthedHomePage() {
 	return (
@@ -26,7 +23,17 @@ function AuthedHomePage() {
 	);
 }
 
-export default async function HomePage() {
+function HomePageFallback() {
+	return (
+		<FooterWrapper className='dark bg-background-muted text-foreground'>
+			<Navbar className='border-b-0' />
+
+			<MainContent />
+		</FooterWrapper>
+	);
+}
+
+async function HomePageContent() {
 	await connection();
 
 	const userCookies = await cookies();
@@ -44,4 +51,12 @@ export default async function HomePage() {
 	}
 
 	return <LandingPage />;
+}
+
+export default function HomePage() {
+	return (
+		<Suspense fallback={<HomePageFallback />}>
+			<HomePageContent />
+		</Suspense>
+	);
 }

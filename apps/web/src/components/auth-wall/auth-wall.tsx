@@ -1,6 +1,6 @@
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import clsx from 'clsx';
-import type { PropsWithChildren } from 'react';
+import { type PropsWithChildren, Suspense } from 'react';
 import { trpcServer } from '@/src/trpc/trpc-server';
 import { MainContent } from '../page-wrappers/main-content';
 import { NeedsGuestOrManagerCard } from './needs-guest-or-manager-card';
@@ -37,14 +37,20 @@ type Props = PropsWithChildren<
  * Render its children if the user is signed in and if provided, has access to the given team.
  */
 export function AuthWall({ kind, children, wantedTeam }: Props) {
+	let content: React.ReactNode;
+
 	switch (kind) {
 		case 'guestOrManager':
-			return <AuthWallGuestOrManager wantedTeam={wantedTeam}>{children}</AuthWallGuestOrManager>;
+			content = <AuthWallGuestOrManager wantedTeam={wantedTeam}>{children}</AuthWallGuestOrManager>;
+			break;
 		case 'manager':
-			return <AuthWallManager wantedTeam={wantedTeam}>{children}</AuthWallManager>;
+			content = <AuthWallManager wantedTeam={wantedTeam}>{children}</AuthWallManager>;
+			break;
 		case 'user':
-			return <AuthWallUser>{children}</AuthWallUser>;
+			content = <AuthWallUser>{children}</AuthWallUser>;
 	}
+
+	return <Suspense>{content}</Suspense>;
 }
 
 type CardProps = PropsWithChildren<{ className?: string }>;

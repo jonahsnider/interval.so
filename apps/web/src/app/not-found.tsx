@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { Navbar } from '../components/navbar/navbar';
 import { NotFoundPageContent } from '../components/not-found-content';
 import { FooterWrapper } from '../components/page-wrappers/footer-wrapper';
@@ -9,7 +10,9 @@ export default function NotFoundPage() {
 			<Navbar />
 
 			<MainContent>
-				<NotFoundPageContent />
+				<Suspense>
+					<NotFoundPageContent />
+				</Suspense>
 			</MainContent>
 		</FooterWrapper>
 	);

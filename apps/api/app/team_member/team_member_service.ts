@@ -5,15 +5,15 @@ import { and, asc, count, eq, isNull } from 'drizzle-orm';
 import postgres from 'postgres';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
-import { injectHelper } from '../../util/inject_helper.js';
-import { ph } from '../analytics/analytics_service.js';
-import { AnalyticsEvent } from '../analytics/schemas/analytics_event.js';
-import { AuthorizationService } from '../authorization/authorization_service.js';
-import { db } from '../db/db_service.js';
-import type { TeamSchema } from '../team/schemas/team_schema.js';
-import { MemberRedisEvent } from './events/schemas/redis_event_schema.js';
-import { TeamMemberEventsService } from './events/team_member_events_service.js';
-import type { SimpleTeamMemberSchema, TeamMemberSchema } from './schemas/team_member_schema.js';
+import { injectHelper } from '../../util/inject_helper.ts';
+import { ph } from '../analytics/analytics_service.ts';
+import { AnalyticsEvent } from '../analytics/schemas/analytics_event.ts';
+import { AuthorizationService } from '../authorization/authorization_service.ts';
+import { db } from '../db/db_service.ts';
+import type { TeamSchema } from '../team/schemas/team_schema.ts';
+import { MemberRedisEvent } from './events/schemas/redis_event_schema.ts';
+import { TeamMemberEventsService } from './events/team_member_events_service.ts';
+import type { SimpleTeamMemberSchema, TeamMemberSchema } from './schemas/team_member_schema.ts';
 
 /** A team member is someone whose attendance is tracked by team users. */
 @inject()

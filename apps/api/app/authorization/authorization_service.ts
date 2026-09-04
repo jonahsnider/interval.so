@@ -4,13 +4,13 @@ import { TRPCError } from '@trpc/server';
 import { and, eq, inArray } from 'drizzle-orm';
 import * as Schema from '#database/schema';
 import type { BouncerUser } from '#middleware/initialize_bouncer_middleware';
-import { injectHelper } from '../../util/inject_helper.js';
-import { db } from '../db/db_service.js';
-import { GuestPasswordService } from '../guest_password/guest_password_service.js';
-import type { TeamSchema } from '../team/schemas/team_schema.js';
-import { TeamManagerService } from '../team_manager/team_manager_service.js';
-import type { TeamMemberSchema } from '../team_member/schemas/team_member_schema.js';
-import type { AttendanceEntrySchema } from '../team_member_attendance/schemas/attendance_entry_schema.js';
+import { injectHelper } from '../../util/inject_helper.ts';
+import { db } from '../db/db_service.ts';
+import { GuestPasswordService } from '../guest_password/guest_password_service.ts';
+import type { TeamSchema } from '../team/schemas/team_schema.ts';
+import { TeamManagerService } from '../team_manager/team_manager_service.ts';
+import type { TeamMemberSchema } from '../team_member/schemas/team_member_schema.ts';
+import type { AttendanceEntrySchema } from '../team_member_attendance/schemas/attendance_entry_schema.ts';
 
 export type TeamRole = Schema.TeamManagerRole | 'guestToken';
 

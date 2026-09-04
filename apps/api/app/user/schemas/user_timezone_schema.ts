@@ -3,7 +3,7 @@ import { z } from 'zod';
 // Timezones exported from Postgres via https://stackoverflow.com/a/66318000/10808983
 
 import type { NonEmptyArray } from '@jonahsnider/util';
-import { POSTGRES_TIMEZONES } from './postgres_timezones.js';
+import { POSTGRES_TIMEZONES } from './postgres_timezones.ts';
 
 const timezoneNames = POSTGRES_TIMEZONES.map((timezone) => timezone.name) as NonEmptyArray<string>;
 

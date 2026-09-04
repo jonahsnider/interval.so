@@ -22,6 +22,8 @@ jobs:
           cache: true
       - name: Pull environment variables
         run: pnpm vercel env pull --environment development .env --token ${{ secrets.VERCEL_TOKEN }}
+      - name: Start database services
+        run: docker compose up --detach --wait
       - name: Cache Next.js
         uses: actions/cache@v6
         with:

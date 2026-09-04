@@ -1,9 +1,5 @@
-import type { PropsWithChildren } from 'react';
+import { type PropsWithChildren, Suspense } from 'react';
 import { TeamSettingsPageContainer } from '@/src/components/manager/settings/page-container';
-
-// TODO: Cache Components adoption. Refactor this route so this opt-out can be removed.
-// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
-export const instant = false;
 
 type Props = PropsWithChildren<{
 	params: Promise<{
@@ -11,7 +7,7 @@ type Props = PropsWithChildren<{
 	}>;
 }>;
 
-export default async function TeamSettingsManagersLayout(props: Props) {
+async function TeamSettingsManagersLayoutContent(props: Props) {
 	const params = await props.params;
 
 	const { children } = props;
@@ -20,5 +16,13 @@ export default async function TeamSettingsManagersLayout(props: Props) {
 		<TeamSettingsPageContainer team={{ slug: params.team }} pageId='managers'>
 			{children}
 		</TeamSettingsPageContainer>
+	);
+}
+
+export default function TeamSettingsManagersLayout(props: Props) {
+	return (
+		<Suspense>
+			<TeamSettingsManagersLayoutContent {...props} />
+		</Suspense>
 	);
 }

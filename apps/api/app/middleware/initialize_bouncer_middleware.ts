@@ -6,7 +6,7 @@ import type { NextFn } from '@adonisjs/core/types/http';
 import type { Session } from '@adonisjs/session';
 import * as abilities from '#abilities/main';
 import { policies } from '#policies/main';
-import type { UserSchema } from '../user/schemas/user_schema.js';
+import type { UserSchema } from '../user/schemas/user_schema.ts';
 
 export type BouncerUser =
 	// Regular team user auth

@@ -1,12 +1,12 @@
 import { inject } from '@adonisjs/core';
 import { concat, from, mergeMap, type Observable } from 'rxjs';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
-import { injectHelper } from '../../util/inject_helper.js';
-import { AuthorizationService } from '../authorization/authorization_service.js';
-import type { TeamSchema } from '../team/schemas/team_schema.js';
-import { TeamMemberEventsService } from './events/team_member_events_service.js';
-import type { SimpleTeamMemberSchema, TeamMemberSchema } from './schemas/team_member_schema.js';
-import { TeamMemberService } from './team_member_service.js';
+import { injectHelper } from '../../util/inject_helper.ts';
+import { AuthorizationService } from '../authorization/authorization_service.ts';
+import type { TeamSchema } from '../team/schemas/team_schema.ts';
+import { TeamMemberEventsService } from './events/team_member_events_service.ts';
+import type { SimpleTeamMemberSchema, TeamMemberSchema } from './schemas/team_member_schema.ts';
+import { TeamMemberService } from './team_member_service.ts';
 
 @inject()
 @injectHelper(TeamMemberService, TeamMemberEventsService)

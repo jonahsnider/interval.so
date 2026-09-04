@@ -1,6 +1,6 @@
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { SlashIcon } from '@radix-ui/react-icons';
-import { Link } from 'next-view-transitions';
+import Link from 'next/link';
 import type { PropsWithChildren, ReactNode } from 'react';
 
 type Props = PropsWithChildren<{

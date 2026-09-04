@@ -3,14 +3,14 @@ import { and, avg, countDistinct, eq, gt, lt, sql, sum } from 'drizzle-orm';
 import { unionAll } from 'drizzle-orm/pg-core';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
-import { AuthorizationService } from '../authorization/authorization_service.js';
-import { db } from '../db/db_service.js';
-import type { TeamSchema } from '../team/schemas/team_schema.js';
-import type { UserTimezoneSchema } from '../user/schemas/user_timezone_schema.js';
-import type { AverageHoursDatumSchema } from './schemas/average_hours_datum_schema.js';
-import { DatumPeriod, timeFilterToDatumPeriod } from './schemas/datum_time_range_schema.js';
-import type { TimeFilterSchema } from './schemas/time_filter_schema.js';
-import type { UniqueMembersDatumSchema } from './schemas/unique_members_datum_schema.js';
+import { AuthorizationService } from '../authorization/authorization_service.ts';
+import { db } from '../db/db_service.ts';
+import type { TeamSchema } from '../team/schemas/team_schema.ts';
+import type { UserTimezoneSchema } from '../user/schemas/user_timezone_schema.ts';
+import type { AverageHoursDatumSchema } from './schemas/average_hours_datum_schema.ts';
+import { DatumPeriod, timeFilterToDatumPeriod } from './schemas/datum_time_range_schema.ts';
+import type { TimeFilterSchema } from './schemas/time_filter_schema.ts';
+import type { UniqueMembersDatumSchema } from './schemas/unique_members_datum_schema.ts';
 
 export class TeamStatsService {
 	private static datumPeriodToPostgresDateField(datumPeriod: DatumPeriod): string {

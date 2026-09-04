@@ -1,14 +1,14 @@
 import { inject } from '@adonisjs/core';
 import type { Observable } from '@trpc/server/observable';
 import { z } from 'zod';
-import { injectHelper } from '../../util/inject_helper.js';
-import { TeamSchema } from '../team/schemas/team_schema.js';
-import { CreateTeamMeetingSchema } from '../team_meeting/schemas/create_team_meeting_schema.js';
-import { TeamMeetingSchema } from '../team_meeting/schemas/team_meeting_schema.js';
-import { TeamMeetingService } from '../team_meeting/team_meeting_service.js';
-import { TeamMeetingSubscriptionService } from '../team_meeting/team_meeting_subscription_service.js';
-import { TimeFilterSchema } from '../team_stats/schemas/time_filter_schema.js';
-import { authedProcedure, router } from '../trpc/trpc_service.js';
+import { injectHelper } from '../../util/inject_helper.ts';
+import { TeamSchema } from '../team/schemas/team_schema.ts';
+import { CreateTeamMeetingSchema } from '../team_meeting/schemas/create_team_meeting_schema.ts';
+import { TeamMeetingSchema } from '../team_meeting/schemas/team_meeting_schema.ts';
+import { TeamMeetingService } from '../team_meeting/team_meeting_service.ts';
+import { TeamMeetingSubscriptionService } from '../team_meeting/team_meeting_subscription_service.ts';
+import { TimeFilterSchema } from '../team_stats/schemas/time_filter_schema.ts';
+import { authedProcedure, router } from '../trpc/trpc_service.ts';
 
 @inject()
 @injectHelper(TeamMeetingService, TeamMeetingSubscriptionService)

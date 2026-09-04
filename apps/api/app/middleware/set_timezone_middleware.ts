@@ -1,6 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http';
 import type { NextFn } from '@adonisjs/core/types/http';
-import { UserTimezoneSchema } from '../user/schemas/user_timezone_schema.js';
+import { UserTimezoneSchema } from '../user/schemas/user_timezone_schema.ts';
 
 /**
  * Users can include a "X-Set-Timezone" header in their request to set their timezone. This allows clients to set the timezone automatically & without prompting the user.

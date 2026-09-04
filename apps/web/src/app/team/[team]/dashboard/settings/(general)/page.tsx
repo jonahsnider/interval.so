@@ -1,12 +1,9 @@
+import { Suspense } from 'react';
 import { DeleteTeamCard } from '@/src/components/manager/settings/general/delete-team-card/delete-team-card.server';
 import { LeaveTeamCard } from '@/src/components/manager/settings/general/leave-team-card/leave-team-card.server';
 import { TeamDisplayNameCard } from '@/src/components/manager/settings/general/team-display-name-card/team-display-name-card.server';
 import { TeamPasswordCard } from '@/src/components/manager/settings/general/team-password-card/team-password-card.server';
 import { TeamUrlCard } from '@/src/components/manager/settings/general/team-url-card/team-url-card.server';
-
-// TODO: Cache Components adoption. Refactor this route so this opt-out can be removed.
-// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
-export const instant = false;
 
 type Props = {
 	params: Promise<{
@@ -14,7 +11,7 @@ type Props = {
 	}>;
 };
 
-export default async function TeamSettingsGeneralPage(props: Props) {
+async function TeamSettingsGeneralPageContent(props: Props) {
 	const params = await props.params;
 	const team = { slug: params.team };
 
@@ -30,5 +27,13 @@ export default async function TeamSettingsGeneralPage(props: Props) {
 
 			<DeleteTeamCard team={team} />
 		</div>
+	);
+}
+
+export default function TeamSettingsGeneralPage(props: Props) {
+	return (
+		<Suspense>
+			<TeamSettingsGeneralPageContent {...props} />
+		</Suspense>
 	);
 }

@@ -1,14 +1,10 @@
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { notFound } from 'next/navigation';
-import type { PropsWithChildren } from 'react';
+import { type PropsWithChildren, Suspense } from 'react';
 import { AuthWall } from '@/src/components/auth-wall/auth-wall';
 import { ManagerNavbar } from '@/src/components/manager/navbar/manager-navbar';
 import { isTrpcClientError } from '@/src/trpc/common';
 import { trpcServer } from '@/src/trpc/trpc-server';
-
-// TODO: Cache Components adoption. Refactor this route so this opt-out can be removed.
-// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
-export const instant = false;
 
 type Props = PropsWithChildren<{
 	params: Promise<{
@@ -16,7 +12,7 @@ type Props = PropsWithChildren<{
 	}>;
 }>;
 
-export default async function ManagerLayout(props: Props) {
+async function ManagerLayoutContent(props: Props) {
 	const params = await props.params;
 
 	const { children } = props;
@@ -42,5 +38,13 @@ export default async function ManagerLayout(props: Props) {
 				{children}
 			</AuthWall>
 		</>
+	);
+}
+
+export default function ManagerLayout(props: Props) {
+	return (
+		<Suspense>
+			<ManagerLayoutContent {...props} />
+		</Suspense>
 	);
 }

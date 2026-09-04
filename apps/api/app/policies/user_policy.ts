@@ -2,9 +2,9 @@ import { BasePolicy } from '@adonisjs/bouncer';
 import type { AuthorizerResponse } from '@adonisjs/bouncer/types';
 import { inject } from '@adonisjs/core';
 import type { BouncerUser } from '#middleware/initialize_bouncer_middleware';
-import { injectHelper } from '../../util/inject_helper.js';
-import { TeamService } from '../team/team_service.js';
-import type { UserSchema } from '../user/schemas/user_schema.js';
+import { injectHelper } from '../../util/inject_helper.ts';
+import { TeamService } from '../team/team_service.ts';
+import type { UserSchema } from '../user/schemas/user_schema.ts';
 
 @inject()
 @injectHelper(TeamService)

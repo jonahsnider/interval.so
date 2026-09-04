@@ -6,8 +6,8 @@ import { TRPCError } from '@trpc/server';
 import { convert } from 'convert';
 import { and, count, eq } from 'drizzle-orm';
 import * as Schema from '#database/schema';
-import { db } from '../db/db_service.js';
-import type { TeamSchema } from '../team/schemas/team_schema.js';
+import { db } from '../db/db_service.ts';
+import type { TeamSchema } from '../team/schemas/team_schema.ts';
 
 /** Manages tokens for guest passwords, which allow limited access to a team. */
 export class GuestPasswordService {

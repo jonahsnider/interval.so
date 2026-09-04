@@ -3,7 +3,7 @@
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
-import { Link } from 'next-view-transitions';
+import Link from 'next/link';
 import { use, useState } from 'react';
 import { toast } from 'sonner';
 import { Button, buttonVariants } from '@/components/ui/button';

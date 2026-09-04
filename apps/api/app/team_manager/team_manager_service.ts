@@ -3,11 +3,11 @@ import { TRPCError } from '@trpc/server';
 import { and, asc, count, eq, inArray, not, sql } from 'drizzle-orm';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
-import { AuthorizationService } from '../authorization/authorization_service.js';
-import { db } from '../db/db_service.js';
-import type { TeamSchema } from '../team/schemas/team_schema.js';
-import type { UserSchema } from '../user/schemas/user_schema.js';
-import type { TeamManagerSchema } from './schemas/team_manager_schema.js';
+import { AuthorizationService } from '../authorization/authorization_service.ts';
+import { db } from '../db/db_service.ts';
+import type { TeamSchema } from '../team/schemas/team_schema.ts';
+import type { UserSchema } from '../user/schemas/user_schema.ts';
+import type { TeamManagerSchema } from './schemas/team_manager_schema.ts';
 
 /** Team managers are editors/admins of a team, who manage settings & attendance. */
 export class TeamManagerService {

@@ -1,7 +1,7 @@
 import { match, P } from 'ts-pattern';
 import { z } from 'zod';
 import type { TeamManagerRole } from '#database/schema';
-import { UserSchema } from '../../user/schemas/user_schema.js';
+import { UserSchema } from '../../user/schemas/user_schema.ts';
 
 export const TeamManagerSchema = z.object({
 	user: UserSchema.pick({ id: true, displayName: true }),
