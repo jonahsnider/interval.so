@@ -6,6 +6,10 @@ import { MainContent } from '@/src/components/page-wrappers/main-content';
 import { isTrpcClientError } from '@/src/trpc/common';
 import { trpcServer } from '@/src/trpc/trpc-server';
 
+// TODO: Cache Components adoption. Refactor this route so this opt-out can be removed.
+// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
+export const instant = false;
+
 type Props = PropsWithChildren<{
 	params: Promise<{
 		team: string;

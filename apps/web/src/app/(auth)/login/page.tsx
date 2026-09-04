@@ -1,13 +1,17 @@
 import { ArrowRightIcon } from '@heroicons/react/16/solid';
-import { unstable_noStore as noStore } from 'next/cache';
+import { connection } from 'next/server';
 import { Link } from 'next-view-transitions';
 import { Button } from '@/components/ui/button';
 import { AlreadyAuthedCard } from '@/src/components/account/already-authed-card/already-authed-card';
 import { LoginCard } from '@/src/components/account/login/login-card';
 import { trpcServer } from '@/src/trpc/trpc-server';
 
+// TODO: Cache Components adoption. Refactor this route so this opt-out can be removed.
+// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
+export const instant = false;
+
 export default async function LoginPage() {
-	noStore();
+	await connection();
 	const { user } = await trpcServer.user.getSelf.query();
 
 	return (

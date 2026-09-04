@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import type { Metadata, Viewport } from 'next';
 import { Inter, Playfair_Display } from 'next/font/google';
 import PlausibleProvider from 'next-plausible';
+import { ThemeProvider } from 'next-themes';
 import { ViewTransitions } from 'next-view-transitions';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { Toaster } from '@/components/ui/sonner';
@@ -15,6 +16,10 @@ import { PostHogTeamIdProvider } from '../providers/post-hog-team-id-provider';
 import { SentryIdentityProvider } from '../providers/sentry-identity-provider';
 import { TrpcProvider } from '../providers/trpc-provider';
 import { siteMetadata } from '../site-metadata';
+
+// TODO: Cache Components adoption. Refactor this route so this opt-out can be removed.
+// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
+export const instant = false;
 
 export const metadata: Metadata = {
 	title: {
@@ -59,35 +64,37 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<ViewTransitions>
 			<html lang='en' className='bg-background' suppressHydrationWarning={true}>
-				<CsPostHogProvider>
-					<head>
-						<PlausibleProvider domain='interval.so' />
-					</head>
-					<body
-						className={clsx(
-							'text-foreground bg-background-muted antialiased font-sans',
-							inter.variable,
-							playfairDisplay.variable,
-						)}
-					>
-						<NuqsAdapter>
-							<PostHogPageView />
+				<head>
+					<PlausibleProvider domain='interval.so' />
+				</head>
+				<body
+					className={clsx(
+						'text-foreground bg-background-muted antialiased font-sans',
+						inter.variable,
+						playfairDisplay.variable,
+					)}
+				>
+					<CsPostHogProvider>
+						<ThemeProvider attribute='class' defaultTheme='system' enableSystem={true} disableTransitionOnChange={true}>
+							<NuqsAdapter>
+								<PostHogPageView />
 
-							<TrpcProvider>
-								<TooltipProvider>
-									<PostHogIdentityProvider>
-										<SentryIdentityProvider>
-											<PostHogTeamIdProvider>{children}</PostHogTeamIdProvider>
-										</SentryIdentityProvider>
-									</PostHogIdentityProvider>
-								</TooltipProvider>
-							</TrpcProvider>
+								<TrpcProvider>
+									<TooltipProvider>
+										<PostHogIdentityProvider>
+											<SentryIdentityProvider>
+												<PostHogTeamIdProvider>{children}</PostHogTeamIdProvider>
+											</SentryIdentityProvider>
+										</PostHogIdentityProvider>
+									</TooltipProvider>
+								</TrpcProvider>
 
-							<Toaster />
-							<SpeedInsights />
-						</NuqsAdapter>
-					</body>
-				</CsPostHogProvider>
+								<Toaster />
+								<SpeedInsights />
+							</NuqsAdapter>
+						</ThemeProvider>
+					</CsPostHogProvider>
+				</body>
 			</html>
 		</ViewTransitions>
 	);

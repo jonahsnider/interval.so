@@ -11,6 +11,10 @@ import { FooterWrapper } from '@/src/components/page-wrappers/footer-wrapper';
 import { siteMetadata } from '@/src/site-metadata';
 import dotsStyles from '../../components/dots/dots.module.css';
 
+// TODO: Cache Components adoption. Refactor this route so this opt-out can be removed.
+// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
+export const instant = false;
+
 export const metadata: Metadata = {
 	title: { absolute: siteMetadata.siteName },
 	alternates: {
@@ -20,7 +24,7 @@ export const metadata: Metadata = {
 
 export default function LandingPage() {
 	return (
-		<FooterWrapper themeProps={{ forcedTheme: 'dark' }}>
+		<FooterWrapper className='dark'>
 			<Navbar className='border-b-0' />
 
 			<section

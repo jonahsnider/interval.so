@@ -1,10 +1,10 @@
-import { unstable_noStore as noStore } from 'next/cache';
+import { connection } from 'next/server';
 import { Link } from 'next-view-transitions';
 import { Button } from '@/components/ui/button';
 import { trpcServer } from '../trpc/trpc-server';
 
 export async function NotFoundPageContent() {
-	noStore();
+	await connection();
 	const { user } = await trpcServer.user.getSelf.query();
 
 	return (
