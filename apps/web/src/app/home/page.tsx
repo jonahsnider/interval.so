@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 
 export default function LandingPage() {
 	return (
-		<FooterWrapper themeProps={{ forcedTheme: 'dark' }}>
+		<FooterWrapper className='dark'>
 			<Navbar className='border-b-0' />
 
 			<section
