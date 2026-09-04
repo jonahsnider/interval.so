@@ -4,8 +4,8 @@ import type { Metadata, Viewport } from 'next';
 import { Inter, Playfair_Display } from 'next/font/google';
 import PlausibleProvider from 'next-plausible';
 import { ThemeProvider } from 'next-themes';
-import { ViewTransitions } from 'next-view-transitions';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
+import { ViewTransition } from 'react';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import '../globals.css';
@@ -58,40 +58,40 @@ const inter = Inter({ subsets: ['latin'], weight: 'variable', variable: '--font-
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
-		<ViewTransitions>
-			<html lang='en' className='bg-background' suppressHydrationWarning={true}>
-				<head>
-					<PlausibleProvider domain='interval.so' />
-				</head>
-				<body
-					className={clsx(
-						'text-foreground bg-background-muted antialiased font-sans',
-						inter.variable,
-						playfairDisplay.variable,
-					)}
-				>
-					<CsPostHogProvider>
-						<ThemeProvider attribute='class' defaultTheme='system' enableSystem={true} disableTransitionOnChange={true}>
-							<NuqsAdapter>
-								<PostHogPageView />
+		<html lang='en' className='bg-background' suppressHydrationWarning={true}>
+			<head>
+				<PlausibleProvider domain='interval.so' />
+			</head>
+			<body
+				className={clsx(
+					'text-foreground bg-background-muted antialiased font-sans',
+					inter.variable,
+					playfairDisplay.variable,
+				)}
+			>
+				<CsPostHogProvider>
+					<ThemeProvider attribute='class' defaultTheme='system' enableSystem={true} disableTransitionOnChange={true}>
+						<NuqsAdapter>
+							<PostHogPageView />
 
-								<TrpcProvider>
-									<TooltipProvider>
-										<PostHogIdentityProvider>
-											<SentryIdentityProvider>
-												<PostHogTeamIdProvider>{children}</PostHogTeamIdProvider>
-											</SentryIdentityProvider>
-										</PostHogIdentityProvider>
-									</TooltipProvider>
-								</TrpcProvider>
+							<TrpcProvider>
+								<TooltipProvider>
+									<PostHogIdentityProvider>
+										<SentryIdentityProvider>
+											<PostHogTeamIdProvider>
+												<ViewTransition>{children}</ViewTransition>
+											</PostHogTeamIdProvider>
+										</SentryIdentityProvider>
+									</PostHogIdentityProvider>
+								</TooltipProvider>
+							</TrpcProvider>
 
-								<Toaster />
-								<SpeedInsights />
-							</NuqsAdapter>
-						</ThemeProvider>
-					</CsPostHogProvider>
-				</body>
-			</html>
-		</ViewTransitions>
+							<Toaster />
+							<SpeedInsights />
+						</NuqsAdapter>
+					</ThemeProvider>
+				</CsPostHogProvider>
+			</body>
+		</html>
 	);
 }

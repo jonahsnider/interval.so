@@ -1,7 +1,7 @@
 import { ArrowRightIcon } from '@heroicons/react/16/solid';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { notFound } from 'next/navigation';
-import { Link } from 'next-view-transitions';
+import Link from 'next/link';
 import { Suspense } from 'react';
 import { Button } from '@/components/ui/button';
 import { Navbar } from '@/src/components/navbar/navbar';

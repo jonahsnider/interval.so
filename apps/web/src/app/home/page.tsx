@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import type { Metadata } from 'next';
-import { Link } from 'next-view-transitions';
+import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 import { LandingAttendanceSection } from '@/src/components/landing/attendance/landing-attendance-section';
 import { LandingCtaSection } from '@/src/components/landing/cta/landing-cta-section';

@@ -2,7 +2,7 @@
 
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import type { UserSchema } from '@interval.so/api/app/user/schemas/user_schema';
-import { Link } from 'next-view-transitions';
+import Link from 'next/link';
 import { Suspense, use } from 'react';
 import {
 	DropdownMenuGroup,

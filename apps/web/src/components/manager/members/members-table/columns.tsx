@@ -4,7 +4,7 @@ import { ArchiveBoxIcon, UserIcon } from '@heroicons/react/16/solid';
 import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
 import { Sort } from '@jonahsnider/util';
 import type { ColumnDef } from '@tanstack/react-table';
-import { Link } from 'next-view-transitions';
+import Link from 'next/link';
 import { useContext } from 'react';
 import { buttonVariants } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';

@@ -1,6 +1,6 @@
 import { UserCircleIcon } from '@heroicons/react/20/solid';
 import { connection } from 'next/server';
-import { Link } from 'next-view-transitions';
+import Link from 'next/link';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Button } from '@/components/ui/button';

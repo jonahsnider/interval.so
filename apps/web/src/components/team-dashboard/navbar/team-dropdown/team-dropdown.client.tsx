@@ -4,7 +4,7 @@ import { ChevronUpDownIcon, PlusIcon } from '@heroicons/react/16/solid';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import clsx from 'clsx';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Link } from 'next-view-transitions';
+import Link from 'next/link';
 import { type ReactNode, use, useContext, useEffect, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import {

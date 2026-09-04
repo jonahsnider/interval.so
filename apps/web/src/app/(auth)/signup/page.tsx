@@ -1,6 +1,6 @@
 import { ArrowRightIcon } from '@heroicons/react/16/solid';
 import { connection } from 'next/server';
-import { Link } from 'next-view-transitions';
+import Link from 'next/link';
 import { Suspense } from 'react';
 import { Button } from '@/components/ui/button';
 import { AlreadyAuthedCard } from '@/src/components/account/already-authed-card/already-authed-card';

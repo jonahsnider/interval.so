@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { Link } from 'next-view-transitions';
+import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 import styles from './cta.module.css';
 
