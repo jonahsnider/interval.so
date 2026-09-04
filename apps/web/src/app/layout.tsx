@@ -59,9 +59,6 @@ const inter = Inter({ subsets: ['latin'], weight: 'variable', variable: '--font-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang='en' className='bg-background' suppressHydrationWarning={true}>
-			<head>
-				<PlausibleProvider domain='interval.so' />
-			</head>
 			<body
 				className={clsx(
 					'text-foreground bg-background-muted antialiased font-sans',
@@ -69,28 +66,30 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					playfairDisplay.variable,
 				)}
 			>
-				<CsPostHogProvider>
-					<ThemeProvider attribute='class' defaultTheme='system' enableSystem={true} disableTransitionOnChange={true}>
-						<NuqsAdapter>
-							<PostHogPageView />
+				<PlausibleProvider>
+					<CsPostHogProvider>
+						<ThemeProvider attribute='class' defaultTheme='system' enableSystem={true} disableTransitionOnChange={true}>
+							<NuqsAdapter>
+								<PostHogPageView />
 
-							<TrpcProvider>
-								<TooltipProvider>
-									<PostHogIdentityProvider>
-										<SentryIdentityProvider>
-											<PostHogTeamIdProvider>
-												<ViewTransition>{children}</ViewTransition>
-											</PostHogTeamIdProvider>
-										</SentryIdentityProvider>
-									</PostHogIdentityProvider>
-								</TooltipProvider>
-							</TrpcProvider>
+								<TrpcProvider>
+									<TooltipProvider>
+										<PostHogIdentityProvider>
+											<SentryIdentityProvider>
+												<PostHogTeamIdProvider>
+													<ViewTransition>{children}</ViewTransition>
+												</PostHogTeamIdProvider>
+											</SentryIdentityProvider>
+										</PostHogIdentityProvider>
+									</TooltipProvider>
+								</TrpcProvider>
 
-							<Toaster />
-							<SpeedInsights />
-						</NuqsAdapter>
-					</ThemeProvider>
-				</CsPostHogProvider>
+								<Toaster />
+								<SpeedInsights />
+							</NuqsAdapter>
+						</ThemeProvider>
+					</CsPostHogProvider>
+				</PlausibleProvider>
 			</body>
 		</html>
 	);

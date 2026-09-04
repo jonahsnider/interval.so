@@ -9,7 +9,9 @@ dotenv.config({ path: path.join(__dirname, '..', '..', '.env') });
 /** @type {import('next').NextConfig} */
 
 module.exports = withSentryConfig(
-	withPlausibleProxy()({
+	withPlausibleProxy({
+		src: 'https://plausible.io/js/pa-ZdvdmM0wlrTnoHpJ0l-kO.js',
+	})({
 		cacheComponents: true,
 		images: {
 			qualities: [75, 95],
