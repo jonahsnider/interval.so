@@ -1,6 +1,6 @@
 import { convert } from 'convert';
-import type { TimeFilterSchema } from './time_filter_schema.js';
-import type { TimeRangeSchema } from './time_range_schema.js';
+import type { TimeFilterSchema } from './time_filter_schema.ts';
+import type { TimeRangeSchema } from './time_range_schema.ts';
 
 export enum DatumPeriod {
 	Daily = 'daily',

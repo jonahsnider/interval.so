@@ -9,8 +9,8 @@
 
 import router from '@adonisjs/core/services/router';
 
-const TrpcController = () => import('../app/trpc/trpc_controller.js');
-const HealthChecksController = () => import('../app/controllers/health_checks_controller.js');
+const TrpcController = () => import('../app/trpc/trpc_controller.ts');
+const HealthChecksController = () => import('../app/controllers/health_checks_controller.ts');
 
 router.any('/trpc/*', [TrpcController, 'index']);
 

@@ -1,10 +1,10 @@
 import { inject } from '@adonisjs/core';
 import { z } from 'zod';
-import { injectHelper } from '../../util/inject_helper.js';
-import { TeamSchema } from '../team/schemas/team_schema.js';
-import { TeamManagerSchema } from '../team_manager/schemas/team_manager_schema.js';
-import { TeamManagerService } from '../team_manager/team_manager_service.js';
-import { authedProcedure, router } from '../trpc/trpc_service.js';
+import { injectHelper } from '../../util/inject_helper.ts';
+import { TeamSchema } from '../team/schemas/team_schema.ts';
+import { TeamManagerSchema } from '../team_manager/schemas/team_manager_schema.ts';
+import { TeamManagerService } from '../team_manager/team_manager_service.ts';
+import { authedProcedure, router } from '../trpc/trpc_service.ts';
 
 @inject()
 @injectHelper(TeamManagerService)

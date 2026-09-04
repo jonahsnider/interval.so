@@ -1,10 +1,10 @@
 import { inject } from '@adonisjs/core';
-import { injectHelper } from '../../util/inject_helper.js';
-import { router } from '../trpc/trpc_service.js';
-import { AccountsRouter } from './accounts_router.js';
-import { GuestRouter } from './guest_router.js';
-import { TeamRouter } from './team_router.js';
-import { UserRouter } from './user_router.js';
+import { injectHelper } from '../../util/inject_helper.ts';
+import { router } from '../trpc/trpc_service.ts';
+import { AccountsRouter } from './accounts_router.ts';
+import { GuestRouter } from './guest_router.ts';
+import { TeamRouter } from './team_router.ts';
+import { UserRouter } from './user_router.ts';
 
 @inject()
 @injectHelper(AccountsRouter, UserRouter, TeamRouter, GuestRouter)

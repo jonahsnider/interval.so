@@ -2,12 +2,12 @@ import type { Session } from '@adonisjs/session';
 import { eq } from 'drizzle-orm';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
-import { ph } from '../analytics/analytics_service.js';
-import { AnalyticsEvent } from '../analytics/schemas/analytics_event.js';
-import { AuthorizationService } from '../authorization/authorization_service.js';
-import { db } from '../db/db_service.js';
-import type { UserSchema } from './schemas/user_schema.js';
-import { UserTimezoneSchema } from './schemas/user_timezone_schema.js';
+import { ph } from '../analytics/analytics_service.ts';
+import { AnalyticsEvent } from '../analytics/schemas/analytics_event.ts';
+import { AuthorizationService } from '../authorization/authorization_service.ts';
+import { db } from '../db/db_service.ts';
+import type { UserSchema } from './schemas/user_schema.ts';
+import { UserTimezoneSchema } from './schemas/user_timezone_schema.ts';
 
 export class UserService {
 	async getUser(

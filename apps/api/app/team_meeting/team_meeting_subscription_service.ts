@@ -1,14 +1,14 @@
 import { inject } from '@adonisjs/core';
 import { concat, filter, from, mergeMap, type Observable } from 'rxjs';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
-import { injectHelper } from '../../util/inject_helper.js';
-import { AuthorizationService } from '../authorization/authorization_service.js';
-import type { TeamSchema } from '../team/schemas/team_schema.js';
-import { MemberRedisEvent } from '../team_member/events/schemas/redis_event_schema.js';
-import { TeamMemberEventsService } from '../team_member/events/team_member_events_service.js';
-import type { TimeFilterSchema } from '../team_stats/schemas/time_filter_schema.js';
-import type { TeamMeetingSchema } from './schemas/team_meeting_schema.js';
-import { TeamMeetingService } from './team_meeting_service.js';
+import { injectHelper } from '../../util/inject_helper.ts';
+import { AuthorizationService } from '../authorization/authorization_service.ts';
+import type { TeamSchema } from '../team/schemas/team_schema.ts';
+import { MemberRedisEvent } from '../team_member/events/schemas/redis_event_schema.ts';
+import { TeamMemberEventsService } from '../team_member/events/team_member_events_service.ts';
+import type { TimeFilterSchema } from '../team_stats/schemas/time_filter_schema.ts';
+import type { TeamMeetingSchema } from './schemas/team_meeting_schema.ts';
+import { TeamMeetingService } from './team_meeting_service.ts';
 
 @inject()
 @injectHelper(TeamMemberEventsService, TeamMeetingService)

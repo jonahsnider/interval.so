@@ -2,10 +2,10 @@ import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 import logger from '@adonisjs/core/services/logger';
 import { Sentry } from '@rlanz/sentry';
-import { injectHelper } from '../../util/inject_helper.js';
-import { AppRouter } from '../routers/app_router.js';
-import { createTrpcHandlerAdonis, type TrpcHandlerAdonis } from './trpc_adonis_adapter.js';
-import { createHttpContext } from './trpc_context.js';
+import { injectHelper } from '../../util/inject_helper.ts';
+import { AppRouter } from '../routers/app_router.ts';
+import { createTrpcHandlerAdonis, type TrpcHandlerAdonis } from './trpc_adonis_adapter.ts';
+import { createHttpContext } from './trpc_context.ts';
 
 @inject()
 @injectHelper(AppRouter)

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { TeamSchema } from '../../team/schemas/team_schema.js';
+import { TeamSchema } from '../../team/schemas/team_schema.ts';
 
 export const UserSchema = z.object({
 	id: z.string().uuid(),

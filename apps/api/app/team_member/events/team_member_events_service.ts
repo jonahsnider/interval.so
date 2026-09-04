@@ -6,14 +6,14 @@ import { eq, inArray } from 'drizzle-orm';
 import { from, map, mergeMap, type Observable } from 'rxjs';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
-import { injectHelper } from '../../../util/inject_helper.js';
-import { AuthorizationService } from '../../authorization/authorization_service.js';
-import { db } from '../../db/db_service.js';
-import { MultiSubscriptionManager } from '../../redis/multi_subscription_manager.js';
-import type { TeamSchema } from '../../team/schemas/team_schema.js';
-import { TeamService } from '../../team/team_service.js';
-import type { TeamMemberSchema } from '../schemas/team_member_schema.js';
-import type { MemberRedisEvent } from './schemas/redis_event_schema.js';
+import { injectHelper } from '../../../util/inject_helper.ts';
+import { AuthorizationService } from '../../authorization/authorization_service.ts';
+import { db } from '../../db/db_service.ts';
+import { MultiSubscriptionManager } from '../../redis/multi_subscription_manager.ts';
+import type { TeamSchema } from '../../team/schemas/team_schema.ts';
+import { TeamService } from '../../team/team_service.ts';
+import type { TeamMemberSchema } from '../schemas/team_member_schema.ts';
+import type { MemberRedisEvent } from './schemas/redis_event_schema.ts';
 
 @inject()
 @injectHelper(TeamService)

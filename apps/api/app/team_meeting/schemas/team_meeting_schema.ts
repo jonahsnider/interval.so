@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { AttendanceEntrySchema } from '../../team_member_attendance/schemas/attendance_entry_schema.js';
+import { AttendanceEntrySchema } from '../../team_member_attendance/schemas/attendance_entry_schema.ts';
 
 export const TeamMeetingSchema = z
 	.object({

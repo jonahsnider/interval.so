@@ -13,9 +13,9 @@
 */
 
 export const policies = {
-	TeamMemberPolicy: () => import('./team_member_policy.js'),
-	UserPolicy: () => import('./user_policy.js'),
-	TeamPolicy: () => import('./team_policy.js'),
-	MeetingPolicy: () => import('./meeting_policy.js'),
-	TeamMemberAttendancePolicy: () => import('./team_member_attendance_policy.js'),
+	TeamMemberPolicy: () => import('./team_member_policy.ts'),
+	UserPolicy: () => import('./user_policy.ts'),
+	TeamPolicy: () => import('./team_policy.ts'),
+	MeetingPolicy: () => import('./meeting_policy.ts'),
+	TeamMemberAttendancePolicy: () => import('./team_member_attendance_policy.ts'),
 };

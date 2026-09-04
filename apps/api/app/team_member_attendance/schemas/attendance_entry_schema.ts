@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { TeamMemberSchema } from '../../team_member/schemas/team_member_schema.js';
+import { TeamMemberSchema } from '../../team_member/schemas/team_member_schema.ts';
 
 export const AttendanceEntrySchema = z.object({
 	attendanceId: z.string().uuid(),

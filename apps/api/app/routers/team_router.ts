@@ -1,16 +1,16 @@
 import { inject } from '@adonisjs/core';
 import { z } from 'zod';
-import { injectHelper } from '../../util/inject_helper.js';
-import { TeamSchema } from '../team/schemas/team_schema.js';
-import { TeamService } from '../team/team_service.js';
-import { TeamManagerSchema } from '../team_manager/schemas/team_manager_schema.js';
-import { authedProcedure, publicProcedure, router } from '../trpc/trpc_service.js';
-import { TeamForUserRouter } from './team_for_user_router.js';
-import { TeamManagerRouter } from './team_manager_router.js';
-import { TeamMeetingRouter } from './team_meeting_router.js';
-import { TeamMemberRouter } from './team_member_router.js';
-import { TeamSettingsRouter } from './team_settings_router.js';
-import { TeamStatsRouter } from './team_stats_router.js';
+import { injectHelper } from '../../util/inject_helper.ts';
+import { TeamSchema } from '../team/schemas/team_schema.ts';
+import { TeamService } from '../team/team_service.ts';
+import { TeamManagerSchema } from '../team_manager/schemas/team_manager_schema.ts';
+import { authedProcedure, publicProcedure, router } from '../trpc/trpc_service.ts';
+import { TeamForUserRouter } from './team_for_user_router.ts';
+import { TeamManagerRouter } from './team_manager_router.ts';
+import { TeamMeetingRouter } from './team_meeting_router.ts';
+import { TeamMemberRouter } from './team_member_router.ts';
+import { TeamSettingsRouter } from './team_settings_router.ts';
+import { TeamStatsRouter } from './team_stats_router.ts';
 
 @inject()
 @injectHelper(

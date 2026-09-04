@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm/relations';
-import { credentials, memberAttendance, teamManagers, teamMembers, teams, users } from './schema.js';
+import { credentials, memberAttendance, teamManagers, teamMembers, teams, users } from './schema.ts';
 
 export const usersRelations = relations(users, ({ many }) => ({
 	teamManagers: many(teamManagers),
