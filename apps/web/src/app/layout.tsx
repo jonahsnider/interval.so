@@ -64,9 +64,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<ViewTransitions>
 			<html lang='en' className='bg-background' suppressHydrationWarning={true}>
-				<head>
-					<PlausibleProvider domain='interval.so' />
-				</head>
 				<body
 					className={clsx(
 						'text-foreground bg-background-muted antialiased font-sans',
@@ -74,26 +71,33 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 						playfairDisplay.variable,
 					)}
 				>
-					<CsPostHogProvider>
-						<ThemeProvider attribute='class' defaultTheme='system' enableSystem={true} disableTransitionOnChange={true}>
-							<NuqsAdapter>
-								<PostHogPageView />
+					<PlausibleProvider>
+						<CsPostHogProvider>
+							<ThemeProvider
+								attribute='class'
+								defaultTheme='system'
+								enableSystem={true}
+								disableTransitionOnChange={true}
+							>
+								<NuqsAdapter>
+									<PostHogPageView />
 
-								<TrpcProvider>
-									<TooltipProvider>
-										<PostHogIdentityProvider>
-											<SentryIdentityProvider>
-												<PostHogTeamIdProvider>{children}</PostHogTeamIdProvider>
-											</SentryIdentityProvider>
-										</PostHogIdentityProvider>
-									</TooltipProvider>
-								</TrpcProvider>
+									<TrpcProvider>
+										<TooltipProvider>
+											<PostHogIdentityProvider>
+												<SentryIdentityProvider>
+													<PostHogTeamIdProvider>{children}</PostHogTeamIdProvider>
+												</SentryIdentityProvider>
+											</PostHogIdentityProvider>
+										</TooltipProvider>
+									</TrpcProvider>
 
-								<Toaster />
-								<SpeedInsights />
-							</NuqsAdapter>
-						</ThemeProvider>
-					</CsPostHogProvider>
+									<Toaster />
+									<SpeedInsights />
+								</NuqsAdapter>
+							</ThemeProvider>
+						</CsPostHogProvider>
+					</PlausibleProvider>
 				</body>
 			</html>
 		</ViewTransitions>
