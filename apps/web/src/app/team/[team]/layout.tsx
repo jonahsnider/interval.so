@@ -1,10 +1,6 @@
-import type { PropsWithChildren } from 'react';
+import { type PropsWithChildren, Suspense } from 'react';
 import { FooterWrapper } from '@/src/components/page-wrappers/footer-wrapper';
 import { TeamSlugProvider } from '@/src/components/team-dashboard/team-slug-provider';
-
-// TODO: Cache Components adoption. Refactor this route so this opt-out can be removed.
-// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
-export const instant = false;
 
 type Props = PropsWithChildren<{
 	params: Promise<{
@@ -12,14 +8,19 @@ type Props = PropsWithChildren<{
 	}>;
 }>;
 
-export default async function TeamPageLayout(props: Props) {
+async function TeamPageContent(props: Props) {
 	const params = await props.params;
-
 	const { children } = props;
 
+	return <TeamSlugProvider team={{ slug: params.team }}>{children}</TeamSlugProvider>;
+}
+
+export default function TeamPageLayout(props: Props) {
 	return (
 		<FooterWrapper>
-			<TeamSlugProvider team={{ slug: params.team }}>{children}</TeamSlugProvider>
+			<Suspense>
+				<TeamPageContent {...props} />
+			</Suspense>
 		</FooterWrapper>
 	);
 }

@@ -13,9 +13,7 @@ type Props = {
 	currentTeam?: Pick<TeamSchema, 'slug'>;
 };
 
-export async function Navbar({ children, currentTeam, className }: PropsWithChildren<Props>) {
-	await connection();
-
+export function Navbar({ children, currentTeam, className }: PropsWithChildren<Props>) {
 	return (
 		<BaseNavbar
 			className={className}
@@ -26,7 +24,9 @@ export async function Navbar({ children, currentTeam, className }: PropsWithChil
 							<TeamDropdownItem currentTeam={currentTeam} />
 						</Suspense>
 					</ErrorBoundary>
-					<GuestTeamNavbarItem />
+					<Suspense>
+						<GuestTeamNavbarItem />
+					</Suspense>
 				</>
 			}
 			right={

@@ -1,13 +1,9 @@
-import type { PropsWithChildren } from 'react';
+import { type PropsWithChildren, Suspense } from 'react';
 import { ManagerDashboardProvider } from '@/src/components/manager/dashboard/manager-dashboard-context';
 import { ManagerDashboardPeriodSelect } from '@/src/components/manager/dashboard/period-select';
 import { EndMeetingButton } from '@/src/components/manager/end-meeting-button/end-meeting-button';
 import { PageHeader } from '@/src/components/page-header';
 import { MainContent } from '@/src/components/page-wrappers/main-content';
-
-// TODO: Cache Components adoption. Refactor this route so this opt-out can be removed.
-// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
-export const instant = false;
 
 type Props = PropsWithChildren<{
 	params: Promise<{
@@ -15,7 +11,7 @@ type Props = PropsWithChildren<{
 	}>;
 }>;
 
-export default async function ManagerDashboardLayout(props: Props) {
+async function ManagerDashboardLayoutContent(props: Props) {
 	const params = await props.params;
 
 	const { children } = props;
@@ -32,5 +28,13 @@ export default async function ManagerDashboardLayout(props: Props) {
 			</PageHeader>
 			<MainContent>{children}</MainContent>
 		</ManagerDashboardProvider>
+	);
+}
+
+export default function ManagerDashboardLayout(props: Props) {
+	return (
+		<Suspense>
+			<ManagerDashboardLayoutContent {...props} />
+		</Suspense>
 	);
 }

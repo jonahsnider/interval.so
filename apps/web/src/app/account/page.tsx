@@ -2,10 +2,6 @@ import { DeleteAccountCard } from '@/src/components/account/settings/delete-acco
 import { DisplayNameCard } from '@/src/components/account/settings/display-name-card/display-name-card.server';
 import { AuthWall } from '@/src/components/auth-wall/auth-wall';
 
-// TODO: Cache Components adoption. Refactor this route so this opt-out can be removed.
-// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
-export const instant = false;
-
 export default function ProfilePage() {
 	return (
 		<AuthWall kind='user'>
