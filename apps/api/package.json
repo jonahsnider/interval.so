@@ -37,7 +37,7 @@
 		"@adonisjs/bouncer": "4.0.1",
 		"@adonisjs/core": "7.5.0",
 		"@adonisjs/cors": "3.0.0",
-		"@adonisjs/redis": "10.0.2",
+		"@adonisjs/redis": "11.0.0",
 		"@adonisjs/session": "8.1.0",
 		"@jonahsnider/util": "13.0.0",
 		"@paralleldrive/cuid2": "3.3.0",
