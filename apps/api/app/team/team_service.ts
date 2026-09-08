@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { TRPCError } from '@trpc/server';
-import { cryptoRandomStringAsync } from 'crypto-random-string';
+import cryptoRandomString from 'crypto-random-string';
 import { and, count, eq, inArray } from 'drizzle-orm';
 import postgres from 'postgres';
 import * as Schema from '#database/schema';
@@ -16,8 +16,8 @@ import type { TeamSchema } from './schemas/team_schema.ts';
 export class TeamService {
 	private static readonly MAX_TEAMS_PER_USER = 10;
 
-	private static generateInviteCode(): Promise<string> {
-		return cryptoRandomStringAsync({
+	private static generateInviteCode(): string {
+		return cryptoRandomString({
 			length: 32,
 			type: 'alphanumeric',
 		});
@@ -51,7 +51,7 @@ export class TeamService {
 						displayName: input.displayName,
 						slug: input.slug,
 						password: input.password,
-						inviteCode: await TeamService.generateInviteCode(),
+						inviteCode: TeamService.generateInviteCode(),
 					})
 					.returning({ teamId: Schema.teams.teamId });
 
@@ -295,7 +295,7 @@ export class TeamService {
 	async resetInviteCode(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>): Promise<Pick<TeamSchema, 'inviteCode'>> {
 		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('resetInviteUrl', team));
 
-		const newCode = await TeamService.generateInviteCode();
+		const newCode = TeamService.generateInviteCode();
 
 		const [dbTeam] = await db
 			.update(Schema.teams)
