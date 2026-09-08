@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { TRPCError } from '@trpc/server';
-import { cryptoRandomStringAsync } from 'crypto-random-string';
+import cryptoRandomString from 'crypto-random-string';
 import { and, count, eq, inArray } from 'drizzle-orm';
 import postgres from 'postgres';
 import * as Schema from '#database/schema';
@@ -17,7 +17,7 @@ export class TeamService {
 	private static readonly MAX_TEAMS_PER_USER = 10;
 
 	private static generateInviteCode(): Promise<string> {
-		return cryptoRandomStringAsync({
+		return cryptoRandomString({
 			length: 32,
 			type: 'alphanumeric',
 		});
