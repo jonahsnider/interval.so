@@ -29,7 +29,7 @@ export function useLogOut({ redirectTo }: Props = {}): {
 			toast.success('You have been logged out', { id: toastId });
 
 			// Invalidate tRPC context, used for analytics
-			utils.user.getSelf.invalidate();
+			void utils.user.getSelf.invalidate();
 		},
 		onError: (error) => {
 			toast.error('An error occurred while logging you out', {

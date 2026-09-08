@@ -31,7 +31,7 @@ function MeetingDialogInner({ meeting, children, team }: Props) {
 		queryStates.dialogEnd?.getTime() === meeting.endedAt?.getTime();
 
 	const closeDialog = () => {
-		setQueryStates({
+		void setQueryStates({
 			dialogStart: null,
 			dialogEnd: null,
 		});
@@ -43,7 +43,7 @@ function MeetingDialogInner({ meeting, children, team }: Props) {
 			open={open}
 			onOpenChange={(open) => {
 				if (open) {
-					setQueryStates({
+					void setQueryStates({
 						dialogStart: meeting.startedAt,
 						dialogEnd: meeting.endedAt,
 					});

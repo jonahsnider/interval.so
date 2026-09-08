@@ -10,7 +10,7 @@ export function TimeFilterPicker() {
 	const [searchParams, setSearchParams] = useQueryStates(searchParamParsers);
 
 	const setDatesAndClearDuration: SelectRangeEventHandler = (event) => {
-		setSearchParams({
+		void setSearchParams({
 			duration: DurationSlug.Custom,
 			start: event?.from ?? null,
 			end: event?.to ?? null,
@@ -18,7 +18,7 @@ export function TimeFilterPicker() {
 	};
 
 	const setDurationAndClearDates = (duration: DurationSlug) => {
-		setSearchParams({ duration, start: null, end: null });
+		void setSearchParams({ duration, start: null, end: null });
 	};
 
 	return (

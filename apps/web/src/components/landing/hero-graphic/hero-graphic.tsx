@@ -56,7 +56,7 @@ function GroupA() {
 	}, [scopeA2, scopeA3, animate]);
 
 	useEffect(() => {
-		animationSequence();
+		void animationSequence();
 	}, [animationSequence]);
 
 	return (
@@ -127,7 +127,7 @@ function GroupE() {
 	}, [scopeE1, scopeE2, animate, exitX]);
 
 	useEffect(() => {
-		animationSequence();
+		void animationSequence();
 	}, [animationSequence]);
 
 	return (
@@ -180,7 +180,7 @@ function GroupF() {
 	}, [scopeF2, scopeF3, scopeF4, animate, exitY]);
 
 	useEffect(() => {
-		animationSequence();
+		void animationSequence();
 	}, [animationSequence]);
 
 	return (
@@ -242,7 +242,7 @@ function GroupG() {
 	}, [scopeG1, scopeG2, scopeG3, scopeG4, animate, exitY]);
 
 	useEffect(() => {
-		animationSequence();
+		void animationSequence();
 	}, [animationSequence]);
 
 	return (

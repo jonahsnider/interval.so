@@ -36,7 +36,7 @@ new Ignitor(APP_ROOT, { importer: IMPORTER })
 		});
 		app.listen('SIGTERM', () => app.terminate());
 		app.listenIf(app.managedByPm2, 'SIGINT', () => app.terminate());
-		app.ready(async () => {
+		void app.ready(async () => {
 			await import('#start/ws');
 		});
 	})
@@ -44,5 +44,5 @@ new Ignitor(APP_ROOT, { importer: IMPORTER })
 	.start()
 	.catch((error) => {
 		process.exitCode = 1;
-		prettyPrintError(error);
+		void prettyPrintError(error);
 	});

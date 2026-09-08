@@ -26,14 +26,14 @@ export function ManagerDashboardProvider({ children }: PropsWithChildren) {
 
 	const setDurationAndClearDates = useMemo(
 		() => (value: DurationSlug) => {
-			setQuery({ duration: value, start: null, end: null });
+			void setQuery({ duration: value, start: null, end: null });
 		},
 		[setQuery],
 	);
 
 	const setDatesAndClearDuration: SelectRangeEventHandler = useMemo(
 		() => (event) => {
-			setQuery({ duration: DurationSlug.Custom, start: event?.from ?? null, end: event?.to ?? null });
+			void setQuery({ duration: DurationSlug.Custom, start: event?.from ?? null, end: event?.to ?? null });
 		},
 		[setQuery],
 	);

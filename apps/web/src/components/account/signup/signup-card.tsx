@@ -64,7 +64,7 @@ export function SignupCard() {
 			if (error instanceof TRPCClientError) {
 				toast.error(`An error occurred while preparing to register a passkey: ${error.message}`);
 			} else {
-				toast.error(`An unknown error occurred while preparing to register a passkey: ${error}`);
+				toast.error(`An unknown error occurred while preparing to register a passkey: ${String(error)}`);
 			}
 
 			throw error;
@@ -88,7 +88,7 @@ export function SignupCard() {
 					toast.error(`An error occurred while registering a passkey for your account: ${error.message}`);
 				}
 			} else {
-				toast.error(`An unknown error occurred while registering a passkey for your account: ${error}`);
+				toast.error(`An unknown error occurred while registering a passkey for your account: ${String(error)}`);
 			}
 
 			throw error;
@@ -102,7 +102,7 @@ export function SignupCard() {
 			if (error instanceof TRPCClientError) {
 				toast.error(`An error occurred while finalizing your registration: ${error.message}`);
 			} else {
-				toast.error(`An unknown error occurred while finalizing your registration: ${error}`);
+				toast.error(`An unknown error occurred while finalizing your registration: ${String(error)}`);
 			}
 
 			throw error;
