@@ -15,7 +15,7 @@
 		"type-check": "turbo run type-check"
 	},
 	"devDependencies": {
-		"oxfmt": "0.66.0",
+		"oxfmt": "0.67.0",
 		"oxlint": "1.81.0",
 		"oxlint-tsgolint": "^7.0.2001",
 		"railway": "3.11.0",
