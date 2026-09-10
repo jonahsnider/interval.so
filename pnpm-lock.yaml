@@ -215,8 +215,8 @@ importers:
         specifier: 8.21.3
         version: 8.21.3
       zod:
-        specifier: 4.6.0
-        version: 4.6.0
+        specifier: 4.6.1
+        version: 4.6.1
     devDependencies:
       '@adonisjs/assembler':
         specifier: 8.5.1
@@ -262,7 +262,7 @@ importers:
         version: 2.2.0(react@19.3.0)
       '@hookform/resolvers':
         specifier: 5.9.1
-        version: 5.9.1(@sinclair/typebox@0.25.24)(@standard-schema/spec@1.1.0)(@vinejs/vine@4.4.0)(ajv-formats@2.1.1(ajv@8.20.0))(ajv@8.20.0)(react-hook-form@7.87.0(react@19.3.0))(zod@4.6.0)
+        version: 5.9.1(@sinclair/typebox@0.25.24)(@standard-schema/spec@1.1.0)(@vinejs/vine@4.4.0)(ajv-formats@2.1.1(ajv@8.20.0))(ajv@8.20.0)(react-hook-form@7.87.0(react@19.3.0))(zod@4.6.1)
       '@interval.so/api':
         specifier: workspace:*
         version: link:../api
@@ -450,8 +450,8 @@ importers:
         specifier: 1.3.1
         version: 1.3.1(@types/react@19.3.0)(mutative@1.3.0)(react@19.3.0)
       zod:
-        specifier: 4.6.0
-        version: 4.6.0
+        specifier: 4.6.1
+        version: 4.6.1
     devDependencies:
       '@types/node':
         specifier: 26.5.1
@@ -7234,6 +7234,9 @@ packages:
   zod@4.6.0:
     resolution: {integrity: sha512-iIvwyDnebKYpww2ta0DjaNOL8RnVLmPMhgWyOzlW9y0EIIxv5gl+H6Y0ONpt83HqjGqkk78uWp6xWtpxzZdPbw==}
 
+  zod@4.6.1:
+    resolution: {integrity: sha512-341aRWQsve0rvronKNTqZpjmzdbUDlFuzHaI/XLg/Ej82qffDJRRfBTCuv7+9q/rMjB6LSLyEBnW4InJeMtt/Q==}
+
 snapshots:
 
   '@adonisjs/ace@14.1.0(youch@4.1.1)':
@@ -8002,7 +8005,7 @@ snapshots:
 
   '@hexagon/base64@1.1.28': {}
 
-  '@hookform/resolvers@5.9.1(@sinclair/typebox@0.25.24)(@standard-schema/spec@1.1.0)(@vinejs/vine@4.4.0)(ajv-formats@2.1.1(ajv@8.20.0))(ajv@8.20.0)(react-hook-form@7.87.0(react@19.3.0))(zod@4.6.0)':
+  '@hookform/resolvers@5.9.1(@sinclair/typebox@0.25.24)(@standard-schema/spec@1.1.0)(@vinejs/vine@4.4.0)(ajv-formats@2.1.1(ajv@8.20.0))(ajv@8.20.0)(react-hook-form@7.87.0(react@19.3.0))(zod@4.6.1)':
     dependencies:
       '@standard-schema/utils': 0.3.0
       react-hook-form: 7.87.0(react@19.3.0)
@@ -8012,7 +8015,7 @@ snapshots:
       '@vinejs/vine': 4.4.0
       ajv: 8.20.0
       ajv-formats: 2.1.1(ajv@8.20.0)
-      zod: 4.6.0
+      zod: 4.6.1
 
   '@img/colour@1.1.0': {}
 
@@ -13354,3 +13357,5 @@ snapshots:
   zod@4.1.11: {}
 
   zod@4.6.0: {}
+
+  zod@4.6.1: {}
