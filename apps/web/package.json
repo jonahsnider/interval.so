@@ -59,7 +59,7 @@
 		"postcss-import": "17.0.0",
 		"posthog-js": "1.428.11",
 		"react": "19.3.0",
-		"react-day-picker": "8.10.2",
+		"react-day-picker": "10.0.1",
 		"react-dom": "19.3.0",
 		"react-error-boundary": "6.1.5",
 		"react-hook-form": "7.87.0",
