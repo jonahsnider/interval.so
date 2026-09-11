@@ -179,8 +179,8 @@ importers:
         specifier: 4.4.0
         version: 4.4.0
       convert:
-        specifier: 8.0.1
-        version: 8.0.1
+        specifier: 8.0.2
+        version: 8.0.2
       crypto-random-string:
         specifier: 6.0.0
         version: 6.0.0
@@ -369,8 +369,8 @@ importers:
         specifier: ^1.0.0
         version: 1.1.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       convert:
-        specifier: 8.0.1
-        version: 8.0.1
+        specifier: 8.0.2
+        version: 8.0.2
       date-fns:
         specifier: 4.4.0
         version: 4.4.0
@@ -4745,8 +4745,8 @@ packages:
   convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
 
-  convert@8.0.1:
-    resolution: {integrity: sha512-lwoEMYZxln/NOBAxEM8RIUqNvaakcm2EBWjilaSyOD+ENh25LlwU5cZfz7rAq/Tf40Jy8FNfl+KV72Dhu7Hu/A==}
+  convert@8.0.2:
+    resolution: {integrity: sha512-Fc/9LZbtnjdrcwnV4M6TJaUnpIWIRp6sR8Qhvn0x+22pVjNhLdqRJMih4Nue3g0W7PH2zy3wdp/+iysZYYg0IQ==}
 
   cookie-es@3.1.1:
     resolution: {integrity: sha512-UaXxwISYJPTr9hwQxMFYZ7kNhSXboMXP+Z3TRX6f1/NyaGPfuNUZOWP1pUEb75B2HjfklIYLVRfWiFZJyC6Npg==}
@@ -11026,7 +11026,7 @@ snapshots:
 
   convert-source-map@2.0.0: {}
 
-  convert@8.0.1: {}
+  convert@8.0.2: {}
 
   cookie-es@3.1.1: {}
 
