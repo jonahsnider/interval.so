@@ -63,7 +63,7 @@
 		"react-dom": "19.3.0",
 		"react-error-boundary": "6.1.5",
 		"react-hook-form": "7.88.0",
-		"recharts": "^2.15.4",
+		"recharts": "^3.0.0",
 		"server-only": "0.0.1",
 		"sharp": "0.35.4",
 		"sonner": "2.0.8",
