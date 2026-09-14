@@ -30,7 +30,7 @@
 		"migrate:apply": "drizzle-kit migrate",
 		"migrate:create": "drizzle-kit generate",
 		"start": "node bin/server.js",
-		"typecheck": "tsc --noEmit"
+		"type-check": "tsc --noEmit"
 	},
 	"dependencies": {
 		"@adonisjs/auth": "10.1.0",

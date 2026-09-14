@@ -2,8 +2,17 @@
 	"$schema": "https://turbo.build/schema.json",
 	"tasks": {
 		"build": {
+			"dependsOn": ["^build"]
+		},
+		"@interval.so/api#build": {
 			"dependsOn": ["^build"],
-			"outputs": [".next/**", "!.next/cache/**", "build/**"]
+			"outputs": ["build/**"]
+		},
+		"@interval.so/web#build": {
+			"dependsOn": ["^build"],
+			"env": ["API_URL", "NEXT_PUBLIC_API_URL", "NEXT_PUBLIC_SENTRY_DSN", "POSTHOG_HOST", "POSTHOG_KEY"],
+			"outputs": [".next/**", "!.next/cache/**"],
+			"passThroughEnv": ["SENTRY_AUTH_TOKEN", "VERCEL_OIDC_TOKEN"]
 		},
 		"type-check": {
 			"dependsOn": ["^type-check"]
