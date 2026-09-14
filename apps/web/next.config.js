@@ -2,7 +2,7 @@ const { withPlausibleProxy } = require('next-plausible');
 const getBaseApiUrl = require('./shared.js');
 const dotenv = require('dotenv');
 const path = require('node:path');
-const { withSentryConfig } = require('@sentry/nextjs');
+const { withSentryConfig } = require('@sentry/nextjs/config');
 
 dotenv.config({ path: path.join(__dirname, '..', '..', '.env') });
 
