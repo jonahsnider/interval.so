@@ -45,7 +45,7 @@
 		"@sentry/node": "10.75.0",
 		"@sentry/profiling-node": "10.75.0",
 		"@simplewebauthn/server": "14.0.2",
-		"@trpc/server": "11.18.0",
+		"@trpc/server": "11.19.0",
 		"@vinejs/vine": "4.4.0",
 		"convert": "8.0.2",
 		"crypto-random-string": "6.0.0",
