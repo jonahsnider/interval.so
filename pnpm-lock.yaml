@@ -294,8 +294,8 @@ importers:
         specifier: 8.18.1
         version: 8.18.1
       dotenv:
-        specifier: 17.4.2
-        version: 17.4.2
+        specifier: 18.0.1
+        version: 18.0.1
       execa:
         specifier: 10.0.1
         version: 10.0.1
@@ -514,8 +514,8 @@ importers:
         specifier: 26.6.2
         version: 26.6.2
       dotenv:
-        specifier: 17.4.2
-        version: 17.4.2
+        specifier: 18.0.1
+        version: 18.0.1
 
 packages:
 
@@ -4159,9 +4159,6 @@ packages:
   '@types/node@24.13.3':
     resolution: {integrity: sha512-Dh8vAsV36ig5wa9OX4pXvMc9D3Veibfw2wix0CUwYODLD8nkj9UsLjASr49nPg+2eKzxhBV+v7L8pXvT4e639Q==}
 
-  '@types/node@26.6.1':
-    resolution: {integrity: sha512-VqGJBMCtdhqkBUCcBLvywI0NJ+KLuVzgNnlBUNFOQjqVxzo2lxLUNg1DSey8+u2u6ktswSAxg+s68QLzWHNOuA==}
-
   '@types/node@26.6.2':
     resolution: {integrity: sha512-X1P21scMv4zGKLYqjdGjaKa7COa0RKVYYZZN/NfvLQ1JegxFhdhpZG/Lyn8AXx6CDUavKAd11v6BvfpkDByK8g==}
 
@@ -4979,6 +4976,11 @@ packages:
   dotenv@17.4.2:
     resolution: {integrity: sha512-nI4U3TottKAcAD9LLud4Cb7b2QztQMUEfHbvhTH09bqXTxnSie8WnjPALV/WMCrJZ6UV/qHJ6L03OqO3LcdYZw==}
     engines: {node: '>=12'}
+
+  dotenv@18.0.1:
+    resolution: {integrity: sha512-0eR4m4D/jH5eaI3evo2ZqqMii5mrTCR12v12VChdie6O1gPHs7XAjzTep0CWc1Bd+oNx3vVfbi734dK4zghigw==}
+    engines: {node: '>=12'}
+    hasBin: true
 
   drizzle-kit@0.31.10:
     resolution: {integrity: sha512-7OZcmQUrdGI+DUNNsKBn1aW8qSoKuTH7d0mYgSP8bAzdFzKoovxEFnoGQp2dVs82EOJeYycqRtciopszwUf8bw==}
@@ -10283,10 +10285,6 @@ snapshots:
     dependencies:
       undici-types: 7.18.2
 
-  '@types/node@26.6.1':
-    dependencies:
-      undici-types: 8.9.0
-
   '@types/node@26.6.2':
     dependencies:
       undici-types: 8.9.0
@@ -11230,6 +11228,8 @@ snapshots:
 
   dotenv@17.4.2: {}
 
+  dotenv@18.0.1: {}
+
   drizzle-kit@0.31.10:
     dependencies:
       '@drizzle-team/brocli': 0.10.2
@@ -11808,7 +11808,7 @@ snapshots:
 
   jest-worker@27.5.1:
     dependencies:
-      '@types/node': 26.6.1
+      '@types/node': 26.6.2
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
