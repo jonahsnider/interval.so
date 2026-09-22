@@ -16,7 +16,7 @@
 	},
 	"devDependencies": {
 		"oxfmt": "0.70.0",
-		"oxlint": "1.84.0",
+		"oxlint": "1.85.0",
 		"oxlint-tsgolint": "^7.0.2001",
 		"railway": "3.11.0",
 		"turbo": "2.11.2",
