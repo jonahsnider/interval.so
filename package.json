@@ -19,7 +19,7 @@
 		"oxlint": "1.85.0",
 		"oxlint-tsgolint": "^7.0.2001",
 		"railway": "3.11.0",
-		"turbo": "2.11.2",
+		"turbo": "2.11.3",
 		"vercel": "59.25.2"
 	},
 	"devEngines": {
