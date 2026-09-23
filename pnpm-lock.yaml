@@ -188,8 +188,8 @@ importers:
         specifier: 2.11.3
         version: 2.11.3
       vercel:
-        specifier: 59.25.2
-        version: 59.25.2(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(rollup@4.63.0)(supports-color@10.2.2)
+        specifier: 59.25.4
+        version: 59.25.4(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(rollup@4.63.0)(supports-color@10.2.2)
 
   apps/api:
     dependencies:
@@ -4223,8 +4223,8 @@ packages:
     resolution: {integrity: sha512-g9XerViJ/paZujufXYcu5XYI2vU2rtB4sgdpjUHde5RnOkdmpu0ngH46LCFGHoPXO/C+qDPSczIHIRN+8Q2YKQ==}
     engines: {node: '>= 18'}
 
-  '@vercel/container@8.3.1':
-    resolution: {integrity: sha512-iQ/46SlaYvEkA/DY9sYHRKY5rc/tPsiqlIeeFl1sjhwG0zJoNbXVlLIT4o9jobQ+7Ss3yvYtxjd/BT86B9FZuw==}
+  '@vercel/container@8.4.0':
+    resolution: {integrity: sha512-3NLKqP8KfTn9YVhUSg3/aGvPhicqAjGNhnM8xmgN/1U1z+BDeu8rya3LUlhyvdcO1TF7CprHYZIiX+2MEqBHlw==}
     peerDependencies:
       '@vercel/build-utils': 14.10.2
 
@@ -4381,33 +4381,33 @@ packages:
   '@vercel/static-config@3.4.3':
     resolution: {integrity: sha512-BY1sL8rNJvIm3TK/8TQ+Q6jIx7NpO5xckQzv7s6c1ypHvRnTl+vf6rmgY5WFXmoYDeGm3tMy4jiy/5M/5jGr/g==}
 
-  '@vercel/vc-native-darwin-arm64@59.25.2':
-    resolution: {integrity: sha512-8fCcmY0TrTEs0SrahJf+NeRzgelvWPf5zTbTl3rnkPuDlLJ5bkJcz13Hv4jmOF+n17LNDE6Af5TZU9iRRrLz9g==}
+  '@vercel/vc-native-darwin-arm64@59.25.4':
+    resolution: {integrity: sha512-nOfeLZFW9NwOnVUu6ZMlhDJomd/MYCqZwAEA2TmzrczrOL2J/NzzkOVRlRUfz+IO0Ktw0Qvqh2SewuXM3TQrng==}
     cpu: [arm64]
     os: [darwin]
 
-  '@vercel/vc-native-darwin-x64@59.25.2':
-    resolution: {integrity: sha512-piOC1v/H/uL/PfQFEUgW6SPX3Cz4rqXOXJmUFafPpHlCqaky5UOOWBLMJB1Fue6cGy8r4XtrponK6J+fEAIB5w==}
+  '@vercel/vc-native-darwin-x64@59.25.4':
+    resolution: {integrity: sha512-HOZ6vGsM0fDVVWNDvOcAo/yJW7W0mUqv8nHPbGjdZPfED75jxs5qY7TeGIseXAVCrH75o3dfHjAUYoKoyg2IFw==}
     cpu: [x64]
     os: [darwin]
 
-  '@vercel/vc-native-linux-arm64@59.25.2':
-    resolution: {integrity: sha512-lkFzFPsCf3PrTSwQJuzBpc9p6Jcc69EMB2Lny3LXd5ckuz5diYUuMoHuKf4EGAesTamhI7VjPS3mkq43j5DtNg==}
+  '@vercel/vc-native-linux-arm64@59.25.4':
+    resolution: {integrity: sha512-QN3MDqXmofTwxiW8XlBHnDg2oA6FB/GJZZxllol/KiCmGDhMdaWDKksvfcYDbuWOrT8Qi1atv2a4MsPz81OCKQ==}
     cpu: [arm64]
     os: [linux]
 
-  '@vercel/vc-native-linux-x64@59.25.2':
-    resolution: {integrity: sha512-sjpGzuPGa2mjSn60ssptqZetM1GOV9xpCB9lzkBYREJtSsH5tjwzszK2ssKom//GyWkdo3tZha5WQwfK4pde3Q==}
+  '@vercel/vc-native-linux-x64@59.25.4':
+    resolution: {integrity: sha512-UBlHVmYbD5/zPV4DC+fO5Thgdi6CTPKuDtmsl9XANjEqr32plrtaQhgbFwjFl+7Yxhrzqz/hn07DjyjD2qMBGg==}
     cpu: [x64]
     os: [linux]
 
-  '@vercel/vc-native-win32-arm64@59.25.2':
-    resolution: {integrity: sha512-gHQZkF9bQrCOzu7R+egidNx+lIbfzVzHp7gBQfvo9fMJC2YkAHbCEXkOA2qeUD0PRUywpLzZbwtnjlkHw654fw==}
+  '@vercel/vc-native-win32-arm64@59.25.4':
+    resolution: {integrity: sha512-Im6MBCpRzQV11H/w+gzmB6BGtK//h/9oozqKZoGQpz2LL6FwEjSi7wcsjzPTjdWXHUhXHQgRi2arOyAXBgCQrw==}
     cpu: [arm64]
     os: [win32]
 
-  '@vercel/vc-native-win32-x64@59.25.2':
-    resolution: {integrity: sha512-8WSCJ7ohlPvxxKGuGrS3nz/Sb109zKKsmf2RtIHA9tKFUQVuYXU3HUCEh29GlGPmLiMxghOyJhS4N5pT57usjQ==}
+  '@vercel/vc-native-win32-x64@59.25.4':
+    resolution: {integrity: sha512-vNooyn1uoTR7cUP5xnfrKZF6rLGY7KvyCf04aOqYtu4ybSpjVw5ZyYC3RK9OUDHVq1QZh/tOmNBk8ztye9eyiA==}
     cpu: [x64]
     os: [win32]
 
@@ -7170,8 +7170,8 @@ packages:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
 
-  vercel@59.25.2:
-    resolution: {integrity: sha512-3qeivfZzkmPXh//WwtHy5auHm4VGf7EAsfdnXsrG5UVU4rQTrB23+KRAKvOAumj8sf/yQLLzWZEt985kA/GoUA==}
+  vercel@59.25.4:
+    resolution: {integrity: sha512-h3VxQx+sEKHmxS3k737wGiDk5dyNnHjz0+d+hOsJs0TQFvZg6qP8+Wgc3DK82K9EDDpfFHqdo0nsWyfU1KxeZA==}
     engines: {node: '>= 18'}
     hasBin: true
 
@@ -10391,7 +10391,7 @@ snapshots:
     dependencies:
       execa: 5.1.1
 
-  '@vercel/container@8.3.1(@vercel/build-utils@14.10.2)':
+  '@vercel/container@8.4.0(@vercel/build-utils@14.10.2)':
     dependencies:
       '@vercel/build-utils': 14.10.2
       smol-toml: 1.5.2
@@ -10714,22 +10714,22 @@ snapshots:
       - '@emnapi/core'
       - '@emnapi/runtime'
 
-  '@vercel/vc-native-darwin-arm64@59.25.2':
+  '@vercel/vc-native-darwin-arm64@59.25.4':
     optional: true
 
-  '@vercel/vc-native-darwin-x64@59.25.2':
+  '@vercel/vc-native-darwin-x64@59.25.4':
     optional: true
 
-  '@vercel/vc-native-linux-arm64@59.25.2':
+  '@vercel/vc-native-linux-arm64@59.25.4':
     optional: true
 
-  '@vercel/vc-native-linux-x64@59.25.2':
+  '@vercel/vc-native-linux-x64@59.25.4':
     optional: true
 
-  '@vercel/vc-native-win32-arm64@59.25.2':
+  '@vercel/vc-native-win32-arm64@59.25.4':
     optional: true
 
-  '@vercel/vc-native-win32-x64@59.25.2':
+  '@vercel/vc-native-win32-x64@59.25.4':
     optional: true
 
   '@vinejs/compiler@4.1.3': {}
@@ -13233,14 +13233,14 @@ snapshots:
 
   vary@1.1.2: {}
 
-  vercel@59.25.2(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(rollup@4.63.0)(supports-color@10.2.2):
+  vercel@59.25.4(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(rollup@4.63.0)(supports-color@10.2.2):
     dependencies:
       '@vercel/backends': 8.0.2(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@vercel/build-utils@14.10.2)(rollup@4.63.0)(supports-color@10.2.2)
       '@vercel/blob': 2.8.0
       '@vercel/build-utils': 14.10.2
       '@vercel/cli-auth': 0.3.9
       '@vercel/cli-config': 0.3.0
-      '@vercel/container': 8.3.1(@vercel/build-utils@14.10.2)
+      '@vercel/container': 8.4.0(@vercel/build-utils@14.10.2)
       '@vercel/detect-agent': 1.2.5
       '@vercel/elysia': 8.0.2(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@vercel/build-utils@14.10.2)(rollup@4.63.0)(supports-color@10.2.2)
       '@vercel/express': 8.0.2(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@vercel/build-utils@14.10.2)(rollup@4.63.0)(supports-color@10.2.2)
@@ -13273,12 +13273,12 @@ snapshots:
       uuid: 14.0.1
       zod: 4.1.11
     optionalDependencies:
-      '@vercel/vc-native-darwin-arm64': 59.25.2
-      '@vercel/vc-native-darwin-x64': 59.25.2
-      '@vercel/vc-native-linux-arm64': 59.25.2
-      '@vercel/vc-native-linux-x64': 59.25.2
-      '@vercel/vc-native-win32-arm64': 59.25.2
-      '@vercel/vc-native-win32-x64': 59.25.2
+      '@vercel/vc-native-darwin-arm64': 59.25.4
+      '@vercel/vc-native-darwin-x64': 59.25.4
+      '@vercel/vc-native-linux-arm64': 59.25.4
+      '@vercel/vc-native-linux-x64': 59.25.4
+      '@vercel/vc-native-win32-arm64': 59.25.4
+      '@vercel/vc-native-win32-x64': 59.25.4
     transitivePeerDependencies:
       - '@emnapi/core'
       - '@emnapi/runtime'
