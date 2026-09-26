@@ -254,8 +254,8 @@ importers:
         specifier: 3.4.9
         version: 3.4.9
       posthog-node:
-        specifier: 5.54.0
-        version: 5.54.0(rxjs@7.8.2)
+        specifier: 5.54.1
+        version: 5.54.1(rxjs@7.8.2)
       reflect-metadata:
         specifier: 0.2.2
         version: 0.2.2
@@ -6494,8 +6494,8 @@ packages:
       react:
         optional: true
 
-  posthog-node@5.54.0:
-    resolution: {integrity: sha512-amZK/7WrsyfE/YqNLX6HDS6pUGRifCdiHFUmT7SUkKhQs5sy7T1ka8ulL1FR92qrdlx7Nl/4o+lx1vfrUbknIw==}
+  posthog-node@5.54.1:
+    resolution: {integrity: sha512-3+tg86gLKRaR+MjQOdALGUJQDAXHWVyDUJI2h3EJa0c4GWTQu3+R62C3t49dz1T3QWyJq1msq5Qa+B55/ZEHxg==}
     engines: {node: ^20.20.0 || >=22.22.0}
     peerDependencies:
       rxjs: ^7.0.0
@@ -12607,7 +12607,7 @@ snapshots:
     transitivePeerDependencies:
       - preact-render-to-string
 
-  posthog-node@5.54.0(rxjs@7.8.2):
+  posthog-node@5.54.1(rxjs@7.8.2):
     dependencies:
       '@posthog/core': 1.55.2
     optionalDependencies:
