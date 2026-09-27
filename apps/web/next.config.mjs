@@ -1,14 +1,14 @@
-const { withPlausibleProxy } = require('next-plausible');
-const getBaseApiUrl = require('./shared.js');
-const dotenv = require('dotenv');
-const path = require('node:path');
-const { withSentryConfig } = require('@sentry/nextjs/config');
+import { withPlausibleProxy } from 'next-plausible';
+import getBaseApiUrl from './shared.js';
+import dotenv from 'dotenv';
+import path from 'node:path';
+import { withSentryConfig } from '@sentry/nextjs/config';
 
 dotenv.config({ path: path.join(__dirname, '..', '..', '.env') });
 
 /** @type {import('next').NextConfig} */
 
-module.exports = withSentryConfig(
+export default withSentryConfig(
 	withPlausibleProxy({
 		src: 'https://plausible.io/js/pa-ZdvdmM0wlrTnoHpJ0l-kO.js',
 	})({
