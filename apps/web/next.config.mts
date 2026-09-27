@@ -1,12 +1,11 @@
-import { withPlausibleProxy } from 'next-plausible';
-import getBaseApiUrl from './shared.js';
-import dotenv from 'dotenv';
-import path from 'node:path';
 import { withSentryConfig } from '@sentry/nextjs/config';
+import dotenv from 'dotenv';
+import { withPlausibleProxy } from 'next-plausible';
+import path from 'node:path';
 
-dotenv.config({ path: path.join(__dirname, '..', '..', '.env') });
+import getBaseApiUrl from './shared.js';
 
-/** @type {import('next').NextConfig} */
+dotenv.config({ path: path.join(import.meta.dirname, '..', '..', '.env') });
 
 export default withSentryConfig(
 	withPlausibleProxy({
@@ -59,11 +58,8 @@ export default withSentryConfig(
 
 		// Route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
 		// This can increase your server load as well as your hosting bill.
-		// Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-
+		// Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting client-
 		// side errors will fail.
 		tunnelRoute: '/__s',
-
-		// Hides source maps from generated client bundles
-		hideSourceMaps: false,
 	},
 );
