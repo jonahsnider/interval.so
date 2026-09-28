@@ -1,7 +1,7 @@
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
-import { trpcServer } from '@/src/trpc/trpc-server';
+import { getSimpleMemberList } from '@/src/trpc/trpc-server';
 import { LiveMemberCountTileClient } from './live-member-count-tile.client';
 import { LiveMemberCountTileBase } from './live-member-count-tile.shared';
 
@@ -16,7 +16,7 @@ export function LiveMemberCountTile({ team }: Props) {
 }
 
 async function LiveMemberCountTileFetcher({ team }: Props) {
-	const data = await trpcServer.teams.members.simpleMemberList.query({ slug: team.slug });
+	const data = await getSimpleMemberList(team.slug);
 
 	return <LiveMemberCountTileClient team={team} members={data} />;
 }

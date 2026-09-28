@@ -1,11 +1,11 @@
 import { connection } from 'next/server';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { trpcServer } from '../trpc/trpc-server';
+import { getSelf } from '../trpc/trpc-server';
 
 export async function NotFoundPageContent() {
 	await connection();
-	const { user } = await trpcServer.user.getSelf.query();
+	const { user } = await getSelf();
 
 	return (
 		<div className='flex flex-1 justify-center items-center flex-col gap-6'>

@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { CopyButtonInput } from '@/src/components/copy-button-input';
 import { SettingsCardContentSkeleton, SettingsCardFooterSkeleton } from '@/src/components/settings-card-skeleton';
-import { trpcServer } from '@/src/trpc/trpc-server';
+import { getTeamRole } from '@/src/trpc/trpc-server';
 import { TeamUrlCardEditForm } from './team-url-card.client';
 
 type Props = {
@@ -37,7 +37,7 @@ function TeamUrlCardFormSkeleton() {
 }
 
 async function TeamUrlCardFormFetcher({ team }: Props) {
-	const teamManager = await trpcServer.teams.forUser.getRole.query(team);
+	const teamManager = await getTeamRole(team.slug);
 
 	if (teamManager.role === 'editor') {
 		return (

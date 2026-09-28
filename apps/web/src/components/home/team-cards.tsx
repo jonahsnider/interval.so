@@ -2,12 +2,12 @@ import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { Suspense, use } from 'react';
 import { Card, CardFooter, CardHeader } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { trpcServer } from '@/src/trpc/trpc-server';
+import { getTeamNames } from '@/src/trpc/trpc-server';
 import { CreateTeamCard } from './create-team-card';
 import { TeamCard } from './team-card/team-card.server';
 
 export function TeamCards() {
-	const teamsPromise = trpcServer.teams.forUser.getTeamNames.query();
+	const teamsPromise = getTeamNames();
 
 	return (
 		<div className='grid grid-cols-1 gap-4 xs:grid-cols-2 md:grid-cols-3 w-full md:max-w-4xl'>

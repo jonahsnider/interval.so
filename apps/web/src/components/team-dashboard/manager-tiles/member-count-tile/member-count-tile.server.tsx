@@ -3,7 +3,7 @@ import { count } from '@jonahsnider/util';
 import { Suspense } from 'react';
 import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { trpcServer } from '@/src/trpc/trpc-server';
+import { getSimpleMemberList } from '@/src/trpc/trpc-server';
 import { MemberAvatars } from '../../member-avatars/member-avatars.server';
 import { MemberCountTileInner } from './member-count-tile.client';
 
@@ -14,9 +14,9 @@ type Props = {
 // This is basically the same as LiveMemberCountTile but a different style
 // ex. Header at bottom instead of top
 export function MemberCountTile({ team }: Props) {
-	const dataPromise = trpcServer.teams.members.simpleMemberList
-		.query({ slug: team.slug })
-		.then((data) => count(data, (member) => member.signedInAt !== undefined));
+	const dataPromise = getSimpleMemberList(team.slug).then((data) =>
+		count(data, (member) => member.signedInAt !== undefined),
+	);
 
 	return (
 		<Card className='h-full w-full'>

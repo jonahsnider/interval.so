@@ -1,7 +1,7 @@
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { Suspense } from 'react';
 import { SettingsCardSkeleton } from '@/src/components/settings-card-skeleton';
-import { trpcServer } from '@/src/trpc/trpc-server';
+import { getTeamRole } from '@/src/trpc/trpc-server';
 import { DeleteTeamCardClient } from './delete-team-card.client';
 
 type Props = {
@@ -17,7 +17,7 @@ export function DeleteTeamCard({ team }: Props) {
 }
 
 async function TeamCardFetcher({ team }: Props) {
-	const role = await trpcServer.teams.forUser.getRole.query({ slug: team.slug });
+	const role = await getTeamRole(team.slug);
 
 	if (role.role === 'owner') {
 		return <DeleteTeamCardClient team={team} />;

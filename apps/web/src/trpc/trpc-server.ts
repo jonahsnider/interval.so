@@ -1,5 +1,6 @@
 import { createTRPCClient, httpBatchStreamLink } from '@trpc/client';
 import { cookies } from 'next/headers';
+import { cache } from 'react';
 import 'server-only';
 import superjson from 'superjson';
 import { type AppRouterType, trpcUrl } from './common';
@@ -38,4 +39,19 @@ export const trpcServer = createTRPCClient<AppRouterType>({
 			},
 		}),
 	],
+});
+
+/** Request-scoped memoized queries shared by Server Components. */
+export const getSelf = cache(() => trpcServer.user.getSelf.query());
+export const getIsAuthed = cache(() => trpcServer.user.isAuthedFast.query());
+export const getCurrentGuestTeam = cache(() => trpcServer.guestLogin.getCurrentGuestTeam.query());
+export const getTeamNames = cache(() => trpcServer.teams.forUser.getTeamNames.query());
+export const getTeamDisplayName = cache((slug: string) => trpcServer.teams.settings.getDisplayName.query({ slug }));
+export const getSimpleMemberList = cache((slug: string) => trpcServer.teams.members.simpleMemberList.query({ slug }));
+export const getTeamRole = cache((slug: string) => trpcServer.teams.forUser.getRole.query({ slug }));
+
+export const getAuthState = cache(async () => {
+	const [{ user }, guestTeam] = await Promise.all([getSelf(), getCurrentGuestTeam()]);
+
+	return { user, guestTeam };
 });

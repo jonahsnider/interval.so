@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
-import { trpcServer } from '@/src/trpc/trpc-server';
+import { getSelf, trpcServer } from '@/src/trpc/trpc-server';
 import { JoinTeamButtonClient } from './join-team-button.client';
 
 type Props = {
@@ -13,7 +13,7 @@ type Props = {
 
 export function JoinTeamButton({ className, team }: Props) {
 	const teamPromise = trpcServer.teams.getByInviteCode.query(team).then(({ team }) => team);
-	const isAuthedPromise = trpcServer.user.getSelf.query().then(({ user }) => Boolean(user));
+	const isAuthedPromise = getSelf().then(({ user }) => Boolean(user));
 
 	return (
 		<Suspense fallback={<Skeleton className={cn(clsx('h-9 w-48', className))} />}>

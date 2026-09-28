@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { trpcServer } from '@/src/trpc/trpc-server';
+import { getSimpleMemberList } from '@/src/trpc/trpc-server';
 import { MemberAvatars } from '../../team-dashboard/member-avatars/member-avatars.server';
 import { TeamCardDescription } from './team-card.client';
 
@@ -14,9 +14,9 @@ type Props = {
 };
 
 export function TeamCard({ team }: Props) {
-	const memberCountPromise = trpcServer.teams.members.simpleMemberList
-		.query(team)
-		.then((members) => count(members, (member) => member.signedInAt !== undefined));
+	const memberCountPromise = getSimpleMemberList(team.slug).then((members) =>
+		count(members, (member) => member.signedInAt !== undefined),
+	);
 
 	return (
 		<Link href={`/team/${team.slug}`} className='group'>

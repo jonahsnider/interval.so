@@ -5,12 +5,12 @@ import { Suspense } from 'react';
 import { Button } from '@/components/ui/button';
 import { AlreadyAuthedCard } from '@/src/components/account/already-authed-card/already-authed-card';
 import { SignupCard } from '@/src/components/account/signup/signup-card';
-import { trpcServer } from '@/src/trpc/trpc-server';
+import { getSelf } from '@/src/trpc/trpc-server';
 
 async function SignupPageContent() {
 	await connection();
 
-	const { user } = await trpcServer.user.getSelf.query();
+	const { user } = await getSelf();
 
 	return (
 		<div className='flex items-center justify-center flex-1'>

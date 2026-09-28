@@ -82,38 +82,16 @@ async function getMeasure(
 	}
 }
 
-async function Trend({
-	tabId,
-	team,
-	timeFilters,
-}: {
-	tabId: TabId;
-	team: Pick<TeamSchema, 'slug'>;
-	timeFilters: {
-		current: TimeFilterSchema;
-		previous?: TimeRangeSchema;
-	};
-}) {
-	const { trend } = await getMeasure(tabId, team, timeFilters);
+async function Trend({ measurePromise }: { measurePromise: ReturnType<typeof getMeasure> }) {
+	const { trend } = await measurePromise;
 
 	if (trend) {
 		return <TrendBadge trend={trend} />;
 	}
 }
 
-async function Measure({
-	tabId,
-	team,
-	timeFilters,
-}: {
-	tabId: TabId;
-	team: Pick<TeamSchema, 'slug'>;
-	timeFilters: {
-		current: TimeFilterSchema;
-		previous?: TimeRangeSchema;
-	};
-}) {
-	const { current } = await getMeasure(tabId, team, timeFilters);
+async function Measure({ measurePromise }: { measurePromise: ReturnType<typeof getMeasure> }) {
+	const { current } = await measurePromise;
 
 	return <p className='text-3xl font-semibold'>{toDigits(current, 1)}</p>;
 }
@@ -133,6 +111,7 @@ export function GraphTabTrigger({ tabId, active, timeFilters, team }: Props) {
 	// TODO: This hasn't been updated since query states were changed to be shallow - need to refactor to be a client side component probably (seeded with initial server side query states and then updates with client side query states)
 	const queryStates = searchParamCache.all();
 	const queryString = searchParamSerializer(queryStates);
+	const measurePromise = getMeasure(tabId, team, timeFilters);
 
 	const createHref = (subpath: string) => `/team/${team.slug}/dashboard${subpath}${queryString}`;
 
@@ -141,8 +120,8 @@ export function GraphTabTrigger({ tabId, active, timeFilters, team }: Props) {
 			active={active}
 			href={createHref(TAB_OPTIONS[tabId].hrefSuffix)}
 			title={TAB_OPTIONS[tabId].title}
-			measure={<Measure tabId={tabId} team={team} timeFilters={timeFilters} />}
-			trend={<Trend tabId={tabId} team={team} timeFilters={timeFilters} />}
+			measure={<Measure measurePromise={measurePromise} />}
+			trend={<Trend measurePromise={measurePromise} />}
 		/>
 	);
 }

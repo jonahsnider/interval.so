@@ -1,10 +1,10 @@
 import { Suspense } from 'react';
 import { SettingsCardSkeleton } from '@/src/components/settings-card-skeleton';
-import { trpcServer } from '@/src/trpc/trpc-server';
+import { getSelf } from '@/src/trpc/trpc-server';
 import { DisplayNameCardInner } from './display-name-card.client';
 
 export function DisplayNameCard() {
-	const user = trpcServer.user.getSelf.query().then(({ user }) => {
+	const user = getSelf().then(({ user }) => {
 		if (!user) {
 			throw new TypeError('Expected user to be defined if this is being rendered');
 		}

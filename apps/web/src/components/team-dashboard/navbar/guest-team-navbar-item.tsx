@@ -2,7 +2,7 @@ import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { Suspense, use } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Skeleton } from '@/components/ui/skeleton';
-import { trpcServer } from '@/src/trpc/trpc-server';
+import { getCurrentGuestTeam, getTeamDisplayName } from '@/src/trpc/trpc-server';
 import { SlashSeparatedNavbarItem } from './slash-separated-navbar-item';
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 };
 
 export function GuestTeamNavbarItem() {
-	const teamPromise = trpcServer.guestLogin.getCurrentGuestTeam.query();
+	const teamPromise = getCurrentGuestTeam();
 
 	return (
 		<ErrorBoundary fallback={<span />}>
@@ -45,7 +45,7 @@ function GuestTeamNavbarItemInner({ teamPromise }: { teamPromise: Promise<Pick<T
 }
 
 async function DisplayName({ team }: Props) {
-	const displayName = await trpcServer.teams.settings.getDisplayName.query(team);
+	const displayName = await getTeamDisplayName(team.slug);
 
 	return displayName;
 }

@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { CopyButtonInput } from '@/src/components/copy-button-input';
 import { SettingsCardContentSkeleton, SettingsCardFooterSkeleton } from '@/src/components/settings-card-skeleton';
-import { trpcServer } from '@/src/trpc/trpc-server';
+import { getTeamRole, trpcServer } from '@/src/trpc/trpc-server';
 import { TeamPasswordEditForm } from './team-password-card.client';
 
 type Props = {
@@ -39,7 +39,7 @@ function TeamPasswordEditFormSkeleton() {
 async function TeamPasswordEditFormFetcher({ team }: Props) {
 	const [currentPassword, teamManager] = await Promise.all([
 		trpcServer.teams.settings.getPassword.query(team),
-		trpcServer.teams.forUser.getRole.query(team),
+		getTeamRole(team.slug),
 	]);
 
 	if (teamManager.role === 'editor') {

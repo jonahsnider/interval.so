@@ -1,7 +1,7 @@
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { Sort } from '@jonahsnider/util';
 import { Suspense } from 'react';
-import { trpcServer } from '@/src/trpc/trpc-server';
+import { getSimpleMemberList } from '@/src/trpc/trpc-server';
 import { MemberAvatarsClient } from './member-avatars.client';
 
 type Props = {
@@ -9,16 +9,14 @@ type Props = {
 };
 
 export function MemberAvatars({ team }: Props) {
-	const membersPromise = trpcServer.teams.members.simpleMemberList
-		.query(team)
-		.then((members) =>
-			members
-				.filter(
-					(member): member is typeof member & { signedInAt: NonNullable<(typeof member)['signedInAt']> } =>
-						member.signedInAt !== undefined,
-				)
-				.toSorted(Sort.descending((member) => member.signedInAt)),
-		);
+	const membersPromise = getSimpleMemberList(team.slug).then((members) =>
+		members
+			.filter(
+				(member): member is typeof member & { signedInAt: NonNullable<(typeof member)['signedInAt']> } =>
+					member.signedInAt !== undefined,
+			)
+			.toSorted(Sort.descending((member) => member.signedInAt)),
+	);
 
 	return (
 		<Suspense

@@ -10,7 +10,7 @@ import {
 	DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
-import { trpcServer } from '@/src/trpc/trpc-server';
+import { getTeamNames } from '@/src/trpc/trpc-server';
 import { TeamDropdownClient, TeamDropdownTrigger } from './team-dropdown.client';
 
 function TeamDropdownSkeleton({ currentTeam }: { currentTeam?: Pick<TeamSchema, 'slug'> }) {
@@ -40,7 +40,7 @@ function TeamDropdownSkeleton({ currentTeam }: { currentTeam?: Pick<TeamSchema, 
 }
 
 export function TeamDropdown({ currentTeam }: { currentTeam?: Pick<TeamSchema, 'slug'> }) {
-	const teams = trpcServer.teams.forUser.getTeamNames.query();
+	const teams = getTeamNames();
 
 	return (
 		<Suspense fallback={<TeamDropdownSkeleton currentTeam={currentTeam} />}>

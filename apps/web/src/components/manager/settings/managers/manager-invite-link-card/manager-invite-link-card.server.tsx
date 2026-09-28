@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { CopyButtonInput } from '@/src/components/copy-button-input';
 import { SettingsCardContentSkeleton, SettingsCardSkeleton } from '@/src/components/settings-card-skeleton';
-import { trpcServer } from '@/src/trpc/trpc-server';
+import { getTeamRole, trpcServer } from '@/src/trpc/trpc-server';
 import { ManageInviteLinkCardButton } from './manager-invite-link-card.client';
 import { inviteLinkUrl } from './shared';
 
@@ -20,7 +20,7 @@ export function ManagerInviteLinkCard({ team }: Props) {
 }
 
 async function Outer({ team }: Props) {
-	const teamManager = await trpcServer.teams.forUser.getRole.query({ slug: team.slug });
+	const teamManager = await getTeamRole(team.slug);
 
 	if (teamManager.role !== 'owner' && teamManager.role !== 'admin') {
 		return undefined;

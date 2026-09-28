@@ -5,11 +5,11 @@ import { Suspense } from 'react';
 import { Button } from '@/components/ui/button';
 import { AlreadyAuthedCard } from '@/src/components/account/already-authed-card/already-authed-card';
 import { LoginCard } from '@/src/components/account/login/login-card';
-import { trpcServer } from '@/src/trpc/trpc-server';
+import { getSelf } from '@/src/trpc/trpc-server';
 
 async function LoginPageContent() {
 	await connection();
-	const { user } = await trpcServer.user.getSelf.query();
+	const { user } = await getSelf();
 
 	return (
 		<div className='flex flex-1 justify-center items-center flex-col'>

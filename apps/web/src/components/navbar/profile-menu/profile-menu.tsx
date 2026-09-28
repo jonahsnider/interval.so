@@ -13,7 +13,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
-import { trpcServer } from '@/src/trpc/trpc-server';
+import { getAuthState, getTeamDisplayName } from '@/src/trpc/trpc-server';
 import { MenuContentAuthed, MenuContentGuestAuth } from './profile-menu.client';
 
 function MenuContentUnauthed() {
@@ -38,17 +38,14 @@ function MenuContentUnauthed() {
 async function ProfileMenuContent() {
 	await connection();
 
-	const [{ user }, guestTeam] = await Promise.all([
-		trpcServer.user.getSelf.query(),
-		trpcServer.guestLogin.getCurrentGuestTeam.query(),
-	]);
+	const { user, guestTeam } = await getAuthState();
 
 	if (user) {
 		return <MenuContentAuthed user={user} />;
 	}
 
 	if (guestTeam) {
-		const displayNamePromise = trpcServer.teams.settings.getDisplayName.query(guestTeam);
+		const displayNamePromise = getTeamDisplayName(guestTeam.slug);
 
 		return <MenuContentGuestAuth displayNamePromise={displayNamePromise} />;
 	}

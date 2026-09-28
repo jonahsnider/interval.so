@@ -8,7 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import 'server-only';
 import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
-import { trpcServer } from '@/src/trpc/trpc-server';
+import { getTeamRole, trpcServer } from '@/src/trpc/trpc-server';
 import { ManagersTableRoleSelect, ManagersTableRowActions } from './managers-table-card.client';
 
 type Props = {
@@ -80,10 +80,7 @@ function ManagersTableRowSkeleton() {
 }
 
 async function ManagersTableBody({ team }: Props) {
-	const [self, managers] = await Promise.all([
-		trpcServer.teams.forUser.getRole.query(team),
-		trpcServer.teams.managers.getList.query(team),
-	]);
+	const [self, managers] = await Promise.all([getTeamRole(team.slug), trpcServer.teams.managers.getList.query(team)]);
 
 	return (
 		<>

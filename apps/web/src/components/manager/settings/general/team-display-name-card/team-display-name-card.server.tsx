@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ReadonlyTextField } from '@/src/components/readonly-text-field';
 import { SettingsCardContentSkeleton, SettingsCardFooterSkeleton } from '@/src/components/settings-card-skeleton';
-import { trpcServer } from '@/src/trpc/trpc-server';
+import { getTeamDisplayName, getTeamRole } from '@/src/trpc/trpc-server';
 import { TeamDisplayNameEditForm } from './team-display-name-card.client';
 
 type Props = {
@@ -35,10 +35,7 @@ function TeamDisplayNameEditFormSkeleton() {
 }
 
 async function TeamDisplayNameEditFormFetcher({ team }: Props) {
-	const [currentDisplayName, teamManager] = await Promise.all([
-		trpcServer.teams.settings.getDisplayName.query(team),
-		trpcServer.teams.forUser.getRole.query(team),
-	]);
+	const [currentDisplayName, teamManager] = await Promise.all([getTeamDisplayName(team.slug), getTeamRole(team.slug)]);
 
 	if (teamManager.role === 'editor') {
 		return (
