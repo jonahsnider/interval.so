@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { type PropsWithChildren, Suspense } from 'react';
 import { AuthWall } from '@/src/components/auth-wall/auth-wall';
 import { ManagerNavbar } from '@/src/components/manager/navbar/manager-navbar';
+import { ManagerRouteLoading } from '@/src/components/route-loading';
 import { isTrpcClientError } from '@/src/trpc/common';
 import { getAuthState, getTeamDisplayName } from '@/src/trpc/trpc-server';
 
@@ -44,7 +45,7 @@ async function ManagerLayoutContent(props: Props) {
 
 export default function ManagerLayout(props: Props) {
 	return (
-		<Suspense>
+		<Suspense fallback={<ManagerRouteLoading />}>
 			<ManagerLayoutContent {...props} />
 		</Suspense>
 	);

@@ -1,8 +1,11 @@
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { Suspense } from 'react';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import { RouteContentLoading } from '@/src/components/route-loading';
 import { AttendanceTable } from '@/src/components/team-dashboard/attendance-table/attendance-table';
 import { ManagerTiles } from '@/src/components/team-dashboard/manager-tiles/manager-tiles';
-import { trpcServer } from '@/src/trpc/trpc-server';
+import { getSelf, getSimpleMemberList } from '@/src/trpc/trpc-server';
 
 type Props = {
 	params: Promise<{
@@ -11,7 +14,7 @@ type Props = {
 };
 
 async function ManagerTilesWrapper({ team }: { team: Pick<TeamSchema, 'slug'> }) {
-	const { user } = await trpcServer.user.getSelf.query();
+	const { user } = await getSelf();
 
 	if (user) {
 		return <ManagerTiles team={team} />;
@@ -23,9 +26,6 @@ async function ManagerTilesWrapper({ team }: { team: Pick<TeamSchema, 'slug'> })
 async function TeamAttendancePageContent(props: Props) {
 	const params = await props.params;
 	const team = { slug: params.team };
-	const initialMembers = await trpcServer.teams.members.simpleMemberList.query(team);
-
-	// TODO: Make this stream - do the same strategy of a skeleton component, just a table with all the text set to skeletons + some dummy rows (also skeletons)
 
 	return (
 		<div className='flex w-full justify-center'>
@@ -34,15 +34,42 @@ async function TeamAttendancePageContent(props: Props) {
 				<Suspense>
 					<ManagerTilesWrapper team={{ slug: params.team }} />
 				</Suspense>
-				<AttendanceTable initialData={initialMembers} team={team} />
+				<Suspense fallback={<AttendanceTableLoading />}>
+					<AttendanceTableFetcher team={team} />
+				</Suspense>
 			</div>
 		</div>
 	);
 }
 
+async function AttendanceTableFetcher({ team }: { team: Pick<TeamSchema, 'slug'> }) {
+	const initialMembers = await getSimpleMemberList(team.slug);
+
+	return <AttendanceTable initialData={initialMembers} team={team} />;
+}
+
+function AttendanceTableLoading() {
+	return (
+		<Card className='w-full md:max-w-xl'>
+			<CardHeader>
+				<Skeleton className='h-5 w-28' />
+			</CardHeader>
+			<CardContent className='flex gap-2'>
+				<Skeleton className='h-9 flex-1' />
+				<Skeleton className='h-9 w-24' />
+			</CardContent>
+			<CardContent className='flex flex-col gap-4'>
+				{Array.from({ length: 6 }, (_, index) => (
+					<Skeleton className='h-5 w-full' key={index} />
+				))}
+			</CardContent>
+		</Card>
+	);
+}
+
 export default function TeamAttendancePage(props: Props) {
 	return (
-		<Suspense>
+		<Suspense fallback={<RouteContentLoading />}>
 			<TeamAttendancePageContent {...props} />
 		</Suspense>
 	);

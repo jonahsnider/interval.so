@@ -1,5 +1,6 @@
 import { type PropsWithChildren, Suspense } from 'react';
 import { FooterWrapper } from '@/src/components/page-wrappers/footer-wrapper';
+import { TeamRouteLoading } from '@/src/components/route-loading';
 import { TeamSlugProvider } from '@/src/components/team-dashboard/team-slug-provider';
 
 type Props = PropsWithChildren<{
@@ -18,7 +19,7 @@ async function TeamPageContent(props: Props) {
 export default function TeamPageLayout(props: Props) {
 	return (
 		<FooterWrapper>
-			<Suspense>
+			<Suspense fallback={<TeamRouteLoading />}>
 				<TeamPageContent {...props} />
 			</Suspense>
 		</FooterWrapper>

@@ -1,6 +1,8 @@
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import clsx from 'clsx';
 import { type PropsWithChildren, Suspense } from 'react';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 import { getAuthState, getIsAuthed, getTeamDisplayName } from '@/src/trpc/trpc-server';
 import { MainContent } from '../page-wrappers/main-content';
 import { NeedsGuestOrManagerCard } from './needs-guest-or-manager-card';
@@ -59,7 +61,23 @@ export function AuthWall({ authStatePromise, kind, children, wantedTeam }: Props
 			content = <AuthWallUser>{children}</AuthWallUser>;
 	}
 
-	return <Suspense>{content}</Suspense>;
+	return <Suspense fallback={<AuthWallFallback />}>{content}</Suspense>;
+}
+
+function AuthWallFallback() {
+	return (
+		<div className='flex flex-1 items-center justify-center'>
+			<Card className='w-full max-w-xl'>
+				<CardHeader className='gap-2'>
+					<Skeleton className='h-6 w-40' />
+					<Skeleton className='h-4 w-full' />
+				</CardHeader>
+				<CardContent>
+					<Skeleton className='h-9 w-full' />
+				</CardContent>
+			</Card>
+		</div>
+	);
 }
 
 type CardProps = PropsWithChildren<{ className?: string }>;

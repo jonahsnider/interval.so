@@ -16,6 +16,7 @@ export default withSentryConfig(
 		src: 'https://plausible.io/js/pa-ZdvdmM0wlrTnoHpJ0l-kO.js',
 	})({
 		cacheComponents: true,
+		partialPrefetching: true,
 		images: {
 			qualities: [75, 95],
 		},
