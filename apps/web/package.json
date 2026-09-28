@@ -4,7 +4,8 @@
 	"private": true,
 	"scripts": {
 		"build": "NODE_ENV=production next build",
-		"dev": "PORT=3000 next dev",
+		"dev": "portless",
+		"dev:app": "NEXT_PUBLIC_API_URL=$(portless get api.interval.so) next dev",
 		"start": "next start",
 		"type-check": "next typegen && tsc"
 	},
@@ -78,5 +79,10 @@
 	"devDependencies": {
 		"@types/node": "26.6.3",
 		"dotenv": "18.0.4"
+	},
+	"portless": {
+		"name": "interval.so",
+		"proxy": true,
+		"script": "dev:app"
 	}
 }

@@ -3,9 +3,13 @@ import dotenv from 'dotenv';
 import { withPlausibleProxy } from 'next-plausible';
 import path from 'node:path';
 
-import getBaseApiUrl from './shared.js';
-
 dotenv.config({ path: path.join(import.meta.dirname, '..', '..', '.env') });
+
+const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? process.env.API_URL;
+
+if (!apiUrl) {
+	throw new TypeError('NEXT_PUBLIC_API_URL or API_URL must be set');
+}
 
 export default withSentryConfig(
 	withPlausibleProxy({
@@ -17,7 +21,7 @@ export default withSentryConfig(
 		},
 		productionBrowserSourceMaps: true,
 		env: {
-			NEXT_PUBLIC_API_URL: getBaseApiUrl(),
+			NEXT_PUBLIC_API_URL: apiUrl,
 			POSTHOG_HOST: process.env.POSTHOG_HOST,
 			POSTHOG_KEY: process.env.POSTHOG_KEY,
 		},

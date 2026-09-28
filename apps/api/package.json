@@ -25,8 +25,10 @@
 	},
 	"scripts": {
 		"build": "node ace build",
-		"dev": "PORT=3001 node ace serve --hmr",
-		"dev:debug": "PORT=3001 node --inspect ace serve --hmr",
+		"dev": "portless",
+		"dev:app": "node ace serve --hmr",
+		"dev:debug": "portless --script dev:debug:app",
+		"dev:debug:app": "node --inspect ace serve --hmr",
 		"migrate:apply": "drizzle-kit migrate",
 		"migrate:create": "drizzle-kit generate",
 		"start": "node bin/server.js",
@@ -83,5 +85,9 @@
 			"./app/**/*_router.ts",
 			"./app/middleware/*.ts"
 		]
+	},
+	"portless": {
+		"name": "api.interval.so",
+		"script": "dev:app"
 	}
 }
