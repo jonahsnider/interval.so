@@ -9,7 +9,7 @@ import { MainContent } from '@/src/components/page-wrappers/main-content';
 import { AlreadyAuthedCard } from '@/src/components/team-dashboard/password-login/already-authed-card';
 import { PasswordLoginCard } from '@/src/components/team-dashboard/password-login/password-login-card';
 import { isTrpcClientError } from '@/src/trpc/common';
-import { trpcServer } from '@/src/trpc/trpc-server';
+import { getCurrentGuestTeam, getTeamDisplayName } from '@/src/trpc/trpc-server';
 
 type Props = {
 	params: Promise<{
@@ -17,8 +17,14 @@ type Props = {
 	}>;
 };
 
-async function Inner({ team }: { team: Pick<TeamSchema, 'slug' | 'displayName'> }) {
-	const guestTeam = await trpcServer.guestLogin.getCurrentGuestTeam.query();
+async function Inner({
+	guestTeamPromise,
+	team,
+}: {
+	guestTeamPromise: ReturnType<typeof getCurrentGuestTeam>;
+	team: Pick<TeamSchema, 'slug' | 'displayName'>;
+}) {
+	const guestTeam = await guestTeamPromise;
 
 	if (guestTeam) {
 		if (guestTeam.slug === team.slug) {
@@ -31,9 +37,10 @@ async function Inner({ team }: { team: Pick<TeamSchema, 'slug' | 'displayName'> 
 
 async function TeamLoginPageContent(props: Props) {
 	const params = await props.params;
+	const guestTeamPromise = getCurrentGuestTeam();
 	let displayName: string;
 	try {
-		displayName = await trpcServer.teams.settings.getDisplayName.query({ slug: params.team });
+		displayName = await getTeamDisplayName(params.team);
 	} catch (error) {
 		if (isTrpcClientError(error) && error.data?.code === 'NOT_FOUND') {
 			notFound();
@@ -50,7 +57,7 @@ async function TeamLoginPageContent(props: Props) {
 
 			<MainContent className='flex flex-1 justify-center items-center flex-col'>
 				<div className='flex flex-col gap-1'>
-					<Inner team={{ slug: params.team, displayName }} />
+					<Inner guestTeamPromise={guestTeamPromise} team={{ slug: params.team, displayName }} />
 
 					<div className='flex justify-start'>
 						<Button asChild={true} variant='link'>

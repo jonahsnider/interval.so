@@ -1,7 +1,7 @@
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import clsx from 'clsx';
 import { type PropsWithChildren, Suspense } from 'react';
-import { trpcServer } from '@/src/trpc/trpc-server';
+import { getAuthState, getIsAuthed, getTeamDisplayName } from '@/src/trpc/trpc-server';
 import { MainContent } from '../page-wrappers/main-content';
 import { NeedsGuestOrManagerCard } from './needs-guest-or-manager-card';
 import { NeedsManagerAuthCard } from './needs-manager-auth-card';
@@ -14,6 +14,7 @@ import { WrongGuestTeamCard } from './wrong-guest-team-card';
 type Props = PropsWithChildren<
 	{
 		className?: string;
+		authStatePromise?: ReturnType<typeof getAuthState>;
 	} & (
 		| {
 				/** The session is authed as a guest for the given team, or a user with manager access to the team. */
@@ -36,15 +37,23 @@ type Props = PropsWithChildren<
 /**
  * Render its children if the user is signed in and if provided, has access to the given team.
  */
-export function AuthWall({ kind, children, wantedTeam }: Props) {
+export function AuthWall({ authStatePromise, kind, children, wantedTeam }: Props) {
 	let content: React.ReactNode;
 
 	switch (kind) {
 		case 'guestOrManager':
-			content = <AuthWallGuestOrManager wantedTeam={wantedTeam}>{children}</AuthWallGuestOrManager>;
+			content = (
+				<AuthWallGuestOrManager authStatePromise={authStatePromise} wantedTeam={wantedTeam}>
+					{children}
+				</AuthWallGuestOrManager>
+			);
 			break;
 		case 'manager':
-			content = <AuthWallManager wantedTeam={wantedTeam}>{children}</AuthWallManager>;
+			content = (
+				<AuthWallManager authStatePromise={authStatePromise} wantedTeam={wantedTeam}>
+					{children}
+				</AuthWallManager>
+			);
 			break;
 		case 'user':
 			content = <AuthWallUser>{children}</AuthWallUser>;
@@ -68,12 +77,12 @@ async function teamWithDisplayName(
 
 	return {
 		slug: team.slug,
-		displayName: await trpcServer.teams.settings.getDisplayName.query(team),
+		displayName: await getTeamDisplayName(team.slug),
 	};
 }
 
 async function AuthWallUser({ children }: CardProps) {
-	const isAuthed = await trpcServer.user.isAuthedFast.query();
+	const isAuthed = await getIsAuthed();
 
 	if (!isAuthed) {
 		return (
@@ -87,13 +96,14 @@ async function AuthWallUser({ children }: CardProps) {
 }
 
 async function AuthWallManager({
+	authStatePromise,
 	wantedTeam,
 	children,
-}: CardProps & { wantedTeam: Pick<TeamSchema, 'slug'> | Pick<TeamSchema, 'slug' | 'displayName'> }) {
-	const [{ user }, guestTeam] = await Promise.all([
-		trpcServer.user.getSelf.query(),
-		trpcServer.guestLogin.getCurrentGuestTeam.query(),
-	]);
+}: CardProps & {
+	authStatePromise?: ReturnType<typeof getAuthState>;
+	wantedTeam: Pick<TeamSchema, 'slug'> | Pick<TeamSchema, 'slug' | 'displayName'>;
+}) {
+	const { user, guestTeam } = await (authStatePromise ?? getAuthState());
 
 	if (guestTeam) {
 		const fullTeam = await teamWithDisplayName(wantedTeam);
@@ -129,13 +139,14 @@ async function AuthWallManager({
 }
 
 async function AuthWallGuestOrManager({
+	authStatePromise,
 	wantedTeam,
 	children,
-}: CardProps & { wantedTeam: Pick<TeamSchema, 'slug' | 'displayName'> | Pick<TeamSchema, 'slug'> }) {
-	const [{ user }, guestTeam] = await Promise.all([
-		trpcServer.user.getSelf.query(),
-		trpcServer.guestLogin.getCurrentGuestTeam.query(),
-	]);
+}: CardProps & {
+	authStatePromise?: ReturnType<typeof getAuthState>;
+	wantedTeam: Pick<TeamSchema, 'slug' | 'displayName'> | Pick<TeamSchema, 'slug'>;
+}) {
+	const { user, guestTeam } = await (authStatePromise ?? getAuthState());
 
 	// Guest auth present, but for the wrong team
 	if (guestTeam && guestTeam.slug !== wantedTeam.slug) {

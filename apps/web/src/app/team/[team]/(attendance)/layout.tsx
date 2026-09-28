@@ -4,7 +4,7 @@ import { AuthWall } from '@/src/components/auth-wall/auth-wall';
 import { Navbar } from '@/src/components/navbar/navbar';
 import { MainContent } from '@/src/components/page-wrappers/main-content';
 import { isTrpcClientError } from '@/src/trpc/common';
-import { trpcServer } from '@/src/trpc/trpc-server';
+import { getAuthState, getTeamDisplayName } from '@/src/trpc/trpc-server';
 
 type Props = PropsWithChildren<{
 	params: Promise<{
@@ -17,9 +17,10 @@ async function TeamAttendanceContent(props: Props) {
 
 	const { children } = props;
 
+	const authStatePromise = getAuthState();
 	let displayName: string;
 	try {
-		displayName = await trpcServer.teams.settings.getDisplayName.query({ slug: params.team });
+		displayName = await getTeamDisplayName(params.team);
 	} catch (error) {
 		if (isTrpcClientError(error) && error.data?.code === 'NOT_FOUND') {
 			notFound();
@@ -33,6 +34,7 @@ async function TeamAttendanceContent(props: Props) {
 			<Navbar currentTeam={{ slug: params.team }} />
 
 			<AuthWall
+				authStatePromise={authStatePromise}
 				kind='guestOrManager'
 				wantedTeam={{
 					slug: params.team,

@@ -4,7 +4,7 @@ import { type PropsWithChildren, Suspense } from 'react';
 import { AuthWall } from '@/src/components/auth-wall/auth-wall';
 import { ManagerNavbar } from '@/src/components/manager/navbar/manager-navbar';
 import { isTrpcClientError } from '@/src/trpc/common';
-import { trpcServer } from '@/src/trpc/trpc-server';
+import { getAuthState, getTeamDisplayName } from '@/src/trpc/trpc-server';
 
 type Props = PropsWithChildren<{
 	params: Promise<{
@@ -17,10 +17,11 @@ async function ManagerLayoutContent(props: Props) {
 
 	const { children } = props;
 
+	const authStatePromise = getAuthState();
 	let teamDisplayName: string;
 
 	try {
-		teamDisplayName = await trpcServer.teams.settings.getDisplayName.query({ slug: params.team });
+		teamDisplayName = await getTeamDisplayName(params.team);
 	} catch (error) {
 		if (isTrpcClientError(error) && error.data?.code === 'NOT_FOUND') {
 			notFound();
@@ -34,7 +35,7 @@ async function ManagerLayoutContent(props: Props) {
 	return (
 		<>
 			<ManagerNavbar currentTeam={team} />
-			<AuthWall kind='manager' wantedTeam={team}>
+			<AuthWall authStatePromise={authStatePromise} kind='manager' wantedTeam={team}>
 				{children}
 			</AuthWall>
 		</>
