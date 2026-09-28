@@ -34,7 +34,6 @@ export function DeleteTeamCardClient({ team }: Props) {
 		onSuccess: () => {
 			toast.success('Team deleted', { id: toastId });
 			router.push('/');
-			router.refresh();
 		},
 		onError: (error) => {
 			toast.error('An error occurred while deleting the team', {

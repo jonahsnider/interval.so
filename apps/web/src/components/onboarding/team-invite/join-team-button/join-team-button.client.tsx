@@ -31,7 +31,6 @@ export function JoinTeamButtonClient({ className, teamPromise, teamInvite, isAut
 		onSuccess: (result) => {
 			toast.success(`Joined ${team.displayName}`, { id: toastId });
 			router.push(`/team/${result.slug}`);
-			router.refresh();
 		},
 		onError: (error) => {
 			toast.error(`An error occurred while joining ${team.displayName}`, {

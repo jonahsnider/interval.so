@@ -38,7 +38,6 @@ export default function CreateTeamPage() {
 		onSuccess: () => {
 			toast.success('Your team was created', { id: toastId });
 			router.push('/');
-			router.refresh();
 		},
 		onError: (error) => {
 			toast.error('Failed to create team', {

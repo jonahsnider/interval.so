@@ -37,7 +37,6 @@ export function TeamUrlCardEditForm({ team }: Props) {
 		onSuccess: () => {
 			toast.success('Team URL was updated', { id: toastId });
 			router.push(`/team/${form.getValues().slug}/dashboard/settings`);
-			router.refresh();
 		},
 		onError: (error) => {
 			toast.error('An error occurred while updating the team URL', {

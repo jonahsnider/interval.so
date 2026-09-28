@@ -33,7 +33,6 @@ export function LeaveTeamCardActionAllowed({ team }: Props) {
 		onSuccess: () => {
 			toast.success('You have been removed from the team', { id: toastId });
 			router.push('/');
-			router.refresh();
 		},
 		onError: (error) => {
 			toast.error('An error occurred while leaving the team', {
