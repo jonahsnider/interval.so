@@ -1,13 +1,14 @@
 import { captureException } from '@sentry/nextjs';
 import { cookies } from 'next/headers';
 import { connection } from 'next/server';
-import { Suspense } from 'react';
 import { TeamCards } from '@/src/components/home/team-cards';
 import { Navbar } from '@/src/components/navbar/navbar';
 import { FooterWrapper } from '@/src/components/page-wrappers/footer-wrapper';
 import { MainContent } from '@/src/components/page-wrappers/main-content';
 import { trpcServer } from '@/src/trpc/trpc-server';
 import LandingPage from './home/page';
+
+export const instant = false;
 
 function AuthedHomePage() {
 	return (
@@ -22,17 +23,6 @@ function AuthedHomePage() {
 		</FooterWrapper>
 	);
 }
-
-function HomePageFallback() {
-	return (
-		<FooterWrapper className='dark bg-background-muted text-foreground'>
-			<Navbar className='border-b-0' />
-
-			<MainContent />
-		</FooterWrapper>
-	);
-}
-
 async function HomePageContent() {
 	await connection();
 
@@ -54,9 +44,5 @@ async function HomePageContent() {
 }
 
 export default function HomePage() {
-	return (
-		<Suspense fallback={<HomePageFallback />}>
-			<HomePageContent />
-		</Suspense>
-	);
+	return <HomePageContent />;
 }
