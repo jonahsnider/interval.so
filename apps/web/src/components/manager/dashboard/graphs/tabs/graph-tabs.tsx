@@ -3,6 +3,7 @@ import 'server-only';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import type { TimeFilterSchema } from '@interval.so/api/app/team_stats/schemas/time_filter_schema';
 import type { TimeRangeSchema } from '@interval.so/api/app/team_stats/schemas/time_range_schema';
+import { ViewTransition } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { AverageHoursGraph } from '../average-hours-graph/average-hours-graph.server';
@@ -45,18 +46,20 @@ export function GraphTabs({ team, selected, timeFilter, timeRange }: Props) {
 						/>
 					</div>
 				</CardHeader>
-				<CardContent>
-					<ErrorBoundary
-						fallback={
-							<div className='flex items-center justify-center h-96'>
-								<p className='text-muted-foreground'>An error occurred while rendering this graph</p>
-							</div>
-						}
-					>
-						{selected === 'members' && <UniqueMembersGraph team={team} timeFilter={timeFilter} />}
-						{selected === 'hours' && <AverageHoursGraph team={team} timeFilter={timeFilter} />}
-					</ErrorBoundary>
-				</CardContent>
+				<ViewTransition name='dashboard-graph'>
+					<CardContent>
+						<ErrorBoundary
+							fallback={
+								<div className='flex items-center justify-center h-96'>
+									<p className='text-muted-foreground'>An error occurred while rendering this graph</p>
+								</div>
+							}
+						>
+							{selected === 'members' && <UniqueMembersGraph team={team} timeFilter={timeFilter} />}
+							{selected === 'hours' && <AverageHoursGraph team={team} timeFilter={timeFilter} />}
+						</ErrorBoundary>
+					</CardContent>
+				</ViewTransition>
 			</div>
 		</Card>
 	);

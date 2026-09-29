@@ -32,7 +32,7 @@ export default function ManagerDashboardLayout({ children, params }: Props) {
 					<ManagerDashboardActions params={params} />
 				</Suspense>
 			</PageHeader>
-			<MainContent>{children}</MainContent>
+			<MainContent transition={false}>{children}</MainContent>
 		</ManagerDashboardProvider>
 	);
 }
