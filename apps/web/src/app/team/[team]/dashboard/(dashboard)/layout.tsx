@@ -11,30 +11,27 @@ type Props = PropsWithChildren<{
 	}>;
 }>;
 
-async function ManagerDashboardLayoutContent(props: Props) {
-	const params = await props.params;
-
-	const { children } = props;
-
-	const team = { slug: params.team };
+async function ManagerDashboardActions({ params }: Pick<Props, 'params'>) {
+	const { team: teamSlug } = await params;
+	const team = { slug: teamSlug };
 
 	return (
-		<ManagerDashboardProvider>
-			<PageHeader title='Dashboard'>
-				<div className='flex gap-4 sm:gap-8'>
-					<EndMeetingButton team={team} />
-					<ManagerDashboardPeriodSelect />
-				</div>
-			</PageHeader>
-			<MainContent>{children}</MainContent>
-		</ManagerDashboardProvider>
+		<div className='flex gap-4 sm:gap-8'>
+			<EndMeetingButton team={team} />
+			<ManagerDashboardPeriodSelect />
+		</div>
 	);
 }
 
-export default function ManagerDashboardLayout(props: Props) {
+export default function ManagerDashboardLayout({ children, params }: Props) {
 	return (
-		<Suspense>
-			<ManagerDashboardLayoutContent {...props} />
-		</Suspense>
+		<ManagerDashboardProvider>
+			<PageHeader title='Dashboard'>
+				<Suspense>
+					<ManagerDashboardActions params={params} />
+				</Suspense>
+			</PageHeader>
+			<MainContent>{children}</MainContent>
+		</ManagerDashboardProvider>
 	);
 }

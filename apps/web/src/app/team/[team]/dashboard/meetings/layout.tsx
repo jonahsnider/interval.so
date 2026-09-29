@@ -10,30 +10,27 @@ type Props = PropsWithChildren<{
 	}>;
 }>;
 
-async function ManagerMeetingsPageLayoutContent(props: Props) {
-	const params = await props.params;
-
-	const { children } = props;
-
-	const team = { slug: params.team };
+async function ManagerMeetingsActions({ params }: Pick<Props, 'params'>) {
+	const { team: teamSlug } = await params;
+	const team = { slug: teamSlug };
 
 	return (
-		<>
-			<PageHeader title='Meetings'>
-				<div className='flex gap-4 sm:gap-8'>
-					<DownloadMeetingsCsvButton team={team} />
-					<CreateMeetingDialog team={team} className='max-w-min' />
-				</div>
-			</PageHeader>
-			<MainContent>{children}</MainContent>
-		</>
+		<div className='flex gap-4 sm:gap-8'>
+			<DownloadMeetingsCsvButton team={team} />
+			<CreateMeetingDialog team={team} className='max-w-min' />
+		</div>
 	);
 }
 
-export default function ManagerMeetingsPageLayout(props: Props) {
+export default function ManagerMeetingsPageLayout({ children, params }: Props) {
 	return (
-		<Suspense>
-			<ManagerMeetingsPageLayoutContent {...props} />
-		</Suspense>
+		<>
+			<PageHeader title='Meetings'>
+				<Suspense>
+					<ManagerMeetingsActions params={params} />
+				</Suspense>
+			</PageHeader>
+			<MainContent>{children}</MainContent>
+		</>
 	);
 }

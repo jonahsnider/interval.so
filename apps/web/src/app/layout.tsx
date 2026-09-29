@@ -77,7 +77,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 										<PostHogIdentityProvider>
 											<SentryIdentityProvider>
 												<PostHogTeamIdProvider>
-													<ViewTransition>{children}</ViewTransition>
+													<ViewTransition update='none'>{children}</ViewTransition>
 												</PostHogTeamIdProvider>
 											</SentryIdentityProvider>
 										</PostHogIdentityProvider>

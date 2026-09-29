@@ -10,30 +10,27 @@ type Props = PropsWithChildren<{
 	}>;
 }>;
 
-async function ManagerMembersPageLayoutContent(props: Props) {
-	const params = await props.params;
-
-	const { children } = props;
-
-	const team = { slug: params.team };
+async function CreateMemberAction({ params }: Pick<Props, 'params'>) {
+	const { team: teamSlug } = await params;
+	const team = { slug: teamSlug };
 
 	return (
-		<>
-			<PageHeader title='Members'>
-				<CreateMemberDialog team={team} variant='default' className='max-w-min'>
-					<PlusIcon className='h-4 w-4 mr-2' />
-					Add member
-				</CreateMemberDialog>
-			</PageHeader>
-			<MainContent>{children}</MainContent>
-		</>
+		<CreateMemberDialog team={team} variant='default' className='max-w-min'>
+			<PlusIcon className='h-4 w-4 mr-2' />
+			Add member
+		</CreateMemberDialog>
 	);
 }
 
-export default function ManagerMembersPageLayout(props: Props) {
+export default function ManagerMembersPageLayout({ children, params }: Props) {
 	return (
-		<Suspense>
-			<ManagerMembersPageLayoutContent {...props} />
-		</Suspense>
+		<>
+			<PageHeader title='Members'>
+				<Suspense>
+					<CreateMemberAction params={params} />
+				</Suspense>
+			</PageHeader>
+			<MainContent>{children}</MainContent>
+		</>
 	);
 }

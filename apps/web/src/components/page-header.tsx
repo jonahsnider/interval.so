@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { type PropsWithChildren, type ReactNode, Suspense } from 'react';
+import { type PropsWithChildren, type ReactNode, Suspense, ViewTransition } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 
@@ -31,14 +31,22 @@ export function PageHeaderDescription({ children }: PropsWithChildren) {
 export function PageHeader({ title, description, children, className }: Props) {
 	return (
 		<header className='py-8 border-b bg-background'>
-			<div className={cn('flex flex-col xs:flex-row xs:justify-between gap-4 mx-auto container max-w-6xl', className)}>
-				<div className='flex flex-col gap-4'>
-					{typeof title === 'string' ? <PageHeaderTitle>{title}</PageHeaderTitle> : title}
-					{typeof description === 'string' ? <PageHeaderDescription>{description}</PageHeaderDescription> : description}
-				</div>
+			<ViewTransition name='page-header-content'>
+				<div
+					className={cn('flex flex-col xs:flex-row xs:justify-between gap-4 mx-auto container max-w-6xl', className)}
+				>
+					<div className='flex flex-col gap-4'>
+						{typeof title === 'string' ? <PageHeaderTitle>{title}</PageHeaderTitle> : title}
+						{typeof description === 'string' ? (
+							<PageHeaderDescription>{description}</PageHeaderDescription>
+						) : (
+							description
+						)}
+					</div>
 
-				{children}
-			</div>
+					{children}
+				</div>
+			</ViewTransition>
 		</header>
 	);
 }
