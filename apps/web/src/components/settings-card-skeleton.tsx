@@ -13,7 +13,7 @@ export function SettingsCardSkeleton() {
 			<CardHeader>
 				<Skeleton className='h-5 w-32' />
 
-				<Skeleton className='h-4 w-[32rem]' />
+				<Skeleton className='h-10 w-[32rem] max-w-full sm:h-4' />
 			</CardHeader>
 			<SettingsCardContentSkeleton />
 			<SettingsCardFooterSkeleton />
@@ -24,7 +24,7 @@ export function SettingsCardSkeleton() {
 export function SettingsCardContentSkeleton({ className }: Props) {
 	return (
 		<CardContent>
-			<Skeleton className={cn(clsx('h-9 w-80', className))} />
+			<Skeleton className={cn(clsx('h-9 w-80 max-w-full', className))} />
 		</CardContent>
 	);
 }

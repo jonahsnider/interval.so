@@ -1,4 +1,5 @@
 import { type PropsWithChildren, Suspense } from 'react';
+import { AccountSettingsLoading } from '@/src/components/account/settings/account-settings-loading';
 import { Navbar } from '@/src/components/navbar/navbar';
 import { PageHeader } from '@/src/components/page-header';
 import { FooterWrapper } from '@/src/components/page-wrappers/footer-wrapper';
@@ -12,7 +13,7 @@ export default function AccountPageLayout({ children }: PropsWithChildren) {
 			<PageHeader title='Account settings' />
 
 			<MainContent>
-				<Suspense>{children}</Suspense>
+				<Suspense fallback={<AccountSettingsLoading />}>{children}</Suspense>
 			</MainContent>
 		</FooterWrapper>
 	);
