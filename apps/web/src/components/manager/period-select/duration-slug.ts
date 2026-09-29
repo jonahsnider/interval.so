@@ -29,12 +29,15 @@ export function durationLabelPreviousPeriod(duration: DurationSlug): string | un
 	return durationLabel(duration);
 }
 
-export function toTimeFilter(searchParams: {
-	duration: DurationSlug;
-	start?: Date | null;
-	end?: Date | null;
-}): TimeFilterSchema {
-	const timeRange = toTimeRange(searchParams);
+export function toTimeFilter(
+	searchParams: {
+		duration: DurationSlug;
+		start?: Date | null;
+		end?: Date | null;
+	},
+	now?: Date,
+): TimeFilterSchema {
+	const timeRange = toTimeRange(searchParams, now);
 
 	if (searchParams.duration === DurationSlug.Custom) {
 		return timeRange.current;
@@ -45,7 +48,10 @@ export function toTimeFilter(searchParams: {
 	};
 }
 
-export function toTimeRange(searchParams: { duration: DurationSlug; start?: Date | null; end?: Date | null }): {
+export function toTimeRange(
+	searchParams: { duration: DurationSlug; start?: Date | null; end?: Date | null },
+	now = new Date(),
+): {
 	current: TimeRangeSchema;
 	previous?: TimeRangeSchema;
 } {
@@ -63,10 +69,8 @@ export function toTimeRange(searchParams: { duration: DurationSlug; start?: Date
 		}
 
 		// Default to last 7 days if the query parameters are in an invalid state
-		return toTimeRange({ duration: DurationSlug.Last7Days, start: null, end: null });
+		return toTimeRange({ duration: DurationSlug.Last7Days, start: null, end: null }, now);
 	}
-
-	const now = new Date();
 
 	if (duration === DurationSlug.ThisYear) {
 		return {

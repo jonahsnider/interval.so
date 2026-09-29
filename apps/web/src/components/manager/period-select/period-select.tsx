@@ -55,9 +55,14 @@ export function PeriodSelect({
 	align,
 }: Props) {
 	const [isOpen, setIsOpen] = useState(false);
+	const [toDate, setToDate] = useState<Date>();
 
 	// Prevent from staying in a state where no dates are selected but you are in custom mode
 	const onOpenChange = (open: boolean) => {
+		if (open) {
+			setToDate(new Date());
+		}
+
 		if (!open && duration === DurationSlug.Custom && !start && !end) {
 			setDurationAndClearDates(DurationSlug.Last7Days);
 		}
@@ -108,7 +113,7 @@ export function PeriodSelect({
 							<DropdownMenuSubContent>
 								<Calendar
 									mode='range'
-									toDate={new Date()}
+									toDate={toDate}
 									selected={{
 										from: start ?? undefined,
 										to: end ?? undefined,

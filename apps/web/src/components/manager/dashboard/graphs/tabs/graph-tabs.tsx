@@ -1,10 +1,10 @@
 import 'server-only';
 
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
+import type { TimeFilterSchema } from '@interval.so/api/app/team_stats/schemas/time_filter_schema';
+import type { TimeRangeSchema } from '@interval.so/api/app/team_stats/schemas/time_range_schema';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { toTimeFilter, toTimeRange } from '../../../period-select/duration-slug';
-import { searchParamCache } from '../../search-params';
 import { AverageHoursGraph } from '../average-hours-graph/average-hours-graph.server';
 import { UniqueMembersGraph } from '../unique-members-graph/unique-members-graph.server';
 import { GraphTabTrigger } from './graph-tab-trigger';
@@ -14,13 +14,11 @@ export type GraphTab = 'members' | 'hours';
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;
 	selected: GraphTab;
+	timeFilter: TimeFilterSchema;
+	timeRange: { current: TimeRangeSchema; previous?: TimeRangeSchema };
 };
 
-export function GraphTabs({ team, selected }: Props) {
-	const queryStates = searchParamCache.all();
-	const timeRange = toTimeRange(queryStates);
-	const timeFilter = toTimeFilter(queryStates);
-
+export function GraphTabs({ team, selected, timeFilter, timeRange }: Props) {
 	return (
 		<Card>
 			<div className='flex flex-col'>

@@ -1,4 +1,5 @@
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
+import { io } from 'next/cache';
 import { toTimeFilter, toTimeRange } from '../period-select/duration-slug';
 import { type GraphTab, GraphTabs } from './graphs/tabs/graph-tabs';
 import { searchParamCache } from './search-params';
@@ -10,11 +11,13 @@ type Props = {
 	graphTab: GraphTab;
 };
 
-export function ManagerDashboardPageWrapper({ graphTab, team }: Props) {
+export async function ManagerDashboardPageWrapper({ graphTab, team }: Props) {
 	const searchParams = searchParamCache.all();
+	await io();
+	const now = new Date();
 
-	const timeFilter = toTimeFilter(searchParams);
-	const timeRange = toTimeRange(searchParams);
+	const timeFilter = toTimeFilter(searchParams, now);
+	const timeRange = toTimeRange(searchParams, now);
 
 	return (
 		<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8'>
@@ -27,7 +30,7 @@ export function ManagerDashboardPageWrapper({ graphTab, team }: Props) {
 			/>
 
 			<div className='col-span-full'>
-				<GraphTabs team={team} selected={graphTab} />
+				<GraphTabs team={team} selected={graphTab} timeFilter={timeFilter} timeRange={timeRange} />
 			</div>
 		</div>
 	);

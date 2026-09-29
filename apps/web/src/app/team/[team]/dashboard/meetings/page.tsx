@@ -1,4 +1,5 @@
 import type { SearchParams } from 'nuqs';
+import { io } from 'next/cache';
 import { Suspense } from 'react';
 import { MeetingsTable } from '@/src/components/manager/meetings/meetings-table/meetings-table';
 import { searchParamCache } from '@/src/components/manager/meetings/search-params';
@@ -15,7 +16,8 @@ async function ManagerMeetingsPageContent(props: Props) {
 	const searchParams = await props.searchParams;
 	const params = await props.params;
 	const parsedSearchParams = searchParamCache.parse(searchParams);
-	const timeFilter = toTimeFilter(parsedSearchParams);
+	await io();
+	const timeFilter = toTimeFilter(parsedSearchParams, new Date());
 
 	const team = { slug: params.team };
 
