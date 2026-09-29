@@ -11,7 +11,6 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import '../globals.css';
 import { PostHogIdentityProvider } from '../providers/post-hog-identity-provider';
 import { PostHogPageView } from '../providers/post-hog-page-view';
-import { CsPostHogProvider } from '../providers/post-hog-provider';
 import { PostHogTeamIdProvider } from '../providers/post-hog-team-id-provider';
 import { SentryIdentityProvider } from '../providers/sentry-identity-provider';
 import { TrpcProvider } from '../providers/trpc-provider';
@@ -67,28 +66,26 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				)}
 			>
 				<PlausibleProvider>
-					<CsPostHogProvider>
-						<ThemeProvider attribute='class' defaultTheme='system' enableSystem={true} disableTransitionOnChange={true}>
-							<NuqsAdapter>
-								<PostHogPageView />
+					<ThemeProvider attribute='class' defaultTheme='system' enableSystem={true} disableTransitionOnChange={true}>
+						<NuqsAdapter>
+							<PostHogPageView />
 
-								<TrpcProvider>
-									<TooltipProvider>
-										<PostHogIdentityProvider>
-											<SentryIdentityProvider>
-												<PostHogTeamIdProvider>
-													<ViewTransition update='none'>{children}</ViewTransition>
-												</PostHogTeamIdProvider>
-											</SentryIdentityProvider>
-										</PostHogIdentityProvider>
-									</TooltipProvider>
-								</TrpcProvider>
+							<TrpcProvider>
+								<TooltipProvider>
+									<PostHogIdentityProvider>
+										<SentryIdentityProvider>
+											<PostHogTeamIdProvider>
+												<ViewTransition update='none'>{children}</ViewTransition>
+											</PostHogTeamIdProvider>
+										</SentryIdentityProvider>
+									</PostHogIdentityProvider>
+								</TooltipProvider>
+							</TrpcProvider>
 
-								<Toaster />
-								<SpeedInsights />
-							</NuqsAdapter>
-						</ThemeProvider>
-					</CsPostHogProvider>
+							<Toaster />
+							<SpeedInsights />
+						</NuqsAdapter>
+					</ThemeProvider>
 				</PlausibleProvider>
 			</body>
 		</html>
