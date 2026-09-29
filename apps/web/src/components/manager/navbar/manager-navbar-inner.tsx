@@ -2,7 +2,6 @@
 
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import clsx from 'clsx';
-import { AnimatePresence, motion, type Variants } from 'motion/react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
@@ -57,24 +56,12 @@ function NavbarEntry({ entry, team }: { entry: NavbarEntryData; team: Pick<TeamS
 	);
 }
 
-const motionVariants: Variants = {
-	hidden: { opacity: 0, height: 0 },
-	visible: { opacity: 1, height: 'auto' },
-};
-
 export function ManagerNavbarInner({ team }: { team: Pick<TeamSchema, 'slug'> }) {
 	return (
-		<AnimatePresence initial={false}>
-			<motion.nav
-				initial='hidden'
-				animate='visible'
-				variants={motionVariants}
-				className='flex gap-6 justify-start items-center font-medium pt-2 col-span-full'
-			>
-				{ENTRIES.map((entry) => (
-					<NavbarEntry key={entry.hrefSuffix} entry={entry} team={team} />
-				))}
-			</motion.nav>
-		</AnimatePresence>
+		<nav className='flex gap-6 justify-start items-center font-medium pt-2 col-span-full'>
+			{ENTRIES.map((entry) => (
+				<NavbarEntry key={entry.hrefSuffix} entry={entry} team={team} />
+			))}
+		</nav>
 	);
 }

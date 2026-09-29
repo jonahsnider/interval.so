@@ -1,6 +1,6 @@
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import clsx from 'clsx';
-import { type PropsWithChildren, Suspense } from 'react';
+import { type PropsWithChildren, type ReactNode, Suspense } from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { getAuthState, getIsAuthed, getTeamDisplayName } from '@/src/trpc/trpc-server';
@@ -17,6 +17,7 @@ type Props = PropsWithChildren<
 	{
 		className?: string;
 		authStatePromise?: ReturnType<typeof getAuthState>;
+		fallback?: ReactNode;
 	} & (
 		| {
 				/** The session is authed as a guest for the given team, or a user with manager access to the team. */
@@ -39,8 +40,8 @@ type Props = PropsWithChildren<
 /**
  * Render its children if the user is signed in and if provided, has access to the given team.
  */
-export function AuthWall({ authStatePromise, kind, children, wantedTeam }: Props) {
-	let content: React.ReactNode;
+export function AuthWall({ authStatePromise, kind, children, wantedTeam, fallback }: Props) {
+	let content: ReactNode;
 
 	switch (kind) {
 		case 'guestOrManager':
@@ -61,7 +62,7 @@ export function AuthWall({ authStatePromise, kind, children, wantedTeam }: Props
 			content = <AuthWallUser>{children}</AuthWallUser>;
 	}
 
-	return <Suspense fallback={<AuthWallFallback />}>{content}</Suspense>;
+	return <Suspense fallback={fallback ?? <AuthWallFallback />}>{content}</Suspense>;
 }
 
 function AuthWallFallback() {

@@ -4,6 +4,7 @@ import { ManagerDashboardPeriodSelect } from '@/src/components/manager/dashboard
 import { EndMeetingButton } from '@/src/components/manager/end-meeting-button/end-meeting-button';
 import { PageHeader } from '@/src/components/page-header';
 import { MainContent } from '@/src/components/page-wrappers/main-content';
+import { DashboardActionsLoading } from '@/src/components/route-loading';
 
 type Props = PropsWithChildren<{
 	params: Promise<{
@@ -27,7 +28,7 @@ export default function ManagerDashboardLayout({ children, params }: Props) {
 	return (
 		<ManagerDashboardProvider>
 			<PageHeader title='Dashboard'>
-				<Suspense>
+				<Suspense fallback={<DashboardActionsLoading />}>
 					<ManagerDashboardActions params={params} />
 				</Suspense>
 			</PageHeader>

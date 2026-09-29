@@ -3,7 +3,8 @@ import { type PropsWithChildren, Suspense } from 'react';
 import { AuthWall } from '@/src/components/auth-wall/auth-wall';
 import { Navbar } from '@/src/components/navbar/navbar';
 import { MainContent } from '@/src/components/page-wrappers/main-content';
-import { TeamRouteLoading } from '@/src/components/route-loading';
+import { AttendanceRouteLoading } from '@/src/components/route-loading';
+import { TeamSlugProvider } from '@/src/components/team-dashboard/team-slug-provider';
 import { isTrpcClientError } from '@/src/trpc/common';
 import { getAuthState, getTeamDisplayName } from '@/src/trpc/trpc-server';
 
@@ -31,7 +32,7 @@ async function TeamAttendanceContent(props: Props) {
 	}
 
 	return (
-		<>
+		<TeamSlugProvider team={{ slug: params.team }}>
 			<Navbar currentTeam={{ slug: params.team }} />
 
 			<AuthWall
@@ -44,13 +45,13 @@ async function TeamAttendanceContent(props: Props) {
 			>
 				<MainContent>{children}</MainContent>
 			</AuthWall>
-		</>
+		</TeamSlugProvider>
 	);
 }
 
 export default function TeamAttendanceLayout(props: Props) {
 	return (
-		<Suspense fallback={<TeamRouteLoading />}>
+		<Suspense fallback={<AttendanceRouteLoading />}>
 			<TeamAttendanceContent {...props} />
 		</Suspense>
 	);

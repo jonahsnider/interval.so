@@ -1,8 +1,6 @@
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { Suspense } from 'react';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { RouteContentLoading } from '@/src/components/route-loading';
+import { AttendancePageLoading, AttendanceTableLoading } from '@/src/components/route-loading';
 import { AttendanceTable } from '@/src/components/team-dashboard/attendance-table/attendance-table';
 import { ManagerTiles } from '@/src/components/team-dashboard/manager-tiles/manager-tiles';
 import { getSelf, getSimpleMemberList } from '@/src/trpc/trpc-server';
@@ -48,28 +46,9 @@ async function AttendanceTableFetcher({ team }: { team: Pick<TeamSchema, 'slug'>
 	return <AttendanceTable initialData={initialMembers} team={team} />;
 }
 
-function AttendanceTableLoading() {
-	return (
-		<Card className='w-full md:max-w-xl'>
-			<CardHeader>
-				<Skeleton className='h-5 w-28' />
-			</CardHeader>
-			<CardContent className='flex gap-2'>
-				<Skeleton className='h-9 flex-1' />
-				<Skeleton className='h-9 w-24' />
-			</CardContent>
-			<CardContent className='flex flex-col gap-4'>
-				{Array.from({ length: 6 }, (_, index) => (
-					<Skeleton className='h-5 w-full' key={index} />
-				))}
-			</CardContent>
-		</Card>
-	);
-}
-
 export default function TeamAttendancePage(props: Props) {
 	return (
-		<Suspense fallback={<RouteContentLoading />}>
+		<Suspense fallback={<AttendancePageLoading />}>
 			<TeamAttendancePageContent {...props} />
 		</Suspense>
 	);

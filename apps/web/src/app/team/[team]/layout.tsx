@@ -1,27 +1,6 @@
-import { type PropsWithChildren, Suspense } from 'react';
+import type { PropsWithChildren } from 'react';
 import { FooterWrapper } from '@/src/components/page-wrappers/footer-wrapper';
-import { TeamRouteLoading } from '@/src/components/route-loading';
-import { TeamSlugProvider } from '@/src/components/team-dashboard/team-slug-provider';
 
-type Props = PropsWithChildren<{
-	params: Promise<{
-		team: string;
-	}>;
-}>;
-
-async function TeamPageContent(props: Props) {
-	const params = await props.params;
-	const { children } = props;
-
-	return <TeamSlugProvider team={{ slug: params.team }}>{children}</TeamSlugProvider>;
-}
-
-export default function TeamPageLayout(props: Props) {
-	return (
-		<FooterWrapper>
-			<Suspense fallback={<TeamRouteLoading />}>
-				<TeamPageContent {...props} />
-			</Suspense>
-		</FooterWrapper>
-	);
+export default function TeamPageLayout({ children }: PropsWithChildren) {
+	return <FooterWrapper>{children}</FooterWrapper>;
 }

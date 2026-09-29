@@ -1,3 +1,3 @@
-import { RouteContentLoading } from '@/src/components/route-loading';
+import { DashboardContentLoading } from '@/src/components/route-loading';
 
-export default RouteContentLoading;
+export default DashboardContentLoading;

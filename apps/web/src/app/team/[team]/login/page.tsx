@@ -8,6 +8,7 @@ import { Navbar } from '@/src/components/navbar/navbar';
 import { MainContent } from '@/src/components/page-wrappers/main-content';
 import { AlreadyAuthedCard } from '@/src/components/team-dashboard/password-login/already-authed-card';
 import { PasswordLoginCard } from '@/src/components/team-dashboard/password-login/password-login-card';
+import { TeamSlugProvider } from '@/src/components/team-dashboard/team-slug-provider';
 import { isTrpcClientError } from '@/src/trpc/common';
 import { getCurrentGuestTeam, getTeamDisplayName } from '@/src/trpc/trpc-server';
 
@@ -52,7 +53,7 @@ async function TeamLoginPageContent(props: Props) {
 	// TODO: If the user is authed for a different team, add a note that says "You are signed into {other team}"
 
 	return (
-		<>
+		<TeamSlugProvider team={{ slug: params.team }}>
 			<Navbar currentTeam={{ slug: params.team }} />
 
 			<MainContent className='flex flex-1 justify-center items-center flex-col'>
@@ -68,7 +69,7 @@ async function TeamLoginPageContent(props: Props) {
 					</div>
 				</div>
 			</MainContent>
-		</>
+		</TeamSlugProvider>
 	);
 }
 
