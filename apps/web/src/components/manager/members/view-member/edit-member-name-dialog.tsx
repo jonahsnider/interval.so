@@ -18,7 +18,8 @@ import {
 } from '@/components/ui/dialog';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 
 type Props = PropsWithChildren<{
 	member: Pick<TeamMemberSchema, 'id' | 'name'>;
@@ -27,6 +28,7 @@ type Props = PropsWithChildren<{
 const formSchema = TeamMemberSchema.pick({ name: true });
 
 export function EditMemberNameDialog({ member, children }: Props) {
+	const trpc = useTRPC();
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -36,21 +38,23 @@ export function EditMemberNameDialog({ member, children }: Props) {
 
 	const [toastId, setToastId] = useState<string | number | undefined>();
 
-	const editName = trpc.teams.members.setName.useMutation({
-		onMutate: () => {
-			setToastId(toast.loading('Updating member name...'));
-		},
-		onSuccess: () => {
-			toast.success('Member name was updated', { id: toastId });
-			setOpen(false);
-		},
-		onError: (error) => {
-			toast.error("An error occurred while updating that member's name", {
-				description: error.message,
-				id: toastId,
-			});
-		},
-	});
+	const editName = useMutation(
+		trpc.teams.members.setName.mutationOptions({
+			onMutate: () => {
+				setToastId(toast.loading('Updating member name...'));
+			},
+			onSuccess: () => {
+				toast.success('Member name was updated', { id: toastId });
+				setOpen(false);
+			},
+			onError: (error) => {
+				toast.error("An error occurred while updating that member's name", {
+					description: error.message,
+					id: toastId,
+				});
+			},
+		}),
+	);
 
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
 		editName.mutate({ id: member.id, name: values.name });

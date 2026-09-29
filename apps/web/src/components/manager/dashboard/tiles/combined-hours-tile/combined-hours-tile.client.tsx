@@ -4,7 +4,8 @@ import type { TimeRangeSchema } from '@interval.so/api/app/team_stats/schemas/ti
 import { useQueryStates } from 'nuqs';
 import { useMemo, useState } from 'react';
 import type { RouterOutput } from '@/src/trpc/common';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useSubscription } from '@trpc/tanstack-react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 import {
 	type DurationSlug,
 	durationLabelPreviousPeriod,
@@ -25,15 +26,18 @@ type Props = {
 };
 
 export function CombinedHoursTileClient({ team, initialCurrent, initialTrend, durationSlug }: Props) {
+	const trpc = useTRPC();
 	const [current, setCurrent] = useState(initialCurrent);
 	const [searchParams] = useQueryStates(searchParamParsers);
 
 	const currentTimeFilter = useMemo(() => toTimeFilter(searchParams), [searchParams]);
 	const previousTimeFilter = useMemo(() => toTimeRange(searchParams).previous, [searchParams]);
 
-	trpc.teams.stats.getCombinedHoursSubscription.useSubscription(
-		{ team, timeFilter: currentTimeFilter },
-		{ onData: setCurrent },
+	useSubscription(
+		trpc.teams.stats.getCombinedHoursSubscription.subscriptionOptions(
+			{ team, timeFilter: currentTimeFilter },
+			{ onData: setCurrent },
+		),
 	);
 
 	return (
@@ -67,11 +71,14 @@ function Trend({
 	initialTrend?: RouterOutput['teams']['stats']['getCombinedHours'];
 	previousTimeFilter: TimeRangeSchema;
 }) {
+	const trpc = useTRPC();
 	const [trend, setTrend] = useState(initialTrend);
 
-	trpc.teams.stats.getCombinedHoursSubscription.useSubscription(
-		{ team, timeFilter: previousTimeFilter },
-		{ onData: setTrend },
+	useSubscription(
+		trpc.teams.stats.getCombinedHoursSubscription.subscriptionOptions(
+			{ team, timeFilter: previousTimeFilter },
+			{ onData: setTrend },
+		),
 	);
 
 	if (current !== 0 && trend) {

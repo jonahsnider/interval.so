@@ -2,10 +2,12 @@
 
 import posthog from 'posthog-js';
 import { type PropsWithChildren, useEffect } from 'react';
-import { trpc } from '../trpc/trpc-client';
+import { useQuery } from '@tanstack/react-query';
+import { useTRPC } from '../trpc/trpc-client';
 
 export function PostHogIdentityProvider({ children }: PropsWithChildren) {
-	const { data } = trpc.user.getSelf.useQuery();
+	const trpc = useTRPC();
+	const { data } = useQuery(trpc.user.getSelf.queryOptions());
 
 	useEffect(() => {
 		if (data?.user) {

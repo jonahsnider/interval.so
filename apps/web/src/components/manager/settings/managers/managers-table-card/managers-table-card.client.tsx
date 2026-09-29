@@ -17,7 +17,8 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectSeparator, SelectTrigger } from '@/components/ui/select';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 
 export function ManagersTableRoleSelect({
 	manager,
@@ -28,24 +29,27 @@ export function ManagersTableRoleSelect({
 	allowedRoleModifications: TeamManagerRole[];
 	team: Pick<TeamSchema, 'slug'>;
 }) {
+	const trpc = useTRPC();
 	const [toastId, setToastId] = useState<string | number | undefined>();
 	const router = useRouter();
 
-	const updateRole = trpc.teams.managers.updateRole.useMutation({
-		onMutate: () => {
-			setToastId(toast.loading(`Updating ${manager.user.displayName}'s role...`));
-		},
-		onSuccess: () => {
-			toast.success(`Updated ${manager.user.displayName}'s role`, { id: toastId });
-			router.refresh();
-		},
-		onError: (error) => {
-			toast.error(`An error occurred while updating ${manager.user.displayName}'s role`, {
-				description: error.message,
-				id: toastId,
-			});
-		},
-	});
+	const updateRole = useMutation(
+		trpc.teams.managers.updateRole.mutationOptions({
+			onMutate: () => {
+				setToastId(toast.loading(`Updating ${manager.user.displayName}'s role...`));
+			},
+			onSuccess: () => {
+				toast.success(`Updated ${manager.user.displayName}'s role`, { id: toastId });
+				router.refresh();
+			},
+			onError: (error) => {
+				toast.error(`An error occurred while updating ${manager.user.displayName}'s role`, {
+					description: error.message,
+					id: toastId,
+				});
+			},
+		}),
+	);
 
 	const selectOptions = allowedRoleModifications.length > 0 ? allowedRoleModifications : [manager.role];
 	const selectOptionsWithoutOwner = selectOptions.filter((role) => role !== 'owner');
@@ -101,24 +105,27 @@ export function ManagersTableRowActions({
 	manager: Pick<TeamManagerSchema, 'user'>;
 	team: Pick<TeamSchema, 'slug'>;
 }) {
+	const trpc = useTRPC();
 	const [toastId, setToastId] = useState<string | number | undefined>();
 	const router = useRouter();
 
-	const removeManager = trpc.teams.managers.removeManager.useMutation({
-		onMutate: () => {
-			setToastId(toast.loading(`Removing ${manager.user.displayName}...`));
-		},
-		onSuccess: () => {
-			toast.success(`Removed ${manager.user.displayName}`, { id: toastId });
-			router.refresh();
-		},
-		onError: (error) => {
-			toast.error(`An error occurred while removing ${manager.user.displayName}`, {
-				description: error.message,
-				id: toastId,
-			});
-		},
-	});
+	const removeManager = useMutation(
+		trpc.teams.managers.removeManager.mutationOptions({
+			onMutate: () => {
+				setToastId(toast.loading(`Removing ${manager.user.displayName}...`));
+			},
+			onSuccess: () => {
+				toast.success(`Removed ${manager.user.displayName}`, { id: toastId });
+				router.refresh();
+			},
+			onError: (error) => {
+				toast.error(`An error occurred while removing ${manager.user.displayName}`, {
+					description: error.message,
+					id: toastId,
+				});
+			},
+		}),
+	);
 
 	return (
 		<DropdownMenu>

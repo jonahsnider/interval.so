@@ -11,7 +11,8 @@ import { Button, type ButtonProps } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 
 const formSchema = TeamMemberSchema.pick({ name: true });
 
@@ -22,6 +23,7 @@ type Props = PropsWithChildren<
 >;
 
 export function CreateMemberDialog({ team, children, ...buttonProps }: Props) {
+	const trpc = useTRPC();
 	const [open, setOpenRaw] = useState(false);
 	const form = useForm({
 		resolver: zodResolver(formSchema),
@@ -38,18 +40,20 @@ export function CreateMemberDialog({ team, children, ...buttonProps }: Props) {
 		setOpenRaw(open);
 	};
 
-	const mutation = trpc.teams.members.create.useMutation({
-		onMutate: () => {
-			setToastId(toast.loading('Creating member...'));
-		},
-		onSuccess: () => {
-			setOpen(false);
-			toast.success('A new member was created', { id: toastId });
-		},
-		onError: (error) => {
-			toast.error('An error occurred while creating the member', { id: toastId, description: error.message });
-		},
-	});
+	const mutation = useMutation(
+		trpc.teams.members.create.mutationOptions({
+			onMutate: () => {
+				setToastId(toast.loading('Creating member...'));
+			},
+			onSuccess: () => {
+				setOpen(false);
+				toast.success('A new member was created', { id: toastId });
+			},
+			onError: (error) => {
+				toast.error('An error occurred while creating the member', { id: toastId, description: error.message });
+			},
+		}),
+	);
 
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
 		mutation.mutate({

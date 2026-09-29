@@ -1,4 +1,7 @@
+'use client';
+
 import {
+	createTRPCClient,
 	createWSClient,
 	type HTTPBatchLinkOptions,
 	httpBatchLink,
@@ -6,7 +9,7 @@ import {
 	splitLink,
 	wsLink,
 } from '@trpc/client';
-import { createTRPCNext } from '@trpc/next';
+import { createTRPCContext } from '@trpc/tanstack-react-query';
 import { convert } from 'convert';
 import superjson from 'superjson';
 import { getTimezone } from '../utils/timezone-util';
@@ -29,18 +32,18 @@ const httpBatchOptions: HTTPBatchLinkOptions<AppRouterType['_def']['_config']['$
 		});
 	},
 };
+export const { TRPCProvider, useTRPC, useTRPCClient } = createTRPCContext<AppRouterType>();
 
-const wsClient = createWSClient({
-	url: trpcWsUrl.toString(),
-	lazy: {
-		enabled: true,
-		closeMs: convert(1, 'm').to('ms'),
-	},
-});
+export function createClient() {
+	const wsClient = createWSClient({
+		url: trpcWsUrl.toString(),
+		lazy: {
+			enabled: true,
+			closeMs: convert(1, 'm').to('ms'),
+		},
+	});
 
-export const trpc = createTRPCNext<AppRouterType>({
-	transformer: superjson,
-	config: () => ({
+	return createTRPCClient<AppRouterType>({
 		links: [
 			splitLink({
 				condition: (op) => op.type === 'subscription',
@@ -56,5 +59,5 @@ export const trpc = createTRPCNext<AppRouterType>({
 				}),
 			}),
 		],
-	}),
-});
+	});
+}

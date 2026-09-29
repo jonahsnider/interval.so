@@ -16,31 +16,35 @@ import {
 	AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button, buttonVariants } from '@/components/ui/button';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;
 };
 
 export function LeaveTeamCardActionAllowed({ team }: Props) {
+	const trpc = useTRPC();
 	const [toastId, setToastId] = useState<string | number | undefined>();
 	const router = useRouter();
 
-	const leaveTeam = trpc.teams.forUser.leave.useMutation({
-		onMutate: () => {
-			setToastId(toast.loading('Leaving team...'));
-		},
-		onSuccess: () => {
-			toast.success('You have been removed from the team', { id: toastId });
-			router.push('/');
-		},
-		onError: (error) => {
-			toast.error('An error occurred while leaving the team', {
-				description: error.message,
-				id: toastId,
-			});
-		},
-	});
+	const leaveTeam = useMutation(
+		trpc.teams.forUser.leave.mutationOptions({
+			onMutate: () => {
+				setToastId(toast.loading('Leaving team...'));
+			},
+			onSuccess: () => {
+				toast.success('You have been removed from the team', { id: toastId });
+				router.push('/');
+			},
+			onError: (error) => {
+				toast.error('An error occurred while leaving the team', {
+					description: error.message,
+					id: toastId,
+				});
+			},
+		}),
+	);
 
 	return (
 		<AlertDialog>

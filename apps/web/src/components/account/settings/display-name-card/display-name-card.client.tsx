@@ -11,7 +11,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 
 const formSchema = UserSchema.pick({ displayName: true });
 
@@ -20,6 +21,7 @@ type Props = {
 };
 
 export function DisplayNameCardInner({ userPromise }: Props) {
+	const trpc = useTRPC();
 	const user = use(userPromise);
 
 	const initial = user.displayName;
@@ -33,19 +35,21 @@ export function DisplayNameCardInner({ userPromise }: Props) {
 	});
 
 	const [toastId, setToastId] = useState<string | number | undefined>();
-	const setDisplayName = trpc.user.setDisplayName.useMutation({
-		onMutate: () => {
-			setToastId(toast.loading('Updating display name'));
-		},
-		onSuccess: () => {
-			toast.success('Your display name was updated', { id: toastId });
-			// Refresh the router to update the RSC menu dropdown
-			router.refresh();
-		},
-		onError: (error) => {
-			toast.error('An error occurred while updating your display name', { id: toastId, description: error.message });
-		},
-	});
+	const setDisplayName = useMutation(
+		trpc.user.setDisplayName.mutationOptions({
+			onMutate: () => {
+				setToastId(toast.loading('Updating display name'));
+			},
+			onSuccess: () => {
+				toast.success('Your display name was updated', { id: toastId });
+				// Refresh the router to update the RSC menu dropdown
+				router.refresh();
+			},
+			onError: (error) => {
+				toast.error('An error occurred while updating your display name', { id: toastId, description: error.message });
+			},
+		}),
+	);
 
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
 		setDisplayName.mutate(values);

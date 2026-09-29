@@ -12,7 +12,8 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 import type { MembersTableMeetingRow } from '../columns';
 
 export function BatchDeleteItem({ setDialogOpen }: { setDialogOpen: (open: boolean) => void }) {
@@ -34,26 +35,29 @@ export function BatchDeleteDialogContent({
 	table: Table<MembersTableMeetingRow>;
 	setDialogOpen: (open: boolean) => void;
 }) {
+	const trpc = useTRPC();
 	const [toastId, setToastId] = useState<string | number | undefined>();
 
 	const selectedRows = table.getSelectedRowModel().rows;
 
-	const deleteAttendance = trpc.teams.members.attendance.deleteEntries.useMutation({
-		onMutate: () => {
-			setToastId(toast.loading('Deleting attendance entries...', { id: toastId }));
-		},
-		onSuccess: () => {
-			toast.success(`Deleted ${selectedRows.length} attendance entries`, { id: toastId });
+	const deleteAttendance = useMutation(
+		trpc.teams.members.attendance.deleteEntries.mutationOptions({
+			onMutate: () => {
+				setToastId(toast.loading('Deleting attendance entries...', { id: toastId }));
+			},
+			onSuccess: () => {
+				toast.success(`Deleted ${selectedRows.length} attendance entries`, { id: toastId });
 
-			setDialogOpen(false);
-		},
-		onError: (error) => {
-			toast.error('An error occurred while deleting the attendance entries', {
-				description: error.message,
-				id: toastId,
-			});
-		},
-	});
+				setDialogOpen(false);
+			},
+			onError: (error) => {
+				toast.error('An error occurred while deleting the attendance entries', {
+					description: error.message,
+					id: toastId,
+				});
+			},
+		}),
+	);
 
 	return (
 		<AlertDialogContent>

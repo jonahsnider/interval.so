@@ -11,7 +11,8 @@ import { Button } from '@/components/ui/button';
 import { CardContent, CardFooter } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 
 const formSchema = TeamSchema.pick({ displayName: true });
 
@@ -21,6 +22,7 @@ type Props = {
 };
 
 export function TeamDisplayNameEditForm({ team, initialDisplayName }: Props) {
+	const trpc = useTRPC();
 	const form = useForm({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -30,21 +32,23 @@ export function TeamDisplayNameEditForm({ team, initialDisplayName }: Props) {
 	const router = useRouter();
 
 	const [toastId, setToastId] = useState<string | number | undefined>();
-	const setDisplayName = trpc.teams.settings.setDisplayName.useMutation({
-		onMutate: () => {
-			setToastId(toast.loading('Updating team display name...'));
-		},
-		onSuccess: () => {
-			toast.success('Team display name was updated', { id: toastId });
-			router.refresh();
-		},
-		onError: (error) => {
-			toast.error('An error occurred while updating the team display name', {
-				id: toastId,
-				description: error.message,
-			});
-		},
-	});
+	const setDisplayName = useMutation(
+		trpc.teams.settings.setDisplayName.mutationOptions({
+			onMutate: () => {
+				setToastId(toast.loading('Updating team display name...'));
+			},
+			onSuccess: () => {
+				toast.success('Team display name was updated', { id: toastId });
+				router.refresh();
+			},
+			onError: (error) => {
+				toast.error('An error occurred while updating the team display name', {
+					id: toastId,
+					description: error.message,
+				});
+			},
+		}),
+	);
 
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
 		setDisplayName.mutate({ team, data: values });

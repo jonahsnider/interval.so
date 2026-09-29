@@ -3,29 +3,33 @@ import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 
 type Props = {
 	member: Pick<TeamMemberSchema, 'id' | 'name' | 'signedInAt'>;
 };
 
 export function UpdateAttendanceItem({ member }: Props) {
+	const trpc = useTRPC();
 	const [toastId, setToastId] = useState<string | number | undefined>();
 
-	const mutation = trpc.teams.members.updateAttendance.useMutation({
-		onMutate: ({ data }) => {
-			setToastId(toast.loading(`Signing ${member.name} ${data.atMeeting ? 'in' : 'out'}...`));
-		},
-		onSuccess: (_data, { data }) => {
-			toast.success(`Signed ${member.name} ${data.atMeeting ? 'in' : 'out'}`, { id: toastId });
-		},
-		onError: (error, { data }) => {
-			toast.error(`An error occurred while signing ${member.name} ${data.atMeeting ? 'in' : 'out'}`, {
-				description: error.message,
-				id: toastId,
-			});
-		},
-	});
+	const mutation = useMutation(
+		trpc.teams.members.updateAttendance.mutationOptions({
+			onMutate: ({ data }) => {
+				setToastId(toast.loading(`Signing ${member.name} ${data.atMeeting ? 'in' : 'out'}...`));
+			},
+			onSuccess: (_data, { data }) => {
+				toast.success(`Signed ${member.name} ${data.atMeeting ? 'in' : 'out'}`, { id: toastId });
+			},
+			onError: (error, { data }) => {
+				toast.error(`An error occurred while signing ${member.name} ${data.atMeeting ? 'in' : 'out'}`, {
+					description: error.message,
+					id: toastId,
+				});
+			},
+		}),
+	);
 
 	return (
 		<DropdownMenuItem onClick={() => mutation.mutate({ member, data: { atMeeting: !member.signedInAt } })}>

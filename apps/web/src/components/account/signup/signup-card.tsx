@@ -16,12 +16,14 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 import { searchParamParsers } from '../search-params';
 
 const formSchema = UserSchema.pick({ displayName: true });
 
 export function SignupCard() {
+	const trpc = useTRPC();
 	const [searchParams] = useQueryStates(searchParamParsers);
 	const router = useRouter();
 	const form = useForm<z.infer<typeof formSchema>>({
@@ -31,29 +33,33 @@ export function SignupCard() {
 		},
 	});
 
-	const joinTeam = trpc.teams.forUser.join.useMutation({
-		onMutate: () => {},
-		onSuccess: (result) => {
-			router.push(`/team/${result.slug}`);
-			router.refresh();
-		},
-		onError: (error) => {
-			toast.error('Your account was created, but something went wrong while joining the team', {
-				description: error.message,
-			});
-		},
-	});
+	const joinTeam = useMutation(
+		trpc.teams.forUser.join.mutationOptions({
+			onMutate: () => {},
+			onSuccess: (result) => {
+				router.push(`/team/${result.slug}`);
+				router.refresh();
+			},
+			onError: (error) => {
+				toast.error('Your account was created, but something went wrong while joining the team', {
+					description: error.message,
+				});
+			},
+		}),
+	);
 
-	const getRegistrationOptions = trpc.accounts.register.generateRegistrationOptions.useMutation();
-	const finishRegistration = trpc.accounts.register.verifyRegistrationResponse.useMutation({
-		onSuccess: () => {
-			if (!searchParams.invite) {
-				router.push('/');
-			}
+	const getRegistrationOptions = useMutation(trpc.accounts.register.generateRegistrationOptions.mutationOptions());
+	const finishRegistration = useMutation(
+		trpc.accounts.register.verifyRegistrationResponse.mutationOptions({
+			onSuccess: () => {
+				if (!searchParams.invite) {
+					router.push('/');
+				}
 
-			router.refresh();
-		},
-	});
+				router.refresh();
+			},
+		}),
+	);
 
 	const [isPending, setIsPending] = useState(false);
 

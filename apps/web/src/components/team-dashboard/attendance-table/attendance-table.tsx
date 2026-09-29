@@ -12,7 +12,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/flex-table';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useSubscription } from '@trpc/tanstack-react-query';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 import { CreateMemberDialog } from '../../members/create-member/create-member-dialog';
 
 const MotionTableRow = motion.create(TableRow);
@@ -37,11 +39,10 @@ type Props = {
 };
 
 export function AttendanceTable({ initialData, team }: Props) {
-	const [members, setMembers] = useState(initialData);
-
-	trpc.teams.members.simpleMemberListSubscription.useSubscription(team, {
-		onData: setMembers,
-	});
+	const trpc = useTRPC();
+	const { data: members = initialData } = useSubscription(
+		trpc.teams.members.simpleMemberListSubscription.subscriptionOptions(team),
+	);
 
 	const fuse = useMemo(() => new Fuse(members, { keys: ['name'] }), [members]);
 	const [filter, setFilter] = useState('');
@@ -139,6 +140,7 @@ function InnerTable({ filteredMembers, members }: { filteredMembers: SimpleMembe
 }
 
 function InnerTableRow({ visible, className, member }: { visible: boolean; className?: string; member: SimpleMember }) {
+	const trpc = useTRPC();
 	const [animating, setAnimating] = useState(false);
 	const [checked, setChecked] = useState(Boolean(member.signedInAt));
 
@@ -149,20 +151,22 @@ function InnerTableRow({ visible, className, member }: { visible: boolean; class
 		setChecked(Boolean(member.signedInAt));
 	}, [member.signedInAt]);
 
-	const mutation = trpc.teams.members.updateAttendance.useMutation({
-		onMutate: ({ data }) => {
-			setChecked(data.atMeeting);
-		},
-		onError: (error, { data }) => {
-			const action = data.atMeeting ? 'in' : 'out';
-			toast.error(`Unable to sign ${member.name} ${action}`, {
-				description: error.message,
-			});
+	const mutation = useMutation(
+		trpc.teams.members.updateAttendance.mutationOptions({
+			onMutate: ({ data }) => {
+				setChecked(data.atMeeting);
+			},
+			onError: (error, { data }) => {
+				const action = data.atMeeting ? 'in' : 'out';
+				toast.error(`Unable to sign ${member.name} ${action}`, {
+					description: error.message,
+				});
 
-			// Revert state
-			setChecked(!data.atMeeting);
-		},
-	});
+				// Revert state
+				setChecked(!data.atMeeting);
+			},
+		}),
+	);
 
 	return (
 		<MotionTableRow

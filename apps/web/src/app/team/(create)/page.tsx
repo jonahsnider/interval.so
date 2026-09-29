@@ -12,13 +12,15 @@ import { Form } from '@/components/ui/form';
 import { CreateTeamNameCard } from '@/src/components/create-team/form/create-team-name-card';
 import { CreateTeamPasswordCard } from '@/src/components/create-team/form/create-team-password';
 import { CreateTeamUrlCard } from '@/src/components/create-team/form/create-team-url-card';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 
 const formSchema = TeamSchema.pick({ displayName: true, password: true, slug: true });
 
 export type CreateTeamFormType = UseFormReturn<z.infer<typeof formSchema>, unknown, z.infer<typeof formSchema>>;
 
 export default function CreateTeamPage() {
+	const trpc = useTRPC();
 	const router = useRouter();
 	const form: CreateTeamFormType = useForm({
 		resolver: zodResolver(formSchema),
@@ -31,21 +33,23 @@ export default function CreateTeamPage() {
 
 	const [toastId, setToastId] = useState<string | number | undefined>();
 
-	const createTeam = trpc.teams.create.useMutation({
-		onMutate: () => {
-			setToastId(toast.loading('Creating team'));
-		},
-		onSuccess: () => {
-			toast.success('Your team was created', { id: toastId });
-			router.push('/');
-		},
-		onError: (error) => {
-			toast.error('Failed to create team', {
-				description: error.message,
-				id: toastId,
-			});
-		},
-	});
+	const createTeam = useMutation(
+		trpc.teams.create.mutationOptions({
+			onMutate: () => {
+				setToastId(toast.loading('Creating team'));
+			},
+			onSuccess: () => {
+				toast.success('Your team was created', { id: toastId });
+				router.push('/');
+			},
+			onError: (error) => {
+				toast.error('Failed to create team', {
+					description: error.message,
+					id: toastId,
+				});
+			},
+		}),
+	);
 
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
 		createTeam.mutate(values);

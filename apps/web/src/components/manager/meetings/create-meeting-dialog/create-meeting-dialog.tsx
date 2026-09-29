@@ -12,7 +12,8 @@ import type { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 import { DateTimeRangePicker } from '../../../date-time-range-picker';
 import { AttendeesSelect } from './attendees-select';
 
@@ -24,6 +25,7 @@ type Props = {
 const formSchema = CreateTeamMeetingSchema;
 
 export function CreateMeetingDialog({ team, className }: Props) {
+	const trpc = useTRPC();
 	const [dialogOpen, setDialogOpen] = useState(false);
 
 	const form = useForm({
@@ -39,21 +41,23 @@ export function CreateMeetingDialog({ team, className }: Props) {
 
 	const [toastId, setToastId] = useState<string | number | undefined>();
 
-	const createMeeting = trpc.teams.meetings.create.useMutation({
-		onMutate: () => {
-			setToastId(toast.loading('Creating meeting...'));
-		},
-		onSuccess: () => {
-			toast.success('Meeting created', { id: toastId });
-			onDialogOpenChange(false);
-		},
-		onError: (error) => {
-			toast.error('An error occurred while creating the meeting', {
-				description: error.message,
-				id: toastId,
-			});
-		},
-	});
+	const createMeeting = useMutation(
+		trpc.teams.meetings.create.mutationOptions({
+			onMutate: () => {
+				setToastId(toast.loading('Creating meeting...'));
+			},
+			onSuccess: () => {
+				toast.success('Meeting created', { id: toastId });
+				onDialogOpenChange(false);
+			},
+			onError: (error) => {
+				toast.error('An error occurred while creating the meeting', {
+					description: error.message,
+					id: toastId,
+				});
+			},
+		}),
+	);
 
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
 		createMeeting.mutate(values);

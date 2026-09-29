@@ -12,7 +12,8 @@ import { CardContent, CardFooter } from '@/components/ui/card';
 import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { CopyButtonInput } from '@/src/components/copy-button-input';
 import { ReadonlyTextField } from '@/src/components/readonly-text-field';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;
@@ -21,6 +22,7 @@ type Props = {
 const formSchema = TeamSchema.pick({ slug: true });
 
 export function TeamUrlCardEditForm({ team }: Props) {
+	const trpc = useTRPC();
 	const form = useForm({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -30,21 +32,23 @@ export function TeamUrlCardEditForm({ team }: Props) {
 	const router = useRouter();
 
 	const [toastId, setToastId] = useState<string | number | undefined>();
-	const setSlug = trpc.teams.settings.setSlug.useMutation({
-		onMutate: () => {
-			setToastId(toast.loading('Updating team URL...'));
-		},
-		onSuccess: () => {
-			toast.success('Team URL was updated', { id: toastId });
-			router.push(`/team/${form.getValues().slug}/dashboard/settings`);
-		},
-		onError: (error) => {
-			toast.error('An error occurred while updating the team URL', {
-				description: error.message,
-				id: toastId,
-			});
-		},
-	});
+	const setSlug = useMutation(
+		trpc.teams.settings.setSlug.mutationOptions({
+			onMutate: () => {
+				setToastId(toast.loading('Updating team URL...'));
+			},
+			onSuccess: () => {
+				toast.success('Team URL was updated', { id: toastId });
+				router.push(`/team/${form.getValues().slug}/dashboard/settings`);
+			},
+			onError: (error) => {
+				toast.error('An error occurred while updating the team URL', {
+					description: error.message,
+					id: toastId,
+				});
+			},
+		}),
+	);
 
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
 		setSlug.mutate({

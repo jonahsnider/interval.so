@@ -10,7 +10,8 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 
 type Props = {
 	meeting: TeamMeetingSchema;
@@ -19,23 +20,26 @@ type Props = {
 };
 
 export function MeetingDialogActions({ meeting, team, closeDialog }: Props) {
+	const trpc = useTRPC();
 	const [toastId, setToastId] = useState<string | number | undefined>();
 
-	const deleteMeeting = trpc.teams.meetings.deleteFinishedMeeting.useMutation({
-		onMutate: () => {
-			setToastId(toast.loading('Deleting meeting...'));
-		},
-		onSuccess: () => {
-			toast.success('Meeting deleted', { id: toastId });
-			closeDialog();
-		},
-		onError: (error) => {
-			toast.error('An error occurred while deleting the meeting', {
-				description: error.message,
-				id: toastId,
-			});
-		},
-	});
+	const deleteMeeting = useMutation(
+		trpc.teams.meetings.deleteFinishedMeeting.mutationOptions({
+			onMutate: () => {
+				setToastId(toast.loading('Deleting meeting...'));
+			},
+			onSuccess: () => {
+				toast.success('Meeting deleted', { id: toastId });
+				closeDialog();
+			},
+			onError: (error) => {
+				toast.error('An error occurred while deleting the meeting', {
+					description: error.message,
+					id: toastId,
+				});
+			},
+		}),
+	);
 
 	if (!meeting.endedAt) {
 		// Shouldn't ever happened since this was designed for finished meetings only

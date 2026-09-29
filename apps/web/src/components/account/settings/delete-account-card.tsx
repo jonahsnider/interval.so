@@ -17,36 +17,40 @@ import {
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { isTrpcClientError } from '@/src/trpc/common';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 
 export function DeleteAccountCard() {
+	const trpc = useTRPC();
 	const router = useRouter();
 
 	const [toastId, setToastId] = useState<string | number | undefined>();
 
-	const deleteAccount = trpc.user.deleteSelf.useMutation({
-		onMutate: () => {
-			setToastId(toast.loading('Deleting your account...'));
-		},
-		onSuccess: () => {
-			toast.success('Your account was deleted', { id: toastId });
-			router.push('/');
-		},
-		onError: (error) => {
-			if (isTrpcClientError(error) && error.data?.code === 'FORBIDDEN') {
-				toast.error('An error occurred while deleting your account', {
-					description:
-						"If you are the owner of a team, you can't delete your account. Transfer team ownership or delete the team first.",
-					id: toastId,
-				});
-			} else {
-				toast.error('An error occurred while deleting your account', {
-					description: error.message,
-					id: toastId,
-				});
-			}
-		},
-	});
+	const deleteAccount = useMutation(
+		trpc.user.deleteSelf.mutationOptions({
+			onMutate: () => {
+				setToastId(toast.loading('Deleting your account...'));
+			},
+			onSuccess: () => {
+				toast.success('Your account was deleted', { id: toastId });
+				router.push('/');
+			},
+			onError: (error) => {
+				if (isTrpcClientError(error) && error.data?.code === 'FORBIDDEN') {
+					toast.error('An error occurred while deleting your account', {
+						description:
+							"If you are the owner of a team, you can't delete your account. Transfer team ownership or delete the team first.",
+						id: toastId,
+					});
+				} else {
+					toast.error('An error occurred while deleting your account', {
+						description: error.message,
+						id: toastId,
+					});
+				}
+			},
+		}),
+	);
 
 	return (
 		<AlertDialog>

@@ -3,9 +3,9 @@
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import type { SimpleTeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
 import { count } from '@jonahsnider/util';
-import { useState } from 'react';
 import { Progress } from '@/components/ui/progress';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useSubscription } from '@trpc/tanstack-react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 import { LiveMemberCountTileBase } from './live-member-count-tile.shared';
 
 type Props = {
@@ -14,9 +14,8 @@ type Props = {
 };
 
 export function LiveMemberCountTileClient({ team, members }: Props) {
-	const [data, setData] = useState<SimpleTeamMemberSchema[]>(members);
-
-	trpc.teams.members.simpleMemberListSubscription.useSubscription(team, { onData: setData });
+	const trpc = useTRPC();
+	const { data = members } = useSubscription(trpc.teams.members.simpleMemberListSubscription.subscriptionOptions(team));
 
 	const current = count(data, (member) => member.signedInAt !== undefined);
 	const max = data.length;

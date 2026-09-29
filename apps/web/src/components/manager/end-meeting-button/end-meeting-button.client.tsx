@@ -5,7 +5,8 @@ import clsx from 'clsx';
 import { use, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useSubscription } from '@trpc/tanstack-react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 import { EndMeetingAlert, EndMeetingAlertTrigger } from '../end-meeting-alert';
 
 type Props = {
@@ -16,19 +17,24 @@ type Props = {
 };
 
 export function EndMeetingButtonClient({ width = 'auto', team, enabledPromise, meetingStartPromise }: Props) {
+	const trpc = useTRPC();
 	const initialEnabled = use(enabledPromise);
 	const [enabled, setEnabled] = useState(initialEnabled);
 	const initialMeetingStart = use(meetingStartPromise);
 	const [meetingStart, setMeetingStart] = useState(initialMeetingStart.startedAt);
 
-	trpc.teams.members.simpleMemberListSubscription.useSubscription(team, {
-		onData: (data) => {
-			setEnabled(data.some((member) => member.signedInAt));
-		},
-	});
-	trpc.teams.meetings.currentMeetingStartSubscription.useSubscription(team, {
-		onData: setMeetingStart,
-	});
+	useSubscription(
+		trpc.teams.members.simpleMemberListSubscription.subscriptionOptions(team, {
+			onData: (data) => {
+				setEnabled(data.some((member) => member.signedInAt));
+			},
+		}),
+	);
+	useSubscription(
+		trpc.teams.meetings.currentMeetingStartSubscription.subscriptionOptions(team, {
+			onData: setMeetingStart,
+		}),
+	);
 
 	return (
 		<EndMeetingAlert team={team} meetingStart={meetingStart}>

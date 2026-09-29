@@ -2,8 +2,9 @@
 
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { count } from '@jonahsnider/util';
-import { use, useState } from 'react';
-import { trpc } from '@/src/trpc/trpc-client';
+import { use } from 'react';
+import { useSubscription } from '@trpc/tanstack-react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;
@@ -11,14 +12,10 @@ type Props = {
 };
 
 export function MemberCountTileInner({ team, initialMemberCountPromise }: Props) {
+	const trpc = useTRPC();
 	const initialMemberCount = use(initialMemberCountPromise);
-	const [memberCount, setMemberCount] = useState(initialMemberCount);
-
-	trpc.teams.members.simpleMemberListSubscription.useSubscription(team, {
-		onData: (data) => {
-			setMemberCount(count(data, (member) => member.signedInAt !== undefined));
-		},
-	});
+	const { data: members } = useSubscription(trpc.teams.members.simpleMemberListSubscription.subscriptionOptions(team));
+	const memberCount = members ? count(members, (member) => member.signedInAt !== undefined) : initialMemberCount;
 
 	return (
 		<>

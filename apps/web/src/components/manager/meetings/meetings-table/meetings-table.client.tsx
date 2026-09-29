@@ -16,7 +16,8 @@ import { useQueryStates } from 'nuqs';
 import { use, useMemo, useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { TablePagination } from '@/src/components/data-tables/table-pagination';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useSubscription } from '@trpc/tanstack-react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 import { toTimeFilter } from '../../period-select/duration-slug';
 import { searchParamParsers } from '../search-params';
 import { columns } from './columns';
@@ -29,13 +30,16 @@ type Props = {
 };
 
 export function MeetingsTableClient({ initialDataPromise, team }: Props) {
+	const trpc = useTRPC();
 	const initialData = use(initialDataPromise);
 	const [data, setData] = useState(initialData);
 
 	const [searchParams] = useQueryStates(searchParamParsers);
 	const timeFilter = useMemo(() => toTimeFilter(searchParams), [searchParams]);
 
-	trpc.teams.meetings.meetingsSubscription.useSubscription({ team, timeFilter }, { onData: setData });
+	useSubscription(
+		trpc.teams.meetings.meetingsSubscription.subscriptionOptions({ team, timeFilter }, { onData: setData }),
+	);
 
 	const [sorting, setSorting] = useState<SortingState>([
 		{

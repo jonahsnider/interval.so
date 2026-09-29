@@ -9,19 +9,23 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 
 export function LoginCard() {
+	const trpc = useTRPC();
 	const router = useRouter();
 
-	const getLoginOptions = trpc.accounts.login.generateAuthenticationOptions.useMutation();
-	const finishLogin = trpc.accounts.login.verifyAuthenticationResponse.useMutation({
-		onSuccess: ({ displayName }) => {
-			router.push('/');
-			router.refresh();
-			toast.success(`Logged in as ${displayName}`);
-		},
-	});
+	const getLoginOptions = useMutation(trpc.accounts.login.generateAuthenticationOptions.mutationOptions());
+	const finishLogin = useMutation(
+		trpc.accounts.login.verifyAuthenticationResponse.mutationOptions({
+			onSuccess: ({ displayName }) => {
+				router.push('/');
+				router.refresh();
+				toast.success(`Logged in as ${displayName}`);
+			},
+		}),
+	);
 
 	const [isPending, setIsPending] = useState(false);
 

@@ -11,7 +11,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 
 const formSchema = TeamSchema.pick({
 	password: true,
@@ -23,6 +24,7 @@ type Props = {
 
 /** Guest password auth card. */
 export function PasswordLoginCard({ team }: Props) {
+	const trpc = useTRPC();
 	const form = useForm({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -33,19 +35,21 @@ export function PasswordLoginCard({ team }: Props) {
 	const router = useRouter();
 
 	const [toastId, setToastId] = useState<string | number | undefined>();
-	const login = trpc.guestLogin.passwordLogin.useMutation({
-		onMutate: () => {
-			setToastId(toast.loading('Logging in...'));
-		},
-		onSuccess: () => {
-			toast.success('Logged in', { id: toastId });
-			router.push(`/team/${team.slug}`);
-			router.refresh();
-		},
-		onError: (error) => {
-			toast.error('An error occurred while logging in', { id: toastId, description: error.message });
-		},
-	});
+	const login = useMutation(
+		trpc.guestLogin.passwordLogin.mutationOptions({
+			onMutate: () => {
+				setToastId(toast.loading('Logging in...'));
+			},
+			onSuccess: () => {
+				toast.success('Logged in', { id: toastId });
+				router.push(`/team/${team.slug}`);
+				router.refresh();
+			},
+			onError: (error) => {
+				toast.error('An error occurred while logging in', { id: toastId, description: error.message });
+			},
+		}),
+	);
 
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
 		login.mutate({

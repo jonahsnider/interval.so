@@ -3,7 +3,8 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { trpc } from '../trpc/trpc-client';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useTRPC } from '../trpc/trpc-client';
 
 type Props = {
 	redirectTo?: string;
@@ -13,31 +14,34 @@ export function useLogOut({ redirectTo }: Props = {}): {
 	logOut: () => void;
 	isPending: boolean;
 } {
+	const trpc = useTRPC();
 	const [toastId, setToastId] = useState<string | number | undefined>();
 	const router = useRouter();
-	const utils = trpc.useUtils();
+	const queryClient = useQueryClient();
 
-	const logOut = trpc.accounts.logOut.useMutation({
-		onMutate: () => {
-			setToastId(toast.loading('Logging out...'));
-		},
-		onSuccess: () => {
-			if (redirectTo) {
-				router.push(redirectTo);
-			}
-			router.refresh();
-			toast.success('You have been logged out', { id: toastId });
+	const logOut = useMutation(
+		trpc.accounts.logOut.mutationOptions({
+			onMutate: () => {
+				setToastId(toast.loading('Logging out...'));
+			},
+			onSuccess: () => {
+				if (redirectTo) {
+					router.push(redirectTo);
+				}
+				router.refresh();
+				toast.success('You have been logged out', { id: toastId });
 
-			// Invalidate tRPC context, used for analytics
-			void utils.user.getSelf.invalidate();
-		},
-		onError: (error) => {
-			toast.error('An error occurred while logging you out', {
-				description: error.message,
-				id: toastId,
-			});
-		},
-	});
+				// Invalidate tRPC context, used for analytics
+				void queryClient.invalidateQueries(trpc.user.getSelf.queryFilter());
+			},
+			onError: (error) => {
+				toast.error('An error occurred while logging you out', {
+					description: error.message,
+					id: toastId,
+				});
+			},
+		}),
+	);
 
 	return {
 		logOut: () => {

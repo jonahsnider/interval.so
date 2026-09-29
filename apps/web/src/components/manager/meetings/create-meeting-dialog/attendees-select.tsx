@@ -2,7 +2,6 @@ import { CheckIcon, UsersIcon } from '@heroicons/react/16/solid';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
 import clsx from 'clsx';
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
 	Command,
@@ -14,7 +13,8 @@ import {
 } from '@/components/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Separator } from '@/components/ui/separator';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useSubscription } from '@trpc/tanstack-react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;
@@ -24,11 +24,10 @@ type Props = {
 };
 
 export function AttendeesSelect({ onChange, value, team, className }: Props) {
-	const [allMembers, setAllMembers] = useState<Pick<TeamMemberSchema, 'id' | 'name'>[]>([]);
-
-	trpc.teams.members.simpleMemberListSubscription.useSubscription(team, {
-		onData: setAllMembers,
-	});
+	const trpc = useTRPC();
+	const { data: allMembers = [] } = useSubscription(
+		trpc.teams.members.simpleMemberListSubscription.subscriptionOptions(team),
+	);
 
 	return (
 		<Popover>

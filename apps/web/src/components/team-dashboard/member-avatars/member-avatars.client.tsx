@@ -5,11 +5,12 @@ import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/
 import { Sort } from '@jonahsnider/util';
 import clsx from 'clsx';
 import { AnimatePresence, motion, type Variants } from 'motion/react';
-import { use, useState } from 'react';
+import { use } from 'react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useSubscription } from '@trpc/tanstack-react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;
@@ -17,21 +18,15 @@ type Props = {
 };
 
 export function MemberAvatarsClient({ membersPromise, team }: Props) {
+	const trpc = useTRPC();
 	const initialMembers = use(membersPromise);
-
-	const [members, setMembers] = useState(initialMembers);
-
-	trpc.teams.members.simpleMemberListSubscription.useSubscription(team, {
-		onData: (data) =>
-			setMembers(
-				data
-					.filter(
-						(member): member is typeof member & { signedInAt: NonNullable<(typeof member)['signedInAt']> } =>
-							member.signedInAt !== undefined,
-					)
-					.toSorted(Sort.descending((member) => member.signedInAt)),
-			),
-	});
+	const { data } = useSubscription(trpc.teams.members.simpleMemberListSubscription.subscriptionOptions(team));
+	const members = (data ?? initialMembers)
+		.filter(
+			(member): member is typeof member & { signedInAt: NonNullable<(typeof member)['signedInAt']> } =>
+				member.signedInAt !== undefined,
+		)
+		.toSorted(Sort.descending((member) => member.signedInAt));
 
 	return (
 		<ScrollArea className='w-full'>

@@ -17,7 +17,8 @@ import {
 } from '@/components/ui/alert-dialog';
 import { buttonVariants } from '@/components/ui/button';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 
 type Props = {
 	member: Pick<TeamMemberSchema, 'id' | 'name'>;
@@ -25,24 +26,27 @@ type Props = {
 };
 
 export function DeleteMemberItem({ member, setDialogOpen }: Props) {
+	const trpc = useTRPC();
 	const [toastId, setToastId] = useState<string | number | undefined>();
 
-	const deleteMember = trpc.teams.members.delete.useMutation({
-		onMutate: () => {
-			setToastId(toast.loading(`Deleting ${member.name}...`, { id: toastId }));
-		},
-		onSuccess: () => {
-			setToastId(toast.success(`Deleted ${member.name}`, { id: toastId }));
-		},
-		onError: (error) => {
-			setToastId(
-				toast.error(`An error occurred while deleting ${member.name}`, {
-					description: error.message,
-					id: toastId,
-				}),
-			);
-		},
-	});
+	const deleteMember = useMutation(
+		trpc.teams.members.delete.mutationOptions({
+			onMutate: () => {
+				setToastId(toast.loading(`Deleting ${member.name}...`, { id: toastId }));
+			},
+			onSuccess: () => {
+				setToastId(toast.success(`Deleted ${member.name}`, { id: toastId }));
+			},
+			onError: (error) => {
+				setToastId(
+					toast.error(`An error occurred while deleting ${member.name}`, {
+						description: error.message,
+						id: toastId,
+					}),
+				);
+			},
+		}),
+	);
 
 	return (
 		<AlertDialog onOpenChange={setDialogOpen}>

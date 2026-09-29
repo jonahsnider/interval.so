@@ -3,7 +3,8 @@ import type { Table } from '@tanstack/react-table';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 import type { MembersTableMeetingRow } from '../columns';
 
 type Props = {
@@ -11,23 +12,26 @@ type Props = {
 };
 
 export function MergeAttendanceEntriesItem({ table }: Props) {
+	const trpc = useTRPC();
 	const [toastId, setToastId] = useState<string | number | undefined>();
 	const selectedRows = table.getSelectedRowModel().rows;
 
-	const mutation = trpc.teams.members.attendance.mergeEntries.useMutation({
-		onMutate: () => {
-			setToastId(toast.loading(`Merging ${selectedRows.length} attendance entries...`, { id: toastId }));
-		},
-		onSuccess: () => {
-			toast.success(`Merged ${selectedRows.length} attendance entries`, { id: toastId });
-		},
-		onError: (error) => {
-			toast.error('An error occurred while merging the attendance entries', {
-				description: error.message,
-				id: toastId,
-			});
-		},
-	});
+	const mutation = useMutation(
+		trpc.teams.members.attendance.mergeEntries.mutationOptions({
+			onMutate: () => {
+				setToastId(toast.loading(`Merging ${selectedRows.length} attendance entries...`, { id: toastId }));
+			},
+			onSuccess: () => {
+				toast.success(`Merged ${selectedRows.length} attendance entries`, { id: toastId });
+			},
+			onError: (error) => {
+				toast.error('An error occurred while merging the attendance entries', {
+					description: error.message,
+					id: toastId,
+				});
+			},
+		}),
+	);
 
 	return (
 		<DropdownMenuItem

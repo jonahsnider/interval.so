@@ -8,7 +8,8 @@ import { use, useState } from 'react';
 import { toast } from 'sonner';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { searchParamSerializer } from '@/src/components/account/search-params';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 
 type Props = {
 	className?: string;
@@ -18,27 +19,30 @@ type Props = {
 };
 
 export function JoinTeamButtonClient({ className, teamPromise, teamInvite, isAuthedPromise }: Props) {
+	const trpc = useTRPC();
 	const team = use(teamPromise);
 	const isAuthed = use(isAuthedPromise);
 	const router = useRouter();
 
 	const [toastId, setToastId] = useState<string | number | undefined>();
 
-	const joinTeam = trpc.teams.forUser.join.useMutation({
-		onMutate: () => {
-			setToastId(toast.loading(`Joining ${team.displayName}...`));
-		},
-		onSuccess: (result) => {
-			toast.success(`Joined ${team.displayName}`, { id: toastId });
-			router.push(`/team/${result.slug}`);
-		},
-		onError: (error) => {
-			toast.error(`An error occurred while joining ${team.displayName}`, {
-				description: error.message,
-				id: toastId,
-			});
-		},
-	});
+	const joinTeam = useMutation(
+		trpc.teams.forUser.join.mutationOptions({
+			onMutate: () => {
+				setToastId(toast.loading(`Joining ${team.displayName}...`));
+			},
+			onSuccess: (result) => {
+				toast.success(`Joined ${team.displayName}`, { id: toastId });
+				router.push(`/team/${result.slug}`);
+			},
+			onError: (error) => {
+				toast.error(`An error occurred while joining ${team.displayName}`, {
+					description: error.message,
+					id: toastId,
+				});
+			},
+		}),
+	);
 
 	if (isAuthed) {
 		return (

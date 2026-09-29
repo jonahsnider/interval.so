@@ -18,7 +18,8 @@ import {
 } from '@/src/components/graphs/chart-props';
 import { CustomTooltip, formatTooltipDate } from '@/src/components/graphs/custom-tooltip';
 import { formatXAxisDate } from '@/src/components/graphs/graph-utils';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useSubscription } from '@trpc/tanstack-react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 import { toTimeFilter } from '../../../period-select/duration-slug';
 import { searchParamParsers } from '../../search-params';
 
@@ -60,12 +61,15 @@ function HoursTooltip({ period, tooltipProps }: { tooltipProps: TooltipProps<num
 }
 
 export function AverageHoursGraphClient({ dataPromise, period, team }: Props) {
+	const trpc = useTRPC();
 	const initialData = use(dataPromise);
 	const [data, setData] = useState(initialData);
 	const [searchParams] = useQueryStates(searchParamParsers);
 	const timeFilter = useMemo(() => toTimeFilter(searchParams), [searchParams]);
 
-	trpc.teams.stats.averageHours.subscribeTimeSeries.useSubscription({ team, timeFilter }, { onData: setData });
+	useSubscription(
+		trpc.teams.stats.averageHours.subscribeTimeSeries.subscriptionOptions({ team, timeFilter }, { onData: setData }),
+	);
 
 	const chartData = useMemo(
 		() =>

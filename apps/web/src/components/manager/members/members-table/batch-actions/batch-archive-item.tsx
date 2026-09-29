@@ -4,30 +4,34 @@ import type { Table } from '@tanstack/react-table';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 
 type Props = {
 	table: Table<TeamMemberSchema>;
 };
 
 export function BatchArchiveItem({ table }: Props) {
+	const trpc = useTRPC();
 	const [toastId, setToastId] = useState<string | number | undefined>();
 	const selectedRows = table.getSelectedRowModel().rows;
 
-	const mutation = trpc.teams.members.setArchivedMany.useMutation({
-		onMutate: ({ data }) => {
-			setToastId(toast.loading(`${data.archived ? 'Archiving' : 'Unarchiving'} members...`, { id: toastId }));
-		},
-		onSuccess: (_result, { data }) => {
-			toast.success(`${data.archived ? 'Archived' : 'Unarchived'} ${selectedRows.length} members`, { id: toastId });
-		},
-		onError: (error, { data }) => {
-			toast.error(`An error occurred while ${data.archived ? 'archiving' : 'unarchiving'} the members`, {
-				description: error.message,
-				id: toastId,
-			});
-		},
-	});
+	const mutation = useMutation(
+		trpc.teams.members.setArchivedMany.mutationOptions({
+			onMutate: ({ data }) => {
+				setToastId(toast.loading(`${data.archived ? 'Archiving' : 'Unarchiving'} members...`, { id: toastId }));
+			},
+			onSuccess: (_result, { data }) => {
+				toast.success(`${data.archived ? 'Archived' : 'Unarchived'} ${selectedRows.length} members`, { id: toastId });
+			},
+			onError: (error, { data }) => {
+				toast.error(`An error occurred while ${data.archived ? 'archiving' : 'unarchiving'} the members`, {
+					description: error.message,
+					id: toastId,
+				});
+			},
+		}),
+	);
 
 	const data = selectedRows.some((row) => row.original.archived) ? { archived: false } : { archived: true };
 

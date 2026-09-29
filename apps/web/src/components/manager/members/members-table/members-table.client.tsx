@@ -20,7 +20,8 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { TablePagination } from '@/src/components/data-tables/table-pagination';
 import { TableSelectionStatus } from '@/src/components/data-tables/table-selection-status';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useSubscription } from '@trpc/tanstack-react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 import { columns } from './columns';
 import { MembersTableButtons } from './members-table-buttons';
 import { InnerTableContainer, OuterTableContainer } from './members-table-common';
@@ -58,15 +59,16 @@ function TableRowSkeleton() {
 }
 
 export function MembersTableClient({ initialData, loading, team }: Props) {
-	const [data, setData] = useState(initialData);
+	const trpc = useTRPC();
+	const { data = initialData } = useSubscription(
+		trpc.teams.members.fullMemberListSubscription.subscriptionOptions(team),
+	);
 
 	const [fuse] = useState(new Fuse(data, { keys: ['name'] }));
 
 	useEffect(() => {
 		fuse.setCollection(data);
 	}, [data, fuse]);
-
-	trpc.teams.members.fullMemberListSubscription.useSubscription(team, { onData: setData });
 
 	const [sorting, setSorting] = useState<SortingState>([
 		{

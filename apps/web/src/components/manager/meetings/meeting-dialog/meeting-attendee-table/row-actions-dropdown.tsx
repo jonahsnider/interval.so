@@ -11,29 +11,33 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 
 type Props = {
 	attendanceEntry: Pick<AttendanceEntrySchema, 'attendanceId' | 'member'>;
 };
 
 export function RowActionsDropdown({ attendanceEntry }: Props) {
+	const trpc = useTRPC();
 	const [toastId, setToastId] = useState<string | number | undefined>();
 
-	const deleteAttendeeEntry = trpc.teams.members.attendance.deleteEntries.useMutation({
-		onMutate: () => {
-			setToastId(toast.loading(`Deleting attendance record for ${attendanceEntry.member.name}...`));
-		},
-		onSuccess: () => {
-			toast.success(`Deleted attendance record for ${attendanceEntry.member.name}`, { id: toastId });
-		},
-		onError: (error) => {
-			toast.error(`An error occurred while deleting the attendance record for ${attendanceEntry.member.name}`, {
-				description: error.message,
-				id: toastId,
-			});
-		},
-	});
+	const deleteAttendeeEntry = useMutation(
+		trpc.teams.members.attendance.deleteEntries.mutationOptions({
+			onMutate: () => {
+				setToastId(toast.loading(`Deleting attendance record for ${attendanceEntry.member.name}...`));
+			},
+			onSuccess: () => {
+				toast.success(`Deleted attendance record for ${attendanceEntry.member.name}`, { id: toastId });
+			},
+			onError: (error) => {
+				toast.error(`An error occurred while deleting the attendance record for ${attendanceEntry.member.name}`, {
+					description: error.message,
+					id: toastId,
+				});
+			},
+		}),
+	);
 
 	return (
 		<DropdownMenu>

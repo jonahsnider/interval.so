@@ -4,30 +4,34 @@ import type { Table } from '@tanstack/react-table';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 
 type Props = {
 	table: Table<TeamMemberSchema>;
 };
 
 export function BatchUpdateAttendanceItem({ table }: Props) {
+	const trpc = useTRPC();
 	const [toastId, setToastId] = useState<string | number | undefined>();
 	const selectedRows = table.getSelectedRowModel().rows;
 
-	const mutation = trpc.teams.members.updateAttendanceMany.useMutation({
-		onMutate: ({ data }) => {
-			setToastId(toast.loading(`${data.atMeeting ? 'Signing in' : 'Signing out'} members...`, { id: toastId }));
-		},
-		onSuccess: (_result, { data }) => {
-			toast.success(`Signed ${selectedRows.length} members ${data.atMeeting ? 'in' : 'out'}`, { id: toastId });
-		},
-		onError: (error, { data }) => {
-			toast.error(`An error occurred while ${data.atMeeting ? 'signing in' : 'signing out'} the members`, {
-				description: error.message,
-				id: toastId,
-			});
-		},
-	});
+	const mutation = useMutation(
+		trpc.teams.members.updateAttendanceMany.mutationOptions({
+			onMutate: ({ data }) => {
+				setToastId(toast.loading(`${data.atMeeting ? 'Signing in' : 'Signing out'} members...`, { id: toastId }));
+			},
+			onSuccess: (_result, { data }) => {
+				toast.success(`Signed ${selectedRows.length} members ${data.atMeeting ? 'in' : 'out'}`, { id: toastId });
+			},
+			onError: (error, { data }) => {
+				toast.error(`An error occurred while ${data.atMeeting ? 'signing in' : 'signing out'} the members`, {
+					description: error.message,
+					id: toastId,
+				});
+			},
+		}),
+	);
 
 	const data = selectedRows.some((row) => row.original.signedInAt) ? { atMeeting: false } : { atMeeting: true };
 

@@ -2,10 +2,12 @@
 
 import * as Sentry from '@sentry/react';
 import { type PropsWithChildren, useEffect } from 'react';
-import { trpc } from '../trpc/trpc-client';
+import { useQuery } from '@tanstack/react-query';
+import { useTRPC } from '../trpc/trpc-client';
 
 export function SentryIdentityProvider({ children }: PropsWithChildren) {
-	const { data } = trpc.user.getSelf.useQuery();
+	const trpc = useTRPC();
+	const { data } = useQuery(trpc.user.getSelf.queryOptions());
 
 	useEffect(() => {
 		Sentry.setUser(

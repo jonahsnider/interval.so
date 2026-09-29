@@ -10,7 +10,8 @@ import { Button } from '@/components/ui/button';
 import { CardContent, CardFooter } from '@/components/ui/card';
 import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { CopyButtonInput } from '@/src/components/copy-button-input';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;
@@ -20,6 +21,7 @@ type Props = {
 const formSchema = TeamSchema.pick({ password: true });
 
 export function TeamPasswordEditForm({ team, initialTeamValue }: Props) {
+	const trpc = useTRPC();
 	const form = useForm({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -28,17 +30,19 @@ export function TeamPasswordEditForm({ team, initialTeamValue }: Props) {
 	});
 
 	const [toastId, setToastId] = useState<string | number | undefined>();
-	const setPassword = trpc.teams.settings.setPassword.useMutation({
-		onMutate: () => {
-			setToastId(toast.loading('Updating team password...'));
-		},
-		onSuccess: () => {
-			toast.success('Your team password was updated', { id: toastId });
-		},
-		onError: (error) => {
-			toast.error('An error occurred while updating your team password', { id: toastId, description: error.message });
-		},
-	});
+	const setPassword = useMutation(
+		trpc.teams.settings.setPassword.mutationOptions({
+			onMutate: () => {
+				setToastId(toast.loading('Updating team password...'));
+			},
+			onSuccess: () => {
+				toast.success('Your team password was updated', { id: toastId });
+			},
+			onError: (error) => {
+				toast.error('An error occurred while updating your team password', { id: toastId, description: error.message });
+			},
+		}),
+	);
 
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
 		setPassword.mutate({ team, data: values });

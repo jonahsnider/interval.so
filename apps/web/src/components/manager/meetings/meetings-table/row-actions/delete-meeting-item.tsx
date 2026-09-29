@@ -18,7 +18,8 @@ import {
 } from '@/components/ui/alert-dialog';
 import { buttonVariants } from '@/components/ui/button';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;
@@ -27,36 +28,41 @@ type Props = {
 };
 
 export function DeleteMeetingItem({ meeting, team, setDialogOpen }: Props) {
+	const trpc = useTRPC();
 	const [toastId, setToastId] = useState<string | number | undefined>();
 
-	const deleteOngoingMeeting = trpc.teams.meetings.deleteOngoingMeeting.useMutation({
-		onMutate: () => {
-			setToastId(toast.loading('Deleting meeting...'));
-		},
-		onSuccess: () => {
-			toast.success('Meeting deleted', { id: toastId });
-		},
-		onError: (error) => {
-			toast.error('An error occurred while deleting the meeting', {
-				description: error.message,
-				id: toastId,
-			});
-		},
-	});
-	const deleteFinishedMeeting = trpc.teams.meetings.deleteFinishedMeeting.useMutation({
-		onMutate: () => {
-			setToastId(toast.loading('Deleting meeting...'));
-		},
-		onSuccess: () => {
-			toast.success('Meeting deleted', { id: toastId });
-		},
-		onError: (error) => {
-			toast.error('An error occurred while deleting the meeting', {
-				description: error.message,
-				id: toastId,
-			});
-		},
-	});
+	const deleteOngoingMeeting = useMutation(
+		trpc.teams.meetings.deleteOngoingMeeting.mutationOptions({
+			onMutate: () => {
+				setToastId(toast.loading('Deleting meeting...'));
+			},
+			onSuccess: () => {
+				toast.success('Meeting deleted', { id: toastId });
+			},
+			onError: (error) => {
+				toast.error('An error occurred while deleting the meeting', {
+					description: error.message,
+					id: toastId,
+				});
+			},
+		}),
+	);
+	const deleteFinishedMeeting = useMutation(
+		trpc.teams.meetings.deleteFinishedMeeting.mutationOptions({
+			onMutate: () => {
+				setToastId(toast.loading('Deleting meeting...'));
+			},
+			onSuccess: () => {
+				toast.success('Meeting deleted', { id: toastId });
+			},
+			onError: (error) => {
+				toast.error('An error occurred while deleting the meeting', {
+					description: error.message,
+					id: toastId,
+				});
+			},
+		}),
+	);
 
 	const onClick = () => {
 		const { endedAt } = meeting;

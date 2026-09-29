@@ -5,7 +5,8 @@ import type { TimeRangeSchema } from '@interval.so/api/app/team_stats/schemas/ti
 import { type ComponentProps, useState } from 'react';
 import { toast } from 'sonner';
 import { DateTimeRangePicker } from '@/src/components/date-time-range-picker';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 
 type Props = {
 	meeting: Pick<AttendanceEntrySchema, 'attendanceId' | 'startedAt' | 'endedAt'>;
@@ -16,17 +17,20 @@ type Props = {
 
 /** A date range picker that updates the start/end time of a meeting after a selection. */
 export function MeetingDateRangePicker({ meeting, disabled, ...pickerProps }: Props) {
+	const trpc = useTRPC();
 	const [optimisticValue, setOptimisticValue] = useState<Partial<TimeRangeSchema> | undefined>();
 
-	const updateAttendance = trpc.teams.members.attendance.updateEntry.useMutation({
-		onError: (error) => {
-			toast.error('An error occurred while saving your changes', {
-				description: error.message,
-			});
-			// Revert optimistic state
-			setOptimisticValue(undefined);
-		},
-	});
+	const updateAttendance = useMutation(
+		trpc.teams.members.attendance.updateEntry.mutationOptions({
+			onError: (error) => {
+				toast.error('An error occurred while saving your changes', {
+					description: error.message,
+				});
+				// Revert optimistic state
+				setOptimisticValue(undefined);
+			},
+		}),
+	);
 
 	const doUpdate = (value: Partial<{ start: Date; end: Date }>) => {
 		if (value.start && value.end) {

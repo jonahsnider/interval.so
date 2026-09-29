@@ -7,7 +7,8 @@ import { multiReplace } from '@jonahsnider/util';
 import { useQueryStates } from 'nuqs';
 import { useMemo } from 'react';
 import { Button } from '@/components/ui/button';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useSubscription } from '@trpc/tanstack-react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 import { formatDate } from '@/src/utils/date-format';
 import { toTimeFilter } from '../period-select/duration-slug';
 import { searchParamParsers } from './search-params';
@@ -17,13 +18,16 @@ type Props = {
 };
 
 export function DownloadMeetingsCsvButton({ team }: Props) {
+	const trpc = useTRPC();
 	const [searchParams] = useQueryStates(searchParamParsers);
 	const timeFilter = useMemo(() => toTimeFilter(searchParams), [searchParams]);
 
-	const { data: meetings } = trpc.teams.meetings.meetingsSubscription.useSubscription({
-		team,
-		timeFilter,
-	});
+	const { data: meetings } = useSubscription(
+		trpc.teams.meetings.meetingsSubscription.subscriptionOptions({
+			team,
+			timeFilter,
+		}),
+	);
 
 	const csvUrl = `data:text/csv;charset=utf-8,${encodeURIComponent(meetingsToCsv(meetings ?? []))}`;
 

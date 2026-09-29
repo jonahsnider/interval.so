@@ -17,31 +17,35 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;
 };
 
 export function DeleteTeamCardClient({ team }: Props) {
+	const trpc = useTRPC();
 	const router = useRouter();
 	const [toastId, setToastId] = useState<string | number | undefined>();
 
-	const deleteTeam = trpc.teams.delete.useMutation({
-		onMutate: () => {
-			setToastId(toast.loading('Deleting team...'));
-		},
-		onSuccess: () => {
-			toast.success('Team deleted', { id: toastId });
-			router.push('/');
-		},
-		onError: (error) => {
-			toast.error('An error occurred while deleting the team', {
-				description: error.message,
-				id: toastId,
-			});
-		},
-	});
+	const deleteTeam = useMutation(
+		trpc.teams.delete.mutationOptions({
+			onMutate: () => {
+				setToastId(toast.loading('Deleting team...'));
+			},
+			onSuccess: () => {
+				toast.success('Team deleted', { id: toastId });
+				router.push('/');
+			},
+			onError: (error) => {
+				toast.error('An error occurred while deleting the team', {
+					description: error.message,
+					id: toastId,
+				});
+			},
+		}),
+	);
 
 	return (
 		<Card className='border-destructive-border'>

@@ -17,7 +17,8 @@ import {
 } from '@/components/ui/alert-dialog';
 import { buttonVariants } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 import { DateTimePicker } from '../date-time-picker';
 
 type Props = PropsWithChildren<{
@@ -95,22 +96,25 @@ function EndMeetingAlertContent({
 }
 
 function EndMeetingDialogAction({ date, team }: { date?: Date; team: Pick<TeamSchema, 'slug'> }) {
+	const trpc = useTRPC();
 	const [toastId, setToastId] = useState<string | number | undefined>();
 
-	const signOutAll = trpc.teams.members.endMeeting.useMutation({
-		onMutate: () => {
-			setToastId(toast.loading('Ending meeting...'));
-		},
-		onSuccess: () => {
-			toast.success('Meeting ended', { id: toastId });
-		},
-		onError: (error) => {
-			toast.error('An error occurred while ending the meeting', {
-				description: error.message,
-				id: toastId,
-			});
-		},
-	});
+	const signOutAll = useMutation(
+		trpc.teams.members.endMeeting.mutationOptions({
+			onMutate: () => {
+				setToastId(toast.loading('Ending meeting...'));
+			},
+			onSuccess: () => {
+				toast.success('Meeting ended', { id: toastId });
+			},
+			onError: (error) => {
+				toast.error('An error occurred while ending the meeting', {
+					description: error.message,
+					id: toastId,
+				});
+			},
+		}),
+	);
 
 	const onClick = () => {
 		if (!date) {

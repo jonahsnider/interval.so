@@ -12,7 +12,8 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { DateTimeRangePicker } from '@/src/components/date-time-range-picker';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 
 type Props = {
 	member: Pick<TeamMemberSchema, 'id'>;
@@ -24,6 +25,7 @@ const formSchema = z.object({
 });
 
 export function AddAttendanceButton({ className, member }: Props) {
+	const trpc = useTRPC();
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -35,21 +37,23 @@ export function AddAttendanceButton({ className, member }: Props) {
 	});
 
 	const [toastId, setToastId] = useState<string | number | undefined>();
-	const createMeeting = trpc.teams.members.attendance.createEntry.useMutation({
-		onMutate: () => {
-			setToastId(toast.loading('Adding attendance entry...'));
-		},
-		onSuccess: () => {
-			toast.success('Attendance entry added', { id: toastId });
-			setOpen(false);
-		},
-		onError: (error) => {
-			toast.error('An error occurred while adding the attendance entry', {
-				description: error.message,
-				id: toastId,
-			});
-		},
-	});
+	const createMeeting = useMutation(
+		trpc.teams.members.attendance.createEntry.mutationOptions({
+			onMutate: () => {
+				setToastId(toast.loading('Adding attendance entry...'));
+			},
+			onSuccess: () => {
+				toast.success('Attendance entry added', { id: toastId });
+				setOpen(false);
+			},
+			onError: (error) => {
+				toast.error('An error occurred while adding the attendance entry', {
+					description: error.message,
+					id: toastId,
+				});
+			},
+		}),
+	);
 
 	const [open, setOpenRaw] = useState(false);
 

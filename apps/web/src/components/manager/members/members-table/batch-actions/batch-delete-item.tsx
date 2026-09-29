@@ -15,7 +15,8 @@ import {
 } from '@/components/ui/alert-dialog';
 import { buttonVariants } from '@/components/ui/button';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { trpc } from '@/src/trpc/trpc-client';
+import { useMutation } from '@tanstack/react-query';
+import { useTRPC } from '@/src/trpc/trpc-client';
 
 export function BatchDeleteItem() {
 	return (
@@ -34,25 +35,28 @@ type Props = {
 };
 
 export function BatchDeleteDialogContent({ setDialogOpen, table }: Props) {
+	const trpc = useTRPC();
 	const [toastId, setToastId] = useState<string | number | undefined>();
 
 	const selectedRows = table.getSelectedRowModel().rows;
 
-	const deleteMembers = trpc.teams.members.deleteMany.useMutation({
-		onMutate: () => {
-			setToastId(toast.loading('Deleting members...', { id: toastId }));
-		},
-		onSuccess: () => {
-			toast.success(`Deleted ${selectedRows.length} members`, { id: toastId });
-			setDialogOpen(false);
-		},
-		onError: (error) => {
-			toast.error('An error occurred while deleting the members', {
-				description: error.message,
-				id: toastId,
-			});
-		},
-	});
+	const deleteMembers = useMutation(
+		trpc.teams.members.deleteMany.mutationOptions({
+			onMutate: () => {
+				setToastId(toast.loading('Deleting members...', { id: toastId }));
+			},
+			onSuccess: () => {
+				toast.success(`Deleted ${selectedRows.length} members`, { id: toastId });
+				setDialogOpen(false);
+			},
+			onError: (error) => {
+				toast.error('An error occurred while deleting the members', {
+					description: error.message,
+					id: toastId,
+				});
+			},
+		}),
+	);
 
 	return (
 		<AlertDialogContent>
