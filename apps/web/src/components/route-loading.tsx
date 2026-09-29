@@ -103,6 +103,14 @@ export function AttendancePageLoading() {
 	);
 }
 
+export function AttendanceContentLoading() {
+	return (
+		<MainContent>
+			<AttendancePageLoading />
+		</MainContent>
+	);
+}
+
 export function SettingsContentLoading() {
 	return (
 		<>
@@ -171,9 +179,7 @@ export function AttendanceRouteLoading() {
 	return (
 		<>
 			<NavbarLoading />
-			<MainContent>
-				<AttendancePageLoading />
-			</MainContent>
+			<AttendanceContentLoading />
 		</>
 	);
 }
