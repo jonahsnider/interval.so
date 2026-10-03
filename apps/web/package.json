@@ -35,7 +35,7 @@
 		"@sentry/nextjs": "^11.0.0",
 		"@simplewebauthn/browser": "14.0.0",
 		"@tanstack/react-query": "5.104.1",
-		"@tanstack/react-table": "8.21.3",
+		"@tanstack/react-table": "9.2.4",
 		"@trpc/client": "11.19.0",
 		"@trpc/tanstack-react-query": "11.19.0",
 		"@types/react": "19.3.0",
