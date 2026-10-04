@@ -411,8 +411,8 @@ importers:
         specifier: 10.6.1
         version: 10.6.1(postcss@8.5.28)
       chrono-node:
-        specifier: 2.10.1
-        version: 2.10.1
+        specifier: 2.10.2
+        version: 2.10.2
       class-variance-authority:
         specifier: 0.7.1
         version: 0.7.1
@@ -4814,8 +4814,8 @@ packages:
     resolution: {integrity: sha512-rNjApaLzuwaOTjCiT8lSDdGN1APCiqkChLMJxJPWLunPAt5fy8xgU9/jNOchV84wfIxrA0lRQB7oCT8jrn/wrQ==}
     engines: {node: '>=6.0'}
 
-  chrono-node@2.10.1:
-    resolution: {integrity: sha512-tPOsBzYVAK5zth+CiHCgp5NGeqRc4mMD8FPthQ5IxkgjPWWxIFdM5odnmfw//IRAzl6C++Xy8olQW7wn5qBR1g==}
+  chrono-node@2.10.2:
+    resolution: {integrity: sha512-xBCwGGmodF2YVtzE7/8ewNDajbCg72jgZHyOXvhkuQiYhIQ1KbqyXJJJw2fLaQ603LL4oMVhOyjckEBve45S4w==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
   cjs-module-lexer@1.2.3:
@@ -10962,7 +10962,7 @@ snapshots:
   chrome-trace-event@1.0.4:
     optional: true
 
-  chrono-node@2.10.1: {}
+  chrono-node@2.10.2: {}
 
   cjs-module-lexer@1.2.3: {}
 
