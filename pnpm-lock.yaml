@@ -456,8 +456,8 @@ importers:
         specifier: 17.0.0
         version: 17.0.0(postcss@8.5.29)
       posthog-js:
-        specifier: 1.438.2
-        version: 1.438.2(@types/react@19.3.0)(react@19.3.0)
+        specifier: 1.438.3
+        version: 1.438.3(@types/react@19.3.0)(react@19.3.0)
       react:
         specifier: 19.3.0
         version: 19.3.0
@@ -3018,17 +3018,20 @@ packages:
   '@posthog/core@1.55.2':
     resolution: {integrity: sha512-2mYxGbDmTLUs096VbcZqSWo0lrI48/BrX65r54NynxxFq409BOx9w73HxOAtOKZ1vblkdV6/GxQTe7KDcIQidg==}
 
-  '@posthog/core@1.57.0':
-    resolution: {integrity: sha512-ZpIWCSkog0v4whufAXetagBsVLqE1Zjl5DsHC2squTy8nS/vqZ9W5JvWkJFgHK8hk5x1gdwMoXY7FK2S0YRT1Q==}
-
   '@posthog/core@1.57.1':
     resolution: {integrity: sha512-0RQvInX+TlsETdwCnmpdu9Ji2BSqe/NyxxxiEHjsp6iA3W3UtyJ2yUYyZnadjYMArP3LvudEwhN1oSQYMw2pzQ==}
+
+  '@posthog/core@1.57.2':
+    resolution: {integrity: sha512-dfxeSjUvR+j4M7odvyf/KVdcKTZZ87u/l9swJtDt9vFkI2km3RhEveOkIHtFcZEQ1cllx7YaKJfdw6c8zfIEvg==}
 
   '@posthog/types@1.413.0':
     resolution: {integrity: sha512-tYAVzNojWckuG/wxBB0fwE70sFruQQq4xbhkci7eH2ARU3mMfUTkvpN1HwBMpm0AtbxidLiH0IFvagmdJ8opPw==}
 
   '@posthog/types@1.415.1':
     resolution: {integrity: sha512-7Qs2wcqipl8KcFpIkIKE1Wcj1djX4dEB3cfq907HrNpKK7/xKh3U4N4bkOD6h9+8j3SxWWrj9JNpE8CZXsE35w==}
+
+  '@posthog/types@1.415.2':
+    resolution: {integrity: sha512-BIIHPyXcPZuNTImrR1qLqLKFw7j9o8co6LG/9OpLtpWJ3RT0y89Lx6VCtd37N9/dkr/qW7y0uPjJxAxjsALHtw==}
 
   '@prisma/instrumentation@6.11.1':
     resolution: {integrity: sha512-mrZOev24EDhnefmnZX7WVVT7v+r9LttPRqf54ONvj6re4XMF7wFTpK2tLJi4XHB7fFp/6xhYbgRel8YV7gQiyA==}
@@ -6348,8 +6351,8 @@ packages:
     resolution: {integrity: sha512-GD3qdB0x1z9xgFI6cdRD6xu2Sp2WCOEoe3mtnyB5Ee0XrrL5Pe+e4CCnJrRMnL1zYtRDZmQQVbvOttLnKDLnaw==}
     engines: {node: '>=12'}
 
-  posthog-js@1.438.2:
-    resolution: {integrity: sha512-4AbEQ0lJp4WupgA+y5fiBnepSril+qA1rAYuFy9oKQ0xd8yg19p5XNKDgZW/nGwJF2KVx/joy4vKWhyuJNoCVw==}
+  posthog-js@1.438.3:
+    resolution: {integrity: sha512-3G+Dq/9iUgLMYK6R16Czi4IK+qzWXwqapVvyj65lieRJbO67Y0FDCWnz+1j3Tu9EFJ24Nl2dV+pYVLjI4tp4ZQ==}
     peerDependencies:
       '@types/react': '>=16.8.0'
       react: '>=16.8.0'
@@ -9119,24 +9122,26 @@ snapshots:
 
   '@posthog/browser-common@0.9.2':
     dependencies:
-      '@posthog/core': 1.57.0
+      '@posthog/core': 1.57.1
       '@posthog/types': 1.415.1
 
   '@posthog/core@1.55.2':
     dependencies:
       '@posthog/types': 1.413.0
 
-  '@posthog/core@1.57.0':
+  '@posthog/core@1.57.1':
     dependencies:
       '@posthog/types': 1.415.1
 
-  '@posthog/core@1.57.1':
+  '@posthog/core@1.57.2':
     dependencies:
       '@posthog/types': 1.415.1
 
   '@posthog/types@1.413.0': {}
 
   '@posthog/types@1.415.1': {}
+
+  '@posthog/types@1.415.2': {}
 
   '@prisma/instrumentation@6.11.1(@opentelemetry/api@1.9.1)(supports-color@8.1.1)':
     dependencies:
@@ -12438,17 +12443,17 @@ snapshots:
 
   postgres@3.4.9: {}
 
-  posthog-js@1.438.2(@types/react@19.3.0)(react@19.3.0):
+  posthog-js@1.438.3(@types/react@19.3.0)(react@19.3.0):
     dependencies:
       '@posthog/browser-common': 0.9.2
-      '@posthog/core': 1.57.1
-      '@posthog/types': 1.415.1
+      '@posthog/core': 1.57.2
+      '@posthog/types': 1.415.2
       core-js: 3.50.0
       dompurify: 3.4.14
       fflate: 0.4.9
       preact: 10.29.8
       query-selector-shadow-dom: 1.0.1
-      web-vitals: 6.2.1
+      web-vitals: 6.2.3
       web-vitals-soft-navs: web-vitals@6.2.1
     optionalDependencies:
       '@types/react': 19.3.0
