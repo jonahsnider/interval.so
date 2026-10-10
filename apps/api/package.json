@@ -67,7 +67,7 @@
 		"@adonisjs/assembler": "8.5.2",
 		"@adonisjs/tsconfig": "2.0.0",
 		"@poppinss/ts-exec": "1.5.0",
-		"@types/node": "26.6.4",
+		"@types/node": "26.6.5",
 		"@types/pg": "8.23.1",
 		"@types/ws": "8.18.2",
 		"dotenv": "18.0.7",
