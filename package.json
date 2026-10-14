@@ -21,7 +21,7 @@
 		"portless": "0.15.8",
 		"railway": "3.15.0",
 		"turbo": "2.11.8",
-		"vercel": "63.1.2"
+		"vercel": "64.0.1"
 	},
 	"devEngines": {
 		"runtime": {
