@@ -1,5 +1,6 @@
 'use client';
 
+import { startAuthentication } from '@simplewebauthn/browser';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -18,39 +19,43 @@ import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { isTrpcClientError } from '@/src/trpc/common';
 import { useMutation } from '@tanstack/react-query';
-import { useTRPC } from '@/src/trpc/trpc-client';
+import { useTRPCClient } from '@/src/trpc/trpc-client';
 
 export function DeleteAccountCard() {
-	const trpc = useTRPC();
+	const trpc = useTRPCClient();
 	const router = useRouter();
 
 	const [toastId, setToastId] = useState<string | number | undefined>();
 
-	const deleteAccount = useMutation(
-		trpc.user.deleteSelf.mutationOptions({
-			onMutate: () => {
-				setToastId(toast.loading('Deleting your account...'));
-			},
-			onSuccess: () => {
-				toast.success('Your account was deleted', { id: toastId });
-				router.push('/');
-			},
-			onError: (error) => {
-				if (isTrpcClientError(error) && error.data?.code === 'FORBIDDEN') {
-					toast.error('An error occurred while deleting your account', {
-						description:
-							"If you are the owner of a team, you can't delete your account. Transfer team ownership or delete the team first.",
-						id: toastId,
-					});
-				} else {
-					toast.error('An error occurred while deleting your account', {
-						description: error.message,
-						id: toastId,
-					});
-				}
-			},
-		}),
-	);
+	const deleteAccount = useMutation({
+		mutationFn: async () => {
+			const options = await trpc.accounts.reauthenticate.mutate({ purpose: 'deleteAccount' });
+			const body = await startAuthentication({ optionsJSON: options });
+			await trpc.user.deleteSelf.mutate({ body });
+		},
+		onMutate: () => {
+			setToastId(toast.loading('Deleting your account...'));
+		},
+		onSuccess: () => {
+			toast.success('Your account was deleted', { id: toastId });
+			router.push('/');
+			router.refresh();
+		},
+		onError: (error) => {
+			if (isTrpcClientError(error) && error.data?.code === 'FORBIDDEN') {
+				toast.error('An error occurred while deleting your account', {
+					description:
+						"If you are the owner of a team, you can't delete your account. Transfer team ownership or delete the team first.",
+					id: toastId,
+				});
+			} else {
+				toast.error('An error occurred while deleting your account', {
+					description: error.message,
+					id: toastId,
+				});
+			}
+		},
+	});
 
 	return (
 		<AlertDialog>
@@ -76,7 +81,7 @@ export function DeleteAccountCard() {
 					<AlertDialogTitle>Delete account</AlertDialogTitle>
 					<AlertDialogDescription>
 						This action cannot be undone. This will permanently delete your account and remove your data from our
-						servers.
+						servers. You will be asked to confirm with your passkey.
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter>

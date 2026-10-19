@@ -21,12 +21,16 @@ import { injectHelper } from '../../util/inject_helper.ts';
 import { ph } from '../analytics/analytics_service.ts';
 import { AnalyticsEvent } from '../analytics/schemas/analytics_event.ts';
 import { db } from '../db/db_service.ts';
-import { AuthChallengeService } from './auth_challenge/auth_challenge_service.ts';
+import { AuthChallengeService, type AuthChallengePurpose } from './auth_challenge/auth_challenge_service.ts';
+import { AuthSessionService } from './auth_session_service.ts';
 
 @inject()
-@injectHelper(AuthChallengeService)
+@injectHelper(AuthChallengeService, AuthSessionService)
 export class AuthService {
-	constructor(private readonly authChallengeService: AuthChallengeService) {}
+	constructor(
+		private readonly authChallengeService: AuthChallengeService,
+		private readonly authSessionService: AuthSessionService,
+	) {}
 
 	async getRegisterOptions(input: {
 		displayName: string;
@@ -51,7 +55,7 @@ export class AuthService {
 		});
 
 		// Store the challenge for later verification
-		await this.authChallengeService.storeChallenge(input.session, options.challenge);
+		await this.authChallengeService.storeChallenge(input.session, options.challenge, 'register');
 
 		return options;
 	}
@@ -61,7 +65,7 @@ export class AuthService {
 		session: Session;
 		displayName: string;
 	}): Promise<void> {
-		const existingChallenge = await this.authChallengeService.consumeChallenge(input.session);
+		const existingChallenge = await this.authChallengeService.consumeChallenge(input.session, 'register');
 
 		if (!existingChallenge) {
 			throw new TRPCError({
@@ -119,9 +123,7 @@ export class AuthService {
 
 		assert(userId, new TypeError('User was not created'));
 
-		// Regenerate the session ID to prevent session fixation before associating the user.
-		input.session.regenerate();
-		input.session.put('userId', userId);
+		await this.authSessionService.start(input.session, userId);
 
 		ph.identify({
 			distinctId: userId,
@@ -145,12 +147,57 @@ export class AuthService {
 		});
 
 		// Persist challenge
-		await this.authChallengeService.storeChallenge(session, options.challenge);
+		await this.authChallengeService.storeChallenge(session, options.challenge, 'login');
 
 		return options;
 	}
 
 	async verifyLogin(input: { body: AuthenticationResponseJSON; session: Session }) {
+		const passkey = await this.verifyAuthentication({ ...input, purpose: 'login' });
+
+		await this.authSessionService.start(input.session, passkey.userId);
+
+		ph.capture({
+			distinctId: passkey.userId,
+			event: AnalyticsEvent.UserLoggedIn,
+		});
+
+		return passkey.user;
+	}
+
+	async getReauthenticationOptions(session: Session, userId: string, purpose: 'deleteAccount' | 'revokeOtherSessions') {
+		const passkeys = await db.query.credentials.findMany({
+			where: eq(Schema.credentials.userId, userId),
+			columns: { credentialId: true },
+		});
+		if (passkeys.length === 0) {
+			throw new TRPCError({ code: 'UNAUTHORIZED', message: 'No passkey found for your account.' });
+		}
+
+		const options = await generateAuthenticationOptions({
+			rpID: rpId,
+			userVerification: 'required',
+			allowCredentials: passkeys.map((passkey) => ({ id: passkey.credentialId })),
+		});
+		await this.authChallengeService.storeChallenge(session, options.challenge, purpose);
+		return options;
+	}
+
+	async verifyReauthentication(input: {
+		body: AuthenticationResponseJSON;
+		session: Session;
+		userId: string;
+		purpose: 'deleteAccount' | 'revokeOtherSessions';
+	}): Promise<void> {
+		await this.verifyAuthentication({ ...input, expectedUserId: input.userId });
+	}
+
+	private async verifyAuthentication(input: {
+		body: AuthenticationResponseJSON;
+		session: Session;
+		purpose: AuthChallengePurpose;
+		expectedUserId?: string;
+	}) {
 		const passkey = await db.query.credentials.findFirst({
 			where: eq(Schema.credentials.credentialId, input.body.id),
 			columns: {
@@ -173,7 +220,11 @@ export class AuthService {
 			throw new TRPCError({ code: 'UNAUTHORIZED', message: "That passkey wasn't recognized" });
 		}
 
-		const currentChallenge = await this.authChallengeService.consumeChallenge(input.session);
+		if (input.expectedUserId && passkey.userId !== input.expectedUserId) {
+			throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Use a passkey belonging to your signed-in account.' });
+		}
+
+		const currentChallenge = await this.authChallengeService.consumeChallenge(input.session, input.purpose);
 
 		if (!currentChallenge) {
 			throw new TRPCError({
@@ -213,15 +264,6 @@ export class AuthService {
 
 		assert(passkey.userId, new TypeError('Credential from passkey was not associated with a user'));
 
-		ph.capture({
-			distinctId: passkey.userId,
-			event: AnalyticsEvent.UserLoggedIn,
-		});
-
-		// Regenerate the session ID to prevent session fixation before associating the user.
-		input.session.regenerate();
-		input.session.put('userId', passkey.userId);
-
-		return passkey.user;
+		return passkey;
 	}
 }

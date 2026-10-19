@@ -2,13 +2,17 @@ import { inject } from '@adonisjs/core';
 import { z } from 'zod';
 import { injectHelper } from '../../util/inject_helper.ts';
 import { AuthService } from '../auth/auth_service.ts';
-import { publicProcedure, router } from '../trpc/trpc_service.ts';
+import { AuthSessionService } from '../auth/auth_session_service.ts';
+import { authedProcedure, publicProcedure, router } from '../trpc/trpc_service.ts';
 import { UserSchema } from '../user/schemas/user_schema.ts';
 
 @inject()
-@injectHelper(AuthService)
+@injectHelper(AuthService, AuthSessionService)
 export class AccountsRouter {
-	constructor(private readonly authService: AuthService) {}
+	constructor(
+		private readonly authService: AuthService,
+		private readonly authSessionService: AuthSessionService,
+	) {}
 
 	getRouter() {
 		return router({
@@ -57,7 +61,22 @@ export class AccountsRouter {
 					}),
 			}),
 			logOut: publicProcedure.mutation(({ ctx }) => {
-				ctx.session.clear();
+				AuthSessionService.end(ctx.session);
+			}),
+			reauthenticate: authedProcedure
+				.input(z.object({ purpose: z.enum(['deleteAccount', 'revokeOtherSessions']) }))
+				.mutation(({ ctx, input }) => {
+					return this.authService.getReauthenticationOptions(ctx.session, ctx.user.id, input.purpose);
+				}),
+			revokeOtherSessions: authedProcedure.input(z.object({ body: z.any() })).mutation(async ({ ctx, input }) => {
+				await this.authService.verifyReauthentication({
+					body: input.body,
+					session: ctx.session,
+					userId: ctx.user.id,
+					purpose: 'revokeOtherSessions',
+				});
+				await this.authSessionService.revokeSessions(ctx.user.id, ctx.session.sessionId);
+				await this.authSessionService.start(ctx.session, ctx.user.id);
 			}),
 		});
 	}

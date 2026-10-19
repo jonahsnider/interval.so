@@ -1,14 +1,20 @@
 import { inject } from '@adonisjs/core';
 import { z } from 'zod';
 import { injectHelper } from '../../util/inject_helper.ts';
+import { AuthService } from '../auth/auth_service.ts';
+import { AuthSessionService } from '../auth/auth_session_service.ts';
 import { authedProcedure, publicProcedure, router } from '../trpc/trpc_service.ts';
 import { UserSchema } from '../user/schemas/user_schema.ts';
 import { UserService } from '../user/user_service.ts';
 
 @inject()
-@injectHelper(UserService)
+@injectHelper(UserService, AuthService, AuthSessionService)
 export class UserRouter {
-	constructor(private readonly userService: UserService) {}
+	constructor(
+		private readonly userService: UserService,
+		private readonly authService: AuthService,
+		private readonly authSessionService: AuthSessionService,
+	) {}
 
 	getRouter() {
 		return router({
@@ -48,9 +54,16 @@ export class UserRouter {
 						user: undefined,
 					};
 				}),
-			deleteSelf: authedProcedure.mutation(async ({ ctx }) => {
+			deleteSelf: authedProcedure.input(z.object({ body: z.any() })).mutation(async ({ ctx, input }) => {
+				await this.authService.verifyReauthentication({
+					body: input.body,
+					session: ctx.session,
+					userId: ctx.user.id,
+					purpose: 'deleteAccount',
+				});
 				await this.userService.deleteUser(ctx.bouncer, ctx.user);
-				ctx.session.clear();
+				await this.authSessionService.revokeSessions(ctx.user.id);
+				AuthSessionService.end(ctx.session);
 			}),
 			setDisplayName: authedProcedure.input(UserSchema.pick({ displayName: true })).mutation(async ({ input, ctx }) => {
 				await this.userService.setDisplayName(ctx.bouncer, ctx.user, input);

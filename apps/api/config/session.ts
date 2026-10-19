@@ -21,12 +21,13 @@ const sessionConfig = defineConfig({
 	 * once the user closes the browser.
 	 */
 	clearWithBrowser: false,
+	renewMissingSessionId: true,
 
 	/**
 	 * Define how long to keep the session data alive without
 	 * any activity.
 	 */
-	age: convert(3, 'months').to('seconds'),
+	age: convert(30, 'days').to('seconds'),
 
 	/**
 	 * Configuration for session cookie and the

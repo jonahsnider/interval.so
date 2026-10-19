@@ -6,6 +6,7 @@ import type { NextFn } from '@adonisjs/core/types/http';
 import type { Session } from '@adonisjs/session';
 import * as abilities from '#abilities/main';
 import { policies } from '#policies/main';
+import { AuthSessionService } from '../auth/auth_session_service.ts';
 import type { UserSchema } from '../user/schemas/user_schema.ts';
 
 export type BouncerUser =
@@ -25,6 +26,7 @@ export type AppBouncer = BouncerWithUser<BouncerUser, typeof abilities, typeof p
  */
 export default class InitializeBouncerMiddleware {
 	handle(ctx: HttpContext, next: NextFn) {
+		AuthSessionService.expire(ctx.session);
 		/**
 		 * Create bouncer instance for the ongoing HTTP request.
 		 * We will pull the user from the HTTP context.

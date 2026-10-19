@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/node';
 import { initTRPC, TRPCError } from '@trpc/server';
+import { concatMap, isObservable } from 'rxjs';
 import superjson from 'superjson';
 import type { createHttpContext } from './trpc_context.ts';
 
@@ -18,11 +19,12 @@ const sentryMiddleware = t.middleware(
 
 export const router = t.router;
 
-export const publicProcedure = t.procedure.use(sentryMiddleware).use(({ ctx, next }) => {
+export const publicProcedure = t.procedure.use(sentryMiddleware).use(async ({ ctx, next, type }) => {
+	await ctx.validateSession?.();
 	const userId = ctx.session.get('userId') as undefined | string;
 	const guestToken = ctx.session.get('guestToken') as undefined | string;
 
-	return next({
+	const result = await next({
 		ctx: {
 			...ctx,
 			user: userId
@@ -33,6 +35,18 @@ export const publicProcedure = t.procedure.use(sentryMiddleware).use(({ ctx, nex
 			guestToken,
 		},
 	});
+
+	if (result.ok && type === 'subscription' && ctx.validateSession && isObservable(result.data)) {
+		const validateSession = ctx.validateSession;
+		result.data = result.data.pipe(
+			concatMap(async (value) => {
+				await validateSession();
+				return value;
+			}),
+		);
+	}
+
+	return result;
 });
 export const authedProcedure = publicProcedure.use(({ ctx, next }) => {
 	if (ctx.user) {

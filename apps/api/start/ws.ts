@@ -9,6 +9,7 @@ import { applyWSSHandler } from '@trpc/server/adapters/ws';
 import { WebSocketServer } from 'ws';
 import sessionConfig from '#config/session';
 import { createBouncer } from '#middleware/initialize_bouncer_middleware';
+import { AuthSessionService } from '../app/auth/auth_session_service.ts';
 import { AppRouter } from '../app/routers/app_router.ts';
 
 const wss = new WebSocketServer({ server: adonisServer.getNodeServer() });
@@ -23,6 +24,7 @@ if (typeof address === 'string') {
 }
 
 const appRouter = await app.container.make(AppRouter);
+const authSessionService = await app.container.make(AuthSessionService);
 
 const resolvedSessionConfig = await sessionConfig.resolver(app);
 const sessionStoreFactory = resolvedSessionConfig.stores[resolvedSessionConfig.store];
@@ -45,12 +47,14 @@ const handler = applyWSSHandler({
 		const session = new Session(resolvedSessionConfig, sessionStoreFactory, emitterService, adonisHttpContext);
 
 		await session.initiate(false);
+		await authSessionService.assertActive(session);
 
 		await sentryMiddleware.handle(adonisHttpContext, () => {});
 
 		return {
 			bouncer: createBouncer(session).setContainerResolver(adonisHttpContext.containerResolver),
 			session,
+			validateSession: () => authSessionService.assertActive(session),
 		};
 	},
 	keepAlive: {

@@ -32,6 +32,7 @@
 		"migrate:apply": "drizzle-kit migrate",
 		"migrate:create": "drizzle-kit generate",
 		"start": "node bin/server.js",
+		"test": "node --import=@poppinss/ts-exec --experimental-test-module-mocks --test tests/*.test.ts",
 		"type-check": "tsc --noEmit"
 	},
 	"dependencies": {

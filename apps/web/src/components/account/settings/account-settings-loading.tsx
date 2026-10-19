@@ -6,6 +6,7 @@ export function AccountSettingsLoading() {
 	return (
 		<div className='flex max-w-3xl flex-col gap-4'>
 			<SettingsCardSkeleton />
+			<SettingsCardSkeleton />
 
 			<Card className='border-destructive-border'>
 				<CardHeader>
