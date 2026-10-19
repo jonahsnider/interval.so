@@ -27,14 +27,11 @@ export function SessionsCard() {
 		<Card>
 			<CardHeader>
 				<CardTitle>Signed-in devices</CardTitle>
-				<CardDescription>
-					Sign out everywhere else if you have lost a device or used a shared computer. Confirm with your passkey to
-					continue. You will stay signed in on this device.
-				</CardDescription>
+				<CardDescription>Sign out all sessions on other devices.</CardDescription>
 			</CardHeader>
 			<CardFooter className='border-t px-6 py-4'>
 				<Button disabled={revokeOtherSessions.isPending} onClick={() => revokeOtherSessions.mutate()}>
-					{revokeOtherSessions.isPending ? 'Confirming…' : 'Sign out other devices'}
+					Sign out other devices
 				</Button>
 			</CardFooter>
 		</Card>
