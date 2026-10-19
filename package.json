@@ -11,7 +11,7 @@
 		"format:write": "oxfmt --write",
 		"lint": "oxlint",
 		"lint:fix": "oxlint --fix --fix-suggestions --fix-dangerously",
-		"test": "pnpm lint && pnpm format && turbo run build type-check",
+		"test": "turbo run lint format build type-check test",
 		"type-check": "turbo run type-check"
 	},
 	"devDependencies": {

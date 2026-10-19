@@ -18,10 +18,10 @@ jobs:
           cache: true
       - name: Format with Oxfmt
         continue-on-error: true
-        run: pnpm format:write
+        run: pnpm exec turbo run format:write
       - name: Lint with Oxlint
         continue-on-error: true
-        run: pnpm lint:fix
+        run: pnpm exec turbo run lint:fix
       - name: Run autofix.ci
         uses: autofix-ci/action@v1
         with:

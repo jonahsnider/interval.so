@@ -35,13 +35,8 @@ jobs:
           # If source files changed but packages didn't, rebuild from a prior cache.
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-
-      - parallel:
-          - name: Lint
-            run: pnpm lint
-          - name: Check formatting
-            run: pnpm format
-          - name: Build and type check
-            run: pnpm exec turbo run build type-check
+      - name: Lint, format, build, type check, and test
+        run: pnpm test
       - name: Smoke-test production API
         run: |
           pnpm install --prod --filter @interval.so/api --frozen-lockfile
