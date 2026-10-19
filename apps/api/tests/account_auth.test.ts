@@ -225,3 +225,19 @@ await test('email authentication is disabled and account authentication has a 90
 	);
 	assert.equal(isActiveAccountSession({ session: { ...session, createdAt: new Date(Date.now() + 60_000) } }), false);
 });
+
+await test('Railway client IPs have separate rate limits despite multi-hop forwarded headers', async () => {
+	const { auth } = fixture();
+	const context = await auth.$context;
+	context.rateLimit.customRules = { '/passkey/generate-authenticate-options': { window: 60, max: 2 } };
+	const request = (ip: string, forwarded = '192.0.2.1, 192.0.2.2') =>
+		auth.handler(
+			new Request('https://api.interval.so/api/auth/passkey/generate-authenticate-options', {
+				headers: { origin, 'x-real-ip': ip, 'x-forwarded-for': forwarded },
+			}),
+		);
+	assert.equal((await request('198.51.100.1')).status, 200);
+	assert.equal((await request('198.51.100.1')).status, 200);
+	assert.equal((await request('198.51.100.1', '203.0.113.1')).status, 429);
+	assert.equal((await request('198.51.100.2')).status, 200);
+});

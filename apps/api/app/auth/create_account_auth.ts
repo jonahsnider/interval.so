@@ -36,6 +36,8 @@ export function createAccountAuth(options: {
 		},
 		verification: { storeInDatabase: true },
 		advanced: {
+			// Railway's public edge supplies the client IP here; X-Forwarded-For can contain multiple hops.
+			ipAddress: { ipAddressHeaders: ['x-real-ip'] },
 			database: { generateId: 'uuid' },
 			crossSubDomainCookies: options.cookieDomain ? { enabled: true, domain: options.cookieDomain } : undefined,
 		},
