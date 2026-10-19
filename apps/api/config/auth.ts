@@ -28,3 +28,10 @@ const developmentWebUrl = getDevelopmentWebUrl();
 export const rpId = env.get('NODE_ENV') === 'development' ? developmentWebUrl.hostname : 'interval.so';
 
 export const origin = env.get('NODE_ENV') === 'development' ? developmentWebUrl.origin : 'https://interval.so';
+
+export const cookieDomain =
+	env.get('NODE_ENV') === 'development'
+		? env.get('PORTLESS_URL')
+			? `${rpName}.localhost`
+			: undefined
+		: env.get('COOKIE_DOMAIN');

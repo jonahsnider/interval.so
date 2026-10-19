@@ -1,5 +1,6 @@
 import { inject } from '@adonisjs/core';
 import { z } from 'zod';
+import { accountAuth } from '../auth/account_auth.ts';
 import { injectHelper } from '../../util/inject_helper.ts';
 import { AuthService } from '../auth/auth_service.ts';
 import { AuthSessionService } from '../auth/auth_session_service.ts';
@@ -63,6 +64,8 @@ export class UserRouter {
 				});
 				await this.userService.deleteUser(ctx.bouncer, ctx.user);
 				await this.authSessionService.revokeSessions(ctx.user.id);
+				const result = await accountAuth.api.signOut({ headers: ctx.authHeaders, returnHeaders: true });
+				ctx.setAuthCookies(result.headers);
 				AuthSessionService.end(ctx.session);
 			}),
 			setDisplayName: authedProcedure.input(UserSchema.pick({ displayName: true })).mutation(async ({ input, ctx }) => {

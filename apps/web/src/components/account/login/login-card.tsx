@@ -1,109 +1,28 @@
 'use client';
 
 import { ArrowPathIcon } from '@heroicons/react/16/solid';
-import type { AuthenticationResponseJSON, PublicKeyCredentialRequestOptionsJSON } from '@simplewebauthn/browser';
-import { startAuthentication, WebAuthnError } from '@simplewebauthn/browser';
-import { TRPCClientError } from '@trpc/client';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { useMutation } from '@tanstack/react-query';
-import { useTRPC } from '@/src/trpc/trpc-client';
+import { authClient } from '@/src/auth-client';
 
 export function LoginCard() {
-	const trpc = useTRPC();
 	const router = useRouter();
-
-	const getLoginOptions = useMutation(trpc.accounts.login.generateAuthenticationOptions.mutationOptions());
-	const finishLogin = useMutation(
-		trpc.accounts.login.verifyAuthenticationResponse.mutationOptions({
-			onSuccess: ({ displayName }) => {
-				router.push('/');
-				router.refresh();
-				toast.success(`Logged in as ${displayName}`);
-			},
-		}),
-	);
-
 	const [isPending, setIsPending] = useState(false);
-
-	const wrappedGetLoginOptions = async () => {
-		try {
-			return await getLoginOptions.mutateAsync();
-		} catch (error) {
-			if (error instanceof TRPCClientError) {
-				toast.error('An error occurred while preparing to login', {
-					description: error.message,
-				});
-			} else {
-				toast.error('An unknown error occurred while preparing to login', {
-					description: String(error),
-				});
-			}
-
-			throw error;
-		}
-	};
-
-	const wrappedStartAuthentication = async (loginOptions: PublicKeyCredentialRequestOptionsJSON) => {
-		try {
-			return await startAuthentication({ optionsJSON: loginOptions });
-		} catch (error) {
-			if (error instanceof Error) {
-				if (
-					error.name === 'NotAllowedError' ||
-					(error instanceof WebAuthnError &&
-						error.code === 'ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY' &&
-						error.cause instanceof Error &&
-						error.cause.name === 'NotAllowedError')
-				) {
-					toast.error('Login cancelled');
-				} else {
-					toast.error('An error occurred while logging in', {
-						description: error.message,
-					});
-				}
-			} else {
-				toast.error('An unknown error occurred while logging in', {
-					description: String(error),
-				});
-			}
-
-			throw error;
-		}
-	};
-
-	const wrappedFinishLogin = async (login: AuthenticationResponseJSON) => {
-		try {
-			await finishLogin.mutateAsync({ body: login });
-		} catch (error) {
-			if (error instanceof TRPCClientError) {
-				toast.error('An error occurred while finalizing your login', {
-					description: error.message,
-				});
-			} else {
-				toast.error('An unknown error occurred while finalizing your login', {
-					description: String(error),
-				});
-			}
-
-			throw error;
-		}
-	};
 
 	const onClick = async () => {
 		setIsPending(true);
-
 		try {
-			const loginOptions = await wrappedGetLoginOptions();
-
-			const login = await wrappedStartAuthentication(loginOptions);
-
-			await wrappedFinishLogin(login);
-		} catch {
-			return;
+			const { data, error } = await authClient.signIn.passkey();
+			if (error) throw new Error(error.message ?? 'Unable to sign in with that passkey.');
+			if (!data) return;
+			router.push('/');
+			router.refresh();
+			toast.success(`Logged in as ${data.user.name}`);
+		} catch (error) {
+			toast.error('Unable to log in', { description: error instanceof Error ? error.message : String(error) });
 		} finally {
 			setIsPending(false);
 		}
@@ -118,7 +37,12 @@ export function LoginCard() {
 				</CardDescription>
 			</CardHeader>
 			<CardFooter className='justify-center'>
-				<Button onClick={onClick} size='lg' className='w-full [view-transition-name:auth-card-button]'>
+				<Button
+					disabled={isPending}
+					onClick={onClick}
+					size='lg'
+					className='w-full [view-transition-name:auth-card-button]'
+				>
 					{isPending && <ArrowPathIcon className='h-4 w-4 animate-spin' />}
 					{!isPending && <span className='[view-transition-name:auth-card-button-inner]'>Login</span>}
 				</Button>

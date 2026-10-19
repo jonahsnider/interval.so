@@ -21,7 +21,7 @@ export const router = t.router;
 
 export const publicProcedure = t.procedure.use(sentryMiddleware).use(async ({ ctx, next, type }) => {
 	await ctx.validateSession?.();
-	const userId = ctx.session.get('userId') as undefined | string;
+	const userId = ctx.account?.user.id;
 	const guestToken = ctx.session.get('guestToken') as undefined | string;
 
 	const result = await next({

@@ -36,12 +36,13 @@
 		"type-check": "tsc --noEmit"
 	},
 	"dependencies": {
-		"@adonisjs/auth": "10.1.0",
 		"@adonisjs/bouncer": "4.0.1",
 		"@adonisjs/core": "7.6.0",
 		"@adonisjs/cors": "3.0.0",
 		"@adonisjs/redis": "11.0.0",
 		"@adonisjs/session": "8.3.0",
+		"@better-auth/drizzle-adapter": "1.7.11",
+		"@better-auth/passkey": "1.7.11",
 		"@jonahsnider/util": "13.0.0",
 		"@paralleldrive/cuid2": "3.3.0",
 		"@rlanz/sentry": "^0.3.3",
@@ -50,6 +51,7 @@
 		"@simplewebauthn/server": "14.0.3",
 		"@trpc/server": "11.19.0",
 		"@vinejs/vine": "4.4.0",
+		"better-auth": "1.7.11",
 		"convert": "8.0.2",
 		"crypto-random-string": "6.0.0",
 		"date-fns": "4.4.0",

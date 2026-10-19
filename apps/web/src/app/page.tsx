@@ -1,5 +1,6 @@
 import { captureException } from '@sentry/nextjs';
 import { cookies } from 'next/headers';
+import { getSessionCookie } from 'better-auth/cookies';
 import { connection } from 'next/server';
 import { TeamCards } from '@/src/components/home/team-cards';
 import { Navbar } from '@/src/components/navbar/navbar';
@@ -31,7 +32,9 @@ async function HomePageContent() {
 	try {
 		// The user can't be signed in if they don't have a session cookie
 		// This optimization improves TTFB for first-time visitors
-		const isAuthed = userCookies.has('adonis-session') && (await trpcServer.user.isAuthedFast.query());
+		const isAuthed =
+			getSessionCookie(new Headers({ cookie: userCookies.toString() })) !== null &&
+			(await trpcServer.user.isAuthedFast.query());
 
 		if (isAuthed) {
 			return <AuthedHomePage />;

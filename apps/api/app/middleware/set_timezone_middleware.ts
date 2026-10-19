@@ -10,7 +10,7 @@ export default class SetTimezoneMiddleware {
 		const setTimezoneHeader = ctx.request.header('x-set-timezone');
 
 		// We only want to store the timezone once the user has authenticated, not on every request (ex. subscribing to team events)
-		if (setTimezoneHeader && ctx.session.has('userId')) {
+		if (setTimezoneHeader && ctx.account) {
 			const timezone = UserTimezoneSchema.safeParse(setTimezoneHeader);
 
 			if (timezone.success) {

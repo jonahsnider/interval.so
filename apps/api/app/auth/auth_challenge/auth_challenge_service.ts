@@ -2,7 +2,7 @@ import redis from '@adonisjs/redis/services/main';
 import type { Session } from '@adonisjs/session';
 import { convert } from 'convert';
 
-export type AuthChallengePurpose = 'register' | 'login' | 'deleteAccount' | 'revokeOtherSessions';
+export type AuthChallengePurpose = 'deleteAccount' | 'revokeOtherSessions';
 
 export class AuthChallengeService {
 	private static readonly CHALLENGE_LIFETIME = convert(5, 'minutes');

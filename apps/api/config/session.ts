@@ -1,16 +1,7 @@
 import app from '@adonisjs/core/services/app';
 import { defineConfig, stores } from '@adonisjs/session';
 import { convert } from 'convert';
-import env from '#start/env';
-import { rpName } from './auth.ts';
-
-function getCookieDomain() {
-	if (env.get('NODE_ENV') !== 'development') {
-		return env.get('COOKIE_DOMAIN');
-	}
-
-	return env.get('PORTLESS_URL') ? `${rpName}.localhost` : undefined;
-}
+import { cookieDomain } from './auth.ts';
 
 const sessionConfig = defineConfig({
 	enabled: true,
@@ -38,7 +29,7 @@ const sessionConfig = defineConfig({
 		httpOnly: true,
 		secure: app.inProduction,
 		sameSite: 'lax',
-		domain: getCookieDomain(),
+		domain: cookieDomain,
 	},
 
 	/**

@@ -3,7 +3,6 @@ import {
 	customType,
 	index,
 	integer,
-	jsonb,
 	pgEnum,
 	pgTable,
 	primaryKey,
@@ -17,12 +16,6 @@ import {
 export const teamManagerRole = pgEnum('team_user_role', ['owner', 'admin', 'editor']);
 export type TeamManagerRole = (typeof teamManagerRole)['enumValues'][number];
 
-const bytea = customType<{ data: Buffer; notNull: false; default: false }>({
-	dataType() {
-		return 'bytea';
-	},
-});
-
 const citext = customType<{ data: string; notNull: false; default: false }>({
 	dataType() {
 		return 'citext';
@@ -30,29 +23,82 @@ const citext = customType<{ data: string; notNull: false; default: false }>({
 });
 
 export const users = pgTable('users', {
-	userId: uuid('id').notNull().primaryKey().defaultRandom(),
+	id: uuid('id').notNull().primaryKey().defaultRandom(),
 	displayName: text('display_name').notNull(),
+	email: text('email').notNull().unique(),
+	emailVerified: boolean('email_verified').notNull().default(false),
+	image: text('image'),
+	updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 	createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 });
 
-export const credentials = pgTable(
-	'credentials',
+export const credentials = pgTable('credentials', {
+	id: uuid('passkey_id').primaryKey().defaultRandom(),
+	credentialId: text('id').notNull().unique(),
+	publicKey: text('public_key').notNull(),
+	userId: uuid('user_id')
+		.notNull()
+		.references(() => users.id, { onDelete: 'cascade' }),
+	aaguid: text('webauthn_user_id'),
+	name: text('name'),
+	createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+	counter: integer('counter').notNull().default(0),
+	deviceType: text('device_type').notNull(),
+	backedUp: boolean('backed_up').notNull().default(false),
+	transports: text('transports').notNull().default(''),
+});
+
+// Required by Better Auth's core schema; Interval does not enable password or OAuth providers.
+export const authAccounts = pgTable(
+	'auth_accounts',
 	{
-		credentialId: text('id').primaryKey().notNull(),
-		publicKey: bytea('public_key').notNull(),
+		id: uuid('id').primaryKey().defaultRandom(),
 		userId: uuid('user_id')
 			.notNull()
-			.references(() => users.userId, { onDelete: 'cascade' }),
-		webauthnUserId: text('webauthn_user_id').notNull(),
-		counter: integer('counter').notNull().default(0),
-		deviceType: text('device_type').notNull(),
-		backedUp: boolean('backed_up').notNull().default(false),
-		transports: jsonb('transports').notNull().default([]),
+			.references(() => users.id, { onDelete: 'cascade' }),
+		accountId: text('account_id').notNull(),
+		providerId: text('provider_id').notNull(),
+		accessToken: text('access_token'),
+		refreshToken: text('refresh_token'),
+		idToken: text('id_token'),
+		accessTokenExpiresAt: timestamp('access_token_expires_at', { withTimezone: true }),
+		refreshTokenExpiresAt: timestamp('refresh_token_expires_at', { withTimezone: true }),
+		scope: text('scope'),
+		password: text('password'),
+		createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+		updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 	},
-	(credentials) => ({
-		index: index().on(credentials.webauthnUserId),
-		unique: unique().on(credentials.userId, credentials.webauthnUserId),
-	}),
+	(account) => [index().on(account.userId)],
+);
+
+export const authSessions = pgTable(
+	'auth_sessions',
+	{
+		id: uuid('id').primaryKey().defaultRandom(),
+		userId: uuid('user_id')
+			.notNull()
+			.references(() => users.id, { onDelete: 'cascade' }),
+		token: text('token').notNull().unique(),
+		expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
+		createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+		updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+		ipAddress: text('ip_address'),
+		userAgent: text('user_agent'),
+	},
+	(session) => [index().on(session.userId)],
+);
+
+export const authVerifications = pgTable(
+	'auth_verifications',
+	{
+		id: uuid('id').primaryKey().defaultRandom(),
+		identifier: text('identifier').notNull(),
+		value: text('value').notNull(),
+		expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
+		createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+		updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+	},
+	(verification) => [index().on(verification.identifier)],
 );
 
 export const teams = pgTable('teams', {
@@ -74,7 +120,7 @@ export const teamManagers = pgTable(
 			.references(() => teams.teamId),
 		userId: uuid('user_id')
 			.notNull()
-			.references(() => users.userId),
+			.references(() => users.id),
 		role: teamManagerRole('role').notNull().default('admin'),
 	},
 	(teamManagers) => ({

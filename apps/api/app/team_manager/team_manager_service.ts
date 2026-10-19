@@ -160,7 +160,7 @@ export class TeamManagerService {
 			)
 			.innerJoin(
 				Schema.users,
-				and(eq(Schema.teamManagers.userId, Schema.users.userId), eq(Schema.users.userId, Schema.teamManagers.userId)),
+				and(eq(Schema.teamManagers.userId, Schema.users.id), eq(Schema.users.id, Schema.teamManagers.userId)),
 			)
 			.orderBy(asc(Schema.teamManagers.role), asc(Schema.users.displayName));
 

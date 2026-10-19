@@ -15,3 +15,6 @@ const HealthChecksController = () => import('../app/controllers/health_checks_co
 router.any('/trpc/*', [TrpcController, 'index']);
 
 router.get('/health', [HealthChecksController]);
+
+const AccountAuthController = () => import('../app/controllers/account_auth_controller.ts');
+router.any('/api/auth/*', [AccountAuthController, 'index']);

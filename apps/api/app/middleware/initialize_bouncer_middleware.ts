@@ -6,6 +6,9 @@ import type { NextFn } from '@adonisjs/core/types/http';
 import type { Session } from '@adonisjs/session';
 import * as abilities from '#abilities/main';
 import { policies } from '#policies/main';
+import { fromNodeHeaders } from 'better-auth/node';
+import type { AccountSession } from '../auth/create_account_auth.ts';
+import { setAuthCookies } from '../auth/auth_response.ts';
 import { AuthSessionService } from '../auth/auth_session_service.ts';
 import type { UserSchema } from '../user/schemas/user_schema.ts';
 
@@ -25,13 +28,17 @@ export type AppBouncer = BouncerWithUser<BouncerUser, typeof abilities, typeof p
  * during an HTTP request
  */
 export default class InitializeBouncerMiddleware {
-	handle(ctx: HttpContext, next: NextFn) {
-		AuthSessionService.expire(ctx.session);
+	async handle(ctx: HttpContext, next: NextFn) {
+		const authSessions = await ctx.containerResolver.make(AuthSessionService);
+		const authHeaders = fromNodeHeaders(ctx.request.headers());
+		ctx.account = await authSessions.get(authHeaders, (headers) => setAuthCookies(ctx.response, headers), ctx.session);
+		// The exchange's cookie must also reach auth handlers and tRPC in this same request.
+		ctx.request.request.headers.cookie = authHeaders.get('cookie') ?? undefined;
 		/**
 		 * Create bouncer instance for the ongoing HTTP request.
 		 * We will pull the user from the HTTP context.
 		 */
-		ctx.bouncer = createBouncer(ctx.session).setContainerResolver(ctx.containerResolver);
+		ctx.bouncer = createBouncer(ctx.session, ctx.account).setContainerResolver(ctx.containerResolver);
 
 		return next();
 	}
@@ -58,10 +65,10 @@ class BouncerWithUser<
 	}
 }
 
-export function createBouncer(session: Session): AppBouncer {
+export function createBouncer(session: Session, account: AccountSession | null = null): AppBouncer {
 	return new BouncerWithUser<BouncerUser, typeof abilities, typeof policies>(
 		(): BouncerUser | null => {
-			const userId = session.get('userId') as string | undefined;
+			const userId = account?.user.id;
 			const guestToken = session.get('guestToken') as string | undefined;
 
 			if (userId) {
@@ -82,5 +89,6 @@ export function createBouncer(session: Session): AppBouncer {
 declare module '@adonisjs/core/http' {
 	export interface HttpContext {
 		bouncer: AppBouncer;
+		account: AccountSession | null;
 	}
 }

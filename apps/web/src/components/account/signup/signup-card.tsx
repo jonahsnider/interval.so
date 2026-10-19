@@ -3,9 +3,6 @@
 import { ArrowPathIcon } from '@heroicons/react/16/solid';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UserSchema } from '@interval.so/api/app/user/schemas/user_schema';
-import type { PublicKeyCredentialCreationOptionsJSON, RegistrationResponseJSON } from '@simplewebauthn/browser';
-import { startRegistration, WebAuthnError } from '@simplewebauthn/browser';
-import { TRPCClientError } from '@trpc/client';
 import { useRouter } from 'next/navigation';
 import { useQueryStates } from 'nuqs';
 import { useState } from 'react';
@@ -18,6 +15,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from '@/components/ui/input';
 import { useMutation } from '@tanstack/react-query';
 import { useTRPC } from '@/src/trpc/trpc-client';
+import { authClient } from '@/src/auth-client';
 import { searchParamParsers } from '../search-params';
 
 const formSchema = UserSchema.pick({ displayName: true });
@@ -48,93 +46,27 @@ export function SignupCard() {
 		}),
 	);
 
-	const getRegistrationOptions = useMutation(trpc.accounts.register.generateRegistrationOptions.mutationOptions());
-	const finishRegistration = useMutation(
-		trpc.accounts.register.verifyRegistrationResponse.mutationOptions({
-			onSuccess: () => {
-				if (!searchParams.invite) {
-					router.push('/');
-				}
-
-				router.refresh();
-			},
-		}),
-	);
-
 	const [isPending, setIsPending] = useState(false);
-
-	const wrappedGetRegistrationOptions = async (values: z.infer<typeof formSchema>) => {
-		try {
-			return await getRegistrationOptions.mutateAsync(values);
-		} catch (error) {
-			if (error instanceof TRPCClientError) {
-				toast.error(`An error occurred while preparing to register a passkey: ${error.message}`);
-			} else {
-				toast.error(`An unknown error occurred while preparing to register a passkey: ${String(error)}`);
-			}
-
-			throw error;
-		}
-	};
-
-	const wrappedStartRegistration = async (registrationOptions: PublicKeyCredentialCreationOptionsJSON) => {
-		try {
-			return await startRegistration({ optionsJSON: registrationOptions });
-		} catch (error) {
-			if (error instanceof Error) {
-				if (
-					error.name === 'NotAllowedError' ||
-					(error instanceof WebAuthnError &&
-						error.code === 'ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY' &&
-						error.cause instanceof Error &&
-						error.cause.name === 'NotAllowedError')
-				) {
-					toast.error('Registration cancelled');
-				} else {
-					toast.error(`An error occurred while registering a passkey for your account: ${error.message}`);
-				}
-			} else {
-				toast.error(`An unknown error occurred while registering a passkey for your account: ${String(error)}`);
-			}
-
-			throw error;
-		}
-	};
-
-	const wrappedFinishRegistration = async (registration: RegistrationResponseJSON) => {
-		try {
-			await finishRegistration.mutateAsync({ user: form.getValues(), body: registration });
-		} catch (error) {
-			if (error instanceof TRPCClientError) {
-				toast.error(`An error occurred while finalizing your registration: ${error.message}`);
-			} else {
-				toast.error(`An unknown error occurred while finalizing your registration: ${String(error)}`);
-			}
-
-			throw error;
-		}
-	};
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		setIsPending(true);
-
 		try {
-			const registrationOptions = await wrappedGetRegistrationOptions(values);
-
-			const registration = await wrappedStartRegistration(registrationOptions);
-
-			await wrappedFinishRegistration(registration);
-
+			const { error } = await authClient.passkey.addPasskey({ context: values.displayName, createSession: true });
+			if (error) throw new Error(error.message ?? 'Unable to register that passkey.');
 			if (searchParams.invite) {
 				joinTeam.mutate({ inviteCode: searchParams.invite });
+			} else {
+				router.push('/');
 			}
-		} catch {
-			return;
+			router.refresh();
+			toast.success('Your account was created');
+		} catch (error) {
+			toast.error('Unable to create your account', {
+				description: error instanceof Error ? error.message : String(error),
+			});
 		} finally {
 			setIsPending(false);
 		}
-
-		toast.success('Your account was created');
 	};
 
 	return (

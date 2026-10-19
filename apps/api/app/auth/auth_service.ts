@@ -1,171 +1,23 @@
 import assert from 'node:assert/strict';
 import { inject } from '@adonisjs/core';
 import type { Session } from '@adonisjs/session';
-import type {
-	AuthenticationResponseJSON,
-	AuthenticatorTransport,
-	PublicKeyCredentialCreationOptionsJSON,
-	RegistrationResponseJSON,
-} from '@simplewebauthn/server';
-import {
-	generateAuthenticationOptions,
-	generateRegistrationOptions,
-	verifyAuthenticationResponse,
-	verifyRegistrationResponse,
-} from '@simplewebauthn/server';
+import type { AuthenticationResponseJSON, AuthenticatorTransport } from '@simplewebauthn/server';
+import { generateAuthenticationOptions, verifyAuthenticationResponse } from '@simplewebauthn/server';
 import { TRPCError } from '@trpc/server';
 import { eq } from 'drizzle-orm';
-import { origin, rpId, rpName } from '#config/auth';
+import { origin, rpId } from '#config/auth';
 import * as Schema from '#database/schema';
 import { injectHelper } from '../../util/inject_helper.ts';
-import { ph } from '../analytics/analytics_service.ts';
-import { AnalyticsEvent } from '../analytics/schemas/analytics_event.ts';
 import { db } from '../db/db_service.ts';
 import { AuthChallengeService, type AuthChallengePurpose } from './auth_challenge/auth_challenge_service.ts';
-import { AuthSessionService } from './auth_session_service.ts';
 
+/** Verifies a new, account-bound passkey assertion for a specific sensitive action. */
 @inject()
-@injectHelper(AuthChallengeService, AuthSessionService)
+@injectHelper(AuthChallengeService)
 export class AuthService {
-	constructor(
-		private readonly authChallengeService: AuthChallengeService,
-		private readonly authSessionService: AuthSessionService,
-	) {}
+	constructor(private readonly authChallengeService: AuthChallengeService) {}
 
-	async getRegisterOptions(input: {
-		displayName: string;
-		session: Session;
-	}): Promise<PublicKeyCredentialCreationOptionsJSON> {
-		const options: PublicKeyCredentialCreationOptionsJSON = await generateRegistrationOptions({
-			rpName: rpName,
-			rpID: rpId,
-			userName: input.displayName,
-			userDisplayName: input.displayName,
-			// Don't prompt users for additional information about the authenticator
-			// (Recommended for smoother UX)
-			attestationType: 'none',
-			// An authenticator is a new account, so we don't exclude any credentials
-			excludeCredentials: [],
-			// See "Guiding use of authenticators via authenticatorSelection" below
-			authenticatorSelection: {
-				// Resident key required per https://simplewebauthn.dev/docs/advanced/passkeys#generateregistrationoptions
-				residentKey: 'required',
-				userVerification: 'preferred',
-			},
-		});
-
-		// Store the challenge for later verification
-		await this.authChallengeService.storeChallenge(input.session, options.challenge, 'register');
-
-		return options;
-	}
-
-	async verifyRegister(input: {
-		body: RegistrationResponseJSON;
-		session: Session;
-		displayName: string;
-	}): Promise<void> {
-		const existingChallenge = await this.authChallengeService.consumeChallenge(input.session, 'register');
-
-		if (!existingChallenge) {
-			throw new TRPCError({
-				code: 'UNAUTHORIZED',
-				message: 'No challenge found for the given session. Try signing up again?',
-			});
-		}
-
-		// TODO: If this throws, send a 400 for failing the challenge
-		const verification = await verifyRegistrationResponse({
-			response: input.body,
-			expectedChallenge: existingChallenge,
-			expectedOrigin: origin,
-			expectedRPID: rpId,
-			requireUserVerification: true,
-		});
-
-		if (!verification.verified) {
-			throw new TRPCError({
-				code: 'UNAUTHORIZED',
-				message: 'Authentication failed',
-			});
-		}
-
-		let userId: string | undefined;
-
-		await db.transaction(async (tx) => {
-			assert(
-				verification.registrationInfo,
-				new TypeError('Expected registration info to be defined since verification was successful'),
-			);
-
-			const [user] = await tx
-				.insert(Schema.users)
-				.values({
-					displayName: input.displayName,
-				})
-				.returning({ userId: Schema.users.userId });
-
-			assert(user);
-
-			await tx.insert(Schema.credentials).values({
-				userId: user.userId,
-				deviceType: verification.registrationInfo.credentialDeviceType,
-				credentialId: verification.registrationInfo.credential.id,
-				publicKey: Buffer.from(verification.registrationInfo.credential.publicKey),
-				webauthnUserId: verification.registrationInfo.aaguid,
-				backedUp: verification.registrationInfo.credentialBackedUp,
-				counter: verification.registrationInfo.credential.counter,
-				transports: verification.registrationInfo.credential.transports,
-			});
-
-			userId = user.userId;
-		});
-
-		assert(userId, new TypeError('User was not created'));
-
-		await this.authSessionService.start(input.session, userId);
-
-		ph.identify({
-			distinctId: userId,
-			properties: {
-				name: input.displayName,
-				date_created: new Date(),
-			},
-		});
-		ph.capture({
-			distinctId: userId,
-			event: AnalyticsEvent.UserSignedUp,
-		});
-	}
-
-	async getLoginOptions(session: Session) {
-		const options = await generateAuthenticationOptions({
-			rpID: rpId,
-			userVerification: 'preferred',
-			// Empty array allows users to auth with any passkeys they have available
-			allowCredentials: [],
-		});
-
-		// Persist challenge
-		await this.authChallengeService.storeChallenge(session, options.challenge, 'login');
-
-		return options;
-	}
-
-	async verifyLogin(input: { body: AuthenticationResponseJSON; session: Session }) {
-		const passkey = await this.verifyAuthentication({ ...input, purpose: 'login' });
-
-		await this.authSessionService.start(input.session, passkey.userId);
-
-		ph.capture({
-			distinctId: passkey.userId,
-			event: AnalyticsEvent.UserLoggedIn,
-		});
-
-		return passkey.user;
-	}
-
-	async getReauthenticationOptions(session: Session, userId: string, purpose: 'deleteAccount' | 'revokeOtherSessions') {
+	async getReauthenticationOptions(session: Session, userId: string, purpose: AuthChallengePurpose) {
 		const passkeys = await db.query.credentials.findMany({
 			where: eq(Schema.credentials.userId, userId),
 			columns: { credentialId: true },
@@ -187,7 +39,7 @@ export class AuthService {
 		body: AuthenticationResponseJSON;
 		session: Session;
 		userId: string;
-		purpose: 'deleteAccount' | 'revokeOtherSessions';
+		purpose: AuthChallengePurpose;
 	}): Promise<void> {
 		await this.verifyAuthentication({ ...input, expectedUserId: input.userId });
 	}
@@ -206,13 +58,6 @@ export class AuthService {
 				publicKey: true,
 				counter: true,
 				transports: true,
-			},
-			with: {
-				user: {
-					columns: {
-						displayName: true,
-					},
-				},
 			},
 		});
 
@@ -233,7 +78,6 @@ export class AuthService {
 			});
 		}
 
-		// TODO: If this throws, send a 400 for failing the challenge
 		const verification = await verifyAuthenticationResponse({
 			response: input.body,
 			expectedChallenge: currentChallenge,
@@ -241,11 +85,13 @@ export class AuthService {
 			expectedOrigin: origin,
 			credential: {
 				id: passkey.credentialId,
-				publicKey: new Uint8Array(passkey.publicKey),
+				publicKey: new Uint8Array(Buffer.from(passkey.publicKey, 'base64')),
 				counter: passkey.counter,
-				transports: passkey.transports as AuthenticatorTransport[],
+				transports: passkey.transports.split(',').filter(Boolean) as AuthenticatorTransport[],
 			},
 			requireUserVerification: true,
+		}).catch(() => {
+			throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Passkey verification failed.' });
 		});
 
 		if (!verification.verified) {

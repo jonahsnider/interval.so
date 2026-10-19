@@ -1,5 +1,6 @@
 import type { Session } from '@adonisjs/session';
 import { eq } from 'drizzle-orm';
+import { accountAuth } from '../auth/account_auth.ts';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { ph } from '../analytics/analytics_service.ts';
@@ -17,7 +18,7 @@ export class UserService {
 		await AuthorizationService.assertPermission(bouncer.with('UserPolicy').allows('read', user));
 
 		const dbUser = await db.query.users.findFirst({
-			where: eq(Schema.users.userId, user.id),
+			where: eq(Schema.users.id, user.id),
 			columns: {
 				displayName: true,
 			},
@@ -48,7 +49,7 @@ export class UserService {
 	async deleteUser(bouncer: AppBouncer, user: Pick<UserSchema, 'id'>): Promise<void> {
 		await AuthorizationService.assertPermission(bouncer.with('UserPolicy').allows('delete', user));
 
-		await db.delete(Schema.users).where(eq(Schema.users.userId, user.id));
+		await db.delete(Schema.users).where(eq(Schema.users.id, user.id));
 
 		ph.capture({
 			distinctId: user.id,
@@ -66,7 +67,8 @@ export class UserService {
 	): Promise<void> {
 		await AuthorizationService.assertPermission(bouncer.with('UserPolicy').allows('update', user));
 
-		await db.update(Schema.users).set(updated).where(eq(Schema.users.userId, user.id));
+		const { internalAdapter } = await accountAuth.$context;
+		await internalAdapter.updateUser(user.id, { name: updated.displayName });
 
 		ph.capture({
 			distinctId: user.id,

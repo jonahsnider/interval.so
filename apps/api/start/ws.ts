@@ -7,6 +7,7 @@ import { Sentry } from '@rlanz/sentry';
 import SentryMiddleware from '@rlanz/sentry/middleware';
 import { applyWSSHandler } from '@trpc/server/adapters/ws';
 import { WebSocketServer } from 'ws';
+import { fromNodeHeaders } from 'better-auth/node';
 import sessionConfig from '#config/session';
 import { createBouncer } from '#middleware/initialize_bouncer_middleware';
 import { AuthSessionService } from '../app/auth/auth_session_service.ts';
@@ -47,14 +48,19 @@ const handler = applyWSSHandler({
 		const session = new Session(resolvedSessionConfig, sessionStoreFactory, emitterService, adonisHttpContext);
 
 		await session.initiate(false);
-		await authSessionService.assertActive(session);
+		const authHeaders = fromNodeHeaders(options.req.headers);
+		const account = await authSessionService.get(authHeaders);
+		await authSessionService.assertActive(session, authHeaders, account);
 
 		await sentryMiddleware.handle(adonisHttpContext, () => {});
 
 		return {
-			bouncer: createBouncer(session).setContainerResolver(adonisHttpContext.containerResolver),
+			bouncer: createBouncer(session, account).setContainerResolver(adonisHttpContext.containerResolver),
 			session,
-			validateSession: () => authSessionService.assertActive(session),
+			account,
+			authHeaders,
+			setAuthCookies: () => {},
+			validateSession: () => authSessionService.assertActive(session, authHeaders, account),
 		};
 	},
 	keepAlive: {
