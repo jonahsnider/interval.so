@@ -2,7 +2,9 @@ import { ArrowLeftIcon } from '@heroicons/react/16/solid';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
 import Link from 'next/link';
+import { Suspense } from 'react';
 import { buttonVariants } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 import { PageHeader } from '@/src/components/page-header';
 import { MemberActionsDropdown } from '../member-actions-dropdown/member-actions-dropdown.server';
@@ -20,7 +22,9 @@ export function ViewMemberPageHeader({ team, member }: Props) {
 			className='flex-row justify-between'
 			title={
 				<div className='flex flex-col items-start gap-2'>
-					<Title member={member} />
+					<Suspense fallback={<Skeleton className='h-[46px] w-56 sm:h-[52px]' />}>
+						<Title member={member} />
+					</Suspense>
 
 					{/* Negative margin to align link buttons with the start/end of the title */}
 					<Link

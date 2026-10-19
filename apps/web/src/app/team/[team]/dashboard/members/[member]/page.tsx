@@ -3,6 +3,7 @@ import { MemberAttendanceSection } from '@/src/components/manager/members/view-m
 import { searchParamCache } from '@/src/components/manager/members/view-member/search-params';
 import { ViewMemberPageHeader } from '@/src/components/manager/members/view-member/view-member-page-header/view-member-page-header';
 import { MainContent } from '@/src/components/page-wrappers/main-content';
+import ViewMemberPageLoading from './loading';
 
 type Props = {
 	params: Promise<{
@@ -33,7 +34,7 @@ async function ViewMemberPageContent(props: Props) {
 
 export default function ViewMemberPage(props: Props) {
 	return (
-		<Suspense>
+		<Suspense fallback={<ViewMemberPageLoading />}>
 			<ViewMemberPageContent {...props} />
 		</Suspense>
 	);
