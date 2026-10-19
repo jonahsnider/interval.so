@@ -119,7 +119,8 @@ export class AuthService {
 
 		assert(userId, new TypeError('User was not created'));
 
-		// Associate session with user
+		// Regenerate the session ID to prevent session fixation before associating the user.
+		input.session.regenerate();
 		input.session.put('userId', userId);
 
 		ph.identify({
@@ -217,7 +218,8 @@ export class AuthService {
 			event: AnalyticsEvent.UserLoggedIn,
 		});
 
-		// Associate session with user
+		// Regenerate the session ID to prevent session fixation before associating the user.
+		input.session.regenerate();
 		input.session.put('userId', passkey.userId);
 
 		return passkey.user;
