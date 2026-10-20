@@ -43,7 +43,7 @@ export function createClient() {
 		},
 	});
 
-	return createTRPCClient<AppRouterType>({
+	const trpcClient = createTRPCClient<AppRouterType>({
 		links: [
 			splitLink({
 				condition: (op) => op.type === 'subscription',
@@ -60,4 +60,6 @@ export function createClient() {
 			}),
 		],
 	});
+
+	return { trpcClient, close: () => wsClient.close() };
 }

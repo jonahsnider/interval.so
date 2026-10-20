@@ -17,8 +17,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { TablePagination } from '@/src/components/data-tables/table-pagination';
 import { TableSelectionStatus } from '@/src/components/data-tables/table-selection-status';
 import { toTimeFilter } from '@/src/components/manager/period-select/duration-slug';
-import { useSubscription } from '@trpc/tanstack-react-query';
-import { useTRPC } from '@/src/trpc/trpc-client';
+import { useLiveAttendance } from '@/src/trpc/live-queries';
 import { searchParamParsers } from '../../search-params';
 import { columns } from './columns';
 
@@ -57,19 +56,14 @@ function RowSkeleton() {
 	);
 }
 
+// React Table needs a stable data reference while the subscription is pending.
+const emptyAttendance: Props['initialMeetings'] = [];
+
 export function MemberAttendanceTableClient({ initialMeetings, member, loading }: Props) {
-	const trpc = useTRPC();
-	const [meetings, setMeetings] =
-		useState<Pick<AttendanceEntrySchema, 'attendanceId' | 'startedAt' | 'endedAt'>[]>(initialMeetings);
 	const [searchParams] = useQueryStates(searchParamParsers);
 	const timeFilter = useMemo(() => toTimeFilter(searchParams), [searchParams]);
 
-	useSubscription(
-		trpc.teams.members.attendance.entriesForMemberSubscription.subscriptionOptions(
-			{ member, timeFilter },
-			{ onData: setMeetings },
-		),
-	);
+	const { data = emptyAttendance } = useLiveAttendance({ member, timeFilter }, initialMeetings);
 
 	const [sorting, setSorting] = useState<SortingState>([
 		{
@@ -77,8 +71,6 @@ export function MemberAttendanceTableClient({ initialMeetings, member, loading }
 			desc: true,
 		},
 	]);
-
-	const data = meetings;
 
 	const table = useReactTable({
 		data,

@@ -1,5 +1,7 @@
 'use client';
 
+import { useResetTrpcClient } from '@/src/providers/trpc-provider';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { useRouter } from 'next/navigation';
@@ -24,6 +26,7 @@ type Props = {
 
 /** Guest password auth card. */
 export function PasswordLoginCard({ team }: Props) {
+	const resetTrpcClient = useResetTrpcClient();
 	const trpc = useTRPC();
 	const form = useForm({
 		resolver: zodResolver(formSchema),
@@ -41,6 +44,7 @@ export function PasswordLoginCard({ team }: Props) {
 				setToastId(toast.loading('Logging in...'));
 			},
 			onSuccess: () => {
+				resetTrpcClient();
 				toast.success('Logged in', { id: toastId });
 				router.push(`/team/${team.slug}`);
 				router.refresh();

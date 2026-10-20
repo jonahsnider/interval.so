@@ -2,11 +2,10 @@
 import { ArrowRightStartOnRectangleIcon } from '@heroicons/react/16/solid';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import clsx from 'clsx';
-import { use, useState } from 'react';
+import { use } from 'react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { useSubscription } from '@trpc/tanstack-react-query';
-import { useTRPC } from '@/src/trpc/trpc-client';
+import { useLiveMembers, useLiveMeetingStart } from '@/src/trpc/live-queries';
 import { EndMeetingAlert, EndMeetingAlertTrigger } from '../end-meeting-alert';
 
 type Props = {
@@ -17,27 +16,15 @@ type Props = {
 };
 
 export function EndMeetingButtonClient({ width = 'auto', team, enabledPromise, meetingStartPromise }: Props) {
-	const trpc = useTRPC();
 	const initialEnabled = use(enabledPromise);
-	const [enabled, setEnabled] = useState(initialEnabled);
 	const initialMeetingStart = use(meetingStartPromise);
-	const [meetingStart, setMeetingStart] = useState(initialMeetingStart.startedAt);
 
-	useSubscription(
-		trpc.teams.members.simpleMemberListSubscription.subscriptionOptions(team, {
-			onData: (data) => {
-				setEnabled(data.some((member) => member.signedInAt));
-			},
-		}),
-	);
-	useSubscription(
-		trpc.teams.meetings.currentMeetingStartSubscription.subscriptionOptions(team, {
-			onData: setMeetingStart,
-		}),
-	);
+	const { data: members } = useLiveMembers(team);
+	const enabled = members ? members.some((member) => member.signedInAt) : initialEnabled;
+	const { data: meeting } = useLiveMeetingStart(team, initialMeetingStart);
 
 	return (
-		<EndMeetingAlert team={team} meetingStart={meetingStart}>
+		<EndMeetingAlert team={team} meetingStart={meeting?.startedAt}>
 			<Tooltip>
 				<TooltipTrigger asChild={true}>
 					{/* oxlint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- This is interactive */}

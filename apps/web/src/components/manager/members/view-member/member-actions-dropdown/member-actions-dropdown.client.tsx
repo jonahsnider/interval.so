@@ -2,8 +2,7 @@
 
 import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
 import { use } from 'react';
-import { useSubscription } from '@trpc/tanstack-react-query';
-import { useTRPC } from '@/src/trpc/trpc-client';
+import { useLiveMember } from '@/src/trpc/live-queries';
 import { MemberRowActionsDropdown } from '../../members-table/row-actions/row-actions-dropdown';
 
 type Props = {
@@ -12,11 +11,8 @@ type Props = {
 };
 
 export function MemberActionsDropdownClient({ member, memberDataPromise }: Props) {
-	const trpc = useTRPC();
 	const initialMemberData = use(memberDataPromise);
-	const { data: memberData = initialMemberData } = useSubscription(
-		trpc.teams.members.getMemberSubscription.subscriptionOptions(member),
-	);
+	const { data: memberData = initialMemberData } = useLiveMember(member, initialMemberData);
 
 	return (
 		<MemberRowActionsDropdown

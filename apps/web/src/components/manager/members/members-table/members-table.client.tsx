@@ -20,8 +20,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { TablePagination } from '@/src/components/data-tables/table-pagination';
 import { TableSelectionStatus } from '@/src/components/data-tables/table-selection-status';
-import { useSubscription } from '@trpc/tanstack-react-query';
-import { useTRPC } from '@/src/trpc/trpc-client';
+import { useLiveFullMembers } from '@/src/trpc/live-queries';
 import { columns } from './columns';
 import { MembersTableButtons } from './members-table-buttons';
 import { InnerTableContainer, OuterTableContainer } from './members-table-common';
@@ -58,11 +57,11 @@ function TableRowSkeleton() {
 	);
 }
 
+// React Table needs a stable data reference while the subscription is pending.
+const emptyMembers: TeamMemberSchema[] = [];
+
 export function MembersTableClient({ initialData, loading, team }: Props) {
-	const trpc = useTRPC();
-	const { data = initialData } = useSubscription(
-		trpc.teams.members.fullMemberListSubscription.subscriptionOptions(team),
-	);
+	const { data = emptyMembers } = useLiveFullMembers(team, initialData);
 
 	const [fuse] = useState(new Fuse(data, { keys: ['name'] }));
 

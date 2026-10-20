@@ -17,11 +17,13 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { useResetTrpcClient } from '@/src/providers/trpc-provider';
 import { isTrpcClientError } from '@/src/trpc/common';
 import { useMutation } from '@tanstack/react-query';
 import { useTRPCClient } from '@/src/trpc/trpc-client';
 
 export function DeleteAccountCard() {
+	const resetTrpcClient = useResetTrpcClient();
 	const trpc = useTRPCClient();
 	const router = useRouter();
 
@@ -37,6 +39,7 @@ export function DeleteAccountCard() {
 			setToastId(toast.loading('Deleting your account...'));
 		},
 		onSuccess: () => {
+			resetTrpcClient();
 			toast.success('Your account was deleted', { id: toastId });
 			router.push('/');
 			router.refresh();

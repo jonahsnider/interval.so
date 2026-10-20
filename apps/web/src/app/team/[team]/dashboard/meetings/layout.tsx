@@ -1,6 +1,7 @@
 import { type PropsWithChildren, Suspense } from 'react';
 import { CreateMeetingDialog } from '@/src/components/manager/meetings/create-meeting-dialog/create-meeting-dialog';
 import { DownloadMeetingsCsvButton } from '@/src/components/manager/meetings/download-meetings-csv-button';
+import { MeetingsTimeFilterProvider } from '@/src/components/manager/meetings/meetings-time-filter-provider';
 import { PageHeader } from '@/src/components/page-header';
 import { MainContent } from '@/src/components/page-wrappers/main-content';
 
@@ -24,13 +25,15 @@ async function ManagerMeetingsActions({ params }: Pick<Props, 'params'>) {
 
 export default function ManagerMeetingsPageLayout({ children, params }: Props) {
 	return (
-		<>
-			<PageHeader title='Meetings'>
-				<Suspense>
-					<ManagerMeetingsActions params={params} />
-				</Suspense>
-			</PageHeader>
-			<MainContent>{children}</MainContent>
-		</>
+		<Suspense>
+			<MeetingsTimeFilterProvider>
+				<PageHeader title='Meetings'>
+					<Suspense>
+						<ManagerMeetingsActions params={params} />
+					</Suspense>
+				</PageHeader>
+				<MainContent>{children}</MainContent>
+			</MeetingsTimeFilterProvider>
+		</Suspense>
 	);
 }

@@ -1,9 +1,11 @@
 'use client';
 
+import { useResetTrpcClient } from '@/src/providers/trpc-provider';
+
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useTRPC } from '../trpc/trpc-client';
 
 type Props = {
@@ -14,10 +16,10 @@ export function useLogOut({ redirectTo }: Props = {}): {
 	logOut: () => void;
 	isPending: boolean;
 } {
+	const resetTrpcClient = useResetTrpcClient();
 	const trpc = useTRPC();
 	const [toastId, setToastId] = useState<string | number | undefined>();
 	const router = useRouter();
-	const queryClient = useQueryClient();
 
 	const logOut = useMutation(
 		trpc.accounts.logOut.mutationOptions({
@@ -25,14 +27,12 @@ export function useLogOut({ redirectTo }: Props = {}): {
 				setToastId(toast.loading('Logging out...'));
 			},
 			onSuccess: () => {
+				resetTrpcClient();
 				if (redirectTo) {
 					router.push(redirectTo);
 				}
 				router.refresh();
 				toast.success('You have been logged out', { id: toastId });
-
-				// Invalidate tRPC context, used for analytics
-				void queryClient.invalidateQueries(trpc.user.getSelf.queryFilter());
 			},
 			onError: (error) => {
 				toast.error('An error occurred while logging you out', {

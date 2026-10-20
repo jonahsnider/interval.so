@@ -5,7 +5,7 @@ import type { AverageHoursDatumSchema } from '@interval.so/api/app/team_stats/sc
 import type { DatumPeriod } from '@interval.so/api/app/team_stats/schemas/datum_time_range_schema';
 import { toDigits } from '@jonahsnider/util';
 import { useQueryStates } from 'nuqs';
-import { use, useMemo, useState } from 'react';
+import { use, useMemo } from 'react';
 import { Area, AreaChart, CartesianGrid, type TooltipProps, XAxis, YAxis } from 'recharts';
 import { type ChartConfig, ChartContainer, ChartTooltip } from '@/components/ui/chart';
 import {
@@ -18,8 +18,7 @@ import {
 } from '@/src/components/graphs/chart-props';
 import { CustomTooltip, formatTooltipDate } from '@/src/components/graphs/custom-tooltip';
 import { formatXAxisDate } from '@/src/components/graphs/graph-utils';
-import { useSubscription } from '@trpc/tanstack-react-query';
-import { useTRPC } from '@/src/trpc/trpc-client';
+import { useLiveAverageHours } from '@/src/trpc/live-queries';
 import { toTimeFilter } from '../../../period-select/duration-slug';
 import { searchParamParsers } from '../../search-params';
 
@@ -61,15 +60,11 @@ function HoursTooltip({ period, tooltipProps }: { tooltipProps: TooltipProps<num
 }
 
 export function AverageHoursGraphClient({ dataPromise, period, team }: Props) {
-	const trpc = useTRPC();
 	const initialData = use(dataPromise);
-	const [data, setData] = useState(initialData);
 	const [searchParams] = useQueryStates(searchParamParsers);
 	const timeFilter = useMemo(() => toTimeFilter(searchParams), [searchParams]);
 
-	useSubscription(
-		trpc.teams.stats.averageHours.subscribeTimeSeries.subscriptionOptions({ team, timeFilter }, { onData: setData }),
-	);
+	const { data = [] } = useLiveAverageHours({ team, timeFilter }, initialData);
 
 	const chartData = useMemo(
 		() =>

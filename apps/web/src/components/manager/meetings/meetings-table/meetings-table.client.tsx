@@ -12,14 +12,11 @@ import {
 	useReactTable,
 } from '@tanstack/react-table';
 import clsx from 'clsx';
-import { useQueryStates } from 'nuqs';
-import { use, useMemo, useState } from 'react';
+import { use, useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { TablePagination } from '@/src/components/data-tables/table-pagination';
-import { useSubscription } from '@trpc/tanstack-react-query';
-import { useTRPC } from '@/src/trpc/trpc-client';
-import { toTimeFilter } from '../../period-select/duration-slug';
-import { searchParamParsers } from '../search-params';
+import { useLiveMeetings } from '@/src/trpc/live-queries';
+import { useMeetingsTimeFilter } from '../meetings-time-filter-provider';
 import { columns } from './columns';
 import { InnerTableContainer, OuterTableContainer } from './meetings-table-common';
 import { MeetingsTableFilters } from './meetings-table-filters';
@@ -29,17 +26,15 @@ type Props = {
 	initialDataPromise: Promise<TeamMeetingSchema[]>;
 };
 
+// React Table needs a stable data reference while the subscription is pending.
+const emptyMeetings: TeamMeetingSchema[] = [];
+
 export function MeetingsTableClient({ initialDataPromise, team }: Props) {
-	const trpc = useTRPC();
 	const initialData = use(initialDataPromise);
-	const [data, setData] = useState(initialData);
 
-	const [searchParams] = useQueryStates(searchParamParsers);
-	const timeFilter = useMemo(() => toTimeFilter(searchParams), [searchParams]);
+	const timeFilter = useMeetingsTimeFilter();
 
-	useSubscription(
-		trpc.teams.meetings.meetingsSubscription.subscriptionOptions({ team, timeFilter }, { onData: setData }),
-	);
+	const { data = emptyMeetings } = useLiveMeetings({ team, timeFilter }, initialData);
 
 	const [sorting, setSorting] = useState<SortingState>([
 		{

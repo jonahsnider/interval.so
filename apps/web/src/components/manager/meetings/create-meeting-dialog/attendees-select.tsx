@@ -13,8 +13,7 @@ import {
 } from '@/components/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Separator } from '@/components/ui/separator';
-import { useSubscription } from '@trpc/tanstack-react-query';
-import { useTRPC } from '@/src/trpc/trpc-client';
+import { useLiveMembers } from '@/src/trpc/live-queries';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;
@@ -24,10 +23,7 @@ type Props = {
 };
 
 export function AttendeesSelect({ onChange, value, team, className }: Props) {
-	const trpc = useTRPC();
-	const { data: allMembers = [] } = useSubscription(
-		trpc.teams.members.simpleMemberListSubscription.subscriptionOptions(team),
-	);
+	const { data: allMembers = [] } = useLiveMembers(team);
 
 	return (
 		<Popover>

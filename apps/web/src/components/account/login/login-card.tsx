@@ -1,5 +1,7 @@
 'use client';
 
+import { useResetTrpcClient } from '@/src/providers/trpc-provider';
+
 import { ArrowPathIcon } from '@heroicons/react/16/solid';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -9,6 +11,7 @@ import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/comp
 import { authClient } from '@/src/auth-client';
 
 export function LoginCard() {
+	const resetTrpcClient = useResetTrpcClient();
 	const router = useRouter();
 	const [isPending, setIsPending] = useState(false);
 
@@ -18,6 +21,7 @@ export function LoginCard() {
 			const { data, error } = await authClient.signIn.passkey();
 			if (error) throw new Error(error.message ?? 'Unable to sign in with that passkey.');
 			if (!data) return;
+			resetTrpcClient();
 			router.push('/');
 			router.refresh();
 			toast.success(`Logged in as ${data.user.name}`);

@@ -3,8 +3,7 @@
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { count } from '@jonahsnider/util';
 import { use } from 'react';
-import { useSubscription } from '@trpc/tanstack-react-query';
-import { useTRPC } from '@/src/trpc/trpc-client';
+import { useLiveMembers } from '@/src/trpc/live-queries';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;
@@ -12,9 +11,8 @@ type Props = {
 };
 
 export function TeamCardDescription({ team, initialMemberCountPromise }: Props) {
-	const trpc = useTRPC();
 	const initialMemberCount = use(initialMemberCountPromise);
-	const { data: members } = useSubscription(trpc.teams.members.simpleMemberListSubscription.subscriptionOptions(team));
+	const { data: members } = useLiveMembers(team);
 	const memberCount = members ? count(members, (member) => member.signedInAt !== undefined) : initialMemberCount;
 
 	switch (memberCount) {

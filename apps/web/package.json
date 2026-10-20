@@ -7,7 +7,8 @@
 		"dev": "portless",
 		"dev:app": "NEXT_PUBLIC_API_URL=$(portless get api.interval.so) next dev",
 		"start": "next start",
-		"type-check": "next typegen && tsc"
+		"type-check": "next typegen && tsc",
+		"test": "node --test tests/*.test.ts"
 	},
 	"dependencies": {
 		"@better-auth/passkey": "1.7.11",

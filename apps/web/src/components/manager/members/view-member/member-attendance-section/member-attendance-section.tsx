@@ -1,4 +1,5 @@
 import 'server-only';
+import { io } from 'next/cache';
 import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
 import { toTimeFilter } from '../../../period-select/duration-slug';
 import { searchParamCache } from '../search-params';
@@ -10,9 +11,10 @@ type Props = {
 	member: Pick<TeamMemberSchema, 'id'>;
 };
 
-export function MemberAttendanceSection({ member }: Props) {
+export async function MemberAttendanceSection({ member }: Props) {
 	const searchParams = searchParamCache.all();
 
+	await io();
 	const timeFilter = toTimeFilter(searchParams);
 
 	return (

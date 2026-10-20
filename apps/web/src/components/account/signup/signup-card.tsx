@@ -1,5 +1,7 @@
 'use client';
 
+import { useResetTrpcClient } from '@/src/providers/trpc-provider';
+
 import { ArrowPathIcon } from '@heroicons/react/16/solid';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UserSchema } from '@interval.so/api/app/user/schemas/user_schema';
@@ -21,6 +23,7 @@ import { searchParamParsers } from '../search-params';
 const formSchema = UserSchema.pick({ displayName: true });
 
 export function SignupCard() {
+	const resetTrpcClient = useResetTrpcClient();
 	const trpc = useTRPC();
 	const [searchParams] = useQueryStates(searchParamParsers);
 	const router = useRouter();
@@ -53,6 +56,7 @@ export function SignupCard() {
 		try {
 			const { error } = await authClient.passkey.addPasskey({ context: values.displayName, createSession: true });
 			if (error) throw new Error(error.message ?? 'Unable to register that passkey.');
+			resetTrpcClient();
 			if (searchParams.invite) {
 				joinTeam.mutate({ inviteCode: searchParams.invite });
 			} else {

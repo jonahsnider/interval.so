@@ -12,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/flex-table';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
-import { useSubscription } from '@trpc/tanstack-react-query';
+import { useLiveMembers } from '@/src/trpc/live-queries';
 import { useMutation } from '@tanstack/react-query';
 import { useTRPC } from '@/src/trpc/trpc-client';
 import { CreateMemberDialog } from '../../members/create-member/create-member-dialog';
@@ -38,11 +38,11 @@ type Props = {
 	team: Pick<TeamSchema, 'slug'>;
 };
 
+// React Table needs a stable data reference while the subscription is pending.
+const emptyMembers: SimpleMember[] = [];
+
 export function AttendanceTable({ initialData, team }: Props) {
-	const trpc = useTRPC();
-	const { data: members = initialData } = useSubscription(
-		trpc.teams.members.simpleMemberListSubscription.subscriptionOptions(team),
-	);
+	const { data: members = emptyMembers } = useLiveMembers(team, initialData);
 
 	const fuse = useMemo(() => new Fuse(members, { keys: ['name'] }), [members]);
 	const [filter, setFilter] = useState('');

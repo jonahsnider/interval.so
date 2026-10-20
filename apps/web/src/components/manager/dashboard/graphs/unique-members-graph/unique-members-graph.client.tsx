@@ -5,7 +5,7 @@ import type { DatumPeriod } from '@interval.so/api/app/team_stats/schemas/datum_
 import type { UniqueMembersDatumSchema } from '@interval.so/api/app/team_stats/schemas/unique_members_datum_schema';
 import { max } from '@jonahsnider/util';
 import { useQueryStates } from 'nuqs';
-import { use, useMemo, useState } from 'react';
+import { use, useMemo } from 'react';
 import { Area, AreaChart, CartesianGrid, type TooltipProps, XAxis, YAxis } from 'recharts';
 import { type ChartConfig, ChartContainer, ChartTooltip } from '@/components/ui/chart';
 import {
@@ -18,8 +18,7 @@ import {
 } from '@/src/components/graphs/chart-props';
 import { CustomTooltip, formatTooltipDate } from '@/src/components/graphs/custom-tooltip';
 import { formatXAxisDate } from '@/src/components/graphs/graph-utils';
-import { useSubscription } from '@trpc/tanstack-react-query';
-import { useTRPC } from '@/src/trpc/trpc-client';
+import { useLiveUniqueMembers } from '@/src/trpc/live-queries';
 import { toTimeFilter } from '../../../period-select/duration-slug';
 import { searchParamParsers } from '../../search-params';
 
@@ -62,15 +61,11 @@ function MembersTooltip({ period, tooltipProps }: { tooltipProps: TooltipProps<n
 }
 
 export function UniqueMembersGraphClient({ dataPromise, period, maxMemberCountPromise, team }: Props) {
-	const trpc = useTRPC();
 	const initialData = use(dataPromise);
-	const [data, setData] = useState(initialData);
 	const [searchParams] = useQueryStates(searchParamParsers);
 	const timeFilter = useMemo(() => toTimeFilter(searchParams), [searchParams]);
 
-	useSubscription(
-		trpc.teams.stats.uniqueMembers.subscribeTimeSeries.subscriptionOptions({ team, timeFilter }, { onData: setData }),
-	);
+	const { data = [] } = useLiveUniqueMembers({ team, timeFilter }, initialData);
 
 	const maxMemberCountHint = use(maxMemberCountPromise);
 	const maxMemberCount = Math.max(

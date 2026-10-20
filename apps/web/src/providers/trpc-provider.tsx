@@ -1,7 +1,9 @@
 'use client';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { type PropsWithChildren, useState } from 'react';
+import { createContext, type PropsWithChildren, use, useState } from 'react';
+import { LiveQueryRegistry } from '../trpc/live-query-registry';
+import { LiveQueryContext } from '../trpc/use-live-query';
 import { createClient, TRPCProvider } from '../trpc/trpc-client';
 
 let browserQueryClient: QueryClient | undefined;
@@ -25,15 +27,40 @@ function getQueryClient() {
 	return (browserQueryClient ??= makeQueryClient());
 }
 
+const ResetTrpcContext = createContext<(() => void) | null>(null);
+
+export function useResetTrpcClient() {
+	const reset = use(ResetTrpcContext);
+	if (!reset) throw new Error('useResetTrpcClient requires TrpcProvider');
+	return reset;
+}
+
 export function TrpcProvider({ children }: PropsWithChildren) {
-	const queryClient = getQueryClient();
-	const [trpcClient] = useState(createClient);
+	const [clients, setClients] = useState(() => {
+		const queryClient = getQueryClient();
+		return { ...createClient(), queryClient, registry: new LiveQueryRegistry(queryClient), generation: 0 };
+	});
+	const reset = () => {
+		clients.registry.clear();
+		void clients.close();
+		clients.queryClient.clear();
+		const queryClient = makeQueryClient();
+		browserQueryClient = queryClient;
+		setClients({
+			...createClient(),
+			queryClient,
+			registry: new LiveQueryRegistry(queryClient),
+			generation: clients.generation + 1,
+		});
+	};
 
 	return (
-		<QueryClientProvider client={queryClient}>
-			<TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
-				{children}
-			</TRPCProvider>
-		</QueryClientProvider>
+		<ResetTrpcContext value={reset}>
+			<QueryClientProvider key={clients.generation} client={clients.queryClient}>
+				<TRPCProvider trpcClient={clients.trpcClient} queryClient={clients.queryClient}>
+					<LiveQueryContext value={clients.registry}>{children}</LiveQueryContext>
+				</TRPCProvider>
+			</QueryClientProvider>
+		</ResetTrpcContext>
 	);
 }
