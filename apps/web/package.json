@@ -13,7 +13,7 @@
 	"dependencies": {
 		"@better-auth/passkey": "1.7.11",
 		"@heroicons/react": "2.2.0",
-		"@hookform/resolvers": "5.9.2",
+		"@hookform/resolvers": "6.0.0",
 		"@interval.so/api": "workspace:*",
 		"@jonahsnider/util": "13.0.0",
 		"@radix-ui/react-alert-dialog": "1.2.1",
