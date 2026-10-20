@@ -1,0 +1,695 @@
+{
+	"id": "82ed4320-7a11-42fd-919f-f5eb8e2c0881",
+	"prevIds": ["1ee9d0fe-a539-464e-951e-a75e3db70850"],
+	"version": "8",
+	"dialect": "postgres",
+	"ddl": [
+		{
+			"isRlsEnabled": false,
+			"name": "credentials",
+			"schema": "public",
+			"entityType": "tables"
+		},
+		{
+			"columns": ["id"],
+			"nameExplicit": false,
+			"name": "credentials_pkey",
+			"schema": "public",
+			"table": "credentials",
+			"entityType": "pks"
+		},
+		{
+			"type": "text",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": null,
+			"generated": null,
+			"identity": null,
+			"name": "id",
+			"schema": "public",
+			"table": "credentials",
+			"entityType": "columns"
+		},
+		{
+			"type": "bytea",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": null,
+			"generated": null,
+			"identity": null,
+			"name": "public_key",
+			"schema": "public",
+			"table": "credentials",
+			"entityType": "columns"
+		},
+		{
+			"type": "uuid",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": null,
+			"generated": null,
+			"identity": null,
+			"name": "user_id",
+			"schema": "public",
+			"table": "credentials",
+			"entityType": "columns"
+		},
+		{
+			"type": "text",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": null,
+			"generated": null,
+			"identity": null,
+			"name": "webauthn_user_id",
+			"schema": "public",
+			"table": "credentials",
+			"entityType": "columns"
+		},
+		{
+			"type": "integer",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": "0",
+			"generated": null,
+			"identity": null,
+			"name": "counter",
+			"schema": "public",
+			"table": "credentials",
+			"entityType": "columns"
+		},
+		{
+			"type": "text",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": null,
+			"generated": null,
+			"identity": null,
+			"name": "device_type",
+			"schema": "public",
+			"table": "credentials",
+			"entityType": "columns"
+		},
+		{
+			"type": "boolean",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": "false",
+			"generated": null,
+			"identity": null,
+			"name": "backed_up",
+			"schema": "public",
+			"table": "credentials",
+			"entityType": "columns"
+		},
+		{
+			"type": "jsonb",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": "'[]'",
+			"generated": null,
+			"identity": null,
+			"name": "transports",
+			"schema": "public",
+			"table": "credentials",
+			"entityType": "columns"
+		},
+		{
+			"nameExplicit": false,
+			"columns": ["user_id", "webauthn_user_id"],
+			"nullsNotDistinct": false,
+			"name": "credentials_user_id_webauthn_user_id_unique",
+			"schema": "public",
+			"table": "credentials",
+			"entityType": "uniques"
+		},
+		{
+			"nameExplicit": false,
+			"columns": [
+				{
+					"value": "webauthn_user_id",
+					"isExpression": false,
+					"asc": true,
+					"nullsFirst": false,
+					"opclass": null
+				}
+			],
+			"isUnique": false,
+			"where": null,
+			"with": "",
+			"method": "btree",
+			"concurrently": false,
+			"name": "credentials_webauthn_user_id_index",
+			"schema": "public",
+			"table": "credentials",
+			"entityType": "indexes"
+		},
+		{
+			"nameExplicit": false,
+			"columns": ["user_id"],
+			"schemaTo": "public",
+			"tableTo": "users",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "CASCADE",
+			"name": "credentials_user_id_users_id_fk",
+			"schema": "public",
+			"table": "credentials",
+			"entityType": "fks"
+		},
+		{
+			"isRlsEnabled": false,
+			"name": "finished_member_meetings",
+			"schema": "public",
+			"entityType": "tables"
+		},
+		{
+			"columns": ["id"],
+			"nameExplicit": false,
+			"name": "finished_member_meetings_pkey",
+			"schema": "public",
+			"table": "finished_member_meetings",
+			"entityType": "pks"
+		},
+		{
+			"type": "uuid",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": "gen_random_uuid()",
+			"generated": null,
+			"identity": null,
+			"name": "id",
+			"schema": "public",
+			"table": "finished_member_meetings",
+			"entityType": "columns"
+		},
+		{
+			"type": "uuid",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": null,
+			"generated": null,
+			"identity": null,
+			"name": "member_id",
+			"schema": "public",
+			"table": "finished_member_meetings",
+			"entityType": "columns"
+		},
+		{
+			"type": "timestamp with time zone",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": null,
+			"generated": null,
+			"identity": null,
+			"name": "started_at",
+			"schema": "public",
+			"table": "finished_member_meetings",
+			"entityType": "columns"
+		},
+		{
+			"type": "timestamp with time zone",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": null,
+			"generated": null,
+			"identity": null,
+			"name": "ended_at",
+			"schema": "public",
+			"table": "finished_member_meetings",
+			"entityType": "columns"
+		},
+		{
+			"nameExplicit": false,
+			"columns": [
+				{
+					"value": "member_id",
+					"isExpression": false,
+					"asc": true,
+					"nullsFirst": false,
+					"opclass": null
+				}
+			],
+			"isUnique": false,
+			"where": null,
+			"with": "",
+			"method": "btree",
+			"concurrently": false,
+			"name": "finished_member_meetings_member_id_index",
+			"schema": "public",
+			"table": "finished_member_meetings",
+			"entityType": "indexes"
+		},
+		{
+			"nameExplicit": false,
+			"columns": [
+				{
+					"value": "started_at",
+					"isExpression": false,
+					"asc": true,
+					"nullsFirst": false,
+					"opclass": null
+				}
+			],
+			"isUnique": false,
+			"where": null,
+			"with": "",
+			"method": "btree",
+			"concurrently": false,
+			"name": "finished_member_meetings_started_at_index",
+			"schema": "public",
+			"table": "finished_member_meetings",
+			"entityType": "indexes"
+		},
+		{
+			"nameExplicit": false,
+			"columns": [
+				{
+					"value": "ended_at",
+					"isExpression": false,
+					"asc": true,
+					"nullsFirst": false,
+					"opclass": null
+				}
+			],
+			"isUnique": false,
+			"where": null,
+			"with": "",
+			"method": "btree",
+			"concurrently": false,
+			"name": "finished_member_meetings_ended_at_index",
+			"schema": "public",
+			"table": "finished_member_meetings",
+			"entityType": "indexes"
+		},
+		{
+			"nameExplicit": false,
+			"columns": ["member_id"],
+			"schemaTo": "public",
+			"tableTo": "team_members",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"name": "finished_member_meetings_member_id_team_members_id_fk",
+			"schema": "public",
+			"table": "finished_member_meetings",
+			"entityType": "fks"
+		},
+		{
+			"isRlsEnabled": false,
+			"name": "team_users",
+			"schema": "public",
+			"entityType": "tables"
+		},
+		{
+			"type": "uuid",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": null,
+			"generated": null,
+			"identity": null,
+			"name": "team_id",
+			"schema": "public",
+			"table": "team_users",
+			"entityType": "columns"
+		},
+		{
+			"type": "uuid",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": null,
+			"generated": null,
+			"identity": null,
+			"name": "user_id",
+			"schema": "public",
+			"table": "team_users",
+			"entityType": "columns"
+		},
+		{
+			"type": "team_user_role",
+			"typeSchema": "public",
+			"notNull": true,
+			"dimensions": 0,
+			"default": "'admin'",
+			"generated": null,
+			"identity": null,
+			"name": "role",
+			"schema": "public",
+			"table": "team_users",
+			"entityType": "columns"
+		},
+		{
+			"columns": ["team_id", "user_id"],
+			"nameExplicit": false,
+			"name": "team_users_team_id_user_id_pk",
+			"schema": "public",
+			"table": "team_users",
+			"entityType": "pks"
+		},
+		{
+			"nameExplicit": false,
+			"columns": [
+				{
+					"value": "role",
+					"isExpression": false,
+					"asc": true,
+					"nullsFirst": false,
+					"opclass": null
+				}
+			],
+			"isUnique": false,
+			"where": null,
+			"with": "",
+			"method": "btree",
+			"concurrently": false,
+			"name": "team_users_role_index",
+			"schema": "public",
+			"table": "team_users",
+			"entityType": "indexes"
+		},
+		{
+			"nameExplicit": false,
+			"columns": ["team_id"],
+			"schemaTo": "public",
+			"tableTo": "teams",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"name": "team_users_team_id_teams_id_fk",
+			"schema": "public",
+			"table": "team_users",
+			"entityType": "fks"
+		},
+		{
+			"nameExplicit": false,
+			"columns": ["user_id"],
+			"schemaTo": "public",
+			"tableTo": "users",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"name": "team_users_user_id_users_id_fk",
+			"schema": "public",
+			"table": "team_users",
+			"entityType": "fks"
+		},
+		{
+			"isRlsEnabled": false,
+			"name": "team_members",
+			"schema": "public",
+			"entityType": "tables"
+		},
+		{
+			"columns": ["id"],
+			"nameExplicit": false,
+			"name": "team_members_pkey",
+			"schema": "public",
+			"table": "team_members",
+			"entityType": "pks"
+		},
+		{
+			"type": "uuid",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": "gen_random_uuid()",
+			"generated": null,
+			"identity": null,
+			"name": "id",
+			"schema": "public",
+			"table": "team_members",
+			"entityType": "columns"
+		},
+		{
+			"type": "uuid",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": null,
+			"generated": null,
+			"identity": null,
+			"name": "team_id",
+			"schema": "public",
+			"table": "team_members",
+			"entityType": "columns"
+		},
+		{
+			"type": "text",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": null,
+			"generated": null,
+			"identity": null,
+			"name": "name",
+			"schema": "public",
+			"table": "team_members",
+			"entityType": "columns"
+		},
+		{
+			"type": "boolean",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": "false",
+			"generated": null,
+			"identity": null,
+			"name": "archived",
+			"schema": "public",
+			"table": "team_members",
+			"entityType": "columns"
+		},
+		{
+			"type": "timestamp with time zone",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": "now()",
+			"generated": null,
+			"identity": null,
+			"name": "created_at",
+			"schema": "public",
+			"table": "team_members",
+			"entityType": "columns"
+		},
+		{
+			"type": "timestamp with time zone",
+			"typeSchema": null,
+			"notNull": false,
+			"dimensions": 0,
+			"default": null,
+			"generated": null,
+			"identity": null,
+			"name": "pending_sign_in",
+			"schema": "public",
+			"table": "team_members",
+			"entityType": "columns"
+		},
+		{
+			"nameExplicit": false,
+			"columns": ["team_id", "name"],
+			"nullsNotDistinct": false,
+			"name": "team_members_team_id_name_unique",
+			"schema": "public",
+			"table": "team_members",
+			"entityType": "uniques"
+		},
+		{
+			"nameExplicit": false,
+			"columns": ["team_id"],
+			"schemaTo": "public",
+			"tableTo": "teams",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"name": "team_members_team_id_teams_id_fk",
+			"schema": "public",
+			"table": "team_members",
+			"entityType": "fks"
+		},
+		{
+			"isRlsEnabled": false,
+			"name": "teams",
+			"schema": "public",
+			"entityType": "tables"
+		},
+		{
+			"columns": ["id"],
+			"nameExplicit": false,
+			"name": "teams_pkey",
+			"schema": "public",
+			"table": "teams",
+			"entityType": "pks"
+		},
+		{
+			"type": "uuid",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": "gen_random_uuid()",
+			"generated": null,
+			"identity": null,
+			"name": "id",
+			"schema": "public",
+			"table": "teams",
+			"entityType": "columns"
+		},
+		{
+			"type": "citext",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": null,
+			"generated": null,
+			"identity": null,
+			"name": "slug",
+			"schema": "public",
+			"table": "teams",
+			"entityType": "columns"
+		},
+		{
+			"type": "timestamp with time zone",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": "now()",
+			"generated": null,
+			"identity": null,
+			"name": "created_at",
+			"schema": "public",
+			"table": "teams",
+			"entityType": "columns"
+		},
+		{
+			"type": "text",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": null,
+			"generated": null,
+			"identity": null,
+			"name": "password",
+			"schema": "public",
+			"table": "teams",
+			"entityType": "columns"
+		},
+		{
+			"type": "text",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": null,
+			"generated": null,
+			"identity": null,
+			"name": "display_name",
+			"schema": "public",
+			"table": "teams",
+			"entityType": "columns"
+		},
+		{
+			"type": "text",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": null,
+			"generated": null,
+			"identity": null,
+			"name": "invite_code",
+			"schema": "public",
+			"table": "teams",
+			"entityType": "columns"
+		},
+		{
+			"nameExplicit": false,
+			"columns": ["slug"],
+			"nullsNotDistinct": false,
+			"name": "teams_slug_unique",
+			"schema": "public",
+			"table": "teams",
+			"entityType": "uniques"
+		},
+		{
+			"nameExplicit": false,
+			"columns": ["invite_code"],
+			"nullsNotDistinct": false,
+			"name": "teams_invite_code_unique",
+			"schema": "public",
+			"table": "teams",
+			"entityType": "uniques"
+		},
+		{
+			"isRlsEnabled": false,
+			"name": "users",
+			"schema": "public",
+			"entityType": "tables"
+		},
+		{
+			"columns": ["id"],
+			"nameExplicit": false,
+			"name": "users_pkey",
+			"schema": "public",
+			"table": "users",
+			"entityType": "pks"
+		},
+		{
+			"type": "uuid",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": "gen_random_uuid()",
+			"generated": null,
+			"identity": null,
+			"name": "id",
+			"schema": "public",
+			"table": "users",
+			"entityType": "columns"
+		},
+		{
+			"type": "text",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": null,
+			"generated": null,
+			"identity": null,
+			"name": "display_name",
+			"schema": "public",
+			"table": "users",
+			"entityType": "columns"
+		},
+		{
+			"type": "timestamp with time zone",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": "now()",
+			"generated": null,
+			"identity": null,
+			"name": "created_at",
+			"schema": "public",
+			"table": "users",
+			"entityType": "columns"
+		},
+		{
+			"values": ["owner", "admin", "editor"],
+			"name": "team_user_role",
+			"schema": "public",
+			"entityType": "enums"
+		}
+	],
+	"renames": []
+}

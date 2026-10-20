@@ -23,7 +23,7 @@ export class GuestPasswordService {
 		team: Pick<TeamSchema, 'slug'>,
 	): Promise<Pick<TeamSchema, 'id'> | undefined> {
 		const result = await db.query.teams.findFirst({
-			where: and(eq(Schema.teams.slug, team.slug), eq(Schema.teams.password, password.password)),
+			where: { slug: team.slug, password: password.password },
 			columns: {
 				teamId: true,
 			},

@@ -151,7 +151,7 @@ export class TeamMemberBatchService {
 				columns: {
 					pendingSignIn: true,
 				},
-				where: inArray(Schema.teamMembers.memberId, memberIds),
+				where: { memberId: { in: memberIds } },
 			});
 
 			if (dbMembers.some((member) => member.pendingSignIn)) {

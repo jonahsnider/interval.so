@@ -19,7 +19,7 @@ export class AuthService {
 
 	async getReauthenticationOptions(session: Session, userId: string, purpose: AuthChallengePurpose) {
 		const passkeys = await db.query.credentials.findMany({
-			where: eq(Schema.credentials.userId, userId),
+			where: { userId },
 			columns: { credentialId: true },
 		});
 		if (passkeys.length === 0) {
@@ -51,7 +51,7 @@ export class AuthService {
 		expectedUserId?: string;
 	}) {
 		const passkey = await db.query.credentials.findFirst({
-			where: eq(Schema.credentials.credentialId, input.body.id),
+			where: { credentialId: input.body.id },
 			columns: {
 				userId: true,
 				credentialId: true,

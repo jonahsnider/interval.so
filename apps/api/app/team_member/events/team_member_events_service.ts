@@ -2,7 +2,7 @@ import { inject } from '@adonisjs/core';
 import logger from '@adonisjs/core/services/logger';
 import redis from '@adonisjs/redis/services/main';
 import { TRPCError } from '@trpc/server';
-import { eq, inArray } from 'drizzle-orm';
+import { inArray } from 'drizzle-orm';
 import { from, map, mergeMap, type Observable } from 'rxjs';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
@@ -103,7 +103,7 @@ export class TeamMemberEventsService {
 			columns: {
 				teamId: true,
 			},
-			where: eq(Schema.teamMembers.memberId, member.id),
+			where: { memberId: member.id },
 		});
 
 		if (!team) {

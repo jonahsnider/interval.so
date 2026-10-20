@@ -18,7 +18,7 @@ export class UserService {
 		await AuthorizationService.assertPermission(bouncer.with('UserPolicy').allows('read', user));
 
 		const dbUser = await db.query.users.findFirst({
-			where: eq(Schema.users.id, user.id),
+			where: { id: user.id },
 			columns: {
 				displayName: true,
 			},

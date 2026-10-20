@@ -91,10 +91,10 @@ export class TeamManagerService {
 
 		const dbTeam = await db.query.teams.findFirst({
 			columns: {},
-			where: eq(Schema.teams.slug, team.slug),
+			where: { slug: team.slug },
 			with: {
 				managers: {
-					where: eq(Schema.teamManagers.userId, user.id),
+					where: { userId: user.id },
 					columns: {
 						role: true,
 					},
@@ -228,7 +228,7 @@ export class TeamManagerService {
 			columns: {
 				slug: true,
 			},
-			where: eq(Schema.teams.teamId, newManager.teamId),
+			where: { teamId: newManager.teamId },
 		});
 
 		assert(dbTeam, new TypeError('Expected team to be associated with the team manager'));

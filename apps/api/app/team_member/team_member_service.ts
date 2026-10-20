@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { inject } from '@adonisjs/core';
 import { TRPCError } from '@trpc/server';
-import { and, asc, count, eq, isNull } from 'drizzle-orm';
+import { and, count, eq, isNull } from 'drizzle-orm';
 import postgres from 'postgres';
 import * as Schema from '#database/schema';
 import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
@@ -28,7 +28,7 @@ export class TeamMemberService {
 
 		const result = await db.query.teams.findFirst({
 			columns: {},
-			where: eq(Schema.teams.slug, team.slug),
+			where: { slug: team.slug },
 			with: {
 				members: {
 					columns: {
@@ -36,8 +36,8 @@ export class TeamMemberService {
 						name: true,
 						pendingSignIn: true,
 					},
-					orderBy: asc(Schema.teamMembers.name),
-					where: eq(Schema.teamMembers.archived, false),
+					orderBy: { name: 'asc' },
+					where: { archived: false },
 				},
 			},
 		});
@@ -56,7 +56,7 @@ export class TeamMemberService {
 
 		const result = await db.query.teams.findFirst({
 			columns: {},
-			where: eq(Schema.teams.slug, team.slug),
+			where: { slug: team.slug },
 			with: {
 				members: {
 					columns: {
@@ -72,7 +72,7 @@ export class TeamMemberService {
 								endedAt: true,
 							},
 							limit: 1,
-							orderBy: asc(Schema.memberAttendance.endedAt),
+							orderBy: { endedAt: 'asc' },
 						},
 					},
 				},
@@ -105,7 +105,7 @@ export class TeamMemberService {
 				columns: {
 					teamId: true,
 				},
-				where: eq(Schema.teams.slug, team.slug),
+				where: { slug: team.slug },
 			}),
 			db
 				.select({ count: count() })
@@ -172,7 +172,7 @@ export class TeamMemberService {
 
 		const teamQuery = await db.query.teamMembers.findFirst({
 			columns: {},
-			where: eq(Schema.teamMembers.memberId, teamMember.id),
+			where: { memberId: teamMember.id },
 			with: { team: { columns: { teamId: true } } },
 		});
 
@@ -243,7 +243,7 @@ export class TeamMemberService {
 				columns: {
 					pendingSignIn: true,
 				},
-				where: eq(Schema.teamMembers.memberId, member.id),
+				where: { memberId: member.id },
 			});
 
 			if (dbMember?.pendingSignIn) {
@@ -308,7 +308,7 @@ export class TeamMemberService {
 		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('view', [member]));
 
 		const dbMember = await db.query.teamMembers.findFirst({
-			where: eq(Schema.teamMembers.memberId, member.id),
+			where: { memberId: member.id },
 			columns: {
 				name: true,
 				archived: true,

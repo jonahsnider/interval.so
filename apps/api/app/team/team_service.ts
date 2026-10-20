@@ -100,7 +100,7 @@ export class TeamService {
 		// No auth needed, team display name/existence is public
 
 		const result = await db.query.teams.findFirst({
-			where: eq(Schema.teams.slug, team.slug),
+			where: { slug: team.slug },
 			columns: {
 				displayName: true,
 			},
@@ -144,7 +144,7 @@ export class TeamService {
 
 	async getTeamBySlug(team: Pick<TeamSchema, 'slug'>): Promise<Pick<TeamSchema, 'id'>> {
 		const result = await db.query.teams.findFirst({
-			where: eq(Schema.teams.slug, team.slug),
+			where: { slug: team.slug },
 			columns: {
 				teamId: true,
 			},
@@ -159,7 +159,7 @@ export class TeamService {
 
 	async getTeamById(team: Pick<TeamSchema, 'id'>): Promise<Pick<TeamSchema, 'slug' | 'displayName'> | undefined> {
 		const result = await db.query.teams.findFirst({
-			where: eq(Schema.teams.teamId, team.id),
+			where: { teamId: team.id },
 			columns: {
 				slug: true,
 				displayName: true,
@@ -249,7 +249,7 @@ export class TeamService {
 			columns: {
 				password: true,
 			},
-			where: eq(Schema.teams.slug, team.slug),
+			where: { slug: team.slug },
 		});
 
 		assert(result, new TRPCError({ code: 'NOT_FOUND', message: 'Team not found' }));
@@ -284,7 +284,7 @@ export class TeamService {
 			columns: {
 				inviteCode: true,
 			},
-			where: eq(Schema.teams.slug, team.slug),
+			where: { slug: team.slug },
 		});
 
 		assert(result, new TRPCError({ code: 'NOT_FOUND', message: 'Team not found' }));
@@ -367,7 +367,7 @@ export class TeamService {
 			columns: {
 				displayName: true,
 			},
-			where: eq(Schema.teams.inviteCode, input.inviteCode),
+			where: { inviteCode: input.inviteCode },
 			with: {
 				managers: {
 					with: {
@@ -377,7 +377,7 @@ export class TeamService {
 							},
 						},
 					},
-					where: eq(Schema.teamManagers.role, 'owner'),
+					where: { role: 'owner' },
 					limit: 1,
 				},
 			},
