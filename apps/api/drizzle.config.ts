@@ -18,6 +18,5 @@ export default defineConfig({
 		url: postgresUrl,
 	},
 	verbose: true,
-	strict: true,
 	out: path.join('database'),
 });
