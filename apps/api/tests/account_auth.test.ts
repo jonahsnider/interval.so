@@ -200,8 +200,13 @@ await test('failed user verification creates neither an account nor a passkey', 
 await test('email authentication is disabled and account authentication has a 90-day absolute limit', async () => {
 	const { auth, request } = fixture();
 	assert.notEqual(
-		(await request('/sign-up/email', { email: 'someone@example.com', password: process.env.GENERIC_PASSWORD, name: 'Someone' }))
-			.status,
+		(
+			await request('/sign-up/email', {
+				email: 'someone@example.com',
+				password: process.env.GENERIC_PASSWORD,
+				name: 'Someone',
+			})
+		).status,
 		200,
 	);
 	const ctx = await auth.$context;
