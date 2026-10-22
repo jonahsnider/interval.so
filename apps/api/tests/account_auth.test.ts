@@ -9,6 +9,7 @@ import type {
 import type { AccountSession } from '../app/auth/create_account_auth.ts';
 import { isoCBOR } from '@simplewebauthn/server/helpers';
 import { createAccountAuth, ACCOUNT_MAX_AGE, isActiveAccountSession } from '../app/auth/create_account_auth.ts';
+import * as process from 'node:process';
 
 const origin = 'https://interval.so';
 const { publicKey, privateKey } = generateKeyPairSync('ec', { namedCurve: 'prime256v1' });
@@ -199,7 +200,7 @@ await test('failed user verification creates neither an account nor a passkey', 
 await test('email authentication is disabled and account authentication has a 90-day absolute limit', async () => {
 	const { auth, request } = fixture();
 	assert.notEqual(
-		(await request('/sign-up/email', { email: 'someone@example.com', password: 'password123', name: 'Someone' }))
+		(await request('/sign-up/email', { email: 'someone@example.com', password: process.env.GENERIC_PASSWORD, name: 'Someone' }))
 			.status,
 		200,
 	);
