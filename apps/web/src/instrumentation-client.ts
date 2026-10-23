@@ -11,6 +11,14 @@ Sentry.init({
 	// Define how likely traces are sampled. Adjust this value in production, or use tracesSampler for greater control.
 	tracesSampleRate: 1,
 
+	// Browsers can skip view transition animations when the page is hidden, resized, or superseded.
+	ignoreErrors: [
+		/^InvalidStateError: Transition was aborted because of invalid state\. Document hidden$/,
+		/^Skipped ViewTransition due to document being hidden$/,
+		/^Skipping view transition because viewport size changed\.$/,
+		/^Skipped ViewTransition due to another transition starting$/,
+	],
+
 	dataCollection: {
 		// To disable sending user data and HTTP bodies, uncomment the lines below. For more info visit:
 		// https://docs.sentry.io/platforms/javascript/guides/nextjs/configuration/options/#dataCollection
