@@ -38,25 +38,24 @@ export function useResetTrpcClient() {
 export function TrpcProvider({ children }: PropsWithChildren) {
 	const [clients, setClients] = useState(() => {
 		const queryClient = getQueryClient();
-		return { ...createClient(), queryClient, registry: new LiveQueryRegistry(queryClient), generation: 0 };
+		return { ...createClient(), queryClient, registry: new LiveQueryRegistry(queryClient) };
 	});
 	const reset = () => {
 		clients.registry.clear();
 		void clients.close();
-		clients.queryClient.clear();
-		const queryClient = makeQueryClient();
-		browserQueryClient = queryClient;
+		// Keep the QueryClient and page tree mounted while Next.js refreshes the session.
+		void clients.queryClient.resetQueries();
+		clients.queryClient.getMutationCache().clear();
 		setClients({
 			...createClient(),
-			queryClient,
-			registry: new LiveQueryRegistry(queryClient),
-			generation: clients.generation + 1,
+			queryClient: clients.queryClient,
+			registry: new LiveQueryRegistry(clients.queryClient),
 		});
 	};
 
 	return (
 		<ResetTrpcContext value={reset}>
-			<QueryClientProvider key={clients.generation} client={clients.queryClient}>
+			<QueryClientProvider client={clients.queryClient}>
 				<TRPCProvider trpcClient={clients.trpcClient} queryClient={clients.queryClient}>
 					<LiveQueryContext value={clients.registry}>{children}</LiveQueryContext>
 				</TRPCProvider>

@@ -1,4 +1,4 @@
-import { createTRPCClient, httpBatchStreamLink } from '@trpc/client';
+import { createTRPCClient, httpLink } from '@trpc/client';
 import { cookies } from 'next/headers';
 import { cache } from 'react';
 import 'server-only';
@@ -7,7 +7,8 @@ import { type AppRouterType, trpcUrl } from './common';
 
 export const trpcServer = createTRPCClient<AppRouterType>({
 	links: [
-		httpBatchStreamLink({
+		// A shared server batch can use another request's cookies or an already-finished prerender context.
+		httpLink({
 			transformer: superjson,
 			url: trpcUrl,
 			async headers() {
