@@ -1,5 +1,6 @@
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { Suspense } from 'react';
+import { AuthWall } from '@/src/components/auth-wall/auth-wall';
 import { AttendancePageLoading, AttendanceTableLoading } from '@/src/components/route-loading';
 import { AttendanceTable } from '@/src/components/team-dashboard/attendance-table/attendance-table';
 import { ManagerTiles } from '@/src/components/team-dashboard/manager-tiles/manager-tiles';
@@ -26,17 +27,20 @@ async function TeamAttendancePageContent(props: Props) {
 	const team = { slug: params.team };
 
 	return (
-		<div className='flex w-full justify-center'>
-			<div className='flex flex-col gap-4 justify-center items-center w-full pt-2'>
-				{/* No fallback, we don't want to render a skeleton if the user is not signed in */}
-				<Suspense>
-					<ManagerTilesWrapper team={{ slug: params.team }} />
-				</Suspense>
-				<Suspense fallback={<AttendanceTableLoading />}>
-					<AttendanceTableFetcher team={team} />
-				</Suspense>
+		// Next.js renders pages independently of layouts, so gate the protected fetchers here too.
+		<AuthWall kind='guestOrManager' wantedTeam={team} fallback={<AttendancePageLoading />}>
+			<div className='flex w-full justify-center'>
+				<div className='flex flex-col gap-4 justify-center items-center w-full pt-2'>
+					{/* No fallback, we don't want to render a skeleton if the user is not signed in */}
+					<Suspense>
+						<ManagerTilesWrapper team={team} />
+					</Suspense>
+					<Suspense fallback={<AttendanceTableLoading />}>
+						<AttendanceTableFetcher team={team} />
+					</Suspense>
+				</div>
 			</div>
-		</div>
+		</AuthWall>
 	);
 }
 
