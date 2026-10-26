@@ -11,7 +11,7 @@
 		"test": "node --test tests/*.test.ts"
 	},
 	"dependencies": {
-		"@better-auth/passkey": "1.7.12",
+		"@better-auth/passkey": "1.7.13",
 		"@heroicons/react": "2.2.0",
 		"@hookform/resolvers": "6.0.0",
 		"@interval.so/api": "workspace:*",
@@ -44,7 +44,7 @@
 		"@types/react-dom": "19.3.0",
 		"@vercel/speed-insights": "2.0.0",
 		"autoprefixer": "10.6.1",
-		"better-auth": "1.7.12",
+		"better-auth": "1.7.13",
 		"chrono-node": "2.10.3",
 		"class-variance-authority": "0.7.1",
 		"clsx": "2.1.1",
