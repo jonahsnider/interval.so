@@ -468,8 +468,8 @@ importers:
         specifier: 17.0.1
         version: 17.0.1(postcss@8.5.32)
       posthog-js:
-        specifier: 1.438.24
-        version: 1.438.24(@types/react@19.3.0)(react@19.3.1)
+        specifier: 1.439.0
+        version: 1.439.0(@types/react@19.3.0)(react@19.3.1)
       react:
         specifier: 19.3.1
         version: 19.3.1
@@ -2791,11 +2791,14 @@ packages:
   '@posthog/core@1.60.1':
     resolution: {integrity: sha512-UpswaG2957O6Ywfx1aCeI8BbXcfoKduKwq1ytBml80AQuAmgK672OmhDcldA7wg4vGP49LpDTgxcNbLvZwQOqw==}
 
+  '@posthog/core@1.61.0':
+    resolution: {integrity: sha512-FxOHbuxCZCFGb/46KdcBtilTX5ROeB4Gs8ZrWESzyNlCCxLw4/5xBVh8nfmPjbztuPvxRs5tOcpQ1kNnr2nlAA==}
+
   '@posthog/types@1.416.0':
     resolution: {integrity: sha512-0/9+02s/0uDyrH4G/qUg1yyl6gXUg8Uuxw/PlDad3KLzo9FFS9zS/kAQaEshx/saVGupj1aAy/4EUBxWisBogw==}
 
-  '@posthog/types@1.416.1':
-    resolution: {integrity: sha512-PG06HE2axHNyyZ9CKSSHKSW4pWfQwEtPA1dewFqIwggcIgk1BsQ+tHSNqvZz+IvE2WnBZ8OcOkF9SWI55VxQfA==}
+  '@posthog/types@1.417.0':
+    resolution: {integrity: sha512-r/+gvmiE6egR6kkuMhEjOOE3Sm1pR00iFPQNoZZ0YvnZSsqGk7hK2IvQzcqjSRufG5Jf0EwhDMr5YOGtmf2/8g==}
 
   '@prisma/instrumentation@6.11.1':
     resolution: {integrity: sha512-mrZOev24EDhnefmnZX7WVVT7v+r9LttPRqf54ONvj6re4XMF7wFTpK2tLJi4XHB7fFp/6xhYbgRel8YV7gQiyA==}
@@ -6248,8 +6251,8 @@ packages:
     resolution: {integrity: sha512-GD3qdB0x1z9xgFI6cdRD6xu2Sp2WCOEoe3mtnyB5Ee0XrrL5Pe+e4CCnJrRMnL1zYtRDZmQQVbvOttLnKDLnaw==}
     engines: {node: '>=12'}
 
-  posthog-js@1.438.24:
-    resolution: {integrity: sha512-spRkm2eZjBKpJovgoMq30S1lvnwD7s8ZQcTjADf6iLHFCD1RdIjakZ8mKy+Lnt1Wj7kkRe+mXVb+lUCDKa6aQw==}
+  posthog-js@1.439.0:
+    resolution: {integrity: sha512-hsLOuGv0BuixMf5pblWBdw3qjVvLYSNvdqRA0Di94crGtlcfW4mTQEupl9LQcKSNH0iOnsOlBZ8aB5CMKAGh3A==}
     peerDependencies:
       '@types/react': '>=16.8.0'
       react: '>=16.8.0'
@@ -8997,8 +9000,8 @@ snapshots:
 
   '@posthog/browser-common@0.9.12':
     dependencies:
-      '@posthog/core': 1.60.1
-      '@posthog/types': 1.416.1
+      '@posthog/core': 1.61.0
+      '@posthog/types': 1.417.0
       preact: 10.29.8
     transitivePeerDependencies:
       - preact-render-to-string
@@ -9007,9 +9010,13 @@ snapshots:
     dependencies:
       '@posthog/types': 1.416.0
 
+  '@posthog/core@1.61.0':
+    dependencies:
+      '@posthog/types': 1.417.0
+
   '@posthog/types@1.416.0': {}
 
-  '@posthog/types@1.416.1': {}
+  '@posthog/types@1.417.0': {}
 
   '@prisma/instrumentation@6.11.1(@opentelemetry/api@1.9.1)(supports-color@8.1.1)':
     dependencies:
@@ -12415,11 +12422,11 @@ snapshots:
 
   postgres@3.4.9: {}
 
-  posthog-js@1.438.24(@types/react@19.3.0)(react@19.3.1):
+  posthog-js@1.439.0(@types/react@19.3.0)(react@19.3.1):
     dependencies:
       '@posthog/browser-common': 0.9.12
-      '@posthog/core': 1.60.1
-      '@posthog/types': 1.416.1
+      '@posthog/core': 1.61.0
+      '@posthog/types': 1.417.0
       core-js: 3.50.0
       dompurify: 3.4.14
       fflate: 0.4.9
