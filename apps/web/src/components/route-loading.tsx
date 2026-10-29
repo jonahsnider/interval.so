@@ -58,7 +58,7 @@ export function DashboardContentLoading() {
 				</Card>
 			))}
 			<Card className='col-span-full'>
-				<CardHeader className='grid grid-cols-2 gap-0 border-b p-0'>
+				<CardHeader className='grid grid-cols-2 gap-0 border-b p-0 xs:grid-cols-3 md:grid-cols-4 lg:grid-cols-5'>
 					{Array.from({ length: 2 }, (_, index) => (
 						<div className='flex flex-col gap-2 border-r p-4' key={index}>
 							<Skeleton className='h-4 w-20' />
