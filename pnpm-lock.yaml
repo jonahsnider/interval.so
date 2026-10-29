@@ -327,8 +327,8 @@ importers:
         specifier: 2.2.0
         version: 2.2.0(react@19.3.1)
       '@hookform/resolvers':
-        specifier: 6.0.1
-        version: 6.0.1(@sinclair/typebox@0.25.24)(@standard-schema/spec@1.1.0)(@vinejs/vine@4.4.0)(react-hook-form@7.91.0(@types/react@19.3.0)(react@19.3.1))(zod@4.6.7)
+        specifier: 6.0.2
+        version: 6.0.2(@sinclair/typebox@0.25.24)(@standard-schema/spec@1.1.0)(@vinejs/vine@4.4.0)(react-hook-form@7.91.0(@types/react@19.3.0)(react@19.3.1))(zod@4.6.7)
       '@interval.so/api':
         specifier: workspace:*
         version: link:../api
@@ -1287,8 +1287,8 @@ packages:
   '@hexagon/base64@1.1.28':
     resolution: {integrity: sha512-lhqDEAvWixy3bZ+UOYbPwUbBkwBq5C1LAJ/xPC8Oi+lL54oyakv/npbA0aU2hgCsx/1NUd4IBvV03+aUBWxerw==}
 
-  '@hookform/resolvers@6.0.1':
-    resolution: {integrity: sha512-Qj/4Ge0MMU5VtVtz2lnBiuaBQNTIR27jejpE1fYvADbx2tqae0vpnJnqgep7LAVHHpMXlrebjL9+V2zkZ7qZfA==}
+  '@hookform/resolvers@6.0.2':
+    resolution: {integrity: sha512-e2dqUOlaGuirKVOd/iZWk/Yg5zeaGw7t0hSc3LzxL3o7eZGwZkTyEbBL8H52m0wRKEsNLWoMGOiXGHbPHTXlEQ==}
     peerDependencies:
       '@sinclair/typebox': '>=0.25.24'
       '@standard-schema/spec': ^1.0.0
@@ -7464,7 +7464,7 @@ snapshots:
 
   '@hexagon/base64@1.1.28': {}
 
-  '@hookform/resolvers@6.0.1(@sinclair/typebox@0.25.24)(@standard-schema/spec@1.1.0)(@vinejs/vine@4.4.0)(react-hook-form@7.91.0(@types/react@19.3.0)(react@19.3.1))(zod@4.6.7)':
+  '@hookform/resolvers@6.0.2(@sinclair/typebox@0.25.24)(@standard-schema/spec@1.1.0)(@vinejs/vine@4.4.0)(react-hook-form@7.91.0(@types/react@19.3.0)(react@19.3.1))(zod@4.6.7)':
     dependencies:
       '@standard-schema/utils': 0.3.0
       react-hook-form: 7.91.0(@types/react@19.3.0)(react@19.3.1)
