@@ -1,7 +1,7 @@
 'use client';
 
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
-import posthog from 'posthog-js';
+import { usePostHog } from '@posthog/next';
 import { createContext, type PropsWithChildren, useCallback, useMemo, useState } from 'react';
 
 type ContextValue = {
@@ -15,17 +15,21 @@ export const PostHogTeamIdContext = createContext<ContextValue>({
 });
 
 export function PostHogTeamIdProvider({ children }: PropsWithChildren) {
+	const posthog = usePostHog();
 	const [currentTeam, setCurrentTeamRaw] = useState<Pick<TeamSchema, 'id'> | undefined>();
 
-	const setCurrentTeam = useCallback((team: Pick<TeamSchema, 'id'> | undefined) => {
-		if (team) {
-			posthog.group('company', team.id);
-		} else {
-			posthog.resetGroups();
-		}
+	const setCurrentTeam = useCallback(
+		(team: Pick<TeamSchema, 'id'> | undefined) => {
+			if (team) {
+				posthog.group('company', team.id);
+			} else {
+				posthog.resetGroups();
+			}
 
-		setCurrentTeamRaw(team);
-	}, []);
+			setCurrentTeamRaw(team);
+		},
+		[posthog],
+	);
 
 	const contextValue = useMemo(
 		() => ({

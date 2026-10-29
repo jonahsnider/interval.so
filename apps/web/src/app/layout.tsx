@@ -1,3 +1,4 @@
+import { PostHogPageView, PostHogProvider } from '@posthog/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import clsx from 'clsx';
 import type { Metadata, Viewport } from 'next';
@@ -10,7 +11,6 @@ import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import '../globals.css';
 import { PostHogIdentityProvider } from '../providers/post-hog-identity-provider';
-import { PostHogPageView } from '../providers/post-hog-page-view';
 import { PostHogTeamIdProvider } from '../providers/post-hog-team-id-provider';
 import { SentryIdentityProvider } from '../providers/sentry-identity-provider';
 import { TrpcProvider } from '../providers/trpc-provider';
@@ -68,22 +68,30 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				<PlausibleProvider>
 					<ThemeProvider attribute='class' defaultTheme='system' enableSystem={true} disableTransitionOnChange={true}>
 						<NuqsAdapter>
-							<PostHogPageView />
+							<PostHogProvider
+								apiKey={process.env.POSTHOG_KEY}
+								clientOptions={{
+									api_host: process.env.POSTHOG_HOST,
+									person_profiles: 'identified_only',
+								}}
+							>
+								<PostHogPageView />
 
-							<TrpcProvider>
-								<TooltipProvider>
-									<PostHogIdentityProvider>
-										<SentryIdentityProvider>
-											<PostHogTeamIdProvider>
-												<ViewTransition update='none'>{children}</ViewTransition>
-											</PostHogTeamIdProvider>
-										</SentryIdentityProvider>
-									</PostHogIdentityProvider>
-								</TooltipProvider>
-							</TrpcProvider>
+								<TrpcProvider>
+									<TooltipProvider>
+										<PostHogIdentityProvider>
+											<SentryIdentityProvider>
+												<PostHogTeamIdProvider>
+													<ViewTransition update='none'>{children}</ViewTransition>
+												</PostHogTeamIdProvider>
+											</SentryIdentityProvider>
+										</PostHogIdentityProvider>
+									</TooltipProvider>
+								</TrpcProvider>
 
-							<Toaster />
-							<SpeedInsights />
+								<Toaster />
+								<SpeedInsights />
+							</PostHogProvider>
 						</NuqsAdapter>
 					</ThemeProvider>
 				</PlausibleProvider>

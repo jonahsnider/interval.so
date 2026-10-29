@@ -24,3 +24,8 @@ minimumReleaseAgeExclude:
   - '@better-auth/prisma-adapter@1.7.11'
   - '@better-auth/telemetry@1.7.11'
   - better-auth@1.7.11
+  - '@posthog/browser-common@0.10.1'
+  - '@posthog/next@0.10.0'
+  - '@posthog/types@1.418.0'
+  - posthog-js@1.441.2
+  - posthog-node@5.58.0
