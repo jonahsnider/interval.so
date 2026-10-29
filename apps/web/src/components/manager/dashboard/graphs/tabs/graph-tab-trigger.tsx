@@ -144,6 +144,7 @@ function GraphTabTriggerBase({
 	return (
 		<Link
 			href={href}
+			prefetch={true}
 			className={clsx(
 				'p-4 border-b-2 border-r flex flex-col gap-2 leading-none items-start',
 				{
