@@ -46,7 +46,7 @@ export function GraphTabs({ team, selected, timeFilter, timeRange }: Props) {
 						/>
 					</div>
 				</CardHeader>
-				<ViewTransition name='dashboard-graph'>
+				<ViewTransition key={selected} name='dashboard-graph' share='auto' enter='auto' default='none'>
 					<CardContent>
 						<ErrorBoundary
 							fallback={
