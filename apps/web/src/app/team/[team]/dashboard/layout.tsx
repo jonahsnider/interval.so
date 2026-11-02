@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { type PropsWithChildren, Suspense } from 'react';
 import { AuthWall } from '@/src/components/auth-wall/auth-wall';
 import { ManagerNavbar } from '@/src/components/manager/navbar/manager-navbar';
-import { DashboardPageLoading, ManagerRouteLoading } from '@/src/components/route-loading';
+import { ManagerPageLoading, ManagerRouteLoading } from '@/src/components/manager/manager-loading';
 import { TeamSlugProvider } from '@/src/components/team-dashboard/team-slug-provider';
 import { isTrpcClientError } from '@/src/trpc/common';
 import { getAuthState, getTeamDisplayName } from '@/src/trpc/trpc-server';
@@ -37,12 +37,7 @@ async function ManagerLayoutContent(props: Props) {
 	return (
 		<TeamSlugProvider team={team}>
 			<ManagerNavbar currentTeam={team} />
-			<AuthWall
-				authStatePromise={authStatePromise}
-				kind='manager'
-				wantedTeam={team}
-				fallback={<DashboardPageLoading />}
-			>
+			<AuthWall authStatePromise={authStatePromise} kind='manager' wantedTeam={team} fallback={<ManagerPageLoading />}>
 				{children}
 			</AuthWall>
 		</TeamSlugProvider>

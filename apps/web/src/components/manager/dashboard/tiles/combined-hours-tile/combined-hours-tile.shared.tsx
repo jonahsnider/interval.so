@@ -10,7 +10,7 @@ export function CombinedHoursTileBase({ trend, value }: { trend?: ReactNode; val
 				<CardTitle className='text-4xl'>{value}</CardTitle>
 			</CardHeader>
 			<CardFooter
-				className={clsx('text-xs text-muted-foreground', {
+				className={clsx('min-h-10 text-xs text-muted-foreground', {
 					invisible: !trend,
 				})}
 			>

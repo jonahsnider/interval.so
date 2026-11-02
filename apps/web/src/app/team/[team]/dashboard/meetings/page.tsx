@@ -1,3 +1,4 @@
+import { MeetingsTableLoading } from '@/src/components/manager/meetings/meetings-table/meetings-table.client';
 import type { SearchParams } from 'nuqs';
 import { io } from 'next/cache';
 import { Suspense } from 'react';
@@ -30,7 +31,7 @@ async function ManagerMeetingsPageContent(props: Props) {
 
 export default function ManagerMeetingsPage(props: Props) {
 	return (
-		<Suspense>
+		<Suspense fallback={<MeetingsTableLoading />}>
 			<ManagerMeetingsPageContent {...props} />
 		</Suspense>
 	);

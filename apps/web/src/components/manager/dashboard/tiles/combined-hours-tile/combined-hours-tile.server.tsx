@@ -3,10 +3,9 @@ import type { TimeFilterSchema } from '@interval.so/api/app/team_stats/schemas/t
 import type { TimeRangeSchema } from '@interval.so/api/app/team_stats/schemas/time_range_schema';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { Skeleton } from '@/components/ui/skeleton';
 import { trpcServer } from '@/src/trpc/trpc-server';
 import type { DurationSlug } from '../../../period-select/duration-slug';
-import { CombinedHoursTileClient } from './combined-hours-tile.client';
+import { CombinedHoursTileClient, CombinedHoursTileLoading } from './combined-hours-tile.client';
 import { CombinedHoursTileBase } from './combined-hours-tile.shared';
 
 type Props = {
@@ -25,7 +24,7 @@ export function CombinedHoursTile(props: Props) {
 				/>
 			}
 		>
-			<Suspense fallback={<CombinedHoursSkeleton previousTimeFilter={props.previousTimeFilter} />}>
+			<Suspense fallback={<CombinedHoursTileLoading />}>
 				<CombinedHoursTileFetcher {...props} />
 			</Suspense>
 		</ErrorBoundary>
@@ -42,14 +41,5 @@ async function CombinedHoursTileFetcher({ team, currentTimeFilter, previousTimeF
 
 	return (
 		<CombinedHoursTileClient team={team} durationSlug={durationSlug} initialCurrent={current} initialTrend={trend} />
-	);
-}
-
-function CombinedHoursSkeleton({ previousTimeFilter }: Pick<Props, 'previousTimeFilter'>) {
-	return (
-		<CombinedHoursTileBase
-			trend={previousTimeFilter && <Skeleton className='h-4 w-40' />}
-			value={<Skeleton className='h-10 w-full' />}
-		/>
 	);
 }

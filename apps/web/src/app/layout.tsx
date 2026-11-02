@@ -7,6 +7,7 @@ import PlausibleProvider from 'next-plausible';
 import { ThemeProvider } from 'next-themes';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { ViewTransition } from 'react';
+import { SkulletProvider } from 'skullet/react';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import '../globals.css';
@@ -82,7 +83,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 										<PostHogIdentityProvider>
 											<SentryIdentityProvider>
 												<PostHogTeamIdProvider>
-													<ViewTransition update='none'>{children}</ViewTransition>
+													<SkulletProvider
+														theme={{
+															light: { base: 'hsl(var(--secondary))', highlight: 'hsl(var(--secondary-hover))' },
+															dark: { base: 'hsl(var(--secondary))', highlight: 'hsl(var(--secondary-hover))' },
+															animation: 'pulse',
+														}}
+													>
+														<ViewTransition update='none'>{children}</ViewTransition>
+													</SkulletProvider>
 												</PostHogTeamIdProvider>
 											</SentryIdentityProvider>
 										</PostHogIdentityProvider>

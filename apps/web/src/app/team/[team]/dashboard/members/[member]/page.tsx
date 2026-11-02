@@ -1,3 +1,4 @@
+import { MemberAttendanceSectionLoading } from '@/src/components/manager/members/view-member/member-attendance-section/member-attendance-section.shared';
 import { Suspense } from 'react';
 import { MemberAttendanceSection } from '@/src/components/manager/members/view-member/member-attendance-section/member-attendance-section';
 import { searchParamCache } from '@/src/components/manager/members/view-member/search-params';
@@ -26,7 +27,9 @@ async function ViewMemberPageContent(props: Props) {
 			<ViewMemberPageHeader team={team} member={member} />
 
 			<MainContent className='gap-4'>
-				<MemberAttendanceSection member={member} />
+				<Suspense fallback={<MemberAttendanceSectionLoading />}>
+					<MemberAttendanceSection member={member} />
+				</Suspense>
 			</MainContent>
 		</>
 	);

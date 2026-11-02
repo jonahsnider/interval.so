@@ -1,3 +1,4 @@
+import { MembersTableLoading } from '@/src/components/manager/members/members-table/members-table.client';
 import { Suspense } from 'react';
 import { MembersTable } from '@/src/components/manager/members/members-table/members-table';
 
@@ -20,7 +21,7 @@ async function ManagerMembersPageContent(props: Props) {
 
 export default function ManagerMembersPage(props: Props) {
 	return (
-		<Suspense>
+		<Suspense fallback={<MembersTableLoading />}>
 			<ManagerMembersPageContent {...props} />
 		</Suspense>
 	);

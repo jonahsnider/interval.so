@@ -1,3 +1,3 @@
-import { RouteContentLoading } from '@/src/components/route-loading';
+import { MembersTableLoading } from '@/src/components/manager/members/members-table/members-table.client';
 
-export default RouteContentLoading;
+export default MembersTableLoading;

@@ -3,7 +3,7 @@ import type { TimeFilterSchema } from '@interval.so/api/app/team_stats/schemas/t
 import { Suspense } from 'react';
 import { trpcServer } from '@/src/trpc/trpc-server';
 import 'server-only';
-import { MemberAttendanceTableClient } from './member-attendance-table.client';
+import { MemberAttendanceTableClient, MemberAttendanceTableLoading } from './member-attendance-table.client';
 
 type Props = {
 	member: Pick<TeamMemberSchema, 'id'>;
@@ -12,7 +12,7 @@ type Props = {
 
 export function MemberAttendanceTable({ member, timeFilter }: Props) {
 	return (
-		<Suspense fallback={<MemberAttendanceTableClient loading={true} initialMeetings={[]} member={member} />}>
+		<Suspense fallback={<MemberAttendanceTableLoading />}>
 			<MemberAttendanceTableFetcher member={member} timeFilter={timeFilter} />
 		</Suspense>
 	);
@@ -21,5 +21,5 @@ export function MemberAttendanceTable({ member, timeFilter }: Props) {
 async function MemberAttendanceTableFetcher({ member, timeFilter }: Props) {
 	const initialMeetings = await trpcServer.teams.members.attendance.getEntriesForMember.query({ member, timeFilter });
 
-	return <MemberAttendanceTableClient loading={false} initialMeetings={initialMeetings} member={member} />;
+	return <MemberAttendanceTableClient initialMeetings={initialMeetings} member={member} />;
 }

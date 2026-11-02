@@ -1,3 +1,3 @@
-import { RouteContentLoading } from '@/src/components/route-loading';
+import { MeetingsTableLoading } from '@/src/components/manager/meetings/meetings-table/meetings-table.client';
 
-export default RouteContentLoading;
+export default MeetingsTableLoading;

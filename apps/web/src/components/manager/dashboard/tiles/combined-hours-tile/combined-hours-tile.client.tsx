@@ -2,7 +2,8 @@
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import type { TimeRangeSchema } from '@interval.so/api/app/team_stats/schemas/time_range_schema';
 import { useQueryStates } from 'nuqs';
-import { useMemo } from 'react';
+import { type ReactNode, useMemo } from 'react';
+import { Skeleton } from 'skullet/react';
 import type { RouterOutput } from '@/src/trpc/common';
 import { useLiveCombinedHours } from '@/src/trpc/live-queries';
 import {
@@ -24,27 +25,47 @@ type Props = {
 	initialTrend?: RouterOutput['teams']['stats']['getCombinedHours'];
 };
 
+type TileData = { current: number; trend?: ReactNode };
+const sampleData: TileData = { current: 128, trend: '+12% from last period' };
+
+export function CombinedHoursTileLoading() {
+	return <CombinedHoursTileContent data={sampleData} loading />;
+}
+
+function CombinedHoursTileContent({ data, loading = false }: { data: TileData; loading?: boolean }) {
+	return (
+		<Skeleton data={data} sample={sampleData} loading={loading} label='Loading combined hours'>
+			{({ current, trend }) => <CombinedHoursTileBase value={`${current.toFixed(1)} hours`} trend={trend} />}
+		</Skeleton>
+	);
+}
+
 export function CombinedHoursTileClient({ team, initialCurrent, initialTrend, durationSlug }: Props) {
 	const [searchParams] = useQueryStates(searchParamParsers);
 
 	const currentTimeFilter = useMemo(() => toTimeFilter(searchParams), [searchParams]);
 	const previousTimeFilter = useMemo(() => toTimeRange(searchParams).previous, [searchParams]);
 
-	const { data: current = 0 } = useLiveCombinedHours({ team, timeFilter: currentTimeFilter }, initialCurrent);
+	const { data: current } = useLiveCombinedHours({ team, timeFilter: currentTimeFilter }, initialCurrent);
 
 	return (
-		<CombinedHoursTileBase
-			value={`${current.toFixed(1)} hours`}
-			trend={
-				previousTimeFilter && (
-					<Trend
-						team={team}
-						current={current}
-						durationSlug={durationSlug}
-						initialTrend={initialTrend}
-						previousTimeFilter={previousTimeFilter}
-					/>
-				)
+		<CombinedHoursTileContent
+			loading={current === undefined}
+			data={
+				current === undefined
+					? sampleData
+					: {
+							current,
+							trend: previousTimeFilter ? (
+								<Trend
+									team={team}
+									current={current}
+									durationSlug={durationSlug}
+									initialTrend={initialTrend}
+									previousTimeFilter={previousTimeFilter}
+								/>
+							) : undefined,
+						}
 			}
 		/>
 	);

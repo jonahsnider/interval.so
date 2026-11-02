@@ -13,6 +13,7 @@ import {
 } from '@tanstack/react-table';
 import clsx from 'clsx';
 import { use, useState } from 'react';
+import { Skeleton } from 'skullet/react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { TablePagination } from '@/src/components/data-tables/table-pagination';
 import { useLiveMeetings } from '@/src/trpc/live-queries';
@@ -26,16 +27,27 @@ type Props = {
 	initialDataPromise: Promise<TeamMeetingSchema[]>;
 };
 
-// React Table needs a stable data reference while the subscription is pending.
-const emptyMeetings: TeamMeetingSchema[] = [];
+const sampleMeetings: TeamMeetingSchema[] = Array.from({ length: 10 }, (_, index) => ({
+	startedAt: new Date(Date.UTC(2026, 0, 15 - index, 17)),
+	endedAt: new Date(Date.UTC(2026, 0, 15 - index, 19)),
+	attendeeCount: 24,
+	attendees: [],
+}));
+
+export function MeetingsTableLoading() {
+	return <MeetingsTableContent />;
+}
 
 export function MeetingsTableClient({ initialDataPromise, team }: Props) {
 	const initialData = use(initialDataPromise);
 
 	const timeFilter = useMeetingsTimeFilter();
 
-	const { data = emptyMeetings } = useLiveMeetings({ team, timeFilter }, initialData);
+	const { data } = useLiveMeetings({ team, timeFilter }, initialData);
+	return <MeetingsTableContent data={data} />;
+}
 
+function MeetingsTableContent({ data }: { data?: TeamMeetingSchema[] }) {
 	const [sorting, setSorting] = useState<SortingState>([
 		{
 			id: 'endedAt',
@@ -48,7 +60,7 @@ export function MeetingsTableClient({ initialDataPromise, team }: Props) {
 	});
 
 	const table = useReactTable({
-		data,
+		data: data ?? sampleMeetings,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
 		onSortingChange: setSorting,
@@ -65,50 +77,64 @@ export function MeetingsTableClient({ initialDataPromise, team }: Props) {
 	return (
 		<OuterTableContainer>
 			<MeetingsTableFilters />
-
-			<InnerTableContainer>
-				<Table>
-					<TableHeader>
-						{table.getHeaderGroups().map((headerGroup) => (
-							<TableRow key={headerGroup.id}>
-								{headerGroup.headers.map((header) => {
-									return (
-										<TableHead
-											key={header.id}
-											className={clsx({
-												'w-full': header.id === 'title',
+			<Skeleton
+				data={data ?? sampleMeetings}
+				sample={sampleMeetings}
+				loading={data === undefined}
+				label='Loading meetings'
+			>
+				{() => (
+					<div className='flex flex-col gap-4'>
+						<InnerTableContainer>
+							<Table>
+								<TableHeader>
+									{table.getHeaderGroups().map((headerGroup) => (
+										<TableRow key={headerGroup.id}>
+											{headerGroup.headers.map((header) => {
+												return (
+													<TableHead
+														key={header.id}
+														className={clsx({
+															'w-full': header.id === 'title',
+														})}
+													>
+														{header.isPlaceholder
+															? null
+															: flexRender(header.column.columnDef.header, header.getContext())}
+													</TableHead>
+												);
 											})}
-										>
-											{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-										</TableHead>
-									);
-								})}
-							</TableRow>
-						))}
-					</TableHeader>
-					<TableBody>
-						{table.getRowModel().rows?.length > 0 ? (
-							table.getRowModel().rows.map((row) => (
-								<TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
-									{row.getVisibleCells().map((cell) => (
-										<TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+										</TableRow>
 									))}
-								</TableRow>
-							))
-						) : (
-							<TableRow>
-								<TableCell colSpan={columns.length} className='h-24 text-center'>
-									No results
-								</TableCell>
-							</TableRow>
-						)}
-					</TableBody>
-				</Table>
-			</InnerTableContainer>
+								</TableHeader>
+								<TableBody>
+									{table.getRowModel().rows?.length > 0 ? (
+										table.getRowModel().rows.map((row) => (
+											<TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+												{row.getVisibleCells().map((cell) => (
+													<TableCell key={cell.id}>
+														{flexRender(cell.column.columnDef.cell, cell.getContext())}
+													</TableCell>
+												))}
+											</TableRow>
+										))
+									) : (
+										<TableRow>
+											<TableCell colSpan={columns.length} className='h-24 text-center'>
+												No results
+											</TableCell>
+										</TableRow>
+									)}
+								</TableBody>
+							</Table>
+						</InnerTableContainer>
 
-			<div className='flex items-center justify-end'>
-				<TablePagination table={table} />
-			</div>
+						<div className='flex items-center justify-end'>
+							<TablePagination table={table} />
+						</div>
+					</div>
+				)}
+			</Skeleton>
 		</OuterTableContainer>
 	);
 }

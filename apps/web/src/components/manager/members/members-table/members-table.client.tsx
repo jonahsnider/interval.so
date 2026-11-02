@@ -16,7 +16,7 @@ import {
 import clsx from 'clsx';
 import Fuse from 'fuse.js';
 import { useEffect, useState } from 'react';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from 'skullet/react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { TablePagination } from '@/src/components/data-tables/table-pagination';
 import { TableSelectionStatus } from '@/src/components/data-tables/table-selection-status';
@@ -28,45 +28,29 @@ import { InnerTableContainer, OuterTableContainer } from './members-table-common
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;
 	initialData: TeamMemberSchema[];
-	loading: boolean;
 };
 
-function TableRowSkeleton() {
-	return (
-		<TableRow>
-			<TableCell>
-				<div className='flex justify-center items-center'>
-					<Skeleton className='w-4 h-4' />
-				</div>
-			</TableCell>
-			<TableCell className='w-full'>
-				<Skeleton className='w-80 h-4' />
-			</TableCell>
-			<TableCell>
-				<Skeleton className='h-4' />
-			</TableCell>
-			<TableCell>
-				<Skeleton className='h-4' />
-			</TableCell>
-			<TableCell>
-				<div className='flex justify-end items-center'>
-					<Skeleton className='w-8 h-8' />
-				</div>
-			</TableCell>
-		</TableRow>
-	);
+const sampleMembers: TeamMemberSchema[] = Array.from({ length: 10 }, (_, index) => ({
+	id: `sample-member-${index}`,
+	name: 'Alex Morgan',
+	archived: false,
+	lastSeenAt: new Date('2026-01-15T17:00:00Z'),
+}));
+
+export function MembersTableLoading() {
+	return <MembersTableContent />;
 }
 
-// React Table needs a stable data reference while the subscription is pending.
-const emptyMembers: TeamMemberSchema[] = [];
+export function MembersTableClient({ initialData, team }: Props) {
+	const { data } = useLiveFullMembers(team, initialData);
+	return <MembersTableContent data={data} />;
+}
 
-export function MembersTableClient({ initialData, loading, team }: Props) {
-	const { data = emptyMembers } = useLiveFullMembers(team, initialData);
-
-	const [fuse] = useState(new Fuse(data, { keys: ['name'] }));
+function MembersTableContent({ data }: { data?: TeamMemberSchema[] }) {
+	const [fuse] = useState(new Fuse(data ?? sampleMembers, { keys: ['name'] }));
 
 	useEffect(() => {
-		fuse.setCollection(data);
+		fuse.setCollection(data ?? sampleMembers);
 	}, [data, fuse]);
 
 	const [sorting, setSorting] = useState<SortingState>([
@@ -87,7 +71,7 @@ export function MembersTableClient({ initialData, loading, team }: Props) {
 	const [filteredRowIds, setFilteredRowIds] = useState<Set<string>>(new Set());
 
 	const table = useReactTable({
-		data,
+		data: data ?? sampleMembers,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
 		onSortingChange: setSorting,
@@ -119,68 +103,67 @@ export function MembersTableClient({ initialData, loading, team }: Props) {
 
 	return (
 		<OuterTableContainer>
-			<MembersTableButtons table={table} loading={loading} />
-
-			<InnerTableContainer>
-				<Table>
-					<TableHeader>
-						{table.getHeaderGroups().map((headerGroup) => (
-							<TableRow key={headerGroup.id}>
-								{headerGroup.headers.map((header) => {
-									return (
-										<TableHead
-											key={header.id}
-											className={clsx({
-												'w-full': header.id === 'name',
+			<MembersTableButtons table={table} loading={data === undefined} />
+			<Skeleton
+				data={data ?? sampleMembers}
+				sample={sampleMembers}
+				loading={data === undefined}
+				label='Loading members'
+			>
+				{() => (
+					<div className='flex flex-col gap-4'>
+						<InnerTableContainer>
+							<Table>
+								<TableHeader>
+									{table.getHeaderGroups().map((headerGroup) => (
+										<TableRow key={headerGroup.id}>
+											{headerGroup.headers.map((header) => {
+												return (
+													<TableHead
+														key={header.id}
+														className={clsx({
+															'w-full': header.id === 'name',
+														})}
+													>
+														{header.isPlaceholder
+															? null
+															: flexRender(header.column.columnDef.header, header.getContext())}
+													</TableHead>
+												);
 											})}
-										>
-											{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-										</TableHead>
-									);
-								})}
-							</TableRow>
-						))}
-					</TableHeader>
-					<TableBody>
-						{loading && (
-							<>
-								<TableRowSkeleton />
-								<TableRowSkeleton />
-								<TableRowSkeleton />
-								<TableRowSkeleton />
-								<TableRowSkeleton />
-								<TableRowSkeleton />
-								<TableRowSkeleton />
-								<TableRowSkeleton />
-								<TableRowSkeleton />
-								<TableRowSkeleton />
-							</>
-						)}
-						{!loading &&
-							(table.getRowModel().rows?.length > 0 ? (
-								table.getRowModel().rows.map((row) => (
-									<TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
-										{row.getVisibleCells().map((cell) => (
-											<TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-										))}
-									</TableRow>
-								))
-							) : (
-								<TableRow>
-									{/* All columns except for the hidden "signedInAt" column */}
-									<TableCell colSpan={columns.length - 1} className='h-24 text-center'>
-										No results
-									</TableCell>
-								</TableRow>
-							))}
-					</TableBody>
-				</Table>
-			</InnerTableContainer>
+										</TableRow>
+									))}
+								</TableHeader>
+								<TableBody>
+									{table.getRowModel().rows?.length > 0 ? (
+										table.getRowModel().rows.map((row) => (
+											<TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+												{row.getVisibleCells().map((cell) => (
+													<TableCell key={cell.id}>
+														{flexRender(cell.column.columnDef.cell, cell.getContext())}
+													</TableCell>
+												))}
+											</TableRow>
+										))
+									) : (
+										<TableRow>
+											{/* All columns except for the hidden "signedInAt" column */}
+											<TableCell colSpan={columns.length - 1} className='h-24 text-center'>
+												No results
+											</TableCell>
+										</TableRow>
+									)}
+								</TableBody>
+							</Table>
+						</InnerTableContainer>
 
-			<div className='flex items-center justify-between'>
-				<TableSelectionStatus table={table} />
-				<TablePagination table={table} />
-			</div>
+						<div className='flex items-center justify-between'>
+							<TableSelectionStatus table={table} />
+							<TablePagination table={table} />
+						</div>
+					</div>
+				)}
+			</Skeleton>
 		</OuterTableContainer>
 	);
 }

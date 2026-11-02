@@ -1,10 +1,12 @@
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { CombinedHoursTileLoading } from './manager/dashboard/tiles/combined-hours-tile/combined-hours-tile.client';
+import { LiveMemberCountTileLoading } from './manager/dashboard/tiles/live-member-count-tile/live-member-count-tile.client';
 import { BaseNavbar } from './navbar/base-navbar';
 import { PageHeader } from './page-header';
 import { MainContent } from './page-wrappers/main-content';
 
-function NavbarLoading({ manager = false }: { manager?: boolean }) {
+export function NavbarLoading({ manager = false }: { manager?: boolean }) {
 	return (
 		<BaseNavbar
 			className={manager ? 'pb-0' : undefined}
@@ -25,38 +27,11 @@ function NavbarLoading({ manager = false }: { manager?: boolean }) {
 	);
 }
 
-export function RouteContentLoading() {
-	return (
-		<div className='grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-6 lg:gap-8'>
-			{Array.from({ length: 3 }, (_, index) => (
-				<Card key={index}>
-					<CardHeader className='gap-2'>
-						<Skeleton className='h-5 w-32' />
-						<Skeleton className='h-4 w-48 max-w-full' />
-					</CardHeader>
-					<CardContent>
-						<Skeleton className='h-20 w-full' />
-					</CardContent>
-				</Card>
-			))}
-		</div>
-	);
-}
-
 export function DashboardContentLoading() {
 	return (
 		<div className='grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-6 lg:gap-8'>
-			{Array.from({ length: 2 }, (_, index) => (
-				<Card key={index}>
-					<CardHeader className='gap-2'>
-						<Skeleton className='h-5 w-32' />
-						<Skeleton className='h-4 w-48 max-w-full' />
-					</CardHeader>
-					<CardContent>
-						<Skeleton className='h-9 w-28' />
-					</CardContent>
-				</Card>
-			))}
+			<LiveMemberCountTileLoading />
+			<CombinedHoursTileLoading />
 			<Card className='col-span-full'>
 				<CardHeader className='grid grid-cols-2 gap-0 border-b p-0 xs:grid-cols-3 md:grid-cols-4 lg:grid-cols-5'>
 					{Array.from({ length: 2 }, (_, index) => (
@@ -180,15 +155,6 @@ export function AttendanceRouteLoading() {
 		<>
 			<NavbarLoading />
 			<AttendanceContentLoading />
-		</>
-	);
-}
-
-export function ManagerRouteLoading() {
-	return (
-		<>
-			<NavbarLoading manager={true} />
-			<DashboardPageLoading />
 		</>
 	);
 }
