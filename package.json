@@ -18,7 +18,7 @@
 		"oxfmt": "0.75.0",
 		"oxlint": "1.90.0",
 		"oxlint-tsgolint": "^7.0.2001",
-		"portless": "0.15.12",
+		"portless": "0.15.13",
 		"railway": "3.16.0",
 		"turbo": "2.11.10",
 		"vercel": "65.7.0"
