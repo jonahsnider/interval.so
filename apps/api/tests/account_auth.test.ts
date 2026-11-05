@@ -171,15 +171,13 @@ await test('a migrated public key authenticates its existing UUID; replay and mi
 	const options2 = (await (
 		await request('/passkey/generate-authenticate-options')
 	).json()) as PublicKeyCredentialRequestOptionsJSON;
-	assert.equal(
-		(
-			await request('/passkey/verify-authentication', {
-				response: ceremony(options2.challenge, credentialId, false, false),
-			})
-		).status,
-		401,
-	);
+	const unverified = await request('/passkey/verify-authentication', {
+		response: ceremony(options2.challenge, credentialId, false, false),
+	});
+	assert.equal(unverified.status, 400);
+	assert.equal(((await unverified.json()) as { code: string }).code, 'AUTHENTICATION_FAILED');
 	assert.equal(data.user!.length, 1);
+	assert.equal(data.session!.length, 1);
 });
 
 await test('failed user verification creates neither an account nor a passkey', async () => {
@@ -191,9 +189,11 @@ await test('failed user verification creates neither an account nor a passkey', 
 		response: ceremony(options.challenge, randomBytes(32).toString('base64url'), true, false),
 		createSession: true,
 	});
-	assert.equal(response.status, 401);
+	assert.equal(response.status, 400);
+	assert.equal(((await response.json()) as { code: string }).code, 'FAILED_TO_VERIFY_REGISTRATION');
 	assert.equal(data.user!.length, 0);
 	assert.equal(data.passkey!.length, 0);
+	assert.equal(data.session!.length, 0);
 });
 
 await test('email authentication is disabled and account authentication has a 90-day absolute limit', async () => {
