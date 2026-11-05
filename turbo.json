@@ -1,5 +1,6 @@
 {
 	"$schema": "https://turbo.build/schema.json",
+	"cacheMaxSize": "2GB",
 	"tasks": {
 		"//#lint": {},
 		"//#format": {},
@@ -20,7 +21,7 @@
 		"@interval.so/web#build": {
 			"dependsOn": ["^build"],
 			"env": ["API_URL", "NEXT_PUBLIC_API_URL", "NEXT_PUBLIC_SENTRY_DSN", "POSTHOG_HOST", "POSTHOG_KEY"],
-			"outputs": [".next/**", "!.next/cache/**"],
+			"outputs": [".next/**", "!.next/cache/**", "!.next/dev/**"],
 			"passThroughEnv": ["SENTRY_AUTH_TOKEN", "VERCEL_OIDC_TOKEN"]
 		},
 		"type-check": {
