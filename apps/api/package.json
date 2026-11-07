@@ -69,7 +69,7 @@
 	"devDependencies": {
 		"@adonisjs/assembler": "8.6.0",
 		"@adonisjs/tsconfig": "2.0.0",
-		"@poppinss/ts-exec": "1.5.1",
+		"@poppinss/ts-exec": "1.5.2",
 		"@types/node": "26.6.6",
 		"@types/pg": "8.23.1",
 		"@types/ws": "8.18.2",
