@@ -48,7 +48,7 @@
 		"@rlanz/sentry": "^0.3.3",
 		"@sentry/node": "11.11.0",
 		"@sentry/profiling-node": "11.11.0",
-		"@simplewebauthn/server": "14.0.3",
+		"@simplewebauthn/server": "14.1.0",
 		"@trpc/server": "11.25.0",
 		"@vinejs/vine": "4.4.0",
 		"better-auth": "1.7.18",
