@@ -306,8 +306,8 @@ importers:
         specifier: 10.2.1
         version: 10.2.1
       hot-hook:
-        specifier: 1.0.0
-        version: 1.0.0
+        specifier: 1.1.0
+        version: 1.1.0
       pino-pretty:
         specifier: 13.2.0
         version: 13.2.0
@@ -5292,8 +5292,8 @@ packages:
     resolution: {integrity: sha512-Hc+ghLoSt6QaYZUv0WBiIvmMDZuZZ7oaDvdH8MbfOO4lOsxdXLEvuC6ePoGs9H1X9oCLyq6+NVN0MKqD+ydxyg==}
     engines: {node: ^20.17.0 || >=22.9.0}
 
-  hot-hook@1.0.0:
-    resolution: {integrity: sha512-OkZm5tTE4ej8ur8VlcQwMm8G9sFxu4D+shM+ol/h4mrUhuZvFkjk5n/nWKmLq3COmy6epLN7XIIQJ75tnqCGIw==}
+  hot-hook@1.1.0:
+    resolution: {integrity: sha512-rRPg7bbH5hsGq3fSVYcGAcRmrSwmXhdeJ8O6Z+u6R8tq+yFxbT4jekl6Qh1smOhHhfyIeeEDPlp0Jgkoio10gg==}
 
   http-errors@1.7.3:
     resolution: {integrity: sha512-ZTTX0MWrsQ2ZAhA1cejAwDLycFsd7I7nVtnkT3Ol0aqodaKW+0CTZDQ1uBv5whptCnc8e8HeRRJxRs0kmm/Qfw==}
@@ -11049,7 +11049,7 @@ snapshots:
     dependencies:
       lru-cache: 11.5.3
 
-  hot-hook@1.0.0:
+  hot-hook@1.1.0:
     dependencies:
       chokidar: 5.0.0
       fast-glob: 3.3.3
