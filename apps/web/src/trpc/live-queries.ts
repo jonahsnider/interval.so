@@ -1,39 +1,39 @@
 'use client';
 
+import { fromHandle, type inferQueryHandle } from '@trpc/tanstack-react-query/unstable-handles';
 import type { RouterInput, RouterOutput } from './common';
-import { useTRPC } from './trpc-client';
+import { type TRPC, useTRPC } from './trpc-client';
 import { useLiveQuery } from './use-live-query';
 
 type MembersInput = RouterInput['teams']['members']['simpleMemberList'];
-type Members = RouterOutput['teams']['members']['simpleMemberList'];
+export type MembersHandle = inferQueryHandle<TRPC['teams']['members']['simpleMemberList']>;
+export type FullMembersHandle = inferQueryHandle<TRPC['teams']['members']['fullMemberList']>;
+export type MemberHandle = inferQueryHandle<TRPC['teams']['members']['getMember']>;
+export type MeetingStartHandle = inferQueryHandle<TRPC['teams']['meetings']['getCurrentMeetingStart']>;
 
-export function useLiveMembers(team: MembersInput, initialData?: Members) {
+export function useLiveMembers(team: MembersInput | MembersHandle) {
 	const trpc = useTRPC();
+	const isHandle = 'queryKey' in team;
+	const query = isHandle ? fromHandle(trpc, team) : trpc.teams.members.simpleMemberList.queryOptions(team);
 	return useLiveQuery({
-		query: trpc.teams.members.simpleMemberList.queryOptions(team, { initialData }),
-		subscription: trpc.teams.members.simpleMemberListSubscription.subscriptionOptions(team),
+		query,
+		subscription: trpc.teams.members.simpleMemberListSubscription.subscriptionOptions(isHandle ? team.input : team),
 	});
 }
 
-export function useLiveFullMembers(
-	team: MembersInput,
-	initialData?: RouterOutput['teams']['members']['fullMemberList'],
-) {
+export function useLiveFullMembers(handle: FullMembersHandle) {
 	const trpc = useTRPC();
 	return useLiveQuery({
-		query: trpc.teams.members.fullMemberList.queryOptions(team, { initialData }),
-		subscription: trpc.teams.members.fullMemberListSubscription.subscriptionOptions(team),
+		query: fromHandle(trpc, handle),
+		subscription: trpc.teams.members.fullMemberListSubscription.subscriptionOptions(handle.input),
 	});
 }
 
-export function useLiveMember(
-	member: RouterInput['teams']['members']['getMember'],
-	initialData?: RouterOutput['teams']['members']['getMember'],
-) {
+export function useLiveMember(handle: MemberHandle) {
 	const trpc = useTRPC();
 	return useLiveQuery({
-		query: trpc.teams.members.getMember.queryOptions(member, { initialData }),
-		subscription: trpc.teams.members.getMemberSubscription.subscriptionOptions(member),
+		query: fromHandle(trpc, handle),
+		subscription: trpc.teams.members.getMemberSubscription.subscriptionOptions(handle.input),
 	});
 }
 
@@ -48,14 +48,11 @@ export function useLiveMeetings(
 	});
 }
 
-export function useLiveMeetingStart(
-	team: MembersInput,
-	initialData: RouterOutput['teams']['meetings']['getCurrentMeetingStart'],
-) {
+export function useLiveMeetingStart(handle: MeetingStartHandle) {
 	const trpc = useTRPC();
-	const subscription = trpc.teams.meetings.currentMeetingStartSubscription.subscriptionOptions(team);
+	const subscription = trpc.teams.meetings.currentMeetingStartSubscription.subscriptionOptions(handle.input);
 	return useLiveQuery({
-		query: trpc.teams.meetings.getCurrentMeetingStart.queryOptions(team, { initialData }),
+		query: fromHandle(trpc, handle),
 		subscription: {
 			...subscription,
 			subscribe: (observer) =>

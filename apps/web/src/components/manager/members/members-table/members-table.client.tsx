@@ -1,6 +1,5 @@
 'use client';
 
-import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
 import {
 	type ColumnFiltersState,
@@ -20,14 +19,13 @@ import { Skeleton } from 'skullet/react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { TablePagination } from '@/src/components/data-tables/table-pagination';
 import { TableSelectionStatus } from '@/src/components/data-tables/table-selection-status';
-import { useLiveFullMembers } from '@/src/trpc/live-queries';
+import { type FullMembersHandle, useLiveFullMembers } from '@/src/trpc/live-queries';
 import { columns } from './columns';
 import { MembersTableButtons } from './members-table-buttons';
 import { InnerTableContainer, OuterTableContainer } from './members-table-common';
 
 type Props = {
-	team: Pick<TeamSchema, 'slug'>;
-	initialData: TeamMemberSchema[];
+	membersHandle: FullMembersHandle;
 };
 
 const sampleMembers: TeamMemberSchema[] = Array.from({ length: 10 }, (_, index) => ({
@@ -41,8 +39,8 @@ export function MembersTableLoading() {
 	return <MembersTableContent />;
 }
 
-export function MembersTableClient({ initialData, team }: Props) {
-	const { data } = useLiveFullMembers(team, initialData);
+export function MembersTableClient({ membersHandle }: Props) {
+	const { data } = useLiveFullMembers(membersHandle);
 	return <MembersTableContent data={data} />;
 }
 

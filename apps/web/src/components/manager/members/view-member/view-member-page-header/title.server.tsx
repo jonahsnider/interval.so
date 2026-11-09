@@ -1,7 +1,8 @@
 import { PencilSquareIcon } from '@heroicons/react/16/solid';
 import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
+import { ensureEntry, loadHandles } from '@trpc/tanstack-react-query/unstable-handles';
 import { EditMemberNameDialog } from '@/src/components/manager/members/view-member/edit-member-name-dialog';
-import { trpcServer } from '@/src/trpc/trpc-server';
+import { HydrateClient, trpc } from '@/src/trpc/trpc-server';
 import { TitleClient } from './title.client';
 
 type Props = {
@@ -9,7 +10,9 @@ type Props = {
 };
 
 export async function Title({ member }: Props) {
-	const dbMember = await trpcServer.teams.members.getMember.query(member);
+	const [handles, { member: dbMember }] = await loadHandles(trpc, {
+		member: ensureEntry(trpc.teams.members.getMember, member),
+	});
 
 	return (
 		<EditMemberNameDialog
@@ -22,7 +25,9 @@ export async function Title({ member }: Props) {
 				type='button'
 				className='group flex items-center justify-center gap-1 border-transparent hover:bg-muted rounded-md p-1 -ml-1'
 			>
-				<TitleClient member={member} initialMember={dbMember} />
+				<HydrateClient>
+					<TitleClient memberHandle={handles.member} initialName={dbMember.name} />
+				</HydrateClient>
 
 				<PencilSquareIcon className='h-6 w-6 -translate-x-1 opacity-50 group-hover:opacity-100 transition-all group-hover:translate-x-0' />
 			</button>

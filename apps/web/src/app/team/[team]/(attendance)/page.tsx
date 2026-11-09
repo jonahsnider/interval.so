@@ -4,7 +4,7 @@ import { AuthWall } from '@/src/components/auth-wall/auth-wall';
 import { AttendancePageLoading, AttendanceTableLoading } from '@/src/components/route-loading';
 import { AttendanceTable } from '@/src/components/team-dashboard/attendance-table/attendance-table';
 import { ManagerTiles } from '@/src/components/team-dashboard/manager-tiles/manager-tiles';
-import { getSelf, getSimpleMemberList } from '@/src/trpc/trpc-server';
+import { getSelf, HydrateClient, loadMembersHandle } from '@/src/trpc/trpc-server';
 
 type Props = {
 	params: Promise<{
@@ -45,9 +45,13 @@ async function TeamAttendancePageContent(props: Props) {
 }
 
 async function AttendanceTableFetcher({ team }: { team: Pick<TeamSchema, 'slug'> }) {
-	const initialMembers = await getSimpleMemberList(team.slug);
+	const members = await loadMembersHandle(team.slug);
 
-	return <AttendanceTable initialData={initialMembers} team={team} />;
+	return (
+		<HydrateClient>
+			<AttendanceTable membersHandle={members} />
+		</HydrateClient>
+	);
 }
 
 export default function TeamAttendancePage(props: Props) {

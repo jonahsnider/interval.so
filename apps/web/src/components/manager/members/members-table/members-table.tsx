@@ -1,8 +1,9 @@
 import 'server-only';
 
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
+import { ensureEntry, loadHandles } from '@trpc/tanstack-react-query/unstable-handles';
 import { Suspense } from 'react';
-import { trpcServer } from '@/src/trpc/trpc-server';
+import { HydrateClient, trpc } from '@/src/trpc/trpc-server';
 import { MembersTableClient, MembersTableLoading } from './members-table.client';
 
 type Props = {
@@ -18,7 +19,13 @@ export function MembersTable({ team }: Props) {
 }
 
 async function MembersTableFetcher({ team }: Props) {
-	const data = await trpcServer.teams.members.fullMemberList.query(team);
+	const [{ members }] = await loadHandles(trpc, {
+		members: ensureEntry(trpc.teams.members.fullMemberList, team),
+	});
 
-	return <MembersTableClient initialData={data} team={team} />;
+	return (
+		<HydrateClient>
+			<MembersTableClient membersHandle={members} />
+		</HydrateClient>
+	);
 }

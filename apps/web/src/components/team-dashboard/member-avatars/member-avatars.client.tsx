@@ -1,24 +1,20 @@
 'use client';
 
-import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
 import { Sort } from '@jonahsnider/util';
 import clsx from 'clsx';
 import { AnimatePresence, motion, type Variants } from 'motion/react';
-import { use } from 'react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { useLiveMembers } from '@/src/trpc/live-queries';
+import { type MembersHandle, useLiveMembers } from '@/src/trpc/live-queries';
 
 type Props = {
-	team: Pick<TeamSchema, 'slug'>;
-	membersPromise: Promise<Pick<TeamMemberSchema, 'name' | 'id' | 'signedInAt'>[]>;
+	membersHandle: MembersHandle;
 };
 
-export function MemberAvatarsClient({ membersPromise, team }: Props) {
-	const initialMembers = use(membersPromise);
-	const { data = [] } = useLiveMembers(team, initialMembers);
+export function MemberAvatarsClient({ membersHandle }: Props) {
+	const { data = [] } = useLiveMembers(membersHandle);
 	const members = data
 		.filter(
 			(member): member is typeof member & { signedInAt: NonNullable<(typeof member)['signedInAt']> } =>

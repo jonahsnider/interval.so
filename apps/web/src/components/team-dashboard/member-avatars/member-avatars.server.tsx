@@ -1,7 +1,6 @@
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
-import { Sort } from '@jonahsnider/util';
 import { Suspense } from 'react';
-import { getSimpleMemberList } from '@/src/trpc/trpc-server';
+import { HydrateClient, loadMembersHandle } from '@/src/trpc/trpc-server';
 import { MemberAvatarsClient } from './member-avatars.client';
 
 type Props = {
@@ -9,15 +8,6 @@ type Props = {
 };
 
 export function MemberAvatars({ team }: Props) {
-	const membersPromise = getSimpleMemberList(team.slug).then((members) =>
-		members
-			.filter(
-				(member): member is typeof member & { signedInAt: NonNullable<(typeof member)['signedInAt']> } =>
-					member.signedInAt !== undefined,
-			)
-			.toSorted(Sort.descending((member) => member.signedInAt)),
-	);
-
 	return (
 		<Suspense
 			fallback={
@@ -25,7 +15,17 @@ export function MemberAvatars({ team }: Props) {
 				<div className='min-h-10' />
 			}
 		>
-			<MemberAvatarsClient membersPromise={membersPromise} team={team} />
+			<MemberAvatarsFetcher team={team} />
 		</Suspense>
+	);
+}
+
+async function MemberAvatarsFetcher({ team }: Props) {
+	const members = await loadMembersHandle(team.slug);
+
+	return (
+		<HydrateClient>
+			<MemberAvatarsClient membersHandle={members} />
+		</HydrateClient>
 	);
 }

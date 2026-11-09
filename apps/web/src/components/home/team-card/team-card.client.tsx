@@ -1,19 +1,18 @@
 'use client';
 
-import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { count } from '@jonahsnider/util';
-import { use } from 'react';
-import { useLiveMembers } from '@/src/trpc/live-queries';
+import { Skeleton } from '@/components/ui/skeleton';
+import { type MembersHandle, useLiveMembers } from '@/src/trpc/live-queries';
 
 type Props = {
-	team: Pick<TeamSchema, 'slug'>;
-	initialMemberCountPromise: Promise<number>;
+	membersHandle: MembersHandle;
 };
 
-export function TeamCardDescription({ team, initialMemberCountPromise }: Props) {
-	const initialMemberCount = use(initialMemberCountPromise);
-	const { data: members } = useLiveMembers(team);
-	const memberCount = members ? count(members, (member) => member.signedInAt !== undefined) : initialMemberCount;
+export function TeamCardDescription({ membersHandle }: Props) {
+	const { data: members } = useLiveMembers(membersHandle);
+	if (!members) return <Skeleton className='h-5 w-48' />;
+
+	const memberCount = count(members, (member) => member.signedInAt !== undefined);
 
 	switch (memberCount) {
 		case 0:

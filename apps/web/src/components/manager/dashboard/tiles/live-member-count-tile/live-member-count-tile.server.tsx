@@ -1,6 +1,6 @@
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { Suspense } from 'react';
-import { getSimpleMemberList } from '@/src/trpc/trpc-server';
+import { HydrateClient, loadMembersHandle } from '@/src/trpc/trpc-server';
 import { LiveMemberCountTileClient, LiveMemberCountTileLoading } from './live-member-count-tile.client';
 
 type Props = { team: Pick<TeamSchema, 'slug'> };
@@ -14,7 +14,11 @@ export function LiveMemberCountTile({ team }: Props) {
 }
 
 async function LiveMemberCountTileFetcher({ team }: Props) {
-	const data = await getSimpleMemberList(team.slug);
+	const members = await loadMembersHandle(team.slug);
 
-	return <LiveMemberCountTileClient team={team} members={data} />;
+	return (
+		<HydrateClient>
+			<LiveMemberCountTileClient membersHandle={members} />
+		</HydrateClient>
+	);
 }

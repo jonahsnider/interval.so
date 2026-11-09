@@ -9,7 +9,7 @@ import {
 	splitLink,
 	wsLink,
 } from '@trpc/client';
-import { createTRPCContext } from '@trpc/tanstack-react-query';
+import { createTRPCContext, type TRPCOptionsProxy } from '@trpc/tanstack-react-query';
 import { convert } from 'convert';
 import superjson from 'superjson';
 import { getTimezone } from '../utils/timezone-util';
@@ -33,6 +33,7 @@ const httpBatchOptions: HTTPBatchLinkOptions<AppRouterType['_def']['_config']['$
 	},
 };
 export const { TRPCProvider, useTRPC, useTRPCClient } = createTRPCContext<AppRouterType>();
+export type TRPC = TRPCOptionsProxy<AppRouterType>;
 
 export function createClient() {
 	const wsClient = createWSClient({

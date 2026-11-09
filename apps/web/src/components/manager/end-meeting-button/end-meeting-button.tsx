@@ -1,8 +1,9 @@
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
+import { ensureEntry, loadHandles } from '@trpc/tanstack-react-query/unstable-handles';
 import clsx from 'clsx';
 import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
-import { trpcServer } from '@/src/trpc/trpc-server';
+import { HydrateClient, trpc } from '@/src/trpc/trpc-server';
 import { EndMeetingButtonClient } from './end-meeting-button.client';
 
 type Props = {
@@ -11,11 +12,6 @@ type Props = {
 };
 
 export function EndMeetingButton({ width, team }: Props) {
-	const enabled = trpcServer.teams.members.simpleMemberList
-		.query({ slug: team.slug })
-		.then((members) => members.some((member) => member.signedInAt));
-	const meetingStart = trpcServer.teams.meetings.getCurrentMeetingStart.query(team);
-
 	return (
 		<Suspense
 			fallback={
@@ -27,7 +23,20 @@ export function EndMeetingButton({ width, team }: Props) {
 				/>
 			}
 		>
-			<EndMeetingButtonClient width={width} enabledPromise={enabled} team={team} meetingStartPromise={meetingStart} />
+			<EndMeetingButtonFetcher width={width} team={team} />
 		</Suspense>
+	);
+}
+
+async function EndMeetingButtonFetcher({ width, team }: Props) {
+	const [{ members, meetingStart }] = await loadHandles(trpc, {
+		members: ensureEntry(trpc.teams.members.simpleMemberList, { slug: team.slug }),
+		meetingStart: ensureEntry(trpc.teams.meetings.getCurrentMeetingStart, team),
+	});
+
+	return (
+		<HydrateClient>
+			<EndMeetingButtonClient width={width} membersHandle={members} meetingStartHandle={meetingStart} />
+		</HydrateClient>
 	);
 }

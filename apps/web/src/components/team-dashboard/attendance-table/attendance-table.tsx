@@ -1,6 +1,5 @@
 'use client';
 import { PlusIcon } from '@heroicons/react/16/solid';
-import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import type { TeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
 import { concatIterables } from '@jonahsnider/util';
 import clsx from 'clsx';
@@ -12,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/flex-table';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
-import { useLiveMembers } from '@/src/trpc/live-queries';
+import { type MembersHandle, useLiveMembers } from '@/src/trpc/live-queries';
 import { useMutation } from '@tanstack/react-query';
 import { useTRPC } from '@/src/trpc/trpc-client';
 import { CreateMemberDialog } from '../../members/create-member/create-member-dialog';
@@ -34,15 +33,15 @@ const motionVariants: Variants = {
 type SimpleMember = Pick<TeamMemberSchema, 'id' | 'name' | 'signedInAt'>;
 
 type Props = {
-	initialData: SimpleMember[];
-	team: Pick<TeamSchema, 'slug'>;
+	membersHandle: MembersHandle;
 };
 
 // React Table needs a stable data reference while the subscription is pending.
 const emptyMembers: SimpleMember[] = [];
 
-export function AttendanceTable({ initialData, team }: Props) {
-	const { data: members = emptyMembers } = useLiveMembers(team, initialData);
+export function AttendanceTable({ membersHandle }: Props) {
+	const { data: members = emptyMembers } = useLiveMembers(membersHandle);
+	const team = membersHandle.input;
 
 	const fuse = useMemo(() => new Fuse(members, { keys: ['name'] }), [members]);
 	const [filter, setFilter] = useState('');

@@ -1,16 +1,13 @@
 'use client';
 
-import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
-import type { SimpleTeamMemberSchema } from '@interval.so/api/app/team_member/schemas/team_member_schema';
 import { count } from '@jonahsnider/util';
 import { Skeleton } from 'skullet/react';
 import { Progress } from '@/components/ui/progress';
-import { useLiveMembers } from '@/src/trpc/live-queries';
+import { type MembersHandle, useLiveMembers } from '@/src/trpc/live-queries';
 import { LiveMemberCountTileBase } from './live-member-count-tile.shared';
 
 type Props = {
-	team: Pick<TeamSchema, 'slug'>;
-	members: SimpleTeamMemberSchema[];
+	membersHandle: MembersHandle;
 };
 
 const sampleData = { current: 24, max: 32 };
@@ -19,8 +16,9 @@ export function LiveMemberCountTileLoading() {
 	return <LiveMemberCountTileContent data={sampleData} loading />;
 }
 
-export function LiveMemberCountTileClient({ team, members }: Props) {
-	const { data = members } = useLiveMembers(team, members);
+export function LiveMemberCountTileClient({ membersHandle }: Props) {
+	const { data } = useLiveMembers(membersHandle);
+	if (!data) return <LiveMemberCountTileLoading />;
 	return (
 		<LiveMemberCountTileContent
 			data={{ current: count(data, (member) => member.signedInAt !== undefined), max: data.length }}

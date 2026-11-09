@@ -1,30 +1,29 @@
 'use client';
 import { ArrowRightStartOnRectangleIcon } from '@heroicons/react/16/solid';
-import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import clsx from 'clsx';
-import { use } from 'react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { useLiveMembers, useLiveMeetingStart } from '@/src/trpc/live-queries';
+import {
+	type MeetingStartHandle,
+	type MembersHandle,
+	useLiveMembers,
+	useLiveMeetingStart,
+} from '@/src/trpc/live-queries';
 import { EndMeetingAlert, EndMeetingAlertTrigger } from '../end-meeting-alert';
 
 type Props = {
 	width?: 'full' | 'auto';
-	enabledPromise: Promise<boolean>;
-	meetingStartPromise: Promise<{ startedAt?: Date | undefined }>;
-	team: Pick<TeamSchema, 'slug'>;
+	membersHandle: MembersHandle;
+	meetingStartHandle: MeetingStartHandle;
 };
 
-export function EndMeetingButtonClient({ width = 'auto', team, enabledPromise, meetingStartPromise }: Props) {
-	const initialEnabled = use(enabledPromise);
-	const initialMeetingStart = use(meetingStartPromise);
-
-	const { data: members } = useLiveMembers(team);
-	const enabled = members ? members.some((member) => member.signedInAt) : initialEnabled;
-	const { data: meeting } = useLiveMeetingStart(team, initialMeetingStart);
+export function EndMeetingButtonClient({ width = 'auto', membersHandle, meetingStartHandle }: Props) {
+	const { data: members } = useLiveMembers(membersHandle);
+	const enabled = members?.some((member) => member.signedInAt);
+	const { data: meeting } = useLiveMeetingStart(meetingStartHandle);
 
 	return (
-		<EndMeetingAlert team={team} meetingStart={meeting?.startedAt}>
+		<EndMeetingAlert team={membersHandle.input} meetingStart={meeting?.startedAt}>
 			<Tooltip>
 				<TooltipTrigger asChild={true}>
 					{/* oxlint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- This is interactive */}

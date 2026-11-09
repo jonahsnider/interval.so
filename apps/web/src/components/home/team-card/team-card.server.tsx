@@ -1,11 +1,10 @@
 import { ArrowRightIcon } from '@heroicons/react/24/solid';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
-import { count } from '@jonahsnider/util';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { getSimpleMemberList } from '@/src/trpc/trpc-server';
+import { HydrateClient, loadMembersHandle } from '@/src/trpc/trpc-server';
 import { MemberAvatars } from '../../team-dashboard/member-avatars/member-avatars.server';
 import { TeamCardDescription } from './team-card.client';
 
@@ -14,10 +13,6 @@ type Props = {
 };
 
 export function TeamCard({ team }: Props) {
-	const memberCountPromise = getSimpleMemberList(team.slug).then((members) =>
-		count(members, (member) => member.signedInAt !== undefined),
-	);
-
 	return (
 		<Link href={`/team/${team.slug}`} className='group'>
 			<Card className='group-hover:bg-accent transition-all h-full'>
@@ -28,7 +23,7 @@ export function TeamCard({ team }: Props) {
 					</div>
 					<Suspense fallback={<Skeleton className='h-5 w-48' />}>
 						<CardDescription>
-							<TeamCardDescription team={team} initialMemberCountPromise={memberCountPromise} />
+							<TeamCardDescriptionFetcher slug={team.slug} />
 						</CardDescription>
 					</Suspense>
 				</CardHeader>
@@ -38,5 +33,15 @@ export function TeamCard({ team }: Props) {
 				</CardFooter>
 			</Card>
 		</Link>
+	);
+}
+
+async function TeamCardDescriptionFetcher({ slug }: { slug: string }) {
+	const members = await loadMembersHandle(slug);
+
+	return (
+		<HydrateClient>
+			<TeamCardDescription membersHandle={members} />
+		</HydrateClient>
 	);
 }
