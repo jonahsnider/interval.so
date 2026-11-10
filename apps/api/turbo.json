@@ -1,0 +1,24 @@
+{
+	"$schema": "https://turbo.build/schema.json",
+	"extends": ["//"],
+	"tasks": {
+		"build": {
+			"outputs": ["build/**"]
+		},
+		"test": {
+			"env": [
+				"APP_KEY",
+				"COOKIE_DOMAIN",
+				"HOST",
+				"LOG_LEVEL",
+				"PORT",
+				"PORTLESS_URL",
+				"POSTGRES_URL",
+				"REDIS_URL",
+				"POSTHOG_HOST",
+				"POSTHOG_KEY",
+				"SENTRY_DSN_API"
+			]
+		}
+	}
+}

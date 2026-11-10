@@ -1,6 +1,8 @@
 {
 	"$schema": "https://turbo.build/schema.json",
 	"cacheMaxSize": "2GB",
+	"globalDependencies": [".env*"],
+	"globalEnv": ["NODE_ENV"],
 	"tasks": {
 		"//#lint": {},
 		"//#format": {},
@@ -10,26 +12,21 @@
 		"//#format:write": {
 			"cache": false
 		},
-		"test": {},
+		"test": {
+			"inputs": ["$TURBO_DEFAULT$", ".env*"]
+		},
 		"build": {
-			"dependsOn": ["^build"]
-		},
-		"@interval.so/api#build": {
 			"dependsOn": ["^build"],
-			"outputs": ["build/**"]
-		},
-		"@interval.so/web#build": {
-			"dependsOn": ["^build"],
-			"env": ["API_URL", "NEXT_PUBLIC_API_URL", "NEXT_PUBLIC_SENTRY_DSN", "POSTHOG_HOST", "POSTHOG_KEY"],
-			"outputs": [".next/**", "!.next/cache/**", "!.next/dev/**"],
-			"passThroughEnv": ["SENTRY_AUTH_TOKEN"]
+			"inputs": ["$TURBO_DEFAULT$", ".env*"]
 		},
 		"type-check": {
-			"dependsOn": ["^type-check"]
+			"dependsOn": ["^type-check"],
+			"inputs": ["$TURBO_DEFAULT$", ".env*"]
 		},
 		"dev": {
 			"persistent": true,
-			"cache": false
+			"cache": false,
+			"passThroughEnv": ["*"]
 		}
 	}
 }

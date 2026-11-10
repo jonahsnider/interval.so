@@ -1,0 +1,16 @@
+{
+	"$schema": "https://turbo.build/schema.json",
+	"extends": ["//"],
+	"tasks": {
+		"build": {
+			"env": ["API_URL", "POSTHOG_HOST", "POSTHOG_KEY"],
+			"outputs": [".next/**", "!.next/cache/**", "!.next/dev/**", "next-env.d.ts"],
+			"passThroughEnv": ["SENTRY_AUTH_TOKEN"]
+		},
+		"type-check": {
+			"dependsOn": ["build", "^type-check"],
+			"env": ["API_URL", "POSTHOG_HOST", "POSTHOG_KEY"],
+			"outputs": ["tsconfig.tsbuildinfo"]
+		}
+	}
+}
