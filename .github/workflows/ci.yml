@@ -17,7 +17,7 @@ jobs:
       REDIS_URL: redis://127.0.0.1:6379
       POSTHOG_HOST: http://localhost:3333
       POSTHOG_KEY: phc_interval_ci
-      SENTRY_DSN_API: ''
+      SENTRY_DSN_API: http://ci@127.0.0.1:1/1
 
     steps:
       - name: Checkout Git repository
