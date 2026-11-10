@@ -1,3 +1,3 @@
-import { SettingsContentLoading } from '@/src/components/route-loading';
+import { SettingsCardsLoading } from '@/src/components/route-loading';
 
-export default SettingsContentLoading;
+export default SettingsCardsLoading;

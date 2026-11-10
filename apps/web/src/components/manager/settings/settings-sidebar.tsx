@@ -1,61 +1,40 @@
-import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
+'use client';
+
 import clsx from 'clsx';
 import Link from 'next/link';
-
-type SidebarEntryData = {
-	label: string;
-	hrefSuffix: string;
-	id: string;
-};
+import { useParams, useSelectedLayoutSegment } from 'next/navigation';
 
 const ENTRIES = [
 	{
 		label: 'General',
 		hrefSuffix: '',
-		id: 'general',
+		segment: '(general)',
 	},
 	{
 		label: 'Managers',
 		hrefSuffix: '/managers',
-		id: 'managers',
+		segment: 'managers',
 	},
-] as const satisfies SidebarEntryData[];
+] as const;
 
-export type SidebarEntryId = (typeof ENTRIES)[number]['id'];
+export function SettingsSidebar() {
+	const { team } = useParams<{ team: string }>();
+	const segment = useSelectedLayoutSegment();
+	const baseHref = `/team/${encodeURIComponent(team)}/dashboard/settings`;
 
-function SidebarEntry({
-	entry,
-	team,
-	active,
-}: {
-	entry: SidebarEntryData;
-	team: Pick<TeamSchema, 'slug'>;
-	active: boolean;
-}) {
-	const href = `/team/${encodeURIComponent(team.slug)}/dashboard/settings${entry.hrefSuffix}`;
-
-	return (
-		<Link
-			href={href}
-			className={clsx('hover:bg-muted transition-colors py-2 px-3 rounded-md bg-background-muted', {
-				'font-semibold text-foreground bg-muted/50': active,
-			})}
-		>
-			{entry.label}
-		</Link>
-	);
-}
-
-type Props = {
-	team: Pick<TeamSchema, 'slug'>;
-	pageId: SidebarEntryId;
-};
-
-export function SettingsSidebar({ team, pageId }: Props) {
 	return (
 		<nav className='flex flex-col gap-2 text-muted-foreground bg-background-muted'>
 			{ENTRIES.map((entry) => (
-				<SidebarEntry key={entry.label} entry={entry} team={team} active={pageId === entry.id} />
+				<Link
+					key={entry.segment}
+					href={`${baseHref}${entry.hrefSuffix}`}
+					aria-current={segment === entry.segment ? 'page' : undefined}
+					className={clsx('hover:bg-muted transition-colors py-2 px-3 rounded-md bg-background-muted', {
+						'font-semibold text-foreground bg-muted/50': segment === entry.segment,
+					})}
+				>
+					{entry.label}
+				</Link>
 			))}
 		</nav>
 	);

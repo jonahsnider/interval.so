@@ -89,24 +89,22 @@ export function AttendanceContentLoading() {
 export function SettingsContentLoading() {
 	return (
 		<>
-			<div className='col-span-full flex flex-col gap-2 md:col-span-1'>
-				<Skeleton className='h-10 w-full' />
-				<Skeleton className='h-10 w-full' />
+			<div className='col-span-full md:col-span-1'>
+				<SettingsSidebarLoading />
 			</div>
-			<div className='col-span-full flex flex-col gap-4 md:col-span-3'>
-				{Array.from({ length: 3 }, (_, index) => (
-					<Card key={index}>
-						<CardHeader className='gap-2'>
-							<Skeleton className='h-5 w-36' />
-							<Skeleton className='h-4 w-full' />
-						</CardHeader>
-						<CardContent>
-							<Skeleton className='h-9 w-full' />
-						</CardContent>
-					</Card>
-				))}
+			<div className='col-span-full md:col-span-3'>
+				<SettingsCardsLoading />
 			</div>
 		</>
+	);
+}
+
+export function SettingsSidebarLoading() {
+	return (
+		<div className='flex flex-col gap-2'>
+			<Skeleton className='h-10 w-full' />
+			<Skeleton className='h-10 w-full' />
+		</div>
 	);
 }
 
