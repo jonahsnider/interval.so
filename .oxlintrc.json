@@ -5,6 +5,9 @@
 	},
 	"ignorePatterns": [
 		"**/.next",
+		"**/.cloudflare",
+		"**/.open-next",
+		"**/.wrangler",
 		"**/.adonisjs",
 		"**/.vercel",
 		"apps/api/build",

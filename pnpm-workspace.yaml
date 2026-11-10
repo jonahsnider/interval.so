@@ -13,6 +13,7 @@ allowBuilds:
   core-js: true
   esbuild: true
   sharp: true
+  workerd: true
 
 minimumReleaseAgeExclude:
   - '@better-auth/core@1.7.11'

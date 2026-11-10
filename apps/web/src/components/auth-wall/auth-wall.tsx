@@ -1,5 +1,6 @@
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import clsx from 'clsx';
+import { connection } from 'next/server';
 import { type PropsWithChildren, type ReactNode, Suspense } from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -101,6 +102,7 @@ async function teamWithDisplayName(
 }
 
 async function AuthWallUser({ children }: CardProps) {
+	await connection();
 	const isAuthed = await getIsAuthed();
 
 	if (!isAuthed) {

@@ -1,4 +1,5 @@
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
+import { connection } from 'next/server';
 import { Suspense, use } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -9,7 +10,8 @@ type Props = {
 	team: Pick<TeamSchema, 'slug'>;
 };
 
-export function GuestTeamNavbarItem() {
+export async function GuestTeamNavbarItem() {
+	await connection();
 	const teamPromise = getCurrentGuestTeam();
 
 	return (

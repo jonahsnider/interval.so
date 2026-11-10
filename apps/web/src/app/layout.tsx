@@ -1,5 +1,4 @@
 import { PostHogPageView, PostHogProvider } from '@posthog/next';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import clsx from 'clsx';
 import type { Metadata, Viewport } from 'next';
 import { Inter, Playfair_Display } from 'next/font/google';
@@ -99,7 +98,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 								</TrpcProvider>
 
 								<Toaster />
-								<SpeedInsights />
 							</PostHogProvider>
 						</NuqsAdapter>
 					</ThemeProvider>
