@@ -2,16 +2,22 @@ name: CI
 
 on: [push, pull_request]
 
-env:
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-
 jobs:
   build-and-test:
     name: Build and test
 
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    env:
+      NODE_ENV: development
+      NEXT_PUBLIC_API_URL: http://localhost:3333
+      APP_KEY: interval-local-ci-key-not-for-production
+      COOKIE_DOMAIN: localhost
+      POSTGRES_URL: postgres://interval:interval@127.0.0.1:5432/interval
+      REDIS_URL: redis://127.0.0.1:6379
+      POSTHOG_HOST: http://localhost:3333
+      POSTHOG_KEY: phc_interval_ci
+      SENTRY_DSN_API: http://ci@127.0.0.1:1/1
 
     steps:
       - name: Checkout Git repository
@@ -20,8 +26,6 @@ jobs:
         uses: pnpm/setup@fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e # v3
         with:
           cache: true
-      - name: Pull environment variables
-        run: pnpm vercel env pull --environment development .env --token ${{ secrets.VERCEL_TOKEN }}
       - name: Start database services
         run: docker compose up --detach --wait
       - name: Cache Next.js
@@ -36,12 +40,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-
       - name: Lint, format, build, type check, and test
+        env:
+          TURBO_ENV_MODE: loose
         run: pnpm test
+      - name: Build Cloudflare Worker
+        run: pnpm --filter @interval.so/web run build:worker
       - name: Smoke-test production API
         run: |
           pnpm install --prod --filter @interval.so/api --frozen-lockfile
 
-          HOST=127.0.0.1 PORT=3333 NODE_ENV=production node --env-file=.env apps/api/build/bin/server.js &
+          HOST=127.0.0.1 PORT=3333 NODE_ENV=production node apps/api/build/bin/server.js &
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
 

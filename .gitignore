@@ -244,7 +244,13 @@ service-account-key.json
 # Turbo
 .turbo
 
-# Vercel
+# Cloudflare
+.cloudflare
+.open-next
+.wrangler
+.dev.vars*
+
+# Local hosting configuration
 .vercel
 .env*.local
 

@@ -9,8 +9,6 @@ import { MainContent } from '@/src/components/page-wrappers/main-content';
 import { trpcServer } from '@/src/trpc/trpc-server';
 import LandingPage from './home/page';
 
-export const instant = false;
-
 function AuthedHomePage() {
 	return (
 		<FooterWrapper>

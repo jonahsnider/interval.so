@@ -22,7 +22,7 @@
 			"dependsOn": ["^build"],
 			"env": ["API_URL", "NEXT_PUBLIC_API_URL", "NEXT_PUBLIC_SENTRY_DSN", "POSTHOG_HOST", "POSTHOG_KEY"],
 			"outputs": [".next/**", "!.next/cache/**", "!.next/dev/**"],
-			"passThroughEnv": ["SENTRY_AUTH_TOKEN", "VERCEL_OIDC_TOKEN"]
+			"passThroughEnv": ["SENTRY_AUTH_TOKEN"]
 		},
 		"type-check": {
 			"dependsOn": ["^type-check"]

@@ -4,8 +4,11 @@
 	"private": true,
 	"scripts": {
 		"build": "NODE_ENV=production next build",
+		"build:worker": "opennextjs-cloudflare build --skipWranglerConfigCheck && wrangler build --experimental-new-config --experimental-cf-build-output",
+		"deploy": "pnpm build:worker && cf deploy --prebuilt",
 		"dev": "portless",
 		"dev:app": "NEXT_PUBLIC_API_URL=$(portless get api.interval.so) next dev",
+		"preview": "pnpm build:worker && wrangler dev --experimental-new-config",
 		"start": "next start",
 		"type-check": "next typegen && tsc",
 		"test": "node --test tests/*.test.ts"
@@ -43,7 +46,7 @@
 		"@trpc/tanstack-react-query": "11.25.2",
 		"@types/react": "19.3.0",
 		"@types/react-dom": "19.3.0",
-		"@vercel/speed-insights": "2.1.0",
+		"@vercel/functions": "3.10.0",
 		"autoprefixer": "10.6.2",
 		"better-auth": "1.7.18",
 		"chrono-node": "2.10.3",
@@ -80,8 +83,11 @@
 		"zod": "4.6.7"
 	},
 	"devDependencies": {
+		"@opennextjs/cloudflare": "1.20.16",
 		"@types/node": "26.6.6",
-		"dotenv": "18.0.10"
+		"cf": "1.0.0-beta.28",
+		"dotenv": "18.0.10",
+		"wrangler": "4.158.0"
 	},
 	"portless": {
 		"name": "interval.so",
