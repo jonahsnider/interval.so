@@ -81,7 +81,7 @@
 	},
 	"devDependencies": {
 		"@types/node": "26.6.6",
-		"dotenv": "18.0.9"
+		"dotenv": "18.0.10"
 	},
 	"portless": {
 		"name": "interval.so",
