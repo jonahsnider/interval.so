@@ -204,7 +204,7 @@ importers:
         version: 11.0.0(@adonisjs/core@7.6.0(@adonisjs/assembler@8.6.0(typescript@7.0.2))(@vinejs/vine@4.4.0)(pino-pretty@13.2.0)(supports-color@10.2.2)(youch@4.1.1))(supports-color@10.2.2)
       '@adonisjs/session':
         specifier: 8.3.0
-        version: 8.3.0(@adonisjs/assembler@8.6.0(typescript@7.0.2))(@adonisjs/core@7.6.0(@adonisjs/assembler@8.6.0(typescript@7.0.2))(@vinejs/vine@4.4.0)(pino-pretty@13.2.0)(supports-color@10.2.2)(youch@4.1.1))(@adonisjs/redis@11.0.0(@adonisjs/core@7.6.0(@adonisjs/assembler@8.6.0(typescript@7.0.2))(@vinejs/vine@4.4.0)(pino-pretty@13.2.0)(supports-color@10.2.2)(youch@4.1.1))(supports-color@10.2.2))
+        version: 8.3.0(@adonisjs/assembler@8.6.0(typescript@7.0.2))(@adonisjs/core@7.6.0(@adonisjs/assembler@8.6.0(typescript@7.0.2))(@vinejs/vine@4.4.0)(pino-pretty@13.2.0)(supports-color@10.2.2)(youch@4.1.1))(@adonisjs/redis@11.0.0(@adonisjs/core@7.6.0(@adonisjs/assembler@8.6.0(typescript@7.0.2))(@vinejs/vine@4.4.0)(pino-pretty@13.2.0)(supports-color@10.2.2)(youch@4.1.1))(supports-color@10.2.2))(@aws-sdk/client-dynamodb@3.984.0)
       '@better-auth/drizzle-adapter':
         specifier: 1.7.18
         version: 1.7.18(@better-auth/core@1.7.18(@better-auth/utils@0.5.1)(@better-fetch/fetch@1.3.3)(@opentelemetry/api@1.10.0)(better-call@1.4.5(zod@4.6.7))(jose@6.2.13)(kysely@0.29.7)(nanostores@1.5.5))(@better-auth/utils@0.5.1)(drizzle-orm@1.0.0-rc.5-ab785fc(@opentelemetry/api@1.10.0)(@types/pg@8.23.1)(postgres@4.1.0)(zod@4.6.7))
@@ -334,7 +334,7 @@ importers:
         version: 13.0.0
       '@posthog/next':
         specifier: 0.11.0
-        version: 0.11.0(@opentelemetry/api@1.10.0)(@types/react@19.3.0)(@vercel/functions@3.10.0(@aws-sdk/credential-provider-web-identity@3.972.88)(ws@8.22.2))(next@16.4.5(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(rxjs@7.8.2)
+        version: 0.11.0(@opentelemetry/api@1.10.0)(@types/react@19.3.0)(@vercel/functions@3.11.0(@aws-sdk/credential-provider-web-identity@3.972.88)(ws@8.22.2))(next@16.4.5(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(rxjs@7.8.2)
       '@radix-ui/react-alert-dialog':
         specifier: 1.2.1
         version: 1.2.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -414,8 +414,8 @@ importers:
         specifier: 19.3.0
         version: 19.3.0(@types/react@19.3.0)
       '@vercel/functions':
-        specifier: 3.10.0
-        version: 3.10.0(@aws-sdk/credential-provider-web-identity@3.972.88)(ws@8.22.2)
+        specifier: 3.11.0
+        version: 3.11.0(@aws-sdk/credential-provider-web-identity@3.972.88)(ws@8.22.2)
       autoprefixer:
         specifier: 10.6.2
         version: 10.6.2(postcss@8.5.32)
@@ -4187,15 +4187,15 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@vercel/cli-config@0.3.1':
-    resolution: {integrity: sha512-sISbygqlFXYb8qfPu/+2Cf/A8IjrlAuZePdag3EDQr2PRA455s7UZtl9Ro674CWsB/saBRmz3jEkw0YsQs8OoQ==}
+  '@vercel/cli-config@0.3.7':
+    resolution: {integrity: sha512-bHFJcUF2sUsB/6XfS+BWAYjD7DIt1xyhz6oOAvGEBua0S4P+pKQ04O6vZ3jLw1HMX1ZNKP9lyGpoiqgToqI7GQ==}
 
   '@vercel/cli-exec@1.0.1':
     resolution: {integrity: sha512-g9XerViJ/paZujufXYcu5XYI2vU2rtB4sgdpjUHde5RnOkdmpu0ngH46LCFGHoPXO/C+qDPSczIHIRN+8Q2YKQ==}
     engines: {node: '>= 18'}
 
-  '@vercel/functions@3.10.0':
-    resolution: {integrity: sha512-WAt0QuZBy5tLQlqVeUrC+SATkyngZWz5IBl6dvmw8hxFfGPmfWN06mkpiwXY22Ys1Dnxmcu9KlZDQV3vPP0hjQ==}
+  '@vercel/functions@3.11.0':
+    resolution: {integrity: sha512-LKwNcV4Jwb8GpovADePfassmsR2gRL5OeKcQzrWfLOJaRX3MHbeUPqAurCAneKrKa8hxnWa4H5bCFreLSvHedA==}
     engines: {node: '>= 20'}
     peerDependencies:
       '@aws-sdk/credential-provider-web-identity': '*'
@@ -4206,8 +4206,8 @@ packages:
       ws:
         optional: true
 
-  '@vercel/oidc@4.0.0':
-    resolution: {integrity: sha512-ko6ATeRUlHZMB5hLFdC7+/Q1dI2f3NX3gZHxtpALdkxurwjD5HFHGWYF+4o+4SF0E47jg6KzcHknmRpHcKgJ5A==}
+  '@vercel/oidc@4.0.7':
+    resolution: {integrity: sha512-ZiplzlXLWdKPj36yp23LBwaKWt4hR+kNULULeMVwtrx+iDpxnMk1nFKiHEtUWRjGpnqi/rDGwtnE/Xkfl9xXvQ==}
     engines: {node: '>= 20'}
 
   '@vinejs/compiler@4.2.0':
@@ -6764,9 +6764,6 @@ packages:
   youch@4.1.1:
     resolution: {integrity: sha512-mxW3qiSnl+GRxXsaUMzv2Mbada1Y8CDltET9UxejDQe6DBYlSekghl5U5K0ReAikcHDi0G1vKZEmmo/NWAGKLA==}
 
-  zod@4.1.11:
-    resolution: {integrity: sha512-WPsqwxITS2tzx1bzhIKsEs19ABD5vmCVa4xBo2tq/SrV4RNZtfws1EnCWQXM6yh8bD08a1idvkB5MZSBiZsjwg==}
-
   zod@4.6.6:
     resolution: {integrity: sha512-4UmzQUF5fxvfcYHlbjBmejU+w+hbDnWFx4aS8kBx7nPBHcO2SqPbpAG8snbdg+Xse4pRefR98hgjFgIMCI/UhA==}
 
@@ -6980,7 +6977,7 @@ snapshots:
       '@poppinss/colors': 4.1.6
       string-width: 8.3.0
 
-  '@adonisjs/session@8.3.0(@adonisjs/assembler@8.6.0(typescript@7.0.2))(@adonisjs/core@7.6.0(@adonisjs/assembler@8.6.0(typescript@7.0.2))(@vinejs/vine@4.4.0)(pino-pretty@13.2.0)(supports-color@10.2.2)(youch@4.1.1))(@adonisjs/redis@11.0.0(@adonisjs/core@7.6.0(@adonisjs/assembler@8.6.0(typescript@7.0.2))(@vinejs/vine@4.4.0)(pino-pretty@13.2.0)(supports-color@10.2.2)(youch@4.1.1))(supports-color@10.2.2))':
+  '@adonisjs/session@8.3.0(@adonisjs/assembler@8.6.0(typescript@7.0.2))(@adonisjs/core@7.6.0(@adonisjs/assembler@8.6.0(typescript@7.0.2))(@vinejs/vine@4.4.0)(pino-pretty@13.2.0)(supports-color@10.2.2)(youch@4.1.1))(@adonisjs/redis@11.0.0(@adonisjs/core@7.6.0(@adonisjs/assembler@8.6.0(typescript@7.0.2))(@vinejs/vine@4.4.0)(pino-pretty@13.2.0)(supports-color@10.2.2)(youch@4.1.1))(supports-color@10.2.2))(@aws-sdk/client-dynamodb@3.984.0)':
     dependencies:
       '@adonisjs/core': 7.6.0(@adonisjs/assembler@8.6.0(typescript@7.0.2))(@vinejs/vine@4.4.0)(pino-pretty@13.2.0)(supports-color@10.2.2)(youch@4.1.1)
       '@poppinss/macroable': 1.1.2
@@ -6988,6 +6985,7 @@ snapshots:
     optionalDependencies:
       '@adonisjs/assembler': 8.6.0(typescript@7.0.2)
       '@adonisjs/redis': 11.0.0(@adonisjs/core@7.6.0(@adonisjs/assembler@8.6.0(typescript@7.0.2))(@vinejs/vine@4.4.0)(pino-pretty@13.2.0)(supports-color@10.2.2)(youch@4.1.1))(supports-color@10.2.2)
+      '@aws-sdk/client-dynamodb': 3.984.0
 
   '@adonisjs/tsconfig@2.0.0': {}
 
@@ -8935,7 +8933,7 @@ snapshots:
     dependencies:
       '@posthog/types': 1.421.0
 
-  '@posthog/next@0.11.0(@opentelemetry/api@1.10.0)(@types/react@19.3.0)(@vercel/functions@3.10.0(@aws-sdk/credential-provider-web-identity@3.972.88)(ws@8.22.2))(next@16.4.5(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(rxjs@7.8.2)':
+  '@posthog/next@0.11.0(@opentelemetry/api@1.10.0)(@types/react@19.3.0)(@vercel/functions@3.11.0(@aws-sdk/credential-provider-web-identity@3.972.88)(ws@8.22.2))(next@16.4.5(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(rxjs@7.8.2)':
     dependencies:
       '@posthog/core': 1.63.0
       '@posthog/react': 1.11.3(@types/react@19.3.0)(posthog-js@1.445.1(@types/react@19.3.0)(react@19.3.1))(react@19.3.1)
@@ -8947,7 +8945,7 @@ snapshots:
       server-only: 0.0.1
     optionalDependencies:
       '@opentelemetry/api': 1.10.0
-      '@vercel/functions': 3.10.0(@aws-sdk/credential-provider-web-identity@3.972.88)(ws@8.22.2)
+      '@vercel/functions': 3.11.0(@aws-sdk/credential-provider-web-identity@3.972.88)(ws@8.22.2)
     transitivePeerDependencies:
       - '@types/react'
       - preact-render-to-string
@@ -10291,25 +10289,25 @@ snapshots:
   '@typescript/typescript-win32-x64@7.0.2':
     optional: true
 
-  '@vercel/cli-config@0.3.1':
+  '@vercel/cli-config@0.3.7':
     dependencies:
       xdg-app-paths: 5.5.1
-      zod: 4.1.11
+      zod: 4.6.7
 
   '@vercel/cli-exec@1.0.1':
     dependencies:
       execa: 5.1.1
 
-  '@vercel/functions@3.10.0(@aws-sdk/credential-provider-web-identity@3.972.88)(ws@8.22.2)':
+  '@vercel/functions@3.11.0(@aws-sdk/credential-provider-web-identity@3.972.88)(ws@8.22.2)':
     dependencies:
-      '@vercel/oidc': 4.0.0
+      '@vercel/oidc': 4.0.7
     optionalDependencies:
       '@aws-sdk/credential-provider-web-identity': 3.972.88
       ws: 8.22.2
 
-  '@vercel/oidc@4.0.0':
+  '@vercel/oidc@4.0.7':
     dependencies:
-      '@vercel/cli-config': 0.3.1
+      '@vercel/cli-config': 0.3.7
       '@vercel/cli-exec': 1.0.1
       jose: 5.10.0
 
@@ -12738,8 +12736,6 @@ snapshots:
       '@speed-highlight/core': 1.2.24
       cookie-es: 3.1.1
       youch-core: 0.3.3
-
-  zod@4.1.11: {}
 
   zod@4.6.6: {}
 
