@@ -296,9 +296,6 @@ importers:
       '@types/ws':
         specifier: 8.18.2
         version: 8.18.2
-      dotenv:
-        specifier: 18.0.10
-        version: 18.0.10
       execa:
         specifier: 10.2.1
         version: 10.2.1
@@ -528,9 +525,6 @@ importers:
       cf:
         specifier: 1.0.0-beta.28
         version: 1.0.0-beta.28(@types/node@26.6.6)
-      dotenv:
-        specifier: 18.0.10
-        version: 18.0.10
       wrangler:
         specifier: 4.158.0
         version: 4.158.0(@types/node@26.6.6)
@@ -4736,11 +4730,6 @@ packages:
   dotenv@17.4.2:
     resolution: {integrity: sha512-nI4U3TottKAcAD9LLud4Cb7b2QztQMUEfHbvhTH09bqXTxnSie8WnjPALV/WMCrJZ6UV/qHJ6L03OqO3LcdYZw==}
     engines: {node: '>=12'}
-
-  dotenv@18.0.10:
-    resolution: {integrity: sha512-89FAA1xchzK2mxVWdr5F/0rldwiueXs6zJM86rO66EzekR1iBdiXRthyG+m5GvkJaFH3C2LESzamTkgndmLT2A==}
-    engines: {node: '>=12'}
-    hasBin: true
 
   drizzle-kit@1.0.0-rc.5-ab785fc:
     resolution: {integrity: sha512-TSg7sK1finOxdo48O9mDfyMY3lhi/aHCVIil5TFhthyq/H/89H/3nwX5V9Gdp7HYMUGFHyWJD5iowSn98l0elw==}
@@ -10756,8 +10745,6 @@ snapshots:
       '@types/trusted-types': 2.0.7
 
   dotenv@17.4.2: {}
-
-  dotenv@18.0.10: {}
 
   drizzle-kit@1.0.0-rc.5-ab785fc:
     dependencies:

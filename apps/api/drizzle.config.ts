@@ -1,11 +1,6 @@
 import assert from 'node:assert/strict';
 import path from 'node:path';
-import { config } from 'dotenv';
 import { defineConfig } from 'drizzle-kit';
-
-if (process.env.NODE_ENV === 'development') {
-	config({ path: path.join(__dirname, '..', '..', '.env') });
-}
 
 const postgresUrl = process.env.POSTGRES_URL;
 

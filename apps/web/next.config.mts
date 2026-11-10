@@ -1,9 +1,5 @@
 import { withSentryConfig } from '@sentry/nextjs/config';
-import dotenv from 'dotenv';
 import { withPlausibleProxy } from 'next-plausible';
-import path from 'node:path';
-
-dotenv.config({ path: path.join(import.meta.dirname, '..', '..', '.env') });
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? process.env.API_URL;
 
