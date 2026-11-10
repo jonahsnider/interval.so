@@ -3,8 +3,8 @@
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import type { AverageHoursDatumSchema } from '@interval.so/api/app/team_stats/schemas/average_hours_datum_schema';
 import type { DatumPeriod } from '@interval.so/api/app/team_stats/schemas/datum_time_range_schema';
+import type { TimeFilterSchema } from '@interval.so/api/app/team_stats/schemas/time_filter_schema';
 import { toDigits } from '@jonahsnider/util';
-import { useQueryStates } from 'nuqs';
 import { use, useMemo } from 'react';
 import { Area, AreaChart, CartesianGrid, type TooltipProps, XAxis, YAxis } from 'recharts';
 import { type ChartConfig, ChartContainer, ChartTooltip } from '@/components/ui/chart';
@@ -19,10 +19,9 @@ import {
 import { CustomTooltip, formatTooltipDate } from '@/src/components/graphs/custom-tooltip';
 import { formatXAxisDate } from '@/src/components/graphs/graph-utils';
 import { useLiveAverageHours } from '@/src/trpc/live-queries';
-import { toTimeFilter } from '../../../period-select/duration-slug';
-import { searchParamParsers } from '../../search-params';
 
 type Props = {
+	timeFilter: TimeFilterSchema;
 	team: Pick<TeamSchema, 'slug'>;
 	dataPromise: Promise<AverageHoursDatumSchema[]>;
 	period: DatumPeriod;
@@ -59,10 +58,8 @@ function HoursTooltip({ period, tooltipProps }: { tooltipProps: TooltipProps<num
 	);
 }
 
-export function AverageHoursGraphClient({ dataPromise, period, team }: Props) {
+export function AverageHoursGraphClient({ dataPromise, period, team, timeFilter }: Props) {
 	const initialData = use(dataPromise);
-	const [searchParams] = useQueryStates(searchParamParsers);
-	const timeFilter = useMemo(() => toTimeFilter(searchParams), [searchParams]);
 
 	const { data = [] } = useLiveAverageHours({ team, timeFilter }, initialData);
 

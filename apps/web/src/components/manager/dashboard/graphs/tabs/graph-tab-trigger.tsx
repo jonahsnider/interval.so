@@ -4,18 +4,15 @@ import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import type { TimeFilterSchema } from '@interval.so/api/app/team_stats/schemas/time_filter_schema';
 import type { TimeRangeSchema } from '@interval.so/api/app/team_stats/schemas/time_range_schema';
 import { toDigits } from '@jonahsnider/util';
-import clsx from 'clsx';
-import Link from 'next/link';
-import { type ReactNode, Suspense } from 'react';
-import { Badge } from '@/components/ui/badge';
-import { Skeleton } from '@/components/ui/skeleton';
+import { TabsTrigger } from '@radix-ui/react-tabs';
+import { Suspense } from 'react';
+import { badgeVariants } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
 import { trpcServer } from '@/src/trpc/trpc-server';
-import { searchParamCache, searchParamSerializer } from '../../search-params';
 
 type TabId = 'members' | 'hours';
 
 type Props = {
-	active: boolean;
 	tabId: TabId;
 	team: Pick<TeamSchema, 'slug'>;
 	timeFilters: {
@@ -26,16 +23,15 @@ type Props = {
 
 function TrendBadge({ trend }: { trend: number }) {
 	return (
-		<Badge
-			className={clsx('shadow-none', {
+		<span
+			className={cn(badgeVariants({ variant: trend > 0 ? 'default' : 'destructive' }), 'shadow-none', {
 				'hover:bg-primary': trend > 0,
 				'hover:bg-destructive': trend < 0,
 			})}
-			variant={trend > 0 ? 'default' : 'destructive'}
 		>
 			{trend > 0 && '+'}
 			{Math.round(trend * 100)}%
-		</Badge>
+		</span>
 	);
 }
 
@@ -93,81 +89,33 @@ async function Trend({ measurePromise }: { measurePromise: ReturnType<typeof get
 async function Measure({ measurePromise }: { measurePromise: ReturnType<typeof getMeasure> }) {
 	const { current } = await measurePromise;
 
-	return <p className='text-3xl font-semibold'>{toDigits(current, 1)}</p>;
+	return <span className='text-3xl font-semibold'>{toDigits(current, 1)}</span>;
 }
 
-const TAB_OPTIONS = {
-	members: {
-		title: 'Members',
-		hrefSuffix: '',
-	},
-	hours: {
-		title: 'Average hours',
-		hrefSuffix: '/hours',
-	},
+const TAB_TITLES = {
+	members: 'Members',
+	hours: 'Average hours',
 };
 
-export function GraphTabTrigger({ tabId, active, timeFilters, team }: Props) {
-	// TODO: This hasn't been updated since query states were changed to be shallow - need to refactor to be a client side component probably (seeded with initial server side query states and then updates with client side query states)
-	const queryStates = searchParamCache.all();
-	const queryString = searchParamSerializer(queryStates);
+export function GraphTabTrigger({ tabId, timeFilters, team }: Props) {
 	const measurePromise = getMeasure(tabId, team, timeFilters);
 
-	const createHref = (subpath: string) => `/team/${team.slug}/dashboard${subpath}${queryString}`;
-
 	return (
-		<GraphTabTriggerBase
-			active={active}
-			href={createHref(TAB_OPTIONS[tabId].hrefSuffix)}
-			title={TAB_OPTIONS[tabId].title}
-			measure={<Measure measurePromise={measurePromise} />}
-			trend={<Trend measurePromise={measurePromise} />}
-		/>
-	);
-}
-
-function GraphTabTriggerBase({
-	measure,
-	title,
-	trend,
-	className,
-	href,
-	active,
-}: {
-	active: boolean;
-	title: string;
-	measure: ReactNode;
-	trend?: ReactNode;
-	className?: string;
-	href: string;
-}) {
-	return (
-		<Link
-			href={href}
-			prefetch={true}
-			className={clsx(
-				'p-4 border-b-2 border-r flex flex-col gap-2 leading-none items-start',
-				{
-					'border-b-transparent': !active,
-					'border-b-primary bg-card': active,
-				},
-				className,
-			)}
-			scroll={false}
+		<TabsTrigger
+			value={tabId}
+			aria-label={TAB_TITLES[tabId]}
+			className='group p-4 border-b-2 border-r flex flex-col gap-2 leading-none items-start border-b-transparent data-[state=active]:border-b-primary data-[state=active]:bg-card'
 		>
-			<p className='font-semibold text-sm text-muted-foreground'>{title}</p>
+			<span className='font-semibold text-sm text-muted-foreground'>{TAB_TITLES[tabId]}</span>
 
-			<div
-				className={clsx('flex gap-4 justify-center items-center', {
-					'opacity-80': !active,
-				})}
-			>
-				<div className='text-3xl font-semibold'>
-					<Suspense fallback={<Skeleton className='h-9 w-16' />}>{measure}</Suspense>
-				</div>
-
-				<Suspense fallback={<Skeleton className='h-5 w-12' />}>{trend}</Suspense>
-			</div>
-		</Link>
+			<span className='flex gap-4 justify-center items-center group-data-[state=inactive]:opacity-80'>
+				<Suspense fallback={<span className='h-9 w-16 animate-pulse rounded-md bg-secondary' />}>
+					<Measure measurePromise={measurePromise} />
+				</Suspense>
+				<Suspense fallback={<span className='h-5 w-12 animate-pulse rounded-md bg-secondary' />}>
+					<Trend measurePromise={measurePromise} />
+				</Suspense>
+			</span>
+		</TabsTrigger>
 	);
 }

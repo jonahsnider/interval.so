@@ -17,6 +17,15 @@ export default withSentryConfig(
 	})({
 		cacheComponents: true,
 		partialPrefetching: true,
+		async redirects() {
+			return [
+				{
+					source: '/team/:team/dashboard/hours',
+					destination: '/team/:team/dashboard?tab=hours',
+					permanent: true,
+				},
+			];
+		},
 		images: {
 			qualities: [75, 95],
 		},

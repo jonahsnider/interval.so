@@ -23,6 +23,7 @@ export function UniqueMembersGraph(props: Props) {
 				period={period}
 				maxMemberCountPromise={maxMemberCount}
 				team={props.team}
+				timeFilter={props.timeFilter}
 			/>
 		</Suspense>
 	);

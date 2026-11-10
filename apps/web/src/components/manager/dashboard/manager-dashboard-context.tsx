@@ -22,7 +22,7 @@ export const ManagerDashboardContext = createContext<ContextValue>({
 });
 
 export function ManagerDashboardProvider({ children }: PropsWithChildren) {
-	const [{ duration, end, start }, setQuery] = useQueryStates(searchParamParsers);
+	const [{ duration, end, start }, setQuery] = useQueryStates(searchParamParsers, { shallow: false });
 
 	const setDurationAndClearDates = useMemo(
 		() => (value: DurationSlug) => {

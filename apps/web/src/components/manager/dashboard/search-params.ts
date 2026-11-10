@@ -1,4 +1,4 @@
-import { createSearchParamsCache, createSerializer, parseAsIsoDateTime, parseAsStringEnum } from 'nuqs/server';
+import { createSearchParamsCache, parseAsIsoDateTime, parseAsStringEnum } from 'nuqs/server';
 import { DurationSlug } from '../period-select/duration-slug';
 
 export const searchParamParsers = {
@@ -9,6 +9,5 @@ export const searchParamParsers = {
 	end: parseAsIsoDateTime.withOptions({ clearOnDefault: true }),
 };
 export const searchParamCache = createSearchParamsCache(searchParamParsers);
-export const searchParamSerializer = createSerializer(searchParamParsers);
 
 export type SearchParams = ReturnType<(typeof searchParamCache)['all']>;

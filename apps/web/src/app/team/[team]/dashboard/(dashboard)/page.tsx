@@ -9,18 +9,17 @@ type Props = {
 	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-async function ManagerPageMembersTabContent(props: Props) {
-	const searchParams = await props.searchParams;
-	const params = await props.params;
+async function ManagerDashboardContent(props: Props) {
+	const [searchParams, params] = await Promise.all([props.searchParams, props.params]);
 	searchParamCache.parse(searchParams);
 
-	return <ManagerDashboardPageWrapper team={{ slug: params.team }} graphTab='members' />;
+	return <ManagerDashboardPageWrapper team={{ slug: params.team }} />;
 }
 
-export default function ManagerPageMembersTab(props: Props) {
+export default function ManagerDashboardPage(props: Props) {
 	return (
 		<Suspense>
-			<ManagerPageMembersTabContent {...props} />
+			<ManagerDashboardContent {...props} />
 		</Suspense>
 	);
 }

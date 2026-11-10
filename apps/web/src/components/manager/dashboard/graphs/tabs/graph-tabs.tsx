@@ -3,64 +3,39 @@ import 'server-only';
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import type { TimeFilterSchema } from '@interval.so/api/app/team_stats/schemas/time_filter_schema';
 import type { TimeRangeSchema } from '@interval.so/api/app/team_stats/schemas/time_range_schema';
-import { ViewTransition } from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { TabsList } from '@radix-ui/react-tabs';
+import { Card, CardHeader } from '@/components/ui/card';
 import { AverageHoursGraph } from '../average-hours-graph/average-hours-graph.server';
 import { UniqueMembersGraph } from '../unique-members-graph/unique-members-graph.server';
+import { GraphTabPanels } from './graph-tab-panels';
 import { GraphTabTrigger } from './graph-tab-trigger';
-
-export type GraphTab = 'members' | 'hours';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;
-	selected: GraphTab;
 	timeFilter: TimeFilterSchema;
 	timeRange: { current: TimeRangeSchema; previous?: TimeRangeSchema };
 };
 
-export function GraphTabs({ team, selected, timeFilter, timeRange }: Props) {
+export function GraphTabs({ team, timeFilter, timeRange }: Props) {
+	const timeFilters = { current: timeFilter, previous: timeRange.previous };
+	const timeFilterKey = `${timeFilter.start.getTime()}:${timeFilter.end?.getTime() ?? ''}`;
+
 	return (
 		<Card>
-			<div className='flex flex-col'>
+			<GraphTabPanels
+				members={<UniqueMembersGraph key={timeFilterKey} team={team} timeFilter={timeFilter} />}
+				hours={<AverageHoursGraph key={timeFilterKey} team={team} timeFilter={timeFilter} />}
+			>
 				<CardHeader className='pt-0 px-0'>
-					<div className='bg-secondary text-secondary-foreground border-b rounded-t-xl grid grid-cols-2 xs:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 overflow-x-auto'>
-						<GraphTabTrigger
-							active={selected === 'members'}
-							tabId='members'
-							team={team}
-							timeFilters={{
-								current: timeFilter,
-								previous: timeRange.previous,
-							}}
-						/>
-
-						<GraphTabTrigger
-							active={selected === 'hours'}
-							tabId='hours'
-							team={team}
-							timeFilters={{
-								current: timeFilter,
-								previous: timeRange.previous,
-							}}
-						/>
-					</div>
+					<TabsList
+						aria-label='Dashboard charts'
+						className='bg-secondary text-secondary-foreground border-b rounded-t-xl grid grid-cols-2 xs:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 overflow-x-auto'
+					>
+						<GraphTabTrigger tabId='members' team={team} timeFilters={timeFilters} />
+						<GraphTabTrigger tabId='hours' team={team} timeFilters={timeFilters} />
+					</TabsList>
 				</CardHeader>
-				<ViewTransition key={selected} name='dashboard-graph' share='auto' enter='auto' default='none'>
-					<CardContent>
-						<ErrorBoundary
-							fallback={
-								<div className='flex items-center justify-center h-96'>
-									<p className='text-muted-foreground'>An error occurred while rendering this graph</p>
-								</div>
-							}
-						>
-							{selected === 'members' && <UniqueMembersGraph team={team} timeFilter={timeFilter} />}
-							{selected === 'hours' && <AverageHoursGraph team={team} timeFilter={timeFilter} />}
-						</ErrorBoundary>
-					</CardContent>
-				</ViewTransition>
-			</div>
+			</GraphTabPanels>
 		</Card>
 	);
 }

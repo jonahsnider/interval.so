@@ -1,17 +1,16 @@
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import { io } from 'next/cache';
 import { toTimeFilter, toTimeRange } from '../period-select/duration-slug';
-import { type GraphTab, GraphTabs } from './graphs/tabs/graph-tabs';
+import { GraphTabs } from './graphs/tabs/graph-tabs';
 import { searchParamCache } from './search-params';
 import { CombinedHoursTile } from './tiles/combined-hours-tile/combined-hours-tile.server';
 import { LiveMemberCountTile } from './tiles/live-member-count-tile/live-member-count-tile.server';
 
 type Props = {
 	team: Pick<TeamSchema, 'slug'>;
-	graphTab: GraphTab;
 };
 
-export async function ManagerDashboardPageWrapper({ graphTab, team }: Props) {
+export async function ManagerDashboardPageWrapper({ team }: Props) {
 	const searchParams = searchParamCache.all();
 	await io();
 	const now = new Date();
@@ -30,7 +29,7 @@ export async function ManagerDashboardPageWrapper({ graphTab, team }: Props) {
 			/>
 
 			<div className='col-span-full'>
-				<GraphTabs team={team} selected={graphTab} timeFilter={timeFilter} timeRange={timeRange} />
+				<GraphTabs team={team} timeFilter={timeFilter} timeRange={timeRange} />
 			</div>
 		</div>
 	);

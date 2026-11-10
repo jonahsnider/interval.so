@@ -2,9 +2,9 @@
 
 import type { TeamSchema } from '@interval.so/api/app/team/schemas/team_schema';
 import type { DatumPeriod } from '@interval.so/api/app/team_stats/schemas/datum_time_range_schema';
+import type { TimeFilterSchema } from '@interval.so/api/app/team_stats/schemas/time_filter_schema';
 import type { UniqueMembersDatumSchema } from '@interval.so/api/app/team_stats/schemas/unique_members_datum_schema';
 import { max } from '@jonahsnider/util';
-import { useQueryStates } from 'nuqs';
 import { use, useMemo } from 'react';
 import { Area, AreaChart, CartesianGrid, type TooltipProps, XAxis, YAxis } from 'recharts';
 import { type ChartConfig, ChartContainer, ChartTooltip } from '@/components/ui/chart';
@@ -19,10 +19,9 @@ import {
 import { CustomTooltip, formatTooltipDate } from '@/src/components/graphs/custom-tooltip';
 import { formatXAxisDate } from '@/src/components/graphs/graph-utils';
 import { useLiveUniqueMembers } from '@/src/trpc/live-queries';
-import { toTimeFilter } from '../../../period-select/duration-slug';
-import { searchParamParsers } from '../../search-params';
 
 type Props = {
+	timeFilter: TimeFilterSchema;
 	dataPromise: Promise<UniqueMembersDatumSchema[]>;
 	maxMemberCountPromise: Promise<number>;
 	period: DatumPeriod;
@@ -60,10 +59,8 @@ function MembersTooltip({ period, tooltipProps }: { tooltipProps: TooltipProps<n
 	);
 }
 
-export function UniqueMembersGraphClient({ dataPromise, period, maxMemberCountPromise, team }: Props) {
+export function UniqueMembersGraphClient({ dataPromise, period, maxMemberCountPromise, team, timeFilter }: Props) {
 	const initialData = use(dataPromise);
-	const [searchParams] = useQueryStates(searchParamParsers);
-	const timeFilter = useMemo(() => toTimeFilter(searchParams), [searchParams]);
 
 	const { data = [] } = useLiveUniqueMembers({ team, timeFilter }, initialData);
 
