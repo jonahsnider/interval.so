@@ -257,8 +257,8 @@ importers:
         specifier: 4.1.0
         version: 4.1.0
       posthog-node:
-        specifier: 5.68.0
-        version: 5.68.0(@opentelemetry/api@1.10.0)(rxjs@7.8.2)
+        specifier: 5.68.1
+        version: 5.68.1(@opentelemetry/api@1.10.0)(rxjs@7.8.2)
       reflect-metadata:
         specifier: 0.2.2
         version: 0.2.2
@@ -5959,8 +5959,8 @@ packages:
       react:
         optional: true
 
-  posthog-node@5.68.0:
-    resolution: {integrity: sha512-SeJHW/SR8EuOEPhlohjQW8jEW8gF38E7Lea2zKFWJk2h8Ux3Q7bWJdQfF+Js3aUvgCUG61NTDwU0eE6Z+TvuLQ==}
+  posthog-node@5.68.1:
+    resolution: {integrity: sha512-vM0C7F8mwAaVMj7I6XdZ9KapBbyO3ySDfjfPVy1HJXl4aWD2556k5RLsXadrtYjl0G1dkZb6RvOFq3rWf/1kwg==}
     engines: {node: ^20.20.0 || >=22.22.0}
     peerDependencies:
       '@opentelemetry/api': ^1.2.0
@@ -8987,7 +8987,7 @@ snapshots:
       '@posthog/react': 1.11.3(@types/react@19.3.0)(posthog-js@1.445.1(@types/react@19.3.0)(react@19.3.1))(react@19.3.1)
       next: 16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       posthog-js: 1.445.1(@types/react@19.3.0)(react@19.3.1)
-      posthog-node: 5.68.0(@opentelemetry/api@1.10.0)(rxjs@7.8.2)
+      posthog-node: 5.68.1(@opentelemetry/api@1.10.0)(rxjs@7.8.2)
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
       server-only: 0.0.1
@@ -11916,7 +11916,7 @@ snapshots:
     transitivePeerDependencies:
       - preact-render-to-string
 
-  posthog-node@5.68.0(@opentelemetry/api@1.10.0)(rxjs@7.8.2):
+  posthog-node@5.68.1(@opentelemetry/api@1.10.0)(rxjs@7.8.2):
     dependencies:
       '@posthog/core': 1.67.1
     optionalDependencies:
