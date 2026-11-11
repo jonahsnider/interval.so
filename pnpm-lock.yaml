@@ -257,8 +257,8 @@ importers:
         specifier: 4.1.0
         version: 4.1.0
       posthog-node:
-        specifier: 5.64.0
-        version: 5.64.0(@opentelemetry/api@1.10.0)(rxjs@7.8.2)
+        specifier: 5.66.0
+        version: 5.66.0(@opentelemetry/api@1.10.0)(rxjs@7.8.2)
       reflect-metadata:
         specifier: 0.2.2
         version: 0.2.2
@@ -2819,8 +2819,8 @@ packages:
   '@posthog/core@1.63.0':
     resolution: {integrity: sha512-sy1yhK/MKNhs+vo50jZx2FCMhrT2jqphmLDpUPj6CvYWaT5tqO6XTXOUr2ODv5MzOQb7lMDHgTYCgO3PQpiWyQ==}
 
-  '@posthog/core@1.65.0':
-    resolution: {integrity: sha512-eXbEpErslRjNLbOWx2GdBiYmJ70Yzq2JPuuQaFGJHNv//5DwbsVVF4R0yPCOIT1AqUrd4cW0faamrN8ijnPMTw==}
+  '@posthog/core@1.66.0':
+    resolution: {integrity: sha512-UKXwy3MUkQiXdbUyZ2DKi9pDRICH0ueFv2XlaQB7qUhzRoG4wMJNoYD8iaWQNwfZMdX0786rFSLYna83W9ZrXA==}
 
   '@posthog/next@0.11.0':
     resolution: {integrity: sha512-2KGgAulIfkG07noWCVN5Or3h62OogCGjFRovo0jnxcmqcMxBls2rOdCoX5ce4AHdZbn3xD/yvrw+CvrH1DMhVw==}
@@ -2849,8 +2849,8 @@ packages:
   '@posthog/types@1.419.0':
     resolution: {integrity: sha512-XX7zRYt/vK8AzaD6V+oDquAzacZf5exJv971dja9En8Qf6g84Qvc3rpT0w6hDYYLWrjaSSkdjFfvvoXI0ouJDg==}
 
-  '@posthog/types@1.422.0':
-    resolution: {integrity: sha512-65cWefuvAiyTNe+cv8btywtdXLPwmM0ATggoH4l9rJkam0n2kJCIb5HeaLJ9GQ6dSs5MAbney2QgW0MVeBtiOg==}
+  '@posthog/types@1.423.0':
+    resolution: {integrity: sha512-4gzXyyXKN6mktVoQQkeIlgAva054P99sUSvVGHd0/mDBYuk3gz2ZDHhPOP5C1j2cl+7Dtu2BeBJr4LfILptm/w==}
 
   '@prisma/instrumentation@6.11.1':
     resolution: {integrity: sha512-mrZOev24EDhnefmnZX7WVVT7v+r9LttPRqf54ONvj6re4XMF7wFTpK2tLJi4XHB7fFp/6xhYbgRel8YV7gQiyA==}
@@ -5959,8 +5959,8 @@ packages:
       react:
         optional: true
 
-  posthog-node@5.64.0:
-    resolution: {integrity: sha512-io0NI/qqWvpxxHUyIg9GeZrt092Q6jRwqFOC/+ir98AiDG3T+xNgNrfxtz85GVfVcVCLs1BT40WlHjipxJZv8Q==}
+  posthog-node@5.66.0:
+    resolution: {integrity: sha512-gKVSYC7Fo3e3YDkbyhNdcHfIplhu9cmqHwflCPAtKFXZYJth9+4x5y+NoEU2Q3PGxxM3uph6PjPacxRQyrsOUQ==}
     engines: {node: ^20.20.0 || >=22.22.0}
     peerDependencies:
       '@opentelemetry/api': ^1.2.0
@@ -8977,9 +8977,9 @@ snapshots:
     dependencies:
       '@posthog/types': 1.419.0
 
-  '@posthog/core@1.65.0':
+  '@posthog/core@1.66.0':
     dependencies:
-      '@posthog/types': 1.422.0
+      '@posthog/types': 1.423.0
 
   '@posthog/next@0.11.0(@opentelemetry/api@1.10.0)(@types/react@19.3.0)(@vercel/functions@3.11.1(@aws-sdk/credential-provider-web-identity@3.972.88)(ws@8.22.2))(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(rxjs@7.8.2)':
     dependencies:
@@ -8987,7 +8987,7 @@ snapshots:
       '@posthog/react': 1.11.3(@types/react@19.3.0)(posthog-js@1.445.1(@types/react@19.3.0)(react@19.3.1))(react@19.3.1)
       next: 16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       posthog-js: 1.445.1(@types/react@19.3.0)(react@19.3.1)
-      posthog-node: 5.64.0(@opentelemetry/api@1.10.0)(rxjs@7.8.2)
+      posthog-node: 5.66.0(@opentelemetry/api@1.10.0)(rxjs@7.8.2)
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
       server-only: 0.0.1
@@ -9008,7 +9008,7 @@ snapshots:
 
   '@posthog/types@1.419.0': {}
 
-  '@posthog/types@1.422.0': {}
+  '@posthog/types@1.423.0': {}
 
   '@prisma/instrumentation@6.11.1(@opentelemetry/api@1.10.0)(supports-color@10.2.2)':
     dependencies:
@@ -11916,9 +11916,9 @@ snapshots:
     transitivePeerDependencies:
       - preact-render-to-string
 
-  posthog-node@5.64.0(@opentelemetry/api@1.10.0)(rxjs@7.8.2):
+  posthog-node@5.66.0(@opentelemetry/api@1.10.0)(rxjs@7.8.2):
     dependencies:
-      '@posthog/core': 1.65.0
+      '@posthog/core': 1.66.0
     optionalDependencies:
       '@opentelemetry/api': 1.10.0
       rxjs: 7.8.2
