@@ -1,8 +1,6 @@
 import { inject } from '@adonisjs/core';
 import { concat, filter, from, mergeMap, type Observable } from 'rxjs';
-import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { injectHelper } from '../../util/inject_helper.ts';
-import { AuthorizationService } from '../authorization/authorization_service.ts';
 import type { TeamSchema } from '../team/schemas/team_schema.ts';
 import { MemberRedisEvent } from '../team_member/events/schemas/redis_event_schema.ts';
 import { TeamMemberEventsService } from '../team_member/events/team_member_events_service.ts';
@@ -11,6 +9,7 @@ import type { AverageHoursDatumSchema } from './schemas/average_hours_datum_sche
 import type { TimeFilterSchema } from './schemas/time_filter_schema.ts';
 import type { UniqueMembersDatumSchema } from './schemas/unique_members_datum_schema.ts';
 import { TeamStatsService } from './team_stats_service.ts';
+import { type Actor, assertTeamRole } from '../authorization/authorization.ts';
 
 @inject()
 @injectHelper(TeamStatsService, TeamMemberEventsService)
@@ -21,16 +20,16 @@ export class TeamStatsSubscriptionService {
 	) {}
 
 	async combinedHoursSubscribe(
-		bouncer: AppBouncer,
+		actor: Actor,
 		team: Pick<TeamSchema, 'slug'>,
 		timeFilter: TimeFilterSchema,
 	): Promise<Observable<number>> {
-		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewInsights', team));
+		await assertTeamRole(actor, team, 'editor');
 
-		const memberChanges = await this.eventsService.subscribeForTeam(bouncer, team);
+		const memberChanges = await this.eventsService.subscribeForTeam(actor, team);
 
 		return concat(
-			from(this.teamStatsService.getCombinedHours(bouncer, team, timeFilter)),
+			from(this.teamStatsService.getCombinedHours(actor, team, timeFilter)),
 			memberChanges.pipe(
 				filter(
 					(event) =>
@@ -38,23 +37,23 @@ export class TeamStatsSubscriptionService {
 						event === MemberRedisEvent.MemberDeleted ||
 						event === MemberRedisEvent.MemberAttendanceUpdated,
 				),
-				mergeMap(() => from(this.teamStatsService.getCombinedHours(bouncer, team, timeFilter))),
+				mergeMap(() => from(this.teamStatsService.getCombinedHours(actor, team, timeFilter))),
 			),
 		);
 	}
 
 	async averageHoursTimeSeriesSubscribe(
-		bouncer: AppBouncer,
+		actor: Actor,
 		team: Pick<TeamSchema, 'slug'>,
 		timeFilter: TimeFilterSchema,
 		timezone: UserTimezoneSchema,
 	): Promise<Observable<AverageHoursDatumSchema[]>> {
-		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewInsights', team));
+		await assertTeamRole(actor, team, 'editor');
 
-		const memberChanges = await this.eventsService.subscribeForTeam(bouncer, team);
+		const memberChanges = await this.eventsService.subscribeForTeam(actor, team);
 
 		return concat(
-			from(this.teamStatsService.getAverageHoursTimeSeries(bouncer, team, timeFilter, timezone)),
+			from(this.teamStatsService.getAverageHoursTimeSeries(actor, team, timeFilter, timezone)),
 			memberChanges.pipe(
 				filter(
 					(event) =>
@@ -62,23 +61,23 @@ export class TeamStatsSubscriptionService {
 						event === MemberRedisEvent.MemberDeleted ||
 						event === MemberRedisEvent.MemberAttendanceUpdated,
 				),
-				mergeMap(() => from(this.teamStatsService.getAverageHoursTimeSeries(bouncer, team, timeFilter, timezone))),
+				mergeMap(() => from(this.teamStatsService.getAverageHoursTimeSeries(actor, team, timeFilter, timezone))),
 			),
 		);
 	}
 
 	async uniqueMembersTimeSeriesSubscribe(
-		bouncer: AppBouncer,
+		actor: Actor,
 		team: Pick<TeamSchema, 'slug'>,
 		timeFilter: TimeFilterSchema,
 		timezone: UserTimezoneSchema,
 	): Promise<Observable<UniqueMembersDatumSchema[]>> {
-		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewInsights', team));
+		await assertTeamRole(actor, team, 'editor');
 
-		const memberChanges = await this.eventsService.subscribeForTeam(bouncer, team);
+		const memberChanges = await this.eventsService.subscribeForTeam(actor, team);
 
 		return concat(
-			from(this.teamStatsService.getUniqueMembersTimeSeries(bouncer, team, timeFilter, timezone)),
+			from(this.teamStatsService.getUniqueMembersTimeSeries(actor, team, timeFilter, timezone)),
 			memberChanges.pipe(
 				filter(
 					(event) =>
@@ -86,7 +85,7 @@ export class TeamStatsSubscriptionService {
 						event === MemberRedisEvent.MemberDeleted ||
 						event === MemberRedisEvent.MemberAttendanceUpdated,
 				),
-				mergeMap(() => from(this.teamStatsService.getUniqueMembersTimeSeries(bouncer, team, timeFilter, timezone))),
+				mergeMap(() => from(this.teamStatsService.getUniqueMembersTimeSeries(actor, team, timeFilter, timezone))),
 			),
 		);
 	}

@@ -65,7 +65,7 @@ export class TeamRouter {
 				.input(TeamSchema.pick({ slug: true }))
 				.output(z.void())
 				.mutation(({ input, ctx }) => {
-					return this.teamService.delete(ctx.bouncer, input);
+					return this.teamService.delete(ctx.actor, input);
 				}),
 		});
 	}

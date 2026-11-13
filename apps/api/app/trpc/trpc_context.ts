@@ -1,12 +1,12 @@
 import type { Session } from '@adonisjs/session';
 import { fromNodeHeaders } from 'better-auth/node';
-import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import type { AccountSession } from '../auth/create_account_auth.ts';
 import { setAuthCookies } from '../auth/auth_response.ts';
 import type { CreateAdonisContextOptions } from './trpc_adonis_adapter.ts';
+import { type Actor, getActor } from '../authorization/authorization.ts';
 
 type TrpcContext = {
-	bouncer: AppBouncer;
+	actor: Actor;
 	session: Session;
 	account: AccountSession | null;
 	authHeaders: Headers;
@@ -16,7 +16,7 @@ type TrpcContext = {
 
 export function createHttpContext({ context }: CreateAdonisContextOptions): TrpcContext {
 	return {
-		bouncer: context.bouncer,
+		actor: getActor(context.session, context.account),
 		session: context.session,
 		account: context.account,
 		authHeaders: fromNodeHeaders(context.request.headers()),

@@ -5,15 +5,14 @@ import { TRPCError } from '@trpc/server';
 import { inArray } from 'drizzle-orm';
 import { from, map, mergeMap, type Observable } from 'rxjs';
 import * as Schema from '#database/schema';
-import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { injectHelper } from '../../../util/inject_helper.ts';
-import { AuthorizationService } from '../../authorization/authorization_service.ts';
 import { db } from '../../db/db_service.ts';
 import { MultiSubscriptionManager } from '../../redis/multi_subscription_manager.ts';
 import type { TeamSchema } from '../../team/schemas/team_schema.ts';
 import { TeamService } from '../../team/team_service.ts';
 import type { TeamMemberSchema } from '../schemas/team_member_schema.ts';
 import type { MemberRedisEvent } from './schemas/redis_event_schema.ts';
+import { type Actor, assertTeamRole, assertTeamRoleForMembers } from '../../authorization/authorization.ts';
 
 @inject()
 @injectHelper(TeamService)
@@ -68,10 +67,10 @@ export class TeamMemberEventsService {
 	constructor(private readonly teamService: TeamService) {}
 
 	async subscribeForTeam(
-		bouncer: AppBouncer,
+		actor: Actor,
 		team: Pick<TeamSchema, 'slug'> | Pick<TeamSchema, 'id'>,
 	): Promise<Observable<MemberRedisEvent>> {
-		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('viewSimpleMemberList', team));
+		await assertTeamRole(actor, team, 'guest');
 
 		const teamWithId = 'id' in team ? team : await this.teamService.getTeamBySlug(team);
 
@@ -80,9 +79,7 @@ export class TeamMemberEventsService {
 		).pipe(
 			mergeMap((message) =>
 				// Ensure that they still have access to this data
-				from(
-					AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('viewSimpleMemberList', team)),
-				).pipe(
+				from(assertTeamRole(actor, team, 'guest')).pipe(
 					map((_) => {
 						return message;
 					}),
@@ -92,12 +89,10 @@ export class TeamMemberEventsService {
 	}
 
 	async subscribeForTeamByMember(
-		bouncer: AppBouncer,
+		actor: Actor,
 		member: Pick<TeamMemberSchema, 'id'>,
 	): Promise<Observable<MemberRedisEvent>> {
-		await AuthorizationService.assertPermission(
-			bouncer.with('TeamMemberAttendancePolicy').allows('viewEntriesForMembers', [member]),
-		);
+		await assertTeamRoleForMembers(actor, [member], 'editor');
 
 		const team = await db.query.teamMembers.findFirst({
 			columns: {
@@ -113,7 +108,7 @@ export class TeamMemberEventsService {
 			});
 		}
 
-		return this.subscribeForTeam(bouncer, { id: team.teamId });
+		return this.subscribeForTeam(actor, { id: team.teamId });
 	}
 
 	private async announceEventByTeam(

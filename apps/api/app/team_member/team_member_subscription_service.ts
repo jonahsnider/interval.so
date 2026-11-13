@@ -1,12 +1,11 @@
 import { inject } from '@adonisjs/core';
 import { concat, from, mergeMap, type Observable } from 'rxjs';
-import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { injectHelper } from '../../util/inject_helper.ts';
-import { AuthorizationService } from '../authorization/authorization_service.ts';
 import type { TeamSchema } from '../team/schemas/team_schema.ts';
 import { TeamMemberEventsService } from './events/team_member_events_service.ts';
 import type { SimpleTeamMemberSchema, TeamMemberSchema } from './schemas/team_member_schema.ts';
 import { TeamMemberService } from './team_member_service.ts';
+import { type Actor, assertTeamRole, assertTeamRoleForMembers } from '../authorization/authorization.ts';
 
 @inject()
 @injectHelper(TeamMemberService, TeamMemberEventsService)
@@ -17,47 +16,47 @@ export class TeamMemberSubscriptionService {
 	) {}
 
 	async simpleTeamMemberListSubscribe(
-		bouncer: AppBouncer,
+		actor: Actor,
 		team: Pick<TeamSchema, 'slug'>,
 	): Promise<Observable<SimpleTeamMemberSchema[]>> {
-		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('viewSimpleMemberList', team));
-		const memberChanges = await this.eventsService.subscribeForTeam(bouncer, team);
+		await assertTeamRole(actor, team, 'guest');
+		const memberChanges = await this.eventsService.subscribeForTeam(actor, team);
 
 		return concat(
 			// Emit one event on subscribe
-			from(this.teamMemberService.getTeamMembersSimple(bouncer, team)),
+			from(this.teamMemberService.getTeamMembersSimple(actor, team)),
 			// Each time the team members change, emit a new event
-			memberChanges.pipe(mergeMap(() => from(this.teamMemberService.getTeamMembersSimple(bouncer, team)))),
+			memberChanges.pipe(mergeMap(() => from(this.teamMemberService.getTeamMembersSimple(actor, team)))),
 		);
 	}
 
 	async getMemberSubscription(
-		bouncer: AppBouncer,
+		actor: Actor,
 		member: Pick<TeamMemberSchema, 'id'>,
 	): Promise<Observable<Pick<TeamMemberSchema, 'archived' | 'lastSeenAt' | 'name'>>> {
-		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('view', [member]));
-		const memberChanges = await this.eventsService.subscribeForTeamByMember(bouncer, member);
+		await assertTeamRoleForMembers(actor, [member], 'editor');
+		const memberChanges = await this.eventsService.subscribeForTeamByMember(actor, member);
 
 		return concat(
 			// Emit one event on subscribe
-			from(this.teamMemberService.getMember(bouncer, member)),
+			from(this.teamMemberService.getMember(actor, member)),
 			// Each time the team members change, emit a new event
-			memberChanges.pipe(mergeMap(() => from(this.teamMemberService.getMember(bouncer, member)))),
+			memberChanges.pipe(mergeMap(() => from(this.teamMemberService.getMember(actor, member)))),
 		);
 	}
 
 	async fullTeamMemberListSubscribe(
-		bouncer: AppBouncer,
+		actor: Actor,
 		team: Pick<TeamSchema, 'slug'>,
 	): Promise<Observable<TeamMemberSchema[]>> {
-		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('viewFullMemberList', team));
-		const memberChanges = await this.eventsService.subscribeForTeam(bouncer, team);
+		await assertTeamRole(actor, team, 'editor');
+		const memberChanges = await this.eventsService.subscribeForTeam(actor, team);
 
 		return concat(
 			// Emit one event on subscribe
-			from(this.teamMemberService.getTeamMembersFull(bouncer, team)),
+			from(this.teamMemberService.getTeamMembersFull(actor, team)),
 			// Each time the team members change, emit a new event
-			memberChanges.pipe(mergeMap(() => from(this.teamMemberService.getTeamMembersFull(bouncer, team)))),
+			memberChanges.pipe(mergeMap(() => from(this.teamMemberService.getTeamMembersFull(actor, team)))),
 		);
 	}
 }

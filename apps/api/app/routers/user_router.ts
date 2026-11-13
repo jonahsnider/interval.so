@@ -35,7 +35,7 @@ export class UserRouter {
 				)
 				.query(async ({ ctx }) => {
 					if (ctx.user) {
-						const dbUser = await this.userService.getUser(ctx.bouncer, ctx.user);
+						const dbUser = await this.userService.getUser(ctx.user);
 
 						if (!dbUser) {
 							return {
@@ -58,18 +58,17 @@ export class UserRouter {
 			deleteSelf: authedProcedure.input(z.object({ body: z.any() })).mutation(async ({ ctx, input }) => {
 				await this.authService.verifyReauthentication({
 					body: input.body,
-					session: ctx.session,
-					userId: ctx.user.id,
+					account: ctx.account,
 					purpose: 'deleteAccount',
 				});
-				await this.userService.deleteUser(ctx.bouncer, ctx.user);
+				await this.userService.deleteUser(ctx.user);
 				await this.authSessionService.revokeSessions(ctx.user.id);
 				const result = await accountAuth.api.signOut({ headers: ctx.authHeaders, returnHeaders: true });
 				ctx.setAuthCookies(result.headers);
 				AuthSessionService.end(ctx.session);
 			}),
 			setDisplayName: authedProcedure.input(UserSchema.pick({ displayName: true })).mutation(async ({ input, ctx }) => {
-				await this.userService.setDisplayName(ctx.bouncer, ctx.user, input);
+				await this.userService.setDisplayName(ctx.user, input);
 			}),
 		});
 	}

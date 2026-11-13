@@ -23,7 +23,7 @@ export class TeamMemberAttendanceRouter {
 				.input(z.object({ member: TeamMemberSchema.pick({ id: true }), timeFilter: TimeFilterSchema }).strict())
 				.output(AttendanceEntrySchema.pick({ attendanceId: true, startedAt: true, endedAt: true }).array())
 				.query(({ ctx, input }) =>
-					this.attendanceService.getEntriesForMember(ctx.bouncer, input.member, input.timeFilter),
+					this.attendanceService.getEntriesForMember(ctx.actor, input.member, input.timeFilter),
 				),
 			entriesForMemberSubscription: authedProcedure
 				.input(z.object({ member: TeamMemberSchema.pick({ id: true }), timeFilter: TimeFilterSchema }).strict())
@@ -33,7 +33,7 @@ export class TeamMemberAttendanceRouter {
 						input,
 					}): Promise<Observable<Pick<AttendanceEntrySchema, 'attendanceId' | 'startedAt' | 'endedAt'>[], unknown>> => {
 						return this.attendanceSubscriptionService.entriesForMemberSubscribe(
-							ctx.bouncer,
+							ctx.actor,
 							input.member,
 							input.timeFilter,
 						);
@@ -49,28 +49,28 @@ export class TeamMemberAttendanceRouter {
 				)
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
-					return this.attendanceService.createEntry(ctx.bouncer, input.member, input.data);
+					return this.attendanceService.createEntry(ctx.actor, input.member, input.data);
 				}),
 
 			deleteEntries: authedProcedure
 				.input(AttendanceEntrySchema.pick({ attendanceId: true }).array())
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
-					return this.attendanceService.deleteEntries(ctx.bouncer, input);
+					return this.attendanceService.deleteEntries(ctx.actor, input);
 				}),
 
 			updateEntry: authedProcedure
 				.input(AttendanceEntrySchema.pick({ attendanceId: true, startedAt: true, endedAt: true }).strict())
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
-					return this.attendanceService.updateEntry(ctx.bouncer, input);
+					return this.attendanceService.updateEntry(ctx.actor, input);
 				}),
 
 			mergeEntries: authedProcedure
 				.input(z.array(AttendanceEntrySchema.pick({ attendanceId: true })).min(2))
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
-					return this.attendanceService.mergeEntries(ctx.bouncer, input);
+					return this.attendanceService.mergeEntries(ctx.actor, input);
 				}),
 		});
 	}

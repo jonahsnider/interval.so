@@ -49,13 +49,10 @@ export const publicProcedure = t.procedure.use(sentryMiddleware).use(async ({ ct
 	return result;
 });
 export const authedProcedure = publicProcedure.use(({ ctx, next }) => {
-	if (ctx.user) {
-		return next({
-			ctx: {
-				...ctx,
-				user: ctx.user,
-			},
-		});
+	const { account, user } = ctx;
+
+	if (account && user) {
+		return next({ ctx: { ...ctx, account, user } });
 	}
 
 	throw new TRPCError({

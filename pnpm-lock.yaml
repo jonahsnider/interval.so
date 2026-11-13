@@ -190,9 +190,6 @@ importers:
 
   apps/api:
     dependencies:
-      '@adonisjs/bouncer':
-        specifier: 4.0.1
-        version: 4.0.1(@adonisjs/assembler@8.6.0(typescript@7.0.2))(@adonisjs/core@7.6.0(@adonisjs/assembler@8.6.0(typescript@7.0.2))(@vinejs/vine@4.4.0)(pino-pretty@13.2.0)(supports-color@10.2.2)(youch@4.1.1))
       '@adonisjs/core':
         specifier: 7.6.0
         version: 7.6.0(@adonisjs/assembler@8.6.0(typescript@7.0.2))(@vinejs/vine@4.4.0)(pino-pretty@13.2.0)(supports-color@10.2.2)(youch@4.1.1)
@@ -559,22 +556,6 @@ packages:
     engines: {node: '>=24.0.0'}
     peerDependencies:
       '@adonisjs/http-server': ^8.0.0-next.17 || ^8.0.0 || ^9.0.0
-
-  '@adonisjs/bouncer@4.0.1':
-    resolution: {integrity: sha512-YTVlr2apjEHZIDgs09zl2dAMse5xBOCWQ+iY5qYxsZwMRAZcNHaOMjhD6LGjxXKyyM0tFbypgshAWiKuFbI1MA==}
-    engines: {node: '>=24.0.0'}
-    peerDependencies:
-      '@adonisjs/assembler': ^8.0.0-next.26 || ^8.0.0
-      '@adonisjs/core': ^7.0.0-next.16 || ^7.0.0
-      '@adonisjs/i18n': ^3.0.0-next.2 || ^3.0.0
-      edge.js: ^6.4.0
-    peerDependenciesMeta:
-      '@adonisjs/assembler':
-        optional: true
-      '@adonisjs/i18n':
-        optional: true
-      edge.js:
-        optional: true
 
   '@adonisjs/config@6.1.0':
     resolution: {integrity: sha512-YVDRL8xHCtM6iMnAefOBaz6iXVpojwBPDQWPKxnVSucycYeNGrGitJiLy+cGaeAU7Gjm8al9SJRJt3rRPr5PKg==}
@@ -6827,13 +6808,6 @@ snapshots:
       raw-body: 3.0.2
     transitivePeerDependencies:
       - supports-color
-
-  '@adonisjs/bouncer@4.0.1(@adonisjs/assembler@8.6.0(typescript@7.0.2))(@adonisjs/core@7.6.0(@adonisjs/assembler@8.6.0(typescript@7.0.2))(@vinejs/vine@4.4.0)(pino-pretty@13.2.0)(supports-color@10.2.2)(youch@4.1.1))':
-    dependencies:
-      '@adonisjs/core': 7.6.0(@adonisjs/assembler@8.6.0(typescript@7.0.2))(@vinejs/vine@4.4.0)(pino-pretty@13.2.0)(supports-color@10.2.2)(youch@4.1.1)
-      '@poppinss/utils': 7.1.2
-    optionalDependencies:
-      '@adonisjs/assembler': 8.6.0(typescript@7.0.2)
 
   '@adonisjs/config@6.1.0':
     dependencies:

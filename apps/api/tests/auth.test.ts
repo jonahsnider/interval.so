@@ -1,33 +1,9 @@
-import 'reflect-metadata';
 import assert from 'node:assert/strict';
 import { createHash, generateKeyPairSync, randomUUID, sign } from 'node:crypto';
 import { mock, test } from 'node:test';
-import { AppFactory } from '@adonisjs/core/factories/app';
-import { HttpContextFactory } from '@adonisjs/core/factories/http';
-import { Emitter } from '@adonisjs/core/events';
-import type { ContainerBindings } from '@adonisjs/core/types';
-import { defineConfig, Session } from '@adonisjs/session';
-import type { ResolvedSessionConfig } from '@adonisjs/session/types';
 import type { AuthenticationResponseJSON } from '@simplewebauthn/server';
 import { isoCBOR } from '@simplewebauthn/server/helpers';
-
-const app = new AppFactory<ContainerBindings>().create(new URL('../', import.meta.url));
-const config: ResolvedSessionConfig = await defineConfig({
-	store: 'memory',
-	stores: {},
-	age: '30 days',
-	renewMissingSessionId: true,
-	cookie: {},
-}).resolver(app);
-
-async function createSession(sessionId?: string) {
-	const factory = config.stores.memory!;
-	const context = new HttpContextFactory().create();
-	if (sessionId) mock.method(context.request, 'cookie', () => sessionId);
-	const session = new Session(config, factory, new Emitter(app), context);
-	await session.initiate(false);
-	return session;
-}
+import type { AccountSession } from '../app/auth/create_account_auth.ts';
 
 const challenges = new Map<string, string>();
 mock.module('@adonisjs/redis/services/main', {
@@ -41,10 +17,7 @@ mock.module('@adonisjs/redis/services/main', {
 	},
 });
 mock.module('#config/auth', {
-	namedExports: { rpId: 'interval.so', rpName: 'interval.so', origin: 'https://interval.so' },
-});
-mock.module(new URL('../app/analytics/analytics_service.ts', import.meta.url).href, {
-	namedExports: { ph: { capture() {}, identify() {} } },
+	namedExports: { rpId: 'interval.so', origin: 'https://interval.so' },
 });
 
 const { publicKey, privateKey } = generateKeyPairSync('ec', { namedCurve: 'prime256v1' });
@@ -65,7 +38,6 @@ const credential = {
 	).toString('base64'),
 	counter: 0,
 	transports: '',
-	user: { displayName: 'Test user' },
 };
 mock.module(new URL('../app/db/db_service.ts', import.meta.url).href, {
 	namedExports: {
@@ -76,10 +48,12 @@ mock.module(new URL('../app/db/db_service.ts', import.meta.url).href, {
 	},
 });
 
-const { AuthChallengeService } = await import('../app/auth/auth_challenge/auth_challenge_service.ts');
 const { AuthService } = await import('../app/auth/auth_service.ts');
-const authChallenges = new AuthChallengeService();
-const auth = new AuthService(authChallenges);
+const auth = new AuthService();
+
+function account(userId = credential.userId) {
+	return { user: { id: userId, name: 'Test user' }, session: { id: randomUUID() } } as unknown as AccountSession;
+}
 
 function assertion(challenge: string, userVerified = true): AuthenticationResponseJSON {
 	const clientDataJSON = Buffer.from(
@@ -107,68 +81,53 @@ function assertion(challenge: string, userVerified = true): AuthenticationRespon
 	};
 }
 
-await test('challenges can be consumed only once and only for the requested action', async () => {
-	const session = await createSession();
-	await authChallenges.storeChallenge(session, 'challenge', 'deleteAccount');
-	assert.equal(session.has('authChallenge'), true);
-	assert.equal(await authChallenges.consumeChallenge(session, 'revokeOtherSessions'), undefined);
-	assert.equal(await authChallenges.consumeChallenge(session, 'deleteAccount'), undefined);
-	await authChallenges.storeChallenge(session, 'challenge', 'deleteAccount');
-	assert.equal(await authChallenges.consumeChallenge(session, 'deleteAccount'), 'challenge');
-	assert.equal(await authChallenges.consumeChallenge(session, 'deleteAccount'), undefined);
-});
-
-await test('sensitive actions accept a verified passkey belonging to the current user', async () => {
-	const session = await createSession();
-	const options = await auth.getReauthenticationOptions(session, credential.userId, 'deleteAccount');
+await test('sensitive actions accept a verified passkey belonging to the current user, once', async () => {
+	const current = account();
+	const options = await auth.getReauthenticationOptions(current, 'deleteAccount');
 	assert.deepEqual(
 		options.allowCredentials?.map((item) => item.id),
 		[credential.credentialId],
 	);
-	const input = {
-		session,
-		userId: credential.userId,
-		purpose: 'deleteAccount' as const,
-		body: assertion(options.challenge),
-	};
+	const input = { account: current, purpose: 'deleteAccount' as const, body: assertion(options.challenge) };
 	await auth.verifyReauthentication(input);
 	await assert.rejects(auth.verifyReauthentication(input), { code: 'UNAUTHORIZED' });
 });
 
 await test('another account cannot use its own passkey to authorize a sensitive action', async () => {
-	const session = await createSession();
-	const userId = randomUUID();
-	await authChallenges.storeChallenge(session, 'challenge', 'deleteAccount');
+	const other = account(randomUUID());
+	const options = await auth.getReauthenticationOptions(other, 'deleteAccount');
 	await assert.rejects(
-		auth.verifyReauthentication({
-			session,
-			userId,
-			purpose: 'deleteAccount',
-			body: assertion('challenge'),
-		}),
+		auth.verifyReauthentication({ account: other, purpose: 'deleteAccount', body: assertion(options.challenge) }),
+		{ code: 'UNAUTHORIZED' },
+	);
+});
+
+await test('challenges are bound to their account session', async () => {
+	const options = await auth.getReauthenticationOptions(account(), 'deleteAccount');
+	await assert.rejects(
+		auth.verifyReauthentication({ account: account(), purpose: 'deleteAccount', body: assertion(options.challenge) }),
 		{ code: 'UNAUTHORIZED' },
 	);
 });
 
 await test('responses for another action cannot authorize deletion, and user verification is required', async () => {
-	const session = await createSession();
-	await authChallenges.storeChallenge(session, 'challenge', 'revokeOtherSessions');
+	const current = account();
+	let options = await auth.getReauthenticationOptions(current, 'revokeOtherSessions');
+	const body = assertion(options.challenge);
+	await assert.rejects(auth.verifyReauthentication({ account: current, purpose: 'deleteAccount', body }), {
+		code: 'UNAUTHORIZED',
+	});
+	// The mismatched attempt consumed the challenge.
+	await assert.rejects(auth.verifyReauthentication({ account: current, purpose: 'revokeOtherSessions', body }), {
+		code: 'UNAUTHORIZED',
+	});
+
+	options = await auth.getReauthenticationOptions(current, 'deleteAccount');
 	await assert.rejects(
 		auth.verifyReauthentication({
-			session,
-			userId: credential.userId,
+			account: current,
 			purpose: 'deleteAccount',
-			body: assertion('challenge'),
-		}),
-		{ code: 'UNAUTHORIZED' },
-	);
-	await authChallenges.storeChallenge(session, 'challenge', 'deleteAccount');
-	await assert.rejects(
-		auth.verifyReauthentication({
-			session,
-			userId: credential.userId,
-			purpose: 'deleteAccount',
-			body: assertion('challenge', false),
+			body: assertion(options.challenge, false),
 		}),
 		{ code: 'UNAUTHORIZED' },
 	);

@@ -3,24 +3,23 @@ import { inject } from '@adonisjs/core';
 import { TRPCError } from '@trpc/server';
 import { and, eq, inArray, isNotNull, isNull, lte } from 'drizzle-orm';
 import * as Schema from '#database/schema';
-import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { injectHelper } from '../../util/inject_helper.ts';
 import { ph } from '../analytics/analytics_service.ts';
 import { AnalyticsEvent } from '../analytics/schemas/analytics_event.ts';
-import { AuthorizationService } from '../authorization/authorization_service.ts';
 import { db } from '../db/db_service.ts';
 import type { TeamSchema } from '../team/schemas/team_schema.ts';
 import { MemberRedisEvent } from './events/schemas/redis_event_schema.ts';
 import { TeamMemberEventsService } from './events/team_member_events_service.ts';
 import type { TeamMemberSchema } from './schemas/team_member_schema.ts';
+import { type Actor, assertTeamRole, assertTeamRoleForMembers } from '../authorization/authorization.ts';
 
 @inject()
 @injectHelper(TeamMemberEventsService)
 export class TeamMemberBatchService {
 	constructor(private readonly eventsService: TeamMemberEventsService) {}
 
-	async signOutAll(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>, endTime: Date): Promise<void> {
-		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('signOutAll', team));
+	async signOutAll(actor: Actor, team: Pick<TeamSchema, 'slug'>, endTime: Date): Promise<void> {
+		await assertTeamRole(actor, team, 'editor');
 
 		// TODO: Rewrite this to use a single query (CTE?) instead of doing the select and then insert
 
@@ -81,9 +80,9 @@ export class TeamMemberBatchService {
 
 		const affectedTeam = await this.eventsService.announceEvent(team, MemberRedisEvent.MemberAttendanceUpdated);
 
-		if (bouncer.user?.id) {
+		if (actor?.id) {
 			ph.capture({
-				distinctId: bouncer.user.id,
+				distinctId: actor.id,
 				event: AnalyticsEvent.MeetingEnded,
 				groups: {
 					company: affectedTeam.id,
@@ -92,12 +91,12 @@ export class TeamMemberBatchService {
 		}
 	}
 
-	async deleteMany(bouncer: AppBouncer, members: Pick<TeamMemberSchema, 'id'>[]) {
+	async deleteMany(actor: Actor, members: Pick<TeamMemberSchema, 'id'>[]) {
 		if (members.length === 0) {
 			return;
 		}
 
-		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('delete', members));
+		await assertTeamRoleForMembers(actor, members, 'editor');
 
 		let teams: Pick<TeamSchema, 'id'>[] = [];
 
@@ -120,10 +119,10 @@ export class TeamMemberBatchService {
 			),
 		);
 
-		if (bouncer.user?.id) {
+		if (actor?.id) {
 			for (const affectedTeam of affectedTeams) {
 				ph.capture({
-					distinctId: bouncer.user.id,
+					distinctId: actor.id,
 					event: AnalyticsEvent.TeamMembersBatchDeleted,
 					groups: {
 						company: affectedTeam.id,
@@ -134,7 +133,7 @@ export class TeamMemberBatchService {
 	}
 
 	async setArchivedMany(
-		bouncer: AppBouncer,
+		actor: Actor,
 		members: Pick<TeamMemberSchema, 'id'>[],
 		data: Pick<TeamMemberSchema, 'archived'>,
 	) {
@@ -142,7 +141,7 @@ export class TeamMemberBatchService {
 			return;
 		}
 
-		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('update', members));
+		await assertTeamRoleForMembers(actor, members, 'editor');
 
 		const memberIds = members.map((member) => member.id);
 
@@ -169,10 +168,10 @@ export class TeamMemberBatchService {
 
 		const affectedTeams = await this.eventsService.announceEvent(members, MemberRedisEvent.MemberUpdated);
 
-		if (bouncer.user?.id) {
+		if (actor?.id) {
 			for (const affectedTeam of affectedTeams) {
 				ph.capture({
-					distinctId: bouncer.user.id,
+					distinctId: actor.id,
 					event: AnalyticsEvent.TeamMembersBatchArchivedUpdated,
 					groups: {
 						company: affectedTeam.id,
@@ -186,7 +185,7 @@ export class TeamMemberBatchService {
 	}
 
 	async updateAttendanceMany(
-		bouncer: AppBouncer,
+		actor: Actor,
 		members: Pick<TeamMemberSchema, 'id'>[],
 		data: { atMeeting: boolean },
 	): Promise<void> {
@@ -194,16 +193,16 @@ export class TeamMemberBatchService {
 			return;
 		}
 
-		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('update', members));
+		await assertTeamRoleForMembers(actor, members, 'editor');
 
 		if (data.atMeeting) {
-			await this.signInMany(bouncer, members);
+			await this.signInMany(actor, members);
 		} else {
-			await this.signOutMany(bouncer, members, new Date());
+			await this.signOutMany(actor, members, new Date());
 		}
 	}
 
-	private async signInMany(bouncer: AppBouncer, members: Pick<TeamMemberSchema, 'id'>[]): Promise<void> {
+	private async signInMany(actor: Actor, members: Pick<TeamMemberSchema, 'id'>[]): Promise<void> {
 		if (members.length === 0) {
 			return;
 		}
@@ -227,10 +226,10 @@ export class TeamMemberBatchService {
 
 		const affectedTeams = await this.eventsService.announceEvent(members, MemberRedisEvent.MemberAttendanceUpdated);
 
-		if (bouncer.user?.id) {
+		if (actor?.id) {
 			for (const affectedTeam of affectedTeams) {
 				ph.capture({
-					distinctId: bouncer.user.id,
+					distinctId: actor.id,
 					event: AnalyticsEvent.TeamMembersBatchSignedIn,
 					groups: {
 						company: affectedTeam.id,
@@ -240,11 +239,7 @@ export class TeamMemberBatchService {
 		}
 	}
 
-	private async signOutMany(
-		bouncer: AppBouncer,
-		members: Pick<TeamMemberSchema, 'id'>[],
-		endTime: Date,
-	): Promise<void> {
+	private async signOutMany(actor: Actor, members: Pick<TeamMemberSchema, 'id'>[], endTime: Date): Promise<void> {
 		if (members.length === 0) {
 			return;
 		}
@@ -293,10 +288,10 @@ export class TeamMemberBatchService {
 
 		const affectedTeams = await this.eventsService.announceEvent(members, MemberRedisEvent.MemberAttendanceUpdated);
 
-		if (bouncer.user?.id) {
+		if (actor?.id) {
 			for (const affectedTeam of affectedTeams) {
 				ph.capture({
-					distinctId: bouncer.user.id,
+					distinctId: actor.id,
 					event: AnalyticsEvent.TeamMembersBatchSignedOut,
 					groups: {
 						company: affectedTeam.id,

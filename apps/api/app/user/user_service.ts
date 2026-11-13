@@ -1,22 +1,16 @@
 import type { Session } from '@adonisjs/session';
+import { TRPCError } from '@trpc/server';
 import { eq } from 'drizzle-orm';
 import { accountAuth } from '../auth/account_auth.ts';
 import * as Schema from '#database/schema';
-import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { ph } from '../analytics/analytics_service.ts';
 import { AnalyticsEvent } from '../analytics/schemas/analytics_event.ts';
-import { AuthorizationService } from '../authorization/authorization_service.ts';
 import { db } from '../db/db_service.ts';
 import type { UserSchema } from './schemas/user_schema.ts';
 import { UserTimezoneSchema } from './schemas/user_timezone_schema.ts';
 
 export class UserService {
-	async getUser(
-		bouncer: AppBouncer,
-		user: Pick<UserSchema, 'id'>,
-	): Promise<Pick<UserSchema, 'displayName' | 'teams'> | undefined> {
-		await AuthorizationService.assertPermission(bouncer.with('UserPolicy').allows('read', user));
-
+	async getUser(user: Pick<UserSchema, 'id'>): Promise<Pick<UserSchema, 'displayName' | 'teams'> | undefined> {
 		const dbUser = await db.query.users.findFirst({
 			where: { id: user.id },
 			columns: {
@@ -46,8 +40,16 @@ export class UserService {
 			: undefined;
 	}
 
-	async deleteUser(bouncer: AppBouncer, user: Pick<UserSchema, 'id'>): Promise<void> {
-		await AuthorizationService.assertPermission(bouncer.with('UserPolicy').allows('delete', user));
+	async deleteUser(user: Pick<UserSchema, 'id'>): Promise<void> {
+		const ownedTeam = await db.query.teamManagers.findFirst({
+			where: { userId: user.id, role: 'owner' },
+			columns: { teamId: true },
+		});
+
+		// Team owners need to transfer ownership before deleting their account
+		if (ownedTeam) {
+			throw new TRPCError({ code: 'FORBIDDEN' });
+		}
 
 		await db.delete(Schema.users).where(eq(Schema.users.id, user.id));
 
@@ -60,13 +62,7 @@ export class UserService {
 		});
 	}
 
-	async setDisplayName(
-		bouncer: AppBouncer,
-		user: Pick<UserSchema, 'id'>,
-		updated: Pick<UserSchema, 'displayName'>,
-	): Promise<void> {
-		await AuthorizationService.assertPermission(bouncer.with('UserPolicy').allows('update', user));
-
+	async setDisplayName(user: Pick<UserSchema, 'id'>, updated: Pick<UserSchema, 'displayName'>): Promise<void> {
 		const { internalAdapter } = await accountAuth.$context;
 		await internalAdapter.updateUser(user.id, { name: updated.displayName });
 

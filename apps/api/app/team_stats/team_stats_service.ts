@@ -2,8 +2,6 @@ import { convert } from 'convert';
 import { and, avg, countDistinct, eq, gt, lt, sql, sum } from 'drizzle-orm';
 import { unionAll } from 'drizzle-orm/pg-core';
 import * as Schema from '#database/schema';
-import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
-import { AuthorizationService } from '../authorization/authorization_service.ts';
 import { db } from '../db/db_service.ts';
 import type { TeamSchema } from '../team/schemas/team_schema.ts';
 import type { UserTimezoneSchema } from '../user/schemas/user_timezone_schema.ts';
@@ -11,6 +9,7 @@ import type { AverageHoursDatumSchema } from './schemas/average_hours_datum_sche
 import { DatumPeriod, timeFilterToDatumPeriod } from './schemas/datum_time_range_schema.ts';
 import type { TimeFilterSchema } from './schemas/time_filter_schema.ts';
 import type { UniqueMembersDatumSchema } from './schemas/unique_members_datum_schema.ts';
+import { type Actor, assertTeamRole } from '../authorization/authorization.ts';
 
 export class TeamStatsService {
 	private static datumPeriodToPostgresDateField(datumPeriod: DatumPeriod): string {
@@ -24,12 +23,8 @@ export class TeamStatsService {
 		}
 	}
 
-	async getCombinedHours(
-		bouncer: AppBouncer,
-		team: Pick<TeamSchema, 'slug'>,
-		timeFilter: TimeFilterSchema,
-	): Promise<number> {
-		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewInsights', team));
+	async getCombinedHours(actor: Actor, team: Pick<TeamSchema, 'slug'>, timeFilter: TimeFilterSchema): Promise<number> {
+		await assertTeamRole(actor, team, 'editor');
 
 		// TODO: This either fully includes or fully excludes meetings depending on the time range. If the time range starts/ends when a meeting is in progress, should we include the partial meeting duration?
 		// If yes, probably implement by selecting from max(finished_member_meetings.started_at, timeFilter.start) and min(finished_member_meetings.ended_at, timeFilter.end)
@@ -94,12 +89,12 @@ export class TeamStatsService {
 	 * Used for display a graph of unique members over a timespan.
 	 */
 	async getUniqueMembersTimeSeries(
-		bouncer: AppBouncer,
+		actor: Actor,
 		team: Pick<TeamSchema, 'slug'>,
 		timeFilter: TimeFilterSchema,
 		displayTimezone: UserTimezoneSchema,
 	): Promise<UniqueMembersDatumSchema[]> {
-		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewInsights', team));
+		await assertTeamRole(actor, team, 'editor');
 
 		const datumPeriod = timeFilterToDatumPeriod(timeFilter);
 		const dateField = TeamStatsService.datumPeriodToPostgresDateField(datumPeriod);
@@ -148,11 +143,11 @@ export class TeamStatsService {
 	 * Get the total number of unique members within a timespan.
 	 */
 	async getUniqueMembersSimple(
-		bouncer: AppBouncer,
+		actor: Actor,
 		team: Pick<TeamSchema, 'slug'>,
 		timeFilter: TimeFilterSchema,
 	): Promise<number> {
-		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewInsights', team));
+		await assertTeamRole(actor, team, 'editor');
 
 		const [result] = await db
 			.select({
@@ -189,12 +184,12 @@ export class TeamStatsService {
 	 */
 	// TODO: Handle this edge case by splitting multi-day/week/month attendance entries into multiple entries, depending on the series period
 	async getAverageHoursTimeSeries(
-		bouncer: AppBouncer,
+		actor: Actor,
 		team: Pick<TeamSchema, 'slug'>,
 		timeFilter: TimeFilterSchema,
 		displayTimezone: UserTimezoneSchema,
 	): Promise<AverageHoursDatumSchema[]> {
-		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewInsights', team));
+		await assertTeamRole(actor, team, 'editor');
 
 		const datumPeriod = timeFilterToDatumPeriod(timeFilter);
 		const dateField = TeamStatsService.datumPeriodToPostgresDateField(datumPeriod);
@@ -258,11 +253,11 @@ export class TeamStatsService {
 
 	/** Given a time filter, get the duration of all meetings within the filter. Then, average that, and return the result in hours. */
 	async getAverageHoursSimple(
-		bouncer: AppBouncer,
+		actor: Actor,
 		team: Pick<TeamSchema, 'slug'>,
 		timeFilter: TimeFilterSchema,
 	): Promise<number> {
-		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewInsights', team));
+		await assertTeamRole(actor, team, 'editor');
 
 		const [result] = await db
 			.select({

@@ -9,13 +9,14 @@ export const TeamManagerSchema = z.object({
 });
 export type TeamManagerSchema = z.infer<typeof TeamManagerSchema>;
 
-export function rolesThatCanManageOther(other: Pick<TeamManagerSchema, 'role'>): TeamManagerRole[] {
+/** The least privileged role that can manage the given team manager. */
+export function minimumRoleToManage(other: Pick<TeamManagerSchema, 'role'>): TeamManagerRole {
 	switch (other.role) {
 		case 'owner':
 		case 'admin':
-			return ['owner'];
+			return 'owner';
 		case 'editor':
-			return ['owner', 'admin'];
+			return 'admin';
 	}
 }
 

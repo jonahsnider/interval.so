@@ -15,8 +15,6 @@
 		"#middleware/*": "./app/middleware/*.js",
 		"#validators/*": "./app/validators/*.js",
 		"#providers/*": "./providers/*.js",
-		"#policies/*": "./app/policies/*.js",
-		"#abilities/*": "./app/abilities/*.js",
 		"#generated/*": "./.adonisjs/server/*.js",
 		"#transformers/*": "./app/transformers/*.js",
 		"#database/*": "./database/*.js",
@@ -36,7 +34,6 @@
 		"type-check": "tsc --noEmit"
 	},
 	"dependencies": {
-		"@adonisjs/bouncer": "4.0.1",
 		"@adonisjs/core": "7.6.0",
 		"@adonisjs/cors": "3.0.0",
 		"@adonisjs/redis": "11.0.0",

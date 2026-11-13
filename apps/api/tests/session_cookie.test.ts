@@ -30,7 +30,7 @@ await test('shared-domain sessions expire the shadowing API-host cookie without 
 	let called = false;
 	await middleware.handle(ctx, async () => {
 		called = true;
-		ctx.session.put('authChallenge', true);
+		ctx.session.put('guestToken', 'token');
 	});
 	await ctx.session.commit();
 	assert.equal(called, true);

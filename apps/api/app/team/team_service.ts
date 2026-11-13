@@ -4,14 +4,13 @@ import cryptoRandomString from 'crypto-random-string';
 import { and, count, eq, inArray } from 'drizzle-orm';
 import postgres from 'postgres';
 import * as Schema from '#database/schema';
-import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { ph } from '../analytics/analytics_service.ts';
 import { AnalyticsEvent } from '../analytics/schemas/analytics_event.ts';
-import { AuthorizationService } from '../authorization/authorization_service.ts';
 import { db } from '../db/db_service.ts';
 import type { TeamManagerSchema } from '../team_manager/schemas/team_manager_schema.ts';
 import type { UserSchema } from '../user/schemas/user_schema.ts';
 import type { TeamSchema } from './schemas/team_schema.ts';
+import { type Actor, assertTeamRole } from '../authorization/authorization.ts';
 
 export class TeamService {
 	private static readonly MAX_TEAMS_PER_USER = 10;
@@ -112,20 +111,20 @@ export class TeamService {
 	}
 
 	async setDisplayName(
-		bouncer: AppBouncer,
+		actor: Actor,
 		team: Pick<TeamSchema, 'slug'>,
 		data: Pick<TeamSchema, 'displayName'>,
 	): Promise<void> {
-		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('updateSettings', team));
+		await assertTeamRole(actor, team, 'admin');
 
 		const [dbTeam] = await db.update(Schema.teams).set(data).where(eq(Schema.teams.slug, team.slug)).returning({
 			teamId: Schema.teams.teamId,
 		});
 
 		if (dbTeam) {
-			if (bouncer.user?.id) {
+			if (actor?.id) {
 				ph.capture({
-					distinctId: bouncer.user.id,
+					distinctId: actor.id,
 					event: AnalyticsEvent.TeamDisplayNameUpdated,
 					groups: {
 						company: dbTeam.teamId,
@@ -169,8 +168,8 @@ export class TeamService {
 		return result;
 	}
 
-	async delete(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>): Promise<void> {
-		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('delete', team));
+	async delete(actor: Actor, team: Pick<TeamSchema, 'slug'>): Promise<void> {
+		await assertTeamRole(actor, team, 'owner');
 
 		await db.transaction(async (tx) => {
 			const targetTeamCte = tx
@@ -222,9 +221,9 @@ export class TeamService {
 			});
 
 			if (dbTeam) {
-				if (bouncer.user?.id) {
+				if (actor?.id) {
 					ph.capture({
-						distinctId: bouncer.user.id,
+						distinctId: actor.id,
 						event: AnalyticsEvent.TeamDeleted,
 						groups: {
 							company: dbTeam.teamId,
@@ -242,8 +241,8 @@ export class TeamService {
 		});
 	}
 
-	async getPassword(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>): Promise<Pick<TeamSchema, 'password'>> {
-		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewSettings', team));
+	async getPassword(actor: Actor, team: Pick<TeamSchema, 'slug'>): Promise<Pick<TeamSchema, 'password'>> {
+		await assertTeamRole(actor, team, 'editor');
 
 		const result = await db.query.teams.findFirst({
 			columns: {
@@ -257,8 +256,8 @@ export class TeamService {
 		return result;
 	}
 
-	async setPassword(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>, data: Pick<TeamSchema, 'password'>) {
-		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('updateSettings', team));
+	async setPassword(actor: Actor, team: Pick<TeamSchema, 'slug'>, data: Pick<TeamSchema, 'password'>) {
+		await assertTeamRole(actor, team, 'admin');
 
 		const [dbTeam] = await db
 			.update(Schema.teams)
@@ -266,9 +265,9 @@ export class TeamService {
 			.where(eq(Schema.teams.slug, team.slug))
 			.returning({ teamId: Schema.teams.teamId });
 
-		if (dbTeam && bouncer.user?.id) {
+		if (dbTeam && actor?.id) {
 			ph.capture({
-				distinctId: bouncer.user.id,
+				distinctId: actor.id,
 				event: AnalyticsEvent.TeamPasswordUpdated,
 				groups: {
 					company: dbTeam.teamId,
@@ -277,8 +276,8 @@ export class TeamService {
 		}
 	}
 
-	async getInviteCode(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>): Promise<Pick<TeamSchema, 'inviteCode'>> {
-		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewInviteUrl', team));
+	async getInviteCode(actor: Actor, team: Pick<TeamSchema, 'slug'>): Promise<Pick<TeamSchema, 'inviteCode'>> {
+		await assertTeamRole(actor, team, 'admin');
 
 		const result = await db.query.teams.findFirst({
 			columns: {
@@ -292,8 +291,8 @@ export class TeamService {
 		return result;
 	}
 
-	async resetInviteCode(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>): Promise<Pick<TeamSchema, 'inviteCode'>> {
-		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('resetInviteUrl', team));
+	async resetInviteCode(actor: Actor, team: Pick<TeamSchema, 'slug'>): Promise<Pick<TeamSchema, 'inviteCode'>> {
+		await assertTeamRole(actor, team, 'admin');
 
 		const newCode = TeamService.generateInviteCode();
 
@@ -305,9 +304,9 @@ export class TeamService {
 				teamId: Schema.teams.teamId,
 			});
 
-		if (dbTeam && bouncer.user?.id) {
+		if (dbTeam && actor?.id) {
 			ph.capture({
-				distinctId: bouncer.user.id,
+				distinctId: actor.id,
 				event: AnalyticsEvent.TeamInviteLinkUpdated,
 				groups: {
 					company: dbTeam.teamId,
@@ -318,8 +317,8 @@ export class TeamService {
 		return { inviteCode: newCode };
 	}
 
-	async setSlug(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>, data: Pick<TeamSchema, 'slug'>): Promise<void> {
-		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('updateSettings', team));
+	async setSlug(actor: Actor, team: Pick<TeamSchema, 'slug'>, data: Pick<TeamSchema, 'slug'>): Promise<void> {
+		await assertTeamRole(actor, team, 'admin');
 
 		try {
 			const [dbTeam] = await db.update(Schema.teams).set(data).where(eq(Schema.teams.slug, team.slug)).returning({
@@ -327,9 +326,9 @@ export class TeamService {
 			});
 
 			if (dbTeam) {
-				if (bouncer.user?.id) {
+				if (actor?.id) {
 					ph.capture({
-						distinctId: bouncer.user.id,
+						distinctId: actor.id,
 						event: AnalyticsEvent.TeamUrlUpdated,
 						groups: {
 							company: dbTeam.teamId,
@@ -400,17 +399,5 @@ export class TeamService {
 			},
 			owner: { displayName: owner.user.displayName },
 		};
-	}
-
-	/** An internal method to check whether a user is an owner of any team. */
-	async internalIsAnyTeamOwner(user: Pick<UserSchema, 'id'>): Promise<boolean> {
-		const [result] = await db
-			.select({ count: count() })
-			.from(Schema.teamManagers)
-			.where(and(eq(Schema.teamManagers.userId, user.id), eq(Schema.teamManagers.role, 'owner')));
-
-		assert(result);
-
-		return result.count > 0;
 	}
 }

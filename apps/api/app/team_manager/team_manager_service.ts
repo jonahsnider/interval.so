@@ -1,13 +1,16 @@
 import assert from 'node:assert/strict';
 import { TRPCError } from '@trpc/server';
-import { and, asc, count, eq, inArray, not, sql } from 'drizzle-orm';
+import { and, asc, eq, not, sql } from 'drizzle-orm';
 import * as Schema from '#database/schema';
-import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
-import { AuthorizationService } from '../authorization/authorization_service.ts';
 import { db } from '../db/db_service.ts';
 import type { TeamSchema } from '../team/schemas/team_schema.ts';
 import type { UserSchema } from '../user/schemas/user_schema.ts';
-import type { TeamManagerSchema } from './schemas/team_manager_schema.ts';
+import { type Actor, assertTeamRole, getTeamRole } from '../authorization/authorization.ts';
+import {
+	getAllowedRoleModifications,
+	minimumRoleToManage,
+	type TeamManagerSchema,
+} from './schemas/team_manager_schema.ts';
 
 /** Team managers are editors/admins of a team, who manage settings & attendance. */
 export class TeamManagerService {
@@ -28,66 +31,13 @@ export class TeamManagerService {
 		}));
 	}
 
-	async userHasRoleInTeam(
-		actor: Pick<UserSchema, 'id'>,
-		team: Pick<TeamSchema, 'slug'> | Pick<TeamSchema, 'id'>,
-		roles: Schema.TeamManagerRole[],
-	): Promise<boolean> {
-		let result:
-			| {
-					count: number;
-			  }
-			| undefined;
-
-		if ('id' in team) {
-			// Get team by ID
-			[result] = await db
-				.select({ count: count() })
-				.from(Schema.teamManagers)
-				.where(
-					and(
-						// User is a team user
-						eq(Schema.teamManagers.userId, actor.id),
-						// Team ID matches the input
-						eq(Schema.teamManagers.teamId, team.id),
-						// User has a role with edit permissions
-						inArray(Schema.teamManagers.role, roles),
-					),
-				);
-		} else {
-			// Get team by slug
-			[result] = await db
-				.select({ count: count() })
-				.from(Schema.teamManagers)
-				.innerJoin(
-					Schema.teams,
-					and(
-						// User is on the team
-						eq(Schema.teamManagers.teamId, Schema.teams.teamId),
-						// Team slug matches the input
-						eq(Schema.teams.slug, team.slug),
-					),
-				)
-				.where(
-					and(
-						// User is a team user
-						eq(Schema.teamManagers.userId, actor.id),
-						// User has a role with edit permissions
-						inArray(Schema.teamManagers.role, roles),
-					),
-				);
-		}
-
-		return result ? result.count > 0 : false;
-	}
-
 	async getUserRole(
-		bouncer: AppBouncer,
+		actor: Actor,
 		team: Pick<TeamSchema, 'slug'>,
 		user: Pick<UserSchema, 'id'>,
 	): Promise<Pick<TeamManagerSchema, 'role'>> {
 		// Don't leak team user IDs if the actor isn't in the team
-		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewSettings', team));
+		await assertTeamRole(actor, team, 'editor');
 
 		const dbTeam = await db.query.teams.findFirst({
 			columns: {},
@@ -110,42 +60,35 @@ export class TeamManagerService {
 		return result;
 	}
 
-	async removeManager(
-		bouncer: AppBouncer,
-		team: Pick<TeamSchema, 'slug'>,
-		user: Pick<UserSchema, 'id'>,
-	): Promise<void> {
-		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('removeUser', bouncer, team, user));
+	async removeManager(actor: Actor, team: Pick<TeamSchema, 'slug'>, user: Pick<UserSchema, 'id'>): Promise<void> {
+		const target = await this.getUserRole(actor, team, user);
+		await assertTeamRole(actor, team, minimumRoleToManage(target));
 
-		const teams = db
-			.$with('team_input')
-			.as(db.select({ teamId: Schema.teams.teamId }).from(Schema.teams).where(eq(Schema.teams.slug, team.slug)));
-
-		await db.with(teams).delete(Schema.teamManagers).where(eq(Schema.teamManagers.userId, user.id));
-	}
-
-	async leave(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>, user: Pick<UserSchema, 'id'>): Promise<void> {
-		// This is just to check if they have access to the team
-		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewSettings', team));
-
-		const teams = db
-			.$with('team_input')
-			.as(db.select({ teamId: Schema.teams.teamId }).from(Schema.teams).where(eq(Schema.teams.slug, team.slug)));
+		const teams = db.select({ teamId: Schema.teams.teamId }).from(Schema.teams).where(eq(Schema.teams.slug, team.slug));
 
 		await db
-			.with(teams)
 			.delete(Schema.teamManagers)
-			.where(
-				and(
-					eq(Schema.teamManagers.userId, user.id),
-					// Not the owner of the team
-					not(eq(Schema.teamManagers.role, 'owner')),
-				),
-			);
+			.where(and(eq(Schema.teamManagers.userId, user.id), eq(Schema.teamManagers.teamId, teams)));
 	}
 
-	async getList(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>): Promise<TeamManagerSchema[]> {
-		await AuthorizationService.assertPermission(bouncer.with('TeamPolicy').allows('viewSettings', team));
+	async leave(actor: Actor, team: Pick<TeamSchema, 'slug'>, user: Pick<UserSchema, 'id'>): Promise<void> {
+		// This is just to check if they have access to the team
+		await assertTeamRole(actor, team, 'editor');
+
+		const teams = db.select({ teamId: Schema.teams.teamId }).from(Schema.teams).where(eq(Schema.teams.slug, team.slug));
+
+		await db.delete(Schema.teamManagers).where(
+			and(
+				eq(Schema.teamManagers.userId, user.id),
+				eq(Schema.teamManagers.teamId, teams),
+				// Not the owner of the team
+				not(eq(Schema.teamManagers.role, 'owner')),
+			),
+		);
+	}
+
+	async getList(actor: Actor, team: Pick<TeamSchema, 'slug'>): Promise<TeamManagerSchema[]> {
+		await assertTeamRole(actor, team, 'editor');
 
 		const result = await db
 			.select({
@@ -174,14 +117,19 @@ export class TeamManagerService {
 	}
 
 	async updateRole(
-		bouncer: AppBouncer,
+		actor: Actor,
 		team: Pick<TeamSchema, 'slug'>,
 		target: Pick<UserSchema, 'id'>,
 		change: Pick<TeamManagerSchema, 'role'>,
 	): Promise<void> {
-		await AuthorizationService.assertPermission(
-			bouncer.with('TeamPolicy').allows('updateUserRole', bouncer, team, target, change),
-		);
+		const targetRole = await this.getUserRole(actor, team, target);
+		const actorRole = await getTeamRole(actor, team);
+		const allowedRoles =
+			actorRole && actorRole !== 'guest' ? getAllowedRoleModifications({ role: actorRole }, targetRole) : [];
+
+		if (!allowedRoles.includes(change.role)) {
+			throw new TRPCError({ code: 'FORBIDDEN' });
+		}
 
 		const teams = db.select({ teamId: Schema.teams.teamId }).from(Schema.teams).where(eq(Schema.teams.slug, team.slug));
 

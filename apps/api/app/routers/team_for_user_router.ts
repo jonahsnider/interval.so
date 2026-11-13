@@ -28,14 +28,14 @@ export class TeamForUserRouter {
 				.input(TeamSchema.pick({ slug: true }))
 				.output(TeamManagerSchema.pick({ role: true }))
 				.query(({ ctx, input }) => {
-					return this.teamManagerService.getUserRole(ctx.bouncer, input, ctx.user);
+					return this.teamManagerService.getUserRole(ctx.actor, input, ctx.user);
 				}),
 
 			leave: authedProcedure
 				.input(TeamSchema.pick({ slug: true }))
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
-					return this.teamManagerService.leave(ctx.bouncer, input, ctx.user);
+					return this.teamManagerService.leave(ctx.actor, input, ctx.user);
 				}),
 		});
 	}

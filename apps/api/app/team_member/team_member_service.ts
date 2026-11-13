@@ -4,16 +4,15 @@ import { TRPCError } from '@trpc/server';
 import { and, count, eq, isNull } from 'drizzle-orm';
 import postgres from 'postgres';
 import * as Schema from '#database/schema';
-import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { injectHelper } from '../../util/inject_helper.ts';
 import { ph } from '../analytics/analytics_service.ts';
 import { AnalyticsEvent } from '../analytics/schemas/analytics_event.ts';
-import { AuthorizationService } from '../authorization/authorization_service.ts';
 import { db } from '../db/db_service.ts';
 import type { TeamSchema } from '../team/schemas/team_schema.ts';
 import { MemberRedisEvent } from './events/schemas/redis_event_schema.ts';
 import { TeamMemberEventsService } from './events/team_member_events_service.ts';
 import type { SimpleTeamMemberSchema, TeamMemberSchema } from './schemas/team_member_schema.ts';
+import { type Actor, assertTeamRole, assertTeamRoleForMembers } from '../authorization/authorization.ts';
 
 /** A team member is someone whose attendance is tracked by team users. */
 @inject()
@@ -23,8 +22,8 @@ export class TeamMemberService {
 
 	constructor(private readonly eventsService: TeamMemberEventsService) {}
 
-	async getTeamMembersSimple(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>): Promise<SimpleTeamMemberSchema[]> {
-		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('viewSimpleMemberList', team));
+	async getTeamMembersSimple(actor: Actor, team: Pick<TeamSchema, 'slug'>): Promise<SimpleTeamMemberSchema[]> {
+		await assertTeamRole(actor, team, 'guest');
 
 		const result = await db.query.teams.findFirst({
 			columns: {},
@@ -51,8 +50,8 @@ export class TeamMemberService {
 		);
 	}
 
-	async getTeamMembersFull(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>): Promise<TeamMemberSchema[]> {
-		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('viewFullMemberList', team));
+	async getTeamMembersFull(actor: Actor, team: Pick<TeamSchema, 'slug'>): Promise<TeamMemberSchema[]> {
+		await assertTeamRole(actor, team, 'editor');
 
 		const result = await db.query.teams.findFirst({
 			columns: {},
@@ -93,12 +92,8 @@ export class TeamMemberService {
 		);
 	}
 
-	async create(
-		bouncer: AppBouncer,
-		team: Pick<TeamSchema, 'slug'>,
-		data: Pick<TeamMemberSchema, 'name'>,
-	): Promise<void> {
-		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('create', team));
+	async create(actor: Actor, team: Pick<TeamSchema, 'slug'>, data: Pick<TeamMemberSchema, 'name'>): Promise<void> {
+		await assertTeamRole(actor, team, 'guest');
 
 		const [dbTeam, [members]] = await Promise.all([
 			db.query.teams.findFirst({
@@ -148,9 +143,9 @@ export class TeamMemberService {
 
 		await this.eventsService.announceEvent(team, MemberRedisEvent.MemberCreated);
 
-		if (bouncer.user?.id) {
+		if (actor?.id) {
 			ph.capture({
-				distinctId: bouncer.user.id,
+				distinctId: actor.id,
 				event: AnalyticsEvent.TeamMemberCreated,
 				groups: {
 					company: dbTeam.teamId,
@@ -159,10 +154,8 @@ export class TeamMemberService {
 		}
 	}
 
-	async updateAttendance(bouncer: AppBouncer, teamMember: Pick<TeamMemberSchema, 'id'>, data: { atMeeting: boolean }) {
-		await AuthorizationService.assertPermission(
-			bouncer.with('TeamMemberPolicy').allows('updateAttendance', teamMember),
-		);
+	async updateAttendance(actor: Actor, teamMember: Pick<TeamMemberSchema, 'id'>, data: { atMeeting: boolean }) {
+		await assertTeamRoleForMembers(actor, [teamMember], 'guest');
 
 		if (data.atMeeting) {
 			await this.signIn(teamMember);
@@ -178,9 +171,9 @@ export class TeamMemberService {
 
 		assert(teamQuery, new TypeError('Expected team to be associated with the team member'));
 
-		if (bouncer.user?.id) {
+		if (actor?.id) {
 			ph.capture({
-				distinctId: bouncer.user.id,
+				distinctId: actor.id,
 				event: data.atMeeting ? AnalyticsEvent.TeamMemberSignedIn : AnalyticsEvent.TeamMemberSignedOut,
 				groups: {
 					company: teamQuery.team.teamId,
@@ -235,8 +228,8 @@ export class TeamMemberService {
 		await this.eventsService.announceEvent([teamMember], MemberRedisEvent.MemberAttendanceUpdated);
 	}
 
-	async setArchived(bouncer: AppBouncer, member: Pick<TeamMemberSchema, 'id' | 'archived'>): Promise<void> {
-		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('update', [member]));
+	async setArchived(actor: Actor, member: Pick<TeamMemberSchema, 'id' | 'archived'>): Promise<void> {
+		await assertTeamRoleForMembers(actor, [member], 'editor');
 
 		if (member.archived) {
 			const dbMember = await db.query.teamMembers.findFirst({
@@ -261,9 +254,9 @@ export class TeamMemberService {
 
 		const [affectedTeam] = await this.eventsService.announceEvent([member], MemberRedisEvent.MemberUpdated);
 
-		if (bouncer.user?.id && affectedTeam) {
+		if (actor?.id && affectedTeam) {
 			ph.capture({
-				distinctId: bouncer.user.id,
+				distinctId: actor.id,
 				event: AnalyticsEvent.TeamMemberArchivedUpdated,
 				groups: {
 					company: affectedTeam.id,
@@ -272,8 +265,8 @@ export class TeamMemberService {
 		}
 	}
 
-	async delete(bouncer: AppBouncer, member: Pick<TeamMemberSchema, 'id'>): Promise<void> {
-		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('delete', [member]));
+	async delete(actor: Actor, member: Pick<TeamMemberSchema, 'id'>): Promise<void> {
+		await assertTeamRoleForMembers(actor, [member], 'editor');
 
 		let team: Pick<TeamSchema, 'id'> | undefined;
 
@@ -289,9 +282,9 @@ export class TeamMemberService {
 		if (team) {
 			await this.eventsService.announceEvent(team, MemberRedisEvent.MemberDeleted);
 
-			if (bouncer.user?.id) {
+			if (actor?.id) {
 				ph.capture({
-					distinctId: bouncer.user.id,
+					distinctId: actor.id,
 					event: AnalyticsEvent.TeamMemberDeleted,
 					groups: {
 						company: team.id,
@@ -302,10 +295,10 @@ export class TeamMemberService {
 	}
 
 	async getMember(
-		bouncer: AppBouncer,
+		actor: Actor,
 		member: Pick<TeamMemberSchema, 'id'>,
 	): Promise<Pick<TeamMemberSchema, 'name' | 'archived' | 'signedInAt'>> {
-		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('view', [member]));
+		await assertTeamRoleForMembers(actor, [member], 'editor');
 
 		const dbMember = await db.query.teamMembers.findFirst({
 			where: { memberId: member.id },
@@ -326,11 +319,11 @@ export class TeamMemberService {
 	}
 
 	async setName(
-		bouncer: AppBouncer,
+		actor: Actor,
 		member: Pick<TeamMemberSchema, 'id'>,
 		data: Pick<TeamMemberSchema, 'name'>,
 	): Promise<void> {
-		await AuthorizationService.assertPermission(bouncer.with('TeamMemberPolicy').allows('update', [member]));
+		await assertTeamRoleForMembers(actor, [member], 'editor');
 
 		try {
 			await db.update(Schema.teamMembers).set(data).where(eq(Schema.teamMembers.memberId, member.id));
@@ -350,9 +343,9 @@ export class TeamMemberService {
 
 		const [affectedTeam] = await this.eventsService.announceEvent([member], MemberRedisEvent.MemberUpdated);
 
-		if (bouncer.user?.id && affectedTeam) {
+		if (actor?.id && affectedTeam) {
 			ph.capture({
-				distinctId: bouncer.user.id,
+				distinctId: actor.id,
 				event: AnalyticsEvent.TeamMemberNameUpdated,
 				groups: {
 					company: affectedTeam.id,

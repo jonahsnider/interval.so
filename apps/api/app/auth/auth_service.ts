@@ -1,25 +1,29 @@
-import assert from 'node:assert/strict';
-import { inject } from '@adonisjs/core';
-import type { Session } from '@adonisjs/session';
+import redis from '@adonisjs/redis/services/main';
 import type { AuthenticationResponseJSON, AuthenticatorTransport } from '@simplewebauthn/server';
 import { generateAuthenticationOptions, verifyAuthenticationResponse } from '@simplewebauthn/server';
 import { TRPCError } from '@trpc/server';
+import { convert } from 'convert';
 import { eq } from 'drizzle-orm';
 import { origin, rpId } from '#config/auth';
 import * as Schema from '#database/schema';
-import { injectHelper } from '../../util/inject_helper.ts';
 import { db } from '../db/db_service.ts';
-import { AuthChallengeService, type AuthChallengePurpose } from './auth_challenge/auth_challenge_service.ts';
+import type { AccountSession } from './create_account_auth.ts';
+
+export type ReauthenticationPurpose = 'deleteAccount' | 'revokeOtherSessions';
+
+type Account = Pick<AccountSession, 'user' | 'session'>;
+
+const CHALLENGE_LIFETIME = convert(5, 'minutes');
+
+function challengeKey(account: Account): string {
+	return `authChallenge:${account.session.id}`;
+}
 
 /** Verifies a new, account-bound passkey assertion for a specific sensitive action. */
-@inject()
-@injectHelper(AuthChallengeService)
 export class AuthService {
-	constructor(private readonly authChallengeService: AuthChallengeService) {}
-
-	async getReauthenticationOptions(session: Session, userId: string, purpose: AuthChallengePurpose) {
+	async getReauthenticationOptions(account: Account, purpose: ReauthenticationPurpose) {
 		const passkeys = await db.query.credentials.findMany({
-			where: { userId },
+			where: { userId: account.user.id },
 			columns: { credentialId: true },
 		});
 		if (passkeys.length === 0) {
@@ -31,56 +35,37 @@ export class AuthService {
 			userVerification: 'required',
 			allowCredentials: passkeys.map((passkey) => ({ id: passkey.credentialId })),
 		});
-		await this.authChallengeService.storeChallenge(session, options.challenge, purpose);
+		await this.storeChallenge(account, options.challenge, purpose);
 		return options;
 	}
 
 	async verifyReauthentication(input: {
 		body: AuthenticationResponseJSON;
-		session: Session;
-		userId: string;
-		purpose: AuthChallengePurpose;
+		account: Account;
+		purpose: ReauthenticationPurpose;
 	}): Promise<void> {
-		await this.verifyAuthentication({ ...input, expectedUserId: input.userId });
-	}
-
-	private async verifyAuthentication(input: {
-		body: AuthenticationResponseJSON;
-		session: Session;
-		purpose: AuthChallengePurpose;
-		expectedUserId?: string;
-	}) {
 		const passkey = await db.query.credentials.findFirst({
 			where: { credentialId: input.body.id },
-			columns: {
-				userId: true,
-				credentialId: true,
-				publicKey: true,
-				counter: true,
-				transports: true,
-			},
+			columns: { userId: true, credentialId: true, publicKey: true, counter: true, transports: true },
 		});
 
 		if (!passkey) {
 			throw new TRPCError({ code: 'UNAUTHORIZED', message: "That passkey wasn't recognized" });
 		}
 
-		if (input.expectedUserId && passkey.userId !== input.expectedUserId) {
+		if (passkey.userId !== input.account.user.id) {
 			throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Use a passkey belonging to your signed-in account.' });
 		}
 
-		const currentChallenge = await this.authChallengeService.consumeChallenge(input.session, input.purpose);
+		const challenge = await this.consumeChallenge(input.account, input.purpose);
 
-		if (!currentChallenge) {
-			throw new TRPCError({
-				code: 'UNAUTHORIZED',
-				message: 'No challenge found for the given session. Try signing in again?',
-			});
+		if (!challenge) {
+			throw new TRPCError({ code: 'UNAUTHORIZED', message: 'No challenge found for this action. Please try again.' });
 		}
 
 		const verification = await verifyAuthenticationResponse({
 			response: input.body,
-			expectedChallenge: currentChallenge,
+			expectedChallenge: challenge,
 			expectedRPID: rpId,
 			expectedOrigin: origin,
 			credential: {
@@ -90,26 +75,31 @@ export class AuthService {
 				transports: passkey.transports.split(',').filter(Boolean) as AuthenticatorTransport[],
 			},
 			requireUserVerification: true,
-		}).catch(() => {
-			throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Passkey verification failed.' });
-		});
+		}).catch(() => undefined);
 
-		if (!verification.verified) {
-			throw new TRPCError({
-				code: 'UNAUTHORIZED',
-				message: 'Authentication failed',
-			});
+		if (!verification?.verified) {
+			throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Passkey verification failed.' });
 		}
 
 		await db
 			.update(Schema.credentials)
-			.set({
-				counter: verification.authenticationInfo.newCounter,
-			})
+			.set({ counter: verification.authenticationInfo.newCounter })
 			.where(eq(Schema.credentials.credentialId, passkey.credentialId));
+	}
 
-		assert(passkey.userId, new TypeError('Credential from passkey was not associated with a user'));
+	private async storeChallenge(account: Account, challenge: string, purpose: ReauthenticationPurpose): Promise<void> {
+		await redis.set(challengeKey(account), JSON.stringify({ challenge, purpose }), 'EX', CHALLENGE_LIFETIME.to('s'));
+	}
 
-		return passkey;
+	/** Consumes the account session's challenge, returning it only if it was issued for the given purpose. */
+	private async consumeChallenge(account: Account, purpose: ReauthenticationPurpose): Promise<string | undefined> {
+		const result = await redis.getdel(challengeKey(account));
+
+		if (!result) {
+			return undefined;
+		}
+
+		const stored: { challenge: string; purpose: ReauthenticationPurpose } = JSON.parse(result);
+		return stored.purpose === purpose ? stored.challenge : undefined;
 	}
 }

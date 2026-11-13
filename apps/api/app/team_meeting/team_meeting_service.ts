@@ -2,11 +2,9 @@ import assert from 'node:assert/strict';
 import { inject } from '@adonisjs/core';
 import { and, countDistinct, eq, gt, gte, inArray, isNotNull, lt, lte, max, min, sql } from 'drizzle-orm';
 import * as Schema from '#database/schema';
-import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { injectHelper } from '../../util/inject_helper.ts';
 import { ph } from '../analytics/analytics_service.ts';
 import { AnalyticsEvent } from '../analytics/schemas/analytics_event.ts';
-import { AuthorizationService } from '../authorization/authorization_service.ts';
 import { db } from '../db/db_service.ts';
 import type { TeamSchema } from '../team/schemas/team_schema.ts';
 import { MemberRedisEvent } from '../team_member/events/schemas/redis_event_schema.ts';
@@ -15,6 +13,7 @@ import type { TimeFilterSchema } from '../team_stats/schemas/time_filter_schema.
 import type { TimeRangeSchema } from '../team_stats/schemas/time_range_schema.ts';
 import type { CreateTeamMeetingSchema } from './schemas/create_team_meeting_schema.ts';
 import type { TeamMeetingSchema } from './schemas/team_meeting_schema.ts';
+import { type Actor, assertTeamRole, assertTeamRoleForMembers } from '../authorization/authorization.ts';
 
 @inject()
 @injectHelper(TeamMemberEventsService)
@@ -23,11 +22,11 @@ export class TeamMeetingService {
 
 	// TODO: Consider making this a materialized view, as long as it's not expensive to refresh it. Maybe use https://github.com/sraoss/pg_ivm
 	async getMeetings(
-		bouncer: AppBouncer,
+		actor: Actor,
 		team: Pick<TeamSchema, 'slug'>,
 		timeFilter: TimeFilterSchema,
 	): Promise<TeamMeetingSchema[]> {
-		await AuthorizationService.assertPermission(bouncer.with('MeetingPolicy').allows('viewList', team));
+		await assertTeamRole(actor, team, 'editor');
 
 		// The giant query for grouping the overlapping sign-ins is from https://wiki.postgresql.org/wiki/Range_aggregation
 		// It requires (start, end) to be unique, so we add this s0 step and tweak some of the following steps as a workaround
@@ -169,8 +168,8 @@ export class TeamMeetingService {
 		return result;
 	}
 
-	async deleteOngoingMeeting(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>): Promise<void> {
-		await AuthorizationService.assertPermission(bouncer.with('MeetingPolicy').allows('delete', team));
+	async deleteOngoingMeeting(actor: Actor, team: Pick<TeamSchema, 'slug'>): Promise<void> {
+		await assertTeamRole(actor, team, 'editor');
 
 		const teamBySlug = db
 			.select({ teamId: Schema.teams.teamId })
@@ -185,9 +184,9 @@ export class TeamMeetingService {
 			MemberRedisEvent.MemberAttendanceUpdated,
 		);
 
-		if (bouncer.user?.id) {
+		if (actor?.id) {
 			ph.capture({
-				distinctId: bouncer.user.id,
+				distinctId: actor.id,
 				event: AnalyticsEvent.MeetingDeleted,
 				groups: {
 					company: affectedTeam.id,
@@ -199,12 +198,8 @@ export class TeamMeetingService {
 		}
 	}
 
-	async deleteFinishedMeeting(
-		bouncer: AppBouncer,
-		team: Pick<TeamSchema, 'slug'>,
-		meeting: TimeRangeSchema,
-	): Promise<void> {
-		await AuthorizationService.assertPermission(bouncer.with('MeetingPolicy').allows('delete', team));
+	async deleteFinishedMeeting(actor: Actor, team: Pick<TeamSchema, 'slug'>, meeting: TimeRangeSchema): Promise<void> {
+		await assertTeamRole(actor, team, 'editor');
 
 		const meetingsToDelete = db.$with('meetings_to_delete').as(
 			db
@@ -238,9 +233,9 @@ export class TeamMeetingService {
 			MemberRedisEvent.MemberAttendanceUpdated,
 		);
 
-		if (bouncer.user?.id) {
+		if (actor?.id) {
 			ph.capture({
-				distinctId: bouncer.user.id,
+				distinctId: actor.id,
 				event: AnalyticsEvent.MeetingDeleted,
 				groups: {
 					company: affectedTeam.id,
@@ -252,8 +247,8 @@ export class TeamMeetingService {
 		}
 	}
 
-	async getCurrentMeetingStart(bouncer: AppBouncer, team: Pick<TeamSchema, 'slug'>): Promise<Date | undefined> {
-		await AuthorizationService.assertPermission(bouncer.with('MeetingPolicy').allows('viewList', team));
+	async getCurrentMeetingStart(actor: Actor, team: Pick<TeamSchema, 'slug'>): Promise<Date | undefined> {
+		await assertTeamRole(actor, team, 'editor');
 
 		const [result] = await db
 			.select({
@@ -268,8 +263,8 @@ export class TeamMeetingService {
 		return result?.startedAt ?? undefined;
 	}
 
-	async createMeeting(bouncer: AppBouncer, data: CreateTeamMeetingSchema): Promise<void> {
-		await AuthorizationService.assertPermission(bouncer.with('MeetingPolicy').allows('create', data.attendees));
+	async createMeeting(actor: Actor, data: CreateTeamMeetingSchema): Promise<void> {
+		await assertTeamRoleForMembers(actor, data.attendees, 'editor');
 
 		const uniqueAttendeeIds = new Set(data.attendees.map((attendee) => attendee.id));
 
@@ -290,10 +285,10 @@ export class TeamMeetingService {
 			MemberRedisEvent.MemberAttendanceUpdated,
 		);
 
-		if (bouncer.user?.id) {
+		if (actor?.id) {
 			for (const affectedTeam of affectedTeams) {
 				ph.capture({
-					distinctId: bouncer.user.id,
+					distinctId: actor.id,
 					event: AnalyticsEvent.MeetingCreated,
 					groups: {
 						company: affectedTeam.id,

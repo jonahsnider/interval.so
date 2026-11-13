@@ -41,20 +41,20 @@ export class TeamMemberRouter {
 				)
 				.output(z.void())
 				.mutation(({ input, ctx }) => {
-					return this.teamMemberService.create(ctx.bouncer, input.team, input.member);
+					return this.teamMemberService.create(ctx.actor, input.team, input.member);
 				}),
 
 			simpleMemberList: publicProcedure
 				.input(TeamSchema.pick({ slug: true }))
 				.output(TeamMemberSchema.pick({ id: true, name: true, signedInAt: true }).array())
 				.query(({ ctx, input }) => {
-					return this.teamMemberService.getTeamMembersSimple(ctx.bouncer, input);
+					return this.teamMemberService.getTeamMembersSimple(ctx.actor, input);
 				}),
 
 			simpleMemberListSubscription: publicProcedure
 				.input(TeamSchema.pick({ slug: true }))
 				.subscription(({ ctx, input }): Promise<Observable<SimpleTeamMemberSchema[], unknown>> => {
-					return this.teamMemberSubscriptionService.simpleTeamMemberListSubscribe(ctx.bouncer, input);
+					return this.teamMemberSubscriptionService.simpleTeamMemberListSubscribe(ctx.actor, input);
 				}),
 			updateAttendance: publicProcedure
 				.input(
@@ -65,40 +65,40 @@ export class TeamMemberRouter {
 				)
 				.output(z.void())
 				.mutation(({ input, ctx }) => {
-					return this.teamMemberService.updateAttendance(ctx.bouncer, input.member, input.data);
+					return this.teamMemberService.updateAttendance(ctx.actor, input.member, input.data);
 				}),
 
 			endMeeting: authedProcedure
 				.input(z.object({ team: TeamSchema.pick({ slug: true }), endTime: NowOrEarlierSchema }).strict())
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
-					return this.teamMemberBatchService.signOutAll(ctx.bouncer, input.team, input.endTime);
+					return this.teamMemberBatchService.signOutAll(ctx.actor, input.team, input.endTime);
 				}),
 
 			fullMemberList: authedProcedure
 				.input(TeamSchema.pick({ slug: true }).strict())
 				.output(TeamMemberSchema.array())
 				.query(({ ctx, input }) => {
-					return this.teamMemberService.getTeamMembersFull(ctx.bouncer, input);
+					return this.teamMemberService.getTeamMembersFull(ctx.actor, input);
 				}),
 			fullMemberListSubscription: authedProcedure
 				.input(TeamSchema.pick({ slug: true }).strict())
 				.subscription(({ ctx, input }): Promise<Observable<TeamMemberSchema[], unknown>> => {
-					return this.teamMemberSubscriptionService.fullTeamMemberListSubscribe(ctx.bouncer, input);
+					return this.teamMemberSubscriptionService.fullTeamMemberListSubscribe(ctx.actor, input);
 				}),
 
 			setArchived: authedProcedure
 				.input(TeamMemberSchema.pick({ id: true, archived: true }).strict())
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
-					return this.teamMemberService.setArchived(ctx.bouncer, input);
+					return this.teamMemberService.setArchived(ctx.actor, input);
 				}),
 
 			getMember: authedProcedure
 				.input(TeamMemberSchema.pick({ id: true }).strict())
 				.output(TeamMemberSchema.pick({ name: true, archived: true, signedInAt: true }))
 				.query(({ ctx, input }) => {
-					return this.teamMemberService.getMember(ctx.bouncer, input);
+					return this.teamMemberService.getMember(ctx.actor, input);
 				}),
 			getMemberSubscription: authedProcedure
 				.input(TeamMemberSchema.pick({ id: true }).strict())
@@ -107,7 +107,7 @@ export class TeamMemberRouter {
 						ctx,
 						input,
 					}): Promise<Observable<Pick<TeamMemberSchema, 'archived' | 'signedInAt' | 'name'>, unknown>> => {
-						return this.teamMemberSubscriptionService.getMemberSubscription(ctx.bouncer, input);
+						return this.teamMemberSubscriptionService.getMemberSubscription(ctx.actor, input);
 					},
 				),
 
@@ -115,14 +115,14 @@ export class TeamMemberRouter {
 				.input(TeamMemberSchema.pick({ id: true, name: true }).strict())
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
-					return this.teamMemberService.setName(ctx.bouncer, input, input);
+					return this.teamMemberService.setName(ctx.actor, input, input);
 				}),
 
 			delete: authedProcedure
 				.input(TeamMemberSchema.pick({ id: true }).strict())
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
-					return this.teamMemberService.delete(ctx.bouncer, input);
+					return this.teamMemberService.delete(ctx.actor, input);
 				}),
 
 			deleteMany: authedProcedure
@@ -135,7 +135,7 @@ export class TeamMemberRouter {
 				)
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
-					return this.teamMemberBatchService.deleteMany(ctx.bouncer, input.members);
+					return this.teamMemberBatchService.deleteMany(ctx.actor, input.members);
 				}),
 			setArchivedMany: authedProcedure
 				.input(
@@ -148,7 +148,7 @@ export class TeamMemberRouter {
 				)
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
-					return this.teamMemberBatchService.setArchivedMany(ctx.bouncer, input.members, input.data);
+					return this.teamMemberBatchService.setArchivedMany(ctx.actor, input.members, input.data);
 				}),
 			updateAttendanceMany: authedProcedure
 				.input(
@@ -161,7 +161,7 @@ export class TeamMemberRouter {
 				)
 				.output(z.void())
 				.mutation(({ ctx, input }) => {
-					return this.teamMemberBatchService.updateAttendanceMany(ctx.bouncer, input.members, input.data);
+					return this.teamMemberBatchService.updateAttendanceMany(ctx.actor, input.members, input.data);
 				}),
 		});
 	}

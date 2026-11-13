@@ -9,8 +9,8 @@ import { applyWSSHandler } from '@trpc/server/adapters/ws';
 import { WebSocketServer } from 'ws';
 import { fromNodeHeaders } from 'better-auth/node';
 import sessionConfig from '#config/session';
-import { createBouncer } from '#middleware/initialize_bouncer_middleware';
 import { AuthSessionService } from '../app/auth/auth_session_service.ts';
+import { getActor } from '../app/authorization/authorization.ts';
 import { AppRouter } from '../app/routers/app_router.ts';
 
 const wss = new WebSocketServer({ server: adonisServer.getNodeServer() });
@@ -55,7 +55,7 @@ const handler = applyWSSHandler({
 		await sentryMiddleware.handle(adonisHttpContext, () => {});
 
 		return {
-			bouncer: createBouncer(session, account).setContainerResolver(adonisHttpContext.containerResolver),
+			actor: getActor(session, account),
 			session,
 			account,
 			authHeaders,

@@ -3,30 +3,24 @@ import { inject } from '@adonisjs/core';
 import { TRPCError } from '@trpc/server';
 import { and, count, eq, gt, inArray, lt, max, min, not, sql } from 'drizzle-orm';
 import * as Schema from '#database/schema';
-import type { AppBouncer } from '#middleware/initialize_bouncer_middleware';
 import { injectHelper } from '../../util/inject_helper.ts';
 import { ph } from '../analytics/analytics_service.ts';
 import { AnalyticsEvent } from '../analytics/schemas/analytics_event.ts';
-import { AuthorizationService } from '../authorization/authorization_service.ts';
 import { db } from '../db/db_service.ts';
 import { MemberRedisEvent } from '../team_member/events/schemas/redis_event_schema.ts';
 import { TeamMemberEventsService } from '../team_member/events/team_member_events_service.ts';
 import type { TeamMemberSchema } from '../team_member/schemas/team_member_schema.ts';
 import type { TimeFilterSchema } from '../team_stats/schemas/time_filter_schema.ts';
 import type { AttendanceEntrySchema } from './schemas/attendance_entry_schema.ts';
+import { type Actor, assertTeamRoleForAttendance, assertTeamRoleForMembers } from '../authorization/authorization.ts';
 
 @inject()
 @injectHelper(TeamMemberEventsService)
 export class TeamMemberAttendanceService {
 	constructor(private readonly eventsService: TeamMemberEventsService) {}
 
-	async deleteEntries(
-		bouncer: AppBouncer,
-		attendanceEntries: Pick<AttendanceEntrySchema, 'attendanceId'>[],
-	): Promise<void> {
-		await AuthorizationService.assertPermission(
-			bouncer.with('TeamMemberAttendancePolicy').allows('deleteEntries', attendanceEntries),
-		);
+	async deleteEntries(actor: Actor, attendanceEntries: Pick<AttendanceEntrySchema, 'attendanceId'>[]): Promise<void> {
+		await assertTeamRoleForAttendance(actor, attendanceEntries, 'editor');
 
 		const attendanceIds = attendanceEntries.map((entry) => entry.attendanceId);
 
@@ -42,10 +36,10 @@ export class TeamMemberAttendanceService {
 			MemberRedisEvent.MemberAttendanceUpdated,
 		);
 
-		if (bouncer.user?.id) {
+		if (actor?.id) {
 			for (const affectedTeam of affectedTeams) {
 				ph.capture({
-					distinctId: bouncer.user.id,
+					distinctId: actor.id,
 					// Kinda scuffed since this method is used for both batch and single deletes
 					event:
 						attendanceIds.length > 1
@@ -60,13 +54,11 @@ export class TeamMemberAttendanceService {
 	}
 
 	async createEntry(
-		bouncer: AppBouncer,
+		actor: Actor,
 		member: Pick<TeamMemberSchema, 'id'>,
 		data: Pick<AttendanceEntrySchema, 'startedAt' | 'endedAt'>,
 	): Promise<void> {
-		await AuthorizationService.assertPermission(
-			bouncer.with('TeamMemberAttendancePolicy').allows('createEntryForMembers', [member]),
-		);
+		await assertTeamRoleForMembers(actor, [member], 'editor');
 
 		const [overlappingEntries] = await db
 			.select({
@@ -94,9 +86,9 @@ export class TeamMemberAttendanceService {
 
 		const [affectedTeam] = await this.eventsService.announceEvent([member], MemberRedisEvent.MemberAttendanceUpdated);
 
-		if (bouncer.user?.id && affectedTeam) {
+		if (actor?.id && affectedTeam) {
 			ph.capture({
-				distinctId: bouncer.user.id,
+				distinctId: actor.id,
 				event: AnalyticsEvent.TeamMemberAttendanceCreated,
 				groups: {
 					company: affectedTeam.id,
@@ -105,10 +97,8 @@ export class TeamMemberAttendanceService {
 		}
 	}
 
-	async mergeEntries(bouncer: AppBouncer, data: Pick<AttendanceEntrySchema, 'attendanceId'>[]): Promise<void> {
-		await AuthorizationService.assertPermission(
-			bouncer.with('TeamMemberAttendancePolicy').allows('mergeEntries', data),
-		);
+	async mergeEntries(actor: Actor, data: Pick<AttendanceEntrySchema, 'attendanceId'>[]): Promise<void> {
+		await assertTeamRoleForAttendance(actor, data, 'editor');
 
 		// Get the earliest start time and the latest end time, delete all the the specified meetings, then insert a new one
 
@@ -170,9 +160,9 @@ export class TeamMemberAttendanceService {
 			MemberRedisEvent.MemberAttendanceUpdated,
 		);
 
-		if (bouncer.user?.id && affectedTeam) {
+		if (actor?.id && affectedTeam) {
 			ph.capture({
-				distinctId: bouncer.user.id,
+				distinctId: actor.id,
 				event: AnalyticsEvent.TeamMemberAttendanceMerged,
 				groups: {
 					company: affectedTeam.id,
@@ -182,13 +172,11 @@ export class TeamMemberAttendanceService {
 	}
 
 	async getEntriesForMember(
-		bouncer: AppBouncer,
+		actor: Actor,
 		member: Pick<TeamMemberSchema, 'id'>,
 		timeFilter: TimeFilterSchema,
 	): Promise<Pick<AttendanceEntrySchema, 'attendanceId' | 'startedAt' | 'endedAt'>[]> {
-		await AuthorizationService.assertPermission(
-			bouncer.with('TeamMemberAttendancePolicy').allows('viewEntriesForMembers', [member]),
-		);
+		await assertTeamRoleForMembers(actor, [member], 'editor');
 
 		const result = await db
 			.select({
@@ -213,12 +201,10 @@ export class TeamMemberAttendanceService {
 	}
 
 	async updateEntry(
-		bouncer: AppBouncer,
+		actor: Actor,
 		update: Pick<AttendanceEntrySchema, 'attendanceId' | 'startedAt' | 'endedAt'>,
 	): Promise<void> {
-		await AuthorizationService.assertPermission(
-			bouncer.with('TeamMemberAttendancePolicy').allows('updateEntries', [update]),
-		);
+		await assertTeamRoleForAttendance(actor, [update], 'editor');
 
 		if (update.endedAt.getTime() < update.startedAt.getTime()) {
 			throw new TRPCError({
@@ -269,10 +255,10 @@ export class TeamMemberAttendanceService {
 
 		const affectedTeams = await this.eventsService.announceEvent(members, MemberRedisEvent.MemberAttendanceUpdated);
 
-		if (bouncer.user?.id) {
+		if (actor?.id) {
 			for (const affectedTeam of affectedTeams) {
 				ph.capture({
-					distinctId: bouncer.user.id,
+					distinctId: actor.id,
 					event: AnalyticsEvent.TeamMemberAttendanceUpdated,
 					groups: {
 						company: affectedTeam.id,

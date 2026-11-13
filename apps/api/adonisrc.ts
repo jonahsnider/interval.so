@@ -1,4 +1,3 @@
-import { indexPolicies } from '@adonisjs/bouncer';
 import { indexEntities } from '@adonisjs/core';
 import { defineConfig } from '@adonisjs/core/app';
 
@@ -12,10 +11,10 @@ export default defineConfig({
   | will be scanned automatically from the "./commands" directory.
   |
 	*/
-	commands: [() => import('@adonisjs/core/commands'), () => import('@adonisjs/bouncer/commands')],
+	commands: [() => import('@adonisjs/core/commands')],
 
 	hooks: {
-		init: [indexEntities(), indexPolicies()],
+		init: [indexEntities()],
 	},
 
 	/*
@@ -38,7 +37,6 @@ export default defineConfig({
 		() => import('@adonisjs/cors/cors_provider'),
 		() => import('@adonisjs/redis/redis_provider'),
 		() => import('@adonisjs/session/session_provider'),
-		() => import('@adonisjs/bouncer/bouncer_provider'),
 		() => import('@rlanz/sentry/provider'),
 		() => import('./app/analytics/analytics_provider.js'),
 	],

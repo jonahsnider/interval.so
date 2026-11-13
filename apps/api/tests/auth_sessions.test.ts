@@ -201,7 +201,7 @@ await test(
 		}).createCaller({
 			session,
 			account: identity,
-			bouncer: {} as never,
+			actor: null,
 			authHeaders: current.headers,
 			setAuthCookies: () => {},
 			validateSession: () => authSessions.assertActive(session, current.headers, identity),
