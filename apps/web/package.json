@@ -86,7 +86,7 @@
 		"@opennextjs/cloudflare": "1.20.17",
 		"@types/node": "26.6.6",
 		"cf": "1.0.0-beta.30",
-		"wrangler": "4.160.1"
+		"wrangler": "4.161.0"
 	},
 	"portless": {
 		"name": "interval.so",
