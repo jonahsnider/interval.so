@@ -83,7 +83,7 @@
 		"zod": "4.6.7"
 	},
 	"devDependencies": {
-		"@opennextjs/cloudflare": "1.20.16",
+		"@opennextjs/cloudflare": "1.20.17",
 		"@types/node": "26.6.6",
 		"cf": "1.0.0-beta.30",
 		"wrangler": "4.160.1"
