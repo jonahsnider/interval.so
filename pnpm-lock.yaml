@@ -263,8 +263,8 @@ importers:
         specifier: 4.1.1
         version: 4.1.1
       posthog-node:
-        specifier: 6.0.3
-        version: 6.0.3(@opentelemetry/api@1.10.0)(rxjs@7.8.2)
+        specifier: 6.0.4
+        version: 6.0.4(@opentelemetry/api@1.10.0)(rxjs@7.8.2)
       reflect-metadata:
         specifier: 0.2.2
         version: 0.2.2
@@ -5882,8 +5882,8 @@ packages:
       rxjs:
         optional: true
 
-  posthog-node@6.0.3:
-    resolution: {integrity: sha512-nRYHLGCHPya5srUmBETjtcg6rfopsTpCesjRsDKB1oXlbFNmn7z5n0Hu1x60czJr8kGkOysynaoNCogBZCXQhQ==}
+  posthog-node@6.0.4:
+    resolution: {integrity: sha512-jl3NX7LNWu5il7Rqmpoj/tUGLLEyUw4d7ym3lgZ5VHcSz35UK4SPoKTR9S+RAVBxGBRo6mzUPYyk/ZLCyuFNcQ==}
     engines: {node: ^20.20.0 || >=22.22.0}
     peerDependencies:
       '@opentelemetry/api': ^1.2.0
@@ -11745,7 +11745,7 @@ snapshots:
       '@opentelemetry/api': 1.10.0
       rxjs: 7.8.2
 
-  posthog-node@6.0.3(@opentelemetry/api@1.10.0)(rxjs@7.8.2):
+  posthog-node@6.0.4(@opentelemetry/api@1.10.0)(rxjs@7.8.2):
     dependencies:
       '@posthog/core': 1.69.1
     optionalDependencies:
