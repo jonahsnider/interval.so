@@ -188,8 +188,8 @@ importers:
         specifier: ^7.0.2001
         version: 7.0.2007
       portless:
-        specifier: 0.18.0
-        version: 0.18.0
+        specifier: 0.18.1
+        version: 0.18.1
       railway:
         specifier: 3.17.0
         version: 3.17.0
@@ -5770,8 +5770,8 @@ packages:
     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
     engines: {node: '>=4'}
 
-  portless@0.18.0:
-    resolution: {integrity: sha512-SHUBQsapPFReC01RQ2cn0tUXgO/IT1PucpsRv4P1aFhQGMKWo5Pc7poUgCa5gh09Z7aeNNqEoozVSBW7uee58A==}
+  portless@0.18.1:
+    resolution: {integrity: sha512-3gfeicAvS5kwFUbZrsZpt1oU1MUBvfiy2S0MT/n8mwWEp/ZjQsWI0mC353GEi/q8JUVgdx7lBGDzCcMI9O1MXg==}
     engines: {node: '>=24'}
     os: [darwin, linux, win32]
     hasBin: true
@@ -11632,7 +11632,7 @@ snapshots:
 
   pluralize@8.0.0: {}
 
-  portless@0.18.0: {}
+  portless@0.18.1: {}
 
   postcss-import@15.1.0(postcss@8.5.33):
     dependencies:
