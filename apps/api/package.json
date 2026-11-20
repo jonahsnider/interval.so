@@ -37,7 +37,7 @@
 		"@adonisjs/core": "7.7.0",
 		"@adonisjs/cors": "3.0.0",
 		"@adonisjs/redis": "11.0.0",
-		"@adonisjs/session": "8.3.0",
+		"@adonisjs/session": "8.4.0",
 		"@better-auth/drizzle-adapter": "1.7.26",
 		"@better-auth/passkey": "1.7.26",
 		"@jonahsnider/util": "13.0.0",
