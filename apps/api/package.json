@@ -34,7 +34,7 @@
 		"type-check": "tsc --noEmit"
 	},
 	"dependencies": {
-		"@adonisjs/core": "7.6.0",
+		"@adonisjs/core": "7.7.0",
 		"@adonisjs/cors": "3.0.0",
 		"@adonisjs/redis": "11.0.0",
 		"@adonisjs/session": "8.3.0",
