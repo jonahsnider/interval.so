@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { TRPCError } from '@trpc/server';
 import cryptoRandomString from 'crypto-random-string';
 import { and, count, eq, inArray } from 'drizzle-orm';
-import postgres from 'postgres';
+import { PgError } from 'drizzle-orm/postgres';
 import * as Schema from '#database/schema';
 import { ph } from '../analytics/analytics_service.ts';
 import { AnalyticsEvent } from '../analytics/schemas/analytics_event.ts';
@@ -83,7 +83,7 @@ export class TeamService {
 		} catch (error) {
 			const cause = error instanceof Error ? error.cause : undefined;
 
-			if (cause instanceof postgres.PostgresError && cause.code === '23505') {
+			if (cause instanceof PgError && cause.code === '23505') {
 				// Team slug collision
 				throw new TRPCError({
 					code: 'UNPROCESSABLE_CONTENT',
@@ -346,7 +346,7 @@ export class TeamService {
 		} catch (error) {
 			const cause = error instanceof Error ? error.cause : undefined;
 
-			if (cause instanceof postgres.PostgresError && cause.code === '23505') {
+			if (cause instanceof PgError && cause.code === '23505') {
 				// Team slug collision
 				throw new TRPCError({
 					code: 'UNPROCESSABLE_CONTENT',

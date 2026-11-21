@@ -4,6 +4,8 @@ packages:
 nodeLinker: hoisted
 
 overrides:
+  # Keep Drizzle Kit from selecting the unused Postgres.js peer over the bundled driver.
+  drizzle-orm>postgres: '-'
   react-is: ^19.0.0-rc-69d4b800-20241021
 
 allowBuilds:
@@ -30,3 +32,5 @@ minimumReleaseAgeExclude:
   - '@posthog/types@1.418.0'
   - posthog-js@1.441.2
   - posthog-node@5.58.0
+  - drizzle-kit@1.0.0-rc.6
+  - drizzle-orm@1.0.0-rc.6

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { inject } from '@adonisjs/core';
 import { TRPCError } from '@trpc/server';
 import { and, count, eq, isNull } from 'drizzle-orm';
-import postgres from 'postgres';
+import { PgError } from 'drizzle-orm/postgres';
 import * as Schema from '#database/schema';
 import { injectHelper } from '../../util/inject_helper.ts';
 import { ph } from '../analytics/analytics_service.ts';
@@ -130,7 +130,7 @@ export class TeamMemberService {
 		} catch (error) {
 			const cause = error instanceof Error ? error.cause : undefined;
 
-			if (cause instanceof postgres.PostgresError && cause.code === '23505') {
+			if (cause instanceof PgError && cause.code === '23505') {
 				// Team member name collision
 				throw new TRPCError({
 					code: 'UNPROCESSABLE_CONTENT',
@@ -268,16 +268,13 @@ export class TeamMemberService {
 	async delete(actor: Actor, member: Pick<TeamMemberSchema, 'id'>): Promise<void> {
 		await assertTeamRoleForMembers(actor, [member], 'editor');
 
-		let team: Pick<TeamSchema, 'id'> | undefined;
-
-		await db.transaction(async (tx) => {
-			// Delete meetings
-			await tx.delete(Schema.memberAttendance).where(eq(Schema.memberAttendance.memberId, member.id));
-			// Delete member
-			[team] = await tx.delete(Schema.teamMembers).where(eq(Schema.teamMembers.memberId, member.id)).returning({
-				id: Schema.teamMembers.teamId,
-			});
-		});
+		const [, [team]] = await db.batch([
+			db.delete(Schema.memberAttendance).where(eq(Schema.memberAttendance.memberId, member.id)),
+			db
+				.delete(Schema.teamMembers)
+				.where(eq(Schema.teamMembers.memberId, member.id))
+				.returning({ id: Schema.teamMembers.teamId }),
+		]);
 
 		if (team) {
 			await this.eventsService.announceEvent(team, MemberRedisEvent.MemberDeleted);
@@ -330,7 +327,7 @@ export class TeamMemberService {
 		} catch (error) {
 			const cause = error instanceof Error ? error.cause : undefined;
 
-			if (cause instanceof postgres.PostgresError && cause.code === '23505') {
+			if (cause instanceof PgError && cause.code === '23505') {
 				// Team member name collision
 				throw new TRPCError({
 					code: 'UNPROCESSABLE_CONTENT',

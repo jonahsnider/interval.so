@@ -98,18 +98,14 @@ export class TeamMemberBatchService {
 
 		await assertTeamRoleForMembers(actor, members, 'editor');
 
-		let teams: Pick<TeamSchema, 'id'>[] = [];
-
-		await db.transaction(async (tx) => {
-			const memberIds = members.map((member) => member.id);
-
-			// Delete meetings
-			await tx.delete(Schema.memberAttendance).where(inArray(Schema.memberAttendance.memberId, memberIds));
-			// Delete member
-			teams = await tx.delete(Schema.teamMembers).where(inArray(Schema.teamMembers.memberId, memberIds)).returning({
-				id: Schema.teamMembers.teamId,
-			});
-		});
+		const memberIds = members.map((member) => member.id);
+		const [, teams] = await db.batch([
+			db.delete(Schema.memberAttendance).where(inArray(Schema.memberAttendance.memberId, memberIds)),
+			db
+				.delete(Schema.teamMembers)
+				.where(inArray(Schema.teamMembers.memberId, memberIds))
+				.returning({ id: Schema.teamMembers.teamId }),
+		]);
 
 		const teamIds = new Set(teams.map((team) => team.id));
 

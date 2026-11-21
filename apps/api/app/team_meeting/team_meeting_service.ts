@@ -268,16 +268,12 @@ export class TeamMeetingService {
 
 		const uniqueAttendeeIds = new Set(data.attendees.map((attendee) => attendee.id));
 
-		await db.transaction((tx) =>
-			Promise.all(
-				[...uniqueAttendeeIds].map(async (attendeeId) => {
-					await tx.insert(Schema.memberAttendance).values({
-						memberId: attendeeId,
-						startedAt: data.timeRange.start,
-						endedAt: data.timeRange.end,
-					});
-				}),
-			),
+		await db.insert(Schema.memberAttendance).values(
+			[...uniqueAttendeeIds].map((memberId) => ({
+				memberId,
+				startedAt: data.timeRange.start,
+				endedAt: data.timeRange.end,
+			})),
 		);
 
 		const affectedTeams = await this.teamMemberEventsService.announceEvent(
