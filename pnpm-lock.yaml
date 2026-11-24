@@ -534,8 +534,8 @@ importers:
         specifier: 26.6.6
         version: 26.6.6
       cf:
-        specifier: 1.0.0-rc.3
-        version: 1.0.0-rc.3(@types/node@26.6.6)
+        specifier: 1.0.0-rc.4
+        version: 1.0.0-rc.4(@types/node@26.6.6)
       wrangler:
         specifier: 4.166.0
         version: 4.166.0(@types/node@26.6.6)
@@ -4297,8 +4297,8 @@ packages:
     resolution: {integrity: sha512-52UPzAJDZgxaNsYK4kvmov1kVaAfPc+OU2j0OSUZWbdWMuJd7Axi94XWSfSuafMd7K9avhsEnU6W6rXJdAd+Ug==}
     engines: {node: '>=18'}
 
-  cf@1.0.0-rc.3:
-    resolution: {integrity: sha512-TUiBq/+W8t2gIj4tuAWWObsP+tVV2RaL3Vp9sKeknXM0/WQV1tJKXW3TKtxhw4ZAnUbq8GW1d+Eri6abIpGR/g==}
+  cf@1.0.0-rc.4:
+    resolution: {integrity: sha512-QNJOSb4DT4HOO/ZwIL0zG5GhnX64cN6a8Dmfln/IwXim/G0eTkQdo/0rEexbY3FJI6rzG19GotWN8I+udulgxA==}
     engines: {node: ^22.23.0 || ^24.22.0 || ^26.12.0}
     hasBin: true
 
@@ -10240,7 +10240,7 @@ snapshots:
 
   case-anything@3.1.7: {}
 
-  cf@1.0.0-rc.3(@types/node@26.6.6):
+  cf@1.0.0-rc.4(@types/node@26.6.6):
     dependencies:
       '@cloudflare/build-output-utils': 1.0.0-rc.3
       '@cloudflare/config': 1.0.0-rc.3
