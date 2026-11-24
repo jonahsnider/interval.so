@@ -46,7 +46,7 @@
 		"@sentry/node": "11.16.0",
 		"@sentry/profiling-node": "11.16.0",
 		"@simplewebauthn/server": "14.1.0",
-		"@trpc/server": "11.29.7",
+		"@trpc/server": "11.29.11",
 		"@vinejs/vine": "4.4.0",
 		"better-auth": "1.7.27",
 		"convert": "8.2.0",
