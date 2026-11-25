@@ -247,8 +247,8 @@ importers:
         specifier: 14.1.0
         version: 14.1.0
       '@trpc/server':
-        specifier: 11.31.2
-        version: 11.31.2(@types/ws@8.18.2)(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.7)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(typescript@7.0.2)
+        specifier: 11.31.3
+        version: 11.31.3(@types/ws@8.18.2)(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.7)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(typescript@7.0.2)
       '@vinejs/vine':
         specifier: 4.4.0
         version: 4.4.0
@@ -410,11 +410,11 @@ importers:
         specifier: 8.21.3
         version: 8.21.3(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@trpc/client':
-        specifier: 11.31.2
-        version: 11.31.2(@trpc/server@11.31.2(@types/ws@8.18.2)(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.7)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(typescript@7.0.2))(typescript@7.0.2)
+        specifier: 11.31.3
+        version: 11.31.3(@trpc/server@11.31.3(@types/ws@8.18.2)(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.7)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(typescript@7.0.2))(typescript@7.0.2)
       '@trpc/tanstack-react-query':
-        specifier: 11.31.2
-        version: 11.31.2(@tanstack/react-query@5.108.4(@types/react@19.3.1)(react@19.3.1))(@trpc/client@11.31.2(@trpc/server@11.31.2(@types/ws@8.18.2)(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.7)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(typescript@7.0.2))(typescript@7.0.2))(@trpc/server@11.31.2(@types/ws@8.18.2)(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.7)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2)
+        specifier: 11.31.3
+        version: 11.31.3(@tanstack/react-query@5.108.4(@types/react@19.3.1)(react@19.3.1))(@trpc/client@11.31.3(@trpc/server@11.31.3(@types/ws@8.18.2)(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.7)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(typescript@7.0.2))(typescript@7.0.2))(@trpc/server@11.31.3(@types/ws@8.18.2)(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.7)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2)
       '@types/react':
         specifier: 19.3.1
         version: 19.3.1
@@ -3745,14 +3745,14 @@ packages:
   '@tokenizer/token@0.3.0':
     resolution: {integrity: sha512-OvjF+z51L3ov0OyAU0duzsYuvO01PH7x4t6DJx+guahgTnBHkhJdG7soQeTSFLWN3efnHyibZ4Z8l2EuWwJN3A==}
 
-  '@trpc/client@11.31.2':
-    resolution: {integrity: sha512-rwW0mXFLnNER+yM2+U6hz/RHtbrzA7CtLqpcWcGMobLbmXncz5aSed3cuzHPcadEnGFhRcXbmvIl9P8UdDFkkQ==}
+  '@trpc/client@11.31.3':
+    resolution: {integrity: sha512-b4J6ELICI+VOI1Om7VSzrysUONR+g0OWTpj4aHj07+tIBqPyWHFH5jYtexvi3CLpCNOeBS5yQ9T/f1SkZocVdQ==}
     peerDependencies:
-      '@trpc/server': 11.31.2
+      '@trpc/server': 11.31.3
       typescript: '>=5.7.2'
 
-  '@trpc/server@11.31.2':
-    resolution: {integrity: sha512-gKekuwJEEMGeF61zCjGR3aYhqg/Jo09sISwvTLgaUkNQECbVrAHP1Y9D+UNqtOD6sKAzvYX2dGoxst6qGU9fOg==}
+  '@trpc/server@11.31.3':
+    resolution: {integrity: sha512-TEfyePHC1/x1bFn47+XNUt3LCvRN+ZKuoabwQ2rG5XzLZPnYUElY4jeovaqC6UCavETu5ca1l/n9h5DKxk5xHg==}
     peerDependencies:
       '@types/aws-lambda': '*'
       '@types/express': '*'
@@ -3772,12 +3772,12 @@ packages:
       next:
         optional: true
 
-  '@trpc/tanstack-react-query@11.31.2':
-    resolution: {integrity: sha512-/a3j7ej/p4GpSW3osPaUJa0mzkfYi9TkAuqf7kpmSbFOHGpOl4IktWXSUjAivk/fyFi4UMRE6NzXiYG5le56xQ==}
+  '@trpc/tanstack-react-query@11.31.3':
+    resolution: {integrity: sha512-1QSQL58CBxiEbldkd/tr59yO9i/2V9lEJmyr9XZpDWS2Ip/vykG8cpazB7xXrrUvP5VvlqHTjBXbYHXOA8Xw9A==}
     peerDependencies:
       '@tanstack/react-query': ^5.106.0
-      '@trpc/client': 11.31.2
-      '@trpc/server': 11.31.2
+      '@trpc/client': 11.31.3
+      '@trpc/server': 11.31.3
       react: '>=18.2.0'
       typescript: '>=5.7.2'
 
@@ -9815,23 +9815,23 @@ snapshots:
 
   '@tokenizer/token@0.3.0': {}
 
-  '@trpc/client@11.31.2(@trpc/server@11.31.2(@types/ws@8.18.2)(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.7)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(typescript@7.0.2))(typescript@7.0.2)':
+  '@trpc/client@11.31.3(@trpc/server@11.31.3(@types/ws@8.18.2)(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.7)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(typescript@7.0.2))(typescript@7.0.2)':
     dependencies:
-      '@trpc/server': 11.31.2(@types/ws@8.18.2)(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.7)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(typescript@7.0.2)
+      '@trpc/server': 11.31.3(@types/ws@8.18.2)(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.7)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(typescript@7.0.2)
       typescript: 7.0.2
 
-  '@trpc/server@11.31.2(@types/ws@8.18.2)(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.7)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(typescript@7.0.2)':
+  '@trpc/server@11.31.3(@types/ws@8.18.2)(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.7)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(typescript@7.0.2)':
     dependencies:
       typescript: 7.0.2
     optionalDependencies:
       '@types/ws': 8.18.2
       next: 16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.7)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
 
-  '@trpc/tanstack-react-query@11.31.2(@tanstack/react-query@5.108.4(@types/react@19.3.1)(react@19.3.1))(@trpc/client@11.31.2(@trpc/server@11.31.2(@types/ws@8.18.2)(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.7)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(typescript@7.0.2))(typescript@7.0.2))(@trpc/server@11.31.2(@types/ws@8.18.2)(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.7)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2)':
+  '@trpc/tanstack-react-query@11.31.3(@tanstack/react-query@5.108.4(@types/react@19.3.1)(react@19.3.1))(@trpc/client@11.31.3(@trpc/server@11.31.3(@types/ws@8.18.2)(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.7)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(typescript@7.0.2))(typescript@7.0.2))(@trpc/server@11.31.3(@types/ws@8.18.2)(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.7)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2)':
     dependencies:
       '@tanstack/react-query': 5.108.4(@types/react@19.3.1)(react@19.3.1)
-      '@trpc/client': 11.31.2(@trpc/server@11.31.2(@types/ws@8.18.2)(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.7)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(typescript@7.0.2))(typescript@7.0.2)
-      '@trpc/server': 11.31.2(@types/ws@8.18.2)(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.7)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(typescript@7.0.2)
+      '@trpc/client': 11.31.3(@trpc/server@11.31.3(@types/ws@8.18.2)(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.7)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(typescript@7.0.2))(typescript@7.0.2)
+      '@trpc/server': 11.31.3(@types/ws@8.18.2)(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.7)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(typescript@7.0.2)
       react: 19.3.1
       typescript: 7.0.2
 
