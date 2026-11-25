@@ -44,7 +44,7 @@
 		"@tanstack/react-table": "8.21.3",
 		"@trpc/client": "11.31.2",
 		"@trpc/tanstack-react-query": "11.31.2",
-		"@types/react": "19.3.0",
+		"@types/react": "19.3.1",
 		"@types/react-dom": "19.3.0",
 		"@vercel/functions": "3.11.3",
 		"autoprefixer": "10.7.0",
