@@ -399,7 +399,7 @@ importers:
         version: 1.4.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@sentry/nextjs':
         specifier: ^11.0.0
-        version: 11.17.0(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)(wrangler@4.167.0(@types/node@26.6.6))
+        version: 11.17.0(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)(wrangler@4.168.0(@types/node@26.6.6))
       '@simplewebauthn/browser':
         specifier: 14.0.0
         version: 14.0.0
@@ -529,7 +529,7 @@ importers:
     devDependencies:
       '@opennextjs/cloudflare':
         specifier: 1.20.18
-        version: 1.20.18(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(supports-color@10.2.2)(wrangler@4.167.0(@types/node@26.6.6))
+        version: 1.20.18(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(supports-color@10.2.2)(wrangler@4.168.0(@types/node@26.6.6))
       '@types/node':
         specifier: 26.6.6
         version: 26.6.6
@@ -537,8 +537,8 @@ importers:
         specifier: 1.0.0-rc.4
         version: 1.0.0-rc.4(@types/node@26.6.6)
       wrangler:
-        specifier: 4.167.0
-        version: 4.167.0(@types/node@26.6.6)
+        specifier: 4.168.0
+        version: 4.168.0(@types/node@26.6.6)
 
 packages:
 
@@ -5341,8 +5341,8 @@ packages:
       kerberos:
         optional: true
 
-  miniflare@5.20261123.0-beta:
-    resolution: {integrity: sha512-ObCOK12WQjUw2yWJH8olMzDSkXaj8xlmZkfJp0MU7y/gnvfv9cBGj9o075ywFeBCBoKopRy8J9Ci3Sh4cquoxg==}
+  miniflare@5.20261123.1-beta:
+    resolution: {integrity: sha512-o2a+xv6Ug144FgUJm7ciSWMiI7R0OH0svGCfqb1+6l9cUfZebc6YMWIK43PeyzWr3x6BLq2j4O9i8BsKk055oA==}
     engines: {node: '>=22.12.0'}
     peerDependencies:
       kerberos: ^2.0.0
@@ -6523,8 +6523,8 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
 
-  wrangler@4.167.0:
-    resolution: {integrity: sha512-9P1rSUpjH96RSIEntUjkycglR5m3WcwwYRjPqbf9VN83Wizhk5s7J+Q3g5eUZGGTgtPhv763KZ4hw3jFnUjlTg==}
+  wrangler@4.168.0:
+    resolution: {integrity: sha512-CqxlSPbapKwhH2moKcJlWCYqzB/Gk93rKQcul0KioLLYDKgJpuwuddE5rminAgDkI0YyEjzw4MoCasojog4lJw==}
     engines: {node: '>=22.12.0'}
     hasBin: true
     peerDependencies:
@@ -8011,7 +8011,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@opennextjs/cloudflare@1.20.18(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(supports-color@10.2.2)(wrangler@4.167.0(@types/node@26.6.6))':
+  '@opennextjs/cloudflare@1.20.18(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(supports-color@10.2.2)(wrangler@4.168.0(@types/node@26.6.6))':
     dependencies:
       '@ast-grep/napi': 0.45.3
       '@dotenvx/dotenvx': 2.38.2
@@ -8025,7 +8025,7 @@ snapshots:
       next: 16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       resolve.exports: 2.0.4
       ts-tqdm: 0.8.6
-      wrangler: 4.167.0(@types/node@26.6.6)
+      wrangler: 4.168.0(@types/node@26.6.6)
       yargs: 18.2.0
     transitivePeerDependencies:
       - diff
@@ -9370,7 +9370,7 @@ snapshots:
     optionalDependencies:
       rollup: 4.65.1
 
-  '@sentry/cloudflare@11.17.0(wrangler@4.167.0(@types/node@26.6.6))':
+  '@sentry/cloudflare@11.17.0(wrangler@4.168.0(@types/node@26.6.6))':
     dependencies:
       '@opentelemetry/api': 1.10.0
       '@sentry/conventions': 0.35.0
@@ -9379,7 +9379,7 @@ snapshots:
       '@sentry/server-utils': 11.17.0
       magic-string: 0.30.21
     optionalDependencies:
-      wrangler: 4.167.0(@types/node@26.6.6)
+      wrangler: 4.168.0(@types/node@26.6.6)
 
   '@sentry/conventions@0.35.0': {}
 
@@ -9393,13 +9393,13 @@ snapshots:
     dependencies:
       '@sentry/core': 11.17.0
 
-  '@sentry/nextjs@11.17.0(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)(wrangler@4.167.0(@types/node@26.6.6))':
+  '@sentry/nextjs@11.17.0(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)(wrangler@4.168.0(@types/node@26.6.6))':
     dependencies:
       '@opentelemetry/api': 1.10.0
       '@rollup/plugin-commonjs': 28.0.1(rollup@4.65.1)
       '@sentry/browser-utils': 11.17.0
       '@sentry/bundler-plugins': 11.17.0(rollup@4.65.1)
-      '@sentry/cloudflare': 11.17.0(wrangler@4.167.0(@types/node@26.6.6))
+      '@sentry/cloudflare': 11.17.0(wrangler@4.168.0(@types/node@26.6.6))
       '@sentry/conventions': 0.35.0
       '@sentry/core': 11.17.0
       '@sentry/node': 11.17.0(rollup@4.65.1)
@@ -11155,7 +11155,7 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  miniflare@5.20261123.0-beta(@types/node@26.6.6):
+  miniflare@5.20261123.1-beta(@types/node@26.6.6):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       sharp: 0.35.5(@types/node@26.6.6)
@@ -12373,7 +12373,7 @@ snapshots:
       '@cloudflare/workerd-linux-arm64': 1.20261123.1
       '@cloudflare/workerd-windows-64': 1.20261123.1
 
-  wrangler@4.167.0(@types/node@26.6.6):
+  wrangler@4.168.0(@types/node@26.6.6):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.5.1
       '@cloudflare/unenv-preset': 2.16.2(unenv@2.0.0-rc.24)(workerd@1.20261123.1)
@@ -12383,7 +12383,7 @@ snapshots:
       cloudflare: 5.2.0
       devtools-protocol: 0.0.1182435
       esbuild: 0.28.2
-      miniflare: 5.20261123.0-beta(@types/node@26.6.6)
+      miniflare: 5.20261123.1-beta(@types/node@26.6.6)
       path-to-regexp: 6.3.0
       undici: 7.30.2
       unenv: 2.0.0-rc.24
