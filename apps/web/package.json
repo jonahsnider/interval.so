@@ -85,7 +85,7 @@
 	"devDependencies": {
 		"@opennextjs/cloudflare": "1.20.19",
 		"@types/node": "26.6.10",
-		"cf": "1.0.0-rc.5",
+		"cf": "1.0.0-rc.6",
 		"wrangler": "4.168.0"
 	},
 	"portless": {
