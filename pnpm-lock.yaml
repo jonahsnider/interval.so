@@ -202,8 +202,8 @@ importers:
         specifier: 0.18.1
         version: 0.18.1
       railway:
-        specifier: 3.18.0
-        version: 3.18.0
+        specifier: 3.19.0
+        version: 3.19.0
       turbo:
         specifier: 2.11.13
         version: 2.11.13
@@ -5811,8 +5811,8 @@ packages:
   quick-format-unescaped@4.0.4:
     resolution: {integrity: sha512-tYC1Q1hgyRuHgloV/YXs2w15unPVh8qfu/qCTfhTYamaw7fyhumKa2yGpdSo87vY32rIclj+4fWYQXUMs9EHvg==}
 
-  railway@3.18.0:
-    resolution: {integrity: sha512-thlGTvcEaL6o4MOzQL3ryC7TDGXslZaoFrfzhUpkwXVH1VJcTAM+r85/iZ65fFgnNVRVZlwBUQiimlzgkKyOQw==}
+  railway@3.19.0:
+    resolution: {integrity: sha512-cFb56hCvm6BEmTcpYXatq1pIBuxD3wEM7xsK7jwNy+LWxaaCYxy9fS5WiK7UwuE2OPcqQOzmOZJYsqBYfPD+xw==}
     engines: {node: '>=22'}
     hasBin: true
 
@@ -11558,7 +11558,7 @@ snapshots:
 
   quick-format-unescaped@4.0.4: {}
 
-  railway@3.18.0:
+  railway@3.19.0:
     dependencies:
       '@graphql-typed-document-node/core': 3.2.0(graphql@16.14.2)
       graphql: 16.14.2
