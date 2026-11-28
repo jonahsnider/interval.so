@@ -342,7 +342,7 @@ importers:
         version: 13.0.0
       '@posthog/next':
         specifier: 0.11.1
-        version: 0.11.1(@opentelemetry/api@1.10.0)(@types/react@19.3.3)(@vercel/functions@3.11.4(@aws-sdk/credential-provider-web-identity@3.972.88)(ws@8.23.1))(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.11)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(rxjs@7.8.2)
+        version: 0.11.1(@opentelemetry/api@1.10.0)(@types/react@19.3.3)(@vercel/functions@3.12.0(@aws-sdk/credential-provider-web-identity@3.972.88)(ws@8.23.1))(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.11)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(rxjs@7.8.2)
       '@radix-ui/react-alert-dialog':
         specifier: 1.2.1
         version: 1.2.1(@types/react-dom@19.3.0(@types/react@19.3.3))(@types/react@19.3.3)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -422,8 +422,8 @@ importers:
         specifier: 19.3.0
         version: 19.3.0(@types/react@19.3.3)
       '@vercel/functions':
-        specifier: 3.11.4
-        version: 3.11.4(@aws-sdk/credential-provider-web-identity@3.972.88)(ws@8.23.1)
+        specifier: 3.12.0
+        version: 3.12.0(@aws-sdk/credential-provider-web-identity@3.972.88)(ws@8.23.1)
       autoprefixer:
         specifier: 10.7.0
         version: 10.7.0(postcss@8.5.34)
@@ -4131,8 +4131,8 @@ packages:
     resolution: {integrity: sha512-g9XerViJ/paZujufXYcu5XYI2vU2rtB4sgdpjUHde5RnOkdmpu0ngH46LCFGHoPXO/C+qDPSczIHIRN+8Q2YKQ==}
     engines: {node: '>= 18'}
 
-  '@vercel/functions@3.11.4':
-    resolution: {integrity: sha512-2qi3V2qLE57l62CXUKwriRAFa4l5/HIbeRkoRpuIvmGYHqJWXdUKoTMxJP5efSRJtU0x9qV/u0iBHpm+8mGevA==}
+  '@vercel/functions@3.12.0':
+    resolution: {integrity: sha512-nblcv/WNBBgiqPbD0bYywmPsQ8gYzfqDmuWFHnGSoD1kkO29C6AfTyQ5ZBpv0mpeaw9XK5dkfMvWAyw8TBogyA==}
     engines: {node: '>= 20'}
     peerDependencies:
       '@aws-sdk/credential-provider-web-identity': '*'
@@ -8848,7 +8848,7 @@ snapshots:
     dependencies:
       '@posthog/types': 1.427.0
 
-  '@posthog/next@0.11.1(@opentelemetry/api@1.10.0)(@types/react@19.3.3)(@vercel/functions@3.11.4(@aws-sdk/credential-provider-web-identity@3.972.88)(ws@8.23.1))(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.11)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(rxjs@7.8.2)':
+  '@posthog/next@0.11.1(@opentelemetry/api@1.10.0)(@types/react@19.3.3)(@vercel/functions@3.12.0(@aws-sdk/credential-provider-web-identity@3.972.88)(ws@8.23.1))(next@16.4.6(@opentelemetry/api@1.10.0)(@types/node@26.6.11)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(rxjs@7.8.2)':
     dependencies:
       '@posthog/core': 1.69.0
       '@posthog/react': 1.11.3(@types/react@19.3.3)(posthog-js@1.450.1(@types/react@19.3.3)(react@19.3.1))(react@19.3.1)
@@ -8860,7 +8860,7 @@ snapshots:
       server-only: 0.0.1
     optionalDependencies:
       '@opentelemetry/api': 1.10.0
-      '@vercel/functions': 3.11.4(@aws-sdk/credential-provider-web-identity@3.972.88)(ws@8.23.1)
+      '@vercel/functions': 3.12.0(@aws-sdk/credential-provider-web-identity@3.972.88)(ws@8.23.1)
     transitivePeerDependencies:
       - '@react-email/render'
       - '@types/react'
@@ -10219,7 +10219,7 @@ snapshots:
     dependencies:
       execa: 5.1.1
 
-  '@vercel/functions@3.11.4(@aws-sdk/credential-provider-web-identity@3.972.88)(ws@8.23.1)':
+  '@vercel/functions@3.12.0(@aws-sdk/credential-provider-web-identity@3.972.88)(ws@8.23.1)':
     dependencies:
       '@vercel/oidc': 5.0.0
     optionalDependencies:

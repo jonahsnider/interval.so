@@ -46,7 +46,7 @@
 		"@trpc/tanstack-react-query": "11.32.2",
 		"@types/react": "19.3.3",
 		"@types/react-dom": "19.3.0",
-		"@vercel/functions": "3.11.4",
+		"@vercel/functions": "3.12.0",
 		"autoprefixer": "10.7.0",
 		"better-auth": "1.7.28",
 		"chrono-node": "2.10.3",
